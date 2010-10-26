@@ -1,0 +1,12 @@
+MProject - Mobile HTML5 Framework
+======================================
+
+MProject is a server-agnostic JavaScript framework for mobile web apps.
+
+## Acknowledgements
+
+MProject includes code from a number of different open source projects
+including:
+
+* [jQuery](http://www.jquery.com/)
+* [jQuery Mobile](http://www.http://jquerymobile.com/)
