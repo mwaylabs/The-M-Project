@@ -6,16 +6,14 @@
 // License:   ...
 // ==========================================================================
 
-/**
- * @namespace
- * The MProject namespace.
- *
- * All MProject methods and functions are defined inside of this namespace.
- */
-var M = M || {};
+m_require('m.js');
 
-/**
- * These command is used by the build tool to control the load order.
- * It does nothing on the client side.
- */
-var m_require = m_require || function require() {};
+M.Object = {
+
+    create: function(obj) {
+        var f = function(){};
+        f.prototype = obj;
+        return new f();
+    }
+
+};
