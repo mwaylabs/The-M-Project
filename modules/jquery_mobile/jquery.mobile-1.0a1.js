@@ -1085,7 +1085,7 @@ $.widget( "mobile.page", $.mobile.widget, {
 /*
 * jQuery Mobile Framework : sample scripting for manipulating themed interaction states
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function($){
@@ -1113,7 +1113,7 @@ $.fn.clickable = function(){
 /*
 * jQuery Mobile Framework : prototype for "fixHeaderFooter" plugin - on-demand positioning for headers,footers
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function($){
@@ -1277,7 +1277,7 @@ $.fixedToolbars = (function(){
 })(jQuery);/*
 * jQuery Mobile Framework : "customCheckboxRadio" plugin (based on code from Filament Group,Inc)
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */  
 (function($){
@@ -1346,7 +1346,7 @@ $.fn.customCheckboxRadio = function(options){
 })(jQuery);/*
 * jQuery Mobile Framework : "customTextInput" plugin for text inputs, textareas (based on code from Filament Group,Inc)
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function($){
@@ -1416,7 +1416,7 @@ jQuery.fn.customTextInput = function(options){
 /*
 * jQuery Mobile Framework : "customSelect" plugin (based on code from Filament Group,Inc)
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */  
 (function($){
@@ -1624,7 +1624,7 @@ $.fn.customSelect = function(options){
 /*
 * jQuery Mobile Framework : sample plugin for making button-like links
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */ 
 (function($){
@@ -1718,7 +1718,7 @@ $.fn.buttonMarkup.defaults = {
 /*
 * jQuery Mobile Framework : sample plugin for making button links that proxy to native input/buttons
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */ 
 (function($){
@@ -1743,7 +1743,7 @@ $.fn.customButton = function(){
 })(jQuery);/*
 * jQuery Mobile Framework : "slider" plugin (based on code from Filament Group,Inc)
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */  
 (function($){
@@ -1903,7 +1903,7 @@ $.fn.slider = function(options){
 /*
 * jQuery Mobile Framework : "collapsible" plugin (based on code from Filament Group,Inc)
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */ 
 (function($){
@@ -1996,7 +1996,7 @@ $.fn.collapsible = function(options){
 })(jQuery);/*
 * jQuery Mobile Framework : prototype for "controlgroup" plugin - corner-rounding for groups of buttons, checks, radios, etc
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function($){
@@ -2037,7 +2037,7 @@ $.fn.controlgroup = function(options){
 })(jQuery);/*
 * jQuery Mobile Framework : prototype for "fieldcontain" plugin - simple class additions to make form row separators
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function($){
@@ -2050,7 +2050,7 @@ $.fn.fieldcontain = function(options){
 })(jQuery);/*
 * jQuery Mobile Framework : listview plugin
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function( $ ) {
@@ -2348,7 +2348,7 @@ $( ":mobile-listview" ).live( "listviewcreate", function() {
 /*
 * jQuery Mobile Framework : prototype for "dialog" plugin.
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function($){
@@ -2369,7 +2369,7 @@ $.fn.dialog = function(options){
 })(jQuery);/*
 * jQuery Mobile Framework : prototype for "navbar" plugin
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function($){
@@ -2411,7 +2411,7 @@ $.fn.navbar = function(settings){
 })(jQuery);/*
 * jQuery Mobile Framework : plugin for creating grids
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */ 
 (function($){
