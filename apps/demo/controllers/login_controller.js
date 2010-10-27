@@ -6,17 +6,14 @@
 // License:   ...
 // ==========================================================================
 
-Demo.LoginController = {
+Demo.LoginController = M.Controller.extend({
 
     doClick: function() {
         //M.Logger.log('CLICKED: YIHAAAAAAAAAAAaaa');
-        /*
-
-        switchToView('page2');
-
-         */
-
-        location.href = location.href.substr(0, location.href.lastIndexOf('#')) + '#page2';
+        M.Logger.log('NEEEEUUUUUUUU');
+        M.Logger.log(this);
+        this.switchToView('Demo.MyFuckingView');
+        //location.href = location.href.substr(0, location.href.lastIndexOf('#')) + '#page2';
     },
 
     doClick2: function() {
@@ -30,4 +27,4 @@ Demo.LoginController = {
         location.href = location.href.substr(0, location.href.lastIndexOf('#')) + '#page1';
     }
 
-}
+});

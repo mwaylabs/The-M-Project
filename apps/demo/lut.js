@@ -13,7 +13,8 @@ M.EventDispatcher.lookupTable = {
 
     "button_001" : {
         "click" : {
-            "target" : Demo.LoginController.doClick
+            "target" : Demo.LoginController,
+            "action" : 'doClick'
         },
         "mouseover" : {
             "target" : "Demo.LoginController",
@@ -29,5 +30,14 @@ M.EventDispatcher.lookupTable = {
             "action" : "doMouse"
         }
     }
+
+    /* Howto extend this LUT: */
+    // $.extend(M.EventDispatcher.lookupTable, M.EventDispatcher.lookupTable, { "button_3" : { "click" : "bla" } } );
+
+}
+
+M.Controller.lookupTable = {
+
+    "Demo.MyFuckingView" : "page2"
 
 }
