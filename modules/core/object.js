@@ -10,11 +10,38 @@
 
 m_require('m.js');
 
+/**
+ * @class
+ *
+ * Base class of all objects.
+ *
+ */
 M.Object = {
 
+    /**
+     * Creates an object.
+     * @param obj
+     */
     create: function(obj) {
         var f = function(){};
         f.prototype = obj;
+        return new f();
+    },
+
+    /**
+     * 
+     */
+    extend: function(){
+        var f = function(){};
+        for(prop in this) {
+            f.prototype[prop] = this[prop];
+        }
+        for(var i = 0; i < arguments.length; i++) {
+            var obj = arguments[i];
+            for(prop in obj) {
+                f.prototype[prop] = obj[prop];
+            }
+        }
         return new f();
     }
 
