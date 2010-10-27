@@ -21,3 +21,6 @@ var M = M || {};
  * It does nothing on the client side.
  */
 var m_require = m_require || function require() {};
+
+m_require('../jquery/jquery-1.4.3.min.js');
+m_require('../jquery_mobile/jquery.mobile-1.0a1.min.js');
