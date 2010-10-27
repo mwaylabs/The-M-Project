@@ -1,16 +1,18 @@
 // ==========================================================================
-// Project:   MProject - Mobile HTML5 Application Framework
+// Project:   The-M-Project - Mobile HTML5 Application Framework
 // Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      26.10.2010
-// License:   ...
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
+//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
 /**
  * @namespace
- * The MProject namespace.
+ * The The-M-Project namespace.
  *
- * All MProject methods and functions are defined inside of this namespace.
+ * All The-M-Project methods and functions are defined inside of this namespace.
  */
 var M = M || {};
 
