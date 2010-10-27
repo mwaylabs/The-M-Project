@@ -23,7 +23,7 @@ M.WARNING = 2;
  * Object for logging.
  *
  */
-M.Logger = M.Object.create({
+M.Logger = M.Object.extend({
 
     /**
      * Possible values for the logging level:
@@ -37,6 +37,13 @@ M.Logger = M.Object.create({
      */
     log: function(msg, level) {
         level = level || M.DEBUG;
+
+        /* Prevent a console.log from blowing things up if we are on a browser that doesn't support this. */
+        if (typeof console === 'undefined') {
+            window.console = {} ;
+            console.log = console.info = console.warn = console.error = function(){};
+        }
+        
         switch (level) {
             case M.DEBUG:
                 this.debug(msg);
