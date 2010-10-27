@@ -48,8 +48,11 @@ M.EventDispatcher = M.Object.create({
         if(this.lookupTable) {
             if(this.lookupTable[id]) {
                 if(this.lookupTable[id][type]) {
-                    //M.Logger.log(this.lookupTable[id]);
-                    this.lookupTable[id][type]["target"]();
+                    //this.lookupTable[id][type]["target"]();
+                    //M.Logger.log('#######################################');
+                    //M.Logger.log(this.lookupTable[id][type]["target"][this.lookupTable[id][type]["action"]]());
+                    //M.Logger.log('#######################################');
+                    this.lookupTable[id][type]["target"][this.lookupTable[id][type]["action"]]();
                 } else {
                     M.Logger.log('event "' + type + '" not found for "' + id + '" in lookupTable', M.ERROR);
                 }
