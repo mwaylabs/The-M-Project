@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo App #01</title>
+    <script src="../../modules/jquery/jquery-1.4.3.min.js"></script>
+    <script src="../../modules/jquery_mobile/jquery.mobile-1.0a1.min.js"></script>
+    <script src="../../modules/core/m.js"></script>
+    <script src="../../modules/core/object.js"></script>
+    <script src="../../modules/core/logger.js"></script>
+    <script src="../../modules/core/event_dispatcher.js"></script>
+    <script src="demo.js"></script>
+    <script src="lut.js"></script>
+    <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a1.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<div data-role="page" id="page1">
+    <div data-role="header" data-position="fixed"> 
+        <h1>HEADER #1</h1>
+    </div>
+    <div data-role="content">
+        <input type="button" id='button_001' value='goto page 2' />
+    </div>
+
+    <!--
+
+M.Application = {
+
+myPage1 = M.PageView.design{(
+
+        M.ButtonView({
+
+            title: 'goto page 2',
+            target: 'Demo.LoginController.doClick'
+
+        )},
+
+        myList = M.ListView({
+            exampleView = M.ListViewItem({
+                
+            )}
+        )}
+
+    )},
+
+    myView: Demo.MyFuckingView
+
+}
+
+    -->
+
+    <div data-role="footer" data-position="fixed">
+        <h1>FOOTER #1</h1>
+    </div>
+</div>
+
+<div data-role="page" id="page2">
+    <div data-role="header" data-position="fixed">
+        <h1>HEADER #2</h1>
+    </div>
+    <div data-role="content">
+        <input type="button" id='button_002' value='goto page 1' />
+    </div>
+    <div data-role="footer" data-position="fixed">
+        <h1>FOOTER #2</h1>
+    </div>
+</div>
+
+</body>
+</html>
