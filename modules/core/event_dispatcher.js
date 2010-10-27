@@ -8,6 +8,8 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+m_require('logger.js');
+
 /**
  * @class
  *
@@ -30,7 +32,7 @@ M.EventDispatcher = M.Object.create({
      * @param {Object} evt The event.
      */
     eventDidHappen: function(evt) {
-        M.Logger.log('M.EventDispatcher.eventDidHappen');
+        M.Logger.log('M.EventDispatcher.eventDidHappen: (' + evt.currentTarget.id + ' - ' + evt.type + ')');
         this.delegateEvent(evt.currentTarget.id, evt.type);
     },
 
