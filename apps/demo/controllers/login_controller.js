@@ -16,7 +16,20 @@ Demo.LoginController = M.Controller.extend({
             M.Logger.log('Login was successfull');
             this.switchToView('Demo.LoggedInView');
         }
-        //location.href = location.href.substr(0, location.href.lastIndexOf('#')) + '#page2';
+
+        M.Request.init({
+            url: 'index.html',
+            type: 'GET',
+            onSuccess: this.dataIsHere
+        }).send();
+    },
+
+    dataIsHere: function(data, msg, request) {
+        M.Logger.log('######################');
+        M.Logger.log(data);
+        M.Logger.log(msg);
+        M.Logger.log(request);
+        M.Logger.log('######################');
     }
 
 });
