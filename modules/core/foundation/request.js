@@ -22,6 +22,7 @@ M.Request = M.Object.extend({
         this.beforeSend = obj['beforeSend'] ? obj['beforeSend'] : this.beforeSend;
         this.onError = obj['onError'] ? obj['onError'] : this.onError;
         this.onSuccess = obj['onSuccess'] ? obj['onSuccess'] : this.onSuccess;
+        return this;
     },
 
     /**
