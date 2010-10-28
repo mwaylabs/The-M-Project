@@ -8,8 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-
-m_require('logger.js');
+m_require('data_provider.js');
 
 /**
  * @class
@@ -20,18 +19,26 @@ m_require('logger.js');
 M.Model = M.Object.extend({
 
     /**
-     *
      * globally unique identifier
      *
      * @property {String}
-    */
+     */
     primaryKey: 'guid',
 
+    /**
+     * The model's data provider.
+     *
+     * @property {Object}
+     */
+    dataProvider: null,
 
+    /**
+     * Calls the corresponding data provider to fetch data based on the passed query.
+     *
+     * @param {String} query The query string.
+     */
     find: function(query){
-        
-    }
-
-    
+        return this.dataProvider.find(query);
+    }    
 
 });
