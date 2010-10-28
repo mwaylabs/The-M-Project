@@ -10,9 +10,19 @@ Demo.LoginController = M.Controller.extend({
 
     doClick: function() {
         //M.Logger.log('CLICKED: YIHAAAAAAAAAAAaaa');
-        M.Logger.log('NEEEEUUUUUUUU');
-        M.Logger.log(this);
-        this.switchToView('Demo.MyFuckingView');
+        //M.Logger.log('NEEEEUUUUUUUU');
+        //M.Logger.log(this);
+        M.Logger.log('doClick in Demo.LoginController');
+        var username = 'u1', password = 'test';
+
+        var result = Demo.UserModel.find({
+            userName: username,
+            password: password
+        });
+        if(result.length > 0) {
+            M.Logger.log('Login was successfull');
+            this.switchToView('Demo.LoggedInView');
+        }
         //location.href = location.href.substr(0, location.href.lastIndexOf('#')) + '#page2';
     },
 

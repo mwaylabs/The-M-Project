@@ -38,6 +38,6 @@ M.EventDispatcher.lookupTable = {
 
 M.Controller.lookupTable = {
 
-    "Demo.MyFuckingView" : "page2"
+    "Demo.LoggedInView" : "page2"
 
 }

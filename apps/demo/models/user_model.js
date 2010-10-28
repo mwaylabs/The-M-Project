@@ -6,3 +6,14 @@
 // License:   ...
 // ==========================================================================
 
+Demo.UserModel = M.Model.extend({
+
+    userName: M.STRING,
+    
+    password: M.PASSWORD
+
+})
+
+/* SAMPLE CONTROLLER CODE
+    p = Demo.PersonModel.create('Dominik', 'Laubach');
+*/
