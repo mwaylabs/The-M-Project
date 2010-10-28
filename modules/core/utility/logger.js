@@ -8,7 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('object.js');
+m_require('../foundation/request.js');
 
 /**
  * Logging levels as constants.

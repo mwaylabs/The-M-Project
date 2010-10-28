@@ -22,5 +22,14 @@ var M = M || {};
  */
 var m_require = m_require || function require() {};
 
+/**
+ * global constants to write YES instead of true and NO instead of false
+ *
+ * *SproutCore* and *Objective-C* style...
+ *
+ */
+var YES = true;
+var NO = false;
+
 m_require('../jquery/jquery-1.4.3.min.js');
 m_require('../jquery_mobile/jquery.mobile-1.0a1.min.js');

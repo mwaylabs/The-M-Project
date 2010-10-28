@@ -20,13 +20,13 @@ M.Controller = M.Object.extend({
 
     lookupTable: null,
 
-    lookupTableLoaded: false,
+    lookupTableLoaded: NO,
 
     switchToView: function(view) {
         if(!this.lookupTableLoaded) {
             M.Logger.log('lookupTableLoaded');
             this.lookupTable = M.Controller.lookupTable;
-            this.lookupTableLoaded = true;
+            this.lookupTableLoaded = YES;
         }
         if(this.lookupTable) {
             if(this.lookupTable[view]) {
