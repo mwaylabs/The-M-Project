@@ -9,32 +9,14 @@
 Demo.LoginController = M.Controller.extend({
 
     doClick: function() {
-        //M.Logger.log('CLICKED: YIHAAAAAAAAAAAaaa');
-        //M.Logger.log('NEEEEUUUUUUUU');
-        //M.Logger.log(this);
         M.Logger.log('doClick in Demo.LoginController');
-        var username = 'u1', password = 'test';
-
-        var result = Demo.UserModel.find({
-            userName: username,
-            password: password
-        });
-        if(result.length > 0) {
+        /* MISSING: the query is ignored so far */
+        var result = Demo.UserModel.find("(userName = 'u1' AND password = 'test')");
+        if(result && result.length > 0) {
             M.Logger.log('Login was successfull');
             this.switchToView('Demo.LoggedInView');
         }
         //location.href = location.href.substr(0, location.href.lastIndexOf('#')) + '#page2';
-    },
-
-    doClick2: function() {
-        //M.Logger.log('CLICKED: YIHAAAAAAAAAAAaaa');
-        /*
-
-        switchToView('page2');
-
-         */
-
-        location.href = location.href.substr(0, location.href.lastIndexOf('#')) + '#page1';
     }
 
 });

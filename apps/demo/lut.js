@@ -20,15 +20,6 @@ M.EventDispatcher.lookupTable = {
             "target" : "Demo.LoginController",
             "action" : "doMouse"
         }
-    },
-    "button_002" : {
-        "click" : {
-            "target" : Demo.LoginController.doClick2
-        },
-        "mouseover" : {
-            "target" : "Demo.LoginController",
-            "action" : "doMouse"
-        }
     }
 
     /* Howto extend this LUT: */

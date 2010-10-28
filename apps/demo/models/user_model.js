@@ -8,12 +8,10 @@
 
 Demo.UserModel = M.Model.extend({
 
+    dataProvider: Demo.UserModelDataProvider,
+
     userName: M.STRING,
-    
+
     password: M.PASSWORD
 
 })
-
-/* SAMPLE CONTROLLER CODE
-    p = Demo.PersonModel.create('Dominik', 'Laubach');
-*/

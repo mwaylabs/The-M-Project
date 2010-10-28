@@ -8,12 +8,26 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-Demo.UserModelFixtures = [
+Demo.UserModelDataProvider = M.DataProvider.extend({
 
-    { guid: '001', userName: 'u1', password: 'test' },
+    useSource: M.FIXTURE,
 
-    { guid: '002', userName: 'u2', password: 'test' },
-         
-    { guid: '003', userName: 'u3', password: 'test' }
+    configureFixture: {
+        source: Demo.UserModelFixtures
+    },
 
-];
+    configureWebStorage: {
+        
+    },
+
+    configureRemote: {
+        url: 'http://www.google.de',
+        getMethod: 'POST',
+        param: 'asas=asas,asas=asas',
+        mapping: {
+            name1: 'firstName',
+            name2: 'lastName'
+        }
+    }
+
+})
