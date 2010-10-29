@@ -32,7 +32,7 @@ M.EventDispatcher = M.Object.create({
      * @param {Object} evt The event.
      */
     eventDidHappen: function(evt) {
-        M.Logger.log('M.EventDispatcher.eventDidHappen: (' + evt.currentTarget.id + ' - ' + evt.type + ')');
+        //M.Logger.log('M.EventDispatcher.eventDidHappen: (' + evt.currentTarget.id + ' - ' + evt.type + ')');
         this.delegateEvent(evt.currentTarget.id, evt.type);
     },
 
@@ -44,23 +44,23 @@ M.EventDispatcher = M.Object.create({
      * @param {String} type The event type.
      */
     delegateEvent: function(id, type) {
-        M.Logger.log('M.EventDispatcher.getTarget');
+        //M.Logger.log('M.EventDispatcher.getTarget');
         if(this.lookupTable) {
             if(this.lookupTable[id]) {
                 if(this.lookupTable[id][type]) {
                     //this.lookupTable[id][type]["target"]();
-                    //M.Logger.log('#######################################');
-                    //M.Logger.log(this.lookupTable[id][type]["target"][this.lookupTable[id][type]["action"]]());
-                    //M.Logger.log('#######################################');
+                    ////M.Logger.log('#######################################');
+                    ////M.Logger.log(this.lookupTable[id][type]["target"][this.lookupTable[id][type]["action"]]());
+                    ////M.Logger.log('#######################################');
                     this.lookupTable[id][type]["target"][this.lookupTable[id][type]["action"]]();
                 } else {
-                    M.Logger.log('event "' + type + '" not found for "' + id + '" in lookupTable', M.ERROR);
+                    //M.Logger.log('event "' + type + '" not found for "' + id + '" in lookupTable', M.ERROR);
                 }
             } else {
-                M.Logger.log('"' + id + '" not found in lookupTable', M.ERROR);
+                //M.Logger.log('"' + id + '" not found in lookupTable', M.ERROR);
             }
         } else {
-            M.Logger.log('lookupTable undefined', M.ERROR);
+            //M.Logger.log('lookupTable undefined', M.ERROR);
         }
     }
 
