@@ -45,6 +45,37 @@ M.Object = {
             }
         }
         return new f();
+    },
+
+    /**
+     * Binds a method to its caller, so it is always executed within the right scope.
+     *
+     * @param {Object} caller The scope of the method that should be bound.
+     * @param {Object} method The method to be bound.
+     */
+    bindToCaller: function(caller, method) {
+        return function() {
+            return method.apply(caller, arguments);
+        }
+    },
+
+    /**
+     * Returns the class property behind the given key.
+     *
+     * @param {String} key The key of the property to be returned.
+     */
+    get: function(key) {
+        return this[key];
+    },
+
+    /**
+     * Returns the class property behind the given key.
+     *
+     * @param {String} key The key of the property to be changed.
+     * @param {Object, String} value The value to be set.
+     */
+    set: function(key, value) {
+        this[key] = value;
     }
 
 };
