@@ -8,3 +8,16 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+m_require('logger.js');
+
+/**
+ * @class
+ *
+ * The root of all views.
+ *
+ */
+M.View = M.Object.extend({
+
+    
+
+});
