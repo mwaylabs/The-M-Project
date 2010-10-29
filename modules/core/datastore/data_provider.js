@@ -65,6 +65,9 @@ M.DataProvider = M.Object.extend({
             case M.FIXTURE:
                 data = this.getDataFromFixture(query);
                 break;
+            case M.REMOTE:
+                this.getDataFromRemote(query);
+                break;
         }
         return data;
     },
@@ -77,6 +80,23 @@ M.DataProvider = M.Object.extend({
     getDataFromFixture: function(query) {
         /* 'source' identifies the model's fixture */
         return this.configureFixture.source;
+    },
+
+    /**
+     * Fetches the data from a remote server (e.g. webservice), based on the passed query.
+     *
+     * @param {String} query The query string.
+     */
+    getDataFromRemote: function(query) {
+        var that = this;
+        M.Request.init({
+            url: this.configureRemote.get.url,
+            type: this.configureRemote.get.type,
+            isJSON: this.configureRemote.get.isJSON,
+            onSuccess: function(data, msg, request) {
+                that.bindToCaller(scope, callback)(data);
+            }
+        }).send();
     }
 
 });
