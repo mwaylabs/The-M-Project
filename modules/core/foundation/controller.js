@@ -8,7 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('logger.js');
+m_require('observable.js');
 
 /**
  * @class
@@ -22,9 +22,11 @@ M.Controller = M.Object.extend({
 
     lookupTableLoaded: NO,
 
+    observable: M.Observable.extend({}),
+
     switchToView: function(view) {
         if(!this.lookupTableLoaded) {
-            M.Logger.log('lookupTableLoaded');
+            //M.Logger.log('lookupTableLoaded');
             this.lookupTable = M.Controller.lookupTable;
             this.lookupTableLoaded = YES;
         }
@@ -32,10 +34,27 @@ M.Controller = M.Object.extend({
             if(this.lookupTable[view]) {
                 location.href = location.href.substr(0, location.href.lastIndexOf('#')) + '#' + this.lookupTable[view];                
             } else {
-                M.Logger.log('"' + view + '" not found in lookupTable', M.ERROR);
+                //M.Logger.log('"' + view + '" not found in lookupTable', M.ERROR);
             }
         } else {
-            M.Logger.log('lookupTable undefined', M.ERROR);
+            //M.Logger.log('lookupTable undefined', M.ERROR);
+        }
+    },
+
+    /**
+     * Returns the class property behind the given key and informs its observers.
+     *
+     * @param {String} key The key of the property to be changed.
+     * @param {Object, String} value The value to be set.
+     */
+    set: function(key, value) {
+        this[key] = value;
+        for(entry in this.observable.bindingList) {
+            alert(this.observable.bindingList[entry].observable);
+            if(key == this.observable.bindingList[entry].observable) {
+                //this.observable.bindingList[entry].observer.update();
+                /* DO SOME UPDATE-SHIT */
+            }
         }
     }
 
