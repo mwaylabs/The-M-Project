@@ -19,11 +19,20 @@ m_require('data_provider.js');
 M.Model = M.Object.extend({
 
     /**
-     * globally unique identifier
+     * Defines the model's primary key.
+     *
+     * default: globally unique identifier
      *
      * @property {String}
      */
     primaryKey: 'guid',
+
+    /**
+     * globally unique identifier
+     *
+     * @property {Number}
+     */
+    guid: null,
 
     /**
      * The model's data provider.
@@ -38,7 +47,26 @@ M.Model = M.Object.extend({
      * @param {String} query The query string.
      */
     find: function(query){
-        return this.dataProvider.find(query);
-    }    
+        this.dataProvider.find(query);
+    },
+
+    create: function(obj) {
+        var user = M.Object.create({});
+        for(obj_prop in obj) {
+            var found = false;
+            for(this_prop in this) {
+                if(obj_prop == this_prop) {
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) {
+                M.Logger.log('Property ' + obj_prop + ' not found', M.WARN);
+            } else {
+                user[obj_prop] = obj[obj_prop];
+            }
+        }
+        return user;
+    }
 
 });
