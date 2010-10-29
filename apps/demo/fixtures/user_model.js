@@ -10,10 +10,14 @@
 
 Demo.UserModelFixtures = [
 
-    { guid: '001', userName: 'u1', password: 'test' },
+    { guid: '001', firstName: 'Dominik', lastName: 'Laubach' },
 
-    { guid: '002', userName: 'u2', password: 'test' },
-         
-    { guid: '003', userName: 'u3', password: 'test' }
+    { guid: '002', firstName: 'Joachim', lastName: 'Löw' },
+
+    { guid: '003', firstName: 'Angela', lastName: 'Merkel' },
+
+    { guid: '004', firstName: 'Paris', lastName: 'Hilton' },
+
+    { guid: '005', firstName: 'Michael', lastName: 'Jackson' }
 
 ];

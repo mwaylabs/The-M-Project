@@ -10,8 +10,8 @@ Demo.UserModel = M.Model.extend({
 
     dataProvider: Demo.UserModelDataProvider,
 
-    userName: M.STRING,
+    firstName: M.STRING,
 
-    password: M.PASSWORD
+    lastName: M.STRING
 
 })

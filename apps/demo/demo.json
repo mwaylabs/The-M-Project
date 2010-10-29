@@ -1,0 +1,73 @@
+{
+    "users" : [
+
+        {
+            
+            "guid" : "001",            
+
+            "firstname" : "Dominik",
+
+            "lastname" : "Laubach",
+
+            "address" : {
+
+                "street" : "Alexanderstrasse",
+
+                "number" : "71",
+
+                "zip" : "70182",
+
+                "city" : "Stuttgart"
+
+            },
+
+            "email" : "d.laubach@mwaysolutions.com",
+
+            "credentials" : {
+
+                "user" : "u1",
+
+                "pw" : "test"
+
+            },
+
+            "bday" : "483692395"
+
+        },
+
+        {
+            
+            "guid" : "002",
+
+            "firstname" : "Joachim",
+
+            "lastname" : "Loew",
+
+            "address" : {
+
+                "street" : "Vizeweltmeisterstrasse",
+
+                "number" : "1",
+
+                "zip" : "76319",
+
+                "city" : "Freiburg im Breisgau"
+
+            },
+
+            "email" : "jogi@dfb.de",
+
+            "credentials" : {
+
+                "user" : "u2",
+
+                "pw" : "test"
+
+            },
+
+            "bday" : "-304724891"
+
+        }
+
+    ]
+}

@@ -8,28 +8,15 @@
 
 Demo.LoginController = M.Controller.extend({
 
-    doClick: function() {
-        M.Logger.log('doClick in Demo.LoginController');
-        /* MISSING: the query is ignored so far */
-        var result = Demo.UserModel.find("(userName = 'u1' AND password = 'test')");
-        if(result && result.length > 0) {
-            M.Logger.log('Login was successfull');
-            this.switchToView('Demo.LoggedInView');
-        }
+    users: null,
 
-        M.Request.init({
-            url: 'index.html',
-            type: 'GET',
-            onSuccess: this.dataIsHere
-        }).send();
+    doClick: function() {
+        Demo.UserModel.find('');
     },
 
-    dataIsHere: function(data, msg, request) {
-        M.Logger.log('######################');
-        M.Logger.log(data);
-        M.Logger.log(msg);
-        M.Logger.log(request);
-        M.Logger.log('######################');
+    myCallback: function(users) {
+        Demo.LoginController.observable.attach('asa', 'users');
+        this.set('users', users);
     }
 
 });

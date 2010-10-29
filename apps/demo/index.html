@@ -9,6 +9,7 @@
     <script src="../../modules/core/foundation/request.js"></script>
     <script src="../../modules/core/utility/logger.js"></script>
     <script src="../../modules/core/foundation/event_dispatcher.js"></script>
+    <script src="../../modules/core/foundation/observable.js"></script>
     <script src="../../modules/core/foundation/controller.js"></script>
     <script src="../../modules/core/datastore/data_provider.js"></script>
     <script src="../../modules/core/foundation/model.js"></script>
@@ -49,7 +50,21 @@ myPage1 = M.PageView.design{(
 
 }
 
+    myList = M.ListView.design({
+        contentBinding: 'Demo.LoginController.users'
+    });
+
     -->
+
+    <!--<ul data-role="listview" data-theme="b">
+        <li><a href="acura.html">Acura</a></li>
+        <li><a href="audi.html">Audi</a></li>
+        <li><a href="bmw.html">BMW</a></li>
+        <li><a href="bmw.html">BMW</a></li>
+        <li><a href="bmw.html">BMW</a></li>
+        <li><a href="bmw.html">BMW</a></li>
+        <li><a href="bmw.html">BMW</a></li>
+    </ul>-->
 
     <div data-role="footer" data-position="fixed">
         <h1>FOOTER #1</h1>
