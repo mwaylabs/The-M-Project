@@ -46,7 +46,14 @@ M.Observable = M.Object.extend({
      * @param {String} observable The observable.
      */
     detach: function(observer, observable) {
-        /* TODO: implement to delete observers from bindinList */
+        /* grep is a jQuery function that finds
+         * elements in an array that satisfy a certain criteria.
+         * It works on a copy so we have to assign the "cleaned"
+         * array to our bindingList.
+         */
+        this.bindlingList = $.grep(this.bindlingList, function(value, index) {
+                return value.observer !== observer;
+        });
     }
 
 
