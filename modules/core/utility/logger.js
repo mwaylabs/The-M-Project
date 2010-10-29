@@ -15,7 +15,8 @@ m_require('../foundation/request.js');
  */
 M.DEBUG = 0;
 M.ERROR = 1;
-M.WARNING = 2;
+M.WARN = 2;
+M.INFO = 3;
 
 /**
  * @class
@@ -51,8 +52,11 @@ M.Logger = M.Object.extend({
             case M.ERROR:
                 this.error(msg);
                 break;
-            case M.WARNING:
+            case M.WARN:
                 this.warn(msg);
+                break;
+            case M.INFO:
+                this.info(msg);
                 break;
             default:
                 this.debug(msg);
@@ -64,21 +68,28 @@ M.Logger = M.Object.extend({
      * @private
      */
     debug: function(msg) {
-        console.log(msg);
+        console.debug(msg);
     },
 
     /**
      * @private
      */
     error: function(msg) {
-        console.log('Error: ' + msg);
+        console.error(msg);
     },
 
     /**
      * @private
      */
     warn: function(msg) {
-        console.log('Warning: ' + msg);
+        console.warn(msg);
+    },
+
+    /**
+     * @private
+     */
+    info: function(msg) {
+        console.info(msg);
     }
 
 });
