@@ -27,6 +27,13 @@ M.PageView = M.View.extend({
     type: 'M.PageView',
 
     /**
+     * Is set to NO once the page was first loaded.
+     *
+     * @property {Boolean}
+     */
+    isFirstLoad: YES,
+
+    /**
      * Renders in three steps:
      * 1. Rendering Opening div tag with corresponding data-role
      * 2. Triggering render process of child views
@@ -40,8 +47,17 @@ M.PageView = M.View.extend({
         
         html = '</div>';
         document.write(html);
+    },
+
+    /**
+     * This method is called if the page is loaded. It is then delegated to the view's
+     * specified onLoad-method.
+     */
+    pageDidLoad: function() {
+        if(this.onLoad) {
+            eval(this.onLoad)(this.isFirstLoad);
+            this.isFirstLoad = NO;
+        }
     }
-
-
     
 });
