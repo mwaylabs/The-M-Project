@@ -18,21 +18,22 @@ m_require('model.js');
  */
 M.View = M.Object.extend({
 
+
+    /**
+     * Generic attribute for views. Some subclasses have a property that is more readable to its context than 'value'.
+     * Internally these properties are mapped to 'value'.
+     * e.g. in LabelView: value:this.text
+     */
+    value: null,
+
     contentBinding: null,
+
+    childViews: null,
     
     /**
      * The id of the View used for the HTML attribute ID.
      */
     id: null,
-
-    /**
-     * Interface method.
-     * Renders itself to HTML.
-     * Render implementation is done by the special child obj of View (LabelView etc.).
-     */
-    render: function() {
-        
-    },
 
     /**
      * This method encapsulates the 'extend' method of M.Object for better reading of code syntax.
@@ -51,12 +52,46 @@ M.View = M.Object.extend({
         return extendedView;
     },
 
+     /**
+     * Interface method.
+     * Renders itself to HTML.
+     * Render implementation is done by the special child obj of View (LabelView etc.).
+     */
+    render: function() {
+
+    },
+
     /**
      * Interface method.
+     * Updates itself in DOM.
+     * Render implementation is done by the special child obj of View (LabelView etc.).
+     */
+    renderUpdate: function() {
+
+    },
+
+    /**
+     * Triggers render() on all children.
+     */
+    renderChildViews: function() {
+        var arr = this.childViews[0].split(' ');
+        for(var i in arr) {
+            this[arr[i]].render();
+        }
+    },
+
+    /**
      * contentDidChange is called by the observable when observable's state did change.
+     * It updates the view's value property.
      */
     contentDidChange: function(){
-        
+        var bindingPath = this.contentBinding.split('.');
+        if(bindingPath && bindingPath.length === 3) {
+            this.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]];
+            this.renderUpdate();
+        } else {
+            M.Logger.log('bindingPath not valid', M.WARN);
+        }
     },
 
     /**
