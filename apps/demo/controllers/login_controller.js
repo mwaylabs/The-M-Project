@@ -10,13 +10,22 @@ Demo.LoginController = M.Controller.extend({
 
     users: null,
 
+    numberOfClicks: 0,
+
     doClick: function() {
         Demo.UserModel.find('');
     },
 
     myCallback: function(users) {
-        Demo.LoginController.observable.attach('asa', 'users');
         this.set('users', users);
+    },
+
+    addClick: function() {
+        this.set('numberOfClicks', this.numberOfClicks + 1);
+    },
+
+    switchPage: function() {
+        this.switchToView(secondPageView);
     }
 
 });

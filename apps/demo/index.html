@@ -13,6 +13,10 @@
     <script src="../../modules/core/foundation/controller.js"></script>
     <script src="../../modules/core/datastore/data_provider.js"></script>
     <script src="../../modules/core/foundation/model.js"></script>
+    <script src="../../modules/core/foundation/view.js"></script>
+    <script src="../../modules/core/foundation/view_manager.js"></script>
+    <script src="../../modules/ui/label.js"></script>
+    <script src="../../modules/ui/button.js"></script>
     <script src="demo.js"></script>
     <script src="lut.js"></script>
     <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a1.min.css" rel="stylesheet" />
@@ -23,63 +27,39 @@
     <div data-role="header" data-position="fixed"> 
         <h1>HEADER #1</h1>
     </div>
+
     <div data-role="content">
-        <input type="button" id='button_001' value='goto page 2' />
+
+        <script language="JavaScript">
+            label = M.LabelView.design({
+                contentBinding: 'Demo.LoginController.numberOfClicks',
+                text: '0'
+            });
+            button = M.ButtonView.design({
+                text: 'My Button',
+                target: 'Demo.LoginController',
+                action: 'addClick'
+            });
+            button2 = M.ButtonView.design({
+                text: 'GoTo page 2',
+                target: 'Demo.LoginController',
+                action: 'switchPage'
+            });
+            secondPageView = M.View.design({
+            });
+        </script>
+
+        <!-- RENDER-ACTION -->
+        <script language="JavaScript">
+            label.render();
+            button.render();
+            button2.render();
+        </script>
+
     </div>
-
-    <!--
-
-M.Application = {
-
-myPage1 = M.PageView.design{(
-
-        M.ButtonView({
-
-            title: 'goto page 2',
-            target: 'Demo.LoginController.doClick'
-
-        )},
-
-        myList = M.ListView({
-            exampleView = M.ListViewItem({
-                
-            )}
-        )}
-
-    )} 
-
-}
-
-    myList = M.ListView.design({
-        contentBinding: 'Demo.LoginController.users'
-    });
-
-    -->
-
-    <!--<ul data-role="listview" data-theme="b">
-        <li><a href="acura.html">Acura</a></li>
-        <li><a href="audi.html">Audi</a></li>
-        <li><a href="bmw.html">BMW</a></li>
-        <li><a href="bmw.html">BMW</a></li>
-        <li><a href="bmw.html">BMW</a></li>
-        <li><a href="bmw.html">BMW</a></li>
-        <li><a href="bmw.html">BMW</a></li>
-    </ul>-->
 
     <div data-role="footer" data-position="fixed">
         <h1>FOOTER #1</h1>
-    </div>
-</div>
-
-<div data-role="page" id="page2">
-    <div data-role="header" data-position="fixed">
-        <h1>HEADER #2</h1>
-    </div>
-    <div data-role="content">
-        <input type="button" id='button_002' value='goto page 1' />
-    </div>
-    <div data-role="footer" data-position="fixed">
-        <h1>FOOTER #2</h1>
     </div>
 </div>
 
