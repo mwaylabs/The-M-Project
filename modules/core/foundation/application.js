@@ -25,6 +25,11 @@ M.Application = M.Object.extend({
      */
     type: 'M.Application',
 
+    /**
+     * The application's view manager.
+     *
+     * @property {Object}
+     */
     viewManager: M.ViewManager,
 
     /**
