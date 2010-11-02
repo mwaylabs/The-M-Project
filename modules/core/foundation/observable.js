@@ -25,7 +25,6 @@ M.Observable = M.Object.extend({
      */
     bindingList: [],
 
-
     /**
      * Attach an observer to an observable.
      *
