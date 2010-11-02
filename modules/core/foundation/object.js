@@ -30,7 +30,7 @@ M.Object = {
 
     /**
      * Creates a new class and extends it with all functions of the defined super class
-     * The function takes multi input arguments. Each argument Servers as additional
+     * The function takes multiple input arguments. Each argument Servers as additional
      * super classes - see mixins.
      */
     extend: function(){
