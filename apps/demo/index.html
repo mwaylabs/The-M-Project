@@ -34,6 +34,8 @@
 
                         childViews: ['header content footer'],
 
+                        onLoad: 'Demo.LoginController.onLoad',
+
                         header: M.ToolbarView.design({
                             value: 'Page 1',
                             anchorLocation : M.TOP
@@ -87,6 +89,7 @@
         <script language="JavaScript">
             Demo.app.page1.render();
             Demo.app.page2.render();
+            Demo.app.init();
         </script>
 
 </body>

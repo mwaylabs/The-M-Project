@@ -26,6 +26,14 @@ Demo.LoginController = M.Controller.extend({
 
     switchPage: function() {
         this.switchToView(Demo.app.page2);
+    },
+
+    onLoad: function(isFirstLoad) {
+        if(isFirstLoad) {
+            alert('kam im controller an ...');
+        } else {
+            alert('wieder hier ...');
+        }
     }
 
 });
