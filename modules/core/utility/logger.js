@@ -27,6 +27,13 @@ M.INFO = 3;
 M.Logger = M.Object.extend({
 
     /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.Logger',
+
+    /**
      * Possible values for the logging level:
      *
      * - debug:   M.DEBUG

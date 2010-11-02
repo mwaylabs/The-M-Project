@@ -27,6 +27,13 @@ M.REMOTE = 'remote';
 M.DataProvider = M.Object.extend({
 
     /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.DataProvider',
+
+    /**
      * defines the data source type
      *
      * @property {String}

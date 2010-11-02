@@ -19,6 +19,13 @@ m_require('../core/foundation/view.js');
 M.ButtonView = M.View.extend({
 
     /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.ButtonView',
+
+    /**
      * Mapping to value attribute.
      * text property is mixed in when extended.
      */

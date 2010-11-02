@@ -19,6 +19,13 @@ m_require('data_provider.js');
 M.Model = M.Object.extend({
 
     /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.Model',
+
+    /**
      * Defines the model's primary key.
      *
      * default: globally unique identifier

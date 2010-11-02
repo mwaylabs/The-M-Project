@@ -17,5 +17,23 @@ m_require('view_manager.js');
  *
  */
 M.Application = M.Object.extend({
-    viewManager: M.ViewManager
+
+    /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.Application',
+
+    viewManager: M.ViewManager,
+
+    init: function() {
+        for(i in this.viewManager.viewList) {
+            if(this.viewManager.viewList[i])
+            $('#m_7').bind('pageshow', function() {
+                alert('bla');
+            });
+        }
+    }
+
 });

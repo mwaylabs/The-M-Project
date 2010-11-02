@@ -22,6 +22,13 @@ M.BOTTOM = 'footer';
 M.ToolbarView = M.View.extend({
 
     /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.ToolbarView',
+
+    /**
      * Mapping to value attribute.
      * text property is mixed in when extended.
      */

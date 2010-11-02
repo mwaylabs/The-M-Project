@@ -20,6 +20,13 @@ m_require('../core/foundation/view.js');
 M.PageView = M.View.extend({
 
     /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.PageView',
+
+    /**
      * Renders in three steps:
      * 1. Rendering Opening div tag with corresponding data-role
      * 2. Triggering render process of child views

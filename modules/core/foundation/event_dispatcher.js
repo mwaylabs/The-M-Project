@@ -19,12 +19,11 @@ m_require('logger.js');
 M.EventDispatcher = M.Object.create({
 
     /**
-     * The lookupTable will automatically be set after all framework-components were loaded.
-     * It contains references for all events within an app.
+     * The type of this object.
      *
-     * @property {Object}
+     * @property {String}
      */
-    lookupTable: null,
+    type: 'M.EventDispatcher',
 
     /**
      * This method is called whenever an event is triggered within the app.

@@ -12,6 +12,13 @@ m_require('object.js');
 
 M.Request = M.Object.extend({
 
+    /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.Request',
+    
     init: function(obj){
         this.type = obj['type'] ? obj['type'] : this.type;
         this.url = obj['url'] ? obj['url'] : this.url;

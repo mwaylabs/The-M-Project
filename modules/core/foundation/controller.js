@@ -19,6 +19,13 @@ m_require('observable.js');
 M.Controller = M.Object.extend({
 
     /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.Controller',
+
+    /**
      * Makes the controller's properties observable.
      */
     observable: M.Observable.extend({}),

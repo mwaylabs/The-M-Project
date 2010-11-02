@@ -12,6 +12,13 @@ m_require('view.js');
 
 M.ViewManager = M.Object.extend({
 
+    /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.ViewManager',
+    
     nextId: 0,
 
     idPrefix: 'm_',

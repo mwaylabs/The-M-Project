@@ -19,6 +19,13 @@ m_require('logger.js');
 M.Observable = M.Object.extend({
 
     /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.Observable',
+
+    /**
      * List that contains pairs of an observer with an observable. An observer is tightened to one
      * observable, but one observable can have multiple observers.
      *

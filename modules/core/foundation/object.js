@@ -18,6 +18,13 @@ m_require('m.js');
 M.Object = {
 
     /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.Object',
+
+    /**
      * Creates an object.
      * 
      * @param obj

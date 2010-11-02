@@ -18,6 +18,12 @@ m_require('model.js');
  */
 M.View = M.Object.extend({
 
+    /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.View',
 
     /**
      * Generic attribute for views. Some subclasses have a property that is more readable to its context than 'value'.
