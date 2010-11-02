@@ -27,12 +27,14 @@ M.Application = M.Object.extend({
 
     viewManager: M.ViewManager,
 
+    /**
+     * Binds the pageshow event to all pages.
+     */
     init: function() {
         for(i in this.viewManager.viewList) {
-            if(this.viewManager.viewList[i])
-            $('#m_7').bind('pageshow', function() {
-                alert('bla');
-            });
+            if(this.viewManager.viewList[i].view.type === 'M.PageView') {
+                $('#' + this.viewManager.viewList[i].id).bind('pageshow', this.bindToCaller(this.viewManager.viewList[i].view, this.viewManager.viewList[i].view.pageDidLoad));
+            }
         }
     }
 
