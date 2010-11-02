@@ -25,7 +25,7 @@ Demo.LoginController = M.Controller.extend({
     },
 
     switchPage: function() {
-        this.switchToView(secondPageView);
+        this.switchToView(Demo.app.page2);
     }
 
 });
