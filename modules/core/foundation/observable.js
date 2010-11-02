@@ -25,7 +25,6 @@ M.Observable = M.Object.extend({
      */
     bindingList: [],
 
-
     /**
      * Attach an observer to an observable.
      *
@@ -43,9 +42,8 @@ M.Observable = M.Object.extend({
      * Detach an observer from an observable.
      *
      * @param {String} observer The observer.
-     * @param {String} observable The observable.
      */
-    detach: function(observer, observable) {
+    detach: function(observer) {
         /* grep is a jQuery function that finds
          * elements in an array that satisfy a certain criteria.
          * It works on a copy so we have to assign the "cleaned"
@@ -55,7 +53,5 @@ M.Observable = M.Object.extend({
                 return value.observer !== observer;
         });
     }
-
-
 
 });

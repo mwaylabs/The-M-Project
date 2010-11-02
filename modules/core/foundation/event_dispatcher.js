@@ -32,45 +32,28 @@ M.EventDispatcher = M.Object.create({
      * @param {Object} evt The event.
      */
     eventDidHappen: function(evt) {
-        //M.Logger.log('M.EventDispatcher.eventDidHappen: (' + evt.currentTarget.id + ' - ' + evt.type + ')');
-        this.delegateEvent(evt.currentTarget.id, evt.type);
+        if(evt.type == 'click') {
+            this.delegateEvent(evt.currentTarget.id);
+        }
     },
 
     /**
-     * This method looks for a corresponding event inside the lookup table and then
-     * delegates the call directly to the responsible controller.
+     * This method looks for a corresponding event inside the view manager and
+     * delegates the call directly to the responsible controller defined by the
+     * target and action properties of the view.
      *
      * @param {String} id The id of the element that triggered the event.
-     * @param {String} type The event type.
      */
-    delegateEvent: function(id, type) {
-        //M.Logger.log('M.EventDispatcher.getTarget');
-        if(this.lookupTable) {
-            if(this.lookupTable[id]) {
-                if(this.lookupTable[id][type]) {
-                    //this.lookupTable[id][type]["target"]();
-                    ////M.Logger.log('#######################################');
-                    ////M.Logger.log(this.lookupTable[id][type]["target"][this.lookupTable[id][type]["action"]]());
-                    ////M.Logger.log('#######################################');
-                    this.lookupTable[id][type]["target"][this.lookupTable[id][type]["action"]]();
-                } else {
-                    //M.Logger.log('event "' + type + '" not found for "' + id + '" in lookupTable', M.ERROR);
-                }
-            } else {
-                //M.Logger.log('"' + id + '" not found in lookupTable', M.ERROR);
-            }
-        } else {
-            //M.Logger.log('lookupTable undefined', M.ERROR);
+    delegateEvent: function(id) {
+        var view = M.ViewManager.getViewById(id);
+        if(view && view.target && view.action) {
+           eval(view.target)[view.action]();
         }
     }
 
 });
 
 $(document).ready(function() {
-    /*
-    currently we only register click-events. we need something like $().allEvents.....
-     */
-    var eventList = 'click mouseenter';
+    var eventList = 'click';
     $('*[id]').bind(eventList, function(evt) { M.EventDispatcher.eventDidHappen(evt); });
-    //$('*[data-role = "button"]').click(function(evt) { M.EventDispatcher.eventDidHappen(evt); });
 });
