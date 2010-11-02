@@ -10,12 +10,25 @@
 
 m_require('../core/foundation/view.js');
 
+/**
+ * @class
+ *
+ * The root object for ButtonViews.
+ *
+ */
 M.ButtonView = M.View.extend({
 
-    text: null,
+    /**
+     * Mapping to value attribute.
+     * text property is mixed in when extended.
+     */
+    //value: this.text,
 
+    /**
+     * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
+     */
     render: function() {        
-        html = '<input type="button" id="' + this.id + '" value="' + this.text + '"/>';
+        html = '<input type="button" id="' + this.id + '" value="' + this.value + '"/>';
         document.write(html);
     }
 

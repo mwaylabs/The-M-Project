@@ -10,27 +10,33 @@
 
 m_require('../core/foundation/view.js');
 
+/**
+ * @class
+ *
+ * The root object for LabelViews.
+ *
+ */
 M.LabelView = M.View.extend({
 
-    text: null,
+    /**
+     * Mapping to value attribute.
+     * text property is mixed in when extended.
+     */
+    //value: this.text,
 
+    /**
+     * Renders a LabelView as a div tag with corresponding data-role attribute and inner text defined by value
+     */
     render: function() {
-        html = '<div id="' + this.id + '">' + this.text + '</div>';
+        html = '<div id="' + this.id + '">' + this.value + '</div>';
         document.write(html);
     },
 
+    /**
+     * Updates the value of the label with DOM access by jQuery. 
+     */
     renderUpdate: function() {
-        $('#' + this.id).html(this.text);
-    },
-
-    contentDidChange: function(){
-        var bindingPath = this.contentBinding.split('.');
-        if(bindingPath && bindingPath.length === 3) {
-            this.text = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]];
-            this.renderUpdate();
-        } else {
-            M.Logger.log('bindingPath not valid', M.WARN);
-        }
+        $('#' + this.id).html(this.value);
     }
 
 });
