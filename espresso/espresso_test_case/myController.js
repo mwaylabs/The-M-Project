@@ -5,7 +5,7 @@ Demo.LoginController = M.Controller.extend({
     users: null,
 
     doClick: function() {
-        Demo.UserModel.find('')
+        Demo.UserModel.find('');
     },
 
     myCallback: function(users) {
