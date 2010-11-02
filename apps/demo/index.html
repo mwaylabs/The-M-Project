@@ -15,53 +15,79 @@
     <script src="../../modules/core/foundation/model.js"></script>
     <script src="../../modules/core/foundation/view.js"></script>
     <script src="../../modules/core/foundation/view_manager.js"></script>
+    <script src="../../modules/core/foundation/application.js"></script>
+
+    <script src="../../modules/ui/page.js"></script>
+    <script src="../../modules/ui/toolbar.js"></script>
+    <script src="../../modules/ui/scroll.js"></script>
     <script src="../../modules/ui/label.js"></script>
     <script src="../../modules/ui/button.js"></script>
+
     <script src="demo.js"></script>
-    <script src="lut.js"></script>
+
     <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a1.min.css" rel="stylesheet" />
 </head>
 <body>
-
-<div data-role="page" id="page1">
-    <div data-role="header" data-position="fixed"> 
-        <h1>HEADER #1</h1>
-    </div>
-
-    <div data-role="content">
-
         <script language="JavaScript">
-            label = M.LabelView.design({
-                contentBinding: 'Demo.LoginController.numberOfClicks',
-                text: '0'
-            });
-            button = M.ButtonView.design({
-                text: 'My Button',
-                target: 'Demo.LoginController',
-                action: 'addClick'
-            });
-            button2 = M.ButtonView.design({
-                text: 'GoTo page 2',
-                target: 'Demo.LoginController',
-                action: 'switchPage'
-            });
-            secondPageView = M.View.design({
+            Demo.app = M.Application.extend({
+                page1: M.PageView.design({
+
+                        childViews: ['header content footer'],
+
+                        header: M.ToolbarView.design({
+                            value: 'Page 1',
+                            anchorLocation : M.TOP
+                        }),
+
+                        content: M.ScrollView.design({
+
+                            childViews: ['label1 button1 button2'],
+
+                            label1: M.LabelView.design({
+                                contentBinding: 'Demo.LoginController.numberOfClicks',
+                                value: '0'
+                            }),
+
+                            button1: M.ButtonView.design({
+                                value: 'My Button',
+                                target: 'Demo.LoginController',
+                                action: 'addClick'
+                            }),
+
+                            button2: M.ButtonView.design({
+                                value: 'GoTo page 2',
+                                target: 'Demo.LoginController',
+                                action: 'switchPage'
+                            })
+                        }),
+
+                        footer: M.ToolbarView.design({
+                            value: 'Footer',
+                            anchorLocation: M.BOTTOM
+                        })
+                }),
+
+                page2: M.PageView.design({
+                    childViews: ['header footer'],
+                    
+                    header: M.ToolbarView.design({
+                            value: 'Page 2',
+                            anchorLocation : M.TOP
+                        }),
+
+                    footer: M.ToolbarView.design({
+                            value: 'Footer',
+                            anchorLocation: M.BOTTOM
+                    })
+                })
             });
         </script>
 
         <!-- RENDER-ACTION -->
         <script language="JavaScript">
-            label.render();
-            button.render();
-            button2.render();
+            Demo.app.page1.render();
+            Demo.app.page2.render();
         </script>
-
-    </div>
-
-    <div data-role="footer" data-position="fixed">
-        <h1>FOOTER #1</h1>
-    </div>
-</div>
 
 </body>
 </html>
