@@ -18,26 +18,31 @@ m_require('observable.js');
  */
 M.Controller = M.Object.extend({
 
-    lookupTable: null,
-
-    lookupTableLoaded: NO,
-
+    /**
+     * Makes the controller's properties observable.
+     */
     observable: M.Observable.extend({}),
 
+    /**
+     * Helper function to build the location href for the view to be displayed.
+     *
+     * @param {String} id The id of the new target.
+     */
+    buildLocationHref: function(id) {
+        return location.href.substr(0, location.href.lastIndexOf('#')) + '#' + id;
+    },
+
+    /**
+     * Returns the class property behind the given key and informs its observers.
+     *
+     * @param {Object} view The view to be displayed.
+     */
     switchToView: function(view) {
-        if(!this.lookupTableLoaded) {
-            //M.Logger.log('lookupTableLoaded');
-            this.lookupTable = M.Controller.lookupTable;
-            this.lookupTableLoaded = YES;
-        }
-        if(this.lookupTable) {
-            if(this.lookupTable[view]) {
-                location.href = location.href.substr(0, location.href.lastIndexOf('#')) + '#' + this.lookupTable[view];                
-            } else {
-                //M.Logger.log('"' + view + '" not found in lookupTable', M.ERROR);
-            }
+        var id = M.ViewManager.getIdByView(view);
+        if(id) {
+            location.href = this.buildLocationHref(id);
         } else {
-            //M.Logger.log('lookupTable undefined', M.ERROR);
+            M.Logger.log('"' + view + '" not found', M.WARN);
         }
     },
 
@@ -50,10 +55,9 @@ M.Controller = M.Object.extend({
     set: function(key, value) {
         this[key] = value;
         for(entry in this.observable.bindingList) {
-            alert(this.observable.bindingList[entry].observable);
             if(key == this.observable.bindingList[entry].observable) {
-                //this.observable.bindingList[entry].observer.update();
-                /* DO SOME UPDATE-SHIT */
+                /* trigger an contentDidChange-event on the observer. */
+                this.observable.bindingList[entry].observer.contentDidChange();
             }
         }
     }
