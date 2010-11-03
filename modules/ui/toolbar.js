@@ -48,7 +48,7 @@ M.ToolbarView = M.View.extend({
      * (representing the title of the header)
      */
     render: function() {
-        var html = '<div id="' + this.id + '" data-role="' + this.anchorLocation + '"><h1>' + this.value + '</h1></div>';
+        var html = '<div id="' + this.id + '" data-role="' + this.anchorLocation + '" data-position="fixed"><h1>' + this.value + '</h1></div>';
         document.write(html);
     },
 
