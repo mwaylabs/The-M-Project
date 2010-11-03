@@ -42,6 +42,11 @@ M.View = M.Object.extend({
     id: null,
 
     /**
+     * Indicates whether the view should be displayed inline or not.
+     */
+    isInline: NO,
+
+    /**
      * This method encapsulates the 'extend' method of M.Object for better reading of code syntax.
      * It triggers the content binding for this view,
      * gets an ID from and registers itself at the ViewManager.
