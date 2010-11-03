@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Binding Sample App #01</title>
+    <script src="../../modules/jquery/jquery-1.4.3.min.js"></script>
+    <script src="../../modules/jquery_mobile/jquery.mobile-1.0a1.min.js"></script>
+    <script src="../../modules/core/foundation/m.js"></script>
+    <script src="../../modules/core/foundation/object.js"></script>
+    <script src="../../modules/core/foundation/request.js"></script>
+    <script src="../../modules/core/utility/logger.js"></script>
+    <script src="../../modules/core/foundation/event_dispatcher.js"></script>
+    <script src="../../modules/core/foundation/observable.js"></script>
+    <script src="../../modules/core/foundation/controller.js"></script>
+    <script src="../../modules/core/datastore/data_provider.js"></script>
+    <script src="../../modules/core/foundation/model.js"></script>
+    <script src="../../modules/core/foundation/view.js"></script>
+    <script src="../../modules/core/foundation/view_manager.js"></script>
+    <script src="../../modules/core/foundation/application.js"></script>
+
+    <script src="../../modules/ui/page.js"></script>
+    <script src="../../modules/ui/toolbar.js"></script>
+    <script src="../../modules/ui/scroll.js"></script>
+    <script src="../../modules/ui/label.js"></script>
+    <script src="../../modules/ui/button.js"></script>
+
+    <script src="binding_sample.js"></script>
+
+    <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a1.min.css" rel="stylesheet" />
+</head>
+<body>
+        <script language="JavaScript">
+            BindingSample.app = M.Application.extend({
+                page: M.PageView.design({
+
+                        childViews: ['header content footer'],
+
+                        header: M.ToolbarView.design({
+                            value: 'HEADER',
+                            anchorLocation : M.TOP
+                        }),
+
+                        content: M.ScrollView.design({
+
+                            childViews: ['label1 label2 button1'],
+
+                            label1: M.LabelView.design({
+                                value: 'Number of clicks: ',
+                                isInline: YES
+                            }),
+
+                            label2: M.LabelView.design({
+                                contentBinding: 'BindingSample.CountController.numberOfClicks',
+                                value: '0',
+                                isInline: YES
+                            }),
+
+                            button1: M.ButtonView.design({
+                                value: 'Click Me',
+                                target: 'BindingSample.CountController',
+                                action: 'addClick'
+                            })
+                        }),
+
+                        footer: M.ToolbarView.design({
+                            value: 'FOOTER',
+                            anchorLocation: M.BOTTOM
+                        })
+                })
+            });
+        </script>
+
+        <!-- RENDER-ACTION -->
+        <!-- in the future these calls will automatically be generated -->
+        <script language="JavaScript">
+            BindingSample.app.page.render();
+            BindingSample.app.init();
+        </script>
+
+</body>
+</html>
