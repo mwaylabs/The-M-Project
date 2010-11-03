@@ -40,7 +40,7 @@ M.PageView = M.View.extend({
      * 3. Rendering closing tag
      */
     render: function() {
-        html = '<div id="' + this.id + '" data-role="page">';
+        var html = '<div id="' + this.id + '" data-role="page">';
         document.write(html);
 
         this.renderChildViews();

@@ -35,7 +35,7 @@ M.ButtonView = M.View.extend({
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
      */
     render: function() {        
-        html = '<input type="button" id="' + this.id + '" value="' + this.value + '"/>';
+        var html = '<input type="button" id="' + this.id + '" value="' + this.value + '"/>';
         document.write(html);
     }
 

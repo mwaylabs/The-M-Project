@@ -32,7 +32,7 @@ M.ScrollView = M.View.extend({
      * 3. Rendering closing tag
      */
     render: function() {
-        html = '<div id="' + this.id + '" data-role="content">';
+        var html = '<div id="' + this.id + '" data-role="content">';
         document.write(html);
 
         this.renderChildViews();
