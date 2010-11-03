@@ -33,11 +33,14 @@ M.Application = M.Object.extend({
     viewManager: M.ViewManager,
 
     /**
-     * Binds the pageshow event to all pages.
+     * The application's main-method, that is called automatically on load of the app.
+     * Inside this method the rendering is initiated and all pages are bound to the 'pageshow'
+     * event so one can do some action whenever a page is loaded.
      */
-    init: function() {
+    main: function() {
         for(i in this.viewManager.viewList) {
             if(this.viewManager.viewList[i].view.type === 'M.PageView') {
+                this.viewManager.viewList[i].view.render();
                 $('#' + this.viewManager.viewList[i].id).bind('pageshow', this.bindToCaller(this.viewManager.viewList[i].view, this.viewManager.viewList[i].view.pageDidLoad));
             }
         }
