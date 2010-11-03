@@ -36,7 +36,11 @@ M.LabelView = M.View.extend({
      */
     render: function() {
         var html = '<div id="' + this.id + '" ' + this.style() + '>' + this.value + '</div>';
-        document.write(html);
+        if(this.renderToDOM) {
+            document.write(html);
+        } else {
+            return html;
+        }
     },
 
     /**
@@ -47,7 +51,7 @@ M.LabelView = M.View.extend({
     },
 
     /**
-     *
+     * Applies some style-attributes to the label.
      */
     style: function() {
         var html = 'style="';
