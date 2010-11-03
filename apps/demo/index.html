@@ -75,7 +75,7 @@
                 page2: M.PageView.design({
                     childViews: ['header content footer'],
                     onLoad: 'Demo.TwitterController.performSearch',
-                    
+
                     header: M.ToolbarView.design({
                         value: 'Page 2',
                         anchorLocation : M.TOP
@@ -86,7 +86,7 @@
 
                         list1: M.ListView.design({
                             contentBinding: 'Demo.TwitterController.content',
-                            exampleView: 'Demo.TwitterItemView'
+                            templateView: 'Demo.TwitterItemView'
                         })
                     }),
 

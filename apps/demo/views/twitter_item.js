@@ -10,10 +10,21 @@
 
 Demo.TwitterItemView = M.ListItemView.design({
 
-    childViews: ['label1'],
+    childViews: ['label1 label2 button1'],
+
+    items: 'results',
     
     label1 : M.LabelView.design({
-        value: 'res.text'   
+        value: '<%= from_user %>'
+    }),
+
+    label2 : M.LabelView.design({
+        value: '<%= metadata.result_type %>'
+    }),
+
+    /* TODO: WORK WITH BUTTON */
+    button1 : M.LabelView.design({
+        contentBinding: 'Demo.TwitterController.buttonValue'
     })
 
 });
