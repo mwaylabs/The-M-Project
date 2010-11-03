@@ -36,7 +36,7 @@ M.Controller = M.Object.extend({
      * @param {String} id The id of the new target.
      */
     buildLocationHref: function(id) {
-        return location.href.substr(0, location.href.lastIndexOf('#')) + '#' + id;
+        return location.pathname + '#' + id;
     },
 
     /**
