@@ -4,6 +4,7 @@
     <title>Binding Sample App #01</title>
     <script src="../../modules/jquery/jquery-1.4.3.min.js"></script>
     <script src="../../modules/jquery_mobile/jquery.mobile-1.0a1.min.js"></script>
+    <script src="../../modules/underscore/underscore-min.js"></script>    
     <script src="../../modules/core/foundation/m.js"></script>
     <script src="../../modules/core/foundation/object.js"></script>
     <script src="../../modules/core/foundation/request.js"></script>
@@ -69,11 +70,10 @@
             });
         </script>
 
-        <!-- RENDER-ACTION -->
-        <!-- in the future these calls will automatically be generated -->
+        <!-- START THE APP BY CALLING THE M.APPLICATION's MAIN-METHOD -->
+        <!-- in the future this call will be made automatically -->
         <script language="JavaScript">
-            BindingSample.app.page.render();
-            BindingSample.app.init();
+            BindingSample.app.main();
         </script>
 
 </body>
