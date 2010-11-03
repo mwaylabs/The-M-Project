@@ -21,7 +21,17 @@ M.ListView = M.View.extend({
     type: 'M.ListView',
 
     render: function() {
+        var html = '<ul id="' + this.id + '" data-role="listview">';
+        document.write(html);
 
+        this.renderChildViews();
+
+        html = '</ul>';
+        document.write(html);
+    },
+
+    renderChildViews: function() {
+        
     },
 
     renderUpdate: function() {
