@@ -23,6 +23,8 @@
     <script src="../../modules/ui/scroll.js"></script>
     <script src="../../modules/ui/label.js"></script>
     <script src="../../modules/ui/button.js"></script>
+    <script src="../../modules/ui/list.js"></script>
+    <script src="../../modules/ui/list_item.js"></script>
 
     <script src="demo.js"></script>
 
@@ -71,16 +73,25 @@
                 }),
 
                 page2: M.PageView.design({
-                    childViews: ['header footer'],
+                    childViews: ['header content footer'],
                     
                     header: M.ToolbarView.design({
-                            value: 'Page 2',
-                            anchorLocation : M.TOP
-                        }),
+                        value: 'Page 2',
+                        anchorLocation : M.TOP
+                    }),
+
+                    content: M.ScrollView.design({
+                        childViews: ['list1'],
+
+                        list1: M.ListView.design({
+                            contentBinding: 'Demo.TwitterController.content',
+                            exampleView: 'Demo.TwitterItemView'
+                        })
+                    }),
 
                     footer: M.ToolbarView.design({
-                            value: 'Footer',
-                            anchorLocation: M.BOTTOM
+                        value: 'Footer',
+                        anchorLocation: M.BOTTOM
                     })
                 })
             });
