@@ -64,7 +64,6 @@ M.Controller = M.Object.extend({
 
         _.each(this.observable.bindingList, function(entry){
             if(key === entry.observable){
-                /* trigger an contentDidChange-event on the observer. */
                 entry.observer.contentDidChange();
             }
         });
