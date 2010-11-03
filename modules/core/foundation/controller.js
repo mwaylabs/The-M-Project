@@ -61,12 +61,13 @@ M.Controller = M.Object.extend({
      */
     set: function(key, value) {
         this[key] = value;
-        for(entry in this.observable.bindingList) {
-            if(key == this.observable.bindingList[entry].observable) {
+
+        _.each(this.observable.bindingList, function(entry){
+            if(key === entry.observable){
                 /* trigger an contentDidChange-event on the observer. */
-                this.observable.bindingList[entry].observer.contentDidChange();
+                entry.observer.contentDidChange();
             }
-        }
+        });
     }
 
 });

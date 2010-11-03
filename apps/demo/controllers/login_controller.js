@@ -30,9 +30,9 @@ Demo.LoginController = M.Controller.extend({
 
     onLoad: function(isFirstLoad) {
         if(isFirstLoad) {
-            alert('kam im controller an ...');
+            //alert('kam im controller an ...');
         } else {
-            alert('wieder hier ...');
+            //alert('wieder hier ...');
         }
     }
 
