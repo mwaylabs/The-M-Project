@@ -36,7 +36,26 @@ M.ButtonView = M.View.extend({
      */
     render: function() {        
         var html = '<input type="button" id="' + this.id + '" value="' + this.value + '"/>';
-        document.write(html);
+        if(this.renderToDOM) {
+            document.write(html);
+        } else {
+            return html;
+        }
+    },
+
+    /**
+     * Updates the value of the button with DOM access by jQuery.
+     */
+    renderUpdate: function() {
+        $('#' + this.id).attr('value', this.value);
+        this.applyTheme();
+    },
+
+    /**
+     * Triggers rendering engine, e.g. jQuery mobile, to style the button.
+     */
+    applyTheme: function() {
+        $('#' + this.id).button();
     }
 
 });
