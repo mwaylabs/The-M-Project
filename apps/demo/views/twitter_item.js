@@ -8,8 +8,12 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-Demo.TwitterItemView = M.ListItemView.extend({
+Demo.TwitterItemView = M.ListItemView.design({
 
-    content: null
+    childViews: ['label1'],
+    
+    label1 : M.LabelView.design({
+        value: 'res.text'   
+    })
 
 });

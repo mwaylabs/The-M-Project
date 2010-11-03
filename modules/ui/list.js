@@ -31,10 +31,11 @@ M.ListView = M.View.extend({
     },
 
     renderChildViews: function() {
-        
+
     },
 
     renderUpdate: function() {
+        var content = eval(this.contentBinding);
         
     }
 

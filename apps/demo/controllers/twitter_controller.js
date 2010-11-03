@@ -10,6 +10,22 @@
 
 Demo.TwitterController = M.Controller.extend({
 
-    content: null
+    content: null,
+
+    performSearch: function(){
+        M.Request.init({
+            url: 'twitter_search.json',
+            isJSON: YES,
+            beforeSend: function(req) {
+                console.log(req);
+                console.log("URL: " + req.abort);
+            },
+            onSuccess: function(data){
+               console.log(data);
+               console.log("shizzle kam an");
+               Demo.TwitterController.set('content', data);
+            }
+        }).send();
+    }
 
 });
