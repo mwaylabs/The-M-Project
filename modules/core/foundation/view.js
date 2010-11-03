@@ -35,7 +35,14 @@ M.View = M.Object.extend({
     contentBinding: null,
 
     childViews: null,
-    
+
+    /**
+     * Determines whether this view renders directly to the DOM or just returns its HTML representation.
+     *
+     * @property {Boolean}
+     */
+    renderToDOM: YES,
+
     /**
      * The id of the View used for the HTML attribute ID.
      */
@@ -92,6 +99,14 @@ M.View = M.Object.extend({
     },
 
     /**
+     * Interface method.
+     * Triggers rendering engine to style this view/apply a theme.
+     */
+    applyTheme: function() {
+        
+    },
+
+    /**
      * contentDidChange is called by the observable when observable's state did change.
      * It updates the view's value property.
      */
@@ -112,7 +127,7 @@ M.View = M.Object.extend({
      */
     attachToObservable: function(contentBinding) {
         var bindingPath = contentBinding.split('.');
-        if(bindingPath && bindingPath.length === 3) {
+        if(bindingPath && bindingPath.length === 3 && eval(bindingPath[0]) && eval(bindingPath[0])[bindingPath[1]]) {
             eval(bindingPath[0])[bindingPath[1]].observable.attach(this, bindingPath[2]);
             this.isObserver = YES;
         } else {
