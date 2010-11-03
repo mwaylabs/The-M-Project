@@ -287,11 +287,7 @@ $.widget( "mobile.widget", {
 });
 
 })( jQuery );
-/*
-Possible additions:
-	scollTop
-	CSS Matrix
-*/
+(function( $ ) {
 
 // test whether a CSS media type or query applies
 $.media = (function() {
@@ -331,6 +327,16 @@ function propExists( prop ){
 	}
 };
 
+//test for dynamic-updating base tag support (allows us to avoid href,src attr rewriting)
+function baseTagTest(){
+	var fauxBase = location.protocol + '//' + location.host + location.pathname + "ui-dir/",
+		base = $("<base>", {"href": fauxBase}).appendTo("head"),
+		link = $( "<a href='testurl'></a>" ).prependTo( fakeBody ),
+		rebase = link[0].href;
+	base.remove();
+	return rebase.indexOf(fauxBase) === 0;
+};
+
 $.extend( $.support, {
 	orientation: "orientation" in window,
 	touch: "ontouchend" in document,
@@ -339,13 +345,18 @@ $.extend( $.support, {
 	mediaquery: $.media('only all'),
 	cssPseudoElement: !!propExists('content'),
 	boxShadow: !!propExists('boxShadow') && !bb,
-	scrollTop: ("pageXOffset" in window || "scrollTop" in document.documentElement || "scrollTop" in fakeBody[0]) && !webos
+	scrollTop: ("pageXOffset" in window || "scrollTop" in document.documentElement || "scrollTop" in fakeBody[0]) && !webos,
+	dynamicBaseTag: baseTagTest()
 });
 
 fakeBody.remove();
 
 //for ruling out shadows via css
-if( !$.support.boxShadow ){ $('html').addClass('ui-mobile-nosupport-boxshadow'); }// add new event shortcuts
+if( !$.support.boxShadow ){ $('html').addClass('ui-mobile-nosupport-boxshadow'); }
+
+})( jQuery );(function( $ ) {
+
+// add new event shortcuts
 $.each( "touchstart touchmove touchend orientationchange tap taphold swipe swipeleft swiperight scrollstart scrollstop".split( " " ), function( i, name ) {
 	$.fn[ name ] = function( fn ) {
 		return fn ? this.bind( name, fn ) : this.trigger( name );
@@ -487,7 +498,7 @@ $.event.special.swipe = {
 						if ( start && stop ) {
 							if ( stop.time - start.time < 1000 && 
 									Math.abs( start.coords[0] - stop.coords[0]) > 30 &&
-									Math.abs( start.coords[1] - stop.coords[1]) < 20 ) {
+									Math.abs( start.coords[1] - stop.coords[1]) < 75 ) {
 								start.origin
 								.trigger( "swipe" )
 								.trigger( start.coords[0] > stop.coords[0] ? "swipeleft" : "swiperight" );
@@ -540,7 +551,8 @@ $.each({
 		}
 	};
 });
-/*!
+
+})( jQuery );/*!
  * jQuery hashchange event - v1.3 - 7/21/2010
  * http://benalman.com/projects/jquery-hashchange-plugin/
  * 
@@ -930,12 +942,14 @@ $.each({
   })();
   
 })(jQuery,this);
-(function ( $ ) {
+(function ( jQuery ) {
 
-$.widget( "mobile.page", $.mobile.widget, {
+jQuery.widget( "mobile.page", jQuery.mobile.widget, {
 	options: {},
 	
 	_create: function() {
+		var $elem = this.element;
+
 		if ( this._trigger( "beforeCreate" ) === false ) {
 			return;
 		}
@@ -943,177 +957,147 @@ $.widget( "mobile.page", $.mobile.widget, {
 		//some of the form elements currently rely on the presence of ui-page and ui-content
 		// classes so we'll handle page and content roles outside of the main role processing
 		// loop below.
-		this.element.find( "[data-role=page],[data-role=content]" ).andSelf().each(function() {
-			var $this = $( this );
-			$this.addClass( "ui-" + $this.data( "role" ) );
+		$elem.find( "[data-role='page'], [data-role='content']" ).andSelf().each(function() {
+			jQuery(this).addClass( "ui-" + jQuery(this).data( "role" ) );
 		});
 		
-		this.element.find( "[data-role=nojs]" ).addClass( "ui-nojs" );
+		$elem.find( "[data-role='nojs']" ).addClass( "ui-nojs" );
+
 		this._enchanceControls();
 		
-		//pre-find data els
-		var $dataEls = this.element.find( "[data-role]" ).andSelf().each(function() {
-			var $this = $( this ),
+		// pre-find data els
+		var $dataEls = $elem.find( "[data-role]" ).andSelf().each(function() {
+			var $this = jQuery( this ),
 				role = $this.data( "role" ),
 				theme = $this.data( "theme" );
 			
 			//apply theming and markup modifications to page,header,content,footer
 			if ( role === "header" || role === "footer" ) {
-				$this.addClass( "ui-bar-" + (theme || "a") );
+				$this.addClass( "ui-bar-" + (theme || $this.parent('[data-role=page]').data( "theme" ) || "a") );
 				
-				//add ARIA role
-				if( role == "header" ){
-					$this.attr("role","banner");
-				}
-				else{
-					$this.attr("role","contentinfo");
-				}
+				// add ARIA role
+				$this.attr( "role", role === "header" ? "banner" : "contentinfo" );
 				
 				//right,left buttons
 				var $headeranchors = $this.children( "a" ),
-					leftbtn = $headeranchors.filter( ".ui-btn-left" ).length,
-					rightbtn = $headeranchors.filter( ".ui-btn-right" ).length;
+					leftbtn = $headeranchors.hasClass( "ui-btn-left" ),
+					rightbtn = $headeranchors.hasClass( "ui-btn-right" );
 				
 				if ( !leftbtn ) {
-					leftbtn = $headeranchors.eq( 0 ).not('.ui-btn-right').addClass( "ui-btn-left" ).length;
+					leftbtn = $headeranchors.eq( 0 ).not( ".ui-btn-right" ).addClass( "ui-btn-left" ).length;
 				}
+
 				if ( !rightbtn ) {
 					rightbtn = $headeranchors.eq( 1 ).addClass( "ui-btn-right" ).length;
 				}
 				
-				//auto-add back btn on pages beyond first view
-				if ( $.mobile.addBackBtn && role === "header" && ($.mobile.urlStack.length > 1 || $('.ui-page').length > 1) && !leftbtn && !$this.data( "noBackBtn" ) ) {
-					$( "<a href='#' class='ui-btn-left' data-icon='arrow-l'>Back</a>" )
-						.tap(function() {
-							history.back();
-							return false;
-						})
+				// auto-add back btn on pages beyond first view
+				if ( jQuery.mobile.addBackBtn && role === "header" &&
+						(jQuery.mobile.urlStack.length > 1 || jQuery(".ui-page").length > 1) &&
+						!leftbtn && !$this.data( "noBackBtn" ) ) {
+
+					jQuery( "<a href='#' class='ui-btn-left' data-icon='arrow-l'>Back</a>" )
 						.click(function() {
+							history.back();
 							return false;
 						})
 						.prependTo( $this );
 				}
 				
 				//page title	
-				$this.children( ":header" )
+				$this.children( "h1, h2, h3, h4, h5, h6" )
 					.addClass( "ui-title" )
-					.attr( "tabindex" , "0")
-					.attr( "role" ,"heading")
-					.attr( "aria-level", "1" ); //regardless of h element number in src, it becomes h1 for the enhanced page
+					//regardless of h element number in src, it becomes h1 for the enhanced page
+					.attr({ "tabindex": "0", "role": "heading", "aria-level": "1" });
+
 			} else if ( role === "content" ) {
-				if( theme ){
-					$this.addClass( "ui-body-" + theme);
+				if ( theme ) {
+					$this.addClass( "ui-body-" + theme );
 				}
-				//add ARIA role
-				$this.attr("role","main");
-			}
-			else if( role == "page" ){
+
+				// add ARIA role
+				$this.attr( "role", "main" );
+
+			} else if ( role === "page" ) {
 				$this.addClass( "ui-body-" + (theme || "c") );
 			}
 			
 			switch(role) {
-			case "header":
-			case "footer":
-			case "page":
-			case "content":
-				$this.addClass( "ui-" + role );
-				break;
-			case "collapsible":
-			case "fieldcontain":
-			case "navbar":
-			case "listview":
-			case "dialog":
-			case "ajaxform":
-				$this[ role ]();
-				break;
+				case "header":
+				case "footer":
+				case "page":
+				case "content":
+					$this.addClass( "ui-" + role );
+					break;
+				case "collapsible":
+				case "fieldcontain":
+				case "navbar":
+				case "listview":
+				case "dialog":
+					$this[ role ]();
+					break;
 			}
 		});
 		
 		//links in bars, or those with data-role become buttons
-		this.element.find( "[data-role=button], .ui-bar a, .ui-header a, .ui-footer a" )
+		$elem.find( "[data-role='button'], .ui-bar a, .ui-header a, .ui-footer a" )
 			.not( ".ui-btn" )
 			.buttonMarkup();
-		
-		
-		this.element
-			.find('[data-role="controlgroup"]')
+
+		$elem	
+			.find("[data-role='controlgroup']")
 			.controlgroup();
 		
 		//links within content areas
-		this.element.find( "a:not(.ui-btn):not(.ui-link-inherit)" )
+		$elem.find( "a:not(.ui-btn):not(.ui-link-inherit)" )
 			.addClass( "ui-link" );	
 		
 		//fix toolbars
-		this.element.fixHeaderFooter();
+		$elem.fixHeaderFooter();
 	},
 	
 	_enchanceControls: function() {
 		// degrade inputs to avoid poorly implemented native functionality
 		this.element.find( "input" ).each(function() {
 			var type = this.getAttribute( "type" );
-			if ( $.mobile.degradeInputs[ type ] ) {
-				$( this ).replaceWith(
-					$( "<div>" ).html( $(this).clone() ).html()
+			if ( jQuery.mobile.degradeInputs[ type ] ) {
+				jQuery( this ).replaceWith(
+					jQuery( "<div>" ).html( jQuery(this).clone() ).html()
 						.replace( /type="([a-zA-Z]+)"/, "data-type='$1'" ) );
 			}
 		});
 		
 		// enchance form controls
 		this.element
-			.find( ":radio, :checkbox" )
-			.customCheckboxRadio();
+			.find( "[type='radio'], [type='checkbox']" )
+			.checkboxradio();
+
 		this.element
-			.find( ":button, :submit, :reset, :image" )
+			.find( "button, [type='button'], [type='submit'], [type='reset'], [type='image']" )
 			.not( ".ui-nojs" )
-			.customButton();
+			.button();
+
 		this.element
 			.find( "input, textarea" )
-			.not( ":radio, :checkbox, :button, :submit, :reset, :image" )
+			.not( "[type='radio'], [type='checkbox'], button, [type='button'], [type='submit'], [type='reset'], [type='image']" )
 			.customTextInput();
+
 		this.element
 			.find( "input, select" )
-			.filter( "[data-role=slider], [data-type=range]" )
+			.filter( "[data-role='slider'], [data-type='range']" )
 			.slider();
+
 		this.element
-			.find( "select" )
-			.not( "[data-role=slider]" )
+			.find( "select:not([data-role='slider'])" )
 			.customSelect();
 	}
 });
 
 })( jQuery );
 /*
-* jQuery Mobile Framework : sample scripting for manipulating themed interaction states
-* Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
-* Note: Code is in draft form and is subject to change 
-*/
-(function($){
-$.fn.clickable = function(){
-	return $(this).each(function(){
-		var theme = $(this).attr('data-theme');
-		$(this)
-			.mousedown(function(){
-				$(this).removeClass('ui-btn-up-'+theme).addClass('ui-btn-down-'+theme);
-			})
-			.mouseup(function(){
-				$(this).removeClass('ui-btn-down-'+theme).addClass('ui-btn-up-'+theme);
-			})
-			.bind('mouseover focus',function(){
-				$(this).removeClass('ui-btn-up-'+theme).addClass('ui-btn-hover-'+theme);
-			})
-			.bind('mouseout blur',function(){
-				$(this).removeClass('ui-btn-hover-'+theme).addClass('ui-btn-up-'+theme);
-			});
-	});	
-};		
-})(jQuery);
-
-
-/*
 * jQuery Mobile Framework : prototype for "fixHeaderFooter" plugin - on-demand positioning for headers,footers
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function($){
@@ -1174,7 +1158,7 @@ $.fixedToolbars = (function(){
 		}
 		
 		//before page is shown, check for duplicate footer
-		$('.ui-page').live('beforepageshow', function(event, ui){
+		$('.ui-page').live('pagebeforeshow', function(event, ui){
 			stickyFooter = findStickyFooter( $(event.target) );
 			if( stickyFooter.length ){
 				//if the existing footer is the first of its kind, create a placeholder before stealing it 
@@ -1182,7 +1166,7 @@ $.fixedToolbars = (function(){
 					stickyFooter.before( stickyFooter.clone().addClass('ui-footer-duplicate') );
 				}
 				$(event.target).find('[data-role="footer"]').addClass('ui-footer-duplicate');
-				stickyFooter.appendTo('body').css('top',0);
+				stickyFooter.appendTo($.pageContainer).css('top',0);
 				setTop(stickyFooter);
 			}
 		});
@@ -1277,76 +1261,116 @@ $.fixedToolbars = (function(){
 })(jQuery);/*
 * jQuery Mobile Framework : "customCheckboxRadio" plugin (based on code from Filament Group,Inc)
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */  
-(function($){
-$.fn.customCheckboxRadio = function(options){
-	return $(this).each(function(){	
-		if($(this).is('[type=checkbox],[type=radio]')){
-			var input = $(this);
-			
-			var o = $.extend({
-				theme: $(this).data('theme'),
-				icon: $(this).data('icon') || !input.parents('[data-type="horizontal"]').length,
-				checkedicon: 'ui-icon-'+input.attr('type')+'-on',
-				uncheckedicon: 'ui-icon-'+input.attr('type')+'-off'
-			},options);
-			
-			// get the associated label using the input's id
-			var label = $('label[for='+input.attr('id')+']').buttonMarkup({iconpos: o.icon ? 'left' : '', theme: o.theme, icon: o.icon ? o.uncheckedicon : null, shadow: false});
+(function ( $ ) {
+$.widget( "mobile.checkboxradio", $.mobile.widget, {
+	options: {
+		theme: undefined,
+		icon: undefined
+	},
+	_create: function(){
+		var input = this.element,
+			label = jQuery("label[for='" + input.attr( "id" ) + "']"),
+			inputtype = input.attr( "type" ),
+			checkedicon = "ui-icon-" + inputtype + "-on",
+			uncheckedicon = "ui-icon-" + inputtype + "-off";
+
+		if ( inputtype != "checkbox" && inputtype != "radio" ) { return; }
 						
-			var icon = label.find('.ui-icon');
+		label
+			.buttonMarkup({
+				iconpos: this.options.icon,
+				theme: this.options.theme,
+				icon: this.options.icon ? uncheckedicon : ( this.element.parents( "[data-type='horizontal']" ).length ? undefined : uncheckedicon ),
+				shadow: false
+			});
+		
+		// wrap the input + label in a div 
+		input
+			.add( label )
+			.wrapAll( "<div class='ui-" + inputtype +"'></div>" );
+		
+		label.bind({
+			mouseover: function() {
+				if( $(this).parent().is('.ui-disabled') ){ return false; }
+			},
 			
-			// wrap the input + label in a div 
-			input
-				.add(label)
-				.wrapAll('<div class="ui-'+ input.attr('type') +'"></div>');
+			mousedown: function() {
+				if( $(this).parent().is('.ui-disabled') ){ return false; }
+				label.data( "state", input.attr( "checked" ) );
+			},
 			
-			// necessary for browsers that don't support the :hover pseudo class on labels
-			label
-			.mousedown(function(){
-				$(this).data('state', input.attr('checked'));
-			})
-			.click(function(){
-				setTimeout(function(){
-					if(input.attr('checked') == $(this).data('state')){
-						input.trigger('click');
+			click: function() {
+				setTimeout(function() {
+					if ( input.attr( "checked" ) === label.data( "state" ) ) {
+						input.trigger( "click" );
 					}
 				}, 1);
-			})
-			.clickable();
-			
-			//bind custom event, trigger it, bind click,focus,blur events					
-			input.bind('updateState', function(){	
-				if(input.is(':checked')){
-					label.addClass('ui-btn-active');
-					icon.addClass(o.checkedicon);
-					icon.removeClass(o.uncheckedicon);
+			}
+		});
+		
+		input
+			.bind({
+
+				click: function() {
+					jQuery( "input[name='" + input.attr( "name" ) + "'][type='" + inputtype + "']" ).checkboxradio( "refresh" );
+				},
+
+				focus: function() { 
+					label.addClass( "ui-focus" ); 
+				},
+
+				blur: function() {
+					label.removeClass( "ui-focus" );
 				}
-				else {
-					label.removeClass('ui-btn-active'); 
-					icon.removeClass(o.checkedicon);
-					icon.addClass(o.uncheckedicon);
-				} 
-				if(!input.is(':checked')){ label.removeClass('ui-focus'); }
-			})
-			.trigger('updateState')
-			.click(function(){ 
-				$('input[name='+ $(this).attr('name') +']').trigger('updateState'); 
-			})
-			.focus(function(){ 
-				label.addClass('ui-focus'); 
-				if(input.is(':checked')){  label.addClass('ui-focus'); } 
-			})
-			.blur(function(){ label.removeClass('ui-focus'); });
+			});
+			
+		this.refresh();
+		
+	},
+	
+	refresh: function( ){
+		var input = this.element,
+			label = jQuery("label[for='" + input.attr( "id" ) + "']"),
+			inputtype = input.attr( "type" ),
+			icon = label.find( ".ui-icon" ),
+			checkedicon = "ui-icon-" + inputtype + "-on",
+			uncheckedicon = "ui-icon-" + inputtype + "-off";
+		
+		if ( input[0].checked ) {
+			label.addClass( "ui-btn-active" );
+			icon.addClass( checkedicon );
+			icon.removeClass( uncheckedicon );
+
+		} else {
+			label.removeClass( "ui-btn-active" ); 
+			icon.removeClass( checkedicon );
+			icon.addClass( uncheckedicon );
 		}
-	});
-};
-})(jQuery);/*
+		
+		if( input.is( ":disabled" ) ){
+			this.disable();
+		}
+		else {
+			this.enable();
+		}
+	},
+	
+	disable: function(){
+		this.element.attr("disabled",true).parent().addClass("ui-disabled");
+	},
+	
+	enable: function(){
+		this.element.attr("disabled",false).parent().removeClass("ui-disabled");
+	}
+});
+})( jQuery );
+/*
 * jQuery Mobile Framework : "customTextInput" plugin for text inputs, textareas (based on code from Filament Group,Inc)
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function($){
@@ -1369,14 +1393,14 @@ jQuery.fn.customTextInput = function(options){
 		if(o.search){
 			focusedEl = input.wrap('<div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-body-c ui-btn-shadow ui-icon-search"></div>').parent();
 			var clearbtn = $('<a href="#" class="ui-input-clear" title="clear text">clear text</a>')
-				.buttonMarkup({icon: 'delete', iconpos: 'notext', corners:true, shadow:true})
 				.click(function(){
 					input.val('').focus();
 					input.trigger('change'); 
 					clearbtn.addClass('ui-input-clear-hidden');
 					return false;
 				})
-				.appendTo(focusedEl);
+				.appendTo(focusedEl)
+				.buttonMarkup({icon: 'delete', iconpos: 'notext', corners:true, shadow:true});
 			
 			function toggleClear(){
 				if(input.val() == ''){
@@ -1402,21 +1426,30 @@ jQuery.fn.customTextInput = function(options){
 				focusedEl.removeClass('ui-focus');
 			});	
 			
-		//autogrow	
-		if(input.is('textarea')){
-			input.keydown(function(){
-				if( input[0].offsetHeight < input[0].scrollHeight ){
-					input.css({height: input[0].scrollHeight + 10 });
-				}
-			})
-		}	
+		//autogrow
+		if ( input.is('textarea') ) {
+			var extraLineHeight = 15,
+				keyupTimeoutBuffer = 100,
+				keyup = function() {
+					var scrollHeight = input[0].scrollHeight,
+						clientHeight = input[0].clientHeight;
+					if ( clientHeight < scrollHeight ) {
+						input.css({ height: (scrollHeight + extraLineHeight) });
+					}
+				},
+				keyupTimeout;
+			input.keyup(function() {
+				clearTimeout( keyupTimeout );
+				keyupTimeout = setTimeout( keyup, keyupTimeoutBuffer );
+			});
+		}
 	});
 };
 })(jQuery);
 /*
 * jQuery Mobile Framework : "customSelect" plugin (based on code from Filament Group,Inc)
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */  
 (function($){
@@ -1431,7 +1464,6 @@ $.fn.customSelect = function(options){
 				
 		//extendable options
 		o = $.extend({
-			closeText: "close",
 			chooseText: label.text(),
 			theme: select.data("theme")
 		}, options),
@@ -1444,7 +1476,6 @@ $.fn.customSelect = function(options){
 		button = $( "<a>", { 
 				"href": "#",
 				"role": "button",
-				"title": "select menu",
 				"id": buttonId,
 				"aria-haspopup": "true",
 				"aria-owns": menuId 
@@ -1458,12 +1489,11 @@ $.fn.customSelect = function(options){
 			}),
 		menuPage = $( "<div data-role='dialog' data-theme='a'>" +
 					"<div data-role='header' data-theme='b'>" +
-						"<a href='#' class='ui-btn-left' data-icon='delete' data-iconpos='notext'>"+ o.closeText +"</a>"+
 						"<div class='ui-title'>" + o.chooseText + "</div>"+
 					"</div>"+
 					"<div data-role='content'></div>"+
 				"</div>" )
-				.appendTo( "body" )
+				.appendTo( $.pageContainer )
 				.page(),	
 		menuPageContent = menuPage.find( ".ui-content" ),			
 		screen = $( "<div>", {
@@ -1510,7 +1540,7 @@ $.fn.customSelect = function(options){
 			if( menuHeight > window.innerHeight - 80 || !$.support.scrollTop ){
 				menuType = "page";		
 				menuPageContent.append( list );
-				$.changePage(thisPage, menuPage, false, false);
+				$.changePage(menuPage, undefined);
 			}
 			else {
 				menuType = "overlay";
@@ -1534,7 +1564,7 @@ $.fn.customSelect = function(options){
 		
 		function hidemenu(){
 			if(menuType == "page"){			
-				$.changePage(menuPage, thisPage, false, true);
+				$.changePage([menuPage,thisPage], undefined, true);
 			}
 			else{
 				screen.addClass( "ui-screen-hidden" );
@@ -1604,12 +1634,6 @@ $.fn.customSelect = function(options){
 				hidemenu();
 				return false;
 			});	
-
-		//menu page back button
-		menuPage.find( ".ui-btn-left" ).click(function(){
-			hidemenu();
-			return false;
-		});
 	
 		//hide on outside click
 		screen.click(function(){
@@ -1624,126 +1648,159 @@ $.fn.customSelect = function(options){
 /*
 * jQuery Mobile Framework : sample plugin for making button-like links
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */ 
-(function($){
+(function( jQuery ) {
 
-$.fn.buttonMarkup = function( options ){
+jQuery.fn.buttonMarkup = function( options ){
 	return this.each( function() {
-		var el = $( this ),
-		    o = $.extend( {}, {
-				theme: (function(){
-					//if data-theme attr is present
-					if(el.is('[data-theme]')){
-						return el.attr('data-theme');
-					}
-					//if not, try to find closest theme container
-					else if( el.parents('body').length ) {
-						var themedParent = el.closest('[class*=ui-bar-],[class*=ui-body-]'); 
-						return themedParent.length ? themedParent.attr('class').match(/ui-(bar|body)-([a-z])/)[2] : 'c';
-					}
-					else{
-						return 'c';
-					}
-				})(),
-				iconpos: el.data('iconpos'),
-				icon: el.data('icon'),
-				inline: el.data('inline')
-			}, $.fn.buttonMarkup.defaults, options),
-			
+		var el = jQuery( this ),
+		    o = jQuery.extend( {}, jQuery.fn.buttonMarkup.defaults, el.data(), options),
+
 			// Classes Defined
-			buttonClass = "ui-btn ui-btn-up-" + o.theme,
+			buttonClass,
 			innerClass = "ui-btn-inner",
 			iconClass;
+
+		if ( attachEvents ) {
+			attachEvents();
+		}
+
+		// if not, try to find closest theme container
+		if ( !o.theme ) {
+			var themedParent = el.closest("[class*='ui-bar-'],[class*='ui-body-']"); 
+			o.theme = themedParent.length ?
+				/ui-(bar|body)-([a-z])/.exec( themedParent.attr("class") )[2] :
+				"c";
+		}
+
+		buttonClass = "ui-btn ui-btn-up-" + o.theme;
 		
-		if( o.inline ){
+		if ( o.inline ) {
 			buttonClass += " ui-btn-inline";
 		}
 		
-		if (o.icon) {
-			o.icon = 'ui-icon-' + o.icon;
+		if ( o.icon ) {
+			o.icon = "ui-icon-" + o.icon;
+			o.iconpos = o.iconpos || "left";
 
 			iconClass = "ui-icon " + o.icon;
 
-			if (o.shadow) { iconClass += " ui-icon-shadow" }
-			o.iconpos = o.iconpos || 'left';
+			if ( o.shadow ) {
+				iconClass += " ui-icon-shadow"
+			}
 		}
-		
-		if (o.iconpos){
+
+		if ( o.iconpos ) {
 			buttonClass += " ui-btn-icon-" + o.iconpos;
 			
-			if( o.iconpos == 'notext' && !el.attr('title') ){
-				el.attr('title', el.text() );
+			if ( o.iconpos == "notext" && !el.attr("title") ) {
+				el.attr( "title", el.text() );
 			}
-			
 		}
 		
-		
-		
-		
-		if (o.corners) { 
+		if ( o.corners ) { 
 			buttonClass += " ui-btn-corner-all";
 			innerClass += " ui-btn-corner-all";
 		}
 		
-		if (o.shadow) {
+		if ( o.shadow ) {
 			buttonClass += " ui-shadow";
 		}
 		
 		el
-			.attr( 'data-theme', o.theme )
-			.addClass( buttonClass )
-			.wrapInner( $( '<' + o.wrapperEls + '>', { className: "ui-btn-text" } ) );
-		
-		if (o.icon) {
-			el.prepend( $( '<span>', { className: iconClass } ) );
-		}
-		
-		el.wrapInner( $('<' + o.wrapperEls + '>', { className: innerClass }) );
-		
-		el.clickable();
+			.attr( "data-theme", o.theme )
+			.addClass( buttonClass );
+
+		var wrap = ("<D class='" + innerClass + "'><D class='ui-btn-text'></D>" +
+			( o.icon ? "<span class='" + iconClass + "'></span>" : "" ) +
+			"</D>").replace(/D/g, o.wrapperEls);
+
+		el.wrapInner( wrap );
 	});		
 };
 
-$.fn.buttonMarkup.defaults = {
+jQuery.fn.buttonMarkup.defaults = {
 	corners: true,
 	shadow: true,
 	iconshadow: true,
-	wrapperEls: 'span'
+	wrapperEls: "span"
+};
+
+var attachEvents = function() {
+	jQuery(".ui-btn").live({
+		mousedown: function() {
+			var theme = jQuery(this).attr( "data-theme" );
+			jQuery(this).removeClass( "ui-btn-up-" + theme ).addClass( "ui-btn-down-" + theme );
+		},
+		mouseup: function() {
+			var theme = jQuery(this).attr( "data-theme" );
+			jQuery(this).removeClass( "ui-btn-down-" + theme ).addClass( "ui-btn-up-" + theme );
+		},
+		"mouseover focus": function() {
+			var theme = jQuery(this).attr( "data-theme" );
+			jQuery(this).removeClass( "ui-btn-up-" + theme ).addClass( "ui-btn-hover-" + theme );
+		},
+		"mouseout blur": function() {
+			var theme = jQuery(this).attr( "data-theme" );
+			jQuery(this).removeClass( "ui-btn-hover-" + theme ).addClass( "ui-btn-up-" + theme );
+		}
+	});
+
+	attachEvents = null;
 };
 
 })(jQuery);
-
 /*
 * jQuery Mobile Framework : sample plugin for making button links that proxy to native input/buttons
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */ 
-(function($){
-$.fn.customButton = function(){
-	return $(this).each(function(){	
-		var button = $(this).addClass('ui-btn-hidden').attr('tabindex','-1');
+(function ( $ ) {
+$.widget( "mobile.button", $.mobile.widget, {
+	options: {},
+	_create: function(){
+		var $el = this.element,
+			type = $el.attr('type');
+			$el
+				.addClass('ui-btn-hidden')
+				.attr('tabindex','-1');
+		
 		//add ARIA role
-		$('<a href="#" role="button">'+ (button.text() || button.val()) +'</a>')
-			.buttonMarkup({
-				theme: button.data('theme'), 
-				icon: button.data('icon'),
-				iconpos: button.data('iconpos'),
-				inline: button.data('inline')
-			})
+		$( "<a>", { 
+				"href": "#",
+				"role": "button",
+				"aria-label": $el.attr( "type" ) 
+			} )
+			.text( $el.text() || $el.val() )
+			.insertBefore( $el )
 			.click(function(){
-				button.click(); 
+				if( type == "submit" ){
+					$(this).closest('form').submit();
+				}
+				else{
+					$el.click(); 
+				}
+
 				return false;
 			})
-			.insertBefore(button);
-	});
-};
-})(jQuery);/*
+			.buttonMarkup({
+				theme: $el.data("theme"), 
+				icon: $el.data("icon"),
+				iconpos: $el.data("iconpos"),
+				inline: $el.data("inline"),
+				corners: $el.data("corners"),
+				shadow: $el.data("shadow"),
+				iconshadow: $el.data("icon-shadow")
+			});
+	}
+});
+})( jQuery );/*
 * jQuery Mobile Framework : "slider" plugin (based on code from Filament Group,Inc)
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */  
 (function($){
@@ -1803,6 +1860,7 @@ $.fn.slider = function(options){
 			else { 
 				control[0].selectedIndex = val;
 			}
+			control.trigger("change");
 		}
 			
 		function slideUpdate(event, val){
@@ -1903,7 +1961,7 @@ $.fn.slider = function(options){
 /*
 * jQuery Mobile Framework : "collapsible" plugin (based on code from Filament Group,Inc)
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */ 
 (function($){
@@ -1921,7 +1979,8 @@ $.fn.collapsible = function(options){
 		//define
 		var collapsibleContain = $(this).addClass('ui-collapsible-contain'),
 			collapsibleHeading = $(this).find(o.heading).eq(0),
-			collapsibleContent = collapsibleContain.wrapInner('<div class="ui-collapsible-content"></div>').find('.ui-collapsible-content');				
+			collapsibleContent = collapsibleContain.wrapInner('<div class="ui-collapsible-content"></div>').find('.ui-collapsible-content'),
+			collapsibleParent = $(this).closest('[data-role=collapsible-set]').addClass('ui-collapsible-set');				
 		
 		//replace collapsibleHeading if it's a legend	
 		if(collapsibleHeading.is('legend')){
@@ -1938,17 +1997,12 @@ $.fn.collapsible = function(options){
 			.wrapInner('<a href="#" class="ui-collapsible-heading-toggle"></a>')
 			.find('a:eq(0)')
 			.buttonMarkup({
-				shadow: true,
+				shadow: !!!collapsibleParent.length,
 				corners:false,
 				iconPos: 'left',
 				icon: 'plus',
 				theme: o.theme
 			})
-			.removeClass('ui-btn-corner-all')
-			.addClass('ui-corner-all')
-			.find('.ui-btn-inner')
-			.removeClass('ui-btn-corner-all')
-			.addClass('ui-corner-all')
 			.find('.ui-icon')
 			.removeAttr('class')
 			.buttonMarkup({
@@ -1958,29 +2012,85 @@ $.fn.collapsible = function(options){
 				icon: 'plus',
 				theme: o.iconTheme
 			});
+			
+			if( !collapsibleParent.length ){
+				collapsibleHeading
+					.find('a:eq(0)')	
+					.addClass('ui-corner-all')
+						.find('.ui-btn-inner')
+						.addClass('ui-corner-all');
+			}
+			else {
+				if( collapsibleContain.data('collapsible-last') ){
+					collapsibleHeading
+						.find('a:eq(0), .ui-btn-inner')	
+							.addClass('ui-corner-bottom');
+				}					
+			}
+			
 		
 		//events
 		collapsibleContain	
-			.bind('collapse', function(){
-				collapsibleHeading
-					.addClass('ui-collapsible-heading-collapsed')
-					.find('.ui-collapsible-heading-status').text(o.expandCueText);
-				
-				collapsibleHeading.find('.ui-icon').removeClass('ui-icon-minus').addClass('ui-icon-plus');	
-				collapsibleContent.addClass('ui-collapsible-content-collapsed').attr('aria-hidden',true);						
+			.bind('collapse', function(event){
+				if( !event.isDefaultPrevented() ){
+					event.preventDefault();
+					collapsibleHeading
+						.addClass('ui-collapsible-heading-collapsed')
+						.find('.ui-collapsible-heading-status').text(o.expandCueText);
+					
+					collapsibleHeading.find('.ui-icon').removeClass('ui-icon-minus').addClass('ui-icon-plus');	
+					collapsibleContent.addClass('ui-collapsible-content-collapsed').attr('aria-hidden',true);
+					
+					if( collapsibleContain.data('collapsible-last') ){
+						collapsibleHeading
+							.find('a:eq(0), .ui-btn-inner')
+							.addClass('ui-corner-bottom');
+					}
+				}						
 				
 			})
-			.bind('expand', function(){
-				collapsibleHeading
-					.removeClass('ui-collapsible-heading-collapsed')
-					.find('.ui-collapsible-heading-status').text(o.collapseCueText);
-				
-				collapsibleHeading.find('.ui-icon').removeClass('ui-icon-plus').addClass('ui-icon-minus');	
-				collapsibleContent.removeClass('ui-collapsible-content-collapsed').attr('aria-hidden',false);
-
+			.bind('expand', function(event){
+				if( !event.isDefaultPrevented() ){
+					event.preventDefault();
+					collapsibleHeading
+						.removeClass('ui-collapsible-heading-collapsed')
+						.find('.ui-collapsible-heading-status').text(o.collapseCueText);
+					
+					collapsibleHeading.find('.ui-icon').removeClass('ui-icon-plus').addClass('ui-icon-minus');	
+					collapsibleContent.removeClass('ui-collapsible-content-collapsed').attr('aria-hidden',false);
+					
+					if( collapsibleContain.data('collapsible-last') ){
+						collapsibleHeading
+							.find('a:eq(0), .ui-btn-inner')
+							.removeClass('ui-corner-bottom');
+					}
+					
+				}
 			})
 			.trigger(o.collapsed ? 'collapse' : 'expand');
 			
+		
+		//close others in a set
+		if( collapsibleParent.length && !collapsibleParent.data("collapsiblebound") ){
+			collapsibleParent
+				.data("collapsiblebound", true)
+				.bind("expand", function( event ){
+					$(this).find( ".ui-collapsible-contain" )
+						.not( $(event.target).closest( ".ui-collapsible-contain" ) )
+						.not( "> .ui-collapsible-contain .ui-collapsible-contain" )
+						.trigger( "collapse" );
+				})
+			var set = collapsibleParent.find('[data-role=collapsible]')
+					
+			set.first()
+				.find('a:eq(0)')	
+				.addClass('ui-corner-top')
+					.find('.ui-btn-inner')
+					.addClass('ui-corner-top');
+					
+			set.last().data('collapsible-last', true)	
+		}
+					
 		collapsibleHeading.click(function(){ 
 			if( collapsibleHeading.is('.ui-collapsible-heading-collapsed') ){
 				collapsibleContain.trigger('expand'); 
@@ -1996,7 +2106,7 @@ $.fn.collapsible = function(options){
 })(jQuery);/*
 * jQuery Mobile Framework : prototype for "controlgroup" plugin - corner-rounding for groups of buttons, checks, radios, etc
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function($){
@@ -2037,7 +2147,7 @@ $.fn.controlgroup = function(options){
 })(jQuery);/*
 * jQuery Mobile Framework : prototype for "fieldcontain" plugin - simple class additions to make form row separators
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
 (function($){
@@ -2050,12 +2160,12 @@ $.fn.fieldcontain = function(options){
 })(jQuery);/*
 * jQuery Mobile Framework : listview plugin
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
-(function( $ ) {
+(function( jQuery ) {
 
-$.widget( "mobile.listview", $.mobile.widget, {
+jQuery.widget( "mobile.listview", jQuery.mobile.widget, {
 	options: {
 		theme: "c",
 		countTheme: "c",
@@ -2067,123 +2177,182 @@ $.widget( "mobile.listview", $.mobile.widget, {
 	},
 	
 	_create: function() {
-		var o = this.options
-			$list = this.element;
-		
-		this._createSubPages();
-		
-		//create listview markup 
-		this.element
+		var $list = this.element,
+			o = this.options;
+
+		// create listview markup 
+		$list
 			.addClass( "ui-listview" )
 			.attr( "role", "listbox" )
-			.find( "li" )
-				.attr("role","option")
-				.attr("tabindex","-1")
-				.focus(function(){
-					$(this).attr("tabindex","0");
-				})
-				.each(function() {
-					var $li = $( this ),
-						role = $li.data( "role" ),
-						dividertheme = $list.data( "dividertheme" ) || o.dividerTheme;
-					if ( $li.is( ":has(img)" ) ) {
-						if ($li.is( ":has(img.ui-li-icon)" )){
-							$li.addClass( "ui-li-has-icon" );
-						}
-						else{
-							$li.addClass( "ui-li-has-thumb" );
-						}
-					
-					}
-					if ( $li.is( ":has(.ui-li-aside)" ) ) {
-						var aside = $li.find('.ui-li-aside');
-						aside.prependTo(aside.parent()); //shift aside to front for css float
-					}
-					$li.addClass( "ui-li" );
-					
-					if( $li.find('a').length ){	
-						$li
-							.buttonMarkup({
-								wrapperEls: "div",
-								shadow: false,
-								corners: false,
-								iconpos: "right",
-								icon: $(this).data("icon") || "arrow-r",
-								theme: o.theme
-							})
-							.find( "a" ).eq( 0 )
-								.addClass( "ui-link-inherit" );
-					}
-					else if( role == "list-divider" ){
-						$li.addClass( "ui-li-divider ui-btn ui-bar-" + dividertheme ).attr( "role", "heading" );
-					}
-					else {
-						$li.addClass( "ui-li-static ui-btn-up-" + o.theme );
-					}	
-				})
-				.eq(0)
-				.attr("tabindex","0");
-				
+		
+		if ( o.inset ) {
+			$list.addClass( "ui-listview-inset ui-corner-all ui-shadow" );
+		}	
+
+		$list.delegate( ".ui-li", "focusin", function() {
+			jQuery( this ).attr( "tabindex", "0" );
+		});
+
+		this._itemApply( $list, $list );
+		
+		this.refresh( true );
 	
 		//keyboard events for menu items
-		this.element.keydown(function(event){
-			//switch logic based on which key was pressed
-			switch(event.keyCode){
-				//up or left arrow keys
+		$list.keydown(function( e ) {
+			var target = jQuery( e.target ),
+				li = target.closest( "li" );
+
+			// switch logic based on which key was pressed
+			switch ( e.keyCode ) {
+				// up or left arrow keys
 				case 38:
-					//if there's a previous option, focus it
-					if( $(event.target).closest('li').prev().length  ){
-						$(event.target).blur().attr("tabindex","-1").closest('li').prev().find('a').eq(0).focus();
+					var prev = li.prev();
+
+					// if there's a previous option, focus it
+					if ( prev.length ) {
+						target
+							.blur()
+							.attr( "tabindex", "-1" );
+
+						prev.find( "a" ).first().focus();
 					}	
-					//prevent native scroll
+
 					return false;
 				break;
-				//down or right arrow keys
+
+				// down or right arrow keys
 				case 40:
+					var next = li.next();
 				
-					//if there's a next option, focus it
-					if( $(event.target).closest('li').next().length ){
-						$(event.target).blur().attr("tabindex","-1").closest('li').next().find('a').eq(0).focus();
+					// if there's a next option, focus it
+					if ( next.length ) {
+						target
+							.blur()
+							.attr( "tabindex", "-1" );
+						
+						next.find( "a" ).first().focus();
 					}	
-					//prevent native scroll
+
 					return false;
 				break;
+
 				case 39:
-					if( $(event.target).closest('li').find('a.ui-li-link-alt').length ){
-						$(event.target).blur().closest('li').find('a.ui-li-link-alt').eq(0).focus();
+					var a = li.find( "a.ui-li-link-alt" );
+
+					if ( a.length ) {
+						target.blur();
+						a.first().focus();
 					}
+
 					return false;
 				break;
+
 				case 37:
-					if( $(event.target).closest('li').find('a.ui-link-inherit').length ){
-						$(event.target).blur().closest('li').find('a.ui-link-inherit').eq(0).focus();
+					var a = li.find( "a.ui-link-inherit" );
+
+					if ( a.length ) {
+						target.blur();
+						a.first().focus();
 					}
+
 					return false;
 				break;
-				//if enter or space is pressed, trigger click
+
+				// if enter or space is pressed, trigger click
 				case 13:
 				case 32:
-					 $(event.target).trigger('click'); //should trigger select
+					 target.trigger( "click" );
+
 					 return false;
 				break;	
 			}
 		});	
 
-		if ( o.inset ) {
-			this.element
-				.addClass( "ui-listview-inset" )
-				.controlgroup({ shadow: true });
+		// tapping the whole LI triggers click on the first link
+		$list.delegate( "li", "click", function(event) {
+			if ( !jQuery( event.target ).closest( "a" ).length ) {
+				jQuery( this ).find( "a" ).first().trigger( "click" );
+				return false;
+			}
+		});
+	},
+
+	_itemApply: function( $list, item ) {
+		// TODO class has to be defined in markup
+		item.find( ".ui-li-count" )
+			.addClass( "ui-btn-up-" + ($list.data( "counttheme" ) || this.options.countTheme) + " ui-btn-corner-all" );
+
+		item.find( "h1, h2, h3, h4, h5, h6" ).addClass( "ui-li-heading" );
+
+		item.find( "p, ul, dl" ).addClass( "ui-li-desc" );
+
+		item.find( "img" ).addClass( "ui-li-thumb" ).each(function() {
+			jQuery( this ).closest( "li" )
+				.addClass( jQuery(this).is( ".ui-li-icon" ) ? "ui-li-has-icon" : "ui-li-has-thumb" );
+		});
+
+		var aside = item.find( ".ui-li-aside" );
+
+		if ( aside.length ) {
+            aside.each(function(i, el) {
+			    $(el).prependTo( $(el).parent() ); //shift aside to front for css float
+            });
 		}
+
+		if ( jQuery.support.cssPseudoElement || !jQuery.nodeName( item[0], "ol" ) ) {
+			return;
+		}
+	},
+	
+	refresh: function( create ) {
+		this._createSubPages();
 		
-		this.element
-			.find( "li" ).each(function() {
-				//for split buttons
-				var $splitBtn = $( this ).find( "a" ).eq( 1 );
-				if( $splitBtn.length ){ $(this).addClass('ui-li-has-alt'); }
-				 $splitBtn.each(function() {
-					var a = $( this );
-					a
-						.attr( "title", $( this ).text() )
+		var o = this.options,
+			$list = this.element,
+			self = this,
+			dividertheme = $list.data( "dividertheme" ) || o.dividerTheme,
+			li = $list.children( "li" ),
+			counter = jQuery.support.cssPseudoElement || !jQuery.nodeName( $list[0], "ol" ) ? 0 : 1;
+
+		if ( counter ) {
+			$list.find( ".ui-li-dec" ).remove();
+		}
+
+		li.attr({ "role": "option", "tabindex": "-1" });
+
+		li.first().attr( "tabindex", "0" );
+
+		li.each(function( pos ) {
+			var item = jQuery( this ),
+				itemClass = "ui-li";
+
+			// If we're creating the element, we update it regardless
+			if ( !create && item.hasClass( "ui-li" ) ) {
+				return;
+			}
+
+			var a = item.find( "a" );
+				
+			if ( a.length ) {	
+				item
+					.buttonMarkup({
+						wrapperEls: "div",
+						shadow: false,
+						corners: false,
+						iconpos: "right",
+						icon: item.data("icon") || "arrow-r",
+						theme: o.theme
+					});
+
+				a.first().addClass( "ui-link-inherit" );
+
+				if ( a.length > 1 ) {
+					itemClass += " ui-li-has-alt";
+
+					var last = a.last();
+					
+					last
+						.attr( "title", last.text() )
 						.addClass( "ui-li-link-alt" )
 						.empty()
 						.buttonMarkup({
@@ -2194,78 +2363,83 @@ $.widget( "mobile.listview", $.mobile.widget, {
 							iconpos: false
 						})
 						.find( ".ui-btn-inner" )
-						.append( $( "<span>" ).buttonMarkup({
-							shadow: true,
-							corners: true,
-							theme: $list.data('splittheme') || a.data('theme') || o.splitTheme,
-							iconpos: "notext",
-							icon: $list.data('spliticon') || a.data('icon') ||  o.splitIcon
-						} ) );
-					
-					//fix corners
-					if ( o.inset ) {
-						var closestLi = $( this ).closest( "li" );
-						if ( closestLi.is( "li:first-child" ) ) {
-							$( this ).addClass( "ui-corner-tr" );
-						} else if ( closestLi.is( "li:last-child" ) ) {
-							$( this ).addClass( "ui-corner-br" );
-						}
-					}
-				});
-			})
-			.find( "img")
-				.addClass( "ui-li-thumb" );
-		
-		if ( o.inset ) {
-			
-			//remove corners before or after dividers
-			var sides = ['top','bottom'];
-			$.each( sides, function( i ){
-				var side = sides[ i ];
-				$list.find( ".ui-corner-" + side ).each(function(){
-					if( $(this).parents('li')[ i == 0 ? 'prev' : 'next' ]( ".ui-li-divider" ).length ){
-						$(this).removeClass( "ui-corner-" + side );
-					}
-				});
-			});			
-		
-			this.element
-				.find( "img" )
-					.filter( "li:first-child img" )
-						.addClass( "ui-corner-tl" )
-					.end()
-					.filter( "li:last-child img" )
-						.addClass( "ui-corner-bl" )
-					.end();
-		}
-		
-		this.element
-			.find( ".ui-li-count" )
-				.addClass( "ui-btn-up-" + ($list.data( "counttheme" ) || o.countTheme) + " ui-btn-corner-all" )
-			.end()
-			.find( ":header" )
-				.addClass( "ui-li-heading" )
-			.end()
-			.find( "p,ul,dl" )
-				.addClass( "ui-li-desc" );
-		
-		this._numberItems();
+							.append( jQuery( "<span>" ).buttonMarkup({
+								shadow: true,
+								corners: true,
+								theme: $list.data( "splittheme" ) || last.data( "theme" ) || o.splitTheme,
+								iconpos: "notext",
+								icon: $list.data( "spliticon" ) || last.data( "icon" ) ||  o.splitIcon
+							} ) );
+				}
+
+			} else if ( item.data( "role" ) === "list-divider" ) {
+				itemClass += " ui-li-divider ui-btn ui-bar-" + dividertheme;
+				item.attr( "role", "heading" );
+
+				//reset counter when a divider heading is encountered
+				if ( counter ) {
+					counter = 1;
+				}
+
+			} else {
+				itemClass += " ui-li-static ui-btn-up-" + o.theme;
+			}
 				
-		//tapping the whole LI triggers ajaxClick on the first link
-		this.element.find( "li:has(a)" ).live( "tap", function(event) {
-			if( !$(event.target).closest('a').length ){
-				$( this ).find( "a:first" ).trigger('click');
-				return false;
+			if ( pos === 0 ) {
+				item.find( "img" ).addClass( "ui-corner-tl" );
+
+				if ( o.inset ) {
+					itemClass += " ui-corner-top";
+
+					item
+						.add( item.find( ".ui-btn-inner" ) )
+						.find( ".ui-li-link-alt" )
+							.addClass( "ui-corner-tr" )
+						.end()
+						.find( ".ui-li-thumb" )
+							.addClass( "ui-corner-tl" );
+				}
+
+			} else if ( pos === li.length - 1 ) {
+				item.find( "img" ).addClass( "ui-corner-bl" );
+
+				if ( o.inset ) {
+					itemClass += " ui-corner-bottom";
+
+					item
+						.add( item.find( ".ui-btn-inner" ) )
+						.find( ".ui-li-link-alt" )
+							.addClass( "ui-corner-br" )
+						.end()
+						.find( ".ui-li-thumb" )
+							.addClass( "ui-corner-bl" );
+				}
+			}
+
+			if ( counter && itemClass.indexOf( "ui-li-divider" ) < 0 ) {
+				item
+					.find( ".ui-link-inherit" ).first()
+					.addClass( "ui-li-jsnumbering" )
+					.prepend( "<span class='ui-li-dec'>" + (counter++) + ". </span>" );
+			}
+
+			item.addClass( itemClass );
+
+			if ( !create ) {
+				self._itemApply( $list, item );
 			}
 		});
 	},
 	
 	_createSubPages: function() {
-		var parentId = this.element.closest( ".ui-page" ).attr( "id" ),
+		var parentList = this.element,
+			parentPage = parentList.closest( ".ui-page" ),
+			parentId = parentPage.attr( "id" ),
 			o = this.options,
-			parentList = this.element;
-		$( this.element.find( "ul,ol" ).get().reverse() ).each(function( i ) {
-			var list = $( this ),
+			persistentFooterID = parentPage.find( "[data-role='footer']" ).data( "id" );
+
+		jQuery( parentList.find( "ul, ol" ).toArray().reverse() ).each(function( i ) {
+			var list = jQuery( this ),
 				parent = list.parent(),
 				title = parent.contents()[ 0 ].nodeValue.split("\n")[0],
 				id = parentId + "&" + $.mobile.subPageUrlKey + "=" + $.mobile.idStringEscape(title + " " + i),
@@ -2274,38 +2448,21 @@ $.widget( "mobile.listview", $.mobile.widget, {
 				newPage = list.wrap( "<div data-role='page'><div data-role='content'></div></div>" )
 							.parent()
 								.before( "<div data-role='header' data-theme='" + o.headerTheme + "'><div class='ui-title'>" + title + "</div></div>" )
+								.after( persistentFooterID ? $( "<div>", { "data-role": "footer", "data-id": persistentFooterID, "class": "ui-footer-duplicate" } ) : "" )
 								.parent()
 									.attr({
 										id: id,
 										"data-theme": theme,
 										"data-count-theme": countTheme
 									})
-									.appendTo( "body" );
-									
+									.appendTo( jQuery.pageContainer );
+				
+				
+				
 				newPage.page();		
 			
 			parent.html( "<a href='#" + id + "'>" + title + "</a>" );
 		}).listview();
-	},
-	
-	// JS fallback for auto-numbering for OL elements
-	_numberItems: function() {
-		if ( $.support.cssPseudoElement || !this.element.is( "ol" ) ) {
-			return;
-		}
-		var counter = 1;
-		this.element.find( ".ui-li-dec" ).remove();
-		this.element.find( "li:visible" ).each(function() {
-			if( $( this ).is( ".ui-li-divider" ) ) {
-				//reset counter when a divider heading is encountered
-				counter = 1;
-			} else { 
-				$( this )
-					.find( ".ui-link-inherit:first" )
-					.addClass( "ui-li-jsnumbering" )
-					.prepend( "<span class='ui-li-dec'>" + (counter++) + ". </span>" );
-			}
-		});
 	}
 });
 
@@ -2314,7 +2471,7 @@ $.widget( "mobile.listview", $.mobile.widget, {
 
 $.mobile.listview.prototype.options.filter = false;
 
-$( ":mobile-listview" ).live( "listviewcreate", function() {
+$( "[data-role='listview']" ).live( "listviewcreate", function() {
 	var list = $( this ),
 		listview = list.data( "listview" );
 	if ( !listview.options.filter ) {
@@ -2336,7 +2493,7 @@ $( ":mobile-listview" ).live( "listviewcreate", function() {
 					}).hide();
 				}
 				
-				listview._numberItems();
+				//listview._numberItems();
 			})
 			.appendTo( wrapper )
 			.customTextInput();
@@ -2348,70 +2505,79 @@ $( ":mobile-listview" ).live( "listviewcreate", function() {
 /*
 * jQuery Mobile Framework : prototype for "dialog" plugin.
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
-(function($){
-$.fn.dialog = function(options){
-	return $(this).each(function(){		
-		$(this)
+(function ( $ ) {
+$.widget( "mobile.dialog", $.mobile.widget, {
+	options: {},
+	_create: function(){	
+		var $el = this.element,
+			$closeBtn = $('<a href="#" data-icon="delete" data-iconpos="notext">Close</a>')
+							.click(function(){
+								$.changePage([$el, $.activePage], undefined, true );
+								return false;
+							});
+	
+		this.element
+			.bind("pageshow",function(){
+				return false;
+			})
 			//add ARIA role
 			.attr("role","dialog")
 			.addClass('ui-page ui-dialog ui-body-a')
 			.find('[data-role=header]')
 			.addClass('ui-corner-top ui-overlay-shadow')
+				.prepend( $closeBtn )
 			.end()
 			.find('.ui-content,[data-role=footer]')
 				.last()
 				.addClass('ui-corner-bottom ui-overlay-shadow');
-	});
-};
-})(jQuery);/*
+
+	}
+});
+})( jQuery );/*
 * jQuery Mobile Framework : prototype for "navbar" plugin
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */
-(function($){
-$.fn.navbar = function(settings){
-	return $(this).each(function(){ 
-
-		var o = $.extend({
-			iconpos: $(this).data('iconpos') || 'top',
-			transition: $(this).data('transition') || 'slideup'
-		},settings);
-		
-		//wrap it with footer classes
-		var $navbar = $(this).addClass('ui-navbar'),
-			numTabs = $navbar.find('li').length,
-			moreIcon = $navbar.find('a[data-icon]').length ? 'arrow-r' : null;
-			
-			if( moreIcon == null ){ 
-				o.iconpos = null; 
-				$navbar.add( $navbar.children(0) ).addClass('ui-navbar-noicons');
-			}
-			
-			$navbar
-				//add ARIA role
-				.attr("role","navigation")
-				.find('ul')
-				.grid({grid: numTabs > 2 ? 'b' : 'a'});		
+(function ( $ ) {
+$.widget( "mobile.navbar", $.mobile.widget, {
+	options: {
+		iconpos: 'top'
+	},
+	_create: function(){
+		var $navbar = this.element,
+			$navbtns = $navbar.find("a"),
+			iconpos = $navbtns.filter('icon').length ? this.options.iconpos : undefined;
 		
 		$navbar
-			.find('ul a')
-			.buttonMarkup({corners: false, shadow:false, iconpos: o.iconpos})
-			.bind('tap',function(){
-				//NOTE: we'll need to find a way to highlight an active tab at load as well
-				$navbar.find('.ui-btn-active').removeClass('ui-btn-active');
-				$(this).addClass('ui-btn-active');
+			.addClass('ui-navbar')
+			.attr("role","navigation")
+			.find("ul")
+				.grid({grid: $navbtns.length > 2 ? "b" : "a"});		
+		
+		if( !iconpos ){ 
+			$navbar.addClass("ui-navbar-noicons");
+		}
+		
+		$navbtns
+			.buttonMarkup({
+				corners:	false, 
+				shadow:		false, 
+				iconpos:	iconpos
 			});
-
-	});
-};	
-})(jQuery);/*
+		
+		$navbar.delegate("a", "click",function(event){
+			$navbtns.removeClass("ui-btn-active");
+		});	
+	}
+});
+})( jQuery );/*
 * jQuery Mobile Framework : plugin for creating grids
 * Copyright (c) jQuery Project
-* Dual licensed under the MIT (MIT-MIT-LICENSE.txt) and GPL (GPL-MIT-LICENSE.txt) licenses.
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */ 
 (function($){
@@ -2444,7 +2610,7 @@ $.fn.grid = function(options){
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  */
-(function( jQuery, window, undefined ) {
+(function( $, window, undefined ) {
 	//some critical feature tests should be placed here.
 	//if we're missing support for any of these, then we're a C-grade browser
 	//to-do: see if we need more qualifiers here.
@@ -2480,10 +2646,14 @@ $.fn.grid = function(options){
 		$head = jQuery('head'),
 		$body,
 		$loader = jQuery('<div class="ui-loader ui-body-a ui-corner-all"><span class="ui-icon ui-icon-loading spin"></span><h1>loading</h1></div>'),
-		startPage,
+		$startPage,
+		$pageContainer,
 		startPageId = 'ui-page-start',
 		activePageClass = 'ui-page-active',
+		activeBtnClass = 'ui-btn-active',
+		activeClickedLink = null,
 		pageTransition,
+		forceBack,
 		transitions = 'slide slideup slidedown pop flip fade',
 		transitionDuration = 350,
 		backBtnText = "Back",
@@ -2492,14 +2662,18 @@ $.fn.grid = function(options){
 			transition: "slide"
 		} ],
 		focusable = "[tabindex],a,button:visible,select:visible,input",
-		nextPageRole = null;
-	
+		nextPageRole = null,
+		hashListener = true,
+		unHashedSelectors = '[data-rel=dialog]',
+		baseUrl = getPathDir( location.protocol + '//' + location.host + location.pathname ),
+		resolutionBreakpoints = [320,480,768,1024];
+
 	// TODO: don't expose (temporary during code reorg)
 	$.mobile.urlStack = urlStack;
 	
 	//consistent string escaping for urls and IDs
 	function idStringEscape(str){
-		return str.replace(/[^a-zA-Z0-9]/, '-');
+		return str.replace(/[^a-zA-Z0-9]/g, '-');
 	}
 	
 	$.mobile.idStringEscape = idStringEscape;
@@ -2516,60 +2690,89 @@ $.fn.grid = function(options){
 		}, 150 );
 	}
 	
-	function getBaseURL(){
-	    var newBaseURL = location.hash.replace(/#/,'').split('/');
-		if(newBaseURL.length && /[.|&]/.test(newBaseURL[newBaseURL.length-1]) ){
-			newBaseURL.pop();	
-		}
-		newBaseURL = newBaseURL.join('/');
-		if(newBaseURL !== "" && newBaseURL.charAt(newBaseURL.length-1) !== '/'){  newBaseURL += '/'; }
-		return newBaseURL;
+	function getPathDir( path ){
+		var newPath = path.replace(/#/,'').split('/');
+		newPath.pop();
+		return newPath.join('/') + (newPath.length ? '/' : '');
 	}
 	
-	function setBaseURL(){
+	function getBaseURL( nonHashPath ){
+		return getPathDir( nonHashPath || location.hash );
+	}
+	
+	var setBaseURL = !$.support.dynamicBaseTag ? $.noop : function( nonHashPath ){
 		//set base url for new page assets
-		$('#ui-base').attr('href', getBaseURL());
+		$('#ui-base').attr('href', baseUrl + getBaseURL( nonHashPath ));
 	}
 	
-	function resetBaseURL(){
-		$('#ui-base').attr('href', location.pathname);
+	var resetBaseURL = !$.support.dynamicBaseTag ? $.noop : function(){
+		$('#ui-base').attr('href', baseUrl);
 	}
 	
-	
-	// send a link through hash tracking
-	jQuery.fn.ajaxClick = function() {
-		var href = jQuery( this ).attr( "href" );
-		pageTransition = jQuery( this ).data( "transition" ) || "slide";
-		nextPageRole = jQuery( this ).attr( "data-rel" );
-		  	
-		//find new base for url building
-		var newBaseURL = getBaseURL();
+	//for form submission
+	$('form').live('submit', function(){
+		var type = $(this).attr("method"),
+			url = $(this).attr( "action" ).replace( location.protocol + "//" + location.host, "");	
 		
-		//if href is absolute but local, or a local ID, no base needed
-		if( /^\//.test(href) || (/https?:\/\//.test(href) && !!(href).match(location.hostname)) || /^#/.test(href) ){
-			newBaseURL = '';
-		}
+		//external submits use regular HTTP
+		if( /^(:?\w+:)/.test( url ) ){
+			return;
+		}	
 		
-		// set href to relative path using baseURL and
-		if( !/https?:\/\//.test(href) ){
-			href = newBaseURL + href;
+		//if it's a relative href, prefix href with base url
+		if( url.indexOf('/') && url.indexOf('#') !== 0 ){
+			url = getBaseURL() + url;
 		}
-						
-		//if it's a non-local-anchor and Ajax is not supported, or if it's an external link, go to page without ajax
-		if ( ( /^[^#]/.test(href) && !jQuery.support.ajax ) || ( /https?:\/\//.test(href) && !!!href.match(location.hostname) ) ) {
-			location = href
-		}
-		else{
-			// let the hashchange event handler take care of requesting the page via ajax
-			location.hash = href;
-		}
-		return this;
-	};
-	
-	// ajaxify all navigable links
-	jQuery( "a:not([href=#]):not([target]):not([rel=external])" ).live( "click", function(event) {
-		jQuery( this ).ajaxClick();
+			
+		$.changePage({
+				url: url,
+				type: type,
+				data: $(this).serialize()
+			},
+			undefined,
+			undefined,
+			true
+		);
 		return false;
+	});	
+	
+	//click routing - direct to HTTP or Ajax, accordingly
+	jQuery( "a" ).live( "click", function(event) {
+		var $this = $(this),
+			//get href, remove same-domain protocol and host
+			href = $this.attr( "href" ).replace( location.protocol + "//" + location.host, ""),
+			//if it still starts with a protocol, it's external, or could be :mailto, etc
+			external = /^(:?\w+:)/.test( href ) || $this.is( "[target],[rel=external]" );
+
+		if( href === '#' ){
+			//for links created purely for interaction - ignore
+			return false;
+		}
+		
+		activeClickedLink = $this.closest( ".ui-btn" ).addClass( activeBtnClass );
+		
+		if( external ){
+			//deliberately redirect, in case click was triggered
+			location.href = href;
+		}
+		else {	
+			//use ajax
+			var pageTransition = $this.data( "transition" ) || "slide",
+				forceBack = $this.data( "back" ) || undefined,
+				changeHashOnSuccess = !$this.is(unHashedSelectors);
+				
+			nextPageRole = $this.attr( "data-rel" );	
+	
+			//if it's a relative href, prefix href with base url
+			if( href.indexOf('/') && href.indexOf('#') !== 0 ){
+				href = getBaseURL() + href;
+			}
+			
+			href.replace(/^#/,'');
+			
+			changePage(href, pageTransition, forceBack, changeHashOnSuccess);			
+		}
+		event.preventDefault();
 	});
 	
 	// turn on/off page loading message.
@@ -2577,7 +2780,7 @@ $.fn.grid = function(options){
 		if ( done ) {
 			$html.removeClass( "ui-loading" );
 		} else {
-			$loader.appendTo('body').css({top: $(window).scrollTop() + 75});
+			$loader.appendTo($pageContainer).css({top: $(window).scrollTop() + 75});
 			$html.addClass( "ui-loading" );
 		}
 	};
@@ -2593,45 +2796,217 @@ $.fn.grid = function(options){
 		}
 	}
 	
-	// transition between pages - based on transitions from jQtouch
-	function changePage( from, to, transition, back ) {
-		jQuery( document.activeElement ).blur();
+	//function for setting role of next page
+	function setPageRole( newPage ) {
+		if ( nextPageRole ) {
+			newPage.attr( "data-role", nextPageRole );
+			nextPageRole = undefined;
+		}
+	}
+	
+	//wrap page and transfer data-attrs if it has an ID
+	function wrapNewPage( newPage ){
+		var copyAttrs = ['data-role', 'data-theme', 'data-fullscreen'], //TODO: more page-level attrs?
+			wrapper = newPage.wrap( "<div>" ).parent();
+			
+		$.each(copyAttrs,function(i){
+			if( newPage.attr( copyAttrs[ i ] ) ){
+				wrapper.attr( copyAttrs[ i ], newPage.attr( copyAttrs[ i ] ) );
+				newPage.removeAttr( copyAttrs[ i ] );
+			}
+		});
+		return wrapper;
+	}
+	
+	//remove active classes after page transition or error
+	function removeActiveLinkClass(){
+		if(activeClickedLink && !activeClickedLink.closest( '.ui-page-active' ).length ){
+			activeClickedLink.removeClass( activeBtnClass );
+		}
+		activeClickedLink = null;
+	}
+	
+
+	//for getting or creating a new page 
+	function changePage( to, transition, back, changeHash){
+
+		//from is always the currently viewed page
+		var toIsArray = $.type(to) === "array",
+			from = toIsArray ? to[0] : $.activePage,
+			to = toIsArray ? to[1] : to,
+			url = fileUrl = $.type(to) === "string" ? to.replace( /^#/, "" ) : null,
+			data = undefined,
+			type = 'get',
+			back = (back !== undefined) ? back : ( urlStack.length > 1 && urlStack[ urlStack.length - 2 ].url === url ),
+			transition = (transition !== undefined) ? transition :  ( pageTransition || "slide" );
 		
-		
-		//trigger before show/hide events
-		from.trigger("beforepagehide", {nextPage: to});
-		to.trigger("beforepageshow", {prevPage: from});
-		
-		function loadComplete(){
-			pageLoading( true );
-			//trigger show/hide events, allow preventing focus change through return false		
-			if( from.trigger("pagehide", {nextPage: to}) !== false && to.trigger("pageshow", {prevPage: from}) !== false ){
-				reFocus( to );
+		if( $.type(to) === "object" ){
+			url = to.url,
+			data = to.data,
+			type = to.type;
+			//make get requests bookmarkable
+			if( data && type == 'get' ){
+				url += "?" + data;
+				data = undefined;
 			}
 		}
 		
-		if(transition){		
-			// animate in / out
-			from.addClass( transition + " out " + ( back ? "reverse" : "" ) );
-			to.addClass( activePageClass + " " + transition +
-				" in " + ( back ? "reverse" : "" ) );
+		//unset pageTransition, forceBack	
+		pageTransition = undefined;
+		forceBack = undefined;
 			
-			// callback - remove classes, etc
-			to.animationComplete(function() {
-				from.add( to ).removeClass(" out in reverse " + transitions );
+		//reset base to pathname for new request
+		resetBaseURL();
+			
+		// if the new href is the same as the previous one
+		if ( back ) {
+			transition = urlStack.pop().transition;
+		} else {
+			urlStack.push({ url: url, transition: transition });
+		}
+		
+		//function for transitioning between two existing pages
+		function transitionPages() {
+				
+			//kill the keyboard
+			jQuery( document.activeElement ).blur();
+			
+			//trigger before show/hide events
+			from.data("page")._trigger("beforehide", {nextPage: to});
+			to.data("page")._trigger("beforeshow", {prevPage: from});
+			
+			function loadComplete(){
+				pageLoading( true );
+				//trigger show/hide events, allow preventing focus change through return false		
+				if( from.data("page")._trigger("hide", null, {nextPage: to}) !== false && to.data("page")._trigger("show", null, {prevPage: from}) !== false ){
+					$.activePage = to;
+				}
+				reFocus( to );
+				if( changeHash && url ){
+					hashListener = false;
+					location.hash = url;
+					setTimeout(function(){
+						hashListener = true;
+					}, 500);
+				}
+				removeActiveLinkClass();
+			}
+			
+			if(transition){		
+				$pageContainer.addClass('ui-mobile-viewport-transitioning');
+				// animate in / out
+				from.addClass( transition + " out " + ( back ? "reverse" : "" ) );
+				to.addClass( activePageClass + " " + transition +
+					" in " + ( back ? "reverse" : "" ) );
+				
+				// callback - remove classes, etc
+				to.animationComplete(function() {
+					from.add( to ).removeClass(" out in reverse " + transitions );
+					from.removeClass( activePageClass );
+					loadComplete();
+					$pageContainer.removeClass('ui-mobile-viewport-transitioning');
+				});
+			}
+			else{
 				from.removeClass( activePageClass );
+				to.addClass( activePageClass );
 				loadComplete();
+			}
+		};
+		
+		//shared page enhancements
+		function enhancePage(){
+			setPageRole( to );
+			to.page();
+		}
+		
+		//get the actual file in a jq-mobile nested url
+		function getFileURL( url ){
+			return url.match( '&' + jQuery.mobile.subPageUrlKey ) ? url.split( '&' + jQuery.mobile.subPageUrlKey )[0] : url;
+		}
+
+		//if url is a string
+		if( url ){
+			to = jQuery( "[id='" + url + "']" ),
+			fileUrl = getFileURL(url);
+		}
+		else{ //find base url of element, if avail
+			var toID = to.attr('id'),
+				toIDfileurl = getFileURL(toID);
+				
+			if(toID != toIDfileurl){
+				fileUrl = toIDfileurl;
+			}	
+		}
+		
+		// find the "to" page, either locally existing in the dom or by creating it through ajax
+		if ( to.length ) {
+			if( fileUrl ){
+				setBaseURL(fileUrl);
+			}	
+			enhancePage();
+			transitionPages();
+		} else { 
+			
+			pageLoading();
+
+			$.ajax({
+				url: fileUrl,
+				type: type,
+				data: data,
+				success: function( html ) {
+					setBaseURL(fileUrl);
+					var all = jQuery("<div></div>");
+					//workaround to allow scripts to execute when included in page divs
+					all.get(0).innerHTML = html;
+					to = all.find('[data-role="page"]');
+					
+					//rewrite src and href attrs to use a base url
+					if( !$.support.dynamicBaseTag ){
+						var baseUrl = getBaseURL(fileUrl);
+						to.find('[src],[href]').each(function(){
+							var thisAttr = $(this).is('[href]') ? 'href' : 'src',
+								thisUrl = $(this).attr(thisAttr);
+							
+							//if full path exists and is same, chop it - helps IE out
+							thisUrl.replace( location.protocol + '//' + location.host + location.pathname, '' );
+								
+							if( !/^(\w+:|#|\/)/.test(thisUrl) ){
+								$(this).attr(thisAttr, baseUrl + thisUrl);
+							}
+						});
+					}
+					
+					//preserve ID on a retrieved page
+					if ( to.attr('id') ) {
+						to = wrapNewPage( to );
+					}
+
+					to
+						.attr( "id", fileUrl )
+						.appendTo( $pageContainer );
+						
+					enhancePage();
+					transitionPages();
+				},
+				error: function() {
+					pageLoading( true );
+					removeActiveLinkClass();
+					jQuery("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h1>Error Loading Page</h1></div>")
+						.css({ "display": "block", "opacity": 0.96, "top": $(window).scrollTop() + 100 })
+						.appendTo( $pageContainer )
+						.delay( 800 )
+						.fadeOut( 400, function(){
+							$(this).remove();
+						});
+				}
 			});
 		}
-		else{
-			from.removeClass( activePageClass );
-			to.addClass( activePageClass );
-			loadComplete();
-		}
+
 	};
+
 	
 	jQuery(function() {
-		var preventLoad = false;
 
 		$body = jQuery( "body" );
 		pageLoading();
@@ -2639,138 +3014,91 @@ $.fn.grid = function(options){
 		// needs to be bound at domready (for IE6)
 		// find or load content, make it active
 		$window.bind( "hashchange", function(e, extras) {
-			if ( preventLoad ) {
-				preventLoad = false;
-				return;
+			if( !hashListener ){ return; } 
+			var to = location.hash,
+				transition = (extras && extras.manuallyTriggered) ? false : undefined;
+				
+			// either we've backed up to the root page url
+			// or it's the first page load with no hash present
+			//there's a hash and it wasn't manually triggered
+			// > probably a new page, "back" will be figured out by changePage
+			if ( to ){
+				changePage( to, transition);
 			}
-
-			var url = location.hash.replace( /^#/, "" ),
-				stackLength = urlStack.length,
-				// pageTransition only exists if the user clicked a link
-				back = !pageTransition && stackLength > 1 &&
-					urlStack[ stackLength - 2 ].url === url,
-				transition = (extras && extras.manuallyTriggered) ? false : pageTransition || "slide",
-				fileUrl = url;
-			pageTransition = undefined;
-			
-			//reset base to pathname for new request
-			resetBaseURL();
-			
-			// if the new href is the same as the previous one
-			if ( back ) {
-				transition = urlStack.pop().transition;
-			} else {
-				urlStack.push({ url: url, transition: transition });
+			//there's no hash, the active page is not the start page, and it's not manually triggered hashchange
+			// > probably backed out to the first page visited
+			else if( $.activePage.length && !$startPage.is( $.activePage ) && !(extras && extras.manuallyTriggered) ) {
+				changePage( $startPage, transition, true );
 			}
-			
-			//function for setting role of next page
-			function setPageRole( newPage ) {
-				if ( nextPageRole ) {
-					newPage.attr( "data-role", nextPageRole );
-					nextPageRole = undefined;
+			else{
+				$startPage.trigger("pagebeforeshow", {prevPage: $('')});
+				$startPage.addClass( activePageClass );
+				pageLoading( true );
+				
+				if( $startPage.trigger("pageshow", {prevPage: $('')}) !== false ){
+					reFocus($startPage);
 				}
 			}
-			
-			//wrap page and transfer data-attrs if it has an ID
-			function wrapNewPage( newPage ){
-				var copyAttrs = ['data-role', 'data-theme', 'data-fullscreen'], //TODO: more page-level attrs?
-					wrapper = newPage.wrap( "<div>" ).parent();
-					
-				$.each(copyAttrs,function(i){
-					if( newPage.attr( copyAttrs[ i ] ) ){
-						wrapper.attr( copyAttrs[ i ], newPage.attr( copyAttrs[ i ] ) );
-						newPage.removeAttr( copyAttrs[ i ] );
-					}
-				});
-				return wrapper;
-			}
-			
-			if ( url ) {
-				var active = jQuery( ".ui-page-active" );
 
-				// see if content is present already
-				var localDiv = jQuery( "[id='" + url + "']" );
-				if ( localDiv.length ) {
-					if ( localDiv.is( "[data-role]" ) ) {
-						setPageRole( localDiv );
-					}
-					setBaseURL();
-					localDiv.page();
-					changePage( active, localDiv, transition, back );
-					
-				} else { //ajax it in
-					pageLoading();
-
-					if ( url.match( '&' + jQuery.mobile.subPageUrlKey ) ) {
-						fileUrl = url.split( '&' + jQuery.mobile.subPageUrlKey )[0];
-					}
-
-					$.ajax({
-						url: fileUrl,
-						success: function( html ) {
-							var page = jQuery("<div>" + html + "</div>").find('[data-role="page"]');
-
-							if ( page.attr('id') ) {
-								page = wrapNewPage( page );
-							}
-
-							page
-								.attr( "id", fileUrl )
-								.appendTo( "body" );
-
-							setPageRole( page );
-							page.page();
-							changePage( active, page, transition, back );
-						},
-						error: function() {
-							pageLoading( true );
-
-							jQuery("<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h1>Error Loading Page</h1></div>")
-								.css({ "display": "block", "opacity": 0.96 })
-								.appendTo("body")
-								.delay( 800 )
-								.fadeOut( 400, function(){
-									$(this).remove();
-								});
-
-							preventLoad = true;
-							history.back();
-						}
-					});
-						
-					setBaseURL();
-				}
-			} else {
-				// either we've backed up to the root page url
-				// or it's the first page load with no hash present
-				var currentPage = jQuery( ".ui-page-active" );
-				if ( currentPage.length && !startPage.is( ".ui-page-active" ) ) {
-					changePage( currentPage, startPage, transition, back );
-				} else {
-					startPage.trigger("beforepageshow", {prevPage: $('')});
-					startPage.addClass( activePageClass );
-					pageLoading( true );
-					
-					if( startPage.trigger("pageshow", {prevPage: $('')}) !== false ){
-						reFocus(startPage);
-					}
-				}
-			}
 		});
 	});	
+	
+	//add mobile, loading classes to doc
+	$html.addClass('ui-mobile');
 	
 	//add orientation class on flip/resize.
 	$window.bind( "orientationchange", function( event, data ) {
 		$html.removeClass( "portrait landscape" ).addClass( data.orientation );
 	});
 	
-	//add mobile, loading classes to doc
-	$html.addClass('ui-mobile');
+	//add breakpoint classes for faux media-q support
+	function detectResolutionBreakpoints(){
+		var currWidth = $window.width(),
+			minPrefix = "min-width-",
+			maxPrefix = "max-width-",
+			minBreakpoints = [],
+			maxBreakpoints = [],
+			unit = "px",
+			breakpointClasses;
+			
+		$html.removeClass( minPrefix + resolutionBreakpoints.join(unit + " " + minPrefix) + unit + " " + 
+			maxPrefix + resolutionBreakpoints.join( unit + " " + maxPrefix) + unit );
+					
+		$.each(resolutionBreakpoints,function( i ){
+			if( currWidth >= resolutionBreakpoints[ i ] ){
+				minBreakpoints.push( minPrefix + resolutionBreakpoints[ i ] + unit );
+			}
+			if( currWidth <= resolutionBreakpoints[ i ] ){
+				maxBreakpoints.push( maxPrefix + resolutionBreakpoints[ i ] + unit );
+			}
+		});
+		
+		if( minBreakpoints.length ){ breakpointClasses = minBreakpoints.join(" "); }
+		if( maxBreakpoints.length ){ breakpointClasses += " " +  maxBreakpoints.join(" "); }
+		
+		$html.addClass( breakpointClasses );	
+	};
 	
+	//add breakpoints now and on oc/resize events
+	$window.bind( "orientationchange resize", detectResolutionBreakpoints);
+	detectResolutionBreakpoints();
+	
+	//common breakpoints, overrideable, changeable
+	$.mobile.addResolutionBreakpoints = function( newbps ){
+		if( $.type( newbps ) === "array" ){
+			resolutionBreakpoints = resolutionBreakpoints.concat( newbps );
+		}
+		else {
+			resolutionBreakpoints.push( newbps );
+		}
+		detectResolutionBreakpoints();
+	}
+		
 	//insert mobile meta - these will need to be configurable somehow.
+	var headPrepends = 
 	$head.prepend(
 		'<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1" />' +
-		'<base  href="" id="ui-base" />'
+		($.support.dynamicBaseTag ? '<base  href="" id="ui-base" />' : '')
 	);
     
     //set base href to pathname
@@ -2796,17 +3124,24 @@ $.fn.grid = function(options){
 
 	//dom-ready
 	jQuery(function(){
-		
+		var $pages = jQuery("[data-role='page']");
 		//set up active page
-		startPage = jQuery('[data-role="page"]:first');
+		$startPage = $.activePage = $pages.first();
+		
+		//set page container
+		$pageContainer = $startPage.parent().addClass('ui-mobile-viewport');
+		
+		jQuery.extend({
+			pageContainer: $pageContainer
+		});
 		
 		//make sure it has an ID - for finding it later
-		if(!startPage.attr('id')){ 
-			startPage.attr('id', startPageId); 
+		if(!$startPage.attr('id')){ 
+			$startPage.attr('id', startPageId); 
 		}
 		
 		//initialize all pages present
-		jQuery('[data-role="page"]').page();
+		$pages.page();
 		
 		//trigger a new hashchange, hash or not
 		$window.trigger( "hashchange", { manuallyTriggered: true } );
