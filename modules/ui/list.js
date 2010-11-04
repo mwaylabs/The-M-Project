@@ -27,6 +27,8 @@ M.ListView = M.View.extend({
         document.write(html);
     },
 
+    items: null,
+
     renderChildViews: function() {
 
     },
@@ -50,7 +52,7 @@ M.ListView = M.View.extend({
         that = this;
         var content = eval(this.contentBinding);
         templateView = eval(that.templateView);
-        _.each(content[templateView.items], function(item) {
+        _.each(content[this.items], function(item) {
             var obj = templateView.design({});
             var childViewsArray = obj.childViews[0].split(' ');
             for(var i in childViewsArray) {
