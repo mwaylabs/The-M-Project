@@ -37,7 +37,10 @@
 
                         childViews: ['header content footer'],
 
-                        onLoad: 'Demo.LoginController.onLoad',
+                        onLoad: {
+                            target: 'Demo.LoginController',
+                            action: 'onLoad'
+                        },
 
                         header: M.ToolbarView.design({
                             value: 'Page 1',
@@ -74,7 +77,11 @@
 
                 page2: M.PageView.design({
                     childViews: ['header content footer'],
-                    onLoad: 'Demo.TwitterController.performSearch',
+                    
+                    onLoad: {
+                        target: 'Demo.TwitterController',
+                        action: 'performSearch'
+                    },
 
                     header: M.ToolbarView.design({
                         value: 'Page 2',
@@ -85,8 +92,38 @@
                         childViews: ['list1'],
 
                         list1: M.ListView.design({
+                            contentBinding: 'Demo.TwitterController.users',
+                            templateView: 'Demo.TwitterUserView',
+                            removeItemsOnUpdate: NO
+                        })
+                    }),
+
+                    footer: M.ToolbarView.design({
+                        value: 'Footer',
+                        anchorLocation: M.BOTTOM
+                    })
+                }),
+
+                page3: M.PageView.design({
+                    childViews: ['header content footer'],
+
+                    onLoad: {
+                        target: 'Demo.TwitterController',
+                        action: 'performSearchForUser'
+                    },
+
+                    header: M.ToolbarView.design({
+                        contentBinding: 'Demo.TwitterController.selectedUser',
+                        anchorLocation : M.TOP
+                    }),
+
+                    content: M.ScrollView.design({
+                        childViews: ['list1'],
+
+                        list1: M.ListView.design({
                             contentBinding: 'Demo.TwitterController.content',
-                            templateView: 'Demo.TwitterItemView'
+                            templateView: 'Demo.TwitterItemView',
+                            removeItemsOnUpdate: YES
                         })
                     }),
 

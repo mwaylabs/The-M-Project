@@ -10,22 +10,43 @@
 
 Demo.TwitterController = M.Controller.extend({
 
+    users: null,
+
+    selectedUser: null,
+
     content: null,
 
-    buttonValue: null,
+    performSearch: function(isFirstLoad) {
+        if(isFirstLoad) {
+            M.Request.init({
+                url: 'http://search.twitter.com/search.json?q=vittel',
+                isJSON: YES,
+                beforeSend: function(req) {
+                    //...
+                },
+                onSuccess: function(data){
+                    Demo.TwitterController.set('users', data);
+                }
+            }).send();
+        }
+    },
 
-    performSearch: function(){
+    performSearchForUser: function() {
         M.Request.init({
-            url: 'http://search.twitter.com/search.json?q=vittel',
+            url: 'http://search.twitter.com/search.json?q=from%3Aalexiskold',
             isJSON: YES,
             beforeSend: function(req) {
                 //...
             },
             onSuccess: function(data){
                 Demo.TwitterController.set('content', data);
-                Demo.TwitterController.set('buttonValue', 'CLICK ME');
             }
         }).send();
+    },
+
+    listItemClicked: function(id) {
+        this.set('selectedUser', Demo.app.viewManager.getViewById(id).label1.value);
+        this.switchToView(Demo.app.page3);
     }
 
 });
