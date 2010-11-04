@@ -53,7 +53,7 @@ M.ToolbarView = M.View.extend({
     },
 
     renderUpdate: function() {
-        
+        $('#' + this.id + ' h1').html(this.value);
     }
     
 });
