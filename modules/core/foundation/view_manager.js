@@ -43,6 +43,12 @@ M.ViewManager = M.Object.extend({
 
     getIdByView: function(view) {
         return view.id;
+    },
+
+    dumpViewList: function() {
+      _.each(this.viewList, function(view){
+        console.log(view.id + ': '+ view.type);
+      });  
     }
 
 });

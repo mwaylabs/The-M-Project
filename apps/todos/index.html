@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todos - A simple sample app</title>
+    <script src="../../modules/jquery/jquery-1.4.3.min.js"></script>
+    <script src="../../modules/jquery_mobile/jquery.mobile-1.0a1.min.js"></script>
+    <script src="../../modules/underscore/underscore-min.js"></script>    
+    <script src="../../modules/core/foundation/m.js"></script>
+    <script src="../../modules/core/foundation/object.js"></script>
+    <script src="../../modules/core/foundation/request.js"></script>
+    <script src="../../modules/core/utility/logger.js"></script>
+    <script src="../../modules/core/foundation/event_dispatcher.js"></script>
+    <script src="../../modules/core/foundation/observable.js"></script>
+    <script src="../../modules/core/foundation/controller.js"></script>
+    <script src="../../modules/core/datastore/data_provider.js"></script>
+    <script src="../../modules/core/foundation/model.js"></script>
+    <script src="../../modules/core/foundation/view.js"></script>
+    <script src="../../modules/core/foundation/view_manager.js"></script>
+    <script src="../../modules/core/foundation/model_manager.js"></script>
+    <script src="../../modules/core/foundation/application.js"></script>
+
+    <script src="../../modules/ui/page.js"></script>
+    <script src="../../modules/ui/toolbar.js"></script>
+    <script src="../../modules/ui/scroll.js"></script>
+    <script src="../../modules/ui/label.js"></script>
+    <script src="../../modules/ui/button.js"></script>
+    <script src="../../modules/ui/list.js"></script>
+    <script src="../../modules/ui/list_item.js"></script>
+    <script src="../../modules/ui/text_field.js"></script>
+
+    <script src="todos.js"></script>
+
+    <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a1.min.css" rel="stylesheet" />
+</head>
+<body>
+        <script language="JavaScript">
+            Todos.app = M.Application.extend({
+                page: M.PageView.design({
+
+                    childViews: ['header content'],
+
+                    header: M.ToolbarView.design({
+                            value: 'Todos',
+                            anchorLocation : M.TOP
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        /* order in childViews string defines render order*/
+                        childViews: ['counter text addButton inputField todoList'],
+
+                        inputField: M.TextFieldView.design({
+                            name: 'todo_field',
+                            initialText: 'Enter ToDo Item...'
+                        }),
+
+                        todoList: M.ListView.design({
+                            contentBinding: 'Todos.TodoController.todos',
+                            templateView: 'Todos.TodoItemView'
+                        }),
+
+                        counter: M.LabelView.design({
+                            value: '0',
+                            contentBinding: 'Todos.TodoController.counter',
+                            isInline: YES
+                        }),
+
+                        text: M.LabelView.design({
+                            value: ' item(s) left.',
+                            isInline: YES
+                        }),
+
+                        addButton: M.ButtonView.design({
+                            value: '+',
+                            target: 'Todos.TodoController',
+                            action: 'addTodo',
+                            isInline: YES
+                        })
+
+                    })
+
+                })
+            });
+        </script>
+
+        <!-- START THE APP BY CALLING THE M.APPLICATION's MAIN-METHOD -->
+        <!-- in the future this call will be made automatically -->
+        <script language="JavaScript">
+            Todos.app.main();
+        </script>
+
+</body>
+</html>

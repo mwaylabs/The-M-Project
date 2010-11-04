@@ -35,7 +35,7 @@ M.ButtonView = M.View.extend({
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
      */
     render: function() {        
-        var html = '<input type="button" id="' + this.id + '" value="' + this.value + '"/>';
+        var html = '<input type="button" id="' + this.id + '" value="' + this.value + '" ' + this.style() + ' />';
         if(this.renderToDOM) {
             document.write(html);
         } else {
@@ -56,6 +56,18 @@ M.ButtonView = M.View.extend({
      */
     applyTheme: function() {
         $('#' + this.id).button();
+    },
+
+    /**
+     * Applies some style-attributes to the label.
+     */
+    style: function() {
+        var html = '';
+        if(this.isInline) {
+            html += 'data-inline="true"';
+        }
+        return html;
     }
 
 });
+
