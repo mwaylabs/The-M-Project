@@ -34,7 +34,7 @@ M.ListView = M.View.extend({
     },
 
     addItem: function(item) {
-        $('#' + that.id).append(item);
+        $('#' + this.id).append(item);
     },
 
     removeItem: function(id) {
@@ -51,11 +51,11 @@ M.ListView = M.View.extend({
         }
         that = this;
         var content = eval(this.contentBinding);
-        templateView = eval(that.templateView);
+        templateView = eval(this.templateView);
         /* If there is an items property, re-assign this to content.
            Otherwise just iterate through content itself */ 
         if(this.items) {
-            content = content[this.items]
+            content = content[this.items];
         }
         _.each(content, function(item) {
             var obj = templateView.design({});
