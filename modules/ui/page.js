@@ -55,7 +55,7 @@ M.PageView = M.View.extend({
      */
     pageDidLoad: function() {
         if(this.onLoad) {
-            eval(this.onLoad)(this.isFirstLoad);
+            eval(this.onLoad.target)[this.onLoad.action](this.isFirstLoad);
             this.isFirstLoad = NO;
         }
     }
