@@ -31,7 +31,9 @@ M.EventDispatcher = M.Object.create({
      * @param {Object} evt The event.
      */
     eventDidHappen: function(evt) {
-        this.delegateEvent(evt.type, evt.currentTarget.id);
+        if(evt.type == 'click') {
+            this.delegateEvent(evt.currentTarget.id);
+        }
     },
 
     /**
@@ -39,29 +41,18 @@ M.EventDispatcher = M.Object.create({
      * delegates the call directly to the responsible controller defined by the
      * target and action properties of the view.
      *
-     * @param {String} type The type of event that occured, e.g. 'click'.
      * @param {String} id The id of the element that triggered the event.
      */
-    delegateEvent: function(type, id) {
+    delegateEvent: function(id) {
         var view = M.ViewManager.getViewById(id);
-
-        switch(type) {
-            case 'click':
-                if(view && view.target && view.action) {
-                    eval(view.target)[view.action](id);
-                }
-                break;
-            case 'change':
-                view.setValueFromDOM();    
-                break;
-            case 'keyup':
-                break;
+        if(view && view.target && view.action) {
+           eval(view.target)[view.action]();
         }
     }
 
 });
 
 $(document).ready(function() {
-    var eventList = 'click change keyup';
+    var eventList = 'click';
     $('*[id]').bind(eventList, function(evt) { M.EventDispatcher.eventDidHappen(evt); });
 });
