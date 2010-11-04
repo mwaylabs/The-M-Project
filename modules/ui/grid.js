@@ -11,14 +11,14 @@
 m_require('../core/foundation/view.js');
 
 M.TWO_COLUMNS = {
-    class: 'ui-grid-a',
+    cssClass: 'ui-grid-a',
     columns: {
         0: 'ui-block-a',
         1: 'ui-block-b'
     }
 };
 M.THREE_COLUMNS = {
-    class: 'ui-grid-b',
+    cssClass: 'ui-grid-b',
     columns: {
         0: 'ui-block-a',
         1: 'ui-block-b',
@@ -81,7 +81,7 @@ M.GridView = M.View.extend({
      */
     style: function() {
         if(this.layout) {
-            var html = 'class="' + this.layout.class + '"';
+            var html = 'class="' + this.layout.cssClass + '"';
             return html;
         }
     }

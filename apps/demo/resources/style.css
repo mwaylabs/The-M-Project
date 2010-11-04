@@ -1,0 +1,16 @@
+.myGrid {
+    overflow:hidden;
+}
+
+.myGrid .col1, .myGrid .col2 {
+    float:left;
+}
+
+.myGrid .col1 {
+    clear:left;
+    width:80%;
+}
+
+.myGrid .col2 {
+    width:20%;
+}

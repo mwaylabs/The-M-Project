@@ -15,7 +15,6 @@
     <script src="../../modules/core/datastore/data_provider.js"></script>
     <script src="../../modules/core/foundation/model.js"></script>
     <script src="../../modules/core/foundation/view.js"></script>
-    <script src="../../modules/ui/grid.js"></script>
     <script src="../../modules/core/foundation/view_manager.js"></script>
     <script src="../../modules/core/foundation/application.js"></script>
 
@@ -26,10 +25,13 @@
     <script src="../../modules/ui/button.js"></script>
     <script src="../../modules/ui/list.js"></script>
     <script src="../../modules/ui/list_item.js"></script>
+    <script src="../../modules/ui/text_field.js"></script>
+    <script src="../../modules/ui/grid.js"></script>
 
     <script src="demo.js"></script>
 
     <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a1.min.css" rel="stylesheet" />
+    <link href="resources/style.css" rel="stylesheet" />
 </head>
 <body>
         <script language="JavaScript">
@@ -61,7 +63,13 @@
                                 
                                 childViews: ['button1 button2'],
 
-                                layout: M.TWO_COLUMNS,
+                                layout: {
+                                    cssClass: 'myGrid',
+                                    columns: {
+                                        0: 'col1',
+                                        1: 'col2'
+                                    }
+                                },
 
                                 button1: M.ButtonView.design({
                                     value: 'My Button',
@@ -70,7 +78,7 @@
                                 }),
 
                                 button2: M.ButtonView.design({
-                                    value: 'GoTo page 2',
+                                    value: 'Goto page 2',
                                     target: 'Demo.LoginController',
                                     action: 'switchPage'
                                 })
