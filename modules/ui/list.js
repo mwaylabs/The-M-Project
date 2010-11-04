@@ -52,7 +52,12 @@ M.ListView = M.View.extend({
         that = this;
         var content = eval(this.contentBinding);
         templateView = eval(that.templateView);
-        _.each(content[this.items], function(item) {
+        /* If there is an items property, re-assign this to content.
+           Otherwise just iterate through content itself */ 
+        if(this.items) {
+            content = content[this.items]
+        }
+        _.each(content, function(item) {
             var obj = templateView.design({});
             var childViewsArray = obj.childViews[0].split(' ');
             for(var i in childViewsArray) {
