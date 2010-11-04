@@ -92,9 +92,11 @@ M.View = M.Object.extend({
      * Triggers render() on all children.
      */
     renderChildViews: function() {
-        var arr = this.childViews[0].split(' ');
-        for(var i in arr) {
-            this[arr[i]].render();
+        if(this.childViews) {
+            var arr = this.childViews[0].split(' ');
+            for(var i in arr) {
+                this[arr[i]].render();
+            }
         }
     },
 
