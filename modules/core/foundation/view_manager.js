@@ -31,28 +31,18 @@ M.ViewManager = M.Object.extend({
     },
 
     register: function(view) {
-        this.viewList.push({
-            id: view.id,
-            view: view
-        });
+        this.viewList.push(view);
     },
 
     getViewById: function(id) {
-        for (i in this.viewList) {
-            if(this.viewList[i].id === id) {
-                return this.viewList[i].view;
-            }
-        }
-        return null;
+        var view = _.detect(this.viewList, function(v) {
+            return v.id === id;
+        });
+        return view;
     },
 
     getIdByView: function(view) {
-        for (i in this.viewList) {
-            if(this.viewList[i].view === view) {
-                return this.viewList[i].id;
-            }
-        }
-        return null;
+        return view.id;
     }
 
 });

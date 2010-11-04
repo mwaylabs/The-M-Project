@@ -39,9 +39,9 @@ M.Application = M.Object.extend({
      */
     main: function() {
         for(i in this.viewManager.viewList) {
-            if(this.viewManager.viewList[i].view.type === 'M.PageView') {
-                this.viewManager.viewList[i].view.render();
-                $('#' + this.viewManager.viewList[i].id).bind('pageshow', this.bindToCaller(this.viewManager.viewList[i].view, this.viewManager.viewList[i].view.pageDidLoad));
+            if(this.viewManager.viewList[i].type === 'M.PageView') {
+                this.viewManager.viewList[i].render();
+                $('#' + this.viewManager.viewList[i].id).bind('pageshow', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageDidLoad));
             }
         }
     }
