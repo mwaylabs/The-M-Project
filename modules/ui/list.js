@@ -20,6 +20,8 @@ M.ListView = M.View.extend({
 
     type: 'M.ListView',
 
+    removeItemsOnUpdate: YES,
+
     render: function() {
         var html = '<ul id="' + this.id + '" data-role="listview"></ul>';
         document.write(html);
@@ -42,6 +44,9 @@ M.ListView = M.View.extend({
     },
 
     renderUpdate: function() {
+        if(this.removeItemsOnUpdate) {
+            this.removeAllItems();
+        }
         that = this;
         var content = eval(this.contentBinding);
         templateView = eval(that.templateView);
