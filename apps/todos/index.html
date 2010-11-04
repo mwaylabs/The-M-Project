@@ -28,10 +28,12 @@
     <script src="../../modules/ui/list_item.js"></script>
     <script src="../../modules/ui/text_field.js"></script>
     <script src="../../modules/ui/grid.js"></script>
+    <script src="../../modules/ui/image.js"></script>
 
     <script src="todos.js"></script>
 
     <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a1.min.css" rel="stylesheet" />
+    <link href="resources/style.css" rel="stylesheet" />
 </head>
 <body>
         <script language="JavaScript">
@@ -74,7 +76,13 @@
                         grid: M.GridView.design({
                             childViews: ['inputField addButton'],
 
-                            layout: M.TWO_COLUMNS,
+                            layout: {
+                                cssClass: 'todoGrid',
+                                columns: {
+                                    0: 'col1',
+                                    1: 'col2'
+                                }
+                            },
 
                             addButton: M.ButtonView.design({
                                 value: '+',

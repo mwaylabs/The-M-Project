@@ -32,6 +32,7 @@ Todos.TodoController = M.Controller.extend({
     },
 
     removeTodo: function(modelId) {
+        console.log(modelId);
         this.notes.remove(modelId);
         this.set('todos', this.notes.modelList);
         this.calculateCounter();
