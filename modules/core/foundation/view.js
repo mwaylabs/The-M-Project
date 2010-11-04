@@ -135,6 +135,15 @@ M.View = M.Object.extend({
         } else {
             M.Logger.log('bindingPath not valid', M.WARN);
         }
+    },
+
+
+    /**
+     * Interface method.
+     * This method sets its value to the value it has in its DOM representation.
+     */
+    setValueFromDOM: function() {
+        
     }
 
 });
