@@ -21,14 +21,14 @@ M.ListItemView = M.View.extend({
     type: 'M.ListItemView',
 
     render: function() {
-        var html = '<li>'
+        var html = '<li id="' + this.id + '">';
         html += this.renderChildViews();
         html += '</li>';
         return html;
     },
 
     renderUpdate: function() {
-
+        
     },
 
     /**
