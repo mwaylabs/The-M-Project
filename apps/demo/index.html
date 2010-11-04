@@ -15,6 +15,7 @@
     <script src="../../modules/core/datastore/data_provider.js"></script>
     <script src="../../modules/core/foundation/model.js"></script>
     <script src="../../modules/core/foundation/view.js"></script>
+    <script src="../../modules/ui/grid.js"></script>
     <script src="../../modules/core/foundation/view_manager.js"></script>
     <script src="../../modules/core/foundation/application.js"></script>
 
@@ -49,23 +50,30 @@
 
                         content: M.ScrollView.design({
 
-                            childViews: ['label1 button1 button2'],
+                            childViews: ['label1 grid'],
 
                             label1: M.LabelView.design({
                                 contentBinding: 'Demo.LoginController.numberOfClicks',
                                 value: '0'
                             }),
 
-                            button1: M.ButtonView.design({
-                                value: 'My Button',
-                                target: 'Demo.LoginController',
-                                action: 'addClick'
-                            }),
+                            grid: M.GridView.design({
+                                
+                                childViews: ['button1 button2'],
 
-                            button2: M.ButtonView.design({
-                                value: 'GoTo page 2',
-                                target: 'Demo.LoginController',
-                                action: 'switchPage'
+                                layout: M.TWO_COLUMNS,
+
+                                button1: M.ButtonView.design({
+                                    value: 'My Button',
+                                    target: 'Demo.LoginController',
+                                    action: 'addClick'
+                                }),
+
+                                button2: M.ButtonView.design({
+                                    value: 'GoTo page 2',
+                                    target: 'Demo.LoginController',
+                                    action: 'switchPage'
+                                })
                             })
                         }),
 
@@ -77,7 +85,7 @@
 
                 page2: M.PageView.design({
                     childViews: ['header content footer'],
-                    
+
                     onLoad: {
                         target: 'Demo.TwitterController',
                         action: 'performSearch'
