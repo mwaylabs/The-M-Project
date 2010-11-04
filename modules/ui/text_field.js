@@ -42,8 +42,12 @@ M.TextFieldView = M.View.extend({
         
     },
 
+    renderUpdate: function() {
+        $('#' + this.id).val(this.value);
+    },
+
     /**
-     *
+     * Method to append css styles inline to the rendered view.
      */
     style: function() {
         var html = 'style="';
@@ -52,6 +56,18 @@ M.TextFieldView = M.View.extend({
         }
         html += '"';
         return html;
+    },
+
+    /**
+     * This method sets its value to the value it has in its DOM representation.
+     */
+    setValueFromDOM: function() {
+        this.value = $('#' + this.id).val();
+    },
+
+    setValue: function(value){
+        this.value = value;
+        this.renderUpdate();
     }
 
 });
