@@ -17,11 +17,18 @@ Todos.TodoController = M.Controller.extend({
     counter: 0,
 
     addTodo: function() {
-        var text = '';
+        var text = Todos.app.page.content.inputField.value;
+        if(!text) {
+            return;
+        }
+
         var note = Todos.Note.create( { text: text } );
         this.notes.add(note);
         this.set('todos', this.notes.modelList);
+
         this.calculateCounter();
+
+        Todos.app.page.content.inputField.setValue('');
     },
 
     removeTodo: function(modelId) {
@@ -33,6 +40,5 @@ Todos.TodoController = M.Controller.extend({
     calculateCounter: function() {
         this.set('counter', this.todos.length);
     }
-
 
 });
