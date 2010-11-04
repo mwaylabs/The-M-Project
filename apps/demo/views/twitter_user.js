@@ -16,8 +16,6 @@ Demo.TwitterUserView = M.ListItemView.design({
 
     action: 'listItemClicked',
 
-    items: 'results',
-
     label1 : M.LabelView.design({
         value: '<%= from_user %>'
     }),
