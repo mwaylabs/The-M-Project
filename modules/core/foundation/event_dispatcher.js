@@ -31,7 +31,7 @@ M.EventDispatcher = M.Object.create({
      * @param {Object} evt The event.
      */
     eventDidHappen: function(evt) {
-        this.delegateEvent(evt.type, evt.currentTarget.id);
+        this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode);
     },
 
     /**
@@ -41,8 +41,9 @@ M.EventDispatcher = M.Object.create({
      *
      * @param {String} type The type of event that occured, e.g. 'click'.
      * @param {String} id The id of the element that triggered the event.
+     * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
      */
-    delegateEvent: function(type, id) {
+    delegateEvent: function(type, id, keyCode) {
         var view = M.ViewManager.getViewById(id);
 
         switch(type) {
@@ -56,12 +57,14 @@ M.EventDispatcher = M.Object.create({
                 break;
             case 'keyup':
                 break;
+            case 'keypress':
+                break;
         }
     }
 
 });
 
 $(document).ready(function() {
-    var eventList = 'click change keyup';
+    var eventList = 'click change keyup keypress';
     $('*[id]').bind(eventList, function(evt) { M.EventDispatcher.eventDidHappen(evt); });
 });
