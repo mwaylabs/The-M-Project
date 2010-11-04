@@ -46,7 +46,7 @@ M.EventDispatcher = M.Object.create({
     delegateEvent: function(id) {
         var view = M.ViewManager.getViewById(id);
         if(view && view.target && view.action) {
-           eval(view.target)[view.action]();
+           eval(view.target)[view.action](id);
         }
     }
 
