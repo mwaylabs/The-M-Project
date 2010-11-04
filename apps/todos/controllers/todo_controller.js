@@ -17,7 +17,7 @@ Todos.TodoController = M.Controller.extend({
     counter: 0,
 
     addTodo: function() {
-        var text = Todos.app.page.content.inputField.value;
+        var text = Todos.app.page.content.grid.inputField.value;
         if(!text) {
             return;
         }
@@ -28,7 +28,7 @@ Todos.TodoController = M.Controller.extend({
 
         this.calculateCounter();
 
-        Todos.app.page.content.inputField.setValue('');
+        Todos.app.page.content.grid.inputField.setValue('');
     },
 
     removeTodo: function(modelId) {

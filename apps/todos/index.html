@@ -27,6 +27,7 @@
     <script src="../../modules/ui/list.js"></script>
     <script src="../../modules/ui/list_item.js"></script>
     <script src="../../modules/ui/text_field.js"></script>
+    <script src="../../modules/ui/grid.js"></script>
 
     <script src="todos.js"></script>
 
@@ -47,7 +48,7 @@
                     content: M.ScrollView.design({
 
                         /* order in childViews string defines render order*/
-                        childViews: ['counter text addButton inputField todoList'],
+                        childViews: ['counter text grid todoList'],
 
                         inputField: M.TextFieldView.design({
                             name: 'todo_field',
@@ -70,13 +71,23 @@
                             isInline: YES
                         }),
 
-                        addButton: M.ButtonView.design({
-                            value: '+',
-                            target: 'Todos.TodoController',
-                            action: 'addTodo',
-                            isInline: YES
-                        })
+                        grid: M.GridView.design({
+                            childViews: ['inputField addButton'],
 
+                            layout: M.TWO_COLUMNS,
+
+                            addButton: M.ButtonView.design({
+                                value: '+',
+                                target: 'Todos.TodoController',
+                                action: 'addTodo',
+                                isInline: YES
+                            }),
+
+                            inputField: M.TextFieldView.design({
+                                name: 'todo_field',
+                                initialText: 'Enter ToDo Item...'
+                            })
+                        })
                     })
 
                 })
