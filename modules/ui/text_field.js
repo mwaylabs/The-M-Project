@@ -54,6 +54,28 @@ M.TextFieldView = M.View.extend({
     },
 
     /**
+     * This method is called whenever the view gets the focus.
+     * If there is a initial text specified and the value of this text field
+     * still equals this initial text, the value is emptied.
+     */
+    hasFocus: function() {
+        if(this.initialText && (!this.value || this.initialText === this.value)) {
+            this.setValue('');
+        }
+    },
+
+    /**
+     * This method is called whenever the view lost the focus.
+     * If there is a initial text specified and the value of this text field
+     * is empty, the value is set to the initial text.
+     */
+    lostFocus: function() {
+        if(this.initialText && !this.value) {
+            this.setValue(this.initialText, NO);
+        }
+    },
+
+    /**
      * Method to append css styles inline to the rendered view.
      */
     style: function() {
@@ -71,6 +93,19 @@ M.TextFieldView = M.View.extend({
     setValueFromDOM: function() {
         this.value = $('#' + this.id).val();
         this.delegateValueUpdate();
+    },
+
+    /**
+     * This method sets the text field's value, initiates its re-rendering
+     * and call the delegateValueUpdate().
+     */
+    setValue: function(value, delegateUpdate) {
+        this.value = value;
+        this.renderUpdate();
+
+        if(delegateUpdate) {
+            this.delegateValueUpdate();
+        }
     }
 
 });
