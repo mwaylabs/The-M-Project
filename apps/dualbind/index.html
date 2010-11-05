@@ -49,49 +49,15 @@
                     content: M.ScrollView.design({
 
                         /* order in childViews string defines render order*/
-                        childViews: ['inputField outputField2 outputField3 outputField4 outputField5 outputField6 outputField7 outputField8'],
+                        childViews: ['inputField outputField'],
 
                         inputField: M.TextFieldView.design({
                             name: 'input_field',
-                            evt: {
-                                keyUp: {
-                                    target: 'DualBind.InputController',
-                                    action: 'updateInput'
-                                }
-                            }
+                            contentBindingReverse: 'DualBind.InputController.input',
+                            contentBinding: 'DualBind.InputController.staticValue'
                         }),
 
-                        outputField2: M.TextFieldView.design({
-                            name: 'output_field',
-                            contentBinding: 'DualBind.InputController.input'
-                        }),
-
-                        outputField3: M.TextFieldView.design({
-                            name: 'output_field',
-                            contentBinding: 'DualBind.InputController.input'
-                        }),
-
-                        outputField4: M.TextFieldView.design({
-                            name: 'output_field',
-                            contentBinding: 'DualBind.InputController.input'
-                        }),
-
-                        outputField5: M.TextFieldView.design({
-                            name: 'output_field',
-                            contentBinding: 'DualBind.InputController.input'
-                        }),
-
-                        outputField6: M.TextFieldView.design({
-                            name: 'output_field',
-                            contentBinding: 'DualBind.InputController.input'
-                        }),
-
-                        outputField7: M.TextFieldView.design({
-                            name: 'output_field',
-                            contentBinding: 'DualBind.InputController.input'
-                        }),
-
-                        outputField8: M.TextFieldView.design({
+                        outputField: M.TextFieldView.design({
                             name: 'output_field',
                             contentBinding: 'DualBind.InputController.input'
                         })
