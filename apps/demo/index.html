@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>Demo App #01</title>
     <script src="../../modules/jquery/jquery-1.4.3.min.js"></script>
     <script src="../../modules/jquery_mobile/jquery.mobile-1.0a1.min.js"></script>
@@ -40,11 +44,6 @@
 
                         childViews: ['header content footer'],
 
-                        onLoad: {
-                            target: 'Demo.LoginController',
-                            action: 'onLoad'
-                        },
-
                         header: M.ToolbarView.design({
                             value: 'Page 1',
                             anchorLocation : M.TOP
@@ -56,7 +55,7 @@
 
                             label1: M.LabelView.design({
                                 contentBinding: 'Demo.LoginController.numberOfClicks',
-                                value: '0'
+                                value: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
                             }),
 
                             grid: M.GridView.design({

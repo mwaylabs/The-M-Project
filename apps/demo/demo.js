@@ -6,7 +6,7 @@
 // License:   ...
 // ==========================================================================
 
-// demo.js simulates the whole sourcecode of the app.
+// binding_sample.js simulates the whole sourcecode of the app.
 
 var Demo = Demo || {};
 
