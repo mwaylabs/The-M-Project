@@ -49,7 +49,7 @@ M.ListView = M.View.extend({
         if(this.removeItemsOnUpdate) {
             this.removeAllItems();
         }
-        that = this;
+        that = this;    
         var content = eval(this.contentBinding);
         templateView = eval(this.templateView);
         /* If there is an items property, re-assign this to content.
@@ -63,7 +63,7 @@ M.ListView = M.View.extend({
             for(var i in childViewsArray) {
                 obj[childViewsArray[i]] = obj[childViewsArray[i]].design({});
                 obj[childViewsArray[i]].renderToDOM = NO;
-                var regexResult = /^<%=\s*(\w*[_|.|-]*\w*)+\s*%>$/.exec(obj[childViewsArray[i]].value);
+                var regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].value);
                 if(regexResult) {
                     switch (obj[childViewsArray[i]].type) {
                         case 'M.LabelView':

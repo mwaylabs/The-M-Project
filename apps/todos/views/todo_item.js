@@ -13,6 +13,18 @@ Todos.TodoItemView = M.ListItemView.design({
 
     label1 : M.LabelView.design({
         value: '<%= text %>'
+    }),
+
+    removeIcon : M.ImageView.design({
+        value: 'resources/remove.png',
+        target: 'Todos.TodoController',
+        action: 'removeTodo'
+    }),
+
+    button : M.ButtonView.design({
+        value: '-',
+        target: 'Todos.TodoController',
+        action: 'removeTodo'
     })
 
 });
