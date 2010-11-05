@@ -176,6 +176,22 @@ M.View = M.Object.extend({
      */
     style: function() {
         
+    },
+
+    /**
+     * Interface method.
+     * This method is called whenever the view gets the focus.
+     */
+    hasFocus: function() {
+
+    },
+
+    /**
+     * Interface method.
+     * This method is called whenever the view lost the focus.
+     */
+    lostFocus: function() {
+
     }
 
 });
