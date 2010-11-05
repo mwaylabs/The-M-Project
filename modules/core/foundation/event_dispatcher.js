@@ -61,7 +61,11 @@ M.EventDispatcher = M.Object.create({
                     eval(view.evt.keyUp.target)[view.evt.keyUp.action](view.value);
                 }
                 break;
-            case 'keypress':
+            case 'focus':
+                view.hasFocus();
+                break;
+            case 'blur':
+                view.lostFocus();
                 break;
         }
     }
@@ -69,6 +73,6 @@ M.EventDispatcher = M.Object.create({
 });
 
 $(document).ready(function() {
-    var eventList = 'click change keyup keypress';
+    var eventList = 'click change keyup focus blur';
     $('*[id]').bind(eventList, function(evt) { M.EventDispatcher.eventDidHappen(evt);});
 });
