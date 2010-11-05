@@ -18,7 +18,6 @@ m_require('../core/foundation/view.js');
  */
 M.TextFieldView = M.View.extend({
 
-
    /**
      * The type of this object.
      *
@@ -26,6 +25,11 @@ M.TextFieldView = M.View.extend({
      */
     type: 'M.TextFieldView',
 
+   /**
+     * The name of the text field.
+     *
+     * @property {String}
+     */
     name: '',
 
     initialText: '',
@@ -42,6 +46,9 @@ M.TextFieldView = M.View.extend({
         
     },
 
+    /**
+     * Updates a TextFieldView.
+     */
     renderUpdate: function() {
         $('#' + this.id).val(this.value);
     },
@@ -63,11 +70,7 @@ M.TextFieldView = M.View.extend({
      */
     setValueFromDOM: function() {
         this.value = $('#' + this.id).val();
-    },
-
-    setValue: function(value){
-        this.value = value;
-        this.renderUpdate();
+        this.delegateValueUpdate();
     }
 
 });
