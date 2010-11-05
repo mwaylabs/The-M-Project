@@ -56,6 +56,10 @@ M.EventDispatcher = M.Object.create({
                 view.setValueFromDOM();    
                 break;
             case 'keyup':
+                view.setValueFromDOM();
+                if(view && view.evt && view.evt.keyUp.target && view.evt.keyUp.action) {
+                    eval(view.evt.keyUp.target)[view.evt.keyUp.action](view.value);
+                }
                 break;
             case 'keypress':
                 break;
