@@ -14,6 +14,10 @@ m_require('logger.js');
  * @class
  *
  * The root object for ModelRegistry.
+ *
+ * Model Registry is a central point for all models to get their Global Unique Identifier,
+ * which is important for storage (guid is primary key as default).
+ * 
  */
 M.ModelRegistry = M.Object.extend({
 
