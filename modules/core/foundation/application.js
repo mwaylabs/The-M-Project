@@ -33,6 +33,13 @@ M.Application = M.Object.extend({
     viewManager: M.ViewManager,
 
     /**
+     * The application's model registry.
+     *
+     * @property {Object}
+     */
+    modelRegistry: M.ModelRegistry,
+
+    /**
      * The application's main-method, that is called automatically on load of the app.
      * Inside this method the rendering is initiated and all pages are bound to the 'pageshow'
      * event so one can do some action whenever a page is loaded.
