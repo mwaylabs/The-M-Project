@@ -29,11 +29,23 @@ M.View = M.Object.extend({
      * Generic attribute for views. Some subclasses have a property that is more readable to its context than 'value'.
      * Internally these properties are mapped to 'value'.
      * e.g. in LabelView: value:this.text
+     *
+     * @property {Object, String}
      */
     value: null,
 
+    /**
+     * The path to a content that is bind to the view's value.
+     *
+     * @property {String, Object}
+     */
     contentBinding: null,
 
+    /**
+     * An array specifying the view's children.
+     *
+     * @property {Object}
+     */
     childViews: null,
 
     /**
@@ -117,6 +129,7 @@ M.View = M.Object.extend({
         if(bindingPath && bindingPath.length === 3) {
             this.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]];
             this.renderUpdate();
+            this.delegateValueUpdate();
         } else {
             M.Logger.log('bindingPath not valid', M.WARN);
         }
@@ -137,12 +150,31 @@ M.View = M.Object.extend({
         }
     },
 
-
     /**
      * Interface method.
      * This method sets its value to the value it has in its DOM representation.
      */
     setValueFromDOM: function() {
+        
+    },
+
+    /**
+     * This method delegates any value changes to a controller, if the 'contentBindingReverse'
+     * property is specified.
+     */
+    delegateValueUpdate: function() {
+        if(this.contentBindingReverse) {
+            var params = this.contentBindingReverse.split('.');
+            var controller = eval(params[0]);
+            controller[params[1]].set(params[2], this.value);
+        }
+    },
+    
+    /**
+     * Interface method.
+     * Method to append css styles and other style specific inline attributes to the rendered view.
+     */
+    style: function() {
         
     }
 
