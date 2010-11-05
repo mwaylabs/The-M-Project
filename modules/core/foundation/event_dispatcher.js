@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      27.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -46,14 +46,14 @@ M.EventDispatcher = M.Object.create({
     delegateEvent: function(type, id, keyCode) {
         var view = M.ViewManager.getViewById(id);
 
-        switch (type) {
+        switch(type) {
             case 'click':
-                if (view && view.target && view.action) {
+                if(view && view.target && view.action) {
                     eval(view.target)[view.action](id);
                 }
                 break;
             case 'change':
-                view.setValueFromDOM();
+                view.setValueFromDOM();    
                 break;
             case 'keyup':
                 break;
@@ -66,7 +66,5 @@ M.EventDispatcher = M.Object.create({
 
 $(document).ready(function() {
     var eventList = 'click change keyup keypress';
-    $('*[id]').bind(eventList, function(evt) {
-        M.EventDispatcher.eventDidHappen(evt);
-    });
+    $('*[id]').bind(eventList, function(evt) { M.EventDispatcher.eventDidHappen(evt);});
 });

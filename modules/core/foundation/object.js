@@ -50,7 +50,6 @@ M.Object = {
             for(prop in obj) {
                 f.prototype[prop] = obj[prop];
             }
-            f.prototype['super'] = this;
         }
         return new f();
     },
