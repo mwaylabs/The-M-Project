@@ -49,6 +49,7 @@ M.Application = M.Object.extend({
             if(this.viewManager.viewList[i].type === 'M.PageView') {
                 this.viewManager.viewList[i].render();
                 $('#' + this.viewManager.viewList[i].id).bind('pageshow', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageDidLoad));
+                $('#' + this.viewManager.viewList[i].id).page();
             }
         }
     }
