@@ -48,7 +48,7 @@ M.EventDispatcher = M.Object.create({
 
         switch(type) {
             case 'click':
-                if(view && view.target && view.action) {
+                if(view && view.target && view.action && view.type !== 'M.TextFieldView') {
                     eval(view.target)[view.action](id);
                 }
                 break;
@@ -56,12 +56,24 @@ M.EventDispatcher = M.Object.create({
                 view.setValueFromDOM();    
                 break;
             case 'keyup':
-                view.setValueFromDOM();
-                if(view && view.evt && view.evt.keyUp.target && view.evt.keyUp.action) {
-                    eval(view.evt.keyUp.target)[view.evt.keyUp.action](view.value);
+                if(keyCode === 13 && view.type === 'M.TextFieldView') {
+                    console.log(view);
+                    console.log(view.target);
+                    console.log(view.action);
+                    if(view && view.target && view.action) {
+                        console.log('key ' + keyCode + ' pressed...');
+                        eval(view.target)[view.action](id);
+                    }
                 }
                 break;
-            case 'keypress':
+            case 'focus':
+                view.gotFocus();
+                break;
+            case 'blur':
+                view.lostFocus();
+                break;
+            case 'orientationchange':
+                view.orientationDidChange(evt);
                 break;
         }
     }
@@ -69,6 +81,6 @@ M.EventDispatcher = M.Object.create({
 });
 
 $(document).ready(function() {
-    var eventList = 'click change keyup keypress';
+    var eventList = 'click change keyup focus blur';
     $('*[id]').bind(eventList, function(evt) { M.EventDispatcher.eventDidHappen(evt);});
 });

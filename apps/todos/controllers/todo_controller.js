@@ -10,7 +10,9 @@
 
 Todos.TodoController = M.Controller.extend({
 
-    notes: M.ModelManager.extend({}),
+    notes: M.ModelManager.extend({
+        model: Todos.Person
+    }),
 
     todos: null,
 

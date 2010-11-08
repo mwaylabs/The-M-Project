@@ -56,6 +56,13 @@ M.View = M.Object.extend({
     renderToDOM: YES,
 
     /**
+     * Indicates whether this view currently has the focus or not.
+     *
+     * @property {Boolean}
+     */
+    hasFocus: NO,
+
+    /**
      * The id of the View used for the HTML attribute ID.
      */
     id: null,
@@ -126,7 +133,7 @@ M.View = M.Object.extend({
      */
     contentDidChange: function(){
         var bindingPath = this.contentBinding.split('.');
-        if(bindingPath && bindingPath.length === 3) {
+        if(bindingPath && bindingPath.length === 3 && !(this.hasFocus && this.type === 'M.TextFieldView')) {
             this.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]];
             this.renderUpdate();
             this.delegateValueUpdate();
@@ -163,7 +170,9 @@ M.View = M.Object.extend({
      * property is specified.
      */
     delegateValueUpdate: function() {
-        if(this.contentBindingReverse) {
+        /* delegate value updates to a binded controller,
+           but only if the view currently is the master */
+        if(this.contentBindingReverse && this.hasFocus) {
             var params = this.contentBindingReverse.split('.');
             var controller = eval(params[0]);
             controller[params[1]].set(params[2], this.value);
@@ -176,6 +185,20 @@ M.View = M.Object.extend({
      */
     style: function() {
         
+    },
+
+    /**
+     * This method is called whenever the view gets the focus.
+     */
+    gotFocus: function() {
+        this.hasFocus = YES;
+    },
+
+    /**
+     * This method is called whenever the view lost the focus.
+     */
+    lostFocus: function() {
+        this.hasFocus = NO;
     }
 
 });

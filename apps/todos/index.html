@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>Todos - A simple sample app</title>
     <script src="../../modules/jquery/jquery-1.4.3.min.js"></script>
     <script src="../../modules/jquery_mobile/jquery.mobile-1.0a1.min.js"></script>
@@ -52,11 +56,6 @@
                         /* order in childViews string defines render order*/
                         childViews: ['counter text grid todoList'],
 
-                        inputField: M.TextFieldView.design({
-                            name: 'todo_field',
-                            initialText: 'Enter ToDo Item...'
-                        }),
-
                         todoList: M.ListView.design({
                             contentBinding: 'Todos.TodoController.todos',
                             templateView: 'Todos.TodoItemView'
@@ -93,7 +92,11 @@
 
                             inputField: M.TextFieldView.design({
                                 name: 'todo_field',
-                                initialText: 'Enter ToDo Item...'
+                                initialText: 'Enter ToDo Item...',
+                                
+                                /* target and action define path for onReturn event */
+                                target: 'Todos.TodoController',
+                                action: 'addTodo'
                             })
                         })
                     })
