@@ -58,10 +58,11 @@ M.TextFieldView = M.View.extend({
      * If there is a initial text specified and the value of this text field
      * still equals this initial text, the value is emptied.
      */
-    hasFocus: function() {
+    gotFocus: function() {
         if(this.initialText && (!this.value || this.initialText === this.value)) {
             this.setValue('');
         }
+        this.hasFocus = YES;
     },
 
     /**
@@ -73,6 +74,7 @@ M.TextFieldView = M.View.extend({
         if(this.initialText && !this.value) {
             this.setValue(this.initialText, NO);
         }
+        this.hasFocus = NO;
     },
 
     /**
@@ -88,7 +90,9 @@ M.TextFieldView = M.View.extend({
     },
 
     /**
-     * This method sets its value to the value it has in its DOM representation.
+     * This method sets its value to the value it has in its DOM representation
+     * and then delegates these changes to a controller property if the
+     * contentBindingReverse property is set.
      */
     setValueFromDOM: function() {
         this.value = $('#' + this.id).val();
