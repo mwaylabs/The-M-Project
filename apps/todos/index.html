@@ -58,7 +58,7 @@
 
                         todoList: M.ListView.design({
                             contentBinding: 'Todos.TodoController.todos',
-                            templateView: 'Todos.TodoItemView'
+                            listItemTemplateView: 'Todos.TodoItemView'
                         }),
 
                         counter: M.LabelView.design({
@@ -85,7 +85,7 @@
 
                             addButton: M.ButtonView.design({
                                 value: '+',
-                                target: 'Todos.TodoController',
+                                target: Todos.TodoController,
                                 action: 'addTodo',
                                 isInline: YES
                             }),
@@ -95,7 +95,7 @@
                                 initialText: 'Enter ToDo Item...',
                                 
                                 /* target and action define path for onReturn event */
-                                target: 'Todos.TodoController',
+                                target: Todos.TodoController,
                                 action: 'addTodo'
                             })
                         })
