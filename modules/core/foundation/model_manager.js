@@ -27,6 +27,9 @@ M.ModelManager = M.Object.extend({
     },
 
     remove: function(modelId) {
+        if(typeof(modelId) === 'string') {
+            modelId = parseInt(modelId);
+        }
         obj = this.getModelForId(modelId);
         if(obj) {
             this.modelList = _.select(this.modelList, function(m){
@@ -40,6 +43,12 @@ M.ModelManager = M.Object.extend({
             return m.id === id;
         });
         return model;
+    },
+
+    dumpModelList: function() {
+      _.each(this.modelList, function(model){
+        console.log(model.id);
+      });
     }
 
 });
