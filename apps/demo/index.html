@@ -31,6 +31,7 @@
     <script src="../../modules/ui/list_item.js"></script>
     <script src="../../modules/ui/text_field.js"></script>
     <script src="../../modules/ui/grid.js"></script>
+    <script src="../../modules/ui/image.js"></script>
 
     <script src="demo.js"></script>
 
@@ -45,42 +46,42 @@
                         childViews: ['header content footer'],
 
                         header: M.ToolbarView.design({
-                            value: 'Page 1',
+                            value: 'Welcome Page',
                             anchorLocation : M.TOP
                         }),
 
                         content: M.ScrollView.design({
 
-                            childViews: ['label1 grid'],
+                            childViews: ['label1 grid button3'],
 
                             label1: M.LabelView.design({
                                 contentBinding: 'Demo.LoginController.numberOfClicks',
-                                value: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
+                                value: '0'
                             }),
 
                             grid: M.GridView.design({
                                 
                                 childViews: ['button1 button2'],
 
-                                layout: {
-                                    cssClass: 'myGrid',
-                                    columns: {
-                                        0: 'col1',
-                                        1: 'col2'
-                                    }
-                                },
+                                layout: M.TWO_COLUMNS,
 
                                 button1: M.ButtonView.design({
-                                    value: 'My Button',
-                                    target: 'Demo.LoginController',
+                                    value: 'increase',
+                                    target: Demo.LoginController,
                                     action: 'addClick'
                                 }),
 
                                 button2: M.ButtonView.design({
-                                    value: 'Goto page 2',
-                                    target: 'Demo.LoginController',
-                                    action: 'switchPage'
+                                    value: 'decrease',
+                                    target: Demo.LoginController,
+                                    action: 'removeClick'
                                 })
+                            }),
+
+                            button3: M.ButtonView.design({
+                                value: 'next page',
+                                target: Demo.LoginController,
+                                action: 'switchPage'
                             })
                         }),
 
@@ -94,12 +95,12 @@
                     childViews: ['header content footer'],
 
                     onLoad: {
-                        target: 'Demo.TwitterController',
+                        target: Demo.TwitterController,
                         action: 'performSearch'
                     },
 
                     header: M.ToolbarView.design({
-                        value: 'Page 2',
+                        value: 'Twitter Demo',
                         anchorLocation : M.TOP
                     }),
 
@@ -109,13 +110,14 @@
                         list1: M.ListView.design({
                             contentBinding: 'Demo.TwitterController.users',
                             items: 'results',
-                            templateView: 'Demo.TwitterUserView',
+                            listItemTemplateView: Demo.TwitterUserView,
                             removeItemsOnUpdate: NO
                         })
                     }),
 
                     footer: M.ToolbarView.design({
-                        value: 'Footer',
+                        contentBinding: 'Demo.TwitterController.numUsers',
+                        value: 0,
                         anchorLocation: M.BOTTOM
                     })
                 }),
@@ -124,7 +126,7 @@
                     childViews: ['header content footer'],
 
                     onLoad: {
-                        target: 'Demo.TwitterController',
+                        target: Demo.TwitterController,
                         action: 'performSearchForUser'
                     },
 
@@ -139,13 +141,14 @@
                         list1: M.ListView.design({
                             contentBinding: 'Demo.TwitterController.content',
                             items: 'results',
-                            templateView: 'Demo.TwitterItemView',
+                            listItemTemplateView: Demo.TwitterItemView,
                             removeItemsOnUpdate: YES
                         })
                     }),
 
                     footer: M.ToolbarView.design({
-                        value: 'Footer',
+                        contentBinding: 'Demo.TwitterController.numEntries',
+                        value: '0',
                         anchorLocation: M.BOTTOM
                     })
                 })
