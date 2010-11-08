@@ -49,7 +49,7 @@ M.EventDispatcher = M.Object.create({
         switch(type) {
             case 'click':
                 if(view && view.target && view.action && view.type !== 'M.TextFieldView') {
-                    eval(view.target)[view.action](id);
+                    view.target[view.action](id);
                 }
                 break;
             case 'change':
@@ -57,12 +57,8 @@ M.EventDispatcher = M.Object.create({
                 break;
             case 'keyup':
                 if(keyCode === 13 && view.type === 'M.TextFieldView') {
-                    console.log(view);
-                    console.log(view.target);
-                    console.log(view.action);
                     if(view && view.target && view.action) {
-                        console.log('key ' + keyCode + ' pressed...');
-                        eval(view.target)[view.action](id);
+                        view.target[view.action](id);
                     }
                 }
                 break;
