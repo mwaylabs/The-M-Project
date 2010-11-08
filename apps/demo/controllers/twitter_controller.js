@@ -16,30 +16,40 @@ Demo.TwitterController = M.Controller.extend({
 
     content: null,
 
+    numEntries: null,
+
+    numUsers: null,
+
     performSearch: function(isFirstLoad) {
         if(isFirstLoad) {
             M.Request.init({
-                url: 'http://search.twitter.com/search.json?q=vittel',
+                url: 'http://search.twitter.com/search.json?q=vittel&rpp=10',
+                //url: '/twitter/search.json?q=vittel&rpp=10',
                 isJSON: YES,
                 beforeSend: function(req) {
                     //...
                 },
                 onSuccess: function(data){
                     Demo.TwitterController.set('users', data);
+                    Demo.TwitterController.set('numUsers', data.results.length);
                 }
             }).send();
         }
     },
 
     performSearchForUser: function() {
+        var n = Math.floor(Math.random()*10 + 1);
         M.Request.init({
-            url: 'http://search.twitter.com/search.json?q=from%3Aalexiskold',
+            url: 'http://search.twitter.com/search.json?q=' + this.selectedUser + '&rpp=' + n,
+            //url: '/twitter/search.json?q=' + this.selectedUser + '&rpp=' + n,
             isJSON: YES,
             beforeSend: function(req) {
                 //...
             },
             onSuccess: function(data){
                 Demo.TwitterController.set('content', data);
+                    
+                    Demo.TwitterController.set('numEntries', data.results.length);
             }
         }).send();
     },

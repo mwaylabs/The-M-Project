@@ -10,18 +10,22 @@
 
 Demo.TwitterUserView = M.ListItemView.design({
 
-    childViews: ['label1 label2'],
+    childViews: ['image1 label1 label2'],
 
-    target: 'Demo.TwitterController',
+    target: Demo.TwitterController,
 
     action: 'listItemClicked',
+
+    image1: M.ImageView.design({
+        value: '<%= profile_image_url %>' 
+    }),
 
     label1 : M.LabelView.design({
         value: '<%= from_user %>'
     }),
 
     label2 : M.LabelView.design({
-        value: '<%= metadata.result_type %>'
+        value: '<%= created_at %>'
     })
 
 });

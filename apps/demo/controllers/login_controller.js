@@ -24,6 +24,10 @@ Demo.LoginController = M.Controller.extend({
         this.set('numberOfClicks', this.numberOfClicks + 1);
     },
 
+    removeClick: function() {
+        this.set('numberOfClicks', this.numberOfClicks - 1);
+    },
+
     switchPage: function() {
         this.switchToView(Demo.app.page2);
     },
