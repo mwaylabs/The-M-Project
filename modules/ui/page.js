@@ -55,9 +55,16 @@ M.PageView = M.View.extend({
      */
     pageDidLoad: function() {
         if(this.onLoad) {
-            eval(this.onLoad.target)[this.onLoad.action](this.isFirstLoad);
+            this.onLoad.target[this.onLoad.action](this.isFirstLoad);
             this.isFirstLoad = NO;
         }
+    },
+
+
+    /**
+     * This method is called if the device's orientation changed.
+     */
+    orientationDidChange: function(evt) {
+        // console.log(evt);
     }
-    
 });
