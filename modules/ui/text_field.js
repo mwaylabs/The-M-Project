@@ -41,9 +41,7 @@ M.TextFieldView = M.View.extend({
         var html = '<div ' + this.style() + ' data-role="fieldcontain">';
         html += '<input type="text" name="' + this.name + '" id="' + this.id + '" value="' + this.initialText + '" />';
         html += '</div>';
-        document.write(html);
-
-        
+        document.write(html);        
     },
 
     /**
@@ -51,6 +49,7 @@ M.TextFieldView = M.View.extend({
      */
     renderUpdate: function() {
         $('#' + this.id).val(this.value);
+        this.styleUpdate();
     },
 
     /**
@@ -86,7 +85,28 @@ M.TextFieldView = M.View.extend({
             html += 'display:inline;';
         }
         html += '"';
+
+        if(!this.isEnabled) {
+            html += 'disabled="disabled"';
+        }
         return html;
+    },
+
+    /**
+     * Method to append css styles inline to the rendered view.
+     */
+    styleUpdate: function() {
+        if(this.isInline) {
+            $('#' + this.id).attr('display', 'inline');
+        } else {
+            $('#' + this.id).removeAttr('display');
+        }
+
+        if(!this.isEnabled) {
+            $('#' + this.id).attr('disabled', 'disabled');
+        } else {
+            $('#' + this.id).removeAttr('disabled');
+        }
     },
 
     /**
