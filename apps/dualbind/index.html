@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>DualBind - Demonstrating bidirectional binding</title>
     <script src="../../modules/jquery/jquery-1.4.3.min.js"></script>
     <script src="../../modules/jquery_mobile/jquery.mobile-1.0a1.min.js"></script>
@@ -49,18 +53,34 @@
                     content: M.ScrollView.design({
 
                         /* order in childViews string defines render order*/
-                        childViews: ['inputField outputField'],
+                        childViews: ['inputField1 inputField2 inputField3 inputField4'],
 
-                        inputField: M.TextFieldView.design({
-                            name: 'input_field',
+                        inputField1: M.TextFieldView.design({
+                            name: 'input_field1',
+                            contentBinding: 'DualBind.InputController.input',
                             contentBindingReverse: 'DualBind.InputController.input',
-                            contentBinding: 'DualBind.InputController.staticValue',
-                            initialText: 'Enter some text...'
+                            initialText: 'Enter some text here ...'
                         }),
 
-                        outputField: M.TextFieldView.design({
-                            name: 'output_field',
-                            contentBinding: 'DualBind.InputController.input'
+                        inputField2: M.TextFieldView.design({
+                            name: 'input_field2',
+                            contentBinding: 'DualBind.InputController.input',
+                            contentBindingReverse: 'DualBind.InputController.input',
+                            initialText: '... or here ...'
+                        }),
+
+                        inputField3: M.TextFieldView.design({
+                            name: 'input_field3',
+                            contentBinding: 'DualBind.InputController.input',
+                            contentBindingReverse: 'DualBind.InputController.input',
+                            initialText: '... or here ...'
+                        }),
+
+                        inputField4: M.TextFieldView.design({
+                            name: 'input_field4',
+                            contentBinding: 'DualBind.InputController.input',
+                            contentBindingReverse: 'DualBind.InputController.input',
+                            initialText: '... or even here!'
                         })
                         
                     })
