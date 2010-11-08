@@ -51,7 +51,7 @@ M.ListView = M.View.extend({
         }
         that = this;    
         var content = eval(this.contentBinding);
-        templateView = eval(this.templateView);
+        templateView = this.listItemTemplateView;
         /* If there is an items property, re-assign this to content.
            Otherwise just iterate through content itself */ 
         if(this.items) {
@@ -69,7 +69,7 @@ M.ListView = M.View.extend({
                         case 'M.LabelView':
                         case 'M.ButtonView':
                         case 'M.ImageView':
-                            obj[childViewsArray[i]].value = eval('item.' + regexResult[1]);
+                            obj[childViewsArray[i]].value = item[regexResult[1]];
                             break;
                     }
                 }
