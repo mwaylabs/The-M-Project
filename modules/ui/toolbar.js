@@ -12,6 +12,9 @@ m_require('../core/foundation/view.js');
 
 M.TOP = 'header';
 M.BOTTOM = 'footer';
+M.LEFT = 0;
+M.CENTER = 1;
+M.RIGHT = 2;
 
 /**
  * @class
@@ -48,12 +51,65 @@ M.ToolbarView = M.View.extend({
      * (representing the title of the header)
      */
     render: function() {
-        var html = '<div id="' + this.id + '" data-role="' + this.anchorLocation + '" data-position="fixed"><h1>' + this.value + '</h1></div>';
+        /*
+        data-nobackbtn="true"
+         */
+        var html = '<div id="' + this.id + '" data-role="' + this.anchorLocation + '" data-position="fixed">';        
+        document.write(html);
+        //<h1>' + this.value + '</h1><a href="#" data-icon="gear" class="ui-btn-right">Edit</a>
+
+        this.renderChildViews();
+
+        html = '</div>';
         document.write(html);
     },
 
     renderUpdate: function() {
         $('#' + this.id + ' h1').html(this.value);
+    },
+
+    /**
+     * Triggers render() on all children.
+     */
+    renderChildViews: function() {
+        if(this.childViews) {
+            var arr = this.childViews[0].split(' ');
+
+            /* A ToolbarView accepts only 3 childViews, one for each location: left, center, right */
+            if(arr.length > 3) {
+                M.Logger.log('To many childViews defined for toolbarView.', M.WARN);
+                return;
+            }
+
+            for(var i in arr) {
+                var view = this[arr[i]];
+                switch (view.anchorLocation) {
+                    case M.LEFT:
+                        var html = '<div class="ui-btn-left">';
+                        document.write(html);
+                        view.render();
+                        html = '</div>';
+                        document.write(html);
+                        break;
+                    case M.CENTER:
+                        var html = '<h1>';
+                        document.write(html);                            
+                        view.render();
+                        html = '</h1>';
+                        document.write(html);
+                        break;
+                    case M.RIGHT:
+                        var html = '<div class="ui-btn-right">';
+                        document.write(html);
+                        view.render();
+                        html = '</div>';
+                        document.write(html);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
     
 });
