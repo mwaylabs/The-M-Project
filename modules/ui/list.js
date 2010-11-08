@@ -67,9 +67,8 @@ M.ListView = M.View.extend({
                 if(regexResult) {
                     switch (obj[childViewsArray[i]].type) {
                         case 'M.LabelView':
-                            obj[childViewsArray[i]].value = eval('item.' + regexResult[1]);
-                            break;
                         case 'M.ButtonView':
+                        case 'M.ImageView':
                             obj[childViewsArray[i]].value = eval('item.' + regexResult[1]);
                             break;
                     }
