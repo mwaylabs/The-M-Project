@@ -37,10 +37,10 @@ M.ButtonView = M.View.extend({
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
      */
     render: function() {
-        //var html = '<input type="button" id="' + this.id + '" value="' + this.value + '" ' + this.style() + ' />';
-        var html = '<a href="#" id="' + this.id + '"' + this.style() + this.event() + '>' + this.value + '</a>';
+        var html = '<a href="#" id="' + this.id + '"' + this.style() + '>' + this.value + '</a>';
         if(this.renderToDOM) {
             document.write(html);
+            this.applyTheme();
         } else {
             return html;
         }
@@ -71,17 +71,6 @@ M.ButtonView = M.View.extend({
         }
         if(this.icon) {
             html += 'data-icon="' + this.icon + '"';
-        }
-        return html;
-    },
-
-    /**
-     * Applies events by using the onclick property if set.
-     */
-    event: function() {
-        var html = '';
-        if(this.useOnClick) {
-            html += 'onclick="M.EventDispatcher.simulateEvent(\'click\', \'' + this.id + '\', null, \'' + this.modelId + '\')"';
         }
         return html;
     }
