@@ -15,6 +15,8 @@ m_require('observable.js');
  *
  * The root class for every controller.
  *
+ * Controllers, respectively their properties, are observables. Views can observe them.
+ *
  */
 M.Controller = M.Object.extend({
 

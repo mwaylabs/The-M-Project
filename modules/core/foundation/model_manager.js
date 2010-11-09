@@ -10,12 +10,37 @@
 
 m_require('model.js');
 
+/**
+ * @class
+ *
+ * The root object for ModelManager.
+ *
+ * A ModelManager is used by a controller to manage his models. Even if each controller has his own Model Manager, the
+ * id for each model is not bound to this one model manager, but is synchronized with the model registry to solve
+ * conflicts when saving models to storage.
+ * 
+ */
 M.ModelManager = M.Object.extend({
 
+    /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.ModelManager',
+
+
+    /**
+     * Array containing all models of this model manager.
+     */
     modelList: [],
 
-    nextId: 0,
-
+    /**
+     * Holds a String to identify the model manager's model. (The one it manages).
+     *
+     */
+    modelType: '',
+    
     getNextId: function() {
         this.nextId = this.nextId + 1;
         return this.nextId;
@@ -40,6 +65,16 @@ M.ModelManager = M.Object.extend({
             return m.id === id;
         });
         return model;
+    },
+
+    saveAll: function() {
+        _.each(this.modelList, function(m){
+           m.save(); 
+        });
+    },
+
+    save: function(modelId) {
+        
     }
 
 });

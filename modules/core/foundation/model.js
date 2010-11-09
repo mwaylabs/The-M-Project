@@ -8,7 +8,8 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('data_provider.js');
+//m_require('data_provider.js');
+m_require('model_registry.js');
 
 /**
  * @class
@@ -74,6 +75,13 @@ M.Model = M.Object.extend({
             }
         }
         return user;
+    },
+
+    /**
+     * Persist model to storage.
+     */
+    save: function() {
+        
     }
 
 });
