@@ -34,6 +34,7 @@
     <script src="../../modules/ui/text_field.js"></script>
     <script src="../../modules/ui/grid.js"></script>
     <script src="../../modules/ui/image.js"></script>
+    <script src="../../modules/ui/toggle.js"></script>
 
     <script src="todos.js"></script>
 
@@ -50,14 +51,25 @@
                     childViews: ['header content'],
 
                     header: M.ToolbarView.design({
-                            childViews: ['centerLabel editButton'],
+                            childViews: ['centerLabel toggleView'],
 
-                            editButton: M.ButtonView.design({
-                                value: 'Edit',
-                                target: Todos.TodoController,
-                                action: 'edit',
-                                icon: 'gear',
-                                anchorLocation: M.RIGHT
+                            toggleView: M.ToggleView.design({
+                                childViews: ['button1 button2'],
+                                anchorLocation: M.RIGHT,
+
+                                button1: M.ButtonView.design({
+                                    value: 'Edit',
+                                    target: Todos.TodoController,
+                                    action: 'edit',
+                                    icon: 'gear'
+                                }),
+
+                                button2: M.ButtonView.design({
+                                    value: 'Save',
+                                    target: Todos.TodoController,
+                                    action: 'edit',
+                                    icon: 'check'
+                                })
                             }),
 
                             centerLabel: M.LabelView.design({
