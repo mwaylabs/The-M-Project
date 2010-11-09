@@ -4,31 +4,31 @@
 <svg version="1.1" id="Layer_1" xmlns:gliffy="http://www.gliffy.com"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="830px" height="480px"
 	 viewBox="0 0 830 480" enable-background="new 0 0 830 480" xml:space="preserve">
-<rect x="0" fill="#FFFFFF" width="829" height="479"/>
+<rect x="0" fill="#FFFFFF" width="744.5" height="396.5"/>
 <g transform="translate(521.0,60.0) rotate(0 100.0 60.0)">
 	<g transform="translate(0.0,0.0)">
 		
-			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-134.5891" y1="199.708" x2="-134.5891" y2="198.458" gradientTransform="matrix(199.2032 0 0 -20 26910.1367 3989.1563)">
+			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-269.678" y1="17.834" x2="-269.678" y2="19.084" gradientTransform="matrix(199.2032 0 0 20 53820.2656 -361.6875)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#6CCFF7"/>
 		</linearGradient>
-		<rect x="0" fill="url(#SVGID_1_)" stroke="#747474" width="199.203" height="20"/>
+		<rect x="0" fill="url(#SVGID_1_)" stroke="#747474" width="199.202" height="20"/>
 	</g>
 	<g transform="translate(0.0,20.0)">
 		
-			<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="-134.5891" y1="180.1387" x2="-134.5891" y2="178.8887" gradientTransform="matrix(199.2032 0 0 -21 26910.1367 3777.6563)">
+			<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="-269.6775" y1="16.9727" x2="-269.6775" y2="18.2227" gradientTransform="matrix(199.2032 0 0 21 53820.2656 -361.6875)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#6CCFF7"/>
 		</linearGradient>
-		<rect x="0" fill="url(#SVGID_2_)" stroke="#747474" width="199.203" height="21"/>
+		<rect x="0" fill="url(#SVGID_2_)" stroke="#747474" width="199.202" height="21"/>
 	</g>
 	<g transform="translate(0.0,41.0)">
 		
-			<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-134.5891" y1="165.4609" x2="-134.5891" y2="164.2109" gradientTransform="matrix(199.2032 0 0 -79 26910.1367 13051.6875)">
+			<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-269.678" y1="4.3281" x2="-269.678" y2="5.5781" gradientTransform="matrix(199.2032 0 0 79 53820.2656 -361.625)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#6CCFF7"/>
 		</linearGradient>
-		<rect x="0" fill="url(#SVGID_3_)" stroke="#747474" width="199.203" height="79"/>
+		<rect x="0" fill="url(#SVGID_3_)" stroke="#747474" width="199.202" height="79"/>
 	</g>
 	<g transform="translate(0.0,15.0)">
 		<text transform="matrix(1 0 0 1 60.6506 -2)" font-family="'HelveticaNeueLTCom-LtIt'" font-size="12">M.Observable</text>
@@ -59,30 +59,30 @@
 <g transform="translate(161.0,60.0) rotate(0 100.0 60.0)">
 	<g transform="translate(0.0,0.0)">
 		
-			<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="225.4114" y1="199.708" x2="225.4114" y2="198.458" gradientTransform="matrix(199.2032 0 0 -20 -44803.0078 3989.1563)">
+			<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="450.3225" y1="17.834" x2="450.3225" y2="19.084" gradientTransform="matrix(199.2032 0 0 20 -89606.0156 -361.6875)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#6CCFF7"/>
 		</linearGradient>
-		<rect x="0" fill="url(#SVGID_4_)" stroke="#747474" width="199.203" height="20"/>
+		<rect x="0" fill="url(#SVGID_4_)" stroke="#747474" width="199.202" height="20"/>
 	</g>
 	<g transform="translate(0.0,20.0)">
 		
-			<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="225.4114" y1="179.708" x2="225.4114" y2="178.458" gradientTransform="matrix(199.2032 0 0 -20 -44803.0078 3589.1563)">
+			<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="450.3225" y1="17.834" x2="450.3225" y2="19.084" gradientTransform="matrix(199.2032 0 0 20 -89606.0156 -361.6875)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#6CCFF7"/>
 		</linearGradient>
-		<rect x="0" fill="url(#SVGID_5_)" stroke="#747474" width="199.203" height="20"/>
+		<rect x="0" fill="url(#SVGID_5_)" stroke="#747474" width="199.202" height="20"/>
 	</g>
 	<g transform="translate(0.0,40.0)">
 		
-			<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="225.4114" y1="166.4893" x2="225.4114" y2="165.2393" gradientTransform="matrix(199.2032 0 0 -80 -44803.0078 13299.1875)">
+			<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="450.3225" y1="4.271" x2="450.3225" y2="5.521" gradientTransform="matrix(199.2032 0 0 80 -89606.0156 -361.625)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#6CCFF7"/>
 		</linearGradient>
-		<rect x="0" fill="url(#SVGID_6_)" stroke="#747474" width="199.203" height="80"/>
+		<rect x="0" fill="url(#SVGID_6_)" stroke="#747474" width="199.202" height="80"/>
 	</g>
 	<g transform="translate(0.0,15.0)">
-		<text transform="matrix(1 0 0 1 79.8845 -2)" font-family="'HelveticaNeueLTCom-LtIt'" font-size="12">M.View</text>
+		<text transform="matrix(1 0 0 1 79.884 -2)" font-family="'HelveticaNeueLTCom-LtIt'" font-size="12">M.View</text>
 	</g>
 	<g transform="translate(0.0,57.0)">
 		<text transform="matrix(1 0 0 1 2.0002 -2)" font-family="'HelveticaNeueLTCom-Lt'" font-size="12">+</text>
@@ -90,9 +90,9 @@
 	</g>
 </g>
 <g transform="translate(511.0,220.0) rotate(0 110.0 35.0)">
-	<polygon fill="#FFFFFF" stroke="#000000" points="0,0 188.446,0 219.123,16.225 219.123,69.537 0,69.537 	"/>
+	<polygon fill="#FFFFFF" stroke="#000000" points="0,0 188.446,0 219.122,16.225 219.122,69.537 0,69.537 	"/>
 	<line fill="none" stroke="#000000" x1="188.446" y1="0" x2="188.446" y2="16.225"/>
-	<line fill="none" stroke="#000000" x1="188.446" y1="16.225" x2="219.123" y2="16.225"/>
+	<line fill="none" stroke="#000000" x1="188.446" y1="16.225" x2="219.122" y2="16.225"/>
 	<g transform="translate(0.0,25.0)">
 		<text transform="matrix(1 0 0 1 2.0002 -2)" font-family="'HelveticaNeueLTCom-Lt'" font-size="12">notifyObservers()</text>
 		<text transform="matrix(1 0 0 1 2.0002 12.7998)" font-family="'HelveticaNeueLTCom-Lt'" font-size="12">    for observer in bindingList</text>
@@ -119,7 +119,7 @@
 <g transform="translate(21.0,260.0) rotate(0 100.0 60.0)">
 	<g transform="translate(0.0,0.0)">
 		
-			<linearGradient id="SVGID_7_" gradientUnits="userSpaceOnUse" x1="365.4114" y1="-0.292" x2="365.4114" y2="-1.542" gradientTransform="matrix(199.2032 0 0 -20 -72691.4531 -10.8438)">
+			<linearGradient id="SVGID_7_" gradientUnits="userSpaceOnUse" x1="730.3225" y1="17.834" x2="730.3225" y2="19.084" gradientTransform="matrix(199.2032 0 0 20 -145382.8281 -361.6875)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
@@ -127,7 +127,7 @@
 	</g>
 	<g transform="translate(0.0,20.0)">
 		
-			<linearGradient id="SVGID_8_" gradientUnits="userSpaceOnUse" x1="365.4114" y1="-20.292" x2="365.4114" y2="-21.542" gradientTransform="matrix(199.2032 0 0 -20 -72691.4531 -410.8438)">
+			<linearGradient id="SVGID_8_" gradientUnits="userSpaceOnUse" x1="730.3225" y1="17.834" x2="730.3225" y2="19.084" gradientTransform="matrix(199.2032 0 0 20 -145382.8281 -361.6875)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
@@ -135,7 +135,7 @@
 	</g>
 	<g transform="translate(0.0,40.0)">
 		
-			<linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="365.4114" y1="-33.5107" x2="365.4114" y2="-34.7607" gradientTransform="matrix(199.2032 0 0 -80 -72691.4531 -2700.8125)">
+			<linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="730.3225" y1="4.2715" x2="730.3225" y2="5.5215" gradientTransform="matrix(199.2032 0 0 80 -145382.8281 -361.625)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
@@ -152,30 +152,30 @@
 <g transform="translate(301.0,260.0) rotate(0 100.0 60.0)">
 	<g transform="translate(0.0,0.0)">
 		
-			<linearGradient id="SVGID_10_" gradientUnits="userSpaceOnUse" x1="85.4109" y1="-0.292" x2="85.4109" y2="-1.542" gradientTransform="matrix(199.2032 0 0 -20 -16914.5625 -10.8438)">
+			<linearGradient id="SVGID_10_" gradientUnits="userSpaceOnUse" x1="170.3215" y1="17.834" x2="170.3215" y2="19.084" gradientTransform="matrix(199.2032 0 0 20 -33829.0664 -361.6875)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
-		<rect x="0" fill="url(#SVGID_10_)" stroke="#747474" width="199.203" height="20"/>
+		<rect x="0" fill="url(#SVGID_10_)" stroke="#747474" width="199.202" height="20"/>
 	</g>
 	<g transform="translate(0.0,20.0)">
 		
-			<linearGradient id="SVGID_11_" gradientUnits="userSpaceOnUse" x1="85.4109" y1="-20.292" x2="85.4109" y2="-21.542" gradientTransform="matrix(199.2032 0 0 -20 -16914.5625 -410.8438)">
+			<linearGradient id="SVGID_11_" gradientUnits="userSpaceOnUse" x1="170.3215" y1="17.834" x2="170.3215" y2="19.084" gradientTransform="matrix(199.2032 0 0 20 -33829.0664 -361.6875)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
-		<rect x="0" fill="url(#SVGID_11_)" stroke="#747474" width="199.203" height="20"/>
+		<rect x="0" fill="url(#SVGID_11_)" stroke="#747474" width="199.202" height="20"/>
 	</g>
 	<g transform="translate(0.0,40.0)">
 		
-			<linearGradient id="SVGID_12_" gradientUnits="userSpaceOnUse" x1="85.4109" y1="-33.5107" x2="85.4109" y2="-34.7607" gradientTransform="matrix(199.2032 0 0 -80 -16914.5625 -2700.8125)">
+			<linearGradient id="SVGID_12_" gradientUnits="userSpaceOnUse" x1="170.3215" y1="4.2715" x2="170.3215" y2="5.5215" gradientTransform="matrix(199.2032 0 0 80 -33829.0664 -361.625)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
-		<rect x="0" fill="url(#SVGID_12_)" stroke="#747474" width="199.203" height="80"/>
+		<rect x="0" fill="url(#SVGID_12_)" stroke="#747474" width="199.202" height="80"/>
 	</g>
 	<g transform="translate(0.0,15.0)">
-		<text transform="matrix(1 0 0 1 64.2136 -2)" font-family="'HelveticaNeueLTCom-LtIt'" font-size="12">M.LabelView</text>
+		<text transform="matrix(1 0 0 1 64.2131 -2)" font-family="'HelveticaNeueLTCom-LtIt'" font-size="12">M.LabelView</text>
 	</g>
 	<g transform="translate(0.0,57.0)">
 		<text transform="matrix(1 0 0 1 1.9998 -2)" font-family="'HelveticaNeueLTCom-Lt'" font-size="12">+</text>
