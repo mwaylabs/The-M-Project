@@ -4,11 +4,11 @@
 <svg version="1.1" id="Ebene_1" xmlns:gliffy="http://www.gliffy.com"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1468px" height="969px"
 	 viewBox="0 0 1468 969" enable-background="new 0 0 1468 969" xml:space="preserve">
-<rect fill="#FFFFFF" width="1467" height="968"/>
+<rect fill="#FFFFFF" width="1339.5" height="752"/>
 <g transform="translate(154.24185945136344,69.49999999999994) rotate(0 60.095470836064514 329.1600081819589)">
 	<g transform="translate(0.0,0.0)">
 		
-			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="177.6444" y1="725.4414" x2="177.6444" y2="724.1914" gradientTransform="matrix(119.7121 0 0 -18.35 -21206.2148 13307.25)">
+			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="354.7879" y1="-20.6318" x2="354.7879" y2="-19.3818" gradientTransform="matrix(119.7121 0 0 18.35 -42412.4648 374)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
@@ -52,7 +52,7 @@
 <g transform="translate(563.8926523172033,69.49999999999994) rotate(0 60.095470836064514 329.1600081819589)">
 	<g transform="translate(0.0,0.0)">
 		
-			<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="-232.0064" y1="725.4414" x2="-232.0064" y2="724.1914" gradientTransform="matrix(119.7121 0 0 -18.35 27833.9102 13307.25)">
+			<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="-464.5142" y1="-20.6318" x2="-464.5142" y2="-19.3818" gradientTransform="matrix(119.7121 0 0 18.35 55667.8477 374)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
@@ -69,7 +69,7 @@
 <g transform="translate(431.68261647786136,69.49999999999994) rotate(0 60.095470836064514 329.1600081819589)">
 	<g transform="translate(0.0,0.0)">
 		
-			<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-99.7964" y1="725.4414" x2="-99.7964" y2="724.1914" gradientTransform="matrix(119.7121 0 0 -18.35 12006.7949 13307.25)">
+			<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-200.0942" y1="-20.6318" x2="-200.0942" y2="-19.3818" gradientTransform="matrix(119.7121 0 0 18.35 24013.6094 374)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
@@ -85,8 +85,8 @@
 </g>
 <g transform="translate(234.5,135.75) rotate(0 22.5 11.25)">
 	<polygon fill="#333333" stroke="#333333" points="0,19.396 6.275,16.487 6.275,22.306 	"/>
-	<path fill="#333333" stroke="#333333" d="M0,0c23.904,0,35.856,3.233,35.856,9.698S23.904,19.396,0,19.396
-		c23.904,0,35.856-3.233,35.856-9.698S23.904,0,0,0"/>
+	<path fill="#333333" stroke="#333333" d="M0,0c23.904,0,35.856,3.233,35.856,9.698c0,6.465-11.952,9.698-35.856,9.698
+		c23.904,0,35.856-3.233,35.856-9.698C35.856,3.233,23.904,0,0,0"/>
 	<polygon fill="#333333" stroke="#333333" points="0,19.396 6.275,16.487 6.275,22.306 	"/>
 	<g transform="translate(40.0,19.25)">
 		<text transform="matrix(1 0 0 1 8 -2)" font-family="'HelveticaNeue-Light'" font-size="12">delegateEvent(type, id, keyCode)</text>
@@ -143,7 +143,7 @@
 <g transform="translate(735.1647441999875,69.49999999999994) rotate(0 60.095470836064514 329.1600081819589)">
 	<g transform="translate(0.0,0.0)">
 		
-			<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="-403.279" y1="725.4414" x2="-403.279" y2="724.1914" gradientTransform="matrix(119.7121 0 0 -18.35 48337.293 13307.25)">
+			<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="-807.0583" y1="-20.6318" x2="-807.0583" y2="-19.3818" gradientTransform="matrix(119.7121 0 0 18.35 96674.5469 374)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
@@ -182,11 +182,11 @@
 <g transform="translate(876.3891006647389,69.49999999999994) rotate(0 60.095470836064514 329.1600081819589)">
 	<g transform="translate(0.0,0.0)">
 		
-			<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="-544.5029" y1="725.4414" x2="-544.5029" y2="724.1914" gradientTransform="matrix(119.7121 0 0 -18.35 65243.5156 13307.25)">
+			<linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="-1089.5073" y1="-20.6318" x2="-1089.5073" y2="-19.3818" gradientTransform="matrix(119.7121 0 0 18.35 130487.0781 374)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
-		<rect x="0" fill="url(#SVGID_5_)" stroke="#999999" stroke-width="2" width="119.713" height="18.35"/>
+		<rect x="0" fill="url(#SVGID_5_)" stroke="#999999" stroke-width="2" width="119.714" height="18.35"/>
 	</g>
 	<g transform="translate(0.0,18.35)">
 		<line fill="none" stroke="#999999" stroke-width="2" x1="59.856" y1="0" x2="59.856" y2="639.97"/>
@@ -241,7 +241,7 @@
 <g transform="translate(1003.5911806010755,69.49999999999994) rotate(0 60.095470836064514 329.1600081819589)">
 	<g transform="translate(0.0,0.0)">
 		
-			<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="-671.705" y1="725.4414" x2="-671.705" y2="724.1914" gradientTransform="matrix(119.7121 0 0 -18.35 80471.125 13307.25)">
+			<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="-1343.9105" y1="-20.6318" x2="-1343.9105" y2="-19.3818" gradientTransform="matrix(119.7121 0 0 18.35 160942.25 374)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
@@ -319,7 +319,7 @@
 <g transform="translate(1140.7613256309735,71.83669223146978) rotate(0 60.095470836064514 329.1600081819589)">
 	<g transform="translate(0.0,0.0)">
 		
-			<linearGradient id="SVGID_7_" gradientUnits="userSpaceOnUse" x1="-808.8751" y1="723.2131" x2="-808.8751" y2="721.9631" gradientTransform="matrix(119.7121 0 0 -18.35 96892.0781 13264.3789)">
+			<linearGradient id="SVGID_7_" gradientUnits="userSpaceOnUse" x1="-1618.2511" y1="-20.7405" x2="-1618.2511" y2="-19.4905" gradientTransform="matrix(119.7121 0 0 18.35 193784.1406 374.01)">
 			<stop  offset="0" style="stop-color:#FFFFFF"/>
 			<stop  offset="1" style="stop-color:#999999"/>
 		</linearGradient>
@@ -337,11 +337,11 @@
 	<rect x="0" y="0" fill="#FFFFFF" stroke="#999999" stroke-width="2" width="18.373" height="50.089"/>
 </g>
 <g transform="translate(1053.630069759896,435.2876452555503) rotate(0 9.369930240103828 32.712354744449726)">
-	<rect x="0" y="0" fill="#FFFFFF" stroke="#999999" stroke-width="2" width="18.373" height="65.164"/>
+	<rect x="0" y="0" fill="#FFFFFF" stroke="#999999" stroke-width="2" width="18.373" height="65.163"/>
 </g>
 <g transform="translate(1085.5,458.75) rotate(0 22.5 11.25)">
 	<polygon stroke="#000000" points="0,19.396 6.275,16.487 6.275,22.306 	"/>
-	<path stroke="#000000" d="M0,0c23.904,0,35.856,3.232,35.856,9.698S23.904,19.396,0,19.396c23.904,0,35.856-3.232,35.856-9.698
+	<path stroke="#000000" d="M0,0c23.904,0,35.855,3.232,35.855,9.698S23.904,19.396,0,19.396c23.904,0,35.855-3.232,35.855-9.698
 		S23.904,0,0,0"/>
 	<polygon stroke="#000000" points="0,19.396 6.275,16.487 6.275,22.306 	"/>
 </g>
@@ -355,7 +355,7 @@
 </g>
 <g transform="translate(1210.5,589.75) rotate(0 22.5 11.25)">
 	<polygon stroke="#000000" points="0,19.396 6.275,16.487 6.275,22.306 	"/>
-	<path stroke="#000000" d="M0,0c23.904,0,35.856,3.232,35.856,9.698S23.904,19.396,0,19.396c23.904,0,35.856-3.232,35.856-9.698
+	<path stroke="#000000" d="M0,0c23.904,0,35.855,3.232,35.855,9.698S23.904,19.396,0,19.396c23.904,0,35.855-3.232,35.855-9.698
 		S23.904,0,0,0"/>
 	<polygon stroke="#000000" points="0,19.396 6.275,16.487 6.275,22.306 	"/>
 </g>
