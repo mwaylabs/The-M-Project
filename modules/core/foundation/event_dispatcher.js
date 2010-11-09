@@ -35,24 +35,6 @@ M.EventDispatcher = M.Object.create({
     },
 
     /**
-     * This method simulates an event by creating an event object out of parameters
-     * passed as a string.
-     *
-     * @param {String} type The event type.
-     * @param {String} id The id that created this event.
-     * @param {String} keyCode The key code.
-     */
-    simulateEvent: function(type, id, keyCode, paramId) {
-        this.eventDidHappen({
-            type: type,
-            currentTarget: {
-                id: id
-            },
-            keyCode: keyCode
-        }, paramId);
-    },
-
-    /**
      * This method looks for a corresponding event inside the view manager and
      * delegates the call directly to the responsible controller defined by the
      * target and action properties of the view.
@@ -63,11 +45,13 @@ M.EventDispatcher = M.Object.create({
      */
     delegateEvent: function(type, id, keyCode, paramId) {
         var view = M.ViewManager.getViewById(id);
-
         switch(type) {
             case 'click':
                 if(view && view.target && view.action && view.type !== 'M.TextFieldView') {
                     view.target[view.action](paramId ? paramId : id);
+                }
+                if(view && view.internalTarget && view.internalAction) {
+                    view.internalTarget[view.internalAction](paramId ? paramId : id);
                 }
                 break;
             case 'change':
@@ -80,10 +64,10 @@ M.EventDispatcher = M.Object.create({
                     }
                 }
                 break;
-            case 'focus':
+            case 'focusin':
                 view.gotFocus();
                 break;
-            case 'blur':
+            case 'focusout':
                 view.lostFocus();
                 break;
             case 'orientationchange':
@@ -92,9 +76,4 @@ M.EventDispatcher = M.Object.create({
         }
     }
 
-});
-
-$(document).ready(function() {
-    var eventList = 'click change keyup focus blur';
-    $('*[id]').bind(eventList, function(evt) { M.EventDispatcher.eventDidHappen(evt);});
 });
