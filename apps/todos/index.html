@@ -7,7 +7,8 @@
 
     <title>Todos - A simple sample app</title>
     <script src="../../modules/jquery/jquery-1.4.3.min.js"></script>
-    <script src="../../modules/jquery_mobile/jquery.mobile-1.0a1.min.js"></script>
+    <!--<script src="../../modules/jquery_mobile/jquery.mobile-1.0a1.min.js"></script>-->
+    <script src="../../modules/jquery_mobile/jquery.mobile-1.0a2pre.min.js"></script>
     <script src="../../modules/underscore/underscore-min.js"></script>    
     <script src="../../modules/core/foundation/m.js"></script>
     <script src="../../modules/core/foundation/object.js"></script>
@@ -36,7 +37,9 @@
 
     <script src="todos.js"></script>
 
-    <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a1.min.css" rel="stylesheet" />
+    <!--<link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a1.min.css" rel="stylesheet" />
+    <link href="resources/style.css" rel="stylesheet" />-->
+    <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a2pre.min.css" rel="stylesheet" />
     <link href="resources/style.css" rel="stylesheet" />
 </head>
 <body>
@@ -47,19 +50,29 @@
                     childViews: ['header content'],
 
                     header: M.ToolbarView.design({
-                            value: 'Todos',
-                            anchorLocation : M.TOP
+                            childViews: ['centerLabel editButton'],
+
+                            editButton: M.ButtonView.design({
+                                value: 'Edit',
+                                target: Todos.TodoController,
+                                action: 'edit',
+                                icon: 'gear',
+                                anchorLocation: M.RIGHT
+                            }),
+
+                            centerLabel: M.LabelView.design({
+                                value: 'Todos',
+                                anchorLocation: M.CENTER
+                            }),
+
+                            //value: 'TODOS',
+                            anchorLocation: M.TOP
                     }),
 
                     content: M.ScrollView.design({
 
                         /* order in childViews string defines render order*/
-                        childViews: ['counter text grid todoList'],
-
-                        todoList: M.ListView.design({
-                            contentBinding: 'Todos.TodoController.todos',
-                            listItemTemplateView: Todos.TodoItemView
-                        }),
+                        childViews: ['counter text inputField todoList'],
 
                         counter: M.LabelView.design({
                             value: '0',
@@ -72,33 +85,20 @@
                             isInline: YES
                         }),
 
-                        grid: M.GridView.design({
-                            childViews: ['inputField addButton'],
+                        inputField: M.TextFieldView.design({
+                            name: 'todo_field',
+                            initialText: 'Enter ToDo Item...',
 
-                            layout: {
-                                cssClass: 'todoGrid',
-                                columns: {
-                                    0: 'col1',
-                                    1: 'col2'
-                                }
-                            },
+                            /* target and action define path for onReturn event */
+                            target: Todos.TodoController,
+                            action: 'addTodo'
+                        }),
 
-                            addButton: M.ButtonView.design({
-                                value: '+',
-                                target: Todos.TodoController,
-                                action: 'addTodo',
-                                isInline: YES
-                            }),
-
-                            inputField: M.TextFieldView.design({
-                                name: 'todo_field',
-                                initialText: 'Enter ToDo Item...',
-                                
-                                /* target and action define path for onReturn event */
-                                target: Todos.TodoController,
-                                action: 'addTodo'
-                            })
+                        todoList: M.ListView.design({
+                            contentBinding: 'Todos.TodoController.todos',
+                            listItemTemplateView: Todos.TodoItemView
                         })
+
                     })
 
                 })

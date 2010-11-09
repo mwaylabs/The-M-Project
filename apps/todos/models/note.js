@@ -10,6 +10,8 @@
 
 Todos.Note = M.Model.extend({
 
-   text: ''
+   text: '',
+
+   storageEngine: M.WebStorage
 
 });

@@ -29,6 +29,10 @@ M.ListView = M.View.extend({
 
     items: null,
 
+    inEditMode: NO,
+
+    editOptions: null,
+
     renderChildViews: function() {
 
     },
@@ -74,6 +78,14 @@ M.ListView = M.View.extend({
                     }
                 }
             }
+            if(that.inEditMode) {
+                obj.inEditMode = that.inEditMode;
+                obj.deleteButton = obj.deleteButton.design({
+                    modelId: item.id,
+                    target: that.editOptions.target,
+                    action: that.editOptions.action
+                });
+            }
             that.addItem(obj.render());
             for(var i in childViewsArray) {
                 obj[childViewsArray[i]].applyTheme();
@@ -87,6 +99,27 @@ M.ListView = M.View.extend({
      */
     applyTheme: function() {
         $('#' + this.id).listview('refresh');
+    },
+
+    /**
+     *
+     */
+    toggleRemove: function(options) {
+        if(eval(this.contentBinding)) {
+            this.inEditMode = !this.inEditMode;
+
+            if(options.disableOnEdit[0]) {
+                var views = options.disableOnEdit[0].split(' ');
+                _.each(views, function(view) {
+                    var view = eval(view);
+                    view.isEnabled = !view.isEnabled;
+                    view.renderUpdate();
+                });
+            }
+
+            this.editOptions = options;
+            this.renderUpdate();
+        }
     }
 
 });

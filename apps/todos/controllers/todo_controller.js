@@ -19,7 +19,7 @@ Todos.TodoController = M.Controller.extend({
     counter: 0,
 
     addTodo: function() {
-        var text = Todos.app.page.content.grid.inputField.value;
+        var text = Todos.app.page.content.inputField.value;
         if(!text) {
             return;
         }
@@ -30,18 +30,28 @@ Todos.TodoController = M.Controller.extend({
 
         this.calculateCounter();
 
-        Todos.app.page.content.grid.inputField.setValue('');
+        Todos.app.page.content.inputField.setValue('');
     },
 
     removeTodo: function(modelId) {
-        console.log(modelId);
-        this.notes.remove(modelId);
-        this.set('todos', this.notes.modelList);
-        this.calculateCounter();
+        var doDelete = confirm('Do you really want to delete this item?');
+        if(doDelete) {
+            this.notes.remove(modelId);
+            this.set('todos', this.notes.modelList);
+            this.calculateCounter();
+        }
     },
 
     calculateCounter: function() {
         this.set('counter', this.todos.length);
+    },
+
+    edit: function() {
+        Todos.app.page.content.todoList.toggleRemove({
+            target: this,
+            action: 'removeTodo',
+            disableOnEdit: ['Todos.app.page.content.inputField']
+        });
     }
 
 });

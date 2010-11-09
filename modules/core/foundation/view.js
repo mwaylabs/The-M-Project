@@ -78,6 +78,13 @@ M.View = M.Object.extend({
      */
     isVisible: NO,
 
+    /*
+     * Indicates whether the view is enabled or not.
+     */
+    isEnabled: YES,
+
+    modelId: null,
+
     /**
      * This method encapsulates the 'extend' method of M.Object for better reading of code syntax.
      * It triggers the content binding for this view,

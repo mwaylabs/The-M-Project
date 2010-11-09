@@ -20,9 +20,26 @@ M.ListItemView = M.View.extend({
 
     type: 'M.ListItemView',
 
+    inEditMode: NO,
+
+    deleteButton: M.ButtonView.design({
+        icon: 'delete',
+        renderToDOM: NO,
+        useOnClick: YES,
+        target: null,
+        action: '',
+        value: ''
+    }),
+
     render: function() {
-        var html = '<li id="' + this.id + '">';
+        var html = '<li id="' + this.id + '" data-icon="none">';
         html += this.renderChildViews();
+
+        if(this.inEditMode) {
+            html += '<a href="#"></a>';
+            html += this.deleteButton.render();
+        }
+
         html += '</li>';
         return html;
     },
