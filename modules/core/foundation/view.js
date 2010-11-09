@@ -73,6 +73,12 @@ M.View = M.Object.extend({
     isInline: NO,
 
     /**
+     * Indicates whether the view is visible or not.
+     * Implemented via CSS's display property.
+     */
+    isVisible: NO,
+
+    /**
      * This method encapsulates the 'extend' method of M.Object for better reading of code syntax.
      * It triggers the content binding for this view,
      * gets an ID from and registers itself at the ViewManager.
