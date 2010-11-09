@@ -150,6 +150,8 @@ M.View = M.Object.extend({
             this.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]];
             this.renderUpdate();
             this.delegateValueUpdate();
+        } else if(bindingPath && bindingPath.length === 3) {
+            return;
         } else {
             M.Logger.log('bindingPath not valid', M.WARN);
         }
