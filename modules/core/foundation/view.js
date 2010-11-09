@@ -73,6 +73,12 @@ M.View = M.Object.extend({
     isInline: NO,
 
     /**
+     * Indicates whether the view is visible or not.
+     * Implemented via CSS's display property.
+     */
+    isVisible: NO,
+
+    /*
      * Indicates whether the view is enabled or not.
      */
     isEnabled: YES,

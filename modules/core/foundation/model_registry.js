@@ -50,7 +50,7 @@ M.ModelRegistry = M.Object.extend({
     },
 
     /**
-     * Register a model at the registry.
+     * Register a model in the registry.
      * Set nextGUId for this model to initial value 0.
      * 
      * @param {String} modelName The name of the model, e.g. 'Person'.

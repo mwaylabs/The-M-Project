@@ -20,7 +20,7 @@ M.Application = M.Object.extend({
 
     /**
      * The type of this object.
-     *
+     *g
      * @property {String}
      */
     type: 'M.Application',
