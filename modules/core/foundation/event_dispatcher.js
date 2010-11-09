@@ -45,6 +45,7 @@ M.EventDispatcher = M.Object.create({
      */
     delegateEvent: function(type, id, keyCode, paramId) {
         var view = M.ViewManager.getViewById(id);
+
         switch(type) {
             case 'click':
                 if(view && view.target && view.action && view.type !== 'M.TextFieldView') {
@@ -62,6 +63,8 @@ M.EventDispatcher = M.Object.create({
                     if(view && view.target && view.action) {
                         view.target[view.action](id);
                     }
+                } else if(view.type === 'M.TextFieldView') {
+                    view.setValueFromDOM();
                 }
                 break;
             case 'focusin':
