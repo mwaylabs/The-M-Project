@@ -63,12 +63,7 @@ M.Controller = M.Object.extend({
      */
     set: function(key, value) {
         this[key] = value;
-
-        _.each(this.observable.bindingList, function(entry){
-            if(key === entry.observable){
-                entry.observer.contentDidChange();
-            }
-        });
+        this.observable.notifyObservers(key);
     }
 
 });

@@ -59,6 +59,19 @@ M.Observable = M.Object.extend({
         this.bindlingList = $.grep(this.bindlingList, function(value, index) {
                 return value.observer !== observer;
         });
+    },
+
+    /**
+     * Notify all observers that observe the property behind 'key'.
+     *
+     * @param {String} key The key of the property that changed.
+     */
+    notifyObservers: function(key) {
+        _.each(this.bindingList, function(entry){
+            if(key === entry.observable){
+                entry.observer.contentDidChange();
+            }
+        });
     }
 
 });
