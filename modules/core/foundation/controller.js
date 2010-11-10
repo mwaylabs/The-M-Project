@@ -47,7 +47,7 @@ M.Controller = M.Object.extend({
      * @param {Object} view The view to be displayed.
      */
     switchToView: function(view) {
-        var id = M.ViewManager.getIdByView(view);
+        var id = M.Application.viewManager.getIdByView(view);
         if(id) {
             location.href = this.buildLocationHref(id);
         } else {
