@@ -37,7 +37,7 @@ M.ModelManager = M.Object.extend({
     modelList: [],
 
     /**
-     * Add the given model to the modellist but first.
+     * Add the given model to the modelList but first.
      *
      * @param model
      */
@@ -45,7 +45,7 @@ M.ModelManager = M.Object.extend({
         this.modelList.push(model);
     },
 
-    removeAll: function()Ê{
+    removeAll: function() {
         this.modelList = [];
     },
 

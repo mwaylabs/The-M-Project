@@ -86,12 +86,12 @@ M.Model = M.Object.extend({
                 modelRecord[obj_prop] = obj[obj_prop];
             }
         }
+        modelRecord.id = M.Application.modelRegistry.getNextId(this.name); 
         return modelRecord;
     },
 
     create: function(obj) {
         var model = this.extend({
-            id: M.Application.modelRegistry.getNextId(obj.__name__),
             name: obj.__name__
         });
         delete obj.__name__;
