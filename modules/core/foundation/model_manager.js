@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      04.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -15,10 +15,10 @@ m_require('model.js');
  *
  * The root object for ModelManager.
  *
- * A ModelManager is used by a controller to manage his models. Even if each controller has his own Model Manager, the
- * id for each model is not bound to this one model manager, but is synchronized with the model registry to solve
- * conflicts when saving models to storage.
- * 
+ * A ModelManager is used by a controller and is an interface that makes it easy for him to
+ * handle his model records.
+ * Even if each controller has his own Model Manager, the id for each model is not bound to this one model manager,
+ * but is synchronized with the model registry to solve conflicts when saving models to storage.
  */
 M.ModelManager = M.Object.extend({
 
@@ -31,22 +31,22 @@ M.ModelManager = M.Object.extend({
 
     /**
      * Array containing all models of this model manager.
+     *
+     * @property {Object}
      */
     modelList: [],
-    
+
     /**
-     * The model manager's model. (The one it manages).
+     * Add the given model to the modellist but first.
      *
+     * @param model
      */
-    model: null,
-    
-    getNextId: function() {
-        return M.Application.modelRegistry.getNextId(this.model.name);
+    add: function(model) {
+        this.modelList.push(model);
     },
 
-    add: function(model) {
-        model.id = this.getNextId();
-        this.modelList.push(model);
+    removeAll: function()Ê{
+        this.modelList = [];
     },
 
     remove: function(id) {
@@ -68,15 +68,52 @@ M.ModelManager = M.Object.extend({
         return model;
     },
 
+
+    /**
+     * The following methods encapsulate operations to the storage system.
+     *
+     */
+
+    /**
+     * Saves (persists) all records in modelList to the storage system.
+     */
     saveAll: function() {
         _.each(this.modelList, function(m){
-           m.save(); 
+           m.save();
         });
     },
 
-    save: function(modelId) {
+    /**
+     * Save the model record, identified by id, to the storage system.
+     *
+     * @param {Number} id Identifies the model record.
+     */
+    save: function(id) {
+        this.getModelForId(id).save();
+    },
+    
+    /**
+     * Deletes all records in modelList from the storage system.
+     */
+    delAll: function() {
+        _.each(this.modelList, function(m){
+           m.del();
+        });
     },
 
+    /**
+     * Delete the model record, identified by id, from the storage system.
+     *
+     * @param {Number} id Identifies the model record.
+     */
+    del: function(id) {
+        this.getModelForId(id).del();
+    },
+
+
+    /**
+     * Debug method to print out all content from the modelList array to the console.
+     */
     dumpModelList: function() {
         _.each(this.modelList, function(model){
             console.log(model.id);
