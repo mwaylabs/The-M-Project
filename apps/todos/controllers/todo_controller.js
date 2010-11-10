@@ -11,7 +11,7 @@
 Todos.TodoController = M.Controller.extend({
 
     notes: M.ModelManager.extend({
-        model: Todos.Person
+        model: Todos.Note
     }),
 
     todos: null,
@@ -24,7 +24,7 @@ Todos.TodoController = M.Controller.extend({
             return;
         }
 
-        var note = Todos.Note.create( { text: text } );
+        var note = Todos.Note.newRecord( { text: text } );
         this.notes.add(note);
         this.set('todos', this.notes.modelList);
 
