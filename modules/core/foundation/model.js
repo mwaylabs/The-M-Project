@@ -80,7 +80,7 @@ M.Model = M.Object.extend({
 
     newRecord: function(obj) {
         var modelRecord = this.extend({
-            id: M.Application.modelRegistry.getNextId(this.name),
+            id: obj.id ? obj.id : M.Application.modelRegistry.getNextId(this.name),
             record: obj
         });
         return modelRecord;
@@ -98,6 +98,13 @@ M.Model = M.Object.extend({
          */
         model.record = obj;
         M.Application.modelRegistry.register(model.name);
+
+        /* Re-set the just registered model's id, if there is a value stored */
+        var id = localStorage.getItem(model.name);
+        if(id) {
+            M.Application.modelRegistry.setId(model.name, parseInt(id));
+        }
+
         return model;
     },
 
@@ -119,6 +126,8 @@ M.Model = M.Object.extend({
         if(!this.id) {
             return;
         }
+
+        localStorage.removeItem(this.name + '_' + this.id);
     }
 
 });
