@@ -109,14 +109,18 @@ M.Model = M.Object.extend({
      * Create or update a record in storage.
      */
     save: function() {
-
+        if(!this.id) {
+            return;
+        }
     },
 
     /**
      * Delete a record in storage.
      */
     del: function() {
-
+        if(!this.id) {
+            return;
+        }
     }
 
 });
