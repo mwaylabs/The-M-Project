@@ -214,6 +214,21 @@ M.View = M.Object.extend({
      */
     lostFocus: function() {
         this.hasFocus = NO;
+    },
+
+    /**
+     * Secure the passed string.
+     * 
+     * This is mainly used for securing input elements like text fields but since it is
+     * part of M.View it can be used and called out of any view.
+     *
+     * So far we only replace '<' and '>' with their corresponding html entity. The functionality
+     * of this method will be extended in the future.
+     *
+     * @param {String} str The string to be escaped
+     */
+    secure: function(str) {
+        return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
 });
