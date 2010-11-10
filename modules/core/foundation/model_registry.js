@@ -36,15 +36,17 @@ M.ModelRegistry = M.Object.extend({
     registry: [],
 
     /**
-     * Calculates the next GUId for a model named by modelName.
+     * Calculates the next ID for a model named by modelName.
      *
      * @param {String} modelName The name of the model, e.g. 'Person'.
      */
-    nextGUId: function(modelName) {
+    getNextId: function(modelName) {
+        console.log(modelName);
         for(i in this.registry){
+            console.log(this.registry[i]);
             if(this.registry[i].modelName === modelName){
-                this.registry[i].nextGUId = this.registry[i].nextGUId + 1;
-                return this.registry[i].nextGUId;
+                this.registry[i].id = this.registry[i].id + 1;
+                return this.registry[i].id;
             }
         }  
     },
@@ -63,7 +65,7 @@ M.ModelRegistry = M.Object.extend({
 
         var obj = {
             modelName: modelName,
-            nextGUId: 0
+            id: 0
         };
         this.registry.push(obj);
         
