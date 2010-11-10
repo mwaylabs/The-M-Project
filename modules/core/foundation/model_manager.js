@@ -35,6 +35,8 @@ M.ModelManager = M.Object.extend({
      */
     modelList: [],
 
+    nextId: 0,
+
     /**
      * Holds a String to identify the model manager's model. (The one it manages).
      *
