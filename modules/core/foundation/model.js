@@ -27,20 +27,16 @@ M.Model = M.Object.extend({
     type: 'M.Model',
 
     /**
-     * Defines the model's primary key.
-     *
-     * default: globally unique identifier
-     *
-     * @property {String}
+     * the name of the model.
      */
-    primaryKey: 'guid',
+    name: '',
 
     /**
-     * globally unique identifier
+     * Unique identifier
      *
      * @property {Number}
      */
-    guid: null,
+    id: null,
 
     /**
      * The model's data provider.
@@ -48,6 +44,13 @@ M.Model = M.Object.extend({
      * @property {Object}
      */
     dataProvider: null,
+
+    /**
+     * Defines the storage engine to use.
+     *
+     * Needs a refactoring, also in connection with dataProvider.
+     */
+    storageEngine: M.WebStorage,
 
     /**
      * Calls the corresponding data provider to fetch data based on the passed query.
@@ -58,12 +61,12 @@ M.Model = M.Object.extend({
         this.dataProvider.find(query);
     },
 
-    create: function(obj) {
-        var user = M.Object.create({});
+    newRecord: function(obj) {
+        var modelRecord = M.Object.create({});
         for(obj_prop in obj) {
             var found = false;
-            for(this_prop in this) {
-                if(obj_prop == this_prop) {
+            for(this_prop in this.record) {
+                if(obj_prop === this_prop) {
                     found = true;
                     break;
                 }
@@ -71,10 +74,18 @@ M.Model = M.Object.extend({
             if(!found) {
                 M.Logger.log('Property ' + obj_prop + ' not found', M.WARN);
             } else {
-                user[obj_prop] = obj[obj_prop];
+                modelRecord[obj_prop] = obj[obj_prop];
             }
         }
-        return user;
+        return modelRecord;
+    },
+
+    create: function(obj) {
+        var model = this.extend({name: obj.__name__});
+        delete obj.__name__;
+        model.record = obj;
+        M.Application.modelRegistry.register(model.name);
+        return model;
     },
 
     /**
