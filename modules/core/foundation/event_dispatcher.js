@@ -30,8 +30,8 @@ M.EventDispatcher = M.Object.create({
      *
      * @param {Object} evt The event.
      */
-    eventDidHappen: function(evt, paramId) {
-        this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode, paramId);
+    eventDidHappen: function(evt) {
+        this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode);
     },
 
     /**
@@ -43,16 +43,16 @@ M.EventDispatcher = M.Object.create({
      * @param {String} id The id of the element that triggered the event.
      * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
      */
-    delegateEvent: function(type, id, keyCode, paramId) {
+    delegateEvent: function(type, id, keyCode) {
         var view = M.ViewManager.getViewById(id);
 
         switch(type) {
             case 'click':
                 if(view && view.target && view.action && view.type !== 'M.TextFieldView') {
-                    view.target[view.action](paramId ? paramId : id);
+                    view.target[view.action](id, view.modelId);
                 }
                 if(view && view.internalTarget && view.internalAction) {
-                    view.internalTarget[view.internalAction](paramId ? paramId : id);
+                    view.internalTarget[view.internalAction](id, view.modelId);
                 }
                 break;
             case 'change':
