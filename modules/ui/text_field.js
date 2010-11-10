@@ -115,7 +115,7 @@ M.TextFieldView = M.View.extend({
      * contentBindingReverse property is set.
      */
     setValueFromDOM: function() {
-        this.value = $('#' + this.id).val();
+        this.value = this.secure($('#' + this.id).val());
         this.delegateValueUpdate();
     },
 
