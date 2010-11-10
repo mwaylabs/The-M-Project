@@ -8,10 +8,10 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-Todos.Note = M.Model.extend({
+Todos.Note = M.Model.create({
 
-   text: '',
+    __name__: 'Note',
 
-   storageEngine: M.WebStorage
+    text: ''
 
 });
