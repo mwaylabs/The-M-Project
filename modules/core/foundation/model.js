@@ -83,6 +83,11 @@ M.Model = M.Object.extend({
     create: function(obj) {
         var model = this.extend({name: obj.__name__});
         delete obj.__name__;
+
+        /**
+         * the model's record defines the properties that are semantically bound to this model:
+         * e.g. a person's record is in simple case: firstname, lastname, age.
+         */
         model.record = obj;
         M.Application.modelRegistry.register(model.name);
         return model;
