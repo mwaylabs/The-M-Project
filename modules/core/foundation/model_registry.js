@@ -41,9 +41,7 @@ M.ModelRegistry = M.Object.extend({
      * @param {String} modelName The name of the model, e.g. 'Person'.
      */
     getNextId: function(modelName) {
-        console.log(modelName);
         for(i in this.registry){
-            console.log(this.registry[i]);
             if(this.registry[i].modelName === modelName){
                 this.registry[i].id = this.registry[i].id + 1;
                 return this.registry[i].id;
