@@ -83,20 +83,6 @@ M.Model = M.Object.extend({
             id: M.Application.modelRegistry.getNextId(this.name),
             record: obj
         });
-        /*for(obj_prop in obj) {
-            var found = false;
-            for(this_prop in this.record) {
-                if(obj_prop === this_prop) {
-                    found = true;
-                    break;
-                }
-            }
-            if(!found) {
-                M.Logger.log('Property ' + obj_prop + ' not found', M.WARN);
-            } else {
-                modelRecord[obj_prop] = obj[obj_prop];
-            }
-        }*/
         return modelRecord;
     },
 
