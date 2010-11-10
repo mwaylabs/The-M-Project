@@ -29,38 +29,34 @@ M.ModelManager = M.Object.extend({
      */
     type: 'M.ModelManager',
 
-
     /**
      * Array containing all models of this model manager.
      */
     modelList: [],
-
-    nextId: 0,
-
+    
     /**
-     * Holds a String to identify the model manager's model. (The one it manages).
+     * The model manager's model. (The one it manages).
      *
      */
-    modelType: '',
+    model: null,
     
     getNextId: function() {
-        this.nextId = this.nextId + 1;
-        return this.nextId;
+        return M.Application.modelRegistry.getNextId(this.model.name);
     },
 
-    add: function(obj) {
-        obj.id = this.getNextId();
-        this.modelList.push(obj);
+    add: function(model) {
+        model.id = this.getNextId();
+        this.modelList.push(model);
     },
 
-    remove: function(modelId) {
-        if(typeof(modelId) === 'string') {
-            modelId = parseInt(modelId);
+    remove: function(id) {
+        if(typeof(id) === 'string') {
+            id = parseInt(id);
         }
-        obj = this.getModelForId(modelId);
-        if(obj) {
+        model = this.getModelForId(id);
+        if(model) {
             this.modelList = _.select(this.modelList, function(m){
-                return m.id !== obj.id;
+                return m.id !== model.id;
             });
         }
     },
