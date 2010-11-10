@@ -44,7 +44,7 @@ M.EventDispatcher = M.Object.create({
      * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
      */
     delegateEvent: function(type, id, keyCode) {
-        var view = M.ViewManager.getViewById(id);
+        var view = M.Application.viewManager.getViewById(id);
 
         switch(type) {
             case 'click':
