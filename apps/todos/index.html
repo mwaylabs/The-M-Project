@@ -49,6 +49,11 @@
             Todos.app = M.Application.extend({
                 page: M.PageView.design({
 
+                    onLoad: {
+                        target: Todos.TodoController,
+                        action: 'init'
+                    },
+
                     childViews: ['header content'],
 
                     header: M.ToolbarView.design({
