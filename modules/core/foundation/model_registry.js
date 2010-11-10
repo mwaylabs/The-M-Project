@@ -44,9 +44,24 @@ M.ModelRegistry = M.Object.extend({
         for(i in this.registry){
             if(this.registry[i].modelName === modelName){
                 this.registry[i].id = this.registry[i].id + 1;
+                localStorage.setItem(modelName, this.registry[i].id);
                 return this.registry[i].id;
             }
         }  
+    },
+
+    /**
+     * Sets the id for a certain model.
+     *
+     * @param {String} modelName The name of the model, e.g. 'Person'.
+     * @param {Number} id The id of the model, e.g. 1.
+     */
+    setId: function(modelName, id) {
+        for(i in this.registry){
+            if(this.registry[i].modelName === modelName){
+                this.registry[i].id = id;
+            }
+        }
     },
 
     /**
