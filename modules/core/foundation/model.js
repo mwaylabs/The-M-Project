@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   basti
 // Date:      28.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -27,12 +27,17 @@ M.Model = M.Object.extend({
     type: 'M.Model',
 
     /**
-     * the name of the model.
+     * The name of the model.
+     *
+     * @property {String}
      */
     name: '',
 
     /**
-     * Unique identifier
+     * Unique identifier for the model record.
+     *
+     * Note: Unique doesn't mean that this id is a global unique ID, it is just unique
+     * for records of this type of model.
      *
      * @property {Number}
      */
@@ -40,6 +45,8 @@ M.Model = M.Object.extend({
 
     /**
      * The model's data provider.
+     *
+     * Needs a refactoring, also in connection with storageEngine.
      *
      * @property {Object}
      */
@@ -49,6 +56,8 @@ M.Model = M.Object.extend({
      * Defines the storage engine to use.
      *
      * Needs a refactoring, also in connection with dataProvider.
+     *
+     * @property {String}
      */
     storageEngine: M.WebStorage,
 
@@ -81,7 +90,10 @@ M.Model = M.Object.extend({
     },
 
     create: function(obj) {
-        var model = this.extend({name: obj.__name__});
+        var model = this.extend({
+            id: M.Application.modelRegistry.getNextId(obj.__name__),
+            name: obj.__name__
+        });
         delete obj.__name__;
 
         /**
@@ -94,10 +106,17 @@ M.Model = M.Object.extend({
     },
 
     /**
-     * Persist model to storage.
+     * Create or update a record in storage.
      */
     save: function() {
-        
+
+    },
+
+    /**
+     * Delete a record in storage.
+     */
+    del: function() {
+
     }
 
 });
