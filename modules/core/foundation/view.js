@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      26.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -93,13 +93,13 @@ M.View = M.Object.extend({
      * @param {Object} obj The mixed in object for the extend call.
      */
     design: function(obj) {
-        var extendedView = this.extend(obj);
-        if(extendedView.contentBinding) {
-            extendedView.attachToObservable(extendedView.contentBinding);
+        var view = this.extend(obj);
+        if(view.contentBinding) {
+            view.attachToObservable(view.contentBinding);
         }
-        extendedView.id = M.Application.viewManager.getNextId();
-        M.Application.viewManager.register(extendedView);
-        return extendedView;
+        view.id = M.Application.viewManager.getNextId();
+        M.Application.viewManager.register(view);
+        return view;
     },
 
      /**
@@ -137,7 +137,7 @@ M.View = M.Object.extend({
      * Triggers rendering engine to style this view/apply a theme.
      */
     applyTheme: function() {
-        
+
     },
 
     /**
@@ -177,7 +177,7 @@ M.View = M.Object.extend({
      * This method sets its value to the value it has in its DOM representation.
      */
     setValueFromDOM: function() {
-        
+
     },
 
     /**
@@ -193,13 +193,13 @@ M.View = M.Object.extend({
             controller[params[1]].set(params[2], this.value);
         }
     },
-    
+
     /**
      * Interface method.
      * Method to append css styles and other style specific inline attributes to the rendered view.
      */
     style: function() {
-        
+
     },
 
     /**
