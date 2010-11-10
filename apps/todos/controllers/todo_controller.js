@@ -33,7 +33,7 @@ Todos.TodoController = M.Controller.extend({
         Todos.app.page.content.inputField.setValue('');
     },
 
-    removeTodo: function(modelId) {
+    removeTodo: function(id, modelId) {
         var doDelete = confirm('Do you really want to delete this item?');
         if(doDelete) {
             this.notes.remove(modelId);
