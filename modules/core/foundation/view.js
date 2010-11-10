@@ -93,13 +93,13 @@ M.View = M.Object.extend({
      * @param {Object} obj The mixed in object for the extend call.
      */
     design: function(obj) {
-        var extendedView = this.extend(obj);
-        if(extendedView.contentBinding) {
-            extendedView.attachToObservable(extendedView.contentBinding);
+        var view = this.extend(obj);
+        if(view.contentBinding) {
+            view.attachToObservable(view.contentBinding);
         }
-        extendedView.id = M.ViewManager.getNextId();
-        M.ViewManager.register(extendedView);
-        return extendedView;
+        view.id = M.ViewManager.getNextId();
+        M.ViewManager.register(view);
+        return view;
     },
 
      /**
