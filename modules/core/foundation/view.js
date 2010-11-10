@@ -97,8 +97,8 @@ M.View = M.Object.extend({
         if(view.contentBinding) {
             view.attachToObservable(view.contentBinding);
         }
-        view.id = M.ViewManager.getNextId();
-        M.ViewManager.register(view);
+        view.id = M.Application.viewManager.getNextId();
+        M.Application.viewManager.register(view);
         return view;
     },
 
