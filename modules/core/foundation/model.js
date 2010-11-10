@@ -44,6 +44,14 @@ M.Model = M.Object.extend({
     id: null,
 
     /**
+     * The model's record defines the properties that are semantically bound to this model:
+     * e.g. a person's record is in simple case: firstname, lastname, age.
+     *
+     * @property {Object} record
+     */
+    record: null,
+
+    /**
      * The model's data provider.
      *
      * Needs a refactoring, also in connection with storageEngine.
@@ -71,8 +79,11 @@ M.Model = M.Object.extend({
     },
 
     newRecord: function(obj) {
-        var modelRecord = M.Object.create({});
-        for(obj_prop in obj) {
+        var modelRecord = this.extend({
+            id: M.Application.modelRegistry.getNextId(this.name),
+            record: obj
+        });
+        /*for(obj_prop in obj) {
             var found = false;
             for(this_prop in this.record) {
                 if(obj_prop === this_prop) {
@@ -85,8 +96,7 @@ M.Model = M.Object.extend({
             } else {
                 modelRecord[obj_prop] = obj[obj_prop];
             }
-        }
-        modelRecord.id = M.Application.modelRegistry.getNextId(this.name); 
+        }*/
         return modelRecord;
     },
 
@@ -112,6 +122,8 @@ M.Model = M.Object.extend({
         if(!this.id) {
             return;
         }
+
+        localStorage.setItem(this.name + '_' + this.id, JSON.stringify(this.record));
     },
 
     /**
