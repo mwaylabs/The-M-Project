@@ -79,7 +79,7 @@ M.ModelManager = M.Object.extend({
      */
     saveAll: function() {
         _.each(this.modelList, function(m){
-           m.save();
+            m.save();
         });
     },
 
@@ -89,7 +89,10 @@ M.ModelManager = M.Object.extend({
      * @param {Number} id Identifies the model record.
      */
     save: function(id) {
-        this.getModelForId(id).save();
+        var model = this.getModelForId(id);
+        if(model) {
+            model.save();
+        }
     },
     
     /**
@@ -97,7 +100,7 @@ M.ModelManager = M.Object.extend({
      */
     delAll: function() {
         _.each(this.modelList, function(m){
-           m.del();
+            m.del();
         });
     },
 
@@ -107,7 +110,31 @@ M.ModelManager = M.Object.extend({
      * @param {Number} id Identifies the model record.
      */
     del: function(id) {
-        this.getModelForId(id).del();
+        var model = this.getModelForId(id);
+        if(model) {
+            model.del();
+        }
+    },
+
+    /**
+     * Find stored model records.
+     */
+    find: function() {
+        var modelName = this.model.name;
+        for(var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
+            /* Search for keys like: Model_123 (regex: ^Model_\d+) */
+            var regexResult = new RegExp('^' + this.model.name + '_(\\d+)').exec(key);
+            if(regexResult && regexResult[1]) {
+                var obj = JSON.parse(localStorage.getItem(key));
+                obj.id = parseInt(regexResult[1]);
+                var model = this.model.newRecord(obj);
+                this.add(model);
+            }
+        };
+        this.modelList = _.sortBy(this.modelList, function(m) {
+            return m.id;
+        });
     },
 
 
