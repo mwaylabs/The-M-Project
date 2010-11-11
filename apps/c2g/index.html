@@ -47,7 +47,7 @@
             C2G.app = M.Application.extend({
                 loginPage: M.PageView.design({
 
-                    childViews: [],
+                    childViews: ['header'],
 
                     header: M.ToolbarView.design({
 
@@ -56,7 +56,7 @@
                         image: M.ImageView.extend({
 
                             value: 'resources/logo.png',
-                            anchorLocation: M.LEFT
+                            anchorLocation: M.CENTER
 
                         })
 
