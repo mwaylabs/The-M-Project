@@ -23,7 +23,8 @@ M.ListView = M.View.extend({
     removeItemsOnUpdate: YES,
 
     render: function() {
-        var html = '<ul id="' + this.id + '" data-role="listview"></ul>';
+        var listTagName = this.isNumberedList ? 'ol' : 'ul';
+        var html = '<' + listTagName + ' id="' + this.id + '" data-role="listview"></' + listTagName + '>';
         document.write(html);
     },
 
@@ -32,6 +33,13 @@ M.ListView = M.View.extend({
     inEditMode: NO,
 
     editOptions: null,
+
+    /**
+     * Defines if the ListView is rendered with prefixed numbering for each item.
+     *
+     * @property {Boolean}
+     */
+    isNumberedList: NO,
 
     renderChildViews: function() {
 
