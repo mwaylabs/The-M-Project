@@ -31,7 +31,7 @@ M.EventDispatcher = M.Object.create({
      * @param {Object} evt The event.
      */
     eventDidHappen: function(evt) {
-        this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode);
+        this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode, evt.orientation);
     },
 
     /**
@@ -43,7 +43,7 @@ M.EventDispatcher = M.Object.create({
      * @param {String} id The id of the element that triggered the event.
      * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
      */
-    delegateEvent: function(type, id, keyCode) {
+    delegateEvent: function(type, id, keyCode, orientation) {
         var view = M.Application.viewManager.getViewById(id);
 
         switch(type) {
@@ -74,7 +74,7 @@ M.EventDispatcher = M.Object.create({
                 view.lostFocus();
                 break;
             case 'orientationchange':
-                view.orientationDidChange(evt);
+                M.Application.viewManager.getCurrentPage().orientationDidChange(orientation);
                 break;
         }
     }
