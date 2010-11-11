@@ -12,11 +12,24 @@ C2G.LoginController = M.Controller.extend({
 
     login: function() {
 
+        /* username: mway, password: test */
         var username = C2G.app.loginPage.content.username.value;
-        var password = C2G.app.cypher.hash(C2G.app.loginPage.content.password.value, M.SHA-2);
+        var password = C2G.app.loginPage.content.password.value;
 
-        console.log('username: ' + username);
-        console.log('password: ' + password);
+        /* get username / password from local storage (will later be handled by the model */
+        var storedUsername = localStorage.getItem('username');
+        var storedPassword = localStorage.getItem('password');
+
+        if(storedUsername === username) {
+            if(storedPassword === C2G.app.cypher.hash(password)) {
+                console.log('login successfull');
+                // this.switchToView(page2);
+            } else {
+                alert('The password you entered is wrong!');
+            }
+        } else {
+            alert('The username you entered couldn\'t be found!');
+        }
 
     },
 

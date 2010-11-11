@@ -15,6 +15,9 @@
     <script src="../../modules/core/foundation/object.js"></script>
     <script src="../../modules/core/foundation/request.js"></script>
     <script src="../../modules/core/utility/logger.js"></script>
+    <script src="../../modules/core/utility/cypher_algorithms/base64.js"></script>
+    <script src="../../modules/core/utility/cypher_algorithms/sha256.js"></script>
+    <script src="../../modules/core/utility/cypher.js"></script>
     <script src="../../modules/core/foundation/event_dispatcher.js"></script>
     <script src="../../modules/core/foundation/observable.js"></script>
     <script src="../../modules/core/foundation/controller.js"></script>
@@ -47,15 +50,91 @@
             C2G.app = M.Application.extend({
                 loginPage: M.PageView.design({
 
-                    childViews: ['header'],
+                    childViews: ['header content footer'],
 
                     header: M.ToolbarView.design({
 
-                        childViews: ['image'],
+                        childViews: ['image label'],                        
 
-                        image: M.ImageView.extend({
+                        anchorLocation: M.TOP,
+
+                        image: M.ImageView.design({
 
                             value: 'resources/logo.png',
+                            anchorLocation: M.LEFT
+
+                        }),
+
+                        label: M.LabelView.design({
+
+                            value: '&#160;',
+                            anchorLocation: M.CENTER
+
+                        })
+
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: ['bigLogo username password grid'],
+
+                        bigLogo: M.ImageView.design({
+
+                            value: 'resources/logo_big.png'
+
+                        }),
+
+                        username: M.TextFieldView.design({
+
+                            label: 'Username',
+                            target: C2G.LoginController,
+                            action: 'login'
+
+                        }),
+
+                        password: M.TextFieldView.design({
+
+                            label: 'Passwort',
+                            isPassword: YES,
+                            target: C2G.LoginController,
+                            action: 'login'
+
+                        }),
+
+                        grid: M.GridView.design({
+
+                            childViews: ['forgotPW loginButton'],
+
+                            layout: M.TWO_COLUMNS,
+
+                            forgotPW: M.LabelView.design({
+
+                                value: 'Passwort vergessen?'
+
+                            }),
+
+                            loginButton: M.ButtonView.design({
+
+                                value: 'Login',
+                                target: C2G.LoginController,
+                                action: 'login'
+
+                            })
+
+                        })
+
+                    }),
+
+                    footer: M.ToolbarView.design({
+
+                        childViews: ['copyright'],
+
+                        anchorLocation: M.BOTTOM,
+
+                        copyright: M.LabelView.design({
+
+                            value: '&copy; 2010 car2gether',
+
                             anchorLocation: M.CENTER
 
                         })
