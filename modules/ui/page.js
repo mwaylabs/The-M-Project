@@ -64,7 +64,9 @@ M.PageView = M.View.extend({
     /**
      * This method is called if the device's orientation changed.
      */
-    orientationDidChange: function(evt) {
-        // console.log(evt);
+    orientationDidChange: function(orientation) {
+        if(this.onOrientationChange) {
+            this.onOrientationChange.target[this.onOrientationChange.action](orientation);
+        }
     }
 });
