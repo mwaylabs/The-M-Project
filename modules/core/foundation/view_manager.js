@@ -16,7 +16,7 @@ m_require('view.js');
  *
  * The ViewManager manages and knows all views that are used in the application. The ViewManager is part of M.Application.
  *
- * It is used by various other components (e.g. controller: switchToView) to connect from javascript objects to their
+ * It is used by various other components (e.g. controller: switchToPage) to connect from javascript objects to their
  * HTML representation. 
  *
  */
@@ -50,6 +50,13 @@ M.ViewManager = M.Object.extend({
      * @property {Object}
      */
     viewList: [],
+
+    /**
+     * A reference to the currently displayed page.
+     *
+     * @property {Object}
+     */
+    currentPage: null,
 
     /**
      * Returns the next Id build from nextId property incremented by 1 and the prefix.
@@ -89,6 +96,20 @@ M.ViewManager = M.Object.extend({
      */
     getIdByView: function(view) {
         return view.id;
+    },
+
+    /**
+     * Returns the currently displayed page.
+     */
+    getCurrentPage: function() {
+        return this.currentPage;
+    },
+
+    /**
+     * Sets the currently displayed page.
+     */
+    setCurrentPage: function(page) {
+        this.currentPage = page;
     },
 
     /**
