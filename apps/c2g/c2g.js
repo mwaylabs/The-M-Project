@@ -10,6 +10,8 @@
 
 var C2G = C2G || {};
 
+document.write("<script src='views/ride_item.js'></script>");
+document.write("<script src='models/ride.js'></script>");
 document.write("<script src='controllers/login_controller.js'></script>");
 document.write("<script src='controllers/ride_controller.js'></script>");
 

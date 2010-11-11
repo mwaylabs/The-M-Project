@@ -8,16 +8,35 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-C2G.Ride = M.Model.create({
+m_require('../foundation/object.js');
 
-    __name__: 'Ride',
+/**
+ * @class
+ * 
+ * Object for simpler handling of dates
+ *
+ */
+M.Date = M.Object.extend({
 
-    start: '',
 
-    destination: '',
+    /**
+     * Returns the current date, e.g.
+     * Thu Nov 11 2010 14:20:55 GMT+0100 (CET)
+     */
+    now: function() {
+        return new Date();
+    }
 
-    date: '',
+    /*tomorrow: function() {
+        
+    },*/
 
-    driver: ''
+    /*yesterday: function() {
+        
+    },
+
+    daysFromNow: function(days) {
+        return new Date() + 2;
+    }*/
 
 });

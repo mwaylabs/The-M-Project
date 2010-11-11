@@ -15,9 +15,9 @@ m_require('model.js');
  *
  * The root object for ModelManager.
  *
- * A ModelManager is used by a controller and is an interface that makes it easy for him to
+ * A ModelManager is used by a controllers and is an interface that makes it easy for him to
  * handle his model records.
- * Even if each controller has his own Model Manager, the id for each model is not bound to this one model manager,
+ * Even if each controllers has his own Model Manager, the id for each model is not bound to this one model manager,
  * but is synchronized with the model registry to solve conflicts when saving models to storage.
  */
 M.ModelManager = M.Object.extend({
@@ -37,7 +37,7 @@ M.ModelManager = M.Object.extend({
     modelList: [],
 
     /**
-     * Add the given model to the modelList but first.
+     * Add the given model to the modelList.
      *
      * @param model
      */
