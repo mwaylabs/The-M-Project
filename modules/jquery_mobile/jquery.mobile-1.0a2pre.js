@@ -268,6 +268,12 @@ $.Widget.prototype = {
 };
 
 })( jQuery );
+/*
+* jQuery Mobile Framework : widget factory extentions for mobile
+* Copyright (c) jQuery Project
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Note: Code is in draft form and is subject to change 
+*/
 (function( $ ) {
 
 $.widget( "mobile.widget", {
@@ -287,6 +293,12 @@ $.widget( "mobile.widget", {
 });
 
 })( jQuery );
+/*
+* jQuery Mobile Framework : support tests
+* Copyright (c) jQuery Project
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Note: Code is in draft form and is subject to change 
+*/
 (function( $ ) {
 
 // test whether a CSS media type or query applies
@@ -984,6 +996,12 @@ $.each({
   })();
   
 })(jQuery,this);
+/*
+* jQuery Mobile Framework : "page" plugin
+* Copyright (c) jQuery Project
+* Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
+* Note: Code is in draft form and is subject to change 
+*/
 (function ( jQuery ) {
 
 jQuery.widget( "mobile.page", jQuery.mobile.widget, {
@@ -991,19 +1009,19 @@ jQuery.widget( "mobile.page", jQuery.mobile.widget, {
 		backBtnText: "Back",
 		addBackBtn: true,
 		degradeInputs: {
-			color: true,
-			date: true,
-			datetime: true,
-			"datetime-local": true,
-			email: true,
-			month: true,
-			number: true,
+			color: false,
+			date: false,
+			datetime: false,
+			"datetime-local": false,
+			email: false,
+			month: false,
+			number: false,
 			range: true,
 			search: true,
-			tel: true,
-			time: true,
-			url: true,
-			week: true
+			tel: false,
+			time: false,
+			url: false,
+			week: false
 		}
 	},
 	
@@ -1151,13 +1169,13 @@ jQuery.widget( "mobile.page", jQuery.mobile.widget, {
 
 		this.element
 			.find( "select:not([data-role='slider'])" )
-			.customSelect();
+			.selectmenu();
 	}
 });
 
 })( jQuery );
 /*
-* jQuery Mobile Framework : prototype for "fixHeaderFooter" plugin - on-demand positioning for headers,footers
+* jQuery Mobile Framework : "fixHeaderFooter" plugin - on-demand positioning for headers,footers
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
@@ -1323,7 +1341,7 @@ $.fixedToolbars = (function(){
 })();
 
 })(jQuery);/*
-* jQuery Mobile Framework : "customCheckboxRadio" plugin (based on code from Filament Group,Inc)
+* jQuery Mobile Framework : "checkboxradio" plugin
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
@@ -1331,8 +1349,7 @@ $.fixedToolbars = (function(){
 (function ( $ ) {
 $.widget( "mobile.checkboxradio", $.mobile.widget, {
 	options: {
-		theme: undefined,
-		icon: undefined
+		theme: null
 	},
 	_create: function(){
 		var input = this.element,
@@ -1345,9 +1362,8 @@ $.widget( "mobile.checkboxradio", $.mobile.widget, {
 						
 		label
 			.buttonMarkup({
-				iconpos: this.options.icon,
 				theme: this.options.theme,
-				icon: this.options.icon ? uncheckedicon : ( this.element.parents( "[data-type='horizontal']" ).length ? undefined : uncheckedicon ),
+				icon: this.element.parents( "[data-type='horizontal']" ).length ? undefined : uncheckedicon,
 				shadow: false
 			});
 		
@@ -1432,7 +1448,7 @@ $.widget( "mobile.checkboxradio", $.mobile.widget, {
 });
 })( jQuery );
 /*
-* jQuery Mobile Framework : "textinput" plugin for text inputs, textareas (based on code from Filament Group,Inc)
+* jQuery Mobile Framework : "textinput" plugin for text inputs, textareas
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
@@ -1440,7 +1456,7 @@ $.widget( "mobile.checkboxradio", $.mobile.widget, {
 (function ( $ ) {
 $.widget( "mobile.textinput", $.mobile.widget, {
 	options: {
-		theme: undefined
+		theme: null
 	},
 	_create: function(){
 		var input = this.element,
@@ -1529,150 +1545,122 @@ $.widget( "mobile.textinput", $.mobile.widget, {
 });
 })( jQuery );
 /*
-* jQuery Mobile Framework : "customSelect" plugin (based on code from Filament Group,Inc)
+* jQuery Mobile Framework : "selectmenu" plugin
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */  
-(function($){
-$.fn.customSelect = function(options){
-	return $(this).each(function(){	
-		var select = $(this)
+(function ( $ ) {
+$.widget( "mobile.selectmenu", $.mobile.widget, {
+	options: {
+		theme: null,
+		disabled: false, 
+		icon: 'arrow-d',
+		iconpos: 'right',
+		inline: null,
+		corners: true,
+		shadow: true,
+		iconshadow: true,
+		menuPageTheme: 'b',
+		overlayTheme: 'a'
+	},
+	_create: function(){
+	
+		var self = this,
+		
+			o = this.options,
+			
+			select = this.element
 						.attr( "tabindex", "-1" )
-						.wrap( "<div class='ui-select'>" ),
+						.wrap( "<div class='ui-select'>" ),		
+							
 			selectID = select.attr( "id" ),
-			label = $( "label[for="+ selectID +"]" )
-						.addClass( "ui-select" ),
+			
+			label = $( "label[for="+ selectID +"]" ).addClass( "ui-select" ),
+									
+			buttonId = selectID + "-button",
+			
+			menuId = selectID + "-menu",
+			
+			thisPage = select.closest( ".ui-page" ),
 				
-		//extendable options
-		o = $.extend({
-			chooseText: label.text(),
-			theme: select.data("theme")
-		}, options),
-
-		buttonId = selectID + "-button",
-		menuId = selectID + "-menu",
-		thisPage = select.closest( ".ui-page" ),
-		menuType,
-		currScroll,		
-		button = $( "<a>", { 
-				"href": "#",
-				"role": "button",
-				"id": buttonId,
-				"aria-haspopup": "true",
-				"aria-owns": menuId 
-			})
-			.text( $( this.options.item(this.selectedIndex) ).text() )
-			.insertBefore( select )
-			.buttonMarkup({
-				iconpos: 'right',
-				icon: 'arrow-d',
-				theme: o.theme
-			}),
-		menuPage = $( "<div data-role='dialog' data-theme='a'>" +
-					"<div data-role='header' data-theme='b'>" +
-						"<div class='ui-title'>" + o.chooseText + "</div>"+
-					"</div>"+
-					"<div data-role='content'></div>"+
-				"</div>" )
-				.appendTo( $.pageContainer )
-				.page(),	
-		menuPageContent = menuPage.find( ".ui-content" ),			
-		screen = $( "<div>", {
-						"class": "ui-listbox-screen ui-overlay ui-screen-hidden fade"
+			button = $( "<a>", { 
+					"href": "#",
+					"role": "button",
+					"id": buttonId,
+					"aria-haspopup": "true",
+					"aria-owns": menuId 
 				})
-				.appendTo( thisPage ),					
-		listbox = $( "<div>", { "class": "ui-listbox ui-listbox-hidden ui-body-a ui-overlay-shadow ui-corner-all pop"} )
-				.insertAfter(screen),
-		list = $( "<ul>", { 
-				"class": "ui-listbox-list", 
-				"id": menuId, 
-				"role": "listbox", 
-				"aria-labelledby": buttonId
-			})
-			.appendTo( listbox );
-			
-		//populate menu
-		select.find( "option" ).each(function( i ){
-			var selected = (select[0].selectedIndex == i),
-				anchor = $("<a>", { 
-							"aria-selected": selected, 
-							"role": "option", 
-							"href": "#"
-						})
-						.text( $(this).text() );
-			
-			$( "<li>", {
-					"class": selected ? "ui-btn-active" : '', 
-					"data-icon": "checkbox-on"
-				})
-				.append( anchor )
-				.appendTo( list );
-		});
-		
-		//now populated, create listview
-		list.listview();
-		
-		
-		
-		function showmenu(){
-			var menuHeight = list.outerHeight();
-			currScroll = [ $(window).scrollLeft(), $(window).scrollTop() ];
-			
-			if( menuHeight > window.innerHeight - 80 || !$.support.scrollTop ){
-				menuType = "page";		
-				menuPageContent.append( list );
-				$.changePage(menuPage, undefined);
-			}
-			else {
-				menuType = "overlay";
+				.text( $( select[0].options.item(select[0].selectedIndex) ).text() )
+				.insertBefore( select )
+				.buttonMarkup({
+					theme: o.theme, 
+					icon: o.icon,
+					iconpos: o.iconpos,
+					inline: o.inline,
+					corners: o.corners,
+					shadow: o.shadow,
+					iconshadow: o.iconshadow
+				}),
 				
-				screen
-					.height( $(document).height() )
-					.removeClass('ui-screen-hidden');
+			theme = /ui-btn-up-([a-z])/.exec( button.attr("class") )[1],
+				
+			menuPage = $( "<div data-role='dialog' data-theme='"+ o.menuPageTheme +"'>" +
+						"<div data-role='header'>" +
+							"<div class='ui-title'>" + label.text() + "</div>"+
+						"</div>"+
+						"<div data-role='content'></div>"+
+					"</div>" )
+					.appendTo( $.pageContainer )
+					.page(),	
 					
-				listbox
-					.append( list )
-					.removeClass( "ui-listbox-hidden" )
-					.css({
-						top: $(window).scrollTop() + (window.innerHeight/2), 
-						"margin-top": -menuHeight/2,
-						left: window.innerWidth/2,
-						"margin-left": -1* listbox.outerWidth() / 2
-					})
-					.addClass("in");
-			}
-		};
-		
-		function hidemenu(){
-			if(menuType == "page"){			
-				$.changePage([menuPage,thisPage], undefined, true);
-			}
-			else{
-				screen.addClass( "ui-screen-hidden" );
-				listbox.addClass( "ui-listbox-hidden" ).removeAttr( "style" ).removeClass("in");
-			}
-		};
-		
-		//page show/hide events
-		menuPage
-			.bind("pageshow", function(){
-				list.find( ".ui-btn-active" ).focus();
-				return false;
-			})
-			.bind("pagehide", function(){
-				window.scrollTo(currScroll[0], currScroll[1]);
-				select.focus();
-				listbox.append( list ).removeAttr('style');
-				return false;
-			});
+			menuPageContent = menuPage.find( ".ui-content" ),	
+					
+			screen = $( "<div>", {"class": "ui-listbox-screen ui-overlay ui-screen-hidden fade"})
+						.appendTo( thisPage ),		
+								
+			listbox = $( "<div>", { "class": "ui-listbox ui-listbox-hidden ui-overlay-shadow ui-corner-all pop ui-body-" + o.overlayTheme } )
+					.insertAfter(screen),
+					
+			list = $( "<ul>", { 
+					"class": "ui-listbox-list", 
+					"id": menuId, 
+					"role": "listbox", 
+					"aria-labelledby": buttonId,
+					"data-theme": theme
+				})
+				.appendTo( listbox ),
+				
+			menuType;	
 			
+		//expose to other methods	
+		$.extend(self, {
+			select: select,
+			selectID: selectID,
+			label: label,
+			buttonId:buttonId,
+			menuId:menuId,
+			thisPage:thisPage,
+			button:button,
+			menuPage:menuPage,
+			menuPageContent:menuPageContent,
+			screen:screen,
+			listbox:listbox,
+			list:list,
+			menuType:menuType
+		});
+					
+		
+		//create list from select, update state
+		self.refresh();
+		
+		//disable if specified
+		if( this.options.disabled ){ this.disable(); }
 
-		//select properties,events
+		//events on native select
 		select
 			.change(function(){ 
-				var $el = select.get(0);
-				button.find( ".ui-btn-text" ).text( $($el.options.item($el.selectedIndex)).text() ); 
+				self.refresh();
 			})
 			.focus(function(){
 				$(this).blur();
@@ -1680,27 +1668,13 @@ $.fn.customSelect = function(options){
 			});		
 		
 		//button events
-		button.mousedown(function(event){
-				showmenu();
-				return false;
-			});
+		button.click(function(event){
+			self.open();
+			return false;
+		});
 		
-		//apply click events for items
-		list
-			.find("li")
-			.mousedown(function(){
-				//deselect active
-				list.find( "li" )
-					.removeClass( "ui-btn-active" )
-					.children(0)
-					.attr( "aria-selected", "false");
-					
-				//select this one	
-				$(this)
-					.addClass( "ui-btn-active" )
-					.find( "a" )
-					.attr( "aria-selected", "true");
-				
+		//events for list items
+		list.delegate("li",'click', function(){
 				//update select	
 				var newIndex = list.find( "li" ).index( this ),
 					prevIndex = select[0].selectedIndex;
@@ -1712,23 +1686,147 @@ $.fn.customSelect = function(options){
 					select.trigger( "change" ); 
 				}
 				
+				self.refresh();
+				
 				//hide custom select
-				hidemenu();
+				self.close();
 				return false;
 			});	
 	
-		//hide on outside click
+		//events on "screen" overlay
 		screen.click(function(){
-			hidemenu();
+			self.close();
 			return false;
 		});	
-	});
-};
-
-})(jQuery);
+	},
+	
+	_buildList: function(){
+		var self = this;
+		
+		self.list.empty().filter('.ui-listview').listview('destroy');
+		
+		//populate menu with options from select element
+		self.select.find( "option" ).each(function( i ){
+				var anchor = $("<a>", { 
+							"role": "option", 
+							"href": "#"
+						})
+						.text( $(this).text() );
+			
+			$( "<li>", {"data-icon": "checkbox-on"})
+				.append( anchor )
+				.appendTo( self.list );
+		});
+		
+		//now populated, create listview
+		self.list.listview();		
+	},
+	
+	refresh: function( forceRebuild ){
+		var self = this,
+			select = this.element,
+			selected = select[0].selectedIndex;
+		
+		if( forceRebuild || select[0].options.length > self.list.find('li').length ){
+			self._buildList();
+		}	
+			
+		self.button.find( ".ui-btn-text" ).text( $(select[0].options.item(selected)).text() ); 
+		self.list
+			.find('li').removeClass( $.mobile.activeBtnClass ).attr('aria-selected', false)
+			.eq(selected).addClass( $.mobile.activeBtnClass ).find('a').attr('aria-selected', true);		
+	},
+	
+	open: function(){
+		if( this.options.disabled ){ return; }
+		
+		var self = this,
+			menuHeight = self.list.outerHeight(),
+			scrollTop = $(window).scrollTop(),
+			btnOffset = self.button.offset().top,
+			screenHeight = window.innerHeight;
+			
+		function focusMenuItem(){
+			self.list.find( ".ui-btn-active" ).focus();
+		}
+		
+		if( menuHeight > screenHeight - 80 || !$.support.scrollTop ){
+			
+			//for webos (set lastscroll using button offset)
+			if( scrollTop == 0 && btnOffset > screenHeight ){
+				self.thisPage.one('pagehide',function(){
+					$(this).data('lastScroll', btnOffset);
+				});	
+			}
+			
+			self.menuPage.one('pageshow',focusMenuItem);
+		
+			self.menuType = "page";		
+			self.menuPageContent.append( self.list );
+			$.changePage(self.menuPage, 'pop', false, false);
+		}
+		else {
+			self.menuType = "overlay";
+			
+			self.screen
+				.height( $(document).height() )
+				.removeClass('ui-screen-hidden');
+				
+			self.listbox
+				.append( self.list )
+				.removeClass( "ui-listbox-hidden" )
+				.css({
+					top: scrollTop + (screenHeight/2), 
+					"margin-top": -menuHeight/2,
+					left: window.innerWidth/2,
+					"margin-left": -1* self.listbox.outerWidth() / 2
+				})
+				.addClass("in");
+				
+			focusMenuItem();	
+		}
+	},
+	
+	close: function(){
+		if( this.options.disabled ){ return; }
+		var self = this;
+		
+		function focusButton(){
+			setTimeout(self.button.focus, 40);
+			self.listbox.removeAttr('style').append( self.list );
+		}
+		
+		if(self.menuType == "page"){			
+			$.changePage([self.menuPage,self.thisPage], 'pop', true, false);
+			self.menuPage.one("pagehide",function(){
+				focusButton();
+				//return false;
+			});
+		}
+		else{
+			self.screen.addClass( "ui-screen-hidden" );
+			self.listbox.addClass( "ui-listbox-hidden" ).removeAttr( "style" ).removeClass("in");
+			focusButton();
+		}
+		
+	},
+	
+	disable: function(){
+		this.element.attr("disabled",true);
+		this.button.addClass('ui-disabled').attr("aria-disabled", true);
+		return this._setOption( "disabled", true );
+	},
+	
+	enable: function(){
+		this.element.attr("disabled",false);
+		this.button.removeClass('ui-disabled').attr("aria-disabled", false);
+		return this._setOption( "disabled", false );
+	}
+});
+})( jQuery );
 	
 /*
-* jQuery Mobile Framework : sample plugin for making button-like links
+* jQuery Mobile Framework : plugin for making button-like links
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
@@ -1835,16 +1933,25 @@ var attachEvents = function() {
 
 })(jQuery);
 /*
-* jQuery Mobile Framework : sample plugin for making button links that proxy to native input/buttons
+* jQuery Mobile Framework : "button" plugin - links that proxy to native input/buttons
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */ 
 (function ( $ ) {
 $.widget( "mobile.button", $.mobile.widget, {
-	options: {},
+	options: {
+		theme: null, 
+		icon: null,
+		iconpos: null,
+		inline: null,
+		corners: true,
+		shadow: true,
+		iconshadow: true
+	},
 	_create: function(){
 		var $el = this.element,
+			o = this.options,
 			type = $el.attr('type');
 			$el
 				.addClass('ui-btn-hidden')
@@ -1869,47 +1976,53 @@ $.widget( "mobile.button", $.mobile.widget, {
 				return false;
 			})
 			.buttonMarkup({
-				theme: $el.data("theme"), 
-				icon: $el.data("icon"),
-				iconpos: $el.data("iconpos"),
-				inline: $el.data("inline"),
-				corners: $el.data("corners"),
-				shadow: $el.data("shadow"),
-				iconshadow: $el.data("icon-shadow")
+				theme: o.theme, 
+				icon: o.icon,
+				iconpos: o.iconpos,
+				inline: o.inline,
+				corners: o.corners,
+				shadow: o.shadow,
+				iconshadow: o.iconshadow
 			});
 	}
 });
 })( jQuery );/*
-* jQuery Mobile Framework : "slider" plugin (based on code from Filament Group,Inc)
+* jQuery Mobile Framework : "slider" plugin
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
 */  
-(function($){
-$.fn.slider = function(options){
-	return this.each(function(){	
-		var control = $(this),
-			themedParent = control.parents('[class*=ui-bar-],[class*=ui-body-]').eq(0),
+(function ( $ ) {
+$.widget( "mobile.slider", $.mobile.widget, {
+	options: {
+		theme: null,
+		trackTheme: null
+	},
+	_create: function(){	
+		var control = this.element,
+		
+			parentTheme = control.parents('[class*=ui-bar-],[class*=ui-body-]').eq(0),	
 			
-			o = $.extend({
-				trackTheme: (themedParent.length ? themedParent.attr('class').match(/ui-(bar|body)-([a-z])/)[2] : 'c'),
-				theme: control.data("theme") || (themedParent.length ? themedParent.attr('class').match(/ui-(bar|body)-([a-z])/)[2] : 'c')
-			},options),
+			parentTheme = parentTheme.length ? parentTheme.attr('class').match(/ui-(bar|body)-([a-z])/)[2] : 'c',
+					
+			theme = this.options.theme ? this.options.theme : parentTheme,
+			
+			trackTheme = this.options.trackTheme ? this.options.trackTheme : parentTheme,
 			
 			cType = control[0].nodeName.toLowerCase(),
 			selectClass = (cType == 'select') ? 'ui-slider-switch' : '',
 			controlID = control.attr('id'),
 			labelID = controlID + '-label',
 			label = $('[for='+ controlID +']').attr('id',labelID),
-			val = (cType == 'input') ? control.val() : control[0].selectedIndex,
+			val = (cType == 'input') ? parseFloat(control.val()) : control[0].selectedIndex,
 			min = (cType == 'input') ? parseFloat(control.attr('min')) : 0,
 			max = (cType == 'input') ? parseFloat(control.attr('max')) : control.find('option').length-1,
-			percent = val / (max - min) * 100,
+			percent = ((parseFloat(val) - min) / (max - min)) * 100,
 			snappedPercent = percent,
-			slider = $('<div class="ui-slider '+ selectClass +' ui-btn-down-'+o.trackTheme+' ui-btn-corner-all" role="application"></div>'),
+			slider = $('<div class="ui-slider '+ selectClass +' ui-btn-down-'+ trackTheme+' ui-btn-corner-all" role="application"></div>'),
 			handle = $('<a href="#" class="ui-slider-handle"></a>')
 				.appendTo(slider)
-				.buttonMarkup({corners: true, theme: o.theme, shadow: true})
+				.buttonMarkup({corners: true, theme: theme, shadow: true})
 				.attr({
 					'role': 'slider',
 					'aria-valuemin': min,
@@ -1921,6 +2034,7 @@ $.fn.slider = function(options){
 				}),
 			dragging = false;
 			
+						
 		if(cType == 'select'){
 			slider.wrapInner('<div class="ui-slider-inneroffset"></div>');
 			var options = control.find('option');
@@ -1928,7 +2042,7 @@ $.fn.slider = function(options){
 			control.find('option').each(function(i){
 				var side = (i==0) ?'b':'a',
 					corners = (i==0) ? 'right' :'left',
-					theme = (i==0) ? ' ui-btn-down-' + o.trackTheme :' ui-btn-active';
+					theme = (i==0) ? ' ui-btn-down-' + trackTheme :' ui-btn-active';
 				$('<div class="ui-slider-labelbg ui-slider-labelbg-'+ side + theme +' ui-btn-corner-'+ corners+'"></div>').prependTo(slider);	
 				$('<span class="ui-slider-label ui-slider-label-'+ side + theme +' ui-btn-corner-'+ corners+'" role="img">'+$(this).text()+'</span>').prependTo(handle);
 			});
@@ -1947,11 +2061,11 @@ $.fn.slider = function(options){
 			
 		function slideUpdate(event, val){
 			if (val){
-				percent = parseFloat(val) / (max - min) * 100;
+				percent = (parseFloat(val) - min) / (max - min) * 100;
 			} else {
 				var data = event.originalEvent.touches ? event.originalEvent.touches[ 0 ] : event,
 					// a slight tolerance helped get to the ends of the slider
-					tol = 4;
+					tol = 8;
 				if( !dragging 
 						|| data.pageX < slider.offset().left - tol 
 						|| data.pageX > slider.offset().left + slider.width() + tol ){ 
@@ -1959,16 +2073,18 @@ $.fn.slider = function(options){
 				}
 				percent = Math.round(((data.pageX - slider.offset().left) / slider.width() ) * 100);
 			}
+			
 			if( percent < 0 ) { percent = 0; }
 			if( percent > 100 ) { percent = 100; }
-			var newval = Math.round( (percent/100) * max );
+			var newval = Math.round( (percent/100) * (max-min) ) + min;
+			
 			if( newval < min ) { newval = min; }
 			if( newval > max ) { newval = max; }
 			//flip the stack of the bg colors
 			if(percent > 60 && cType == 'select'){ 
 				
 			}
-			snappedPercent = Math.round( newval / max * 100 );
+			snappedPercent = Math.round( newval / (max-min) * 100 );
 			handle.css('left', percent + '%');
 			handle.attr({
 					'aria-valuenow': (cType == 'input') ? newval : control.find('option').eq(newval).attr('value'),
@@ -2005,6 +2121,13 @@ $.fn.slider = function(options){
 			.keyup(function(e){
 				slideUpdate(e, $(this).val() );
 			});
+			
+		$(document).bind($.support.touch ? "touchmove" : "mousemove", function(event){
+			if(dragging){
+				slideUpdate(event);
+				return false;
+			}
+		});
 					
 		slider
 			.bind($.support.touch ? "touchstart" : "mousedown", function(event){
@@ -2014,34 +2137,36 @@ $.fn.slider = function(options){
 				}
 				slideUpdate(event);
 				return false;
-			})
-			.bind($.support.touch ? "touchmove" : "mousemove", function(event){
-				slideUpdate(event);
-				return false;
-			})
+			});
+			
+		slider
+			.add(document)	
 			.bind($.support.touch ? "touchend" : "mouseup", function(event){
-				dragging = false;
-				if(cType == 'select'){
-					if(val == control[0].selectedIndex){
-						val = val == 0 ? 1 : 0;
-						//tap occurred, but value didn't change. flip it!
-						slideUpdate(event,val);
+				if(dragging){
+					dragging = false;
+					if(cType == 'select'){
+						if(val == control[0].selectedIndex){
+							val = val == 0 ? 1 : 0;
+							//tap occurred, but value didn't change. flip it!
+							slideUpdate(event,val);
+						}
+						updateSnap();
 					}
-					updateSnap();
+					return false;
 				}
-				return false;
-			})
-			.insertAfter(control);
+			});
+			
+		slider.insertAfter(control);	
 		
 		handle
 			.css('left', percent + '%')
 			.bind('click', function(e){ return false; });	
-	});
-};
-})(jQuery);
+	}
+});
+})( jQuery );
 	
 /*
-* jQuery Mobile Framework : "collapsible" plugin (based on code from Filament Group,Inc)
+* jQuery Mobile Framework : "collapsible" plugin
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
@@ -2053,7 +2178,7 @@ $.widget( "mobile.collapsible", $.mobile.widget, {
 		collapseCueText: ' click to collapse contents',
 		collapsed: false,
 		heading: '>:header,>legend',
-		theme: undefined,
+		theme: null,
 		iconTheme: 'd'
 	},
 	_create: function(){
@@ -2187,7 +2312,7 @@ $.widget( "mobile.collapsible", $.mobile.widget, {
 	}
 });
 })( jQuery );/*
-* jQuery Mobile Framework : prototype for "controlgroup" plugin - corner-rounding for groups of buttons, checks, radios, etc
+* jQuery Mobile Framework: "controlgroup" plugin - corner-rounding for groups of buttons, checks, radios, etc
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
@@ -2228,7 +2353,7 @@ $.fn.controlgroup = function(options){
 	});	
 };
 })(jQuery);/*
-* jQuery Mobile Framework : prototype for "fieldcontain" plugin - simple class additions to make form row separators
+* jQuery Mobile Framework : "fieldcontain" plugin - simple class additions to make form row separators
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
@@ -2241,7 +2366,7 @@ $.fn.fieldcontain = function(options){
 	return $(this).addClass('ui-field-contain ui-body ui-br');
 };
 })(jQuery);/*
-* jQuery Mobile Framework : listview plugin
+* jQuery Mobile Framework : "listview" plugin
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
@@ -2367,7 +2492,7 @@ jQuery.widget( "mobile.listview", jQuery.mobile.widget, {
 
 		item.find( "h1, h2, h3, h4, h5, h6" ).addClass( "ui-li-heading" );
 
-		item.find( "p, ul, dl" ).addClass( "ui-li-desc" );
+		item.find( "p, dl" ).addClass( "ui-li-desc" );
 
 		item.find( "img" ).addClass( "ui-li-thumb" ).each(function() {
 			jQuery( this ).closest( "li" )
@@ -2577,14 +2702,14 @@ $( "[data-role='listview']" ).live( "listviewcreate", function() {
 				//listview._numberItems();
 			})
 			.appendTo( wrapper )
-			.customTextInput();
+			.textinput();
 	
 	wrapper.insertBefore( list );
 });
 
 })( jQuery );
 /*
-* jQuery Mobile Framework : prototype for "dialog" plugin.
+* jQuery Mobile Framework : "dialog" plugin.
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
@@ -2595,8 +2720,9 @@ $.widget( "mobile.dialog", $.mobile.widget, {
 	_create: function(){	
 		var self = this,
 			$el = self.element,
+			$prevPage = $.activePage,
 			$closeBtn = $('<a href="#" data-icon="delete" data-iconpos="notext">Close</a>');
-			
+	
 		$el.delegate("a, submit", "click submit", function(e){
 			if( e.type == "click" && ( $(e.target).closest('[data-back]') || $(e.target).closest($closeBtn) ) ){
 				self.close();
@@ -2617,17 +2743,30 @@ $.widget( "mobile.dialog", $.mobile.widget, {
 			.addClass('ui-corner-top ui-overlay-shadow')
 				.prepend( $closeBtn )
 			.end()
+			.find('.ui-content:not([class*="ui-body-"])')
+				.addClass('ui-body-c')
+			.end()	
 			.find('.ui-content,[data-role=footer]')
 				.last()
 				.addClass('ui-corner-bottom ui-overlay-shadow');
+		
+		$(window).bind('hashchange',function(){
+			if( $el.is('.ui-page-active') ){
+				self.close();
+				$el.bind('pagehide',function(){
+					$.mobile.updateHash( $prevPage.attr('id'), true);
+				});
+			}
+		});		
 
 	},
+	
 	close: function(){
-		$.changePage([this.element, $.activePage], undefined, true );
+		$.changePage([this.element, $.activePage], undefined, true, true );
 	}
 });
 })( jQuery );/*
-* jQuery Mobile Framework : prototype for "navbar" plugin
+* jQuery Mobile Framework : "navbar" plugin
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
@@ -2665,7 +2804,7 @@ $.widget( "mobile.navbar", $.mobile.widget, {
 	}
 });
 })( jQuery );/*
-* jQuery Mobile Framework : plugin for creating grids
+* jQuery Mobile Framework : plugin for creating CSS grids
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) and GPL (GPL-LICENSE.txt) licenses.
 * Note: Code is in draft form and is subject to change 
@@ -2703,17 +2842,17 @@ $.fn.grid = function(options){
 
 (function( $, window, undefined ) {
 	
-	//jQuery.mobile obj extendable options
-	jQuery.mobile = jQuery.extend({
+	//jQuery.mobile configurable options
+	jQuery.mobile = {
 		
 		//define the url parameter used for referencing widget-generated sub-pages. 
 		//Translates to to example.html&ui-page=subpageIdentifier
 		//hash segment before &ui-page= is used to make Ajax request
 		subPageUrlKey: 'ui-page',
 		
-		//anchor links that match these selectors will be untrackable in history 
+		//anchor links with a data-rel, or pages with a data-role, that match these selectors will be untrackable in history 
 		//(no change in URL, not bookmarkable)
-		nonHistorySelectors: '[data-rel=dialog]',
+		nonHistorySelectors: 'dialog',
 		
 		//class assigned to page currently in view, and during transitions
 		activePageClass: 'ui-page-active',
@@ -2730,7 +2869,7 @@ $.fn.grid = function(options){
 		//available CSS transitions
 		transitions: ['slide', 'slideup', 'slidedown', 'pop', 'flip', 'fade'],
 		
-		//set default transition
+		//set default transition - 'none' for no transitions
 		defaultTransition: 'slide',
 		
 		//show loading message during Ajax requests
@@ -2747,8 +2886,10 @@ $.fn.grid = function(options){
 		gradeA: function(){
 			return jQuery.support.mediaquery;
 		}
-		
-	}, jQuery.mobile );
+	};
+	
+	//trigger mobileinit event - useful hook for configuring $.mobile settings before they're used
+	$( window.document ).trigger('mobileinit');
 	
 	//if device support condition(s) aren't met, leave things as they are -> a basic, usable experience,
 	//otherwise, proceed with the enhancements
@@ -2774,13 +2915,13 @@ $.fn.grid = function(options){
 			: undefined,
 			
 		//define meta viewport tag, if content is defined	
-		$metaViewport = $.mobile.metaViewportContent ? $("<meta>", { name: "viewport", content: $.mobile.metaViewportContent}) : undefined,
+		$metaViewport = $.mobile.metaViewportContent ? $("<meta>", { name: "viewport", content: $.mobile.metaViewportContent}).prependTo( $head ) : undefined,
 		
 		//define baseUrl for use in relative url management
 		baseUrl = getPathDir( location.protocol + '//' + location.host + location.pathname ),
 		
 		//define base element, for use in routing asset urls that are referenced in Ajax-requested markup
-		$base = $.support.dynamicBaseTag ? $("<base>", { href: baseUrl }) : undefined,
+		$base = $.support.dynamicBaseTag ? $("<base>", { href: baseUrl }).prependTo( $head ) : undefined,
 		
 		//will be defined as first page element in DOM
 		$startPage,
@@ -2812,10 +2953,12 @@ $.fn.grid = function(options){
 		
 		//media-query-like width breakpoints, which are translated to classes on the html element 
 		resolutionBreakpoints = [320,480,768,1024];
-		
+	
+	//add mobile, initial load "rendering" classes to docEl
+	$html.addClass('ui-mobile ui-mobile-rendering');	
 		
 	//prepend head markup additions
-	$head.prepend( $.mobile.headExtras || {}, $metaViewport || {}, $base || {} );
+	if( $.mobile.headExtras ){ $head.prepend( $.mobile.headExtras ); }
 
 	// TODO: don't expose (temporary during code reorg)
 	$.mobile.urlStack = urlStack;
@@ -2828,12 +2971,12 @@ $.fn.grid = function(options){
 	$.mobile.idStringEscape = idStringEscape;
 	
 	// hide address bar
-	function hideBrowserChrome() {
+	function silentScroll( ypos ) {
 		// prevent scrollstart and scrollstop events
 		jQuery.event.special.scrollstart.enabled = false;
 		setTimeout(function() {
-			window.scrollTo( 0, 0 );
-		},0);	
+			window.scrollTo( 0, ypos || 0 );
+		},20);	
 		setTimeout(function() {
 			jQuery.event.special.scrollstart.enabled = true;
 		}, 150 );
@@ -2862,7 +3005,7 @@ $.fn.grid = function(options){
     resetBaseURL(); 
 	
 	//for form submission
-	$('form').live('submit', function(){
+	$('form').live('submit', function(event){
 		if( !$.mobile.ajaxFormsEnabled ){ return; }
 		
 		var type = $(this).attr("method"),
@@ -2887,7 +3030,7 @@ $.fn.grid = function(options){
 			undefined,
 			true
 		);
-		return false;
+		event.preventDefault();
 	});	
 	
 	//click routing - direct to HTTP or Ajax, accordingly
@@ -2895,8 +3038,11 @@ $.fn.grid = function(options){
 		var $this = $(this),
 			//get href, remove same-domain protocol and host
 			href = $this.attr( "href" ).replace( location.protocol + "//" + location.host, ""),
+			//if target attr is specified, it's external, and we mimic _blank... for now
+			target = $this.is( "[target]" ),
 			//if it still starts with a protocol, it's external, or could be :mailto, etc
-			external = /^(:?\w+:)/.test( href ) || $this.is( "[target],[rel=external]" );
+			external = target || /^(:?\w+:)/.test( href ) || $this.is( "[rel=external]" ),
+			target = $this.is( "[target]" );
 
 		if( href === '#' ){
 			//for links created purely for interaction - ignore
@@ -2906,14 +3052,22 @@ $.fn.grid = function(options){
 		$activeClickedLink = $this.closest( ".ui-btn" ).addClass( $.mobile.activeBtnClass );
 		
 		if( external || !$.mobile.ajaxLinksEnabled ){
+			//remove active link class if external
+			removeActiveLinkClass(true);
+			
 			//deliberately redirect, in case click was triggered
-			location.href = href;
+			if( target ){
+				window.open(href);
+			}
+			else{
+				location.href = href;
+			}
 		}
 		else {	
 			//use ajax
 			var transition = $this.data( "transition" ),
 				back = $this.data( "back" ),
-				changeHashOnSuccess = !$this.is( $.mobile.nonHistorySelectors );
+				changeHashOnSuccess = !$this.is( "[data-rel="+ $.mobile.nonHistorySelectors +"]" );
 				
 			nextPageRole = $this.attr( "data-rel" );	
 	
@@ -2961,6 +3115,12 @@ $.fn.grid = function(options){
 		}
 	}
 	
+	//update hash, with or without triggering hashchange event
+	$.mobile.updateHash = function(url, disableListening){
+		if(disableListening) { hashListener = false; }
+		location.hash = url;
+	}
+
 	//wrap page and transfer data-attrs if it has an ID
 	function wrapNewPage( newPage ){
 		var copyAttrs = ['data-role', 'data-theme', 'data-fullscreen'], //TODO: more page-level attrs?
@@ -3025,7 +3185,13 @@ $.fn.grid = function(options){
 		function transitionPages() {
 				
 			//kill the keyboard
-			jQuery( document.activeElement ).blur();
+			jQuery( window.document.activeElement ).blur();
+			
+			//get current scroll distance
+			var currScroll = $window.scrollTop();
+			
+			//set as data for returning to that spot
+			from.data('lastScroll', currScroll);
 			
 			//trigger before show/hide events
 			from.data("page")._trigger("beforehide", {nextPage: to});
@@ -3039,8 +3205,7 @@ $.fn.grid = function(options){
 				}
 				reFocus( to );
 				if( changeHash && url ){
-					hashListener = false;
-					location.hash = url;
+					$.mobile.updateHash(url, true);
 				}
 				removeActiveLinkClass();
 				
@@ -3048,9 +3213,12 @@ $.fn.grid = function(options){
 				if( duplicateCachedPage != null ){
 					duplicateCachedPage.remove();
 				}
+				
+				//jump to top or prev scroll, if set
+				silentScroll( to.data( 'lastScroll' ) );
 			}
 			
-			if(transition){		
+			if(transition && (transition !== 'none')){	
 				$pageContainer.addClass('ui-mobile-viewport-transitioning');
 				// animate in / out
 				from.addClass( transition + " out " + ( back ? "reverse" : "" ) );
@@ -3181,6 +3349,11 @@ $.fn.grid = function(options){
 				hashListener = true;
 				return; 
 			} 
+			
+			if( $(".ui-page-active").is("[data-role=" + $.mobile.nonHistorySelectors + "]") ){
+				return;
+			}
+			
 			var to = location.hash,
 				transition = triggered ? false : undefined;
 				
@@ -3208,9 +3381,6 @@ $.fn.grid = function(options){
 
 		});
 	});	
-	
-	//add mobile, loading classes to doc
-	$html.addClass('ui-mobile');
 	
 	//add orientation class on flip/resize.
 	$window.bind( "orientationchange.htmlclass", function( event ) {
@@ -3276,7 +3446,7 @@ $.fn.grid = function(options){
 	jQuery.extend({
 		pageLoading: pageLoading,
 		changePage: changePage,
-		hideBrowserChrome: hideBrowserChrome
+		silentScroll: silentScroll
 	});
 
 	//dom-ready
@@ -3300,10 +3470,11 @@ $.fn.grid = function(options){
 		
 		//update orientation 
 		$window.trigger( "orientationchange.htmlclass" );
+		
+		//remove rendering class
+		$html.removeClass('ui-mobile-rendering');
 	});
 	
-	$window
-		.load(hideBrowserChrome)
-		.unload(removeActiveLinkClass);
+	$window.load(silentScroll);	
 	
 })( jQuery, this );
