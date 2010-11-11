@@ -161,7 +161,7 @@ a.ui-link-inherit { text-decoration: none !important; }
 .ui-icon-black-disc { background-color: #fff; background-color: rgba(255,255,255,.3);  -moz-border-radius: 9px; -webkit-border-radius: 9px; border-radius: 9px; }
 
 /* retina */
-@media  screen and (-webkit-min-device-pixel-ratio: 2), screen and (max--moz-device-pixel-ratio: 2) {
+@media screen and (-webkit-min-device-pixel-ratio: 2), screen and (max--moz-device-pixel-ratio: 2) {
 	.ui-icon { background-image: url(images/icons-36-white.png); background-size: 558px 18px; }
 	.ui-icon-black { background-image: url(images/icons-36-black.png); }
 }
@@ -204,7 +204,7 @@ a.ui-link-inherit { text-decoration: none !important; }
 .ui-icon-search { background-image: url(images/icon-search-black.png); }
 
 /* loading icon */
-.ui-icon-loading { background-image: url(images/ajax-loader.png); width: 40px; height: 40px;  -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px; }
+.ui-icon-loading { background-image: url(images/ajax-loader.png); width: 40px; height: 40px;  -moz-border-radius: 20px; -webkit-border-radius: 20px; border-radius: 20px; background-size: 35px 35px; }
 
 /* btn Corner radius */
 .ui-btn-corner-tl { -moz-border-radius-topleft: 1em; -webkit-border-top-left-radius: 1em; border-top-left-radius: 1em; }
@@ -273,6 +273,9 @@ a.ui-link-inherit { text-decoration: none !important; }
 .ui-loader { display: none; position: absolute; opacity: .85; z-index: 10; top: 75px; left: 50%; width: 200px; margin-left: -130px; padding: 20px 30px; }
 .ui-loader h1 { font-size: 15px; text-align: center; }
 .ui-loader .ui-icon { position: static; display: block; opacity: .9; margin: 0 auto; width: 35px; height: 35px; background-color: transparent; }
+
+/*fouc*/
+.ui-mobile-rendering > * { visibility: hidden; }
 
 /*headers, content panels*/
 .ui-bar, .ui-body { position: relative; padding: .4em 15px;  overflow: hidden; display: block;  clear:both;  }
@@ -581,7 +584,10 @@ Built by David Kaneda and maintained by Jonathan Stark.
 */
 /* fixed page header & footer configuration */
 .ui-header, .ui-footer, .ui-page-fullscreen .ui-header, .ui-page-fullscreen .ui-footer  { position: absolute;  overflow: hidden; width: 100%; border-left-width: 0; border-right-width: 0; }
-.ui-header-fixed, .ui-footer-fixed { z-index: 1000; }
+.ui-header-fixed, .ui-footer-fixed {
+	z-index: 1000;
+	-webkit-transform: translateZ(0); /* Force header/footer rendering to go through the same rendering pipeline as native page scrolling. */
+}
 .ui-footer-duplicate, .ui-page-fullscreen .ui-fixed-inline { display: none; }
 .ui-page-fullscreen .ui-header, .ui-page-fullscreen .ui-footer { opacity: .9; }
 /*
