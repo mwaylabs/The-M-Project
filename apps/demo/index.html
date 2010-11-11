@@ -43,7 +43,7 @@
             Demo.app = M.Application.extend({
                 page1: M.PageView.design({
 
-                        childViews: ['header content footer'],
+                        childViews: 'header content footer',
 
                         header: M.ToolbarView.design({
                             value: 'Welcome Page',
@@ -52,7 +52,7 @@
 
                         content: M.ScrollView.design({
 
-                            childViews: ['label1 grid button3'],
+                            childViews: 'label1 grid button3',
 
                             label1: M.LabelView.design({
                                 contentBinding: 'Demo.LoginController.numberOfClicks',
@@ -61,7 +61,7 @@
 
                             grid: M.GridView.design({
                                 
-                                childViews: ['button1 button2'],
+                                childViews: 'button1 button2',
 
                                 layout: M.TWO_COLUMNS,
 
@@ -94,7 +94,7 @@
                 }),
 
                 page2: M.PageView.design({
-                    childViews: ['header content footer'],
+                    childViews: 'header content footer',
 
                     onLoad: {
                         target: Demo.TwitterController,
@@ -107,7 +107,7 @@
                     }),
 
                     content: M.ScrollView.design({
-                        childViews: ['list1'],
+                        childViews: 'list1',
 
                         list1: M.ListView.design({
                             contentBinding: 'Demo.TwitterController.users',
@@ -125,7 +125,7 @@
                 }),
 
                 page3: M.PageView.design({
-                    childViews: ['header content footer'],
+                    childViews: 'header content footer',
 
                     onLoad: {
                         target: Demo.TwitterController,
@@ -138,7 +138,7 @@
                     }),
 
                     content: M.ScrollView.design({
-                        childViews: ['list1'],
+                        childViews: 'list1',
 
                         list1: M.ListView.design({
                             contentBinding: 'Demo.TwitterController.content',

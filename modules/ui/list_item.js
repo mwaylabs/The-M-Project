@@ -52,7 +52,7 @@ M.ListItemView = M.View.extend({
      * Triggers render() on all children and returns their render result.
      */
     renderChildViews: function() {
-        var arr = this.childViews[0].split(' ');
+        var arr = this.childViews.split(' ');
         var html = '';
         for(var i in arr) {
             html += this[arr[i]].render();

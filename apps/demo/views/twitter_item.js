@@ -10,7 +10,7 @@
 
 Demo.TwitterItemView = M.ListItemView.design({
 
-    childViews: ['label1'],
+    childViews: 'label1',
 
     items: 'results',
     

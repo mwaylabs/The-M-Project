@@ -50,11 +50,11 @@
             C2G.app = M.Application.extend({
                 loginPage: M.PageView.design({
 
-                    childViews: ['header content footer'],
+                    childViews: 'header content footer',
 
                     header: M.ToolbarView.design({
 
-                        childViews: ['image label'],                        
+                        childViews: 'image label',
 
                         anchorLocation: M.TOP,
 
@@ -76,7 +76,7 @@
 
                     content: M.ScrollView.design({
 
-                        childViews: ['bigLogo username password grid'],
+                        childViews: 'bigLogo username password grid',
 
                         bigLogo: M.ImageView.design({
 
@@ -103,7 +103,7 @@
 
                         grid: M.GridView.design({
 
-                            childViews: ['forgotPW loginButton'],
+                            childViews: 'forgotPW loginButton',
 
                             layout: M.TWO_COLUMNS,
 
@@ -127,7 +127,7 @@
 
                     footer: M.ToolbarView.design({
 
-                        childViews: ['copyright'],
+                        childViews: 'copyright',
 
                         anchorLocation: M.BOTTOM,
 

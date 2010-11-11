@@ -33,7 +33,7 @@
             BindingSample.app = M.Application.extend({
                 page: M.PageView.design({
 
-                        childViews: ['header content footer'],
+                        childViews: 'header content footer',
 
                         header: M.ToolbarView.design({
                             value: 'HEADER',
@@ -42,7 +42,7 @@
 
                         content: M.ScrollView.design({
 
-                            childViews: ['label1 label2 button1'],
+                            childViews: 'label1 label2 button1',
 
                             label1: M.LabelView.design({
                                 value: 'Number of clicks: ',

@@ -36,7 +36,7 @@ C2G.RideController = M.Controller.extend({
     },*/
 
     showRides: function() {
-        this.switchToView(C2G.app.ridesView);
+        this.switchToPage(C2G.app.ridesView);
     }
 
 });

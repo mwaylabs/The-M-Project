@@ -49,11 +49,11 @@
             C2G.app = M.Application.extend({
                 mainPage: M.PageView.design({
 
-                    childViews: ['header content footer'],
+                    childViews: 'header content footer',
 
                     header: M.ToolbarView.design({
 
-                        childViews: ['image appLabel logoutButton'],
+                        childViews: 'image appLabel logoutButton',
 
                         image: M.ImageView.design({
                             value: 'resources/logo.png',
@@ -77,7 +77,7 @@
 
                     content: M.ScrollView.design({
 
-                        childViews: ['startField destinationField driverButton coDriverButton rideListButton mapButton'],
+                        childViews: 'startField destinationField driverButton coDriverButton rideListButton mapButton',
 
                         startField: M.TextFieldView.design({
                             name: 'startField',
@@ -120,7 +120,7 @@
                     
                     footer: M.ToolbarView.design({
 
-                       childViews: ['copyright'],
+                       childViews: 'copyright',
 
                        anchorLocation: M.BOTTOM,
 
@@ -134,10 +134,10 @@
                 }),
 
                 ridesView: M.PageView.design({
-                    childViews: ['header content footer'],
+                    childViews: 'header content footer',
 
                     header: M.ToolbarView.design({
-                        childViews: ['title'],
+                        childViews: 'title',
 
                         title: M.LabelView.design({
                             value: 'Fahrten&uuml;bersicht',
@@ -146,7 +146,7 @@
                     }),
 
                     content: M.ScrollView.extend({
-                        childViews: ['ridesList'],
+                        childViews: 'ridesList',
 
                         ridesList: M.ListView.design({
                             contentBinding: 'C2G.RideController.myRides',
@@ -156,7 +156,7 @@
                     }),
 
                     footer: M.ToolbarView.design({
-                        childViews: ['copyright'],
+                        childViews: 'copyright',
 
                         anchorLocation: M.BOTTOM,
 

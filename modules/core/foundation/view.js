@@ -125,7 +125,7 @@ M.View = M.Object.extend({
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var arr = this.childViews[0].split(' ');
+            var arr = this.childViews.split(' ');
             for(var i in arr) {
                 this[arr[i]].render();
             }

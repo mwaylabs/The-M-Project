@@ -40,7 +40,7 @@ M.ToggleView = M.View.extend({
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var arr = this.childViews[0].split(' ');
+            var arr = this.childViews.split(' ');
             var childViewIndex = this.isInFirstState ? 0 : 1;
             var html = '';
             
@@ -66,7 +66,7 @@ M.ToggleView = M.View.extend({
 
     applyTheme: function() {
         if(this.childViews) {
-            var arr = this.childViews[0].split(' ');
+            var arr = this.childViews.split(' ');
             var childViewIndex = this.isInFirstState ? 0 : 1;
             var html = '';
 

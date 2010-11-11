@@ -73,7 +73,7 @@ M.ToolbarView = M.View.extend({
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var arr = this.childViews[0].split(' ');
+            var arr = this.childViews.split(' ');
 
             /* A ToolbarView accepts only 3 childViews, one for each location: left, center, right */
             if(arr.length > 3) {

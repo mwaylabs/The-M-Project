@@ -10,7 +10,7 @@
 
 Demo.TwitterUserView = M.ListItemView.design({
 
-    childViews: ['image1 label1 label2'],
+    childViews: 'image1 label1 label2',
 
     target: Demo.TwitterController,
 

@@ -10,7 +10,7 @@
 
 C2G.RideItemView = M.ListItemView.design({
 
-    childViews: ['startLabel destinationLabel'],
+    childViews: 'startLabel destinationLabel',
 
     startLabel: M.LabelView.design({
         value: '<%= start %>'

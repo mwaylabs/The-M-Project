@@ -58,7 +58,7 @@ M.GridView = M.View.extend({
     renderChildViews: function() {
         if(this.childViews) {
             if(this.layout) {
-                var arr = this.childViews[0].split(' ');
+                var arr = this.childViews.split(' ');
                 for(var i in this.layout.columns) {
                     if(this[arr[i]]) {
                         var html = '<div class="' + this.layout.columns[i] + '">';

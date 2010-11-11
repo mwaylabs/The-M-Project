@@ -83,7 +83,7 @@ M.ListView = M.View.extend({
             var obj = templateView.design({});
 
             /* Get the child views as an array of strings */
-            var childViewsArray = obj.childViews[0].split(' ');
+            var childViewsArray = obj.childViews.split(' ');
 
             /* If the item is a model, read the values from the 'record' property instead */
             var record = item.type === 'M.Model' ? item.record : item;

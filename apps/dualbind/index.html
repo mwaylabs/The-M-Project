@@ -43,7 +43,7 @@
             DualBind.app = M.Application.extend({
                 page: M.PageView.design({
 
-                    childViews: ['header content'],
+                    childViews: 'header content',
 
                     header: M.ToolbarView.design({
                             value: 'DualBind',
@@ -53,7 +53,7 @@
                     content: M.ScrollView.design({
 
                         /* order in childViews string defines render order*/
-                        childViews: ['inputField1 inputField2 inputField3 inputField4'],
+                        childViews: 'inputField1 inputField2 inputField3 inputField4',
 
                         inputField1: M.TextFieldView.design({
                             name: 'input_field1',

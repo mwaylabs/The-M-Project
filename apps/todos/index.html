@@ -56,13 +56,13 @@
                         action: 'init'
                     },
 
-                    childViews: ['header content'],
+                    childViews: 'header content',
 
                     header: M.ToolbarView.design({
-                            childViews: ['centerLabel toggleView'],
+                            childViews: 'centerLabel toggleView',
 
                             toggleView: M.ToggleView.design({
-                                childViews: ['button1 button2'],
+                                childViews: 'button1 button2',
                                 anchorLocation: M.RIGHT,
 
                                 button1: M.ButtonView.design({
@@ -92,7 +92,7 @@
                     content: M.ScrollView.design({
 
                         /* order in childViews string defines render order*/
-                        childViews: ['counter text inputField todoList'],
+                        childViews: 'counter text inputField todoList',
 
                         counter: M.LabelView.design({
                             value: '0',
