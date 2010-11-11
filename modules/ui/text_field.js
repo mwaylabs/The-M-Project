@@ -49,6 +49,13 @@ M.TextFieldView = M.View.extend({
     initialText: '',
 
     /**
+     * Defines whether the text field is rendered as an password field or not.
+     *
+     * @property {Boolean}
+     */
+    isPassword: NO,
+
+    /**
      * Renders a TextFieldView
      */
     render: function() {
@@ -56,7 +63,8 @@ M.TextFieldView = M.View.extend({
         if(this.label !== '') {
             html += '<label for="' + this.name + '">' + this.label + '</label>';
         }
-        html += '<input type="text" name="' + this.name + '" id="' + this.id + '" value="' + this.initialText + '" />';
+        var type = this.isPassword ? 'password' : 'text';
+        html += '<input type="' + type + '" name="' + this.name + '" id="' + this.id + '" value="' + this.initialText + '" />';
         html += '</div>';
         document.write(html);        
     },
