@@ -56,7 +56,7 @@ Demo.TwitterController = M.Controller.extend({
 
     listItemClicked: function(id) {
         this.set('selectedUser', Demo.app.viewManager.getViewById(id).label1.value);
-        this.switchToView(Demo.app.page3);
+        this.switchToPage(Demo.app.page3);
     }
 
 });

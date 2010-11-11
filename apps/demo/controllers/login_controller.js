@@ -29,7 +29,7 @@ Demo.LoginController = M.Controller.extend({
     },
 
     switchPage: function() {
-        this.switchToView(Demo.app.page2);
+        this.switchToPage(Demo.app.page2);
     },
 
     onLoad: function(isFirstLoad) {

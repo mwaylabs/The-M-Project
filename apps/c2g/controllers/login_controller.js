@@ -23,7 +23,7 @@ C2G.LoginController = M.Controller.extend({
         if(storedUsername === username) {
             if(storedPassword === C2G.app.cypher.hash(password)) {
                 console.log('login successfull');
-                // this.switchToView(page2);
+                // this.switchToPage(page2);
             } else {
                 alert('The password you entered is wrong!');
             }
