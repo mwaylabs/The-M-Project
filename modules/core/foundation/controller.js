@@ -44,14 +44,15 @@ M.Controller = M.Object.extend({
     /**
      * Returns the class property behind the given key and informs its observers.
      *
-     * @param {Object} view The view to be displayed.
+     * @param {Object} page The page to be displayed.
      */
-    switchToView: function(view) {
-        var id = M.Application.viewManager.getIdByView(view);
+    switchToPage: function(page) {
+        var id = M.Application.viewManager.getIdByView(page);
         if(id) {
             location.href = this.buildLocationHref(id);
+            M.Application.viewManager.setCurrentPage(page);
         } else {
-            M.Logger.log('"' + view + '" not found', M.WARN);
+            M.Logger.log('"' + page + '" not found', M.WARN);
         }
     },
 
