@@ -8,16 +8,16 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-C2G.Ride = M.Model.create({
+C2G.RideItemView = M.ListItemView.design({
 
-    __name__: 'Ride',
+    childViews: ['startLabel destinationLabel'],
 
-    start: '',
+    startLabel: M.LabelView.design({
+        value: '<%= start %>'
+    }),
 
-    destination: '',
-
-    date: '',
-
-    driver: ''
+    destinationLabel: M.LabelView.design({
+        value: '<%= destination %>'
+    })
 
 });

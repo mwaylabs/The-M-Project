@@ -10,6 +10,33 @@
 
 C2G.RideController = M.Controller.extend({
 
-    
+    rides: M.ModelManager.extend({
+        model: C2G.Ride
+    }),
+
+    myRides: null,
+
+    addRideAsDriver: function() {
+        var ride =  C2G.Ride.newRecord({
+            start: C2G.app.mainPage.content.startField.value,
+            destination: C2G.app.mainPage.content.destinationField.value,
+            date: M.Date.now()
+        });
+
+        this.rides.add(ride);
+        this.set('myRides', this.rides.modelList);
+
+        C2G.app.mainPage.content.startField.setValue('');
+        C2G.app.mainPage.content.destinationField.setValue('');
+    },
+
+    /*addRideAsCoDriver: function() {
+        var ride = this.createRide();
+        this.rides.add(ride);
+    },*/
+
+    showRides: function() {
+        this.switchToView(C2G.app.ridesView);
+    }
 
 });

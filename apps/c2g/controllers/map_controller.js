@@ -8,16 +8,10 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-C2G.Ride = M.Model.create({
+C2G.MapController = M.Controller.extend({
 
-    __name__: 'Ride',
-
-    start: '',
-
-    destination: '',
-
-    date: '',
-
-    driver: ''
+    showMap: function() {
+        
+    }
 
 });
