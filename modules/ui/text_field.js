@@ -32,6 +32,20 @@ M.TextFieldView = M.View.extend({
      */
     name: '',
 
+    /**
+     * Label defines a text that is shown above or next to the textfield as a 'title' for the textfield.
+     * e.g. "Name:"
+     *
+     * @property {String}
+     */
+    label: '',
+
+    /**
+     * The initial text shown inside the text field describing the input or making a suggestion for input
+     * e.g. "Please enter your Name."
+     *
+     * @property {String}
+     */
     initialText: '',
 
     /**
@@ -39,6 +53,9 @@ M.TextFieldView = M.View.extend({
      */
     render: function() {
         var html = '<div ' + this.style() + ' data-role="fieldcontain">';
+        if(this.label !== '') {
+            html += '<label for="' + this.name + '">' + this.label + '</label>';
+        }
         html += '<input type="text" name="' + this.name + '" id="' + this.id + '" value="' + this.initialText + '" />';
         html += '</div>';
         document.write(html);        
