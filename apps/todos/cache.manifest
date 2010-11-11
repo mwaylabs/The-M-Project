@@ -35,6 +35,7 @@ views/todo_item.js
 models/note.js
 controllers/todo_controller.js
 ../../modules/themes/jquery_mobile/images/icons-18-white.png
+resources/app_icon.png
 
 NETWORK:
 
