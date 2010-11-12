@@ -54,9 +54,7 @@ M.Date = M.Object.extend({
      * @param {Number} days The number of days to be added to or subtracted from the current date.
      */
     daysFromNow: function(days) {
-        var now = this.now();
-        var future = new Date(Date.parse(now) + days * (24 * 60 * 60 * 1000));
-        return new Date(Date.parse(future) + (future.getTimezoneOffset() - now.getTimezoneOffset()) * (60 * 1000));
+        return this.millisecondsFromNow(days * 24 * 60 * 60 * 1000);
     },
 
     /**
@@ -67,9 +65,7 @@ M.Date = M.Object.extend({
      * @param {Number} hours The number of hours to be added to or subtracted from the current date.
      */
     hoursFromNow: function(hours) {
-        var now = this.now();
-        var future = new Date(Date.parse(now) + hours * (60 * 60 * 1000));
-        return new Date(Date.parse(future) + (future.getTimezoneOffset() - now.getTimezoneOffset()) * (60 * 1000));
+        return this.millisecondsFromNow(hours * 60 * 60 * 1000);
     },
 
     /**
@@ -80,9 +76,7 @@ M.Date = M.Object.extend({
      * @param {Number} minutes The number of minutes to be added to or subtracted from the current date.
      */
     minutesFromNow: function(minutes) {
-        var now = this.now();
-        var future = new Date(Date.parse(now) + minutes * (60 * 1000));
-        return new Date(Date.parse(future) + (future.getTimezoneOffset() - now.getTimezoneOffset()) * (60 * 1000));
+        return this.millisecondsFromNow(minutes * 60 * 1000);
     },
 
     /**
@@ -93,9 +87,7 @@ M.Date = M.Object.extend({
      * @param {Number} seconds The number of seconds to be added to or subtracted from the current date.
      */
     secondsFromNow: function(seconds) {
-        var now = this.now();
-        var future = new Date(Date.parse(now) + seconds * (1000));
-        return new Date(Date.parse(future) + (future.getTimezoneOffset() - now.getTimezoneOffset()) * (60 * 1000));
+        return this.millisecondsFromNow(seconds * 1000);
     },
 
     /**
