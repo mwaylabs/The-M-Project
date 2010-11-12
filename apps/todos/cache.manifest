@@ -7,6 +7,10 @@ index.html
 ../../modules/core/foundation/object.js
 ../../modules/core/foundation/request.js
 ../../modules/core/utility/logger.js
+../../modules/core/utility/date.js
+../../modules/core/utility/cypher_algorithms/base64.js
+../../modules/core/utility/cypher_algorithms/sha256.js
+../../modules/core/utility/cypher.js
 ../../modules/core/foundation/event_dispatcher.js
 ../../modules/core/foundation/observable.js
 ../../modules/core/foundation/controller.js
