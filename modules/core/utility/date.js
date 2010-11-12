@@ -40,6 +40,36 @@ M.Date = M.Object.extend({
     },
 
     /**
+     * This method returns a date for a given date string. It is based on JS Date's parse
+     * method.
+     *
+     * The following formats are accepted (time and timezone are optional):
+     * - 11/12/2010
+     * - 11/12/2010 15:28:15
+     * - 11/12/2010 13:28:15 GMT
+     * - 11/12/2010 15:28:15 GMT+0200
+     * - 12 November 2010
+     * - 12 November 2010 15:28:15
+     * - 12 November 2010 13:28:15 GMT
+     * - 12 November 2010 15:28:15 GMT+0200
+     * - 12 Nov 2010
+     * - 12 Nov 2010 15:28:15
+     * - 12 Nov 2010 13:28:15 GMT
+     * - 12 Nov 2010 15:28:15 GMT+0200
+     *
+     * If a wrong formatted date string is given, the method will return null. Otherwise a
+     * JS Date object will be returned.
+     */
+    create: function(dateString) {
+        var milliseconds = Date.parse(dateString);
+        if(!milliseconds) {
+            M.Logger.log('Invalid dateString \'' + dateString + '\'.', M.WARN);
+            return null;
+        }
+        return new Date(milliseconds);
+    },
+
+    /**
      * This method returns the date, 24h in the past.
      */
     yesterday: function() {
@@ -54,7 +84,19 @@ M.Date = M.Object.extend({
      * @param {Number} days The number of days to be added to or subtracted from the current date.
      */
     daysFromNow: function(days) {
-        return this.millisecondsFromNow(days * 24 * 60 * 60 * 1000);
+        return this.daysFromDate(days, this.now());
+    },
+
+    /**
+     * This method returns a date in the future or past, based on 'days' and a given date. Basically
+     * it adds or subtracts x days, but also checks for clock changes and automatically includes
+     * these into the calculation of the future or past date.
+     *
+     * @param {Number} days The number of days to be added to or subtracted from the current date.
+     * @param {Object} inputDate The input date as a date object.
+     */
+    daysFromDate: function(days, inputDate) {
+        return this.millisecondsFromDate(days * 24 * 60 * 60 * 1000, inputDate);
     },
 
     /**
@@ -65,7 +107,19 @@ M.Date = M.Object.extend({
      * @param {Number} hours The number of hours to be added to or subtracted from the current date.
      */
     hoursFromNow: function(hours) {
-        return this.millisecondsFromNow(hours * 60 * 60 * 1000);
+        return this.hoursFromDate(hours, this.now());
+    },
+
+    /**
+     * This method returns a date in the future or past, based on 'hours' and a given date. Basically
+     * it adds or subtracts x hours, but also checks for clock changes and automatically includes
+     * these into the calculation of the future or past date.
+     *
+     * @param {Number} hours The number of hours to be added to or subtracted from the current date.
+     * @param {Object} inputDate The input date as a date object.
+     */
+    hoursFromDate: function(hours, inputDate) {
+        return this.millisecondsFromDate(hours * 60 * 60 * 1000, inputDate);
     },
 
     /**
@@ -76,7 +130,19 @@ M.Date = M.Object.extend({
      * @param {Number} minutes The number of minutes to be added to or subtracted from the current date.
      */
     minutesFromNow: function(minutes) {
-        return this.millisecondsFromNow(minutes * 60 * 1000);
+        return this.minutesFromDate(minutes, this.now());
+    },
+
+    /**
+     * This method returns a date in the future or past, based on 'minutes' and a given date. Basically
+     * it adds or subtracts x minutes, but also checks for clock changes and automatically includes
+     * these into the calculation of the future or past date.
+     *
+     * @param {Number} minutes The number of minutes to be added to or subtracted from the current date.
+     * @param {Object} inputDate The input date as a date object.
+     */
+    minutesFromDate: function(minutes, inputDate) {
+        return this.millisecondsFromDate(minutes * 60 * 1000, inputDate);
     },
 
     /**
@@ -87,7 +153,19 @@ M.Date = M.Object.extend({
      * @param {Number} seconds The number of seconds to be added to or subtracted from the current date.
      */
     secondsFromNow: function(seconds) {
-        return this.millisecondsFromNow(seconds * 1000);
+        return this.secondsFromDate(seconds, this.now());
+    },
+
+    /**
+     * This method returns a date in the future or past, based on 'seconds' and a given date. Basically
+     * it adds or subtracts x seconds, but also checks for clock changes and automatically includes
+     * these into the calculation of the future or past date.
+     *
+     * @param {Number} seconds The number of seconds to be added to or subtracted from the current date.
+     * @param {Object} inputDate The input date as a date object.
+     */
+    secondsFromDate: function(seconds, inputDate) {
+        return this.millisecondsFromDate(seconds * 1000, inputDate);
     },
 
     /**
@@ -98,9 +176,20 @@ M.Date = M.Object.extend({
      * @param {Number} milliseconds The number of milliseconds to be added to or subtracted from the current date.
      */
     millisecondsFromNow: function(milliseconds) {
-        var now = this.now();
-        var future = new Date(Date.parse(now) + milliseconds);
-        return new Date(Date.parse(future) + (future.getTimezoneOffset() - now.getTimezoneOffset()) * (60 * 1000));
+        return this.millisecondsFromDate(milliseconds, this.now());
+    },
+
+    /**
+     * This method returns a date in the future or past, based on 'milliseconds' and a given date. Basically
+     * it adds or subtracts x milliseconds, but also checks for clock changes and automatically includes
+     * these into the calculation of the future or past date.
+     *
+     * @param {Number} milliseconds The number of milliseconds to be added to or subtracted from the current date.
+     * @param {Object} inputDate The input date as a date object.
+     */
+    millisecondsFromDate: function(milliseconds, inputDate) {
+        var outputDate = new Date(Date.parse(inputDate) + milliseconds);
+        return new Date(Date.parse(outputDate) + (outputDate.getTimezoneOffset() - inputDate.getTimezoneOffset()) * (60 * 1000));
     },
 
     /**
