@@ -47,15 +47,67 @@ M.Date = M.Object.extend({
     },
 
     /**
-     * This method returns a date in the future, based on 'days'. Basically it adds x times the
-     * milliseconds of a day, but also checks for clock changes and automatically includes these
-     * into the calculation of the future date.
+     * This method returns a date in the future or past, based on 'days'. Basically it adds or
+     * subtracts x times the milliseconds of a day, but also checks for clock changes and
+     * automatically includes these into the calculation of the future or past date.
      *
-     * @param {Number} days The number of days that should be added to the current date.
+     * @param {Number} days The number of days to be added to or subtracted from the current date.
      */
     daysFromNow: function(days) {
         var now = this.now();
         var future = new Date(Date.parse(now) + days * (24 * 60 * 60 * 1000));
+        return new Date(Date.parse(future) + (future.getTimezoneOffset() - now.getTimezoneOffset()) * (60 * 1000));
+    },
+
+    /**
+     * This method returns a date in the future or past, based on 'hours'. Basically it adds or
+     * subtracts x times the milliseconds of an hour, but also checks for clock changes and
+     * automatically includes these into the calculation of the future or past date.
+     *
+     * @param {Number} hours The number of hours to be added to or subtracted from the current date.
+     */
+    hoursFromNow: function(hours) {
+        var now = this.now();
+        var future = new Date(Date.parse(now) + hours * (60 * 60 * 1000));
+        return new Date(Date.parse(future) + (future.getTimezoneOffset() - now.getTimezoneOffset()) * (60 * 1000));
+    },
+
+    /**
+     * This method returns a date in the future or past, based on 'minutes'. Basically it adds or
+     * subtracts x times the milliseconds of a minute, but also checks for clock changes and
+     * automatically includes these into the calculation of the future or past date.
+     *
+     * @param {Number} minutes The number of minutes to be added to or subtracted from the current date.
+     */
+    minutesFromNow: function(minutes) {
+        var now = this.now();
+        var future = new Date(Date.parse(now) + minutes * (60 * 1000));
+        return new Date(Date.parse(future) + (future.getTimezoneOffset() - now.getTimezoneOffset()) * (60 * 1000));
+    },
+
+    /**
+     * This method returns a date in the future or past, based on 'seconds'. Basically it adds or
+     * subtracts x times the milliseconds of a second, but also checks for clock changes and
+     * automatically includes these into the calculation of the future or past date.
+     *
+     * @param {Number} seconds The number of seconds to be added to or subtracted from the current date.
+     */
+    secondsFromNow: function(seconds) {
+        var now = this.now();
+        var future = new Date(Date.parse(now) + seconds * (1000));
+        return new Date(Date.parse(future) + (future.getTimezoneOffset() - now.getTimezoneOffset()) * (60 * 1000));
+    },
+
+    /**
+     * This method returns a date in the future or past, based on 'milliseconds'. Basically it adds or
+     * subtracts x milliseconds, but also checks for clock changes and automatically includes these
+     * into the calculation of the future or past date.
+     *
+     * @param {Number} milliseconds The number of milliseconds to be added to or subtracted from the current date.
+     */
+    millisecondsFromNow: function(milliseconds) {
+        var now = this.now();
+        var future = new Date(Date.parse(now) + milliseconds);
         return new Date(Date.parse(future) + (future.getTimezoneOffset() - now.getTimezoneOffset()) * (60 * 1000));
     },
 
