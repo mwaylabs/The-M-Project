@@ -77,7 +77,6 @@ M.Application = M.Object.extend({
                 this.viewManager.viewList[i].render();
                 /* bind the pageshow event to any view's pageDidLoad property function */
                 $('#' + this.viewManager.viewList[i].id).bind('pageshow', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageDidLoad));
-                $('#' + this.viewManager.viewList[i].id).page();
 
                 /* set the first page as current page to be displayed */
                 if(!this.viewManager.getCurrentPage()) {
