@@ -76,7 +76,7 @@ M.View = M.Object.extend({
      * Indicates whether the view is visible or not.
      * Implemented via CSS's display property.
      */
-    isVisible: NO,
+    isVisible: YES,
 
     /*
      * Indicates whether the view is enabled or not.
@@ -84,6 +84,15 @@ M.View = M.Object.extend({
     isEnabled: YES,
 
     modelId: null,
+
+    /**
+     * This property is used internally to recursively build the pages html representation.
+     * It is once set within the render method and then eventually updated within the
+     * renderUpdate method.
+     *
+     * @property {String} The pages html content.
+     */
+    html: '',
 
     /**
      * This method encapsulates the 'extend' method of M.Object for better reading of code syntax.
@@ -125,9 +134,9 @@ M.View = M.Object.extend({
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var arr = this.childViews.split(' ');
-            for(var i in arr) {
-                this[arr[i]].render();
+            var childViews = $.trim(this.childViews).split(' ');
+            for(var i in childViews) {
+                this.html += this[childViews[i]].render();
             }
         }
     },
@@ -136,8 +145,20 @@ M.View = M.Object.extend({
      * Interface method.
      * Triggers rendering engine to style this view/apply a theme.
      */
-    applyTheme: function() {
+    theme: function() {
 
+    },
+
+    /**
+     * Triggers theme() on all children.
+     */
+    themeChildViews: function() {
+        if(this.childViews) {
+            var childViews = $.trim(this.childViews).split(' ');
+            for(var i in childViews) {
+                this[childViews[i]].theme();
+            }
+        }
     },
 
     /**
@@ -229,6 +250,13 @@ M.View = M.Object.extend({
      */
     secure: function(str) {
         return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    },
+
+    /**
+     * This method writes the view's html string into the DOM.
+     */
+    writeToDOM: function() {
+        document.write(this.html);
     }
 
 });
