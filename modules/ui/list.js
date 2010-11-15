@@ -152,8 +152,8 @@ M.ListView = M.View.extend({
         if(eval(this.contentBinding)) {
             this.inEditMode = !this.inEditMode;
 
-            if(options.disableOnEdit[0]) {
-                var views = options.disableOnEdit[0].split(' ');
+            if(options.disableOnEdit) {
+                var views = $.trim(options.disableOnEdit).split(' ');
                 _.each(views, function(view) {
                     var view = eval(view);
                     view.isEnabled = !view.isEnabled;
