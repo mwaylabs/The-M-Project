@@ -51,17 +51,13 @@ M.ToolbarView = M.View.extend({
      * (representing the title of the header)
      */
     render: function() {
-        /*
-        data-nobackbtn="true"
-         */
-        var html = '<div id="' + this.id + '" data-role="' + this.anchorLocation + '" data-position="fixed">';        
-        document.write(html);
-        //<h1>' + this.value + '</h1><a href="#" data-icon="gear" class="ui-btn-right">Edit</a>
+        this.html += '<div id="' + this.id + '" data-role="' + this.anchorLocation + '" data-position="fixed">';
 
         this.renderChildViews();
 
-        html = '</div>';
-        document.write(html);
+        this.html += '</div>';
+
+        return this.html;
     },
 
     renderUpdate: function() {
@@ -69,47 +65,49 @@ M.ToolbarView = M.View.extend({
     },
 
     /**
-     * Triggers render() on all children.
+     * Triggers render() on all children or simply display the value as a label,
+     * if it is set.
      */
     renderChildViews: function() {
-        if(this.childViews) {
-            var arr = this.childViews.split(' ');
+        if(this.value) {
+            this.html += '<h1>' + this.value + '</h1>';
+        } else if (this.childViews) {
+            var childViews = $.trim(this.childViews).split(' ');
 
             /* A ToolbarView accepts only 3 childViews, one for each location: left, center, right */
-            if(arr.length > 3) {
+            if(childViews.length > 3) {
                 M.Logger.log('To many childViews defined for toolbarView.', M.WARN);
                 return;
             }
 
-            for(var i in arr) {
-                var view = this[arr[i]];
+            for(var i in childViews) {
+                var view = this[childViews[i]];
                 switch (view.anchorLocation) {
                     case M.LEFT:
-                        var html = '<div class="ui-btn-left">';
-                        document.write(html);
-                        view.render();
-                        html = '</div>';
-                        document.write(html);
+                        this.html += '<div class="ui-btn-left">';
+                        this.html += view.render();
+                        this.html += '</div>';
                         break;
                     case M.CENTER:
-                        var html = '<h1>';
-                        document.write(html);                            
-                        view.render();
-                        html = '</h1>';
-                        document.write(html);
+                        this.html += '<h1>';
+                        this.html += view.render();
+                        this.html += '</h1>';
                         break;
                     case M.RIGHT:
-                        var html = '<div class="ui-btn-right">';
-                        document.write(html);
-                        view.render();
-                        html = '</div>';
-                        document.write(html);
-                        break;
-                    default:
+                        this.html += '<div class="ui-btn-right">';
+                        this.html += view.render();
+                        this.html += '</div>';
                         break;
                 }
             }
         }
+    },
+
+    /**
+     * This method triggers the styling of the toolbar and its subviews.
+     */
+    theme: function() {
+        this.themeChildViews();
     }
     
 });

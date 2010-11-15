@@ -59,14 +59,17 @@ M.TextFieldView = M.View.extend({
      * Renders a TextFieldView
      */
     render: function() {
-        var html = '<div ' + this.style() + ' data-role="fieldcontain">';
+        this.html += '<div ' + this.style() + ' data-role="fieldcontain">';
+
         if(this.label !== '') {
-            html += '<label for="' + this.name + '">' + this.label + '</label>';
+            this.html += '<label for="' + this.name + '">' + this.label + '</label>';
         }
+
         var type = this.isPassword ? 'password' : 'text';
-        html += '<input type="' + type + '" name="' + this.name + '" id="' + this.id + '" value="' + this.initialText + '" />';
-        html += '</div>';
-        document.write(html);        
+        this.html += '<input type="' + type + '" name="' + this.name + '" id="' + this.id + '" value="' + this.initialText + '" />';
+        this.html += '</div>';
+        
+        return this.html;
     },
 
     /**
@@ -105,14 +108,21 @@ M.TextFieldView = M.View.extend({
      * Method to append css styles inline to the rendered view.
      */
     style: function() {
-        var html = 'style="';
+        var html = '';
         if(this.isInline) {
+            if(!html) {
+                html += 'style="';
+            }
             html += 'display:inline;';
         }
-        html += '"';
-
         if(!this.isEnabled) {
+            if(!html) {
+                html += 'style="';
+            }
             html += 'disabled="disabled"';
+        }
+        if(html) {
+            html += '"';
         }
         return html;
     },

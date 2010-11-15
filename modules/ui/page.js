@@ -40,13 +40,14 @@ M.PageView = M.View.extend({
      * 3. Rendering closing tag
      */
     render: function() {
-        var html = '<div id="' + this.id + '" data-role="page">';
-        document.write(html);
+        this.html += '<div id="' + this.id + '" data-role="page">';
 
         this.renderChildViews();
+
+        this.html += '</div>';
         
-        html = '</div>';
-        document.write(html);
+        this.writeToDOM();        
+        this.theme();
     },
 
     /**
@@ -55,9 +56,9 @@ M.PageView = M.View.extend({
      */
     pageDidLoad: function() {
         if(this.onLoad) {
-            this.onLoad.target[this.onLoad.action](this.isFirstLoad);
-            this.isFirstLoad = NO;
+            this.onLoad.target[this.onLoad.action](this.isFirstLoad);            
         }
+        this.isFirstLoad = NO;
     },
 
 
@@ -68,5 +69,14 @@ M.PageView = M.View.extend({
         if(this.onOrientationChange) {
             this.onOrientationChange.target[this.onOrientationChange.action](orientation);
         }
+    },
+
+    /**
+     * This method triggers the styling of the page and its subviews.
+     */
+    theme: function() {
+        $('#' + this.id).page();
+        this.themeChildViews();
     }
+    
 });

@@ -21,12 +21,8 @@ M.ImageView = M.View.extend({
     type: 'M.ImageView',
 
     render: function() {
-        var html = '<img id="' + this.id + '" src="' + this.value + '" />';
-        if(this.renderToDOM) {
-            document.write(html);
-        } else {
-            return html;
-        }
+        this.html += '<img id="' + this.id + '" src="' + this.value + '" />';
+        return this.html;
     }
 
 });

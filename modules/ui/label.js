@@ -35,12 +35,8 @@ M.LabelView = M.View.extend({
      * Renders a LabelView as a div tag with corresponding data-role attribute and inner text defined by value
      */
     render: function() {
-        var html = '<div id="' + this.id + '" ' + this.style() + '>' + this.value + '</div>';
-        if(this.renderToDOM) {
-            document.write(html);
-        } else {
-            return html;
-        }
+        this.html += '<div id="' + this.id + '" ' + this.style() + '>' + this.value + '</div>';
+        return this.html;
     },
 
     /**
@@ -54,11 +50,16 @@ M.LabelView = M.View.extend({
      * Applies some style-attributes to the label.
      */
     style: function() {
-        var html = 'style="';
+        var html = '';
         if(this.isInline) {
+            if(!html) {
+                html += 'style="';
+            }
             html += 'display:inline;';
         }
-        html += '"';
+        if(html) {
+            html += '"';   
+        }
         return html;
     }
 

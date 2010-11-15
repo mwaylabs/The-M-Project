@@ -24,8 +24,9 @@ M.ListView = M.View.extend({
 
     render: function() {
         var listTagName = this.isNumberedList ? 'ol' : 'ul';
-        var html = '<' + listTagName + ' id="' + this.id + '" data-role="listview"></' + listTagName + '>';
-        document.write(html);
+        this.html = '<' + listTagName + ' id="' + this.id + '" data-role="listview" data-icon="save"></' + listTagName + '>';
+        
+        return this.html;
     },
 
     items: null,
@@ -127,18 +128,25 @@ M.ListView = M.View.extend({
 
             /* ... once it is in the DOM, make it look nice */
             for(var i in childViewsArray) {
-                obj[childViewsArray[i]].applyTheme();
+                obj[childViewsArray[i]].theme();
             }
         });
 
         /* Finally let the whole list look nice */
-        this.applyTheme();
+        this.themeUpdate();
     },
 
     /**
      * Triggers rendering engine, e.g. jQuery mobile, to style the button.
      */
-    applyTheme: function() {
+    theme: function() {
+        $('#' + this.id).listview();
+    },
+
+    /**
+     * Triggers rendering engine, e.g. jQuery mobile, to style the button.
+     */
+    themeUpdate: function() {
         $('#' + this.id).listview('refresh');
     },
 

@@ -32,16 +32,23 @@ M.ListItemView = M.View.extend({
     }),
 
     render: function() {
-        var html = '<li id="' + this.id + '" data-icon="none">';
-        html += this.renderChildViews();
+        this.html = '<li id="' + this.id + '">';
 
         if(this.inEditMode) {
-            html += '<a href="#"></a>';
-            html += this.deleteButton.render();
+            this.html += '<a href="#">';
+            this.renderChildViews();
+            this.html += '</a>';
+            
+            this.html += this.deleteButton.render();
+        } else {
+            this.html += '<a href="#">';
+            this.renderChildViews();
+            this.html += '</a>';
         }
 
-        html += '</li>';
-        return html;
+        this.html += '</li>';
+        
+        return this.html;
     },
 
     renderUpdate: function() {
@@ -52,12 +59,11 @@ M.ListItemView = M.View.extend({
      * Triggers render() on all children and returns their render result.
      */
     renderChildViews: function() {
-        var arr = this.childViews.split(' ');
-        var html = '';
-        for(var i in arr) {
-            html += this[arr[i]].render();
+        var childViews = $.trim(this.childViews).split(' ');
+        for(var i in childViews) {
+            this.html += this[childViews[i]].render();
         }
-        return html;
+        return this.html;
     }
 
 });

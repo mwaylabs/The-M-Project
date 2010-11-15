@@ -26,56 +26,68 @@ M.ToggleView = M.View.extend({
      * Renders a ToggleView and its child views.
      */
     render: function() {
-        var html = '<div id="' + this.id + '"></div>';
-        document.write(html);
-        
-        $('#' + this.id).html(this.renderChildViews());
-        this.applyTheme();
+        this.html += '<div id="' + this.id + '">';
+
+        this.renderChildViews();
+
+        this.html += '</div>';
+
         this.isInFirstState = !this.isInFirstState;
+        
+        return this.html;
     },
 
     /**
-     * This method renders the child views of the toggle view but toggles
-     * between the first two defined child views.
+     * This method renders the first child view of the toggle view, based on the isInFirstState
+     * property: YES = first child view, NO = second child view.
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var arr = this.childViews.split(' ');
+            var childViews = $.trim(this.childViews).split(' ');
             var childViewIndex = this.isInFirstState ? 0 : 1;
-            var html = '';
-            
-            if(this[arr[childViewIndex]]) {
-                this[arr[childViewIndex]].internalTarget = this;
-                this[arr[childViewIndex]].internalAction = 'toggleView';
-                this[arr[childViewIndex]].renderToDOM = NO;
-                html += this[arr[childViewIndex]].render();
+
+            if(this[childViews[childViewIndex]]) {
+                this[childViews[childViewIndex]].internalTarget = this;
+                this[childViews[childViewIndex]].internalAction = 'toggleView';
+                this.html += this[childViews[childViewIndex]].render();
             } else {
                 M.Logger.log('Please make sure that there are two child views defined for the toggle view!', M.WARN);
             }
         }
-        return html;
     },
 
+    /**
+     * This method toggles the child views.
+     */
+    renderUpdateChildViews: function() {
+        if(this.childViews) {
+            var childViews = $.trim(this.childViews).split(' ');
+            var childViewIndex = this.isInFirstState ? 0 : 1;
+
+            if(this[childViews[childViewIndex]]) {
+                this[childViews[childViewIndex]].internalTarget = this;
+                this[childViews[childViewIndex]].internalAction = 'toggleView';
+                this[childViews[childViewIndex]].html = '';
+                return this[childViews[childViewIndex]].render();
+            } else {
+                M.Logger.log('Please make sure that there are two child views defined for the toggle view!', M.WARN);
+            }
+        }
+    },
+
+    /**
+     * This method toggles the child views by first emptying the toggle view's content
+     * and then rendering the next child view by calling renderUpdateChildViews().
+     */
     toggleView: function() {        
         $('#' + this.id).empty();
-        
-        $('#' + this.id).html(this.renderChildViews());
-        this.applyTheme();
+        $('#' + this.id).html(this.renderUpdateChildViews());
+        this.theme();
         this.isInFirstState = !this.isInFirstState;
     },
 
-    applyTheme: function() {
-        if(this.childViews) {
-            var arr = this.childViews.split(' ');
-            var childViewIndex = this.isInFirstState ? 0 : 1;
-            var html = '';
-
-            if(this[arr[childViewIndex]]) {
-                this[arr[childViewIndex]].applyTheme();
-            } else {
-                M.Logger.log('Please make sure that there are two child views defined for the toggle view!', M.WARN);
-            }
-        }
+    theme: function() {
+        this.themeChildViews();
     }
 
 });
