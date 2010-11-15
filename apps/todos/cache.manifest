@@ -1,7 +1,7 @@
 CACHE MANIFEST
 index.html
 ../../modules/jquery/jquery-1.4.3.min.js
-../../modules/jquery_mobile/jquery.mobile-1.0a2pre.min.js
+../../modules/jquery_mobile/jquery.mobile-1.0a2.min.js
 ../../modules/underscore/underscore-min.js
 ../../modules/core/foundation/m.js
 ../../modules/core/foundation/object.js
@@ -32,7 +32,7 @@ index.html
 ../../modules/ui/grid.js
 ../../modules/ui/image.js
 ../../modules/ui/toggle.js
-../../modules/themes/jquery_mobile/jquery.mobile-1.0a2pre.min.css
+../../modules/themes/jquery_mobile/jquery.mobile-1.0a2.min.css
 resources/style.css
 todos.js
 views/todo_item.js
