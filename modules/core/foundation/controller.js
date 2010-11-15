@@ -8,6 +8,10 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+/* Available transitions for page changes */
+M.TRANSITION = {};
+M.TRANSITION.SLIDE = 'slide';
+
 m_require('observable.js');
 
 /**
@@ -45,11 +49,21 @@ M.Controller = M.Object.extend({
      * Returns the class property behind the given key and informs its observers.
      *
      * @param {Object} page The page to be displayed.
+     * @param {String} transition The transition that should be used. Default: horizontal slide
+     * @param {Boolean} isBack YES will cause a reverse-direction transition. Default: NO
+     * @param {Boolean} changeLoc Update the browser history. Default: YES
      */
-    switchToPage: function(page) {
+    switchToPage: function(page, transition, isBack, changeLoc) {
         var id = M.Application.viewManager.getIdByView(page);
         if(id) {
-            location.href = this.buildLocationHref(id);
+            transition = transition ? transition : M.TRANSITION.SLIDE;
+            isBack = isBack !== undefined ? isBack : false;
+            changeLoc = changeLoc !== undefined ? changeLoc : true;
+
+            /* Now do the page change by using a jquery mobile method and pass the properties */
+            $.mobile.changePage(id, transition, isBack, changeLoc);
+
+            /* Save the current page in the view manager */
             M.Application.viewManager.setCurrentPage(page);
         } else {
             M.Logger.log('"' + page + '" not found', M.WARN);
