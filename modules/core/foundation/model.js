@@ -115,6 +115,13 @@ M.Model = M.Object.extend({
     },
 
     /**
+     * Returns all models.
+     */
+    findAll: function(){
+        return this.dataProvider.findAll(this.name);
+    },
+
+    /**
      * Create or update a record in storage.
      */
     save: function() {
