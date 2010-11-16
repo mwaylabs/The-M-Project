@@ -35,7 +35,7 @@ M.LabelView = M.View.extend({
      * Renders a LabelView as a div tag with corresponding data-role attribute and inner text defined by value
      */
     render: function() {
-        this.html += '<div id="' + this.id + '" ' + this.style() + '>' + this.value + '</div>';
+        this.html += '<div id="' + this.id + '"' + this.style() + '>' + this.value + '</div>';
         return this.html;
     },
 
@@ -53,7 +53,7 @@ M.LabelView = M.View.extend({
         var html = '';
         if(this.isInline) {
             if(!html) {
-                html += 'style="';
+                html += ' style="';
             }
             html += 'display:inline;';
         }
