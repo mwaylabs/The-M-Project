@@ -69,15 +69,6 @@ M.Model = M.Object.extend({
      */
     storageEngine: M.WebStorage,
 
-    /**
-     * Calls the corresponding data provider to fetch data based on the passed query.
-     *
-     * @param {String} query The query string.
-     */
-    find: function(query){
-        this.dataProvider.find(query);
-    },
-
     newRecord: function(obj) {
         var modelRecord = this.extend({
             id: obj.id ? obj.id : M.Application.modelRegistry.getNextId(this.name),
@@ -86,9 +77,10 @@ M.Model = M.Object.extend({
         return modelRecord;
     },
 
-    create: function(obj) {
+    create: function(obj, dp) {
         var model = this.extend({
-            name: obj.__name__
+            name: obj.__name__,
+            dataProvider: dp
         });
         delete obj.__name__;
 
@@ -100,12 +92,26 @@ M.Model = M.Object.extend({
         M.Application.modelRegistry.register(model.name);
 
         /* Re-set the just registered model's id, if there is a value stored */
+        /* Model Registry stores the current id of a model type into localStorage */
         var id = localStorage.getItem(model.name);
         if(id) {
             M.Application.modelRegistry.setId(model.name, parseInt(id));
         }
 
         return model;
+    },
+
+
+    /* CRUD Methods below */
+
+    /**
+     * Calls the corresponding data provider to fetch data based on the passed query.
+     *
+     * @param {String} query The query string.
+     */
+    find: function(id){
+        //this.dataProvider.find(this.name, query);
+        return this.dataProvider.find(this.name, id);
     },
 
     /**
@@ -115,8 +121,7 @@ M.Model = M.Object.extend({
         if(!this.id) {
             return;
         }
-
-        localStorage.setItem(this.name + '_' + this.id, JSON.stringify(this.record));
+        this.dataProvider.save(this);
     },
 
     /**
@@ -127,7 +132,7 @@ M.Model = M.Object.extend({
             return;
         }
 
-        localStorage.removeItem(this.name + '_' + this.id);
+        this.dataProvider.del(this);
     }
 
 });
