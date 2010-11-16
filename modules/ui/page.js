@@ -46,7 +46,7 @@ M.PageView = M.View.extend({
 
         this.html += '</div>';
         
-        this.writeToDOM();        
+        this.writeToDOM();
         this.theme();
     },
 
