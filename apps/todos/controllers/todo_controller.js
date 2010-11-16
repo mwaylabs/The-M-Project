@@ -19,7 +19,7 @@ Todos.TodoController = M.Controller.extend({
     counter: 0,
 
     init: function() {
-        this.notes.find();
+        Todos.Note.findAll();
         this.set('todos', this.notes.modelList);
         this.calculateCounter();
     },
@@ -58,7 +58,7 @@ Todos.TodoController = M.Controller.extend({
         Todos.app.page.content.todoList.toggleRemove({
             target: this,
             action: 'removeTodo',
-            disableOnEdit: ['Todos.app.page.content.inputField']
+            disableOnEdit: 'Todos.app.page.content.inputField'
         });
     }
 
