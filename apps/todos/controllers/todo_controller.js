@@ -19,7 +19,7 @@ Todos.TodoController = M.Controller.extend({
     counter: 0,
 
     init: function() {
-        Todos.Note.findAll();
+        this.notes.modelList = Todos.Note.findAll();
         this.set('todos', this.notes.modelList);
         this.calculateCounter();
     },
