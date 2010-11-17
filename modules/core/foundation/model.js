@@ -9,7 +9,7 @@
 // ==========================================================================
 
 //m_require('data_provider.js');
-m_require('model_registry.js');
+m_require('core/foundation/model_registry.js');
 
 /**
  * @class

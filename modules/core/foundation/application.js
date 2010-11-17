@@ -8,7 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('view_manager.js');
+m_require('core/foundation/view_manager.js/');
 
 /**
  * @class

@@ -8,7 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('m.js');
+m_require('core/foundation/m.js');
 
 /**
  * @class

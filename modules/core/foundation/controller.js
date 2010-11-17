@@ -13,7 +13,7 @@ M.TRANSITION = {};
 M.TRANSITION.NONE = 'none';
 M.TRANSITION.SLIDE = 'slide';
 
-m_require('observable.js');
+m_require('core/foundation/observable.js/');
 
 /**
  * @class

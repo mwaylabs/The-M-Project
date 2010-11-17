@@ -8,8 +8,8 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('cypher_algorithms/base64.js');
-m_require('cypher_algorithms/sha256.js');
+m_require('core/utility/cypher_algorithms/base64.js');
+m_require('core/utility/cypher_algorithms/sha256.js');
 
 /**
  * @class
