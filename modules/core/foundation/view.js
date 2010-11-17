@@ -86,6 +86,14 @@ M.View = M.Object.extend({
     modelId: null,
 
     /**
+     * This property can be used to assign a css class to the view using the jquery mobile
+     * specific data-theme property. This allows you to create your custom styles.
+     *
+     * @property {String}
+     */
+    cssClass: null,
+
+    /**
      * This property is used internally to recursively build the pages html representation.
      * It is once set within the render method and then eventually updated within the
      * renderUpdate method.
