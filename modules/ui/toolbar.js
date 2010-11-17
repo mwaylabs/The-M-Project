@@ -8,8 +8,6 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('../core/foundation/view.js');
-
 M.TOP = 'header';
 M.BOTTOM = 'footer';
 M.LEFT = 0;
