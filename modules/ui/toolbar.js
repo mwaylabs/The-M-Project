@@ -47,11 +47,18 @@ M.ToolbarView = M.View.extend({
     anchorLocation: M.TOP,
 
     /**
+     * Display an auto-generated back-button on any new page.
+     *
+     * @property {Boolean}
+     */
+    showBackButton: NO,
+
+    /**
      * Renders a toolbar as a div tag with corresponding data-role attribute and inner h1 child tag
      * (representing the title of the header)
      */
     render: function() {
-        this.html += '<div id="' + this.id + '" data-role="' + this.anchorLocation + '" data-position="fixed">';
+        this.html += '<div id="' + this.id + '" data-nobackbtn="' + !this.showBackButton + '" data-role="' + this.anchorLocation + '" data-position="fixed">';
 
         this.renderChildViews();
 
