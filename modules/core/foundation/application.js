@@ -72,9 +72,10 @@ M.Application = M.Object.extend({
             that.eventDispatcher.eventDidHappen(evt);
         });
 
+        var html = '';
         for(i in this.viewManager.viewList) {
             if(this.viewManager.viewList[i].type === 'M.PageView') {
-                this.viewManager.viewList[i].render();
+                html += this.viewManager.viewList[i].render();
                 /* bind the pageshow event to any view's pageDidLoad property function */
                 $('#' + this.viewManager.viewList[i].id).bind('pageshow', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageDidLoad));
 
