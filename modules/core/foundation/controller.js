@@ -10,6 +10,7 @@
 
 /* Available transitions for page changes */
 M.TRANSITION = {};
+M.TRANSITION.NONE = 'none';
 M.TRANSITION.SLIDE = 'slide';
 
 m_require('observable.js');
