@@ -8,7 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('../foundation/object.js');
+m_require('core/foundation/object.js');
 
 /* definition of some date specific constants */
 M.MILLISECONDS = 'milliseconds';

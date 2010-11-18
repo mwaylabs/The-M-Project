@@ -8,9 +8,6 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('../core/foundation/view.js');
-
-
 /**
  * @class
  *
@@ -45,7 +42,7 @@ M.PageView = M.View.extend({
         this.renderChildViews();
 
         this.html += '</div>';
-        
+
         this.writeToDOM();
         this.theme();
     },
@@ -58,6 +55,24 @@ M.PageView = M.View.extend({
         if(this.onLoad) {
             this.onLoad.target[this.onLoad.action](this.isFirstLoad);            
         }
+
+        /* WORKAROUND for being able to use more than two tab items within a tab bar */
+        /* TODO: Get rid of this workaround with a future version of jquery mobile */
+        if(this.isFirstLoad && this.childViews) {
+            var childViews = $.trim(this.childViews).split(' ');
+            for(var i in childViews) {
+                var view = this[childViews[i]];
+                if(view.type === 'M.TabBarView') {
+                    $('[data-id="' + view.name + '"]:not(:last-child)').each(function() {
+                        if(!$(this).hasClass('ui-footer-duplicate')) {
+                            $(this).empty();
+                            $(this).hide();
+                        }
+                    });
+                }
+            }
+        }
+
         this.isFirstLoad = NO;
     },
 

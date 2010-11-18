@@ -8,7 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('logger.js');
+m_require('core/utility/logger.js');
 
 /**
  * available data source types

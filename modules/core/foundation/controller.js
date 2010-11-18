@@ -10,9 +10,10 @@
 
 /* Available transitions for page changes */
 M.TRANSITION = {};
+M.TRANSITION.NONE = 'none';
 M.TRANSITION.SLIDE = 'slide';
 
-m_require('observable.js');
+m_require('core/foundation/observable.js');
 
 /**
  * @class
@@ -57,8 +58,8 @@ M.Controller = M.Object.extend({
         var id = M.Application.viewManager.getIdByView(page);
         if(id) {
             transition = transition ? transition : M.TRANSITION.SLIDE;
-            isBack = isBack !== undefined ? isBack : false;
-            changeLoc = changeLoc !== undefined ? changeLoc : true;
+            isBack = isBack !== undefined ? isBack : NO;
+            changeLoc = changeLoc !== undefined ? changeLoc : YES;
 
             /* Now do the page change by using a jquery mobile method and pass the properties */
             $.mobile.changePage(id, transition, isBack, changeLoc);

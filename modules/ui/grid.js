@@ -8,8 +8,6 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('../core/foundation/view.js');
-
 M.TWO_COLUMNS = {
     cssClass: 'ui-grid-a',
     columns: {
@@ -42,13 +40,13 @@ M.GridView = M.View.extend({
      * Renders a GridView based on the specified layout.
      */
     render: function() {
-        var html = '<div id="' + this.id + '" ' + this.style() + '>';
-        document.write(html);
+        this.html += '<div id="' + this.id + '" ' + this.style() + '>';
 
         this.renderChildViews();
         
-        html = '</div>';
-        document.write(html);
+        this.html += '</div>';
+
+        return this.html;
     },
 
     /**
@@ -61,19 +59,21 @@ M.GridView = M.View.extend({
                 var arr = this.childViews.split(' ');
                 for(var i in this.layout.columns) {
                     if(this[arr[i]]) {
-                        var html = '<div class="' + this.layout.columns[i] + '">';
-                        document.write(html);
+                        this.html += '<div class="' + this.layout.columns[i] + '">';
 
-                        this[arr[i]].render();
+                        this.html += this[arr[i]].render();
 
-                        html = '</div>';
-                        document.write(html);
+                        this.html += '</div>';
                     }
                 }
             } else {
                 M.Logger.log('No layout specified for GridView', M.ERROR);
             }
         }
+    },
+
+    theme: function() {
+        this.themeChildViews();
     },
 
     /**

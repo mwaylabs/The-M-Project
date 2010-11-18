@@ -8,7 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('model.js');
+m_require('core/foundation/model.js');
 
 /**
  * @class
@@ -84,6 +84,14 @@ M.View = M.Object.extend({
     isEnabled: YES,
 
     modelId: null,
+
+    /**
+     * This property can be used to assign a css class to the view using the jquery mobile
+     * specific data-theme property. This allows you to create your custom styles.
+     *
+     * @property {String}
+     */
+    cssClass: null,
 
     /**
      * This property is used internally to recursively build the pages html representation.

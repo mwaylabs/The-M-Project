@@ -8,8 +8,6 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('../core/foundation/view.js');
-
 /**
  * @class
  *
@@ -66,6 +64,9 @@ M.ButtonView = M.View.extend({
         }
         if(this.icon) {
             html += 'data-icon="' + this.icon + '"';
+        }
+        if(this.cssClass) {
+            html += 'data-theme="' + this.cssClass + '"';
         }
         return html;
     }
