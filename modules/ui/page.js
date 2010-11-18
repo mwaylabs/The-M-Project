@@ -31,6 +31,20 @@ M.PageView = M.View.extend({
     isFirstLoad: YES,
 
     /**
+     * Indicates whether the page has a tab bar or not.
+     *
+     * @property {Boolean}
+     */
+    hasTabBarView: NO,
+
+    /**
+     * The page's tab bar.
+     *
+     * @property {Object}
+     */
+    tabBarView: null,
+
+    /**
      * Renders in three steps:
      * 1. Rendering Opening div tag with corresponding data-role
      * 2. Triggering render process of child views
