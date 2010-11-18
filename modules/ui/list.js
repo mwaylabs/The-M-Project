@@ -97,7 +97,12 @@ M.ListView = M.View.extend({
                 obj[childViewsArray[i]].renderToDOM = NO;
 
                 /* This regex looks for a variable inside the template view (<%= ... %>) ... */
-                var regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].value);
+                var regexResult = null;
+                if(obj[childViewsArray[i]].computedValue) {
+                    regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.value);
+                } else {
+                    regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].value);
+                }
 
                 /* ... if a match was found, the variable is replaced by the corresponding value inside the record */
                 if(regexResult) {
@@ -105,7 +110,11 @@ M.ListView = M.View.extend({
                         case 'M.LabelView':
                         case 'M.ButtonView':
                         case 'M.ImageView':
-                            obj[childViewsArray[i]].value = record[regexResult[1]];
+                            if(obj[childViewsArray[i]].computedValue) {
+                                obj[childViewsArray[i]].computedValue.value = record[regexResult[1]];                                
+                            } else {
+                                obj[childViewsArray[i]].value = record[regexResult[1]];     
+                            }
                             break;
                     }
                 }
