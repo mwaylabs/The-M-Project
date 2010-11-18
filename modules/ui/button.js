@@ -35,7 +35,7 @@ M.ButtonView = M.View.extend({
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
      */
     render: function() {
-        this.html += '<a href="#" id="' + this.id + '"' + this.style() + '>' + this.value + '</a>';
+        this.html += '<a data-role="button" href="#" id="' + this.id + '"' + this.style() + '>' + this.value + '</a>';
         return this.html;
     },
 
@@ -43,8 +43,13 @@ M.ButtonView = M.View.extend({
      * Updates the value of the button with DOM access by jQuery.
      */
     renderUpdate: function() {
-        $('#' + this.id).attr('value', this.value);
-        this.applyTheme();
+        $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
+        this.theme();
+    },
+
+    setValue: function(value) {
+        this.value = value;
+        this.renderUpdate();
     },
 
     /**
