@@ -1,0 +1,50 @@
+[data-id=tabbar1] .ui-icon {
+    width:25px;
+    height:25px;
+    margin-left:-11px !important;
+    margin-top:3px !important;
+}
+
+[data-icon=bird] .ui-icon {
+    background: url("bird.png") no-repeat scroll 50% 50% transparent;
+}
+
+[data-icon=eye] .ui-icon {
+    background: url("eye.png") no-repeat scroll 50% 50% transparent;
+}
+
+[data-icon=beer] .ui-icon {
+    background: url("beer.png") no-repeat scroll 50% 50% transparent;
+}
+
+[data-icon=gift] .ui-icon {
+    background: url("gift.png") no-repeat scroll 50% 50% transparent;
+}
+
+[data-icon=heart] .ui-icon {
+    background: url("heart.png") no-repeat scroll 50% 50% transparent;
+}
+
+.ui-btn-inner {
+    padding-top:40px !important;
+}
+
+div.page1 {
+    background:#D83E36;
+}
+
+div.page2 {
+    background:#8C2823;
+}
+
+div.page3 {
+    background:#D99036;
+}
+
+div.page4 {
+    background:#8C5D23;
+}
+
+div.page5 {
+    background:#545454;
+}

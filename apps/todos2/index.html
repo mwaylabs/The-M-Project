@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--<html manifest="cache.manifest">-->
 <html>
 <head>
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -7,7 +8,7 @@
 
     <link href="resources/app_icon.png" rel="apple-touch-icon" />
 
-    <title>Tabbar sample</title>
+    <title>Todos - A simple sample app</title>
     <script src="../../modules/jquery/jquery-1.4.4.min.js"></script>
     <script src="../../modules/jquery_mobile/jquery.mobile-1.0a2.min.js"></script>
     <script src="../../modules/underscore/underscore-min.js"></script>
@@ -31,6 +32,7 @@
     <script src="../../modules/core/foundation/application.js"></script>
 
     <script src="../../modules/ui/page.js"></script>
+    <script src="../../modules/ui/button.js"></script>
     <script src="../../modules/ui/toolbar.js"></script>
     <script src="../../modules/ui/scroll.js"></script>
     <script src="../../modules/ui/label.js"></script>
@@ -41,99 +43,90 @@
     <script src="../../modules/ui/grid.js"></script>
     <script src="../../modules/ui/image.js"></script>
     <script src="../../modules/ui/toggle.js"></script>
-    <script src="../../modules/ui/tab_bar_item.js"></script>
     <script src="../../modules/ui/tab_bar.js"></script>
+    <script src="../../modules/ui/tab_bar_item.js"></script>
 
-    <script src="tabbar.js"></script>
+    <script src="todos.js"></script>
 
-    <link href="resources/style.css" rel="stylesheet" />
     <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a2.min.css" rel="stylesheet" />
+    <link href="resources/style.css" rel="stylesheet" />
 </head>
 <body>
         <script language="JavaScript">
-            Tabbar.app = M.Application.extend({
-                page1: M.PageView.design({
+            Todos.app = M.Application.extend({
+                page: M.PageView.design({
 
-                    childViews: 'header tabs',
+                    onLoad: {
+                        target: Todos.TodoController,
+                        action: 'init'
+                    },
 
-                    cssClass: 'page1',
+                    childViews: 'header content tabs',
 
                     header: M.ToolbarView.design({
+                            childViews: 'centerLabel toggleView',
 
-                            value: 'Header 1',
+                            toggleView: M.ToggleView.design({
+                                childViews: 'button1 button2',
+                                anchorLocation: M.RIGHT,
+
+                                button1: M.ButtonView.design({
+                                    value: 'Edit',
+                                    target: Todos.TodoController,
+                                    action: 'edit',
+                                    icon: 'gear'
+                                }),
+
+                                button2: M.ButtonView.design({
+                                    value: 'Save',
+                                    target: Todos.TodoController,
+                                    action: 'edit',
+                                    icon: 'check'
+                                })
+                            }),
+
+                            centerLabel: M.LabelView.design({
+                                value: 'Todos',
+                                anchorLocation: M.CENTER
+                            }),
+
+                            //value: 'TODOS',
                             anchorLocation: M.TOP
-                        
                     }),
 
-                    tabs: Tabbar.tabs
+                    content: M.ScrollView.design({
 
-                }),
+                        /* order in childViews string defines render order*/
+                        childViews: 'counter text inputField todoList',
 
-                page2: M.PageView.design({
+                        counter: M.LabelView.design({
+                            value: '0',
+                            contentBinding: 'Todos.TodoController.counter',
+                            isInline: YES
+                        }),
 
-                    childViews: 'header tabs',
+                        text: M.LabelView.design({
+                            value: ' item(s) left.',
+                            isInline: YES
+                        }),
 
-                    cssClass: 'page2',
+                        inputField: M.TextFieldView.design({
+                            name: 'todo_field',
+                            initialText: 'Enter ToDo Item...',
 
-                    header: M.ToolbarView.design({
+                            /* target and action define path for onReturn event */
+                            target: Todos.TodoController,
+                            action: 'addTodo'
+                        }),
 
-                            value: 'Header 2',
-                            anchorLocation: M.TOP
-
-                    }),
-
-                    tabs: Tabbar.tabs
-
-                }),
-
-                page3: M.PageView.design({
-
-                    childViews: 'header tabs',
-
-                    cssClass: 'page3',
-
-                    header: M.ToolbarView.design({
-
-                            value: 'Header 3',
-                            anchorLocation: M.TOP
-
-                    }),
-
-                    tabs: Tabbar.tabs
-
-                }),
-
-                page4: M.PageView.design({
-
-                    childViews: 'header tabs',
-
-                    cssClass: 'page4',
-
-                    header: M.ToolbarView.design({
-
-                            value: 'Header 4',
-                            anchorLocation: M.TOP
-
-                    }),
-
-                    tabs: Tabbar.tabs
-
-                }),
-
-                page5: M.PageView.design({
-
-                    childViews: 'header tabs',
-
-                    cssClass: 'page5',
-
-                    header: M.ToolbarView.design({
-
-                            value: 'Header 5',
-                            anchorLocation: M.TOP
+                        todoList: M.ListView.design({
+                            contentBinding: 'Todos.TodoController.todos',
+                            listItemTemplateView: Todos.TodoItemView
+                        })
 
                     }),
 
-                    tabs: Tabbar.tabs
+                    tabs: Todos.tabs
 
                 })
             });
@@ -142,7 +135,7 @@
         <!-- START THE APP BY CALLING THE M.APPLICATION's MAIN-METHOD -->
         <!-- in the future this call will be made automatically -->
         <script language="JavaScript">
-            Tabbar.app.main();
+            Todos.app.main();
         </script>
 
 </body>
