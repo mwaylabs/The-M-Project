@@ -2,6 +2,8 @@ Tabbar.tabs = M.TabBarView.design({
 
     childViews: 'tabItem1 tabItem2 tabItem3 tabItem4 tabItem5',
 
+    anchorLocation: M.BOTTOM,
+
     name: 'tabbar1',
 
     tabItem1: M.TabBarItemView.design({
@@ -9,7 +11,7 @@ Tabbar.tabs = M.TabBarView.design({
         value: 'tab1',
         page: 'Tabbar.app.page1',
         href: 'm_10',
-        icon: 'star',
+        icon: 'bird',
         isActive: YES
 
     }),
@@ -19,7 +21,7 @@ Tabbar.tabs = M.TabBarView.design({
         value: 'tab2',
         page: 'Tabbar.app.page2',
         href: 'm_14',
-        icon: 'back'
+        icon: 'eye'
 
     }),
 
@@ -27,7 +29,7 @@ Tabbar.tabs = M.TabBarView.design({
 
         value: 'tab3',
         page: 'Tabbar.app.page3',
-        icon: 'grid'
+        icon: 'beer'
 
     }),
 
@@ -35,7 +37,7 @@ Tabbar.tabs = M.TabBarView.design({
 
         value: 'tab4',
         page: 'Tabbar.app.page4',
-        icon: 'save'
+        icon: 'gift'
 
     }),
 
@@ -43,7 +45,7 @@ Tabbar.tabs = M.TabBarView.design({
 
         value: 'tab5',
         page: 'Tabbar.app.page5',
-        icon: 'gear'
+        icon: 'heart'
 
     })
 

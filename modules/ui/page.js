@@ -37,7 +37,7 @@ M.PageView = M.View.extend({
      * 3. Rendering closing tag
      */
     render: function() {
-        this.html += '<div id="' + this.id + '" data-role="page">';
+        this.html += '<div id="' + this.id + '" data-role="page"' + this.style() + '>';
 
         this.renderChildViews();
 
@@ -62,9 +62,10 @@ M.PageView = M.View.extend({
             var childViews = $.trim(this.childViews).split(' ');
             for(var i in childViews) {
                 var view = this[childViews[i]];
-                if(view.type === 'M.TabBarView') {
+                if(view.type === 'M.TabBarView' && view.anchorLocation === M.BOTTOM) {
                     $('[data-id="' + view.name + '"]:not(:last-child)').each(function() {
                         if(!$(this).hasClass('ui-footer-duplicate')) {
+                            /* first empty the tabbar and then hide it, since jQuery's remove() doesn't work */
                             $(this).empty();
                             $(this).hide();
                         }
@@ -92,6 +93,23 @@ M.PageView = M.View.extend({
     theme: function() {
         $('#' + this.id).page();
         this.themeChildViews();
+    },
+
+    /**
+     * Applies some style-attributes to the page.
+     */
+    style: function() {
+        var html = '';
+        if(this.cssClass) {
+            if(!html) {
+                html += ' class="';
+            }
+            html += this.cssClass;
+        }
+        if(html) {
+            html += '"';
+        }
+        return html;
     }
     
 });
