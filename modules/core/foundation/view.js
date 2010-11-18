@@ -154,6 +154,17 @@ M.View = M.Object.extend({
     },
 
     /**
+     * If the view's computedValue property is set, compute the value. This allows you to
+     * apply a method to a dynamically set value. E.g. you can provide your value with an
+     * toUpperCase().
+     */
+    computeValue: function() {
+        if(this.computedValue) {
+            this.value = this.computedValue.operation(this.computedValue.value, this);
+        }
+    },
+
+    /**
      * Interface method.
      * Triggers rendering engine to style this view/apply a theme.
      */
