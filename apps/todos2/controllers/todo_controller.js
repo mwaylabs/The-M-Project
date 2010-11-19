@@ -30,7 +30,7 @@ Todos.TodoController = M.Controller.extend({
         var title = Todos.app.page2.content.title.value;
         var text = Todos.app.page2.content.text.value;
         var date = null;
-        if(typeof(Todos.app.page2.content.date.value) === 'number') {
+        if(parseInt(Todos.app.page2.content.date.value) > 0) {
             date = M.Date.daysFromNow(Todos.app.page2.content.date.value).getTime();
         }
         if(!title || !text || !date) {
