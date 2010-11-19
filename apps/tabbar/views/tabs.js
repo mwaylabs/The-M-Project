@@ -6,6 +6,8 @@ Tabbar.tabs = M.TabBarView.design({
 
     name: 'tabbar1',
 
+    transition: M.TRANSITION.SLIDE,
+
     tabItem1: M.TabBarItemView.design({
 
         value: 'tab1',
