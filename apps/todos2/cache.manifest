@@ -1,6 +1,6 @@
 CACHE MANIFEST
 index.html
-../../modules/jquery/jquery-1.4.3.min.js
+../../modules/jquery/jquery-1.4.4.min.js
 ../../modules/jquery_mobile/jquery.mobile-1.0a2.min.js
 ../../modules/underscore/underscore-min.js
 ../../modules/core/foundation/m.js
@@ -22,6 +22,7 @@ index.html
 ../../modules/core/foundation/model_manager.js
 ../../modules/core/foundation/application.js
 ../../modules/ui/page.js
+../../modules/ui/button.js
 ../../modules/ui/toolbar.js
 ../../modules/ui/scroll.js
 ../../modules/ui/label.js
@@ -32,14 +33,19 @@ index.html
 ../../modules/ui/grid.js
 ../../modules/ui/image.js
 ../../modules/ui/toggle.js
+../../modules/ui/tab_bar.js
+../../modules/ui/tab_bar_item.js
+todos.js
 ../../modules/themes/jquery_mobile/jquery.mobile-1.0a2.min.css
 resources/style.css
-todos.js
 views/todo_item.js
+views/tabs.js
 models/note.js
 controllers/todo_controller.js
 ../../modules/themes/jquery_mobile/images/icons-18-white.png
 resources/app_icon.png
+resources/notepad.png
+resources/todo.png
 
 NETWORK:
 

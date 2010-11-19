@@ -18,26 +18,37 @@ Todos.TodoController = M.Controller.extend({
 
     counter: 0,
 
-    init: function() {
-        this.notes.find();
-        this.set('todos', this.notes.modelList);
-        this.calculateCounter();
+    init: function(isFirst) {
+        if(isFirst) {
+            this.notes.find();
+            this.set('todos', this.notes.modelList);
+            this.calculateCounter();
+        }
     },
 
     addTodo: function() {
-        var text = Todos.app.page.content.inputField.value;
-        if(!text) {
+        var title = Todos.app.page2.content.title.value;
+        var text = Todos.app.page2.content.text.value;
+        var date = null;
+        if(typeof(Todos.app.page2.content.date.value) === 'number') {
+            date = M.Date.daysFromNow(Todos.app.page2.content.date.value).getTime();
+        }
+        if(!title || !text || !date) {
             return;
         }
 
-        var note = Todos.Note.newRecord( { text: text } );
+        var note = Todos.Note.newRecord( { title: title, text: text, date: date } );
         this.notes.add(note);
         note.save();
         this.set('todos', this.notes.modelList);
 
         this.calculateCounter();
 
-        Todos.app.page.content.inputField.setValue('');
+        Todos.app.page2.content.title.setValue('');
+        Todos.app.page2.content.text.setValue('');
+        Todos.app.page2.content.date.setValue('');
+
+        this.switchToPage(Todos.app.page1);
     },
 
     removeTodo: function(domId, modelId) {
@@ -55,10 +66,9 @@ Todos.TodoController = M.Controller.extend({
     },
 
     edit: function() {
-        Todos.app.page.content.todoList.toggleRemove({
+        Todos.app.page1.content.todoList.toggleRemove({
             target: this,
-            action: 'removeTodo',
-            disableOnEdit: ['Todos.app.page.content.inputField']
+            action: 'removeTodo'
         });
     }
 
