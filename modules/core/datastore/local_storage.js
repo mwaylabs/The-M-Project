@@ -8,9 +8,16 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('logger.js');
+m_require('core/utility/logger.js');
 
+/**
+ * @class
+ *
+ * Encapsulates access to LocalStorage (in-browser key value store)
+ */
 M.LocalStorageProvider = M.DataProvider.extend({
+
+    type: 'M.LocalStorageProvider',
 
     /**
      * saves a model to the local storage
@@ -122,6 +129,8 @@ M.LocalStorageProvider = M.DataProvider.extend({
 
     /**
      * Returns all models defined by modelName.
+     *
+     * Models are saved with key: Modelname_ID, e.g. Note_123
      *
      * @param {String} modelName
      */
