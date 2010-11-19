@@ -45,11 +45,17 @@ M.Model = M.Object.extend({
 
     /**
      * The model's record defines the properties that are semantically bound to this model:
-     * e.g. a person's record is in simple case: firstname, lastname, age.
+     * e.g. a person's record is in simplest case: firstname, lastname, age.
      *
      * @property {Object} record
      */
     record: null,
+
+    /**
+     * Object containing all meta information for the object's properties
+     * @property {Object}
+     */
+    __meta: null,
 
     /**
      * The model's data provider.
@@ -69,6 +75,10 @@ M.Model = M.Object.extend({
      */
     storageEngine: M.WebStorage,
 
+    /**
+     *
+     * @param obj
+     */
     newRecord: function(obj) {
         var modelRecord = this.extend({
             id: obj.id ? obj.id : M.Application.modelRegistry.getNextId(this.name),
@@ -101,6 +111,37 @@ M.Model = M.Object.extend({
         return model;
     },
 
+    /**
+     * Returns a M.ModelAttribute object to map an attribute in our model.
+     *
+     * @param type type of the attribute
+     * @param opts options for the attribute, like required flag or
+     */
+    attr: function(type, opts) {
+        return M.ModelAttribute.attr(type, opts); 
+    },
+
+    /*
+     * get and set methods for encapsulated attribute access
+     */
+
+    /**
+     * Get attribute attrName from model
+     * @param {String} attrName the name of the attribute which value to be returned
+     * @return {Object|String} value of attribute
+     */
+    get: function(attrName) {
+        return this.record[attrName];
+    },
+
+    /**
+     * Set attribute attrName of model with value val
+     * @param {String} attrName the name of the attribute which value to be returned
+     * @param {String|Object} val the new value
+     */
+    set: function(attrName, val) {
+        this.record[attrName] = val;
+    },
 
     /* CRUD Methods below */
 
