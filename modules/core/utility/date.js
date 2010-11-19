@@ -61,7 +61,7 @@ M.Date = M.Object.extend({
      * JS Date object will be returned.
      */
     create: function(dateString) {
-        var milliseconds = Date.parse(dateString);
+        var milliseconds = typeof(dateString) === 'number' ? dateString : Date.parse(dateString);
         if(!milliseconds) {
             M.Logger.log('Invalid dateString \'' + dateString + '\'.', M.WARN);
             return null;

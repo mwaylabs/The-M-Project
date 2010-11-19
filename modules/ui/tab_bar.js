@@ -71,11 +71,11 @@ M.TabBarView = M.View.extend({
         }
     },
 
-    setActiveTab: function(page, tab){
+    setActiveTab: function(page, tab) {
         if(this.childViews) {
             var childViews = $.trim(this.childViews).split(' ');
             var previousPage = M.Application.viewManager.getCurrentPage();
-            var nextPage = eval(page);
+            var nextPage = page.type ? page : eval(page);
             for(var i in childViews) {
                 var view = this[childViews[i]];
                 if(view.page === page) {
@@ -89,9 +89,6 @@ M.TabBarView = M.View.extend({
                         $(this).find('#' + view.id).removeClass('ui-btn-active');
                     });
                 }
-            }
-            if(previousPage.id !== nextPage.id) {
-                M.Controller.switchToPage(nextPage, M.TRANSITION.NONE, NO, NO);
             }
         }
     }

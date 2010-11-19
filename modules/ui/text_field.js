@@ -54,6 +54,13 @@ M.TextFieldView = M.View.extend({
     isPassword: NO,
 
     /**
+     * Defines whether the text field has multiple lines respectively is a text area.
+     *
+     * @property {Boolean}
+     */
+    hasMultipleLines: NO,
+
+    /**
      * Renders a TextFieldView
      */
     render: function() {
@@ -64,7 +71,14 @@ M.TextFieldView = M.View.extend({
         }
 
         var type = this.isPassword ? 'password' : 'text';
-        this.html += '<input type="' + type + '" name="' + this.name + '" id="' + this.id + '" value="' + this.initialText + '" />';
+
+        if(this.hasMultipleLines) {
+            this.html += '<textarea cols="40" rows="8" name="' + this.name + '" id="' + this.id + '">' + this.initialText + '</textarea>';
+            
+        } else {
+            this.html += '<input type="' + type + '" name="' + this.name + '" id="' + this.id + '" value="' + this.initialText + '" />';
+        }
+
         this.html += '</div>';
         
         return this.html;

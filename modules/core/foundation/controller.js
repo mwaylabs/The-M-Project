@@ -57,9 +57,25 @@ M.Controller = M.Object.extend({
     switchToPage: function(page, transition, isBack, changeLoc) {
         var id = M.Application.viewManager.getIdByView(page);
         if(id) {
-            transition = transition ? transition : M.TRANSITION.SLIDE;
-            isBack = isBack !== undefined ? isBack : NO;
-            changeLoc = changeLoc !== undefined ? changeLoc : YES;
+            if(page.hasTabBarView) {
+                transition = page.tabBarView.transition ? page.tabBarView.transition : M.TRANSITION.NONE;
+                isBack = NO;
+                changeLoc = NO;
+
+                if(page.tabBarView.childViews) {
+                    var tabItemViews = $.trim(page.tabBarView.childViews).split(' ');
+                    for(var i in tabItemViews) {
+                        var tabItemView = page.tabBarView[tabItemViews[i]];
+                        if(eval(tabItemView.page) === page) {
+                            page.tabBarView.setActiveTab(tabItemView.page, M.Application.viewManager.getIdByView(tabItemView));
+                        }
+                    }
+                }
+            } else {
+                transition = transition ? transition : M.TRANSITION.SLIDE;
+                isBack = isBack !== undefined ? isBack : NO;
+                changeLoc = changeLoc !== undefined ? changeLoc : YES;
+            }
 
             /* Now do the page change by using a jquery mobile method and pass the properties */
             $.mobile.changePage(id, transition, isBack, changeLoc);

@@ -33,6 +33,7 @@ M.LabelView = M.View.extend({
      * Renders a LabelView as a div tag with corresponding data-role attribute and inner text defined by value
      */
     render: function() {
+        this.computeValue();
         this.html += '<div id="' + this.id + '"' + this.style() + '>' + this.value + '</div>';
         return this.html;
     },
@@ -41,6 +42,7 @@ M.LabelView = M.View.extend({
      * Updates the value of the label with DOM access by jQuery. 
      */
     renderUpdate: function() {
+        this.computeValue();
         $('#' + this.id).html(this.value);
     },
 
@@ -50,13 +52,10 @@ M.LabelView = M.View.extend({
     style: function() {
         var html = '';
         if(this.isInline) {
-            if(!html) {
-                html += ' style="';
-            }
-            html += 'display:inline;';
+            html += ' style="display:inline;"';
         }
-        if(html) {
-            html += '"';   
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
         }
         return html;
     }
