@@ -10,7 +10,7 @@
 
 HelloWorld.app = M.Application.extend({
 
-    page1: M.Page.design({
+    page1: M.PageView.design({
 
         childViews: 'header content footer',
 
