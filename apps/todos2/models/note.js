@@ -12,6 +12,10 @@ Todos.Note = M.Model.create({
 
     __name__: 'Note',
 
-    text: ''
+    title: '',
+
+    text: '',
+
+    date: ''
 
 });

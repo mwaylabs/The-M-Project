@@ -1,16 +1,27 @@
-.todoGrid {
-    overflow:hidden;
+.listText {
+    font-size: 12px;
+    font-weight: normal;
+    white-space: normal;
 }
 
-.todoGrid .col1, .todoGrid .col2 {
-    float:left;
+.listDate {
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: italic;
 }
 
-.todoGrid .col1 {
-    clear:left;
-    width:80%;
+[data-id=tabbar1] .ui-icon {
+    width:25px;
+    height:25px;
+    margin-left:-11px !important;
+    margin-top:-2px !important;
 }
 
-.todoGrid .col2 {
-    width:20%;
+[data-icon=notepad] .ui-icon {
+    background: url("notepad.png") no-repeat 50% 50% transparent;
+}
+
+[data-icon=todo] .ui-icon {
+    background: url("todo.png") no-repeat 50% 50% transparent;
 }

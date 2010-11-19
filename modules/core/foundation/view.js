@@ -160,7 +160,7 @@ M.View = M.Object.extend({
      */
     computeValue: function() {
         if(this.computedValue) {
-            this.value = this.computedValue.operation(this.computedValue.value, this);
+            this.value = this.computedValue.operation(this.computedValue.valuePattern ? this.value : this.computedValue.value, this);
         }
     },
 

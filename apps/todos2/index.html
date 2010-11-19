@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<!--<html manifest="cache.manifest">-->
-<html>
+<html manifest="cache.manifest">
 <head>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -54,7 +53,7 @@
 <body>
         <script language="JavaScript">
             Todos.app = M.Application.extend({
-                page: M.PageView.design({
+                page1: M.PageView.design({
 
                     onLoad: {
                         target: Todos.TodoController,
@@ -64,60 +63,39 @@
                     childViews: 'header content tabs',
 
                     header: M.ToolbarView.design({
-                            childViews: 'centerLabel toggleView',
+                        childViews: 'centerLabel toggleView',
 
-                            toggleView: M.ToggleView.design({
-                                childViews: 'button1 button2',
-                                anchorLocation: M.RIGHT,
+                        toggleView: M.ToggleView.design({
+                            childViews: 'button1 button2',
+                            anchorLocation: M.RIGHT,
 
-                                button1: M.ButtonView.design({
-                                    value: 'Edit',
-                                    target: Todos.TodoController,
-                                    action: 'edit',
-                                    icon: 'gear'
-                                }),
-
-                                button2: M.ButtonView.design({
-                                    value: 'Save',
-                                    target: Todos.TodoController,
-                                    action: 'edit',
-                                    icon: 'check'
-                                })
+                            button1: M.ButtonView.design({
+                                value: 'Edit',
+                                target: Todos.TodoController,
+                                action: 'edit',
+                                icon: 'gear'
                             }),
 
-                            centerLabel: M.LabelView.design({
-                                value: 'Todos',
-                                anchorLocation: M.CENTER
-                            }),
+                            button2: M.ButtonView.design({
+                                value: 'Save',
+                                target: Todos.TodoController,
+                                action: 'edit',
+                                icon: 'check'
+                            })
+                        }),
 
-                            //value: 'TODOS',
-                            anchorLocation: M.TOP
+                        centerLabel: M.LabelView.design({
+                            value: 'Todos',
+                            anchorLocation: M.CENTER
+                        }),
+
+                        anchorLocation: M.TOP
                     }),
 
                     content: M.ScrollView.design({
 
                         /* order in childViews string defines render order*/
-                        childViews: 'counter text inputField todoList',
-
-                        counter: M.LabelView.design({
-                            value: '0',
-                            contentBinding: 'Todos.TodoController.counter',
-                            isInline: YES
-                        }),
-
-                        text: M.LabelView.design({
-                            value: ' item(s) left.',
-                            isInline: YES
-                        }),
-
-                        inputField: M.TextFieldView.design({
-                            name: 'todo_field',
-                            initialText: 'Enter ToDo Item...',
-
-                            /* target and action define path for onReturn event */
-                            target: Todos.TodoController,
-                            action: 'addTodo'
-                        }),
+                        childViews: 'todoList',
 
                         todoList: M.ListView.design({
                             contentBinding: 'Todos.TodoController.todos',
@@ -128,7 +106,57 @@
 
                     tabs: Todos.tabs
 
+                }),
+
+                page2: M.PageView.design({
+
+                    childViews: 'header content tabs',
+
+                    header: M.ToolbarView.design({
+                        childViews: 'centerLabel addButton',
+
+                        addButton: M.ButtonView.design({
+                            value: 'Add',
+                            target: Todos.TodoController,
+                            action: 'addTodo',
+                            icon: 'plus',
+                            anchorLocation: M.RIGHT
+                        }),
+
+                        centerLabel: M.LabelView.design({
+                            value: 'Todos',
+                            anchorLocation: M.CENTER
+                        }),
+
+                        anchorLocation: M.TOP
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: 'title text date',
+
+                        title: M.TextFieldView.design({
+                            name: 'title',
+                            label: 'Title'
+                        }),
+
+                        text: M.TextFieldView.design({
+                            hasMultipleLines: YES,
+                            name: 'text',
+                            label: 'Details'
+                        }),
+
+                        date: M.TextFieldView.design({
+                            name: 'date',
+                            label: 'Period (in days)'
+                        })
+
+                    }),
+
+                    tabs: Todos.tabs
+
                 })
+
             });
         </script>
 

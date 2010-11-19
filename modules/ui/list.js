@@ -89,7 +89,6 @@ M.ListView = M.View.extend({
 
             /* Iterate through all views defined in the template view */
             for(var i in childViewsArray) {
-
                 /* Create a new object for the current view */
                 obj[childViewsArray[i]] = obj[childViewsArray[i]].design({});
 
@@ -99,9 +98,9 @@ M.ListView = M.View.extend({
                 /* This regex looks for a variable inside the template view (<%= ... %>) ... */
                 var regexResult = null;
                 if(obj[childViewsArray[i]].computedValue) {
-                    regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.value);
+                    regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
                 } else {
-                    regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].value);
+                    regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
                 }
 
                 /* ... if a match was found, the variable is replaced by the corresponding value inside the record */
@@ -110,10 +109,11 @@ M.ListView = M.View.extend({
                         case 'M.LabelView':
                         case 'M.ButtonView':
                         case 'M.ImageView':
+
                             if(obj[childViewsArray[i]].computedValue) {
-                                obj[childViewsArray[i]].computedValue.value = record[regexResult[1]];                                
+                                obj[childViewsArray[i]].value = record[regexResult[1]];
                             } else {
-                                obj[childViewsArray[i]].value = record[regexResult[1]];     
+                                obj[childViewsArray[i]].value = record[regexResult[1]];
                             }
                             break;
                     }

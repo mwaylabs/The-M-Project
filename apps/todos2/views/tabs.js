@@ -4,24 +4,24 @@ Todos.tabs = M.TabBarView.design({
 
     anchorLocation: M.BOTTOM,
 
+    transition: M.TRANSITION.NONE,
+
     name: 'tabbar1',
 
     tabItem1: M.TabBarItemView.design({
 
-        value: 'tab1',
-        page: 'Tabbar.app.page1',
-        href: 'm_10',
-        icon: 'bird',
+        value: 'ToDo List',
+        page: 'Todos.app.page1',
+        icon: 'notepad',
         isActive: YES
 
     }),
 
     tabItem2: M.TabBarItemView.design({
 
-        value: 'tab2',
-        page: 'Tabbar.app.page2',
-        href: 'm_14',
-        icon: 'eye'
+        value: 'New Item',
+        page: 'Todos.app.page2',
+        icon: 'todo'
 
     })
 

@@ -9,10 +9,26 @@
 // ==========================================================================
 
 Todos.TodoItemView = M.ListItemView.design({
-    childViews: 'label1',
+    childViews: 'title text date',
 
-    label1 : M.LabelView.design({
-        value: '<%= text %>'
+    title : M.LabelView.design({
+        valuePattern: '<%= title %>'
+    }),
+
+    text : M.LabelView.design({
+        valuePattern: '<%= text %>',
+        cssClass: 'listText'
+    }),
+
+    date : M.LabelView.design({
+        computedValue: {
+            valuePattern: '<%= date %>',
+            operation: function(v, label) {
+                return 'Due Date: ' + M.Date.format(M.Date.create(v), 'mm/dd/yyyy HH:MM');
+            }
+        },
+        cssClass: 'listDate'
     })
+    
 
 });
