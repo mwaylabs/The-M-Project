@@ -24,7 +24,16 @@ M.ModelAttribute = M.Object.extend({
 
     isRequired: NO,
 
-    validators: null
+    validators: null,
+
+    validate: function() {
+        console.log(this.validators);
+        for (var i in this.validators) {
+            this.validators[i].validate({
+                
+            });
+        }
+    }
 
 });
 
