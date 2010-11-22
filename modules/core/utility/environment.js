@@ -18,8 +18,8 @@ M.ONLINE = 'online';
  * @class
  *
  * Encapsulates methods to retrieve information about the environment,
- * like browser used, platform, user agent or
- * if the device is on- or offline.
+ * like browser used, platform, user agent (based on navigator object) or
+ * if the device is on- or offline (determined via ajax request).
  */
 M.Environment = M.Object.extend({
 
