@@ -20,6 +20,8 @@ M.ToggleView = M.View.extend({
 
     isInFirstState: YES,
 
+    toggleOnClick: NO,
+
     /**
      * Renders a ToggleView and its child views.
      */
@@ -45,8 +47,10 @@ M.ToggleView = M.View.extend({
             var childViewIndex = this.isInFirstState ? 0 : 1;
 
             if(this[childViews[childViewIndex]]) {
-                this[childViews[childViewIndex]].internalTarget = this;
-                this[childViews[childViewIndex]].internalAction = 'toggleView';
+                if(this.toggleOnClick) {
+                    this[childViews[childViewIndex]].internalTarget = this;
+                    this[childViews[childViewIndex]].internalAction = 'toggleView';
+                }
                 this.html += this[childViews[childViewIndex]].render();
             } else {
                 M.Logger.log('Please make sure that there are two child views defined for the toggle view!', M.WARN);
@@ -63,9 +67,11 @@ M.ToggleView = M.View.extend({
             var childViewIndex = this.isInFirstState ? 0 : 1;
 
             if(this[childViews[childViewIndex]]) {
-                this[childViews[childViewIndex]].internalTarget = this;
-                this[childViews[childViewIndex]].internalAction = 'toggleView';
-                this[childViews[childViewIndex]].html = '';
+                if(this.toggleOnClick) {
+                    this[childViews[childViewIndex]].internalTarget = this;
+                    this[childViews[childViewIndex]].internalAction = 'toggleView';
+                }
+                this[childViews[childViewIndex]].clearHtml();
                 return this[childViews[childViewIndex]].render();
             } else {
                 M.Logger.log('Please make sure that there are two child views defined for the toggle view!', M.WARN);
@@ -77,7 +83,7 @@ M.ToggleView = M.View.extend({
      * This method toggles the child views by first emptying the toggle view's content
      * and then rendering the next child view by calling renderUpdateChildViews().
      */
-    toggleView: function() {        
+    toggleView: function() {
         $('#' + this.id).empty();
         $('#' + this.id).html(this.renderUpdateChildViews());
         this.theme();
