@@ -73,14 +73,14 @@ M.TextFieldView = M.View.extend({
         var type = this.isPassword ? 'password' : 'text';
 
         if(this.hasMultipleLines) {
-            this.html += '<textarea cols="40" rows="8" name="' + this.name + '" id="' + this.id + '">' + this.initialText + '</textarea>';
+            this.html += '<textarea cols="40" rows="8" name="' + this.name + '" id="' + this.id + '">' + (this.value ? this.value : this.initialText) + '</textarea>';
             
         } else {
-            this.html += '<input type="' + type + '" name="' + this.name + '" id="' + this.id + '" value="' + this.initialText + '" />';
+            this.html += '<input type="' + type + '" name="' + this.name + '" id="' + this.id + '" value="' + (this.value ? this.value : this.initialText) + '" />';
         }
 
         this.html += '</div>';
-        
+        console.log(this.html);
         return this.html;
     },
 
