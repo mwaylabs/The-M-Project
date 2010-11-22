@@ -24,6 +24,14 @@ M.LabelView = M.View.extend({
     type: 'M.LabelView',
 
     /**
+     * Determines whether a new line '\n' within the label's value should be transformed
+     * into a line break '<br/>' before it is rendered. Default: YES.
+     *
+     * @property {Boolean}
+     */
+    newLineToBreak: YES,
+
+    /**
      * Mapping to value attribute.
      * text property is mixed in when extended.
      */
@@ -34,7 +42,10 @@ M.LabelView = M.View.extend({
      */
     render: function() {
         this.computeValue();
-        this.html += '<div id="' + this.id + '"' + this.style() + '>' + this.value + '</div>';
+        this.html += '<div id="' + this.id + '"' + this.style() + '>';
+        this.html += this.newLineToBreak ? this.nl2br(this.value) : this.value;
+        this.html += '</div>';
+        
         return this.html;
     },
 
@@ -43,7 +54,7 @@ M.LabelView = M.View.extend({
      */
     renderUpdate: function() {
         this.computeValue();
-        $('#' + this.id).html(this.value);
+        $('#' + this.id).html(this.newLineToBreak ? this.nl2br(this.value) : this.value);
     },
 
     /**
