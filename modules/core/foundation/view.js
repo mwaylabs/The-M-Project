@@ -154,6 +154,20 @@ M.View = M.Object.extend({
     },
 
     /**
+     * Clears the html property of a view and triggers the same method on all of its
+     * child views.
+     */
+    clearHtml: function() {
+        this.html = '';
+        if(this.childViews) {
+            var childViews = $.trim(this.childViews).split(' ');
+            for(var i in childViews) {
+                this[childViews[i]].clearHtml();
+            }
+        }
+    },
+
+    /**
      * If the view's computedValue property is set, compute the value. This allows you to
      * apply a method to a dynamically set value. E.g. you can provide your value with an
      * toUpperCase().
