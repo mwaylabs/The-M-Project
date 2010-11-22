@@ -45,7 +45,9 @@ M.EventDispatcher = M.Object.create({
      * @param {String} orientation The orientation of the device (only passed if an orientationChange event did happen).
      */
     onClickEventDidHappen: function(type, id, keyCode, orientation) {
-        this.delegateEvent(type, id, keyCode, orientation);
+        if(!M.Application.viewManager.getViewById(id).inEditMode) {
+            this.delegateEvent(type, id, keyCode, orientation);
+        }
     },
 
     /**
