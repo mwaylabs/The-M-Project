@@ -16,7 +16,14 @@
 }
 
 .details {
-    font-size: 18px;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.detailsLabel {
+    color: #77ACF7;
+    font-weight: bold;
+    font-size: 14px;
 }
 
 .detailsSpacer {

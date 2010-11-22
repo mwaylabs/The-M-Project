@@ -77,8 +77,10 @@ Todos.TodoController = M.Controller.extend({
         this.set('selTitle', record.record.title);
         this.set('selText', record.record.text);
 
-        var days = M.Date.format(M.Date.create(record.record.date), 'mm/dd/yyyy HH:MM:ss');
-        this.set('selDate', days);
+        var date = M.Date.create(record.record.date);
+        var dateFormat = M.Date.format(date, 'mm/dd/yyyy HH:MM:ss');
+        var days = M.Math.round(M.Date.timeBetween(M.Date.now(), M.Date.create(record.record.date), M.DAYS));
+        this.set('selDate', dateFormat + ' (in ' + days + ' day' + (days !== 1 ? 's' : '') + ')');
         this.switchToPage(Todos.app.subpage1);
     },
 

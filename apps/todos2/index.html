@@ -163,7 +163,8 @@
                             childViews: 'titleLabel title textLabel text dateLabel date',
 
                             titleLabel: M.LabelView.design({
-                                value: 'Title'
+                                value: 'Title',
+                                cssClass: 'detailsLabel'
                             }),
 
                             title: M.LabelView.design({
@@ -173,7 +174,7 @@
 
                             textLabel: M.LabelView.design({
                                 value: 'Details',
-                                cssClass: 'detailsSpacer'
+                                cssClass: 'detailsSpacer detailsLabel'
                             }),
 
                             text: M.LabelView.design({
@@ -183,7 +184,7 @@
 
                             dateLabel: M.LabelView.design({
                                 value: 'Due Date',
-                                cssClass: 'detailsSpacer'
+                                cssClass: 'detailsSpacer detailsLabel'
                             }),
 
                             date: M.LabelView.design({
