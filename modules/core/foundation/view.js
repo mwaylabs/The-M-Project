@@ -275,6 +275,15 @@ M.View = M.Object.extend({
         return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     },
 
+    nl2br: function(str) {
+        if(str) {
+            if(typeof(str) !== 'string') {
+                str = String(str);
+            }
+            return str.replace(/\n/g, '<br />\n');
+        }
+    },
+
     /**
      * This method writes the view's html string into the DOM.
      */
