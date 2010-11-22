@@ -79,8 +79,9 @@ Todos.TodoController = M.Controller.extend({
 
         var date = M.Date.create(record.record.date);
         var dateFormat = M.Date.format(date, 'mm/dd/yyyy HH:MM:ss');
-        var days = M.Math.round(M.Date.timeBetween(M.Date.now(), M.Date.create(record.record.date), M.DAYS));
-        this.set('selDate', dateFormat + ' (in ' + days + ' day' + (days !== 1 ? 's' : '') + ')');
+        var days = M.Math.round(M.Date.timeBetween(M.Date.now(), date, M.DAYS));
+        this.set('selDateFormat', dateFormat + ' (in ' + days + ' day' + (days !== 1 ? 's' : '') + ')');
+        this.set('selDate', dateFormat);
         this.switchToPage(Todos.app.subpage1);
     },
 
@@ -115,8 +116,12 @@ Todos.TodoController = M.Controller.extend({
 
         this.set('selTitle', note.record.title);
         this.set('selText', note.record.text);
-        var days = M.Date.format(M.Date.create(note.record.date), 'mm/dd/yyyy HH:MM:ss');
-        this.set('selDate', days);
+
+        var date = M.Date.create(note.record.date);
+        var dateFormat = M.Date.format(date, 'mm/dd/yyyy HH:MM:ss');
+        var days = M.Math.round(M.Date.timeBetween(M.Date.now(), date, M.DAYS));
+        this.set('selDateFormat', dateFormat + ' (in ' + days + ' day' + (days !== 1 ? 's' : '') + ')');
+        this.set('selDate', dateFormat);
 
         Todos.app.page2.content.title.setValue('');
         Todos.app.page2.content.text.setValue('');
