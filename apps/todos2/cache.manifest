@@ -15,6 +15,7 @@ index.html
 ../../modules/core/foundation/observable.js
 ../../modules/core/foundation/controller.js
 ../../modules/core/datastore/data_provider.js
+../../modules/core/datastore/local_storage.js
 ../../modules/core/foundation/model.js
 ../../modules/core/foundation/view.js
 ../../modules/core/foundation/view_manager.js
