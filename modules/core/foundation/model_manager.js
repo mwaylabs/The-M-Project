@@ -128,7 +128,7 @@ M.ModelManager = M.Object.extend({
             if(regexResult && regexResult[1]) {
                 var obj = JSON.parse(localStorage.getItem(key));
                 obj.id = parseInt(regexResult[1]);
-                var model = this.model.newRecord(obj);
+                var model = this.model.createRecord(obj);
                 this.add(model);
             }
         };
