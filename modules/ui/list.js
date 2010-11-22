@@ -81,6 +81,9 @@ M.ListView = M.View.extend({
             /* Create a new object for the current template view */
             var obj = templateView.design({});
 
+            /* Assign the model's id to the view's modelId property */
+            obj.modelId = item.id;
+
             /* Get the child views as an array of strings */
             var childViewsArray = obj.childViews.split(' ');
 
