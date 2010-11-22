@@ -1,7 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
-// Creator:   basti
+// Creator:   Sebastian
 // Date:      28.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
@@ -76,10 +76,12 @@ M.Model = M.Object.extend({
     storageEngine: M.WebStorage,
 
     /**
+     * Creates a new record of the model, means an instance of the model based on the blueprint.
+     * You pass the object's specific attributes to it as an object.
      *
-     * @param obj
+     * @param {Object} obj The specific attributes as an object, e.g. {firstname: 'peter', lastname ='fox'}
      */
-    newRecord: function(obj) {
+    createRecord: function(obj) {
         var modelRecord = this.extend({
             id: obj.id ? obj.id : M.Application.modelRegistry.getNextId(this.name),
             record: obj
@@ -87,6 +89,13 @@ M.Model = M.Object.extend({
         return modelRecord;
     },
 
+    /**
+     * Create defines a new model blueprint. It is passed an object with the model's attributes and the model's business logic
+     * and then the type of data provider to use.
+     *
+     * @param {Object} obj An object defining the model's  
+     * @param {Object} dp The data provider to use, e. g. M.LocalStorageProvider
+     */
     create: function(obj, dp) {
         var model = this.extend({
             name: obj.__name__,
