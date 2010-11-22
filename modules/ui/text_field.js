@@ -80,7 +80,7 @@ M.TextFieldView = M.View.extend({
         }
 
         this.html += '</div>';
-        console.log(this.html);
+
         return this.html;
     },
 
@@ -100,6 +100,9 @@ M.TextFieldView = M.View.extend({
     gotFocus: function() {
         if(this.initialText && (!this.value || this.initialText === this.value)) {
             this.setValue('');
+            if(this.initialCssClass) {
+                $('#' + this.id).removeClass(this.initialCssClass);
+            }
         }
         this.hasFocus = YES;
     },
@@ -112,6 +115,9 @@ M.TextFieldView = M.View.extend({
     lostFocus: function() {
         if(this.initialText && !this.value) {
             this.setValue(this.initialText, NO);
+            if(this.initialCssClass) {
+                $('#' + this.id).addClass(this.initialCssClass);
+            }
         }
         this.hasFocus = NO;
     },
@@ -137,6 +143,12 @@ M.TextFieldView = M.View.extend({
             html += '"';
         }
         return html;
+    },
+
+    theme: function() {
+        if(this.initialText && !this.value && this.initialCssClass) {
+            $('#' + this.id).addClass(this.initialCssClass);
+        }
     },
 
     /**
