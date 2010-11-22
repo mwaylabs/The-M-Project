@@ -9,6 +9,11 @@
 // ==========================================================================
 
 Todos.TodoItemView = M.ListItemView.design({
+
+    target: Todos.TodoController,
+
+    action: 'showDetails',
+
     childViews: 'title text date',
 
     title : M.LabelView.design({
@@ -28,7 +33,6 @@ Todos.TodoItemView = M.ListItemView.design({
             }
         },
         cssClass: 'listDate'
-    })
-    
+    })    
 
 });
