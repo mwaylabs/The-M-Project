@@ -18,4 +18,4 @@ Todos.Note = M.Model.create({
 
     date: ''
 
-});
+}, M.LocalStorageProvider);
