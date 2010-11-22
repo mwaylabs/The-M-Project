@@ -14,42 +14,13 @@ M.Validator = M.Object.extend({
 
     type: 'M.Validator',
 
-    EMAIL: {
-        pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-        validate: function(value) {
-            if (this.pattern.exec(value))Ê{
-                return YES;
-            }
-            return NO;
-        }
-    },
+    validationErrors: [],
 
-    NUMBER: {
-        validate: function(value) {
-            if(typeof(value) === 'number') {
-                return YES;
-            }
-            return NO;
-        }
-    },
+    msg: 'Is not valid',
 
-    NOTMINUS: {
-       validate: function(value) {
-           
-           if(typeof(value) === 'number') {
-               if(value < 0) {
-                   return NO;
-               }
-               return YES;
-           }
-
-           if(typeof(value) === 'string') {
-               var pattern = /-/;
-               if(this.pattern.exec(value)) {
-                   return NO;
-               }
-               return YES;
-           }
-       }
+    customize: function(obj) {
+        return this.extend(obj);
     }
+
+    
 });
