@@ -22,6 +22,15 @@ M.ListItemView = M.View.extend({
 
     inEditMode: NO,
 
+    /**
+     * This property determines whether a list item has one single action that is triggered
+     * once there is a click anywhere inside the list item or if there are specific actions
+     * defined for single ui elements within one list item.
+     *
+     * property {Boolean}
+     */
+    hasSingleAction: YES,
+
     deleteButton: M.ButtonView.design({
         icon: 'delete',
         renderToDOM: NO,
@@ -32,7 +41,13 @@ M.ListItemView = M.View.extend({
     }),
 
     render: function() {
-        this.html = '<li id="' + this.id + '">';
+        this.html = '<li id="' + this.id + '"';
+
+        if(this.hasSingleAction && this.target && this.action) {
+            this.html += ' onclick="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');"';
+        }
+
+        this.html += '>';
 
         if(this.inEditMode) {
             this.html += '<a href="#">';
