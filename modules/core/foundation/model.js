@@ -8,6 +8,14 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+M.STATE_UNDEFINED = 'state_undefined';
+M.STATE_NEW = 'state_new';
+M.STATE_INSYNCPOS = 'state_insyncpos';
+M.STATE_INSYNCNEG = 'state_insyncneg';
+M.STATE_LOCALCHANGED = 'state_localchange';
+M.STATE_VALID = 'state_valid';
+M.STATE_INVALID = 'state_invalid';
+
 //m_require('data_provider.js');
 m_require('core/foundation/model_registry.js');
 
@@ -55,7 +63,20 @@ M.Model = M.Object.extend({
      * Object containing all meta information for the object's properties
      * @property {Object}
      */
-    __meta: null,
+    __meta: {},
+
+    /**
+     * A constant defining the model's state. Important e.g. for syncing storage
+     * @property {String}
+     */
+    state: M.STATE_UNDEFINED,
+
+
+    /**
+     * determines whether model shall be validated before saving to storage or not.
+     * @property {Boolean}
+     */
+    usesValidation: YES,
 
     /**
      * The model's data provider.
@@ -86,6 +107,7 @@ M.Model = M.Object.extend({
             id: obj.id ? obj.id : M.Application.modelRegistry.getNextId(this.name),
             record: obj
         });
+        modelRecord.state = M.STATE_NEW;
         return modelRecord;
     },
 
@@ -103,11 +125,14 @@ M.Model = M.Object.extend({
         });
         delete obj.__name__;
 
-        /**
-         * the model's record defines the properties that are semantically bound to this model:
-         * e.g. a person's record is in simple case: firstname, lastname, age.
-         */
-        model.record = obj;
+        for(var prop in obj) {
+            if(typeof(obj[prop]) === 'function') {
+                model[prop] = obj[prop];
+            } else {
+                model.__meta[prop] = obj[prop];
+            }
+
+        }
         M.Application.modelRegistry.register(model.name);
 
         /* Re-set the just registered model's id, if there is a value stored */
@@ -152,6 +177,35 @@ M.Model = M.Object.extend({
         this.record[attrName] = val;
     },
 
+    /**
+     * Validates the model, means calling validate for each property.
+     */
+    validate: function() {
+        var isValid = YES;
+        var validationErrorOccured = NO;
+        /* clear validation error buffer before validation */
+        M.Validator.clearErrorBuffer();
+
+        for (var i in this.__meta) {
+            var prop = this.__meta[i];
+            var obj = {
+                value: this.record[i],
+                modelId: this.name + '_' + this.id,
+                property: i
+            };
+            if (!prop.validate(obj)) {
+                isValid = NO;
+            }
+        }
+        /* set state of model */
+        if(!isValid) {
+            this.state = M.STATE_INVALID;
+        } else {
+            this.state = M.STATE_VALID;   
+        }
+        return isValid;
+    },
+
     /* CRUD Methods below */
 
     /**
@@ -172,13 +226,24 @@ M.Model = M.Object.extend({
     },
 
     /**
-     * Create or update a record in storage.
+     * Create or update a record in storage if it is valid (first check this).
      */
     save: function() {
         if(!this.id) {
             return;
         }
-        this.dataProvider.save(this);
+
+        var isValid = YES;
+
+        if(this.usesValidation) {
+            isValid = this.validate();
+        }
+
+        if(isValid) {
+            this.dataProvider.save(this);
+            return YES;
+        }
+        return NO;
     },
 
     /**

@@ -24,8 +24,17 @@ M.ModelAttribute = M.Object.extend({
 
     isRequired: NO,
 
-    validators: null
+    validators: null,
 
+    validate: function(obj) {
+        var isValid = YES;
+        for (var i in this.validators) {
+            if(!this.validators[i].validate(obj)) {
+               isValid = NO; 
+            }
+        }
+        return isValid;
+    }
 });
 
 //
@@ -45,6 +54,19 @@ M.ModelAttribute.attr = function(type, opts) {
     }
     if (!opts.type) {
         opts.type = type || 'String';
+    }
+
+    /* if validators array is not set and attribute is required, define validators as an empty array, (this is for adding M.PresenceValidator automatically */
+    if (!opts.validators && opts.isRequired) {
+        opts.validators = [];
+    }
+
+    /* if model attribute is required, presence validator is automatically inserted */
+    if (opts.isRequired) {
+        /* check if custom presence validator has been added to validators array, if not add the presence validator*/
+        if( _.select(opts.validators, function(v){return v.type === 'M.PresenceValidator'}).length === 0) {
+            opts.validators.push(M.PresenceValidator);
+        }
     }
     return this.extend(opts);
 };

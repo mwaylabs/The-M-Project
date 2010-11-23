@@ -98,9 +98,9 @@ M.ListView = M.View.extend({
                 /* Set renderToDOM to NO, since we push the HTML directly to the addItem method later on */
                 obj[childViewsArray[i]].renderToDOM = NO;
 
-                /* This regex looks for a variable inside the template view (<%= ... %>) ... */
                 var regexResult = null;
                 if(obj[childViewsArray[i]].computedValue) {
+                    /* This regex looks for a variable inside the template view (<%= ... %>) ... */
                     regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
                 } else {
                     regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
@@ -112,12 +112,7 @@ M.ListView = M.View.extend({
                         case 'M.LabelView':
                         case 'M.ButtonView':
                         case 'M.ImageView':
-
-                            if(obj[childViewsArray[i]].computedValue) {
-                                obj[childViewsArray[i]].value = record[regexResult[1]];
-                            } else {
-                                obj[childViewsArray[i]].value = record[regexResult[1]];
-                            }
+                            obj[childViewsArray[i]].value = record[regexResult[1]];
                             break;
                     }
                 }

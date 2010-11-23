@@ -14,42 +14,46 @@ M.Validator = M.Object.extend({
 
     type: 'M.Validator',
 
-    EMAIL: {
-        pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-        validate: function(value) {
-            if (this.pattern.exec(value))Ê{
-                return YES;
-            }
-            return NO;
-        }
+    /**
+     * Array containing error objects
+     * Error object represent errors that occured during validation.
+     * E.g. error object:
+     *
+     * {
+     *   msg: 'E-Mail adress not valid.',
+     *   modelId: 'Task_123',
+     *   property: 'email',
+     *   viewId: 'm_123',
+     *   validator: 'EMAIL',
+     *   onSuccess: function(){proceed();}
+     *   onError: function(markTextFieldError(); console.log('email not valid')}; 
+     * }
+     * 
+     *
+     * @property
+     */
+    validationErrors: [],
+
+    msg: 'Is not valid',
+
+    /**
+     * extends this.
+     *
+     * Can be used to provide a custom error msg to a validator
+     * E.g.
+     * M.EmailValidator.customize({msg: 'Please provide a valid e-mail adress.'});
+     *
+     * @param obj
+     */
+    customize: function(obj) {
+        return this.extend(obj);
     },
 
-    NUMBER: {
-        validate: function(value) {
-            if(typeof(value) === 'number') {
-                return YES;
-            }
-            return NO;
-        }
-    },
-
-    NOTMINUS: {
-       validate: function(value) {
-           
-           if(typeof(value) === 'number') {
-               if(value < 0) {
-                   return NO;
-               }
-               return YES;
-           }
-
-           if(typeof(value) === 'string') {
-               var pattern = /-/;
-               if(this.pattern.exec(value)) {
-                   return NO;
-               }
-               return YES;
-           }
-       }
+    /* empties the error buffer, is done before each new validation process */
+    clearErrorBuffer: function() {
+        this.validationErrors.length = 0;
     }
+
+
+
 });

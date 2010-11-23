@@ -34,7 +34,7 @@ M.LocalStorageProvider = M.DataProvider.extend({
             M.Logger.log(M.WARN, 'Error saving ' + that.record + ' to localStorage with ID: ' + that.name + '_' + that.id);
         }
 
-    },
+    },              
 
     /**
      * deletes a model from the local storage
@@ -125,6 +125,14 @@ M.LocalStorageProvider = M.DataProvider.extend({
             return this.findAll(modelName);
         }
 
+    },
+
+    findByKey: function(key) {
+        if(key) {
+            return JSON.parse(localStorage.getItem(k));
+        }
+        M.Logger.log("Please provide a key.", M.WARN);
+        return NO;
     },
 
     /**
