@@ -12,14 +12,18 @@ m_require('core/datastore/validator.js')
 
 M.EmailValidator = M.Validator.extend({
 
-    pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+    type: 'M.EmailValidator',
+
+    //pattern: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+
+    pattern: /^((?:(?:(?:\w[\.\-\+]?)*)\w)+)\@((?:(?:(?:\w[\.\-\+]?){0,62})\w)+)\.(\w{2,6})$/,
 
     validate: function(obj) {
         if (this.pattern.exec(obj.value)) {
             return YES;
         }
-        M.Validator.validationErrors.push({
-            msg: obj.msg,
+        this.validationErrors.push({
+            msg: obj.value + ' is not a valid email adress.',
             modelId: obj.modelId,
             property: obj.property,
             viewId: obj.viewId,

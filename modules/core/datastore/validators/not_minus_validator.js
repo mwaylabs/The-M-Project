@@ -12,22 +12,41 @@ m_require('core/datastore/validator.js')
 
 M.NotMinusValidator = M.Validator.extend({
 
-   validate: function(value) {
+    type: 'M.NotMinusValidator',
 
-       if(typeof(value) === 'number') {
-           if(value < 0) {
-               return NO;
+   validate: function(obj) {
+
+       if(typeof(obj.value) === 'number') {
+           if(obj.value < 0) {
+                this.validationErrors.push({
+                    msg: obj.value + ' is a minus value. This is not allowed.',
+                    modelId: obj.modelId,
+                    property: obj.property,
+                    viewId: obj.viewId,
+                    validator: 'NUMBER',
+                    onSuccess: obj.onSuccess,
+                    onError: obj.onError
+                });
+                return NO;
            }
            return YES;
        }
 
-       if(typeof(value) === 'string') {
+       if(typeof(obj.value) === 'string') {
            var pattern = /-/;
            if(this.pattern.exec(value)) {
-               return NO;
+               this.validationErrors.push({
+                    msg: obj.value + ' is a minus value. This is not allowed.',
+                    modelId: obj.modelId,
+                    property: obj.property,
+                    viewId: obj.viewId,
+                    validator: 'NUMBER',
+                    onSuccess: obj.onSuccess,
+                    onError: obj.onError
+                });
+                return NO;
            }
            return YES;
        }
    }
-    
 });
