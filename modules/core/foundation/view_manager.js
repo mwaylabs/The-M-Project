@@ -59,6 +59,13 @@ M.ViewManager = M.Object.extend({
     currentPage: null,
 
     /**
+     * A reference to the currently displayed dialog.
+     *
+     * @property {Object}
+     */
+    currentDialog: null,
+
+    /**
      * Returns the next Id build from nextId property incremented by 1 and the prefix.
      * The id is used as the value for the HTML attribute id.
      */

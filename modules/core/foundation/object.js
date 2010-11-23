@@ -83,6 +83,16 @@ M.Object = {
      */
     set: function(key, value) {
         this[key] = value;
+    },
+
+    /**
+     * This method will remove an object from the DOM and then delete it. 
+     */
+    destroy: function() {
+        if(this.id && $('#' + this.id)) {
+            $('#' + this.id).remove();
+        }
+        delete this;
     }
 
 };

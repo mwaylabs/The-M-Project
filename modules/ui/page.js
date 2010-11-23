@@ -70,6 +70,12 @@ M.PageView = M.View.extend({
             this.onLoad.target[this.onLoad.action](this.isFirstLoad);            
         }
 
+        /* if there is was a dialog on the previous page, call its cancel method */
+        if(M.Application.viewManager.currentDialog) {
+            M.Application.viewManager.currentDialog.destroy();
+            M.Application.viewManager.currentDialog = null;
+        }
+
         /* WORKAROUND for being able to use more than two tab items within a tab bar */
         /* TODO: Get rid of this workaround with a future version of jquery mobile */
         if(this.isFirstLoad && this.childViews) {
