@@ -11,6 +11,25 @@
     font-style: italic;
 }
 
+.textfieldInit {
+    color: #CDCDCD;
+}
+
+.details {
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.detailsLabel {
+    color: #77ACF7;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.detailsSpacer {
+    margin-top: 20px;
+}
+
 [data-id=tabbar1] .ui-icon {
     width:25px;
     height:25px;

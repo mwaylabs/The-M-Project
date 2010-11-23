@@ -43,6 +43,7 @@ M.ScrollView = M.View.extend({
      * This method triggers the styling of the scrollview and its subviews.
      */
     theme: function() {
+        $('#' + this.id).page();
         this.themeChildViews();
     }
 
