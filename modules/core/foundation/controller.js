@@ -12,6 +12,11 @@
 M.TRANSITION = {};
 M.TRANSITION.NONE = 'none';
 M.TRANSITION.SLIDE = 'slide';
+M.TRANSITION.SLIDEUP = 'slideup';
+M.TRANSITION.SLIDEDOWN = 'slidedown';
+M.TRANSITION.POP = 'pop';
+M.TRANSITION.FADE = 'fade';
+M.TRANSITION.FLIP = 'flip';
 
 m_require('core/foundation/observable.js');
 
