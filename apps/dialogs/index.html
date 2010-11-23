@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link href="resources/app_icon.png" rel="apple-touch-icon" />
+
+    <title>Todos - A simple sample app</title>
+    <script src="../../modules/jquery/jquery-1.4.4.min.js"></script>
+    <script src="../../modules/jquery_mobile/jquery.mobile-1.0a2.min.js"></script>
+    <script src="../../modules/underscore/underscore-min.js"></script>
+    <script src="../../modules/core/foundation/m.js"></script>
+    <script src="../../modules/core/foundation/object.js"></script>
+    <script src="../../modules/core/utility/math.js"></script>
+    <script src="../../modules/core/foundation/request.js"></script>
+    <script src="../../modules/core/utility/logger.js"></script>
+    <script src="../../modules/core/utility/date.js"></script>
+    <script src="../../modules/core/utility/cypher_algorithms/base64.js"></script>
+    <script src="../../modules/core/utility/cypher_algorithms/sha256.js"></script>
+    <script src="../../modules/core/utility/cypher.js"></script>
+    <script src="../../modules/core/foundation/event_dispatcher.js"></script>
+    <script src="../../modules/core/foundation/observable.js"></script>
+    <script src="../../modules/core/foundation/controller.js"></script>
+    <script src="../../modules/core/datastore/data_provider.js"></script>
+    <script src="../../modules/core/datastore/local_storage.js"></script>
+    <script src="../../modules/core/foundation/model.js"></script>
+    <script src="../../modules/core/foundation/view.js"></script>
+    <script src="../../modules/core/foundation/view_manager.js"></script>
+    <script src="../../modules/core/foundation/model_registry.js"></script>
+    <script src="../../modules/core/foundation/model_manager.js"></script>
+    <script src="../../modules/core/foundation/application.js"></script>
+
+    <script src="../../modules/ui/page.js"></script>
+    <script src="../../modules/ui/button.js"></script>
+    <script src="../../modules/ui/toolbar.js"></script>
+    <script src="../../modules/ui/scroll.js"></script>
+    <script src="../../modules/ui/label.js"></script>
+    <script src="../../modules/ui/button.js"></script>
+    <script src="../../modules/ui/list.js"></script>
+    <script src="../../modules/ui/list_item.js"></script>
+    <script src="../../modules/ui/text_field.js"></script>
+    <script src="../../modules/ui/grid.js"></script>
+    <script src="../../modules/ui/image.js"></script>
+    <script src="../../modules/ui/toggle.js"></script>
+    <script src="../../modules/ui/tab_bar.js"></script>
+    <script src="../../modules/ui/tab_bar_item.js"></script>
+    <script src="../../modules/ui/dialog.js"></script>
+    <script src="../../modules/ui/dialogs/alert_dialog.js"></script>
+    <script src="../../modules/ui/dialogs/confirm_dialog.js"></script>
+    <script src="../../modules/ui/dialogs/action_sheet_dialog.js"></script>
+
+    <script src="dialogs.js"></script>
+
+    <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a2.min.css" rel="stylesheet" />
+    <link href="resources/style.css" rel="stylesheet" />
+</head>
+<body>
+        <script language="JavaScript">
+            Dialogs.app = M.Application.extend({
+                page: M.PageView.design({
+                    
+                    childViews: 'header content',
+
+                    header: M.ToolbarView.design({
+
+                        value: 'Dialogs',
+
+                        anchorLocation: M.TOP
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: 'alertButton confirmButton actionSheetButton notification',
+
+                        alertButton: M.ButtonView.design({
+
+                            value: 'Open alert dialog',
+                            target: Dialogs.TodoController,
+                            action: 'openAlert'
+
+                        }),
+
+                        confirmButton: M.ButtonView.design({
+
+                            value: 'Open confirm dialog',
+                            target: Dialogs.TodoController,
+                            action: 'openConfirm'
+
+
+                        }),
+
+                        actionSheetButton: M.ButtonView.design({
+
+                            value: 'Open actionSheet dialog',
+                            target: Dialogs.TodoController,
+                            action: 'openActionSheet'
+
+
+                        }),
+                        notification: M.LabelView.design({
+
+                            contentBinding: 'Dialogs.TodoController.notification',
+                            value: '',
+                            cssClass: 'notification'
+
+                        })
+
+                    })
+
+                })
+
+            });
+        </script>
+
+        <!-- START THE APP BY CALLING THE M.APPLICATION's MAIN-METHOD -->
+        <!-- in the future this call will be made automatically -->
+        <script language="JavaScript">
+            Dialogs.app.main();
+        </script>
+
+</body>
+</html>

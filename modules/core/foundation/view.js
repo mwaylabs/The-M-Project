@@ -296,6 +296,7 @@ M.View = M.Object.extend({
             }
             return str.replace(/\n/g, '<br />\n');
         }
+        return str;
     },
 
     /**
