@@ -71,6 +71,13 @@ M.Model = M.Object.extend({
      */
     state: M.STATE_UNDEFINED,
 
+
+    /**
+     * determines whether model shall be validated before saving to storage or not.
+     * @property {Boolean}
+     */
+    usesValidation: YES,
+
     /**
      * The model's data provider.
      *
@@ -175,14 +182,27 @@ M.Model = M.Object.extend({
      */
     validate: function() {
         var isValid = YES;
-        for(var i in this.__meta){
-            var prop = this.__meta[i];
-            isValid = prop.validate({
-                
-            });
-        }
+        var validationErrorOccured = NO;
+        /* clear validation error buffer before validation */
+        M.Validator.clearErrorBuffer();
 
-        this.state = M.STATE_VALID;
+        for (var i in this.__meta) {
+            var prop = this.__meta[i];
+            var obj = {
+                value: this.record[i],
+                modelId: this.name + '_' + this.id,
+                property: i
+            };
+            if (!prop.validate(obj)) {
+                isValid = NO;
+            }
+        }
+        /* set state of model */
+        if(!isValid) {
+            this.state = M.STATE_INVALID;
+        } else {
+            this.state = M.STATE_VALID;   
+        }
         return isValid;
     },
 
@@ -206,14 +226,24 @@ M.Model = M.Object.extend({
     },
 
     /**
-     * Create or update a record in storage.
+     * Create or update a record in storage if it is valid (first check this).
      */
     save: function() {
         if(!this.id) {
             return;
         }
-        
-        this.dataProvider.save(this);
+
+        var isValid = YES;
+
+        if(this.usesValidation) {
+            isValid = this.validate();
+        }
+
+        if(isValid) {
+            this.dataProvider.save(this);
+            return YES;
+        }
+        return NO;
     },
 
     /**
