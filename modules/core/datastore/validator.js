@@ -14,13 +14,46 @@ M.Validator = M.Object.extend({
 
     type: 'M.Validator',
 
+    /**
+     * Array containing error objects
+     * Error object represent errors that occured during validation.
+     * E.g. error object:
+     *
+     * {
+     *   msg: 'E-Mail adress not valid.',
+     *   modelId: 'Task_123',
+     *   property: 'email',
+     *   viewId: 'm_123',
+     *   validator: 'EMAIL',
+     *   onSuccess: function(){proceed();}
+     *   onError: function(markTextFieldError(); console.log('email not valid')}; 
+     * }
+     * 
+     *
+     * @property
+     */
     validationErrors: [],
 
     msg: 'Is not valid',
 
+    /**
+     * extends this.
+     *
+     * Can be used to provide a custom error msg to a validator
+     * E.g.
+     * M.EmailValidator.customize({msg: 'Please provide a valid e-mail adress.'});
+     *
+     * @param obj
+     */
     customize: function(obj) {
         return this.extend(obj);
+    },
+
+    /* empties the error buffer, is done before each new validation process */
+    clearErrorBuffer: function() {
+        this.validationErrors.length = 0;
     }
 
-    
+
+
 });
