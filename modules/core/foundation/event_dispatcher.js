@@ -94,6 +94,13 @@ M.EventDispatcher = M.Object.create({
                 M.Application.viewManager.getCurrentPage().orientationDidChange(orientation);
                 break;
         }
+    },
+
+    registerEvents: function(id, eventList) {
+        var that = this;
+        $('#' + id).bind(eventList, function(evt) {
+            that.eventDidHappen(evt);
+        });
     }
 
 });
