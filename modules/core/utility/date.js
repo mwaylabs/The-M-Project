@@ -120,7 +120,7 @@ M.Date = M.Object.extend({
      */
     format: function(date, format, utc) {
         if(isNaN(date)) {
-            M.Logger('Invalid date!', M.WARN);   
+            M.Logger.log('Invalid date!', M.WARN);   
         }
 
         var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g;
@@ -321,8 +321,8 @@ M.Date = M.Object.extend({
      * @param {String} returnType The return type for the call.
      */
     timeBetween: function(firstDate, secondDate, returnType) {
-        var firstDateInMilliseconds = Date.parse(firstDate);
-        var secondDateInMilliseconds = Date.parse(secondDate);
+        var firstDateInMilliseconds = firstDate.valueOf();
+        var secondDateInMilliseconds = secondDate.valueOf();
 
         switch (returnType) {
             case M.DAYS:
