@@ -81,7 +81,7 @@ M.Controller = M.Object.extend({
             if(isTabBarViewTopPage) {
                 transition = page.tabBarView.transition ? page.tabBarView.transition : M.TRANSITION.NONE;
                 isBack = NO;
-                changeLoc = changeLoc !== undefined ? changeLoc : YES;
+                changeLoc = changeLoc !== undefined ? changeLoc : NO;
             } else {
                 transition = transition ? transition : M.TRANSITION.SLIDE;
                 isBack = isBack !== undefined ? isBack : NO;
