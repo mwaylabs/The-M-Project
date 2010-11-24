@@ -189,6 +189,16 @@ M.TextFieldView = M.View.extend({
         if(delegateUpdate) {
             this.delegateValueUpdate();
         }
+    },
+
+    disable: function() {
+        this.isEnabled = NO;
+        this.renderUpdate();
+    },
+
+    enable: function() {
+        this.isEnabled = YES;
+        this.renderUpdate();
     }
 
 });
