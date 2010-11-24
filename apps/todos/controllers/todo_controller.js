@@ -30,7 +30,7 @@ Todos.TodoController = M.Controller.extend({
             return;
         }
 
-        var note = Todos.Note.createRecord( { text: text } );
+        var note = Todos.Note.createRecord( { title: text } );
         this.notes.add(note);
         note.save();
         this.set('todos', this.notes.modelList);
