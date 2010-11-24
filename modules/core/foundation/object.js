@@ -54,6 +54,15 @@ M.Object = {
         return new f();
     },
 
+    include: function() {
+        for(var i = 0; i < arguments.length; i++) {
+            var obj = arguments[i];
+            for(prop in obj) {
+                this[prop] = obj[prop];
+            }
+        }
+    },
+
     /**
      * Binds a method to its caller, so it is always executed within the right scope.
      *
