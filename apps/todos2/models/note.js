@@ -12,10 +12,21 @@ Todos.Note = M.Model.create({
 
     __name__: 'Note',
 
-    title: '',
+    usesValidation: NO,
 
-    text: '',
+    title: M.Model.attr('String', {
+        isRequired: YES,
+        defaultValue: ''
+    }),
 
-    date: ''
+    text: M.Model.attr('String', {
+        isRequired: YES,
+        defaultValue: ''
+    }),
+
+    date: M.Model.attr('String', {
+        isRequired: YES,
+        defaultValue: ''
+    })
 
 }, M.LocalStorageProvider);
