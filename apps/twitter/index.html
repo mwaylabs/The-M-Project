@@ -5,21 +5,29 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Demo App #01</title>
-    <script src="../../modules/jquery/jquery-1.4.3.min.js"></script>
+    <title>Twitter Demo</title>
+    <script src="../../modules/jquery/jquery-1.4.4.min.js"></script>
     <script src="../../modules/jquery_mobile/jquery.mobile-1.0a2.min.js"></script>
-    <script src="../../modules/underscore/underscore-min.js"></script>    
+    <script src="../../modules/underscore/underscore-min.js"></script>
     <script src="../../modules/core/foundation/m.js"></script>
     <script src="../../modules/core/foundation/object.js"></script>
+    <script src="../../modules/core/utility/math.js"></script>
     <script src="../../modules/core/foundation/request.js"></script>
     <script src="../../modules/core/utility/logger.js"></script>
+    <script src="../../modules/core/utility/date.js"></script>
+    <script src="../../modules/core/utility/cypher_algorithms/base64.js"></script>
+    <script src="../../modules/core/utility/cypher_algorithms/sha256.js"></script>
+    <script src="../../modules/core/utility/cypher.js"></script>
     <script src="../../modules/core/foundation/event_dispatcher.js"></script>
     <script src="../../modules/core/foundation/observable.js"></script>
     <script src="../../modules/core/foundation/controller.js"></script>
     <script src="../../modules/core/datastore/data_provider.js"></script>
+    <script src="../../modules/core/datastore/local_storage.js"></script>
     <script src="../../modules/core/foundation/model.js"></script>
     <script src="../../modules/core/foundation/view.js"></script>
     <script src="../../modules/core/foundation/view_manager.js"></script>
+    <script src="../../modules/core/foundation/model_registry.js"></script>
+    <script src="../../modules/core/foundation/model_manager.js"></script>
     <script src="../../modules/core/foundation/application.js"></script>
 
     <script src="../../modules/ui/page.js"></script>
@@ -40,118 +48,76 @@
 </head>
 <body>
         <script language="JavaScript">
-            Demo.app = M.Application.extend({
+            Twitter.app = M.Application.extend({
                 page1: M.PageView.design({
 
-                        childViews: 'header content footer',
+                        childViews: 'header content',
 
                         header: M.ToolbarView.design({
-                            value: 'Welcome Page',
+                            value: 'Twitter Demo',
                             anchorLocation : M.TOP
                         }),
 
                         content: M.ScrollView.design({
 
-                            childViews: 'label1 grid button3',
+                            childViews: 'searchField button',
 
-                            label1: M.LabelView.design({
-                                contentBinding: 'Demo.LoginController.numberOfClicks',
-                                value: '0'
+                            searchField: M.TextFieldView.design({
+                                initialText: 'search term...',
+                                initialCssClass: 'textfieldInit',
+                                target: Twitter.TwitterController,
+                                action: 'search'                                
                             }),
 
-                            grid: M.GridView.design({
-                                
-                                childViews: 'button1 button2',
-
-                                layout: M.TWO_COLUMNS,
-
-                                button1: M.ButtonView.design({
-                                    value: 'increase',
-                                    target: Demo.LoginController,
-                                    action: 'addClick',
-                                    icon: 'plus'
-                                }),
-
-                                button2: M.ButtonView.design({
-                                    value: 'decrease',
-                                    target: Demo.LoginController,
-                                    action: 'removeClick',
-                                    icon: 'minus'
-                                })
-                            }),
-
-                            button3: M.ButtonView.design({
-                                value: 'next page',
-                                target: Demo.LoginController,
-                                action: 'switchPage'
+                            button: M.ButtonView.design({
+                                value: 'Search',
+                                target: Twitter.TwitterController,
+                                action: 'search'
                             })
-                        }),
-
-                        footer: M.ToolbarView.design({
-                            value: 'Footer',
-                            anchorLocation: M.BOTTOM
                         })
                 }),
 
                 page2: M.PageView.design({
-                    childViews: 'header content footer',
-
-                    onLoad: {
-                        target: Demo.TwitterController,
-                        action: 'performSearch'
-                    },
+                    childViews: 'header content',
 
                     header: M.ToolbarView.design({
                         value: 'Twitter Demo',
-                        anchorLocation : M.TOP
+                        contentBinding: 'Twitter.TwitterController.searchString',
+                        anchorLocation : M.TOP,
+                        showBackButton: YES
                     }),
 
                     content: M.ScrollView.design({
                         childViews: 'list1',
 
                         list1: M.ListView.design({
-                            contentBinding: 'Demo.TwitterController.users',
+                            contentBinding: 'Twitter.TwitterController.results',
                             items: 'results',
-                            listItemTemplateView: Demo.TwitterUserView,
+                            listItemTemplateView: Twitter.TwitterResultsView,
                             removeItemsOnUpdate: NO
                         })
-                    }),
-
-                    footer: M.ToolbarView.design({
-                        contentBinding: 'Demo.TwitterController.numUsers',
-                        value: 0,
-                        anchorLocation: M.BOTTOM
                     })
                 }),
 
                 page3: M.PageView.design({
-                    childViews: 'header content footer',
-
-                    onLoad: {
-                        target: Demo.TwitterController,
-                        action: 'performSearchForUser'
-                    },
+                    childViews: 'header content',
 
                     header: M.ToolbarView.design({
-                        contentBinding: 'Demo.TwitterController.selectedUser',
-                        anchorLocation : M.TOP
+                        value: 'Twitter Demo',
+                        contentBinding: 'Twitter.TwitterController.username',
+                        anchorLocation : M.TOP,
+                        showBackButton: YES
                     }),
 
                     content: M.ScrollView.design({
                         childViews: 'list1',
 
                         list1: M.ListView.design({
-                            contentBinding: 'Demo.TwitterController.content',
+                            contentBinding: 'Twitter.TwitterController.userResults',
                             items: 'results',
-                            listItemTemplateView: Demo.TwitterItemView,
+                            listItemTemplateView: Twitter.TwitterUserView,
                             removeItemsOnUpdate: YES
                         })
-                    }),
-
-                    footer: M.ToolbarView.design({
-                        contentBinding: 'Demo.TwitterController.numEntries',
-                        value: '0',
-                        anchorLocation: M.BOTTOM
                     })
                 })
             });
@@ -160,7 +126,7 @@
         <!-- START THE APP BY CALLING THE M.APPLICATION's MAIN-METHOD -->
         <!-- in the future this call will be made automatically -->
         <script language="JavaScript">
-            Demo.app.main();
+            Twitter.app.main();
         </script>
 
 </body>

@@ -8,14 +8,25 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-Demo.TwitterItemView = M.ListItemView.design({
+Twitter.TwitterUserView = M.ListItemView.design({
 
-    childViews: 'label1',
+    childViews: 'date label1',
 
     items: 'results',
     
+    date : M.LabelView.design({
+        computedValue: {
+            valuePattern: '<%= created_at %>',
+            operation: function(v, label) {
+                return M.Date.format(M.Date.create(v), 'mm/dd/yyyy HH:MM');
+            }
+        },
+        cssClass: 'date'
+    }),
+
     label1 : M.LabelView.design({
-        value: '<%= text %>'
+        valuePattern: '<%= text %>',
+        cssClass: 'text'
     })
 
 });

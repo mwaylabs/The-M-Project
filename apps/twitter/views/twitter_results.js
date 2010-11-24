@@ -8,24 +8,37 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-Demo.TwitterUserView = M.ListItemView.design({
+Twitter.TwitterResultsView = M.ListItemView.design({
 
-    childViews: 'image1 label1 label2',
+    childViews: 'image1 label1 label2 text',
 
-    target: Demo.TwitterController,
+    target: Twitter.TwitterController,
 
-    action: 'listItemClicked',
+    action: 'showUser',
 
     image1: M.ImageView.design({
-        value: '<%= profile_image_url %>' 
+        valuePattern: '<%= profile_image_url %>',
+        cssClass: 'listThumb'
     }),
 
     label1 : M.LabelView.design({
-        value: '<%= from_user %>'
+        valuePattern: '<%= from_user %>',
+        cssClass: 'username'
     }),
 
     label2 : M.LabelView.design({
-        value: '<%= created_at %>'
+        computedValue: {
+            valuePattern: '<%= created_at %>',
+            operation: function(v, label) {
+                return M.Date.format(M.Date.create(v), 'mm/dd/yyyy HH:MM');
+            }
+        },
+        cssClass: 'date'
+    }),
+
+    text : M.LabelView.design({
+        valuePattern: '<%= text %>',
+        cssClass: 'text'
     })
 
 });
