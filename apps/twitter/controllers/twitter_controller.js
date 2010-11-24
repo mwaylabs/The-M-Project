@@ -25,8 +25,8 @@ Twitter.TwitterController = M.Controller.extend({
         }
 
         M.Request.init({
-            //url: 'http://search.twitter.com/search.json?q=' + searchString + '&rpp=10',
-            url: '/twitter/search.json?q=' + searchString + '&rpp=10',
+            url: 'http://search.twitter.com/search.json?q=' + searchString + '&rpp=10',
+            //url: '/twitter/search.json?q=' + searchString + '&rpp=10',
             isJSON: YES,
             beforeSend: function(req) {
                 //...
@@ -47,8 +47,8 @@ Twitter.TwitterController = M.Controller.extend({
         }
 
         M.Request.init({
-            //url: 'http://search.twitter.com/search.json?from=' + username + '&rpp=10',
-            url: '/twitter/search.json?from=' + username + '&rpp=10',
+            url: 'http://search.twitter.com/search.json?from=' + username + '&rpp=10',
+            //url: '/twitter/search.json?from=' + username + '&rpp=10',
             isJSON: YES,
             beforeSend: function(req) {
                 //...
