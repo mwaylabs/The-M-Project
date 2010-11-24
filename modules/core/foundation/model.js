@@ -121,15 +121,19 @@ M.Model = M.Object.extend({
     create: function(obj, dp) {
         var model = this.extend({
             name: obj.__name__,
-            dataProvider: dp
+            dataProvider: dp,
+            usesValidation: obj.usesValidation === null || obj.usesValidation === undefined ? this.usesValidation : obj.usesValidation
         });
         delete obj.__name__;
 
         for(var prop in obj) {
+            if (prop === 'usesValidation') {
+                break;
+            }
             if(typeof(obj[prop]) === 'function') {
                 model[prop] = obj[prop];
-            } else {
-                model.__meta[prop] = obj[prop];
+            } else if(obj[prop].type !== 'M.ModelAttribute') {
+                model.__meta[prop] = obj[prop];    
             }
 
         }
