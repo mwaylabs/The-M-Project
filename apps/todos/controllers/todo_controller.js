@@ -11,7 +11,7 @@
 Todos.TodoController = M.Controller.extend({
 
     notes: M.ModelManager.extend({
-        model: Todos.Note
+        model: Todos.Task
     }),
 
     todos: null,
@@ -19,7 +19,7 @@ Todos.TodoController = M.Controller.extend({
     counter: 0,
 
     init: function() {
-        this.notes.modelList = Todos.Note.findAll();
+        this.notes.modelList = Todos.Task.findAll();
         this.set('todos', this.notes.modelList);
         this.calculateCounter();
     },
@@ -30,7 +30,7 @@ Todos.TodoController = M.Controller.extend({
             return;
         }
 
-        var note = Todos.Note.createRecord( { title: text } );
+        var note = Todos.Task.createRecord( { title: text } );
         this.notes.add(note);
         note.save();
         this.set('todos', this.notes.modelList);
