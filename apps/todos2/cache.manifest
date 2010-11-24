@@ -5,6 +5,7 @@ index.html
 ../../modules/underscore/underscore-min.js
 ../../modules/core/foundation/m.js
 ../../modules/core/foundation/object.js
+../../modules/core/utility/math.js
 ../../modules/core/foundation/request.js
 ../../modules/core/utility/logger.js
 ../../modules/core/utility/date.js
