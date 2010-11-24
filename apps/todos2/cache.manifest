@@ -16,6 +16,13 @@ index.html
 ../../modules/core/foundation/controller.js
 ../../modules/core/datastore/data_provider.js
 ../../modules/core/datastore/local_storage.js
+../../modules/core/datastore/validator.js
+../../modules/core/datastore/validators/email_validator.js
+../../modules/core/datastore/validators/not_minus_validator.js
+../../modules/core/datastore/validators/number_validator.js
+../../modules/core/datastore/validators/presence_validator.js
+../../modules/core/datastore/model_attribute.js
+../../modules/core/datastore/local_storage.js
 ../../modules/core/foundation/model.js
 ../../modules/core/foundation/view.js
 ../../modules/core/foundation/view_manager.js
