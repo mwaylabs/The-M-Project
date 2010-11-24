@@ -139,7 +139,7 @@
                     childViews: 'header content footer',
 
                     header: M.ToolbarView.design({
-                        childViews: 'centerLabel',
+                        childViews: 'centerLabel toggle',
 
                         showBackButton: YES,
 
@@ -148,11 +148,44 @@
                             anchorLocation: M.CENTER
                         }),
 
+                        toggle: M.ToggleView.design({
+
+                            childViews: 'clear start',
+
+                            toggleOnClick: YES,
+
+                            anchorLocation: M.RIGHT,
+
+                            clear: M.ButtonView.design({
+                                    value: 'Clear',
+                                    target: Persistor.ValidationController,
+                                    action: 'clearLocalStorage',
+                                    icon: 'delete',
+                                    anchorLocation: M.RIGHT
+                            }),
+                            
+                            start: M.ButtonView.design({
+                                    value: 'Start',
+                                    target: Persistor.ValidationController,
+                                    action: 'init',
+                                    icon: 'refresh',
+                                    anchorLocation: M.RIGHT
+                            })
+
+                        }),
+
                         anchorLocation: M.TOP
                     }),
 
                     content: M.ScrollView.design({
-                        childViews: 'taskList',
+                        childViews: 'input taskList',
+
+                        input: M.TextFieldView.design({
+
+                            label: 'Number of models:',
+                            value: '10'
+
+                        }),
 
                         taskList: M.ListView.design({
                             contentBinding: 'Persistor.ValidationController.validationResults',
@@ -161,7 +194,7 @@
                     }),
 
                     footer: M.ToolbarView.design({
-                        childViews: 'centerLabel button',
+                        childViews: 'centerLabel',
 
                         showBackButton: YES,
 
@@ -169,14 +202,6 @@
                             value: 'Persistor',
                             contentBinding: 'Persistor.ValidationController.time',
                             anchorLocation: M.CENTER
-                        }),
-
-                        button: M.ButtonView.design({
-                                value: 'clear Storage',
-                                target: Persistor.ValidationController,
-                                action: 'clearLocalStorage',
-                                icon: 'minus',
-                                anchorLocation: M.RIGHT
                         }),
 
                         anchorLocation: M.BOTTOM

@@ -24,7 +24,8 @@ Persistor.ValidationController = M.Controller.extend({
         localStorage.clear();
         this.startTime = null;
         this.startTime = M.Date.now();
-        for(var i=0; i < 10; i++) {
+        var numModels = parseInt(Persistor.app.page2.content.input.value) ? parseInt(Persistor.app.page2.content.input.value) : 10;
+        for(var i=0; i < numModels; i++) {
             this.tasks.add(Persistor.Task.createRecord({
                 title: 'Title' + i,
                 subtitle: 'Subtitle' + i,
@@ -33,6 +34,7 @@ Persistor.ValidationController = M.Controller.extend({
             }));
         }
         this.createAndValidateModels();
+        Persistor.app.page2.content.input.disable();
     },
 
     createAndValidateModels: function() {
@@ -41,9 +43,9 @@ Persistor.ValidationController = M.Controller.extend({
             var res = this.tasks.modelList[i];
             var result = res.save();
             if(result) {
-                arr.push({result: 'Model' + res.name + '_' + res.id + ' was saved.'});
+                arr.push({result: 'Model ' + res.name + '_' + res.id + ' was saved.'});
             } else {
-                arr.push({result: 'Model' + res.name + '_' + res.id + ' was NOT saved.'});
+                arr.push({result: 'Model ' + res.name + '_' + res.id + ' was NOT saved.'});
             }
         }
 
@@ -52,8 +54,9 @@ Persistor.ValidationController = M.Controller.extend({
     },
 
     clearLocalStorage: function() {
-        console.log('clear local storage');
-        localStorage.clear();  
+        this.set('validationResults', []);
+        localStorage.clear();
+        Persistor.app.page2.content.input.enable();
     }
 
 });
