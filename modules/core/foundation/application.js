@@ -54,6 +54,20 @@ M.Application = M.Object.extend({
     cypher: M.Cypher,
 
     /**
+     * This method encapsulates the 'extend' method of M.Object for better reading of code syntax.
+     * It triggers the content binding for this view,
+     * gets an ID from and registers itself at the ViewManager.
+     *
+     * @param {Object} obj The mixed in object for the extend call.
+     */
+    design: function(obj) {
+        this.include({
+            pages: obj
+        });
+        return this;
+    },
+
+    /**
      * The application's main-method, that is called automatically on load of the app.
      * Inside this method the rendering is initiated and all pages are bound to the 'pageshow'
      * event so one can do some action whenever a page is loaded.
