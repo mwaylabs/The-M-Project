@@ -19,7 +19,8 @@ Twitter.TwitterController = M.Controller.extend({
     username: null,
 
     search: function() {
-        var searchString = Twitter.app.page1.content.searchField.value;
+        //var searchString = Twitter.app.page1.content.searchField.value;
+        var searchString = M.ViewManager.getView('page1', 'searchField').value;
         if(!searchString) {
             return;
         }
@@ -34,13 +35,14 @@ Twitter.TwitterController = M.Controller.extend({
             onSuccess: function(data){
                 Twitter.TwitterController.set('results', data);
                 Twitter.TwitterController.set('searchString', 'Results for \'' + searchString + '\'');
-                M.Controller.switchToPage(Twitter.app.page2);
+                M.Controller.switchToPage(M.ViewManager.getPage('page2'));
             }
         }).send();
     },
 
     showUser: function(id) {
-        var username = Twitter.app.viewManager.getViewById(id).label1.value;
+        var view = M.ViewManager.getViewById(id);
+        var username = M.ViewManager.getView(view, 'label1').value;
 
         if(!username) {
             return;
@@ -56,7 +58,7 @@ Twitter.TwitterController = M.Controller.extend({
             onSuccess: function(data){
                 Twitter.TwitterController.set('userResults', data);
                 Twitter.TwitterController.set('username', username);
-                M.Controller.switchToPage(Twitter.app.page3);
+                M.Controller.switchToPage(M.ViewManager.getPage('page3'));
             }
         }).send();
     }
