@@ -19,8 +19,19 @@ M.ImageView = M.View.extend({
     type: 'M.ImageView',
 
     render: function() {
-        this.html += '<img id="' + this.id + '" src="' + this.value + '" />';
+        this.html += '<img id="' + this.id + '" src="' + this.value + '"' + this.style() + '>';
         return this.html;
+    },
+
+    /**
+     * Applies some style-attributes to the image.
+     */
+    style: function() {
+        var html = '';
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
+        }
+        return html;
     }
 
 });
