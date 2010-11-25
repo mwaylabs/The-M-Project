@@ -25,7 +25,7 @@ Todos.TodoController = M.Controller.extend({
     },
 
     addTodo: function() {
-        var text = Todos.app.page.content.inputField.value;
+        var text = M.ViewManager.getView('page', 'inputField').value;
         if(!text) {
             return;
         }
@@ -37,7 +37,7 @@ Todos.TodoController = M.Controller.extend({
 
         this.calculateCounter();
 
-        Todos.app.page.content.inputField.setValue('');
+        M.ViewManager.getView('page', 'inputField').setValue('');
     },
 
     removeTodo: function(domId, modelId) {
@@ -55,10 +55,9 @@ Todos.TodoController = M.Controller.extend({
     },
 
     edit: function() {
-        Todos.app.page.content.todoList.toggleRemove({
+        M.ViewManager.getView('page', 'todoList').toggleRemove({
             target: this,
-            action: 'removeTodo',
-            disableOnEdit: 'Todos.app.page.content.inputField'
+            action: 'removeTodo'
         });
     }
 
