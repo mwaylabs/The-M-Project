@@ -34,7 +34,7 @@ M.Validator = M.Object.extend({
      */
     validationErrors: [],
 
-    msg: anull,
+    msg: null,
 
     /**
      * extends this.
