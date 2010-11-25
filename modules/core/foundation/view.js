@@ -101,6 +101,15 @@ M.View = M.Object.extend({
     cssClass: null,
 
     /**
+     * This property can be used to assign a css class to the view if an error occurs. The
+     * applying of this class is automatically triggered if the validation of the view
+     * goes wrong.
+     *
+     * @property {String}
+     */
+    cssClassOnError: null,
+
+    /**
      * This property is used internally to recursively build the pages html representation.
      * It is once set within the render method and then eventually updated within the
      * renderUpdate method.
