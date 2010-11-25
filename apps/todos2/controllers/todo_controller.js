@@ -33,18 +33,34 @@ Todos.TodoController = M.Controller.extend({
             this.notes.find();
             this.set('todos', this.notes.modelList);
         }
+
+        if(M.ViewManager.getView('page1', 'todoList').inEditMode) {
+            M.ViewManager.getView('page1', 'todoList').toggleRemove({
+                target: this,
+                action: 'removeTodo'
+            });
+            M.ViewManager.getView('page1', 'toggleView').toggleView();
+        }
+    },
+
+    init2: function() {
+        if(!M.ViewManager.getView('subpage1', 'toggleView').isInFirstState) {
+            M.ViewManager.getView('subpage1', 'content').toggleView();
+            M.ViewManager.getView('subpage1', 'toggleView').toggleView();
+        }
     },
 
     addTodo: function() {
+        if(!M.ViewManager.getView('page2', 'form1').validate()) {
+            if(M.Validator.validationErrors) {
+                M.ViewManager.getView('page2', 'form1').showErrors();
+                return;
+            }
+        }
+
         var title = M.ViewManager.getView('page2', 'title').value;
         var text = M.ViewManager.getView('page2', 'text').value;
-        var date = null;
-        if(M.ViewManager.getView('page2', 'date').value) {
-            date = M.Date.create(M.ViewManager.getView('page2', 'date').value);
-        }
-        if(!title || !text || !date) {
-            return;
-        }
+        var date = M.Date.create(M.ViewManager.getView('page2', 'date').value);
 
         var note = Todos.Note.createRecord( { title: title, text: text, date: date } );
         this.notes.add(note);
@@ -143,20 +159,22 @@ Todos.TodoController = M.Controller.extend({
     },
 
     editItem: function() {
+        M.ViewManager.getView('subpage1', 'toggleView').toggleView();
         M.ViewManager.getView('subpage1', 'content').toggleView();
     },
 
     saveTodo: function() {
-        var title = M.ViewManager.getView('subpage1', 'title').value;
-        var text = M.ViewManager.getView('subpage1', 'text').value;
-        var date = null;
-        if(M.ViewManager.getView('subpage1', 'date').value) {
-            date = M.Date.create(M.ViewManager.getView('subpage1', 'date').value);
-        }
-        if(!title || !text || !date) {
-            return;
+        if(!M.ViewManager.getView('subpage1', 'form2').validate()) {
+            if(M.Validator.validationErrors) {
+                M.ViewManager.getView('subpage1', 'form2').showErrors();
+                return;
+            }
         }
 
+        var title = M.ViewManager.getView('subpage1', 'title').value;
+        var text = M.ViewManager.getView('subpage1', 'text').value;
+        var date = date = M.Date.create(M.ViewManager.getView('subpage1', 'date').value);
+        
         var note = this.notes.getModelForId(this.selId);
         note.record.title = title;
         note.record.text = text;
@@ -177,6 +195,7 @@ Todos.TodoController = M.Controller.extend({
         M.ViewManager.getView('page2', 'text').setValue('');
         M.ViewManager.getView('page2', 'date').setValue('');
 
+        M.ViewManager.getView('subpage1', 'toggleView').toggleView();
         M.ViewManager.getView('subpage1', 'content').toggleView();
     }
 

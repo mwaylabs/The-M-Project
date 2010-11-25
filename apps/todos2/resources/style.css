@@ -44,3 +44,7 @@
 [data-icon=todo] .ui-icon {
     background: url("todo.png") no-repeat 50% 50% transparent;
 }
+
+.error {
+    border: 1px solid #FF0000;
+}

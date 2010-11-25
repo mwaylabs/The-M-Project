@@ -22,8 +22,8 @@ index.html
 ../../modules/core/datastore/validators/not_minus_validator.js
 ../../modules/core/datastore/validators/number_validator.js
 ../../modules/core/datastore/validators/presence_validator.js
+../../modules/core/datastore/validators/date_validator.js
 ../../modules/core/datastore/model_attribute.js
-../../modules/core/datastore/local_storage.js
 ../../modules/core/foundation/model.js
 ../../modules/core/foundation/view.js
 ../../modules/core/foundation/view_manager.js
@@ -44,6 +44,11 @@ index.html
 ../../modules/ui/toggle.js
 ../../modules/ui/tab_bar.js
 ../../modules/ui/tab_bar_item.js
+../../modules/ui/dialog.js
+../../modules/ui/dialogs/alert_dialog.js
+../../modules/ui/dialogs/confirm_dialog.js
+../../modules/ui/dialogs/action_sheet_dialog.js
+../../modules/ui/form.js
 todos.js
 ../../modules/themes/jquery_mobile/jquery.mobile-1.0a2.min.css
 resources/style.css
