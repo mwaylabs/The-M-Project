@@ -125,7 +125,8 @@ M.View = M.Object.extend({
      * Render implementation is done by the special child obj of View (LabelView etc.).
      */
     render: function() {
-
+        this.renderChildViews();
+        return this.html;
     },
 
     /**
@@ -183,7 +184,7 @@ M.View = M.Object.extend({
      * Triggers rendering engine to style this view/apply a theme.
      */
     theme: function() {
-
+        this.themeChildViews();
     },
 
     /**
