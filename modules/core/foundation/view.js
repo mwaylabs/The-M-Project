@@ -26,6 +26,13 @@ M.View = M.Object.extend({
     type: 'M.View',
 
     /**
+     * A boolean value to definitely recognize a view as a view.
+     *
+     * @property {Boolean}
+     */
+    isView: YES,
+
+    /**
      * Generic attribute for views. Some subclasses have a property that is more readable to its context than 'value'.
      * Internally these properties are mapped to 'value'.
      * e.g. in LabelView: value:this.text
