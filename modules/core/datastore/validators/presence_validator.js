@@ -19,7 +19,7 @@ M.PresenceValidator = M.Validator.extend({
             if(obj.isView) {
                 this.validationErrors.push({
                     msg: key + ' is required and is not set.',
-                    viewId: obj.viewId,
+                    viewId: obj.id,
                     validator: 'PRESENCE',
                     onSuccess: obj.onSuccess,
                     onError: obj.onError
