@@ -10,12 +10,6 @@
 
 DualBind.InputController = M.Controller.extend({
 
-    input: '',
-
-    staticValue: 'ich bin der erste...',
-
-    updateInput: function(newInput) {
-        this.set('input', newInput);
-    }
+    input: ''
 
 });
