@@ -10,29 +10,26 @@
 
 m_require('core/datastore/validator.js')
 
-M.NumberValidator = M.Validator.extend({
+M.PhoneValidator = M.Validator.extend({
 
-    type: 'M.NumberValidator',
+    type: 'M.PhoneValidator',
+
+    pattern: /^[0-9-\/()+\.\s]+$/,
 
     validate: function(obj) {
-        if(typeof(obj.value) === 'number') {
+        if (this.pattern.exec(obj.value)) {
             return YES;
         }
-
-        /* == makes implicit conversion */ 
-        if(typeof(obj.value) === 'string' && parseInt(obj.value) == obj.value){
-            return YES;        
-        }
-
         this.validationErrors.push({
-            msg: obj.value + ' is not a number.',
+            msg: obj.value + ' is not a phone number.',
             modelId: obj.modelId,
             property: obj.property,
             viewId: obj.viewId,
-            validator: 'NUMBER',
+            validator: 'PHONE',
             onSuccess: obj.onSuccess,
             onError: obj.onError
         });
         return NO;
     }
+    
 });

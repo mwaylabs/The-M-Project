@@ -34,7 +34,7 @@ M.NotMinusValidator = M.Validator.extend({
 
        if(typeof(obj.value) === 'string') {
            var pattern = /-/;
-           if(this.pattern.exec(value)) {
+           if(this.pattern.exec(obj.value)) {
                this.validationErrors.push({
                     msg: obj.value + ' is a minus value. This is not allowed.',
                     modelId: obj.modelId,
