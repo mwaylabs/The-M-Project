@@ -164,16 +164,6 @@ M.ListView = M.View.extend({
     toggleRemove: function(options) {
         if(eval(this.contentBinding)) {
             this.inEditMode = !this.inEditMode;
-
-            if(options.disableOnEdit) {
-                var views = $.trim(options.disableOnEdit).split(' ');
-                _.each(views, function(view) {
-                    var view = eval(view);
-                    view.isEnabled = !view.isEnabled;
-                    view.renderUpdate();
-                });
-            }
-
             this.editOptions = options;
             this.renderUpdate();
         }
