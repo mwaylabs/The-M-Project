@@ -75,7 +75,7 @@ M.TabBarView = M.View.extend({
         if(this.childViews) {
             var childViews = $.trim(this.childViews).split(' ');
             var previousPage = M.Application.viewManager.getCurrentPage();
-            var nextPage = page.type ? page : eval(page);
+            var nextPage = page.type === 'M.PageView' ? page : M.ViewManager.getPage(page);
             for(var i in childViews) {
                 var view = this[childViews[i]];
                 if(view.page === page) {

@@ -69,14 +69,13 @@ M.Controller = M.Object.extend({
                     var tabItemViews = $.trim(page.tabBarView.childViews).split(' ');
                     for(var i in tabItemViews) {
                         var tabItemView = page.tabBarView[tabItemViews[i]];
-                        if(eval(tabItemView.page) === page) {
+                        if(M.ViewManager.getPage(tabItemView.page) === page) {
                             page.tabBarView.setActiveTab(tabItemView.page, M.Application.viewManager.getIdByView(tabItemView));
                             isTabBarViewTopPage = YES;
                         }
                     }
                 }
             }
-
             /* If the new page is a real tabBarViewPage (has a tabBarView and is no sub view), use no transition. */
             if(isTabBarViewTopPage) {
                 transition = page.tabBarView.transition ? page.tabBarView.transition : M.TRANSITION.NONE;
