@@ -26,6 +26,8 @@ Todos.TodoController = M.Controller.extend({
 
     counter: 0,
 
+    noteToDelete: null,
+
     init: function(isFirst) {
         if(isFirst) {
             this.notes.find();
@@ -34,11 +36,11 @@ Todos.TodoController = M.Controller.extend({
     },
 
     addTodo: function() {
-        var title = Todos.app.page2.content.title.value;
-        var text = Todos.app.page2.content.text.value;
+        var title = M.ViewManager.getView('page2', 'title').value;
+        var text = M.ViewManager.getView('page2', 'text').value;
         var date = null;
-        if(Todos.app.page2.content.date.value) {
-            date = M.Date.create(Todos.app.page2.content.date.value);
+        if(M.ViewManager.getView('page2', 'date').value) {
+            date = M.Date.create(M.ViewManager.getView('page2', 'date').value);
         }
         if(!title || !text || !date) {
             return;
@@ -49,25 +51,73 @@ Todos.TodoController = M.Controller.extend({
         note.save();
         this.set('todos', this.notes.modelList);
 
-        Todos.app.page2.content.title.setValue('');
-        Todos.app.page2.content.text.setValue('');
-        Todos.app.page2.content.date.setValue('');
+        M.ViewManager.getView('page2', 'title').setValue('');
+        M.ViewManager.getView('page2', 'text').setValue('');
+        M.ViewManager.getView('page2', 'date').setValue('');
 
-        this.switchToPage(Todos.app.page1);
+        this.switchToPage(M.ViewManager.getPage('page1'));
     },
 
     removeTodo: function(domId, modelId) {
-        var doDelete = confirm('Do you really want to delete this item?');
-        if(doDelete) {
-            this.notes.del(modelId);
-            this.notes.remove(modelId);
+        this.noteToDelete = modelId;
+
+        M.DialogView.confirm({
+            title: 'Delete?',
+            message: 'Do you really want to delete this item?',
+            onOk: {
+                target: this,
+                action: 'doDelete'
+            },
+            onCancel: {
+                target: this,
+                action: 'cancelDelete'
+            }
+        });
+    },
+
+    doDelete: function() {
+        if(this.noteToDelete) {
+            this.notes.del(this.noteToDelete);
+            this.notes.remove(this.noteToDelete);
             this.set('todos', this.notes.modelList);
+            this.noteToDelete = null;
+        }
+    },
+
+    doDeleteFromSubView: function() {
+        if(this.noteToDelete) {
+            this.notes.del(this.noteToDelete);
+            this.notes.remove(this.noteToDelete);
+            this.set('todos', this.notes.modelList);
+            this.noteToDelete = null;
+
+            M.ViewManager.getView('subpage1', 'toggleView').toggleView();
+            M.ViewManager.getView('subpage1', 'content').toggleView();
+            this.switchToPage(M.ViewManager.getPage('page1'));
+        }
+    },
+
+    cancelDelete: function() {
+        if(this.noteToDelete) {
+            this.noteToDelete = null;
         }
     },
 
     remove: function() {
-        this.removeTodo(null, this.selId);
-        this.switchToPage(Todos.app.page1);        
+        this.noteToDelete = this.selId;
+
+        M.DialogView.confirm({
+            title: 'Delete?',
+            message: 'Do you really want to delete this item?',
+            onOk: {
+                target: this,
+                action: 'doDeleteFromSubView'
+            },
+            onCancel: {
+                target: this,
+                action: 'cancelDelete'
+            }
+        });
     },
 
     showDetails: function(viewId, modelId) {
@@ -82,26 +132,26 @@ Todos.TodoController = M.Controller.extend({
         var days = M.Math.round(M.Date.timeBetween(M.Date.now(), date, M.DAYS));
         this.set('selDateFormat', dateFormat + ' (in ' + days + ' day' + (days !== 1 ? 's' : '') + ')');
         this.set('selDate', dateFormat);
-        this.switchToPage(Todos.app.subpage1);
+        this.switchToPage(M.ViewManager.getPage('subpage1'));
     },
 
     edit: function() {
-        Todos.app.page1.content.todoList.toggleRemove({
+        M.ViewManager.getView('page1', 'todoList').toggleRemove({
             target: this,
             action: 'removeTodo'
         });
     },
 
     editItem: function() {
-        Todos.app.subpage1.content.toggleView();
+        M.ViewManager.getView('subpage1', 'content').toggleView();
     },
 
     saveTodo: function() {
-        var title = Todos.app.subpage1.content.content2.title.value;
-        var text = Todos.app.subpage1.content.content2.text.value;
+        var title = M.ViewManager.getView('subpage1', 'title').value;
+        var text = M.ViewManager.getView('subpage1', 'text').value;
         var date = null;
-        if(Todos.app.subpage1.content.content2.date.value) {
-            date = M.Date.create(Todos.app.subpage1.content.content2.date.value);
+        if(M.ViewManager.getView('subpage1', 'date').value) {
+            date = M.Date.create(M.ViewManager.getView('subpage1', 'date').value);
         }
         if(!title || !text || !date) {
             return;
@@ -123,11 +173,11 @@ Todos.TodoController = M.Controller.extend({
         this.set('selDateFormat', dateFormat + ' (in ' + days + ' day' + (days !== 1 ? 's' : '') + ')');
         this.set('selDate', dateFormat);
 
-        Todos.app.page2.content.title.setValue('');
-        Todos.app.page2.content.text.setValue('');
-        Todos.app.page2.content.date.setValue('');
+        M.ViewManager.getView('page2', 'title').setValue('');
+        M.ViewManager.getView('page2', 'text').setValue('');
+        M.ViewManager.getView('page2', 'date').setValue('');
 
-        Todos.app.subpage1.content.toggleView();
+        M.ViewManager.getView('subpage1', 'content').toggleView();
     }
 
 });

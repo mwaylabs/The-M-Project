@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html manifest="cache.manifest">
+<html>
+<!--<html manifest="cache.manifest">-->
 <head>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -52,6 +53,10 @@
     <script src="../../modules/ui/toggle.js"></script>
     <script src="../../modules/ui/tab_bar.js"></script>
     <script src="../../modules/ui/tab_bar_item.js"></script>
+    <script src="../../modules/ui/dialog.js"></script>
+    <script src="../../modules/ui/dialogs/alert_dialog.js"></script>
+    <script src="../../modules/ui/dialogs/confirm_dialog.js"></script>
+    <script src="../../modules/ui/dialogs/action_sheet_dialog.js"></script>
 
     <script src="todos.js"></script>
 
@@ -60,7 +65,7 @@
 </head>
 <body>
         <script language="JavaScript">
-            Todos.app = M.Application.extend({
+            Todos.app = M.Application.design({
                 page1: M.PageView.design({
 
                     onLoad: {
