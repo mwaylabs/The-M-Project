@@ -24,7 +24,7 @@ Persistor.ValidationController = M.Controller.extend({
         localStorage.clear();
         this.startTime = null;
         this.startTime = M.Date.now();
-        var numModels = parseInt(Persistor.app.page2.content.input.value) ? parseInt(Persistor.app.page2.content.input.value) : 10;
+        var numModels = parseInt(M.ViewManager.getView('page2', 'input').value) ? parseInt(M.ViewManager.getView('page2', 'input').value) : 10;
         for(var i=0; i < numModels; i++) {
             this.tasks.add(Persistor.Task.createRecord({
                 title: 'Title' + i,
@@ -34,7 +34,7 @@ Persistor.ValidationController = M.Controller.extend({
             }));
         }
         this.createAndValidateModels();
-        Persistor.app.page2.content.input.disable();
+        M.ViewManager.getView('page2', 'input').disable();
     },
 
     createAndValidateModels: function() {
@@ -56,7 +56,7 @@ Persistor.ValidationController = M.Controller.extend({
     clearLocalStorage: function() {
         this.set('validationResults', []);
         localStorage.clear();
-        Persistor.app.page2.content.input.enable();
+        M.ViewManager.getView('page2', 'input').enable();
     }
 
 });

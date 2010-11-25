@@ -24,7 +24,7 @@ Persistor.EnvController = M.Controller.extend({
     },
 
     validationCheck: function() {
-        this.switchToPage(Persistor.app.page2);
+        this.switchToPage(M.ViewManager.getPage('page2'));
     }
 
 });

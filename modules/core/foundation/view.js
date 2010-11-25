@@ -26,6 +26,13 @@ M.View = M.Object.extend({
     type: 'M.View',
 
     /**
+     * A boolean value to definitely recognize a view as a view.
+     *
+     * @property {Boolean}
+     */
+    isView: YES,
+
+    /**
      * Generic attribute for views. Some subclasses have a property that is more readable to its context than 'value'.
      * Internally these properties are mapped to 'value'.
      * e.g. in LabelView: value:this.text
@@ -94,6 +101,15 @@ M.View = M.Object.extend({
     cssClass: null,
 
     /**
+     * This property can be used to assign a css class to the view if an error occurs. The
+     * applying of this class is automatically triggered if the validation of the view
+     * goes wrong.
+     *
+     * @property {String}
+     */
+    cssClassOnError: null,
+
+    /**
      * This property is used internally to recursively build the pages html representation.
      * It is once set within the render method and then eventually updated within the
      * renderUpdate method.
@@ -125,7 +141,8 @@ M.View = M.Object.extend({
      * Render implementation is done by the special child obj of View (LabelView etc.).
      */
     render: function() {
-
+        this.renderChildViews();
+        return this.html;
     },
 
     /**
@@ -183,7 +200,7 @@ M.View = M.Object.extend({
      * Triggers rendering engine to style this view/apply a theme.
      */
     theme: function() {
-
+        this.themeChildViews();
     },
 
     /**
@@ -304,6 +321,24 @@ M.View = M.Object.extend({
      */
     writeToDOM: function() {
         document.write(this.html);
+    },
+
+    /**
+     * Adds a css class to the view's DOM representation.
+     *
+     * @property {String} cssClass The css class to be added.
+     */
+    addClass: function(cssClass) {
+        $('#' + this.id).addClass(cssClass);
+    },
+
+    /**
+     * Removes a css class to the view's DOM representation.
+     *
+     * @property {String} cssClass The css class to be removed.
+     */
+    removeClass: function(cssClass) {
+        $('#' + this.id).removeClass(cssClass);
     }
 
 });

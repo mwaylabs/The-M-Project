@@ -8,7 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-HelloWorld.app = M.Application.extend({
+HelloWorld.app = M.Application.design({
 
     page1: M.PageView.design({
 
