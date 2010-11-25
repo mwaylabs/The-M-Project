@@ -58,8 +58,8 @@ M.ActionSheetDialogView = M.DialogView.extend({
             for(var buttonName in this.buttons) {
                 var button = M.ButtonView.design({
                     value: this.buttons[buttonName].title,
-                    target: this.buttons[buttonName].target,
-                    action: this.buttons[buttonName].action,
+                    target: this.buttons[buttonName].target ? this.buttons[buttonName].target : null,
+                    action: this.buttons[buttonName].action ? this.buttons[buttonName].action : '',
                     cssClass: this.buttons[buttonName].cssClass ? this.buttons[buttonName].cssClass : (buttonName === 'cancel' ? 'c' : 'b')
                 });
                 this.buttonIds.push(button.id);
@@ -71,8 +71,8 @@ M.ActionSheetDialogView = M.DialogView.extend({
             var button = M.ButtonView.design({
                 value: 'Cancel',
                 cssClass: 'c',
-                target: this.onCancel.target,
-                action: this.onCancel.action
+                target: this.onCancel ? this.onCancel.target : null,
+                action: this.onCancel ? this.onCancel.action : ''
             });
             this.buttonIds.push(button.id);
             this.html += button.render();

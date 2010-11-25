@@ -65,8 +65,8 @@ M.AlertDialogView = M.DialogView.extend({
             var button = M.ButtonView.design({
                 value: 'OK',
                 cssClass: 'b',
-                target: this.onOk.target,
-                action: this.onOk.action
+                target: this.onOk ? this.onOk.target : null,
+                action: this.onOk ? this.onOk.action : ''
             });
             this.buttonIds.push(button.id);
             this.html += button.render();
