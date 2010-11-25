@@ -107,7 +107,7 @@ M.Model = M.Object.extend({
             id: obj.id ? obj.id : M.Application.modelRegistry.getNextId(this.name),
             record: obj
         });
-        modelRecord.state = M.STATE_NEW;
+        modelRecord.state = obj.state ? obj.state : M.STATE_NEW;
         return modelRecord;
     },
 
@@ -125,11 +125,9 @@ M.Model = M.Object.extend({
             usesValidation: obj.usesValidation === null || obj.usesValidation === undefined ? this.usesValidation : obj.usesValidation
         });
         delete obj.__name__;
+        delete obj.usesValidation;
 
         for(var prop in obj) {
-            if (prop === 'usesValidation') {
-                break;
-            }
             if(typeof(obj[prop]) === 'function') {
                 model[prop] = obj[prop];
             } else if(obj[prop].type !== 'M.ModelAttribute') {
@@ -258,7 +256,7 @@ M.Model = M.Object.extend({
             return;
         }
 
-        this.dataProvider.del(this);
+       this.dataProvider.del(this);
     }
 
 });
