@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-<!--<html manifest="cache.manifest">-->
+<html manifest="cache.manifest">
 <head>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -31,6 +30,7 @@
     <script src="../../modules/core/datastore/validators/not_minus_validator.js"></script>
     <script src="../../modules/core/datastore/validators/number_validator.js"></script>
     <script src="../../modules/core/datastore/validators/presence_validator.js"></script>
+    <script src="../../modules/core/datastore/validators/date_validator.js"></script>
     <script src="../../modules/core/datastore/model_attribute.js"></script>
     <script src="../../modules/core/foundation/model.js"></script>
     <script src="../../modules/core/foundation/view.js"></script>
@@ -57,6 +57,7 @@
     <script src="../../modules/ui/dialogs/alert_dialog.js"></script>
     <script src="../../modules/ui/dialogs/confirm_dialog.js"></script>
     <script src="../../modules/ui/dialogs/action_sheet_dialog.js"></script>
+    <script src="../../modules/ui/form.js"></script>
 
     <script src="todos.js"></script>
 
@@ -124,10 +125,10 @@
 
                 subpage1: M.PageView.design({
 
-                    /*onLoad: {
+                    onLoad: {
                         target: Todos.TodoController,
-                        action: 'init'
-                    },*/
+                        action: 'init2'
+                    },
 
                     childViews: 'header content tabs',
 
@@ -139,7 +140,6 @@
                         toggleView: M.ToggleView.design({
                             childViews: 'button1 button2',
                             anchorLocation: M.RIGHT,
-                            toggleOnClick: YES,
 
                             button1: M.ButtonView.design({
                                 value: 'Edit',
@@ -206,25 +206,52 @@
 
                         content2: M.ScrollView.design({
 
-                            childViews: 'title text date del',
+                            childViews: 'form2 del',
 
-                            title: M.TextFieldView.design({
-                                name: 'title',
-                                label: 'Title',
-                                contentBinding: 'Todos.TodoController.selTitle'
-                            }),
+                            form2: M.FormView.design({
 
-                            text: M.TextFieldView.design({
-                                hasMultipleLines: YES,
-                                name: 'text',
-                                label: 'Details',
-                                contentBinding: 'Todos.TodoController.selText'
-                            }),
+                                childViews: 'title text date',
 
-                            date: M.TextFieldView.design({
-                                name: 'date',
-                                label: 'Due Date',
-                                contentBinding: 'Todos.TodoController.selDate'
+                                validation: {
+
+                                    title: 'Error'
+                                },
+
+                                title: M.TextFieldView.design({
+                                    name: 'title',
+                                    label: 'Title',
+                                    validators: [M.PresenceValidator.customize({
+                                        msg: '\'Title\' is required!'
+                                    })],
+                                    cssClassOnError: 'error',
+                                    contentBinding: 'Todos.TodoController.selTitle'
+                                }),
+
+                                text: M.TextFieldView.design({
+                                    hasMultipleLines: YES,
+                                    name: 'text',
+                                    label: 'Details',
+                                    validators: [M.PresenceValidator.customize({
+                                        msg: '\'Details\' is required!'
+                                    })],
+                                    cssClassOnError: 'error',
+                                    contentBinding: 'Todos.TodoController.selText'
+                                }),
+
+                                date: M.TextFieldView.design({
+                                    name: 'date',
+                                    label: 'Due Date',
+                                    initialText: 'MM/DD/YYYY HH:MM:SS',
+                                    initialCssClass: 'textfieldInit',
+                                    validators: [M.PresenceValidator.customize({
+                                        msg: '\'Due Date\' is required!'
+                                    }), M.DateValidator.customize({
+                                        msg: '\'Due Date\' is not a valid date!'
+                                    })],
+                                    cssClassOnError: 'error',
+                                    contentBinding: 'Todos.TodoController.selDate'
+                                })
+
                             }),
 
                             del: M.ButtonView.design({
@@ -267,24 +294,49 @@
 
                     content: M.ScrollView.design({
 
-                        childViews: 'title text date',
+                        childViews: 'form1',
 
-                        title: M.TextFieldView.design({
-                            name: 'title',
-                            label: 'Title'
-                        }),
+                        form1: M.FormView.design({
 
-                        text: M.TextFieldView.design({
-                            hasMultipleLines: YES,
-                            name: 'text',
-                            label: 'Details'
-                        }),
+                            childViews: 'title text date',
 
-                        date: M.TextFieldView.design({
-                            name: 'date',
-                            label: 'Due Date',
-                            initialText: 'MM/DD/YYYY HH:MM:SS',
-                            initialCssClass: 'textfieldInit'
+                            validation: {
+
+                                title: 'Error'
+                            },
+
+                            title: M.TextFieldView.design({
+                                name: 'title',
+                                label: 'Title',
+                                validators: [M.PresenceValidator.customize({
+                                    msg: '\'Title\' is required!'
+                                })],
+                                cssClassOnError: 'error'
+                            }),
+
+                            text: M.TextFieldView.design({
+                                hasMultipleLines: YES,
+                                name: 'text',
+                                label: 'Details',
+                                validators: [M.PresenceValidator.customize({
+                                    msg: '\'Details\' is required!'
+                                })],
+                                cssClassOnError: 'error'
+                            }),
+
+                            date: M.TextFieldView.design({
+                                name: 'date',
+                                label: 'Due Date',
+                                initialText: 'MM/DD/YYYY HH:MM:SS',
+                                initialCssClass: 'textfieldInit',
+                                validators: [M.PresenceValidator.customize({
+                                    msg: '\'Due Date\' is required!'
+                                }), M.DateValidator.customize({
+                                    msg: '\'Due Date\' is not a valid date!'
+                                })],
+                                cssClassOnError: 'error'
+                            })
+
                         })
 
                     }),

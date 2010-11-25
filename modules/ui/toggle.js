@@ -31,8 +31,6 @@ M.ToggleView = M.View.extend({
         this.renderChildViews();
 
         this.html += '</div>';
-
-        this.isInFirstState = !this.isInFirstState;
         
         return this.html;
     },
@@ -84,10 +82,10 @@ M.ToggleView = M.View.extend({
      * and then rendering the next child view by calling renderUpdateChildViews().
      */
     toggleView: function() {
+        this.isInFirstState = !this.isInFirstState;
         $('#' + this.id).empty();
         $('#' + this.id).html(this.renderUpdateChildViews());
         this.theme();
-        this.isInFirstState = !this.isInFirstState;
     },
 
     theme: function() {
