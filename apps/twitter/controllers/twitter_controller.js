@@ -33,9 +33,21 @@ Twitter.TwitterController = M.Controller.extend({
                 //...
             },
             onSuccess: function(data){
-                Twitter.TwitterController.set('results', data);
-                Twitter.TwitterController.set('searchString', 'Results for \'' + searchString + '\'');
-                M.Controller.switchToPage(M.ViewManager.getPage('page2'));
+                if(data && data.results && data.results.length > 0) {
+                    Twitter.TwitterController.set('results', data);
+                    Twitter.TwitterController.set('searchString', 'Results for \'' + searchString + '\'');
+                    M.Controller.switchToPage(M.ViewManager.getPage('page2'));
+                } else if (data && data.results) {
+                   M.DialogView.alert({
+                       title: 'Nothing found...',
+                       message: 'Your search for \'' + searchString + '\' didn\'t bring up any results. Please try something else.'
+                   });
+                } else {
+                   M.DialogView.alert({
+                       title: 'Connection Error',
+                       message: 'No connection could be established! Please check your connection status and try again. If this message keeps coming up, you probably didn\'t add the necessary proxy to your server.'
+                   });
+                }
             }
         }).send();
     },
