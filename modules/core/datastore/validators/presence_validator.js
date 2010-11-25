@@ -18,7 +18,7 @@ M.PresenceValidator = M.Validator.extend({
         if(obj.value === null || obj.value === undefined || obj.value === '') {
             if(obj.isView) {
                 this.validationErrors.push({
-                    msg: key + ' is required and is not set.',
+                    msg: this.msg ? this.msg : key + ' is required and is not set.',
                     viewId: obj.id,
                     validator: 'PRESENCE',
                     onSuccess: obj.onSuccess,
@@ -26,10 +26,9 @@ M.PresenceValidator = M.Validator.extend({
                 });
             } else {
                 this.validationErrors.push({
-                    msg: obj.property + ' is required and is not set.',
+                    msg: this.msg ? this.msg : obj.property + ' is required and is not set.',
                     modelId: obj.modelId,
                     property: obj.property,
-                    viewId: obj.viewId,
                     validator: 'PRESENCE',
                     onSuccess: obj.onSuccess,
                     onError: obj.onError
