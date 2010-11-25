@@ -321,6 +321,24 @@ M.View = M.Object.extend({
      */
     writeToDOM: function() {
         document.write(this.html);
+    },
+
+    /**
+     * Adds a css class to the view's DOM representation.
+     *
+     * @property {String} cssClass The css class to be added.
+     */
+    addClass: function(cssClass) {
+        $('#' + this.id).addClass(cssClass);
+    },
+
+    /**
+     * Removes a css class to the view's DOM representation.
+     *
+     * @property {String} cssClass The css class to be removed.
+     */
+    removeClass: function(cssClass) {
+        $('#' + this.id).removeClass(cssClass);
     }
 
 });
