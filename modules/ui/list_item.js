@@ -40,12 +40,17 @@ M.ListItemView = M.View.extend({
         value: ''
     }),
 
+    internalTarget: null,
+
+    internalAction: 'setActiveListItem',
+
+    listView: null,
+
     render: function() {
         this.html = '<li id="' + this.id + '"';
 
-        if(this.hasSingleAction && this.target && this.action) {
-            this.html += ' onclick="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');"';
-        }
+        this.html += ' onclick="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');"';
+        this.internalTarget = this.listView;
 
         this.html += '>';
 
