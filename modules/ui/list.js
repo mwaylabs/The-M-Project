@@ -8,6 +8,8 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+m_require('ui/search_bar.js');
+
 /**
  * @class
  *
@@ -113,12 +115,51 @@ M.ListView = M.View.extend({
     isInsetList: NO,
 
     /**
+     * The list view's search bar.
+     *
+     * @property {Object}
+      */
+    searchBar: null,
+
+    /**
+     * Determines whether or not to display a search bar at the top of the list view. 
+     *
+     * @property {Boolean}
+     */
+    hasSearchBar: NO,
+
+    /**
+     * If the hasSearchBar property is set to YES, this property determines whether to use the built-in
+     * simple search filters or not. If set to YES, the list is simply filtered on the fly according
+     * to the entered search string. Only list items matching the entered search string will be visible.
+     *
+     * If a custom search behaviour is needed, this property must be set to NO.
+     *
+     * @property {Boolean}
+     */
+    usesDefaultSearchBehaviour: YES,
+
+    /**
+     * An object containing target and action to be triggered if the search string changes.
+     *
+     * @property {Object}
+     */
+    onSearchStringDidChange: null,
+
+    /**
      * This method renders the empty list view either as an ordered or as an unordered list. It also applies
      * some styling, if the corresponding properties where set.
      */
     render: function() {
+        if(this.hasSearchBar && !this.usesDefaultSearchBehaviour) {
+            this.searchBar.isListViewSearchBar = YES;
+            this.searchBar.listView = this;
+            this.searchBar = M.SearchBarView.design(this.searchBar);
+            this.html += this.searchBar.render();
+        }
+
         var listTagName = this.isNumberedList ? 'ol' : 'ul';
-        this.html = '<' + listTagName + ' id="' + this.id + '" data-role="listview"' + this.style() + '></' + listTagName + '>';
+        this.html += '<' + listTagName + ' id="' + this.id + '" data-role="listview"' + this.style() + '></' + listTagName + '>';
         
         return this.html;
     },
@@ -250,10 +291,13 @@ M.ListView = M.View.extend({
     },
 
     /**
-     * Triggers rendering engine, e.g. jQuery mobile, to style the button.
+     * Triggers rendering engine, e.g. jQuery mobile, to style the list view.
      */
     theme: function() {
         $('#' + this.id).listview();
+        if(this.searchBar) {
+            this.searchBar.theme();
+        }
     },
 
     /**
@@ -300,6 +344,9 @@ M.ListView = M.View.extend({
         }
         if(this.cssClassForSplitView) {
             html += ' data-splittheme="' + this.cssClassForSplitView + '"';
+        }
+        if(this.hasSearchBar && this.usesDefaultSearchBehaviour) {
+            html += ' data-filter="true"';
         }
         return html;
     }
