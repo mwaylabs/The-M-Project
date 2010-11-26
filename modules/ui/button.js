@@ -26,12 +26,6 @@ M.ButtonView = M.View.extend({
     useOnClick: NO,
 
     /**
-     * Mapping to value attribute.
-     * text property is mixed in when extended.
-     */
-    //value: this.text,
-
-    /**
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
      */
     render: function() {
