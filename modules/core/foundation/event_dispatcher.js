@@ -73,10 +73,10 @@ M.EventDispatcher = M.Object.create({
                 }
                 break;
             case 'change':
-                view.setValueFromDOM(type);    
+                view.setValueFromDOM(type);
                 break;
             case 'keyup':
-                if(keyCode === 13 && (view.type === 'M.TextFieldView' || view.type === 'M.SearchBarView')) {
+                if(keyCode === 13 && view.triggerActionOnEnter && (view.type === 'M.TextFieldView' || view.type === 'M.SearchBarView')) {
                     if(view && view.target && view.action) {
                         view.target[view.action](id);
                     }
