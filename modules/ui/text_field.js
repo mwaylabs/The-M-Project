@@ -115,6 +115,7 @@ M.TextFieldView = M.View.extend({
     lostFocus: function() {
         if(this.initialText && !this.value) {
             this.setValue(this.initialText, NO);
+            this.value = '';
             if(this.initialCssClass) {
                 $('#' + this.id).addClass(this.initialCssClass);
             }
