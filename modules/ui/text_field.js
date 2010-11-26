@@ -174,9 +174,13 @@ M.TextFieldView = M.View.extend({
      * and then delegates these changes to a controller property if the
      * contentBindingReverse property is set.
      */
-    setValueFromDOM: function() {
+    setValueFromDOM: function(evt) {
         this.value = this.secure($('#' + this.id).val());
         this.delegateValueUpdate();
+
+        if((evt === 'change' && this.triggerActionOnChange || evt === 'keyup' && this.triggerActionOnKeyUp) && this.target && this.action) {
+            this.target[this.action](this.value);
+        }
     },
 
     /**
