@@ -129,6 +129,24 @@ M.View = M.Object.extend({
     html: '',
 
     /**
+     * Determines whether an onChange event will trigger a defined action or not.
+     * This property is basically interesting for input ui elements, e.g. for
+     * text fields.
+     *
+     * @property {Boolean}
+     */
+    triggerActionOnChange: NO,
+
+    /**
+     * Determines whether an onKeyUp event will trigger a defined action or not.
+     * This property is basically interesting for input ui elements, e.g. for
+     * text fields.
+     *
+     * @property {Boolean}
+     */
+    triggerActionOnKeyUp: NO,
+
+    /**
      * This method encapsulates the 'extend' method of M.Object for better reading of code syntax.
      * It triggers the content binding for this view,
      * gets an ID from and registers itself at the ViewManager.
