@@ -37,17 +37,58 @@ M.ListView = M.View.extend({
      */
     isDividedList: NO,
 
-    render: function() {
-        var listTagName = this.isNumberedList ? 'ol' : 'ul';
-        this.html = '<' + listTagName + ' id="' + this.id + '" data-role="listview" data-icon="save"></' + listTagName + '>';
-        
-        return this.html;
-    },
+    /**
+     * If the list view is a divided list, this property can be used to customize the style
+     * of the list's dividers.
+     *
+     * @property {String}
+     */
+    cssClassForDivider: null,
 
+    /**
+     * Determines whether to display the the number of child items for each list item view.
+     *
+     * @property {Boolean}
+     */
+    isCountedList: NO,
+
+    /**
+     * If the list view is a counted list, this property can be used to customize the style
+     * of the list item's counter.
+     *
+     * @property {String}
+     */
+    cssClassForCounter: null,
+
+    /**
+     * This property can be used to customize the style of the list view's split view. For example
+     * the toggleRemove() of a list view uses the built-in split view functionality.
+     *
+     * @property {String}
+     */
+    cssClassForSplitView: null,
+
+    /**
+     * The list view's items, respectively its child views.
+     *
+     * @property {Object}
+     */
     items: null,
 
+    /**
+     * Determines whether the list view is currently in edit mode or not. This is mainly used by the
+     * built-in toggleRemove() functionality. 
+     *
+     * @property {Boolean}
+     */
     inEditMode: NO,
 
+    /**
+     * This property contains all available options for the edit mode. For example the target and action
+     * of the automatically rendered delete button can be specified using this property.
+     *
+     * @property {Object}
+     */
     editOptions: null,
 
     /**
@@ -57,7 +98,30 @@ M.ListView = M.View.extend({
      */
     isNumberedList: NO,
 
+    /**
+     * This property contains the list view's template view, the blueprint for every child view.
+     *
+     * @property {Object}
+     */
     listItemTemplateView: null,
+
+    /**
+     * Determines whether to display the list view 'inset' or at full width.
+     *
+     * @property {Boolean}
+     */
+    isInsetList: NO,
+
+    /**
+     * This method renders the empty list view either as an ordered or as an unordered list. It also applies
+     * some styling, if the corresponding properties where set.
+     */
+    render: function() {
+        var listTagName = this.isNumberedList ? 'ol' : 'ul';
+        this.html = '<' + listTagName + ' id="' + this.id + '" data-role="listview"' + this.style() + '></' + listTagName + '>';
+        
+        return this.html;
+    },
 
     renderChildViews: function() {
 
@@ -126,9 +190,10 @@ M.ListView = M.View.extend({
             /* Create a new object for the current template view */
             var obj = templateView.design({});
 
-            /* Assign the model's id to the view's modelId property */
-            console.log('model?');
-            obj.modelId = item.id;
+            /* If item is a model, assign the model's id to the view's modelId property */
+            if(item.type === 'M.Model') {
+                obj.modelId = item.id;
+            }
 
             /* Get the child views as an array of strings */
             var childViewsArray = obj.childViews.split(' ');
@@ -217,6 +282,26 @@ M.ListView = M.View.extend({
             $(this).removeClass('ui-btn-active');
         })
         $('#' + listItemId).addClass('ui-btn-active');
+    },
+
+    /**
+     * Applies some style-attributes to the list view.
+     */
+    style: function() {
+        var html = '';
+        if(this.isDividedList && this.cssClassForDivider) {
+            html += ' data-dividertheme="' + this.cssClassForDivider + '"';
+        }
+        if(this.isInsetList) {
+            html += ' data-inset="true"';
+        }
+        if(this.isCountedList && this.cssClassForCounter) {
+            html += ' data-counttheme="' + this.cssClassForCounter + '"';
+        }
+        if(this.cssClassForSplitView) {
+            html += ' data-splittheme="' + this.cssClassForSplitView + '"';
+        }
+        return html;
     }
 
 });
