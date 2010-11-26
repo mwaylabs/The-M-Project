@@ -65,7 +65,7 @@ M.EventDispatcher = M.Object.create({
 
         switch(type) {
             case 'click':
-                if(view && view.target && view.action && view.type !== 'M.TextFieldView') {
+                if(view && view.target && view.action && view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView') {
                     view.target[view.action](id, view.modelId);
                 }
                 if(view && view.internalTarget && view.internalAction) {
@@ -73,22 +73,22 @@ M.EventDispatcher = M.Object.create({
                 }
                 break;
             case 'change':
-                view.setValueFromDOM();    
+                view.setValueFromDOM(type);    
                 break;
             case 'keyup':
-                if(keyCode === 13 && view.type === 'M.TextFieldView') {
+                if(keyCode === 13 && (view.type === 'M.TextFieldView' || view.type === 'M.SearchBarView')) {
                     if(view && view.target && view.action) {
                         view.target[view.action](id);
                     }
-                } else if(view.type === 'M.TextFieldView') {
-                    view.setValueFromDOM();
+                } else if(view.type === 'M.TextFieldView' || view.type === 'M.SearchBarView') {
+                    view.setValueFromDOM(type);
                 }
                 break;
             case 'focusin':
-                view.gotFocus();
+                view.gotFocus(type);
                 break;
             case 'focusout':
-                view.lostFocus();
+                view.lostFocus(type);
                 break;
             case 'orientationchange':
                 M.Application.viewManager.getCurrentPage().orientationDidChange(orientation);
