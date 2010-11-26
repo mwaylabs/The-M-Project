@@ -68,10 +68,14 @@ M.Object = {
      *
      * @param {Object} caller The scope of the method that should be bound.
      * @param {Object} method The method to be bound.
+     * @param {Object} arg One or more arguments. If more, then apply is used instead of call.
      */
-    bindToCaller: function(caller, method) {
+    bindToCaller: function(caller, method, arg) {
         return function() {
-            return method.apply(caller, arguments);
+            if(_.isArray(arg)) {
+                return method.apply(caller, arg);
+            }
+            return method.call(caller, arg);
         }
     },
 
