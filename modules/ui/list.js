@@ -16,9 +16,26 @@
  */
 M.ListView = M.View.extend({
 
+    /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
     type: 'M.ListView',
 
+    /**
+     * Determines whether to remove all item if the list is updated or not.
+     *
+     * @property {Boolean}
+     */
     removeItemsOnUpdate: YES,
+
+    /**
+     * Determines whether to display the list as a divided list or not.
+     *
+     * @property {Boolean}
+     */
+    isDividedList: NO,
 
     render: function() {
         var listTagName = this.isNumberedList ? 'ol' : 'ul';
@@ -39,6 +56,8 @@ M.ListView = M.View.extend({
      * @property {Boolean}
      */
     isNumberedList: NO,
+
+    listItemTemplateView: null,
 
     renderChildViews: function() {
 
@@ -64,24 +83,51 @@ M.ListView = M.View.extend({
         }
 
         /* Save this in variable that for later use within an other scope (e.g. _each()) */
-        that = this;
+        var that = this;
 
         /* Get the list view's content as an object from the assigned content binding */
         var content = eval(this.contentBinding);
 
         /* Get the list view's template view for each list item */
-        templateView = this.listItemTemplateView;
-        
-        /* If there is an items property, re-assign this to content, otherwise iterate through content itself */ 
+        var templateView = this.listItemTemplateView;
+
+        /* If there is an items property, re-assign this to content, otherwise iterate through content itself */
         if(this.items) {
             content = content[this.items];
         }
+
+        if(this.isDividedList) {
+            _.each(content, function(items, divider) {
+                that.renderListItemDivider(divider);
+                that.renderListItemView(items, templateView);
+            });
+        } else {
+            this.renderListItemView(content, templateView);
+        }
+
+        /* Finally let the whole list look nice */
+        this.themeUpdate();
+    },
+
+    renderListItemDivider: function(name) {
+        var obj = M.ListItemView.design({});
+        obj.value = name;
+        obj.isDivider = YES,
+        this.addItem(obj.render());
+        obj.theme();
+    },
+
+    renderListItemView: function(content, templateView) {
+        /* Save this in variable that for later use within an other scope (e.g. _each()) */
+        var that = this;
+
         _.each(content, function(item) {
 
             /* Create a new object for the current template view */
             var obj = templateView.design({});
 
             /* Assign the model's id to the view's modelId property */
+            console.log('model?');
             obj.modelId = item.id;
 
             /* Get the child views as an array of strings */
@@ -136,9 +182,6 @@ M.ListView = M.View.extend({
                 obj[childViewsArray[i]].theme();
             }
         });
-
-        /* Finally let the whole list look nice */
-        this.themeUpdate();
     },
 
     /**

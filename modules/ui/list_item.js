@@ -46,24 +46,34 @@ M.ListItemView = M.View.extend({
 
     listView: null,
 
+    isDivider: NO,
+
     render: function() {
         this.html = '<li id="' + this.id + '"';
 
         this.html += ' onclick="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');"';
         this.internalTarget = this.listView;
 
+        if(this.isDivider) {
+            this.html += ' data-role="list-divider"';
+        }
+
         this.html += '>';
 
-        if(this.inEditMode) {
-            this.html += '<a href="#">';
-            this.renderChildViews();
-            this.html += '</a>';
-            
-            this.html += this.deleteButton.render();
-        } else {
-            this.html += '<a href="#">';
-            this.renderChildViews();
-            this.html += '</a>';
+        if(this.childViews) {
+            if(this.inEditMode) {
+                this.html += '<a href="#">';
+                this.renderChildViews();
+                this.html += '</a>';
+
+                this.html += this.deleteButton.render();
+            } else {
+                this.html += '<a href="#">';
+                this.renderChildViews();
+                this.html += '</a>';
+            }
+        } else if(this.value) {
+            this.html += this.value;
         }
 
         this.html += '</li>';
