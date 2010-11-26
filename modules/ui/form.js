@@ -24,11 +24,19 @@ M.FormView = M.View.extend({
     type: 'M.FormView',
 
     /**
-     * The object containing the validation's meta information.
+     * Determines whether to automatically show an alert view if the validation fails.
      *
-     * @property {Object}
+     * @property {Boolean}
      */
-    validation: null,
+    showAlertOnError: YES,
+
+    /**
+     * The title of the alert view that comes up automatically if the validation fails, depending
+     * one the 'showAlertOnError' property.
+     *
+     * @property {String}
+     */
+     alertTitle: 'Validation Error(s)',
 
     /**
      * This method triggers the validate() on all child views, respectively
@@ -65,10 +73,13 @@ M.FormView = M.View.extend({
             }
             errors += '<li>' + error.msg + '</li>';
         });
-        M.DialogView.alert({
-            title: this.validation ? (this.validation.title ? this.validation.title : 'Validation Error(s)') : 'Validation Error(s)',
-            message: errors
-        });
+
+        if(this.showAlertOnError) {
+            M.DialogView.alert({
+                title: this.alertTitle,
+                message: errors
+            });
+        }
     }
 
 });

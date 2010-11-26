@@ -95,9 +95,6 @@ M.ListView = M.View.extend({
                 /* Create a new object for the current view */
                 obj[childViewsArray[i]] = obj[childViewsArray[i]].design({});
 
-                /* Set renderToDOM to NO, since we push the HTML directly to the addItem method later on */
-                obj[childViewsArray[i]].renderToDOM = NO;
-
                 var regexResult = null;
                 if(obj[childViewsArray[i]].computedValue) {
                     /* This regex looks for a variable inside the template view (<%= ... %>) ... */
@@ -127,6 +124,9 @@ M.ListView = M.View.extend({
                     action: that.editOptions.action
                 });
             }
+
+            /* set the list view as 'parent' for the current list item view */
+            obj.listView = that;
 
             /* Add the current list view item to the list view ... */
             that.addItem(obj.render());
@@ -167,6 +167,13 @@ M.ListView = M.View.extend({
             this.editOptions = options;
             this.renderUpdate();
         }
+    },
+
+    setActiveListItem: function(listItemId) {
+        $('#' + this.id).find('li').each(function() {
+            $(this).removeClass('ui-btn-active');
+        })
+        $('#' + listItemId).addClass('ui-btn-active');
     }
 
 });

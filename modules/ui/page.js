@@ -76,6 +76,13 @@ M.PageView = M.View.extend({
             M.Application.viewManager.currentDialog = null;
         }
 
+        /* if there is a list on the page, reset it: deactivate possible active list items */
+        $('#' + this.id).find('.ui-btn-active').each(function() {
+            if(M.ViewManager.getViewById($(this).attr('id')).type === 'M.ListItemView') {
+                $(this).removeClass('ui-btn-active');
+            }
+        });
+
         /* WORKAROUND for being able to use more than two tab items within a tab bar */
         /* TODO: Get rid of this workaround with a future version of jquery mobile */
         if(this.isFirstLoad && this.childViews) {

@@ -212,10 +212,9 @@
 
                                 childViews: 'title text date',
 
-                                validation: {
+                                showAlertOnError: YES,
 
-                                    title: 'Error'
-                                },
+                                alertTitle: 'Error',
 
                                 title: M.TextFieldView.design({
                                     name: 'title',
@@ -242,7 +241,7 @@
                                     name: 'date',
                                     label: 'Due Date',
                                     initialText: 'MM/DD/YYYY HH:MM:SS',
-                                    initialCssClass: 'textfieldInit',
+                                    cssClassOnInit: 'textfieldInit',
                                     validators: [M.PresenceValidator.customize({
                                         msg: '\'Due Date\' is required!'
                                     }), M.DateValidator.customize({
@@ -300,10 +299,9 @@
 
                             childViews: 'title text date',
 
-                            validation: {
+                            showAlertOnError: YES,
 
-                                title: 'Error'
-                            },
+                            alertTitle: 'Error',
 
                             title: M.TextFieldView.design({
                                 name: 'title',
@@ -328,7 +326,7 @@
                                 name: 'date',
                                 label: 'Due Date',
                                 initialText: 'MM/DD/YYYY HH:MM:SS',
-                                initialCssClass: 'textfieldInit',
+                                cssClassOnInit: 'textfieldInit',
                                 validators: [M.PresenceValidator.customize({
                                     msg: '\'Due Date\' is required!'
                                 }), M.DateValidator.customize({
