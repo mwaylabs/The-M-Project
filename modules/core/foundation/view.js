@@ -110,6 +110,16 @@ M.View = M.Object.extend({
     cssClassOnError: null,
 
     /**
+     * This property can be used to assign a css class to the view on its initialization. This
+     * property is mainly used for input ui elements like text fields, that might have a initial
+     * value that should be rendered in a different style than the later value entered by the
+     * user.
+     *
+     * @property {String}
+     */
+    cssClassOnInit: null,
+
+    /**
      * This property is used internally to recursively build the pages html representation.
      * It is once set within the render method and then eventually updated within the
      * renderUpdate method.
