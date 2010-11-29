@@ -31,6 +31,13 @@ M.PageView = M.View.extend({
     isFirstLoad: YES,
 
     /**
+     * This property can be used to set the page's onLoad action.
+     *
+     * @property {Object}
+     */
+    onLoad: null,
+
+    /**
      * Indicates whether the page has a tab bar or not.
      *
      * @property {Boolean}
