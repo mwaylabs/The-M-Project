@@ -166,6 +166,8 @@ M.View = M.Object.extend({
         var view = this.extend(obj);
         if(view.contentBinding) {
             view.attachToObservable(view.contentBinding);
+        } else if(view.computedValue && view.computedValue.contentBinding) {
+            view.attachToObservable(view.computedValue.contentBinding);
         }
         view.id = M.Application.viewManager.getNextId();
         M.Application.viewManager.register(view);
@@ -257,9 +259,13 @@ M.View = M.Object.extend({
      * It updates the view's value property.
      */
     contentDidChange: function(){
-        var bindingPath = this.contentBinding.split('.');
+        var bindingPath = this.contentBinding ? this.contentBinding.split('.') : this.computedValue.contentBinding.split('.');
         if(bindingPath && bindingPath.length === 3 && !(this.hasFocus && this.type === 'M.TextFieldView')) {
-            this.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]];
+            if(this.contentBinding) {
+                this.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]];
+            } else {
+                this.computedValue.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]];
+            }
             this.renderUpdate();
             this.delegateValueUpdate();
         } else if(bindingPath && bindingPath.length === 3) {
