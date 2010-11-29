@@ -54,9 +54,23 @@ M.Application = M.Object.extend({
     cypher: M.Cypher,
 
     /**
-     * This method encapsulates the 'extend' method of M.Object for better reading of code syntax.
-     * It triggers the content binding for this view,
-     * gets an ID from and registers itself at the ViewManager.
+     * The application's current language.
+     *
+     * @property {String}
+     */
+    currentLanguage: null,
+
+    /**
+     * The application's default / fallback language.
+     *
+     * @property {String}
+     */
+    defaultLanguage: null,
+
+    /**
+     * This method encapsulates the 'include' method of M.Object for better reading of code syntax.
+     * Basically it integrates the defined pages within the application into M.Application and sets
+     * some basic configuration properties, e.g. the default language.
      *
      * @param {Object} obj The mixed in object for the extend call.
      */
