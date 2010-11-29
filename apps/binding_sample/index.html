@@ -62,7 +62,7 @@
 
                         content: M.ScrollView.design({
 
-                            childViews: 'label1 label2 button1',
+                            childViews: 'label1 label2 spacer label3 label4 button1',
 
                             label1: M.LabelView.design({
                                 value: 'Number of clicks: ',
@@ -72,6 +72,27 @@
                             label2: M.LabelView.design({
                                 contentBinding: 'BindingSample.CountController.numberOfClicks',
                                 value: '0',
+                                isInline: YES
+                            }),
+
+                            spacer: M.LabelView.design({
+                                value: ' ',
+                                isInline: NO
+                            }),
+
+                            label3: M.LabelView.design({
+                                value: 'Number of clicks (squared): ',
+                                isInline: YES
+                            }),
+
+                            label4: M.LabelView.design({
+                                computedValue: {
+                                    contentBinding: 'BindingSample.CountController.numberOfClicks',
+                                    value: 0,
+                                    operation: function(v, label) {
+                                        return M.Math.pow(v, 2);
+                                    }
+                                },
                                 isInline: YES
                             }),
 
