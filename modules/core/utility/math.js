@@ -29,6 +29,17 @@ M.Math = M.Object.extend({
     type: 'M.Math',
 
     /**
+     * This method returns the value of the base (x) to the power of the exponent (y). So e.g.
+     * pow(2, 3) would return 8, pow(3, 2) would return 9.
+     *
+     * @param base {Number} The base.
+     * @param exponent {Number} The exponent.
+     */
+    pow: function(base, exponent) {
+        return Math.pow(base, exponent);
+    },
+
+    /**
      * The method returns a random number within the range given by the min property
      * and the max property.
      *
