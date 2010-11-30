@@ -12,5 +12,6 @@ var Todos = Todos || {};
 
 document.write("<script src='models/note.js'></script>");
 document.write("<script src='controllers/todo_controller.js'></script>");
+document.write("<script src='controllers/language_controller.js'></script>");
 document.write("<script src='views/todo_item.js'></script>");
 document.write("<script src='views/tabs.js'></script>");

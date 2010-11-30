@@ -1,6 +1,6 @@
 Todos.tabs = M.TabBarView.design({
 
-    childViews: 'tabItem1 tabItem2',
+    childViews: 'tabItem1 tabItem2 tabItem3',
 
     anchorLocation: M.BOTTOM,
 
@@ -22,6 +22,14 @@ Todos.tabs = M.TabBarView.design({
         value: 'New Item',
         page: 'page2',
         icon: 'todo'
+
+    }),
+
+    tabItem3: M.TabBarItemView.design({
+
+        value: 'Settings',
+        page: 'page3',
+        icon: 'settings'
 
     })
 

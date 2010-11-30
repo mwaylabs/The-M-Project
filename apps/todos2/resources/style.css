@@ -45,6 +45,10 @@
     background: url("todo.png") no-repeat 50% 50% transparent;
 }
 
+[data-icon=settings] .ui-icon {
+    background: url("settings.png") no-repeat 50% 50% transparent;
+}
+
 .error {
     border: 1px solid #FF0000;
 }

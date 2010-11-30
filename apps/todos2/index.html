@@ -58,6 +58,8 @@
     <script src="../../modules/ui/dialogs/confirm_dialog.js"></script>
     <script src="../../modules/ui/dialogs/action_sheet_dialog.js"></script>
     <script src="../../modules/ui/form.js"></script>
+    <script src="../../modules/ui/selection_list.js"></script>
+    <script src="../../modules/ui/selection_list_item.js"></script>
 
     <script src="todos.js"></script>
 
@@ -333,6 +335,67 @@
                                     msg: '\'Due Date\' is not a valid date!'
                                 })],
                                 cssClassOnError: 'error'
+                            })
+
+                        })
+
+                    }),
+
+                    tabs: Todos.tabs
+
+                }),
+
+                page3: M.PageView.design({
+
+                    childViews: 'header content tabs',
+
+                    header: M.ToolbarView.design({
+
+                        value: 'Settings',
+
+                        anchorLocation: M.TOP
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: 'langSelection',
+
+                        langSelection: M.SelectionListView.design({
+
+                            childViews: 'item1 item2 item3',
+
+                            //selectionMode: M.MULTIPLE_SELECTION,
+
+                            selectionMode: M.SINGLE_SELECTION,
+
+                            label: 'Language',
+
+                            name: 'language',
+
+                            onSelect: {
+                                target: Todos.LanguageController,
+                                action: 'changeLanguage'
+                            },
+
+                            item1: M.SelectionListItemView.design({
+
+                                value: 'German',
+                                name: 'german'
+
+                            }),
+
+                            item2: M.SelectionListItemView.design({
+
+                                value: 'English',
+                                name: 'english'
+
+                            }),
+
+                            item3: M.SelectionListItemView.design({
+
+                                value: 'Spanish',
+                                name: 'spanish'
+
                             })
 
                         })
