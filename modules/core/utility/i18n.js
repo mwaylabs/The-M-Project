@@ -93,7 +93,7 @@ M.I18N = M.Object.extend({
             return;
         }
         
-        var url = location.protocol + '//' + location.pathname;
+        var url = location.protocol + '//' + location.host + location.pathname;
 
         var oldParams = location.search ? location.search.substring(1).split('&') : null;
         var newParams = '';
@@ -106,8 +106,8 @@ M.I18N = M.Object.extend({
             }
         }
         newParams += newParams ? '&' : '?';
-        url += newParams + 'language=' + language;
 
+        url += newParams + 'language=' + language;
         url += location.hash;
 
         location.href = url;
