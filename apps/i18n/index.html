@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!--<html>-->
+<html manifest="cache.manifest">
+<head>
+    <title>Internationalization Demo</title>
+    <script src="../../modules/jquery/jquery-1.4.4.min.js"></script>
+    <script src="../../modules/jquery_mobile/jquery.mobile-1.0a2.min.js"></script>
+    <script src="../../modules/underscore/underscore-min.js"></script>
+    <script src="../../modules/core/foundation/m.js"></script>
+    <script src="../../modules/core/foundation/object.js"></script>
+    <script src="../../modules/core/utility/math.js"></script>
+    <script src="../../modules/core/foundation/request.js"></script>
+    <script src="../../modules/core/utility/logger.js"></script>
+    <script src="../../modules/core/utility/date.js"></script>
+    <script src="../../modules/core/utility/cypher_algorithms/base64.js"></script>
+    <script src="../../modules/core/utility/cypher_algorithms/sha256.js"></script>
+    <script src="../../modules/core/utility/cypher.js"></script>
+    <script src="../../modules/core/foundation/event_dispatcher.js"></script>
+    <script src="../../modules/core/foundation/observable.js"></script>
+    <script src="../../modules/core/foundation/controller.js"></script>
+    <script src="../../modules/core/datastore/data_provider.js"></script>
+    <script src="../../modules/core/datastore/local_storage.js"></script>
+    <script src="../../modules/core/datastore/validator.js"></script>
+    <script src="../../modules/core/datastore/validators/email_validator.js"></script>
+    <script src="../../modules/core/datastore/validators/not_minus_validator.js"></script>
+    <script src="../../modules/core/datastore/validators/number_validator.js"></script>
+    <script src="../../modules/core/datastore/validators/presence_validator.js"></script>
+    <script src="../../modules/core/datastore/validators/date_validator.js"></script>
+    <script src="../../modules/core/datastore/model_attribute.js"></script>
+    <script src="../../modules/core/foundation/model.js"></script>
+    <script src="../../modules/core/foundation/view.js"></script>
+    <script src="../../modules/core/foundation/view_manager.js"></script>
+    <script src="../../modules/core/foundation/model_registry.js"></script>
+    <script src="../../modules/core/foundation/model_manager.js"></script>
+    <script src="../../modules/core/foundation/application.js"></script>
+    <script src="../../modules/core/utility/i18n.js"></script>
+
+    <script src="../../modules/ui/page.js"></script>
+    <script src="../../modules/ui/button.js"></script>
+    <script src="../../modules/ui/toolbar.js"></script>
+    <script src="../../modules/ui/scroll.js"></script>
+    <script src="../../modules/ui/label.js"></script>
+    <script src="../../modules/ui/button.js"></script>
+    <script src="../../modules/ui/list.js"></script>
+    <script src="../../modules/ui/list_item.js"></script>
+    <script src="../../modules/ui/text_field.js"></script>
+    <script src="../../modules/ui/grid.js"></script>
+    <script src="../../modules/ui/image.js"></script>
+    <script src="../../modules/ui/toggle.js"></script>
+    <script src="../../modules/ui/tab_bar.js"></script>
+    <script src="../../modules/ui/tab_bar_item.js"></script>
+    <script src="../../modules/ui/dialog.js"></script>
+    <script src="../../modules/ui/dialogs/alert_dialog.js"></script>
+    <script src="../../modules/ui/dialogs/confirm_dialog.js"></script>
+    <script src="../../modules/ui/dialogs/action_sheet_dialog.js"></script>
+    <script src="../../modules/ui/form.js"></script>
+
+    <script src="i18n.js"></script>
+
+    <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a2.min.css" rel="stylesheet" />
+</head>
+<body>
+        <script language="JavaScript">
+            I18N.app = M.Application.design({
+
+                page: M.PageView.design({
+
+                    childViews: 'header content',
+
+                    header: M.ToolbarView.design({
+
+                        value: M.I18N.l('header'),
+                        anchorLocation: M.TOP
+
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: 'label button1 button2 button3',
+
+                        label: M.LabelView.design({
+
+                            value: M.I18N.l('content1')
+                            
+                        }),
+
+                        button1: M.ButtonView.design({
+
+                            value: M.I18N.l('button1'),
+                            target: I18N.LanguageController,
+                            action: 'switchToGerman'
+
+                        }),
+
+                        button2: M.ButtonView.design({
+
+                            value: M.I18N.l('button2'),
+                            target: I18N.LanguageController,
+                            action: 'switchToEnglish'
+
+                        }),
+
+                        button3: M.ButtonView.design({
+
+                            value: M.I18N.l('button3'),
+                            target: I18N.LanguageController,
+                            action: 'switchToSpanish'
+
+                        })
+
+                    })
+
+                })
+                
+            });
+        </script>
+
+        <!-- START THE APP BY CALLING THE M.APPLICATION's MAIN-METHOD -->
+        <!-- in the future this call will be made automatically -->
+        <script language="JavaScript">
+            I18N.app.main();
+        </script>
+
+</body>
+</html>
