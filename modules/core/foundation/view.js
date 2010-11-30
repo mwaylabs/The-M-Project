@@ -90,6 +90,13 @@ M.View = M.Object.extend({
      */
     isEnabled: YES,
 
+    /**
+     * This property can be used to save a reference to the view's parent view.
+     *
+     * @param {Object}
+     */
+    parentView: null,
+
     modelId: null,
 
     /**
