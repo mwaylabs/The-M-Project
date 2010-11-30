@@ -85,7 +85,7 @@ M.PageView = M.View.extend({
 
         /* if there is a list on the page, reset it: deactivate possible active list items */
         $('#' + this.id).find('.ui-btn-active').each(function() {
-            if(M.ViewManager.getViewById($(this).attr('id')).type === 'M.ListItemView') {
+            if(M.ViewManager.getViewById($(this).attr('id')) && M.ViewManager.getViewById($(this).attr('id')).type === 'M.ListItemView') {
                 $(this).removeClass('ui-btn-active');
             }
         });
