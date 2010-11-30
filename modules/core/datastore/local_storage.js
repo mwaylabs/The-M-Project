@@ -27,11 +27,12 @@ M.LocalStorageProvider = M.DataProvider.extend({
      *
      * @param {Object} that (is a model).
      */
-    save: function(that) {
+    save: function(obj) {
         try {
-            localStorage.setItem(that.name + '_' + that.id, JSON.stringify(that.record));
+            localStorage.setItem(obj.model.name + '_' + obj.model.id, JSON.stringify(obj.model.record));
+            return YES;
         } catch(e) {
-            M.Logger.log(M.WARN, 'Error saving ' + that.record + ' to localStorage with ID: ' + that.name + '_' + that.id);
+            M.Logger.log(M.WARN, 'Error saving ' + obj.model.record + ' to localStorage with ID: ' + obj.model.name + '_' + that.id);
         }
 
     },              
@@ -41,13 +42,13 @@ M.LocalStorageProvider = M.DataProvider.extend({
      * key defines which one to delete
      * e.g. key: 'Note_123'
      *
-     * @param {Object} that (is a model).
+     * @param {Object} obj The param obj, includes model
      */
-    del: function(that) {
+    del: function(obj) {
         try {
-            localStorage.removeItem(that.name + '_' + that.id);
+            localStorage.removeItem(obj.model.name + '_' + obj.model.id);
         } catch(e) {
-            M.Logger.log(M.WARN, 'Error removing ID: ' + that.name + '_' + that.id + ' from localStorage');
+            M.Logger.log(M.WARN, 'Error removing ID: ' + obj.model.name + '_' + obj.model.id + ' from localStorage');
         }
     },
 
@@ -59,70 +60,72 @@ M.LocalStorageProvider = M.DataProvider.extend({
      * If no query is passed, all models are returned by calling findAll()
      * @param {String} modelName
      * @param {String} query
+     * TODO: change to work with param obj that includes a model 
      */
-    find: function(modelName, query) {
-        if(query){
+    find: function(obj) {
+        if(obj.query){
             /**
-         * RegEx to match simple queries. E.g.:
-         * username = 'paul'
-         * price < 12.23
-         * result >= -23
-         * Captures:
-         * 1:   identifier      ( e.g. price )      => (\w*)
-         * 2:   operator        ( e.g. < )          => ([<>!=]{1,2}) (actually !! is also allowed but will result in an error
-         * 3:   value           ( e.g. 12.23 )      => String or Number: (['"]\w*['"]|(-)?\d+(\.\d+)?)
-         */
-        var query_regex = /^\s*(\w*)\s*([<>!=]{1,2})\s*(['"]?\w*['"]?|(-)?\d+(\.\d+)?)\s*$/;
-        var regexec = query_regex.exec(query);
-        if(regexec) {
-            var ident = regexec[1];
-            var op = regexec[2];
-            var val = regexec[3].replace(/['"]/g, "");/* delete quotes from captured string, needs to be done in regex*/
-            var res = this.findAll(modelName);
-            switch(op) {
-                case '=':
-                    res = _.select(res, function(obj){
-                        return obj[ident] === val;
-                    });
-                    break;
-                case '!=':
-                    res = _.select(res, function(obj){
-                        return obj[ident] !== val;
-                    });
-                    break;
-                case '<':
-                    res = _.select(res, function(obj){
-                        return obj[ident] < val;
-                    });
-                    break;
-                case '>':
-                    res = _.select(res, function(obj){
-                        return obj[ident] > val;
-                    });
-                    break;
-                case '<=':
-                    res = _.select(res, function(obj){
-                        return obj[ident] <= val;
-                    });
-                    break;
-                case '>=':
-                    res = _.select(res, function(obj){
-                        return obj[ident] >= val;
-                    });
-                    break;
-                default:
-                    M.Logger.log('Unknown operator in query: ' + op, M.WARN);
-                    res = [];
-                    break;
+             * RegEx to match simple queries. E.g.:
+             * username = 'paul'
+             * price < 12.23
+             * result >= -23
+             * Captures:
+             * 1:   identifier      ( e.g. price )      => (\w*)
+             * 2:   operator        ( e.g. < )          => ([<>!=]{1,2}) (actually !! is also allowed but will result in an error
+             * 3:   value           ( e.g. 12.23 )      => String or Number: (['"]\w*['"]|(-)?\d+(\.\d+)?)
+             */
+            var query_regex = /^\s*(\w*)\s*([<>!=]{1,2})\s*(['"]?\w*['"]?|(-)?\d+(\.\d+)?)\s*$/;
+            var regexec = query_regex.exec(obj.query);
+            if(regexec) {
+                var ident = regexec[1];
+                var op = regexec[2];
+                var val = regexec[3].replace(/['"]/g, "");/* delete quotes from captured string, needs to be done in regex*/
+                var res = this.findAll(obj.model.name);
+                switch(op) {
+                    case '=':
+                        res = _.select(res, function(o){
+                            return o[ident] === val;
+                        });
+                        break;
+                    case '!=':
+                        res = _.select(res, function(o){
+                            return o[ident] !== val;
+                        });
+                        break;
+                    case '<':
+                        res = _.select(res, function(o){
+                            return o[ident] < val;
+                        });
+                        break;
+                    case '>':
+                        res = _.select(res, function(o){
+                            return o[ident] > val;
+                        });
+                        break;
+                    case '<=':
+                        res = _.select(res, function(o){
+                            return o[ident] <= val;
+                        });
+                        break;
+                    case '>=':
+                        res = _.select(res, function(o){
+                            return o[ident] >= val;
+                        });
+                        break;
+                    default:
+                        M.Logger.log('Unknown operator in query: ' + op, M.WARN);
+                        res = [];
+                        break;
+                }
+            } else{
+                M.Logger.log('Query does not satisfy query grammar.', M.WARN);
+                res = [];
             }
-        } else{
-            M.Logger.log('Query does not satisfy query grammar.', M.WARN);
-            res = [];
-        }
 
             return res;
-        }else { /* if no query is passed, all models for modelName shall be returned */
-            return this.findAll(modelName);
+            
+        } else { /* if no query is passed, all models for modelName shall be returned */
+            return this.findAll(obj);
         }
 
     },
@@ -140,17 +143,18 @@ M.LocalStorageProvider = M.DataProvider.extend({
      *
      * Models are saved with key: Modelname_ID, e.g. Note_123
      *
-     * @param {String} modelName
+     * @param {Object} obj The param obj, includes model
      */
-    findAll: function(modelName) {
+    findAll: function(obj) {
         var result = [];
         for (var i = 0; i < localStorage.length; i++){
             var k = localStorage.key(i);
-            regexResult = new RegExp('^' + modelName + '_').exec(k);
+            regexResult = new RegExp('^' + obj.model.name + '_').exec(k);
             if(regexResult) {
-                var obj = JSON.parse(localStorage.getItem(k));
-                result.push(obj);
-            }var obj = JSON.stringify(localStorage.getItem(k));
+                var record = JSON.parse(localStorage.getItem(k));
+                result.push(record);
+            }
+            //var obj = JSON.stringify(localStorage.getItem(k));
         }
         return result;
     },
@@ -158,13 +162,13 @@ M.LocalStorageProvider = M.DataProvider.extend({
     /**
      * Returns all keys for model defined by modelName.
      *
-     * @param {String} modelName
+     * @param {Object} obj The param obj, includes model
      */
-    allKeys: function(modelName) {
+    allKeys: function(obj) {
         var result = [];
         for (var i = 0; i < localStorage.length; i++){
             var k = localStorage.key(i)
-            regexResult = new RegExp('^' + modelName + '_').exec(k);
+            regexResult = new RegExp('^' + obj.model.name + '_').exec(k);
             if(regexResult) {
                 result.push(k);
             }
