@@ -12,6 +12,8 @@ M.SINGLE_SELECTION = 'radio';
 M.MULTIPLE_SELECTION = 'checkbox';
 M.RAW = 'raw';
 
+m_require('ui/selection_list_item.js');
+
 /**
  * @class
  *
