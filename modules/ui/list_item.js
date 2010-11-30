@@ -49,7 +49,7 @@ M.ListItemView = M.View.extend({
     isDivider: NO,
 
     render: function() {
-        this.html = '<li id="' + this.id + '"';
+        this.html = '<li id="' + this.id + '"' + this.style();
 
         this.html += ' onclick="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');"';
         this.internalTarget = this.listView;
@@ -94,6 +94,17 @@ M.ListItemView = M.View.extend({
             this.html += this[childViews[i]].render();
         }
         return this.html;
+    },
+
+    /**
+     * Applies some style-attributes to the list item.
+     */
+    style: function() {
+        var html = '';
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
+        }
+        return html;
     }
 
 });

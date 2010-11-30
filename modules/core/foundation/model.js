@@ -143,7 +143,6 @@ M.Model = M.Object.extend({
         if(id) {
             M.Application.modelRegistry.setId(model.name, parseInt(id));
         }
-
         return model;
     },
 
@@ -200,37 +199,38 @@ M.Model = M.Object.extend({
             }
         }
         /* set state of model */
-        if(!isValid) {
+        /*if(!isValid) {
             this.state = M.STATE_INVALID;
         } else {
             this.state = M.STATE_VALID;   
-        }
+        }*/
         return isValid;
     },
 
     /* CRUD Methods below */
-
     /**
      * Calls the corresponding data provider to fetch data based on the passed query.
      *
-     * @param {String} query The query string.
+     * @param {Object} obj The param object with query and callbacks.
      */
-    find: function(id){
-        //this.dataProvider.find(this.name, query);
-        return this.dataProvider.find(this.name, id);
+    find: function(obj){
+        /* extends the given obj with self as model property in obj */
+        return this.dataProvider.find( $.extend(obj, {model: this}) );
     },
 
     /**
      * Returns all models.
      */
     findAll: function(){
-        return this.dataProvider.findAll(this.name);
+        return this.dataProvider.findAll({model: this});
     },
 
     /**
      * Create or update a record in storage if it is valid (first check this).
+     *
+     * @param {Object} obj The param object with query and callbacks.
      */
-    save: function() {
+    save: function(obj) {
         if(!this.id) {
             return;
         }
@@ -242,10 +242,8 @@ M.Model = M.Object.extend({
         }
 
         if(isValid) {
-            this.dataProvider.save(this);
-            return YES;
+            return this.dataProvider.save($.extend(obj, {model: this}));
         }
-        return NO;
     },
 
     /**
@@ -256,7 +254,7 @@ M.Model = M.Object.extend({
             return;
         }
 
-       this.dataProvider.del(this);
+       this.dataProvider.del({model: this});
     }
 
 });
