@@ -8,7 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('data_provider.js');
+m_require('core/detox/data_provider.js');
 
 /**
  * @class
@@ -79,7 +79,7 @@ M.WebSqlProvider = M.DataProvider.extend({
         }
 
 
-        if(model.state === M.STATE_NEW) {
+        if(obj.model.state === M.STATE_NEW) {
             // perform an INSERT
 
             var sql = 'INSERT INTO ' + obj.model.name + ' (';
@@ -187,8 +187,6 @@ M.WebSqlProvider = M.DataProvider.extend({
         var result = [];
         var that = this;
         this.dbHandler.readTransaction(function(t) {
-            sql = 'SELECT * FROM Conadsasdasdtact;';
-            stmtParameters = [];
             t.executeSql(sql, stmtParameters, function (tx, res) {
                 var len = res.rows.length, i;
                 for (i = 0; i < len; i++) {
