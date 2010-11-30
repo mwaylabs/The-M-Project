@@ -349,6 +349,11 @@
 
                     childViews: 'header content tabs',
 
+                    onLoad: {
+                        target: Todos.LanguageController,
+                        action: 'init'
+                    },
+
                     header: M.ToolbarView.design({
 
                         value: 'Settings',
@@ -362,7 +367,7 @@
 
                         langSelection: M.SelectionListView.design({
 
-                            childViews: 'item1 item2 item3',
+                            childViews: 'item1 item2',
 
                             //selectionMode: M.MULTIPLE_SELECTION,
 
@@ -377,6 +382,8 @@
                                 action: 'changeLanguage'
                             },
 
+                            //contentBinding: 'Todos.LanguageController.languages'
+
                             item1: M.SelectionListItemView.design({
 
                                 value: 'German',
@@ -387,14 +394,8 @@
                             item2: M.SelectionListItemView.design({
 
                                 value: 'English',
-                                name: 'english'
-
-                            }),
-
-                            item3: M.SelectionListItemView.design({
-
-                                value: 'Spanish',
-                                name: 'spanish'
+                                name: 'english',
+                                isSelected: YES
 
                             })
 

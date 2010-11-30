@@ -1,0 +1,23 @@
+{
+
+    "languages": [
+
+        {
+            "value": "german",
+            "label": "Deutsch"
+        },
+
+        {
+            "value": "english",
+            "label": "Englisch",
+            "isSelected": true
+        },
+
+        {
+            "value": "spanish",
+            "label": "Spanisch"
+        }
+
+    ]
+
+}
