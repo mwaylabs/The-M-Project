@@ -49,6 +49,8 @@ index.html
 ../../modules/ui/dialogs/confirm_dialog.js
 ../../modules/ui/dialogs/action_sheet_dialog.js
 ../../modules/ui/form.js
+../../modules/ui/selection_list.js
+../../modules/ui/selection_list_item.js
 todos.js
 ../../modules/themes/jquery_mobile/jquery.mobile-1.0a2.min.css
 resources/style.css
@@ -56,8 +58,10 @@ views/todo_item.js
 views/tabs.js
 models/note.js
 controllers/todo_controller.js
+controllers/language_controller.js
 ../../modules/themes/jquery_mobile/images/icons-18-white.png
 resources/app_icon.png
+resources/settings.png
 resources/notepad.png
 resources/todo.png
 
