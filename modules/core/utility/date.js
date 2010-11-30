@@ -17,16 +17,14 @@ M.MINUTES = 'minutes';
 M.HOURS = 'hours';
 M.DAYS = 'days';
 
-M.I18N = {
-	dayNames: [
-		"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
-		"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-	],
-	monthNames: [
-		"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-		"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-	]
-};
+M.DAY_NAMES = [
+    "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+]
+M.MONTH_NAMES = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+];
 
 /**
  * @class
@@ -151,12 +149,12 @@ M.Date = M.Object.extend({
         var	flags = {
             d:    d,
             dd:   pad(d),
-            ddd:  M.I18N.dayNames[D],
-            dddd: M.I18N.dayNames[D + 7],
+            ddd:  M.DAY_NAMES[D],
+            dddd: M.DAY_NAMES[D + 7],
             m:    m + 1,
             mm:   pad(m + 1),
-            mmm:  M.I18N.monthNames[m],
-            mmmm: M.I18N.monthNames[m + 12],
+            mmm:  M.MONTH_NAMES[m],
+            mmmm: M.MONTH_NAMES[m + 12],
             yy:   String(y).slice(2),
             yyyy: y,
             h:    H % 12 || 12,
