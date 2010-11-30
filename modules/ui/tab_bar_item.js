@@ -34,8 +34,6 @@ M.TabBarItemView = M.View.extend({
 
     internalAction: 'switchPage',
 
-    parentView: null,
-
     render: function() {
         this.html += '<li><a id="' + this.id + '"' + this.style() + ' href="#">' + this.value + '</a></li>';
 
