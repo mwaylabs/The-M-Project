@@ -70,6 +70,45 @@ M.Environment = M.Object.extend({
      */
     getBrowserName: function() {
         return navigator.appName;
+    },
+
+    /**
+     * Returns the currently available width and height of the browser window
+     * as an array:
+     *
+     * 0 -> width
+     * 1 -> height
+     */
+    getSize: function() {
+        var viewportWidth;
+        var viewportHeight;
+
+        if(typeof window.innerWidth != 'undefined') {
+            viewportWidth = window.innerWidth,
+            viewportHeight = window.innerHeight
+        } else if(typeof document.documentElement != 'undefined' && typeof document.documentElement.clientWidth != 'undefined' && document.documentElement.clientWidth != 0) {
+            viewportWidth = document.documentElement.clientWidth,
+            viewportHeight = document.documentElement.clientHeight
+        } else {
+            viewportWidth = document.getElementsByTagName('body')[0].clientWidth,
+            viewportHeight = document.getElementsByTagName('body')[0].clientHeight
+        }
+
+        return [viewportWidth, viewportHeight];
+    },
+
+    /**
+     * Returns the currently available width of the browser window.
+     */
+    getWidth: function() {
+        return this.getSize()[0];
+    },
+
+    /**
+     * Returns the currently available height of the browser window.
+     */
+    getHeight: function() {
+        return this.getSize()[1];
     }
 
 
