@@ -57,7 +57,7 @@ M.FormView = M.View.extend({
                     });
                 }
                 if(childView && childView.cssClassOnError) {
-                    childView.removeClass(childView.cssClassOnError);
+                    childView.removeCssClass(childView.cssClassOnError);
                 }
             }
         }
@@ -69,7 +69,7 @@ M.FormView = M.View.extend({
         _.each(M.Validator.validationErrors, function(error) {
             var view = M.ViewManager.getViewById(error.viewId);
             if(view && view.cssClassOnError) {
-                view.addClass(view.cssClassOnError);
+                view.addCssClass(view.cssClassOnError);
             }
             errors += '<li>' + error.msg + '</li>';
         });

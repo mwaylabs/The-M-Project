@@ -101,7 +101,7 @@ M.TextFieldView = M.View.extend({
         if(this.initialText && (!this.value || this.initialText === this.value)) {
             this.setValue('');
             if(this.cssClassOnInit) {
-                $('#' + this.id).removeClass(this.cssClassOnInit);
+                $('#' + this.id).removeCssClass(this.cssClassOnInit);
             }
         }
         this.hasFocus = YES;
@@ -117,7 +117,7 @@ M.TextFieldView = M.View.extend({
             this.setValue(this.initialText, NO);
             this.value = '';
             if(this.cssClassOnInit) {
-                $('#' + this.id).addClass(this.cssClassOnInit);
+                this.addCssClass(this.cssClassOnInit);
             }
         }
         this.hasFocus = NO;
@@ -148,7 +148,7 @@ M.TextFieldView = M.View.extend({
 
     theme: function() {
         if(this.initialText && !this.value && this.cssClassOnInit) {
-            $('#' + this.id).addClass(this.cssClassOnInit);
+            this.addCssClass(this.cssClassOnInit);
         }
     },
 
