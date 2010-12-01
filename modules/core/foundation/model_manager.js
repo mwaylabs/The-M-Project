@@ -45,6 +45,18 @@ M.ModelManager = M.Object.extend({
         this.modelList.push(model);
     },
 
+    addMany: function(arrOfModels) {
+
+        if(_.isArray(arrOfModels)){
+            this.modelList = this.modelList.concat(arrOfModels);
+
+        } else if(arrOfModels.type === 'M.Model') {
+
+            this.add(arrOfModels);
+        }
+
+    },
+
     removeAll: function() {
         this.modelList = [];
     },
