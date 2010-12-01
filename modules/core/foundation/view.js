@@ -378,7 +378,7 @@ M.View = M.Object.extend({
      *
      * @property {String} cssClass The css class to be added.
      */
-    addClass: function(cssClass) {
+    addCssClass: function(cssClass) {
         $('#' + this.id).addClass(cssClass);
     },
 
@@ -387,8 +387,28 @@ M.View = M.Object.extend({
      *
      * @property {String} cssClass The css class to be removed.
      */
-    removeClass: function(cssClass) {
-        $('#' + this.id).removeClass(cssClass);
+    removeCssClass: function(cssClass) {
+        $('#' + this.id).removeCssClass(cssClass);
+    },
+
+    /**
+     * Adds or updates a css property to the view's DOM representation.
+     *
+     * @property {String} key The property's name.
+     * @property {String} value The property's value.
+     */
+    setCssProperty: function(key, value) {
+        $('#' + this.id).css(key, value);
+    },
+
+    /**
+     * Adds or updates a css property to the view's DOM representation.
+     *
+     * @property {String} key The property's name.
+     * @property {String} value The property's value.
+     */
+    removeCssProperty: function(key) {
+        this.setCssProperty(key, '');
     }
 
 });
