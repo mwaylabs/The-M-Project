@@ -388,7 +388,7 @@ M.View = M.Object.extend({
      * @property {String} cssClass The css class to be removed.
      */
     removeCssClass: function(cssClass) {
-        $('#' + this.id).removeCssClass(cssClass);
+        $('#' + this.id).removeClass(cssClass);
     },
 
     /**

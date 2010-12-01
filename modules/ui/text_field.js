@@ -101,7 +101,7 @@ M.TextFieldView = M.View.extend({
         if(this.initialText && (!this.value || this.initialText === this.value)) {
             this.setValue('');
             if(this.cssClassOnInit) {
-                $('#' + this.id).removeCssClass(this.cssClassOnInit);
+                this.removeCssClass(this.cssClassOnInit);
             }
         }
         this.hasFocus = YES;

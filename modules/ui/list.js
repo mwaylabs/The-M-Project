@@ -323,9 +323,10 @@ M.ListView = M.View.extend({
 
     setActiveListItem: function(listItemId) {
         $('#' + this.id).find('li').each(function() {
-            $(this).removeClass('ui-btn-active');
-        })
-        $('#' + listItemId).addClass('ui-btn-active');
+            var listItem = M.ViewManager.getViewById($(this).attr('id'));
+            listItem.removeCssClass('ui-btn-active');
+        });
+        M.ViewManager.getViewById(listItemId).addCssClass('ui-btn-active')
     },
 
     /**
