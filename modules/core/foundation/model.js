@@ -108,6 +108,7 @@ M.Model = M.Object.extend({
             record: obj
         });
         modelRecord.state = obj.state ? obj.state : M.STATE_NEW;
+        delete obj.state;
         return modelRecord;
     },
 
@@ -144,7 +145,7 @@ M.Model = M.Object.extend({
             M.Application.modelRegistry.setId(model.name, parseInt(id));
         }
         return model;
-    },
+    }, 
 
     /**
      * Returns a M.ModelAttribute object to map an attribute in our model.
@@ -187,7 +188,16 @@ M.Model = M.Object.extend({
         /* clear validation error buffer before validation */
         M.Validator.clearErrorBuffer();
 
-        for (var i in this.__meta) {
+        /*
+        * validationBasis depends on the state of the model: if the model is in state NEW, all properties (__meta includes all)
+        * shall be considered for validation. if model is in another state, the model's record is used. example: the model is loaded from
+        * a database with only two properties included (select name, age FROM...). record now only contains these two properties but __meta
+        * still has all properties listed. models are valid if loaded from database so when saved again only the loaded properties need to get
+        * validated because all others have not been touched. that's why then record is used.
+        * */
+        var validationBasis = this.state === M.STATE_NEW ? this.__meta : this.record;
+
+        for (var i in validationBasis) {
             var prop = this.__meta[i];
             var obj = {
                 value: this.record[i],
