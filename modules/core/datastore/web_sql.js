@@ -50,8 +50,6 @@ M.WebSqlProvider = M.DataProvider.extend({
     init: function(obj, callback) {
         console.log('init() called.');
         this.openDb();
-        // TODO: examine whether createTable should be done always with 'IF NOT EXISTS' or if a select test if table exists is faster
-        // But: it is necessary (!) to check whether the table exists on application start
         this.createTable(obj, callback);
     },
 
@@ -60,7 +58,7 @@ M.WebSqlProvider = M.DataProvider.extend({
     */
 
     /**
-     * TODO: make it ansync!
+     * TODO: fix callbacks! see find()
      * @param model
      */
      save: function(obj) {
@@ -79,8 +77,7 @@ M.WebSqlProvider = M.DataProvider.extend({
         }
 
 
-        if(obj.model.state === M.STATE_NEW) {
-            // perform an INSERT
+        if(obj.model.state === M.STATE_NEW) { // perform an INSERT
 
             var sql = 'INSERT INTO ' + obj.model.name + ' (';
             for(var prop in obj.model.record) {
@@ -97,19 +94,65 @@ M.WebSqlProvider = M.DataProvider.extend({
             }
             sql = sql.substring(0, sql.lastIndexOf(',')) + '); ';
 
-            this.dbHandler.transaction(function(t){
-                t.executeSql(sql);
-            }, this.onSuccess ? this.onSuccess(YES) : null, this.onError ? this.onError(NO) : null);
+            console.log(sql);
 
-        } else {
-            // perform an UPDATE with id of model
-            console.log('UPDATE...');
+            this.performOp(sql, obj, 'INSERT');
+
+        } else { // perform an UPDATE with id of model
+
+            var sql = 'UPDATE ' + obj.model.name + ' SET ';
+
+            for(var prop in obj.model.record) {
+                var pre_suffix = obj.model.__meta[prop].type === 'String' || obj.model.__meta[prop].type === 'Text' ? '"' : '';
+                sql += prop + ' = ' + pre_suffix + obj.model.record[prop] + pre_suffix + ', ';
+            }
+            sql = sql.substring(0, sql.lastIndexOf(','));
+            sql += ' WHERE ' + 'ID = ' + obj.model.record.ID;
+
+            console.log(sql);
+
+            this.performOp(sql, obj, 'UPDATE');
         }
     },
 
     /**
+     * performs operation on websql storage: INSERT, UPDATE or DELETE. is used by them (save() & del())
+     *
+     * @param {String} sql The query.
+     * @param {Object} obj The param object. Contains e.g. callbacks (onError & onSuccess)
+     */
+    performOp: function(sql, obj, opType) {
+        var that = this;
+        this.dbHandler.transaction(function(t) {
+            t.executeSql(sql, null, function() {
+                if(opType === 'INSERT') {
+                    that.queryDbForId(obj.model);
+                }
+            }, function() { // error callback for SQLStatementTransaction
+                M.Logger.log('Incorrect statement: ' + sql, M.ERROR)
+            });
+        },
+        function() { // errorCallback
+            /* bind error callback */
+            if (obj.onError && obj.onError.target && obj.onError.action) {
+                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action]);
+                obj.onError();
+            } else if (typeof(obj.onError) !== 'function') {
+                M.Logger.log('Target and action in onError not defined.', M.INFO);
+            }
+        }, function() { // voidCallback (success)
+            /* bind success callback */
+            if (obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
+                obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
+                obj.onSuccess();
+            } else if (typeof(obj.onError) !== 'function') {
+                M.Logger.log('Target and action in onSuccess not defined.', M.INFO);
+            }
+        });        
+    },
+
+    /**
      * Deletes the passed model from the database
-     * TODO: make it ansync!
      * @param model
      */
     del: function(obj) {
@@ -120,9 +163,11 @@ M.WebSqlProvider = M.DataProvider.extend({
             return;
         }
 
-        this.dbHandler.transaction(function(t) {
-            t.executeSql('DELETE FROM ' + obj.model.name + ' WHERE ID=' + obj.model.id + ';');
-        });
+        var sql = 'DELETE FROM ' + obj.model.name + ' WHERE ID=' + obj.model.record.ID + ';';
+
+        console.log(sql);
+
+        this.performOp(sql, obj, 'DELETE');
     },
 
 
@@ -144,6 +189,11 @@ M.WebSqlProvider = M.DataProvider.extend({
         var sql = 'SELECT ';
 
         if(obj.columns) {
+            /* ID column always needs to be in de result relation */
+            if(!(_.include(obj.columns, 'ID'))) {
+                obj.columns.push('ID');
+            }
+
             if(obj.columns.length > 1) {
                 sql += obj.columns.join(', ');
             } else if(obj.columns.length == 1) {
@@ -194,7 +244,7 @@ M.WebSqlProvider = M.DataProvider.extend({
                     /* $.extend merges param1 object with param2 object*/
                     result.push(obj.model.createRecord($.extend(res.rows.item(i), {state: M.STATE_VALID}), this));
                 }
-            }, function(){M.Logger.log('Shizzy statement: ' + sql, M.ERROR)}) // callbacks: SQLStatementErrorCallback
+            }, function(){M.Logger.log('Incorrect statement: ' + sql, M.ERROR)}) // callbacks: SQLStatementErrorCallback
         }, function(){ // errorCallback
             /* bind error callback */
             if(obj.onError && obj.onError.target && obj.onError.action) {
@@ -230,7 +280,6 @@ M.WebSqlProvider = M.DataProvider.extend({
 
 
     /**
-     * TODO: route callbacks to central instance
      * creates the table corresponding to the model.
      */
     createTable: function(obj, callback) {
@@ -287,11 +336,17 @@ M.WebSqlProvider = M.DataProvider.extend({
 
         return prop + ' ' + type + isReqStr;
     },
-    
+
+
+    /**
+     * Queries the WebSql storage for the maximum id that was provided for a table defined by model.name.
+     * @param {Object} model The table's model
+     */
     queryDbForId: function(model) {
+        var that = this;
         this.dbHandler.readTransaction(function(t) {
-            var r = t.executeSql('SELECT MAX(ID) as ID FROM' + model.name, [], function (tx, res) {
-                console.log(res.rows.item(0).ID);
+            var r = t.executeSql('SELECT seq as ID FROM sqlite_sequence WHERE name="' + model.name + '"', [], function (tx, res) {
+                that.setDbIdOfModel(model, res.rows.item(0).ID);
             });
         });
     },
@@ -302,6 +357,10 @@ M.WebSqlProvider = M.DataProvider.extend({
         //console.log(model);
         //console.log(callback);
         this.internalCallback(obj, callback);
+    },
+
+    setDbIdOfModel: function(model, id) {
+        model.record.ID = id;
     }
 
 });
