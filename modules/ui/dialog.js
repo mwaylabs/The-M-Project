@@ -36,9 +36,20 @@ M.DialogView = M.View.extend({
     buttonIds: [],
 
     /**
+     * The dialog's callback, splitted in target / action. It is called once the dialog's
+     * closing transition did finish.
+     *
+     * @property {Object)
+     */
+    callback: {},
+
+    /**
      * This method controls the process of bringing a dialog to the screen.
      */
     show: function() {
+
+        /* register the onHide event for this dialog */
+        $('#' + this.id).live('pagehide', this.bindToCaller(this, this.dialogDidHide));
 
         /* call the dialog's render() */
         this.render();
@@ -76,6 +87,26 @@ M.DialogView = M.View.extend({
 
     actionSheet: function(obj) {
          M.ActionSheetDialogView.design(obj).show();
+    },
+
+    dialogWillClose: function(id) {
+        var button = M.ViewManager.getViewById(id);
+        if(this[button.role] && this[button.role].target && this[button.role].action) {
+            this.callback.target = this[button.role].target;
+            this.callback.action = this[button.role].action;
+        } else if (this.buttons[button.role] && this.buttons[button.role].target && this.buttons[button.role].action) {
+            this.callback.target = this.buttons[button.role].target;
+            this.callback.action = this.buttons[button.role].action;
+        }
+    },
+
+    dialogDidHide: function() {
+        if(this) {
+            if(this.callback && this.callback.target && this.callback.action) {
+                this.callback.target[this.callback.action]();
+            }
+            this.destroy();
+        }
     }
 
 });
