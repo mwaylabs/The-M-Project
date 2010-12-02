@@ -70,7 +70,17 @@ M.Date = M.Object.extend({
      * JS Date object will be returned.
      */
     create: function(dateString) {
-        var milliseconds = typeof(dateString) === 'number' ? dateString : Date.parse(dateString);
+        var milliseconds = typeof(dateString) === 'number' ? dateString :null;
+
+        if(!milliseconds) {
+            var regexResult = /(\d{1,2})\.(\d{1,2})\.(\d{2,4})/.exec(dateString);
+            if(regexResult && regexResult[1] && regexResult[2] && regexResult[3]) {
+                var date = $.trim(dateString).split(' ');
+                dateString = regexResult[2] + '/' + regexResult[1] + '/' + regexResult[3] + (date[1] ? ' ' + date[1] : '');
+            }
+            milliseconds = Date.parse(dateString);
+        }
+
         if(!milliseconds) {
             M.Logger.log('Invalid dateString \'' + dateString + '\'.', M.WARN);
             return null;
