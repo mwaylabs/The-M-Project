@@ -1,0 +1,45 @@
+M.I18N.de_DE = {
+
+    "tab_list": "ToDo Liste",
+
+    "tab_new": "Neuer Eintrag",
+
+    "tab_settings": "Einstellungen",
+
+    "edit": "Bearbeiten",
+
+    "add": "Hinzufügen",
+
+    "save": "Speichern",
+
+    "title": "Titel",
+
+    "details": "Details",
+
+    "due_date": "Fällig am",
+
+    "error": "Fehler",
+
+    "title_req": "'Titel' wird benötigt.",
+
+    "details_req": "'Details' wird benötigt.",
+
+    "due_date_req": "'Fällig am' wird benötigt.",
+
+    "due_date_invalid": "'Fällig am' ist ungültig.",
+
+    "delete": "Löschen",
+
+    "due_date_format": "dd.mm.yyyy HH:MM",
+
+    "settings": "Einstellungen",
+
+    "language": "Sprache",
+
+    "german": "Deutsch",
+
+    "english": "Englisch",
+
+    "days": "Tag(e)"
+
+}
