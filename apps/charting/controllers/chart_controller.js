@@ -24,7 +24,24 @@ Charting.ChartController = M.Controller.extend({
         }
 
         var r = Raphael(M.ViewManager.getView('page1', 'canvas').id, canvasWidth, canvasHeight);
-        r.g.piechart(pieWidth, pieHeight, pieRadius, [55, 20, 13, 32, 5, 1, 2]);
+        var pie = r.g.piechart(pieWidth, pieHeight, pieRadius - (pieRadius / 10), [55, 20, 13, 32, 5, 1, 2]);
+
+        pie.hover(function () {
+            this.sector.stop();
+            this.sector.scale(1.1, 1.1, this.cx, this.cy);
+            if (this.label) {
+                this.label[0].stop();
+                this.label[0].scale(1.5);
+                this.label[1].attr({"font-weight": 800});
+            }
+        }, function () {
+            this.sector.animate({scale: [1, 1, this.cx, this.cy]}, 500, "bounce");
+            if (this.label) {
+                this.label[0].animate({scale: 1}, 500, "bounce");
+                this.label[1].attr({"font-weight": 400});
+            }
+        });
+
 
     },
 
