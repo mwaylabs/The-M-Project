@@ -59,13 +59,6 @@ M.ViewManager = M.Object.extend({
     currentPage: null,
 
     /**
-     * A reference to the currently displayed dialog.
-     *
-     * @property {Object}
-     */
-    currentDialog: null,
-
-    /**
      * A reference to the latest found view which is necassary for the findView() method.
      *
      * @property {Object}
