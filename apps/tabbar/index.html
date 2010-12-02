@@ -43,6 +43,7 @@
     <script src="../../modules/ui/toggle.js"></script>
     <script src="../../modules/ui/tab_bar_item.js"></script>
     <script src="../../modules/ui/tab_bar.js"></script>
+    <script src="../../modules/ui/button_group.js"></script>
 
     <script src="tabbar.js"></script>
 
@@ -54,15 +55,45 @@
             Tabbar.app = M.Application.design({
                 page1: M.PageView.design({
 
-                    childViews: 'header tabs',
+                    childViews: 'header content tabs',
 
                     cssClass: 'page1',
 
                     header: M.ToolbarView.design({
 
                             value: 'BIRD',
+
                             anchorLocation: M.TOP
                         
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: 'buttonGroup',
+
+                        buttonGroup: M.ButtonGroupView.design({
+
+                            childViews: 'button1 button2 button3',
+
+                            target: Tabbar.Controller,
+
+                            action: 'selChanged',
+
+                            button1: M.ButtonView.design({
+                                value: '#FF0000',
+                                isActive: YES
+                            }),
+
+                            button2: M.ButtonView.design({
+                                value: '#AA0000'
+                            }),
+
+                            button3: M.ButtonView.design({
+                                value: '#550000'
+                            })
+
+                        })
+
                     }),
 
                     tabs: Tabbar.tabs
@@ -71,7 +102,7 @@
 
                 page2: M.PageView.design({
 
-                    childViews: 'header tabs',
+                    childViews: 'header content tabs',
 
                     cssClass: 'page2',
 
@@ -82,13 +113,42 @@
 
                     }),
 
+                    content: M.ScrollView.design({
+
+                        childViews: 'buttonGroup',
+
+                        buttonGroup: M.ButtonGroupView.design({
+
+                            childViews: 'button1 button2 button3',
+
+                            target: Tabbar.Controller,
+
+                            action: 'selChanged',
+
+                            button1: M.ButtonView.design({
+                                value: '#00FF00',
+                                isActive: YES
+                            }),
+
+                            button2: M.ButtonView.design({
+                                value: '#00AA00'
+                            }),
+
+                            button3: M.ButtonView.design({
+                                value: '#005500'
+                            })
+
+                        })
+
+                    }),
+
                     tabs: Tabbar.tabs
 
                 }),
 
                 page3: M.PageView.design({
 
-                    childViews: 'header tabs',
+                    childViews: 'header content tabs',
 
                     cssClass: 'page3',
 
@@ -99,13 +159,42 @@
 
                     }),
 
+                    content: M.ScrollView.design({
+
+                        childViews: 'buttonGroup',
+
+                        buttonGroup: M.ButtonGroupView.design({
+
+                            childViews: 'button1 button2 button3',
+
+                            target: Tabbar.Controller,
+
+                            action: 'selChanged',
+
+                            button1: M.ButtonView.design({
+                                value: '#0000FF',
+                                isActive: YES
+                            }),
+
+                            button2: M.ButtonView.design({
+                                value: '#0000AA'
+                            }),
+
+                            button3: M.ButtonView.design({
+                                value: '#000055'
+                            })
+
+                        })
+
+                    }),
+
                     tabs: Tabbar.tabs
 
                 }),
 
                 page4: M.PageView.design({
 
-                    childViews: 'header tabs',
+                    childViews: 'header content tabs',
 
                     cssClass: 'page4',
 
@@ -116,20 +205,78 @@
 
                     }),
 
+                    content: M.ScrollView.design({
+
+                        childViews: 'buttonGroup',
+
+                        buttonGroup: M.ButtonGroupView.design({
+
+                            childViews: 'button1 button2 button3',
+
+                            target: Tabbar.Controller,
+
+                            action: 'selChanged',
+
+                            button1: M.ButtonView.design({
+                                value: '#FFFF00',
+                                isActive: YES
+                            }),
+
+                            button2: M.ButtonView.design({
+                                value: '#AAAA00'
+                            }),
+
+                            button3: M.ButtonView.design({
+                                value: '#555500'
+                            })
+
+                        })
+
+                    }),
+
                     tabs: Tabbar.tabs
 
                 }),
 
                 page5: M.PageView.design({
 
-                    childViews: 'header tabs',
+                    childViews: 'header content tabs',
 
                     cssClass: 'page5',
 
                     header: M.ToolbarView.design({
 
-                            value: 'HEART',
+                            value: 'LOVE',
                             anchorLocation: M.TOP
+
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: 'buttonGroup',
+
+                        buttonGroup: M.ButtonGroupView.design({
+
+                            childViews: 'button1 button2 button3',
+
+                            target: Tabbar.Controller,
+
+                            action: 'selChanged',
+
+                            button1: M.ButtonView.design({
+                                value: '#FF00CC',
+                                isActive: YES
+                            }),
+
+                            button2: M.ButtonView.design({
+                                value: '#AA0088'
+                            }),
+    
+                            button3: M.ButtonView.design({
+                                value: '#550044'
+                            })
+
+                        })
 
                     }),
 
