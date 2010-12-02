@@ -72,8 +72,9 @@ M.ConfirmDialogView = M.DialogView.extend({
             var button = M.ButtonView.design({
                 value: 'OK',
                 cssClass: 'b',
-                target: this.onOk ? this.onOk.target : null,
-                action: this.onOk ? this.onOk.action : ''
+                target: this,
+                action: 'dialogWillClose',
+                role: 'onOk'
             });
             this.buttonIds.push(button.id);
             this.html += button.render();
@@ -83,8 +84,9 @@ M.ConfirmDialogView = M.DialogView.extend({
             var button = M.ButtonView.design({
                 value: 'Cancel',
                 cssClass: 'c',
-                target: this.onCancel ? this.onCancel.target : null,
-                action: this.onCancel ? this.onCancel.action : ''
+                target: this,
+                action: 'dialogWillClose',
+                role: 'onCancel'
             });
             this.buttonIds.push(button.id);
             this.html += button.render();
