@@ -20,10 +20,17 @@ M.Application = M.Object.extend({
 
     /**
      * The type of this object.
-     *g
+     *
      * @property {String}
      */
     type: 'M.Application',
+
+    /**
+     * The application's name.
+     *
+     * @property {String}
+     */
+    name: null,
 
     /**
      * The application's view manager.
