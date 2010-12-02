@@ -62,9 +62,6 @@ M.DialogView = M.View.extend({
             M.Application.eventDispatcher.registerEvents(this.buttonIds[i], 'click');
         }
 
-        /* set the dialog as the application's current dialog (necessary for later destroying) */
-        M.Application.viewManager.currentDialog = this;
-
         /* finally show the dialog on the screen */
         M.Controller.switchToPage(this, this.transition, NO, NO);
         
