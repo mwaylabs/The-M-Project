@@ -77,12 +77,6 @@ M.PageView = M.View.extend({
             this.onLoad.target[this.onLoad.action](this.isFirstLoad);            
         }
 
-        /* if there is was a dialog on the previous page, call its cancel method */
-        if(M.Application.viewManager.currentDialog) {
-            M.Application.viewManager.currentDialog.destroy();
-            M.Application.viewManager.currentDialog = null;
-        }
-
         /* if there is a list on the page, reset it: deactivate possible active list items */
         $('#' + this.id).find('.ui-btn-active').each(function() {
             if(M.ViewManager.getViewById($(this).attr('id')) && M.ViewManager.getViewById($(this).attr('id')).type === 'M.ListItemView') {
