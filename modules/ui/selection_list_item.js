@@ -49,11 +49,7 @@ M.SelectionListItemView = M.View.extend({
     render: function() {
         this.html += '<input type="' + this.parentView.selectionMode + '" name="';
 
-        if(this.parentView.selectionMode === M.SINGLE_SELECTION) {
-             this.html += this.parentView.name ? this.parentView.name : this.parentView.id;
-        } else {
-            this.html += this.name ? this.name : this.id;
-        }
+        this.html += this.parentView.name ? this.parentView.name : this.parentView.id;
 
         this.html += '" id="' + this.id + '"';
 

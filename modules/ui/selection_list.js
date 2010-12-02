@@ -190,6 +190,63 @@ M.SelectionListView = M.View.extend({
                 return selection;
             }
         }
+    },
+
+    /**
+     * This method can be used to select items programmatically.
+     */
+    setSelection: function(selection) {
+        this.removeSelection();
+        var that = this;
+        if(this.selectionMode === M.SINGLE_SELECTION && typeof(selection) === 'string') {
+            $('#' + this.id).find('input').each(function() {
+                var item = M.ViewManager.getViewById($(this).attr('id'));
+                if(item.value === selection) {
+                    item.isSelected = YES;
+                    that.selection = item;
+                    $(this).attr('checked', 'checked');
+                    $(this).siblings('label:first').addClass('ui-btn-active');
+                    $(this).siblings('label:first').find('span .ui-icon-radio-off').addClass('ui-icon-radio-on');
+                    $(this).siblings('label:first').find('span .ui-icon-radio-off').removeClass('ui-icon-radio-off');
+                }
+            });
+        } else  if(typeof(selection) === 'object') {
+            $('#' + this.id).find('input').each(function() {
+                var item = M.ViewManager.getViewById($(this).attr('id'));
+                for(var i in selection) {
+                    var selectionItem = selection[i];
+                    if(item.value === selectionItem) {
+                        item.isSelected = YES;
+                        that.selection.push(item);
+                        $(this).attr('checked', 'checked');
+                        $(this).siblings('label:first').addClass('ui-btn-active');
+                        $(this).siblings('label:first').find('span .ui-icon-checkbox-off').addClass('ui-icon-checkbox-on');
+                        $(this).siblings('label:first').find('span .ui-icon-checkbox-off').removeClass('ui-icon-checkbox-off');
+                    }
+                }
+            });
+        }
+        that.theme();
+    },
+
+    removeSelection: function() {
+        var that = this;
+        var type = '';
+        if(this.selectionMode === M.SINGLE_SELECTION) {
+            this.selection = null;
+            type = 'radio';
+        } else {
+            this.selection = [];
+            type = 'checkbox';
+        }
+        $('#' + this.id).find('input').each(function() {
+            var item = M.ViewManager.getViewById($(this).attr('id'));
+            item.isSelected = NO;
+            $(this).removeAttr('checked');
+            $(this).siblings('label:first').removeClass('ui-btn-active');
+            $(this).siblings('label:first').find('span .ui-icon-radio-on').addClass('ui-icon-' + type + '-off');
+            $(this).siblings('label:first').find('span .ui-icon-radio-on').removeClass('ui-icon-' + type + '-on');
+        });
     }
 
 });
