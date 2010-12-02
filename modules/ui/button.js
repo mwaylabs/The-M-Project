@@ -26,6 +26,15 @@ M.ButtonView = M.View.extend({
     useOnClick: NO,
 
     /**
+     * Determines whether this button is active or not.
+     *
+     * Note: This property is only used if the button is part of a button group.
+     *
+     * @property {Boolean}
+     */
+    isActive: NO,
+
+    /**
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
      */
     render: function() {
