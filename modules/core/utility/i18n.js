@@ -71,14 +71,17 @@ M.I18N = M.Object.extend({
         if(!M.Application.currentLanguage) {
             M.Application.currentLanguage = this.getLanguage();
         }
-        if(this[M.Application.currentLanguage]) {
-            if(this[M.Application.currentLanguage][key]) {
-                return this[M.Application.currentLanguage][key];        
-            } else {
-                M.Logger.log('Key \'' + key + '\' not defined for language \'' + M.Application.currentLanguage + '\'', M.WARN);
-            }
+
+        if(this[M.Application.currentLanguage] && this[M.Application.currentLanguage][key]) {
+            return this[M.Application.currentLanguage][key];
+        } else if(this[M.Application.defaultLanguage] && this[M.Application.defaultLanguage][key]) {
+            M.Logger.log('Key \'' + key + '\' not defined for language \'' + M.Application.currentLanguage + '\', switched to default language \'' + M.Application.defaultLanguage + '\'', M.WARN);
+            return this[M.Application.defaultLanguage][key];
+        }  else if(this[this.defaultLanguage] && this[this.defaultLanguage][key]) {
+            M.Logger.log('Key \'' + key + '\' not defined for language \'' + M.Application.currentLanguage + '\', switched to system\'s default language \'' + this.defaultLanguage + '\'', M.WARN);
+            return this[this.defaultLanguage][key];
         } else {
-            M.Logger.log('Key \'' + key + '\' not defined for language \'' + M.Application.currentLanguage + '\'', M.WARN);
+            M.Logger.log('Key \'' + key + '\' not defined for both language \'' + M.Application.currentLanguage + '\' and the system\'s default language \'' + this.defaultLanguage + '\'', M.WARN);
         }
 
     },
@@ -92,29 +95,19 @@ M.I18N = M.Object.extend({
         if(!this.isLanguageAvailable(language)) {
             return;
         }
-        
-        var url = location.protocol + '//' + location.host + location.pathname;
 
-        var oldParams = location.search ? location.search.substring(1).split('&') : null;
-        var newParams = '';
-        if(oldParams) {
-            for(var i in oldParams) {
-                var params = oldParams[i].split('=');
-                if(params[0] !== 'language') {
-                    newParams += newParams ? oldParams[i] : '?' + oldParams[i];
-                }
-            }
+        if(localStorage) {
+            localStorage.setItem('$' + M.Application.name + '_lang$', language);
+            location.reload();
         }
-        newParams += newParams ? '&' : '?';
-
-        url += newParams + 'language=' + language;
-        url += location.hash;
-
-        location.href = url;
     },
 
     getLanguage: function() {
-        var language = location.search ? location.search.substring(location.search.lastIndexOf("language=") + 9) : null;
+        var language = null;
+
+        if(localStorage) {
+            language = localStorage.getItem('$' + M.Application.name + '_lang$');
+        }
 
         if(language) {
             return language;
@@ -125,9 +118,7 @@ M.I18N = M.Object.extend({
             } else if(regexResult && regexResult[1] && this.languageMapper[regexResult[1]]) {
                 for(var i in this.languageMapper[regexResult[1]]) {
                     var language = this.languageMapper[regexResult[1]][i];
-                    if(this[language]) {
-                        return language;
-                    }
+                    return language;
                 }
             } else {
                 return M.Application.defaultLanguage;
