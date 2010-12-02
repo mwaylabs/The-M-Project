@@ -30,6 +30,7 @@ M.ButtonView = M.View.extend({
      */
     render: function() {
         this.html += '<a data-role="button" href="#" id="' + this.id + '"' + this.style() + '>' + this.value + '</a>';
+        
         return this.html;
     },
 
@@ -68,7 +69,7 @@ M.ButtonView = M.View.extend({
             html += ' data-theme="' + this.cssClass + '"';
         }
         if(this.cssStyle) {
-            html += ' style="' + this.cssStyle + '"';
+            html += 'style="' + this.cssStyle + '"';
         }
         return html;
     }
