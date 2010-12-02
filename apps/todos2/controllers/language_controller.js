@@ -4,16 +4,7 @@ Todos.LanguageController = M.Controller.extend({
 
     init: function() {
 
-        M.Request.init({
-            url: 'langs.json',
-            isJSON: YES,
-            beforeSend: function(req) {
-                //...
-            },
-            onSuccess: function(data){
-                Todos.LanguageController.set('languages', data.languages);
-            }
-        }).send();
+        M.ViewManager.getView('page3', 'langSelection').setSelection(M.Application.currentLanguage);
 
     },
 
@@ -24,7 +15,7 @@ Todos.LanguageController = M.Controller.extend({
     changeLanguage: function() {
 
        var language = M.ViewManager.getView('page3', 'langSelection').getSelection();
-       console.log(language);
+       M.I18N.setLanguage(language);
 
     }
 

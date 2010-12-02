@@ -10,7 +10,7 @@ Todos.tabs = M.TabBarView.design({
 
     tabItem1: M.TabBarItemView.design({
 
-        value: 'ToDo List',
+        value: M.I18N.l('tab_list'),
         page: 'page1',
         icon: 'notepad',
         isActive: YES
@@ -19,7 +19,7 @@ Todos.tabs = M.TabBarView.design({
 
     tabItem2: M.TabBarItemView.design({
 
-        value: 'New Item',
+        value: M.I18N.l('tab_new'),
         page: 'page2',
         icon: 'todo'
 
@@ -27,7 +27,7 @@ Todos.tabs = M.TabBarView.design({
 
     tabItem3: M.TabBarItemView.design({
 
-        value: 'Settings',
+        value:  M.I18N.l('tab_settings'),
         page: 'page3',
         icon: 'settings'
 

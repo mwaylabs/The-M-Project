@@ -10,6 +10,11 @@
 
 var Todos = Todos || {};
 
+M.Application.defaultLanguage = 'en_US';
+M.Application.name = 'Todos';
+
+document.write("<script src='i18n/de_de.i18n'></script>");
+document.write("<script src='i18n/en_us.i18n'></script>");
 document.write("<script src='models/note.js'></script>");
 document.write("<script src='controllers/todo_controller.js'></script>");
 document.write("<script src='controllers/language_controller.js'></script>");

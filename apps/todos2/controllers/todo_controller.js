@@ -144,9 +144,9 @@ Todos.TodoController = M.Controller.extend({
         this.set('selText', record.record.text);
 
         var date = M.Date.create(record.record.date);
-        var dateFormat = M.Date.format(date, 'mm/dd/yyyy HH:MM:ss');
+        var dateFormat = M.Date.format(date, M.I18N.l('due_date_format'));
         var days = M.Math.round(M.Date.timeBetween(M.Date.now(), date, M.DAYS));
-        this.set('selDateFormat', dateFormat + ' (in ' + days + ' day' + (days !== 1 ? 's' : '') + ')');
+        this.set('selDateFormat', dateFormat + ' (' + days + ' ' + M.I18N.l('days') + ')');
         this.set('selDate', dateFormat);
         this.switchToPage(M.ViewManager.getPage('subpage1'));
     },
@@ -186,9 +186,9 @@ Todos.TodoController = M.Controller.extend({
         this.set('selText', note.record.text);
 
         var date = M.Date.create(note.record.date);
-        var dateFormat = M.Date.format(date, 'mm/dd/yyyy HH:MM:ss');
+        var dateFormat = M.Date.format(date, M.I18N.l('due_date_format'));
         var days = M.Math.round(M.Date.timeBetween(M.Date.now(), date, M.DAYS));
-        this.set('selDateFormat', dateFormat + ' (in ' + days + ' day' + (days !== 1 ? 's' : '') + ')');
+        this.set('selDateFormat', dateFormat + ' (' + days + ' ' + M.I18N.l('days') + ')');
         this.set('selDate', dateFormat);
 
         M.ViewManager.getView('page2', 'title').setValue('');
