@@ -59,13 +59,16 @@ M.ButtonView = M.View.extend({
     style: function() {
         var html = '';
         if(this.isInline) {
-            html += 'data-inline="true"';
+            html += ' data-inline="true"';
         }
         if(this.icon) {
-            html += 'data-icon="' + this.icon + '"';
+            html += ' data-icon="' + this.icon + '"';
         }
         if(this.cssClass) {
-            html += 'data-theme="' + this.cssClass + '"';
+            html += ' data-theme="' + this.cssClass + '"';
+        }
+        if(this.cssStyle) {
+            html += ' style="' + this.cssStyle + '"';
         }
         return html;
     }
