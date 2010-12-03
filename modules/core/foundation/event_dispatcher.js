@@ -65,11 +65,11 @@ M.EventDispatcher = M.Object.create({
 
         switch(type) {
             case 'click':
-                if(view && view.target && view.action && view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView') {
-                    view.target[view.action](id, view.modelId);
-                }
                 if(view && view.internalTarget && view.internalAction) {
                     view.internalTarget[view.internalAction](id, view.modelId);
+                }
+                if(view && view.target && view.action && view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView') {
+                    view.target[view.action](id, view.modelId);
                 }
                 break;
             case 'change':

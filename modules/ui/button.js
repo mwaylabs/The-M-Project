@@ -26,10 +26,20 @@ M.ButtonView = M.View.extend({
     useOnClick: NO,
 
     /**
+     * Determines whether this button is active or not.
+     *
+     * Note: This property is only used if the button is part of a button group.
+     *
+     * @property {Boolean}
+     */
+    isActive: NO,
+
+    /**
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
      */
     render: function() {
         this.html += '<a data-role="button" href="#" id="' + this.id + '"' + this.style() + '>' + this.value + '</a>';
+        
         return this.html;
     },
 
@@ -59,13 +69,16 @@ M.ButtonView = M.View.extend({
     style: function() {
         var html = '';
         if(this.isInline) {
-            html += 'data-inline="true"';
+            html += ' data-inline="true"';
         }
         if(this.icon) {
-            html += 'data-icon="' + this.icon + '"';
+            html += ' data-icon="' + this.icon + '"';
         }
         if(this.cssClass) {
-            html += 'data-theme="' + this.cssClass + '"';
+            html += ' data-theme="' + this.cssClass + '"';
+        }
+        if(this.cssStyle) {
+            html += 'style="' + this.cssStyle + '"';
         }
         return html;
     }

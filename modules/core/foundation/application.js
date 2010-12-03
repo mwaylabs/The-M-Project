@@ -112,7 +112,16 @@ M.Application = M.Object.extend({
             if(this.viewManager.viewList[i].type === 'M.PageView') {
                 html += this.viewManager.viewList[i].render();
                 /* bind the pageshow event to any view's pageDidLoad property function */
+                $('#' + this.viewManager.viewList[i].id).bind('pagebeforeshow', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageWillLoad));
+
+                /* bind the pageshow event to any view's pageWillLoad property function */
                 $('#' + this.viewManager.viewList[i].id).bind('pageshow', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageDidLoad));
+
+                /* bind the pagebeforehide event to any view's pageWillHide property function */
+                $('#' + this.viewManager.viewList[i].id).bind('pagebeforehide', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageWillHide));
+
+                /* bind the pagehide event to any view's pageDidHide property function */
+                $('#' + this.viewManager.viewList[i].id).bind('pagehide', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageDidHide));
 
                 /* set the first page as current page to be displayed */
                 if(!this.viewManager.getCurrentPage()) {

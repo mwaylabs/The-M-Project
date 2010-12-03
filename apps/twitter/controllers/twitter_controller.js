@@ -25,6 +25,8 @@ Twitter.TwitterController = M.Controller.extend({
             return;
         }
 
+        M.LoaderView.show();
+
         M.Request.init({
             url: 'http://search.twitter.com/search.json?q=' + searchString + '&rpp=10',
             //url: '/twitter/search.json?q=' + searchString + '&rpp=10',
@@ -33,6 +35,7 @@ Twitter.TwitterController = M.Controller.extend({
                 //...
             },
             onSuccess: function(data){
+                M.LoaderView.hide();
                 if(data && data.results && data.results.length > 0) {
                     Twitter.TwitterController.set('results', data);
                     Twitter.TwitterController.set('searchString', 'Results for \'' + searchString + '\'');
@@ -48,6 +51,9 @@ Twitter.TwitterController = M.Controller.extend({
                        message: 'No connection could be established! Please check your connection status and try again. If this message keeps coming up, you probably didn\'t add the necessary proxy to your server.'
                    });
                 }
+            },
+            onError: function(data){
+                M.LoaderView.hide();
             }
         }).send();
     },
@@ -60,6 +66,8 @@ Twitter.TwitterController = M.Controller.extend({
             return;
         }
 
+        M.LoaderView.show();
+
         M.Request.init({
             url: 'http://search.twitter.com/search.json?from=' + username + '&rpp=10',
             //url: '/twitter/search.json?from=' + username + '&rpp=10',
@@ -68,9 +76,13 @@ Twitter.TwitterController = M.Controller.extend({
                 //...
             },
             onSuccess: function(data){
+                M.LoaderView.hide();
                 Twitter.TwitterController.set('userResults', data);
                 Twitter.TwitterController.set('username', username);
                 M.Controller.switchToPage(M.ViewManager.getPage('page3'));
+            },
+            onError: function(data){
+                M.LoaderView.hide();
             }
         }).send();
     }

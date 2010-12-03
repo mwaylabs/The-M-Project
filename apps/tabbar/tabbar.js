@@ -11,3 +11,4 @@
 var Tabbar = Tabbar || {};
 
 document.write("<script src='views/tabs.js'></script>");
+document.write("<script src='controllers/controller.js'></script>");

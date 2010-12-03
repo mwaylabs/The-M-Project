@@ -31,11 +31,32 @@ M.PageView = M.View.extend({
     isFirstLoad: YES,
 
     /**
+     * This property can be used to set the page's beforeLoad action.
+     *
+     * @property {Object}
+     */
+    beforeLoad: null,
+
+    /**
      * This property can be used to set the page's onLoad action.
      *
      * @property {Object}
      */
     onLoad: null,
+
+    /**
+     * This property can be used to set the page's beforeHide action.
+     *
+     * @property {Object}
+     */
+    beforeHide: null,
+
+    /**
+     * This property can be used to set the page's onHide action.
+     *
+     * @property {Object}
+     */
+    onHide: null,
 
     /**
      * Indicates whether the page has a tab bar or not.
@@ -66,6 +87,16 @@ M.PageView = M.View.extend({
 
         this.writeToDOM();
         this.theme();
+    },
+
+    /**
+     * This method is called right before the page is loaded. It is then delegated to the view's
+     * specified beforeLoad-method.
+     */
+    pageWillLoad: function() {
+        if(this.beforeLoad) {
+            this.beforeLoad.target[this.beforeLoad.action](this.isFirstLoad);
+        }
     },
 
     /**
@@ -106,6 +137,25 @@ M.PageView = M.View.extend({
         this.isFirstLoad = NO;
     },
 
+    /**
+     * This method is called right before the page is loaded. It is then delegated to the view's
+     * specified beforeLoad-method.
+     */
+    pageWillHide: function() {
+        if(this.beforeHide) {
+            this.beforeHide.target[this.beforeHide.action]();
+        }
+    },
+
+    /**
+     * This method is called right before the page is loaded. It is then delegated to the view's
+     * specified beforeLoad-method.
+     */
+    pageDidHide: function() {
+        if(this.onHide) {
+            this.onHide.target[this.onHide.action]();
+        }
+    },
 
     /**
      * This method is called if the device's orientation changed.

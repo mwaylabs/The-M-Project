@@ -46,6 +46,7 @@
     <script src="../../modules/ui/dialogs/alert_dialog.js"></script>
     <script src="../../modules/ui/dialogs/confirm_dialog.js"></script>
     <script src="../../modules/ui/dialogs/action_sheet_dialog.js"></script>
+    <script src="../../modules/ui/loader.js"></script>
 
     <script src="demo.js"></script>
 
@@ -101,7 +102,7 @@
                             contentBinding: 'Twitter.TwitterController.results',
                             items: 'results',
                             listItemTemplateView: Twitter.TwitterResultsView,
-                            removeItemsOnUpdate: NO
+                            removeItemsOnUpdate: YES
                         })
                     })
                 }),

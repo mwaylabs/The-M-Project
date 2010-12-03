@@ -8,7 +8,7 @@ Tabbar.tabs = M.TabBarView.design({
 
     tabItem1: M.TabBarItemView.design({
 
-        value: 'tab1',
+        value: 'bird',
         page: 'page1',
         href: 'm_10',
         icon: 'bird',
@@ -18,7 +18,7 @@ Tabbar.tabs = M.TabBarView.design({
 
     tabItem2: M.TabBarItemView.design({
 
-        value: 'tab2',
+        value: 'eye',
         page: 'page2',
         href: 'm_14',
         icon: 'eye'
@@ -27,7 +27,7 @@ Tabbar.tabs = M.TabBarView.design({
 
     tabItem3: M.TabBarItemView.design({
 
-        value: 'tab3',
+        value: 'beer',
         page: 'page3',
         icon: 'beer'
 
@@ -35,7 +35,7 @@ Tabbar.tabs = M.TabBarView.design({
 
     tabItem4: M.TabBarItemView.design({
 
-        value: 'tab4',
+        value: 'gift',
         page: 'page4',
         icon: 'gift'
 
@@ -43,7 +43,7 @@ Tabbar.tabs = M.TabBarView.design({
 
     tabItem5: M.TabBarItemView.design({
 
-        value: 'tab5',
+        value: 'love',
         page: 'page5',
         icon: 'heart'
 

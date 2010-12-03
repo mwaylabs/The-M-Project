@@ -108,6 +108,14 @@ M.View = M.Object.extend({
     cssClass: null,
 
     /**
+     * This property can be used to assign a css style to the view using. This allows you to
+     * create your custom styles inline.
+     *
+     * @property {String}
+     */
+    cssStyle: null,
+
+    /**
      * This property can be used to assign a css class to the view if an error occurs. The
      * applying of this class is automatically triggered if the validation of the view
      * goes wrong.
