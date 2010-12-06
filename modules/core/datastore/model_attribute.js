@@ -18,9 +18,11 @@ m_require('core/utility/logger.js');
  */
 M.ModelAttribute = M.Object.extend({
 
+    type: 'M.ModelAttribute',
+
     defaultValue: null,
 
-    type: null,
+    dataType: null,
 
     isRequired: NO,
 
@@ -44,16 +46,16 @@ M.ModelAttribute = M.Object.extend({
 /**
  * Returns a model attribute.
  *
- * @param type
+ * @param dataType The data type of the attribute: e.g. String 
  * @param opts options for the attribute, such as defaultValue, isRequired flag, etc. ...
  * @return {Object} Model attribute
  */
-M.ModelAttribute.attr = function(type, opts) {
+M.ModelAttribute.attr = function(dataType, opts) {
     if (!opts) {
         opts = {};
     }
-    if (!opts.type) {
-        opts.type = type || 'String';
+    if (!opts.dataType) {
+        opts.dataType = dataType || 'String';
     }
 
     /* if validators array is not set and attribute is required, define validators as an empty array, (this is for adding M.PresenceValidator automatically */
