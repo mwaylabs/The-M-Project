@@ -48,22 +48,39 @@ M.LocalStorageProvider = M.DataProvider.extend({
     del: function(obj) {
         try {
             localStorage.removeItem(obj.model.name + '_' + obj.model.id);
+            return YES;
         } catch(e) {
             M.Logger.log(M.WARN, 'Error removing ID: ' + obj.model.name + '_' + obj.model.id + ' from localStorage');
         }
     },
 
     /**
-     * Finds all models of type defined by modelName that match a simple query.
+     * Finds all models of type defined by modelName that match a key or a simple query.
      * A simple query example: 'price < 2.21'
      * Right now, no AND or OR joins possible, just one query constraint.
      *
      * If no query is passed, all models are returned by calling findAll()
      * @param {String} modelName
      * @param {String} query
-     * TODO: change to work with param obj that includes a model 
      */
     find: function(obj) {
+        if(obj.key) {
+            console.log('got the key...');
+            var record = this.findByKey(obj.key);
+            if(!record) {
+                return NO;
+            }
+            /*construct new model record with the saved id*/
+            var reg = new RegExp('^' + obj.model.name + '_([0-9]+)').exec(obj.key);
+            var m_id = reg && reg[1] ? reg[1] : null;
+            if (!m_id) {
+                M.Logger.log('retrieved model has no valid key: ' + obj.key, M.ERROR);
+                return;
+            }
+            var m = obj.model.createRecord($.extend(record, {id: m_id, state: M.STATE_VALID}));
+            return m;
+        }
+
         if(obj.query){
             /**
              * RegEx to match simple queries. E.g.:
@@ -128,12 +145,11 @@ M.LocalStorageProvider = M.DataProvider.extend({
         } else { /* if no query is passed, all models for modelName shall be returned */
             return this.findAll(obj);
         }
-
     },
 
     findByKey: function(key) {
         if(key) {
-            return JSON.parse(localStorage.getItem(k));
+            return JSON.parse(localStorage.getItem(key));
         }
         M.Logger.log("Please provide a key.", M.WARN);
         return NO;
