@@ -70,7 +70,7 @@ M.Date = M.Object.extend({
      * JS Date object will be returned.
      */
     create: function(dateString) {
-        var milliseconds = typeof(dateString) === 'number' ? dateString :null;
+        var milliseconds = typeof(dateString) === 'number' ? dateString : null;
 
         if(!milliseconds) {
             var regexResult = /(\d{1,2})\.(\d{1,2})\.(\d{2,4})/.exec(dateString);
