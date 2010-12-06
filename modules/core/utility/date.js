@@ -99,7 +99,7 @@ M.Date = M.Object.extend({
         if(dateString && !milliseconds) {
             M.Logger.log('Invalid dateString \'' + dateString + '\'.', M.WARN);
             return null;
-        } else {
+        } else if(!dateString) {
             return this.now();
         }
 
