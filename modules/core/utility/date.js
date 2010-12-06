@@ -81,10 +81,13 @@ M.Date = M.Object.extend({
             milliseconds = Date.parse(dateString);
         }
 
-        if(!milliseconds) {
+        if(dateString && !milliseconds) {
             M.Logger.log('Invalid dateString \'' + dateString + '\'.', M.WARN);
             return null;
+        } else {
+            return this.now();
         }
+        
         return new Date(milliseconds);
     },
 
