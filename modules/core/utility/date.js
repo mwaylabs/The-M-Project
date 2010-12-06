@@ -34,11 +34,26 @@ M.MONTH_NAMES = [
 M.Date = M.Object.extend({
 
     /**
+     * The type of this object.
+     *
+     * @property {String}
+     */
+    type: 'M.Date',
+    /**
+     * The native javascript date object.
+     *
+     * @property {Object}
+     */
+    date: null,
+
+    /**
      * Returns the current date, e.g.
      * Thu Nov 11 2010 14:20:55 GMT+0100 (CET)
      */
     now: function() {
-        return new Date();
+        return this.extend({
+            date: new Date()
+        });
     },
 
     /**
@@ -87,12 +102,14 @@ M.Date = M.Object.extend({
         } else {
             return this.now();
         }
-        
-        return new Date(milliseconds);
+
+        return this.extend({
+            date: new Date(milliseconds)
+        });
     },
 
     /**
-     * This method formats a given JS Date object according to the passed 'format' property and
+     * This method formats a given date object according to the passed 'format' property and
      * returns it as a String.
      *
      * The following list defines the special characters that can be used in the 'format' property
@@ -125,12 +142,11 @@ M.Date = M.Object.extend({
      * o 	    GMT/UTC timezone offset, e.g. -0500 or +0230.
      * S 	    The date's ordinal suffix (st, nd, rd, or th). Works well with d.
      *
-     * @param date {Object} The date to be formatted.
      * @param format {String} The format.
      * @param utc {Boolean} Determines whether to convert to UTC time or not. Default: NO.
      */
-    format: function(date, format, utc) {
-        if(isNaN(date)) {
+    format: function(format, utc) {
+        if(isNaN(this.date)) {
             M.Logger.log('Invalid date!', M.WARN);   
         }
 
@@ -144,21 +160,21 @@ M.Date = M.Object.extend({
             return val;
         };
 
-		if(arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
-			format = date;
+		if(arguments.length == 1 && Object.prototype.toString.call(this.date) == "[object String]" && !/\d/.test(this.date)) {
+			format = this.date;
 			date = undefined;
 		}
 
 		var	_ = utc ? "getUTC" : "get";
-        var	d = date[_ + "Date"]();
-        var	D = date[_ + "Day"]();
-        var	m = date[_ + "Month"]();
-        var	y = date[_ + "FullYear"]();
-        var	H = date[_ + "Hours"]();
-        var	Min = date[_ + "Minutes"]();
-        var	s = date[_ + "Seconds"]();
-        var	L = date[_ + "Milliseconds"]();
-        var	o = utc ? 0 : date.getTimezoneOffset();
+        var	d = this.date[_ + "Date"]();
+        var	D = this.date[_ + "Day"]();
+        var	m = this.date[_ + "Month"]();
+        var	y = this.date[_ + "FullYear"]();
+        var	H = this.date[_ + "Hours"]();
+        var	Min = this.date[_ + "Minutes"]();
+        var	s = this.date[_ + "Seconds"]();
+        var	L = this.date[_ + "Milliseconds"]();
+        var	o = utc ? 0 : this.date.getTimezoneOffset();
         var	flags = {
             d:    d,
             dd:   pad(d),
@@ -184,7 +200,7 @@ M.Date = M.Object.extend({
             tt:   H < 12 ? "am" : "pm",
             T:    H < 12 ? "A"  : "P",
             TT:   H < 12 ? "AM" : "PM",
-            Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+            Z:    utc ? "UTC" : (String(this.date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
             o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
             S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
         };
@@ -209,7 +225,8 @@ M.Date = M.Object.extend({
      * @param {Number} days The number of days to be added to or subtracted from the current date.
      */
     daysFromNow: function(days) {
-        return this.daysFromDate(days, this.now());
+        var date = this.now();
+        return date.daysFromDate(days);
     },
 
     /**
@@ -218,10 +235,9 @@ M.Date = M.Object.extend({
      * these into the calculation of the future or past date.
      *
      * @param {Number} days The number of days to be added to or subtracted from the current date.
-     * @param {Object} inputDate The input date as a date object.
      */
-    daysFromDate: function(days, inputDate) {
-        return this.millisecondsFromDate(days * 24 * 60 * 60 * 1000, inputDate);
+    daysFromDate: function(days) {
+        return this.millisecondsFromDate(days * 24 * 60 * 60 * 1000);
     },
 
     /**
@@ -232,7 +248,8 @@ M.Date = M.Object.extend({
      * @param {Number} hours The number of hours to be added to or subtracted from the current date.
      */
     hoursFromNow: function(hours) {
-        return this.hoursFromDate(hours, this.now());
+        var date = this.now();
+        return date.hoursFromDate(hours);
     },
 
     /**
@@ -241,10 +258,9 @@ M.Date = M.Object.extend({
      * these into the calculation of the future or past date.
      *
      * @param {Number} hours The number of hours to be added to or subtracted from the current date.
-     * @param {Object} inputDate The input date as a date object.
      */
-    hoursFromDate: function(hours, inputDate) {
-        return this.millisecondsFromDate(hours * 60 * 60 * 1000, inputDate);
+    hoursFromDate: function(hours) {
+        return this.millisecondsFromDate(hours * 60 * 60 * 1000);
     },
 
     /**
@@ -255,7 +271,8 @@ M.Date = M.Object.extend({
      * @param {Number} minutes The number of minutes to be added to or subtracted from the current date.
      */
     minutesFromNow: function(minutes) {
-        return this.minutesFromDate(minutes, this.now());
+        var date = this.now();
+        return date.minutesFromDate(minutes);
     },
 
     /**
@@ -264,10 +281,9 @@ M.Date = M.Object.extend({
      * these into the calculation of the future or past date.
      *
      * @param {Number} minutes The number of minutes to be added to or subtracted from the current date.
-     * @param {Object} inputDate The input date as a date object.
      */
-    minutesFromDate: function(minutes, inputDate) {
-        return this.millisecondsFromDate(minutes * 60 * 1000, inputDate);
+    minutesFromDate: function(minutes) {
+        return this.millisecondsFromDate(minutes * 60 * 1000);
     },
 
     /**
@@ -278,7 +294,8 @@ M.Date = M.Object.extend({
      * @param {Number} seconds The number of seconds to be added to or subtracted from the current date.
      */
     secondsFromNow: function(seconds) {
-        return this.secondsFromDate(seconds, this.now());
+        var date = this.now();
+        return date.secondsFromDate(seconds);
     },
 
     /**
@@ -287,10 +304,9 @@ M.Date = M.Object.extend({
      * these into the calculation of the future or past date.
      *
      * @param {Number} seconds The number of seconds to be added to or subtracted from the current date.
-     * @param {Object} inputDate The input date as a date object.
      */
-    secondsFromDate: function(seconds, inputDate) {
-        return this.millisecondsFromDate(seconds * 1000, inputDate);
+    secondsFromDate: function(seconds) {
+        return this.millisecondsFromDate(seconds * 1000);
     },
 
     /**
@@ -301,7 +317,8 @@ M.Date = M.Object.extend({
      * @param {Number} milliseconds The number of milliseconds to be added to or subtracted from the current date.
      */
     millisecondsFromNow: function(milliseconds) {
-        return this.millisecondsFromDate(milliseconds, this.now());
+        var date = this.now();
+        return date.millisecondsFromDate(milliseconds);
     },
 
     /**
@@ -310,11 +327,16 @@ M.Date = M.Object.extend({
      * these into the calculation of the future or past date.
      *
      * @param {Number} milliseconds The number of milliseconds to be added to or subtracted from the current date.
-     * @param {Object} inputDate The input date as a date object.
      */
-    millisecondsFromDate: function(milliseconds, inputDate) {
-        var outputDate = new Date(Date.parse(inputDate) + milliseconds);
-        return new Date(Date.parse(outputDate) + (outputDate.getTimezoneOffset() - inputDate.getTimezoneOffset()) * (60 * 1000));
+    millisecondsFromDate: function(milliseconds) {
+        if(!this.date) {
+            M.Logger.log('no date specified!', M.ERROR);
+        }
+
+        var outputDate = new Date(Date.parse(this.date) + milliseconds);
+        return this.extend({
+            date: new Date(Date.parse(outputDate) + (outputDate.getTimezoneOffset() - this.date.getTimezoneOffset()) * (60 * 1000))
+        });
     },
 
     /**
@@ -327,31 +349,36 @@ M.Date = M.Object.extend({
      * - M.HOURS: hours
      * - M.DAYS: days
      *
-     * @param {Object} firstDate The first date.
-     * @param {Object} secondDate The second date.
+     * @param {Object} date The date.
      * @param {String} returnType The return type for the call.
      */
-    timeBetween: function(firstDate, secondDate, returnType) {
-        var firstDateInMilliseconds = firstDate.valueOf();
-        var secondDateInMilliseconds = secondDate.valueOf();
-
-        switch (returnType) {
-            case M.DAYS:
-                return (secondDateInMilliseconds - firstDateInMilliseconds) / (24 * 60 * 60 * 1000);
-                break;
-            case M.HOURS:
-                return (secondDateInMilliseconds - firstDateInMilliseconds) / (60 * 60 * 1000);
-                break;
-            case M.MINUTES:
-                return (secondDateInMilliseconds - firstDateInMilliseconds) / (60 * 1000);
-                break;
-            case M.SECONDS:
-                return (secondDateInMilliseconds - firstDateInMilliseconds) / 1000;
-                break;
-            case M.MILLISECONDS:
-            default:            
-                return (secondDateInMilliseconds - firstDateInMilliseconds);
-                break;
+    timeBetween: function(date, returnType) {
+        var firstDateInMilliseconds = this.date ? this.date.valueOf() : null;
+        var secondDateInMilliseconds = date.date ? date.date.valueOf() : null;
+        
+        if(firstDateInMilliseconds && secondDateInMilliseconds) {
+            switch (returnType) {
+                case M.DAYS:
+                    return (secondDateInMilliseconds - firstDateInMilliseconds) / (24 * 60 * 60 * 1000);
+                    break;
+                case M.HOURS:
+                    return (secondDateInMilliseconds - firstDateInMilliseconds) / (60 * 60 * 1000);
+                    break;
+                case M.MINUTES:
+                    return (secondDateInMilliseconds - firstDateInMilliseconds) / (60 * 1000);
+                    break;
+                case M.SECONDS:
+                    return (secondDateInMilliseconds - firstDateInMilliseconds) / 1000;
+                    break;
+                case M.MILLISECONDS:
+                default:
+                    return (secondDateInMilliseconds - firstDateInMilliseconds);
+                    break;
+            }
+        } else if(firstDateInMilliseconds) {
+            M.Logger.log('invalid date passed.', M.ERROR);
+        } else {
+            M.Logger.log('invalid date.', M.ERROR);
         }
     }
 
