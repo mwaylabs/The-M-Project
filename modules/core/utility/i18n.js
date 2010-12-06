@@ -29,17 +29,17 @@ M.I18N = M.Object.extend({
      *
      * @property {String}
      */
-    defaultLanguage: 'en_US',
+    defaultLanguage: 'en_us',
 
     /**
      * This property is used to map the navigator's language to an ISO standard
-     * if necessary. E.g. 'de' will be mapped to 'de_DE'.
+     * if necessary. E.g. 'de' will be mapped to 'de_de'.
      *
      * @property {Object}
      */
     languageMapper: {
-        de: ['de_DE'],
-        en: ['en_US', 'en_GB']
+        de: ['de_de'],
+        en: ['en_us', 'en_gb']
     },
 
     /**
@@ -93,6 +93,10 @@ M.I18N = M.Object.extend({
      */
     setLanguage: function(language) {
         if(!this.isLanguageAvailable(language)) {
+            M.Logger.log('There is no language \'' + language + '\' specified!', M.WARN);
+            return;
+        } else if(language && language === M.Application.currentLanguage) {
+            M.Logger.log('Language \'' + language + '\' already selected', M.INFO);
             return;
         }
 
@@ -114,17 +118,17 @@ M.I18N = M.Object.extend({
         } else if(navigator) {
             var regexResult = /([a-zA-Z]{2,3})[\s_.-]?([a-zA-Z]{2,3})?/.exec(navigator.language);
             if(regexResult && this[regexResult[0]]) {
-                return regexResult[0];
+                return regexResult[0].toLowerCase();
             } else if(regexResult && regexResult[1] && this.languageMapper[regexResult[1]]) {
                 for(var i in this.languageMapper[regexResult[1]]) {
                     var language = this.languageMapper[regexResult[1]][i];
-                    return language;
+                    return language.toLowerCase();
                 }
-            } else {
-                return M.Application.defaultLanguage;
+            } else if(M.Application.defaultLanguage) {
+                return M.Application.defaultLanguage.toLowerCase();
             }
         } else {
-            return M.Application.defaultLanguage;
+            return this.defaultLanguage;
         }
     },
 
