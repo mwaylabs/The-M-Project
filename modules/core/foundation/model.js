@@ -15,6 +15,7 @@ M.STATE_INSYNCNEG = 'state_insyncneg';
 M.STATE_LOCALCHANGED = 'state_localchange';
 M.STATE_VALID = 'state_valid';
 M.STATE_INVALID = 'state_invalid';
+M.STATE_DELETED = 'state_deleted';
 
 //m_require('data_provider.js');
 m_require('core/foundation/model_registry.js');
@@ -109,10 +110,11 @@ M.Model = M.Object.extend({
         });
         modelRecord.state = obj.state ? obj.state : M.STATE_NEW;
         delete obj.state;
+        delete modelRecord.record.id;
         return modelRecord;
     },
 
-    /**
+    /** 
      * Create defines a new model blueprint. It is passed an object with the model's attributes and the model's business logic
      * and then the type of data provider to use.
      *
@@ -249,12 +251,10 @@ M.Model = M.Object.extend({
         var isValid = YES;
 
         if(this.usesValidation) {
-            console.log('validation');
             isValid = this.validate();
         }
 
         if(isValid) {
-            console.log('now save it...');
             return this.dataProvider.save($.extend(obj, {model: this}));
         }
     },
@@ -267,7 +267,11 @@ M.Model = M.Object.extend({
             return;
         }
 
-       this.dataProvider.del({model: this});
+       var isDel = this.dataProvider.del({model: this});
+        if(isDel) {
+            this.state = M.STATE_DELETED;
+        }
+
     }
 
 });
