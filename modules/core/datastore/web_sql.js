@@ -232,6 +232,16 @@ M.WebSqlProvider = M.DataProvider.extend({
             }
         }
 
+        /* now attach order */
+        if(obj.order) {
+            sql += ' ORDER BY ' + obj.order
+        }
+
+        /* now attach limt */
+        if(obj.limit) {
+            sql += ' LIMIT ' + obj.limit
+        }
+
         console.log(sql);
 
         var result = [];

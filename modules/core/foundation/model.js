@@ -120,7 +120,8 @@ M.Model = M.Object.extend({
      * @param {Object} dp The data provider to use, e. g. M.LocalStorageProvider
      */
     create: function(obj, dp) {
-        var model = this.extend({
+        var model = M.Model.extend({
+            __meta: {},
             name: obj.__name__,
             dataProvider: dp,
             usesValidation: obj.usesValidation === null || obj.usesValidation === undefined ? this.usesValidation : obj.usesValidation
@@ -131,11 +132,11 @@ M.Model = M.Object.extend({
         for(var prop in obj) {
             if(typeof(obj[prop]) === 'function') {
                 model[prop] = obj[prop];
-            } else if(obj[prop].type !== 'M.ModelAttribute') {
+            } else if(obj[prop].type === 'M.ModelAttribute') {
                 model.__meta[prop] = obj[prop];    
             }
-
         }
+        
         M.Application.modelRegistry.register(model.name);
 
         /* Re-set the just registered model's id, if there is a value stored */
@@ -241,17 +242,19 @@ M.Model = M.Object.extend({
      * @param {Object} obj The param object with query and callbacks.
      */
     save: function(obj) {
+        obj = obj ? obj: {};
         if(!this.id) {
             return;
         }
-
         var isValid = YES;
 
         if(this.usesValidation) {
+            console.log('validation');
             isValid = this.validate();
         }
 
         if(isValid) {
+            console.log('now save it...');
             return this.dataProvider.save($.extend(obj, {model: this}));
         }
     },
