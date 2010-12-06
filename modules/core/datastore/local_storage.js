@@ -29,6 +29,7 @@ M.LocalStorageProvider = M.DataProvider.extend({
      */
     save: function(obj) {
         try {
+            console.log(obj);
             localStorage.setItem(obj.model.name + '_' + obj.model.id, JSON.stringify(obj.model.record));
             return YES;
         } catch(e) {
@@ -80,36 +81,36 @@ M.LocalStorageProvider = M.DataProvider.extend({
                 var ident = regexec[1];
                 var op = regexec[2];
                 var val = regexec[3].replace(/['"]/g, "");/* delete quotes from captured string, needs to be done in regex*/
-                var res = this.findAll(obj.model.name);
+                var res = this.findAll(obj);
                 switch(op) {
                     case '=':
                         res = _.select(res, function(o){
-                            return o[ident] === val;
+                            return o.record[ident] === val;
                         });
                         break;
                     case '!=':
                         res = _.select(res, function(o){
-                            return o[ident] !== val;
+                            return o.record[ident] !== val;
                         });
                         break;
                     case '<':
                         res = _.select(res, function(o){
-                            return o[ident] < val;
+                            return o.record[ident] < val;
                         });
                         break;
                     case '>':
                         res = _.select(res, function(o){
-                            return o[ident] > val;
+                            return o.record[ident] > val;
                         });
                         break;
                     case '<=':
                         res = _.select(res, function(o){
-                            return o[ident] <= val;
+                            return o.record[ident] <= val;
                         });
                         break;
                     case '>=':
                         res = _.select(res, function(o){
-                            return o[ident] >= val;
+                            return o.record[ident] >= val;
                         });
                         break;
                     default:
@@ -152,9 +153,18 @@ M.LocalStorageProvider = M.DataProvider.extend({
             regexResult = new RegExp('^' + obj.model.name + '_').exec(k);
             if(regexResult) {
                 var record = JSON.parse(localStorage.getItem(k));
-                result.push(record);
+
+                /*construct new model record with the saved id*/
+                var reg = new RegExp('^' + obj.model.name + '_([0-9]+)').exec(k);
+                var m_id = reg && reg[1] ? reg[1] : null;
+                if (!m_id) {
+                    M.Logger.log('retrieved model has no valid key: ' + k, M.ERROR);
+                    return;
+                }
+                var m = obj.model.createRecord($.extend(record, {id: m_id, state: M.STATE_VALID}));
+                
+                result.push(m);
             }
-            //var obj = JSON.stringify(localStorage.getItem(k));
         }
         return result;
     },
