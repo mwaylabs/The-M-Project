@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html manifest="cache.manifest">
+<!--<html manifest="cache.manifest">-->
+<html>
 <head>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -367,7 +368,7 @@
 
                         childViews: 'langSelection',
 
-                        langSelection: M.SelectionListView.design({
+                            langSelection: M.SelectionListView.design({
 
                             childViews: 'item1 item2',
 
@@ -389,14 +390,14 @@
                             item1: M.SelectionListItemView.design({
 
                                 label: M.I18N.l('german'),
-                                value: 'de_DE'
+                                value: 'de_de'
 
                             }),
 
                             item2: M.SelectionListItemView.design({
 
                                 label: M.I18N.l('english'),
-                                value: 'en_US'
+                                value: 'en_us'
 
                             })
 

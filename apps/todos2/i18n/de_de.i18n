@@ -1,4 +1,4 @@
-M.I18N.de_DE = {
+M.I18N.de_de = {
 
     "tab_list": "ToDo Liste",
 
@@ -39,6 +39,8 @@ M.I18N.de_DE = {
     "german": "Deutsch",
 
     "english": "Englisch",
+
+    "spanish": "Spanisch",
 
     "days": "Tag(e)"
 

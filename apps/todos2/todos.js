@@ -10,7 +10,7 @@
 
 var Todos = Todos || {};
 
-M.Application.defaultLanguage = 'en_US';
+M.Application.defaultLanguage = 'en_us';
 M.Application.name = 'Todos';
 
 document.write("<script src='i18n/de_de.i18n'></script>");

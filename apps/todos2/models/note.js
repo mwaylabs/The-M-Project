@@ -24,8 +24,7 @@ Todos.Note = M.Model.create({
         defaultValue: ''
     }),
 
-    date: M.Model.attr('String', {
-        isRequired: YES,
+    date: M.Model.attr('Date', {
         defaultValue: ''
     })
 

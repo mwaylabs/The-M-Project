@@ -30,8 +30,8 @@ Todos.TodoController = M.Controller.extend({
 
     init: function(isFirst) {
         if(isFirst) {
-            this.notes.find();
-            this.set('todos', this.notes.modelList);
+            var notes = Todos.Note.find();
+            this.set('todos', notes);
         }
 
         if(M.ViewManager.getView('page1', 'todoList').inEditMode) {

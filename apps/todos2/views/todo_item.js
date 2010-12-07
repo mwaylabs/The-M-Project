@@ -28,8 +28,8 @@ Todos.TodoItemView = M.ListItemView.design({
     date : M.LabelView.design({
         computedValue: {
             valuePattern: '<%= date %>',
-            operation: function(v, label) {
-                return M.I18N.l('due_date') + ': ' + M.Date.format(M.Date.create(v), M.I18N.l('due_date_format'));
+            operation: function(date, label) {
+                return M.I18N.l('due_date') + ': ' + date.format(M.I18N.l('due_date_format'));
             }
         },
         cssClass: 'listDate'
