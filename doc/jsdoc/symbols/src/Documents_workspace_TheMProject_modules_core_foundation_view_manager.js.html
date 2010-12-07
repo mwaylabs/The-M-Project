@@ -33,7 +33,7 @@
 <span class='line'> 26</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 27</span>      * The type of this object.
 <span class='line'> 28</span>      *
-<span class='line'> 29</span>      * @property {String}
+<span class='line'> 29</span>      * @type String
 <span class='line'> 30</span>      */</span><span class="WHIT">
 <span class='line'> 31</span> </span><span class="WHIT">    </span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'M.ViewManager'</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 32</span> 
@@ -41,35 +41,35 @@
 <span class='line'> 34</span>      * The nextId delivered to a view (used as html id attribute value) with prefix m_.
 <span class='line'> 35</span>      * Initial state is 0, will be incremeneted by 1 on each call.
 <span class='line'> 36</span>      *
-<span class='line'> 37</span>      * @property {Number}
+<span class='line'> 37</span>      * @type Number
 <span class='line'> 38</span>      */</span><span class="WHIT">
 <span class='line'> 39</span> </span><span class="WHIT">    </span><span class="NAME">nextId</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 40</span> 
 <span class='line'> 41</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 42</span>      * Prefix for Id.
 <span class='line'> 43</span>      *
-<span class='line'> 44</span>      * @property {String} 
+<span class='line'> 44</span>      * @type String
 <span class='line'> 45</span>      */</span><span class="WHIT">
 <span class='line'> 46</span> </span><span class="WHIT">    </span><span class="NAME">idPrefix</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'m_'</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 47</span> 
 <span class='line'> 48</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 49</span>      * Array containing all views used in the application.
 <span class='line'> 50</span>      *
-<span class='line'> 51</span>      * @property {Object}
+<span class='line'> 51</span>      * @type Object
 <span class='line'> 52</span>      */</span><span class="WHIT">
 <span class='line'> 53</span> </span><span class="WHIT">    </span><span class="NAME">viewList</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 54</span> 
 <span class='line'> 55</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 56</span>      * A reference to the currently displayed page.
 <span class='line'> 57</span>      *
-<span class='line'> 58</span>      * @property {Object}
+<span class='line'> 58</span>      * @type Object
 <span class='line'> 59</span>      */</span><span class="WHIT">
 <span class='line'> 60</span> </span><span class="WHIT">    </span><span class="NAME">currentPage</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 61</span> 
 <span class='line'> 62</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 63</span>      * A reference to the latest found view which is necassary for the findView() method.
 <span class='line'> 64</span>      *
-<span class='line'> 65</span>      * @property {Object}
+<span class='line'> 65</span>      * @type Object
 <span class='line'> 66</span>      */</span><span class="WHIT">
 <span class='line'> 67</span> </span><span class="WHIT">    </span><span class="NAME">foundView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 68</span> 

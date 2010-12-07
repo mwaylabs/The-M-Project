@@ -29,21 +29,21 @@
 <span class='line'> 22</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 23</span>      * The type of this object.
 <span class='line'> 24</span>      *
-<span class='line'> 25</span>      * @property {String}
+<span class='line'> 25</span>      * @type String
 <span class='line'> 26</span>      */</span><span class="WHIT">
 <span class='line'> 27</span> </span><span class="WHIT">    </span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'M.ListView'</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 28</span> 
 <span class='line'> 29</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 30</span>      * Determines whether to remove all item if the list is updated or not.
 <span class='line'> 31</span>      *
-<span class='line'> 32</span>      * @property {Boolean}
+<span class='line'> 32</span>      * @type Boolean
 <span class='line'> 33</span>      */</span><span class="WHIT">
 <span class='line'> 34</span> </span><span class="WHIT">    </span><span class="NAME">removeItemsOnUpdate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 35</span> 
 <span class='line'> 36</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 37</span>      * Determines whether to display the list as a divided list or not.
 <span class='line'> 38</span>      *
-<span class='line'> 39</span>      * @property {Boolean}
+<span class='line'> 39</span>      * @type Boolean
 <span class='line'> 40</span>      */</span><span class="WHIT">
 <span class='line'> 41</span> </span><span class="WHIT">    </span><span class="NAME">isDividedList</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 42</span> 
@@ -51,14 +51,14 @@
 <span class='line'> 44</span>      * If the list view is a divided list, this property can be used to customize the style
 <span class='line'> 45</span>      * of the list's dividers.
 <span class='line'> 46</span>      *
-<span class='line'> 47</span>      * @property {String}
+<span class='line'> 47</span>      * @type String
 <span class='line'> 48</span>      */</span><span class="WHIT">
 <span class='line'> 49</span> </span><span class="WHIT">    </span><span class="NAME">cssClassForDivider</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 50</span> 
 <span class='line'> 51</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 52</span>      * Determines whether to display the the number of child items for each list item view.
 <span class='line'> 53</span>      *
-<span class='line'> 54</span>      * @property {Boolean}
+<span class='line'> 54</span>      * @type Boolean
 <span class='line'> 55</span>      */</span><span class="WHIT">
 <span class='line'> 56</span> </span><span class="WHIT">    </span><span class="NAME">isCountedList</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 57</span> 
@@ -66,7 +66,7 @@
 <span class='line'> 59</span>      * If the list view is a counted list, this property can be used to customize the style
 <span class='line'> 60</span>      * of the list item's counter.
 <span class='line'> 61</span>      *
-<span class='line'> 62</span>      * @property {String}
+<span class='line'> 62</span>      * @type String
 <span class='line'> 63</span>      */</span><span class="WHIT">
 <span class='line'> 64</span> </span><span class="WHIT">    </span><span class="NAME">cssClassForCounter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 65</span> 
@@ -74,14 +74,14 @@
 <span class='line'> 67</span>      * This property can be used to customize the style of the list view's split view. For example
 <span class='line'> 68</span>      * the toggleRemove() of a list view uses the built-in split view functionality.
 <span class='line'> 69</span>      *
-<span class='line'> 70</span>      * @property {String}
+<span class='line'> 70</span>      * @type String
 <span class='line'> 71</span>      */</span><span class="WHIT">
 <span class='line'> 72</span> </span><span class="WHIT">    </span><span class="NAME">cssClassForSplitView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 73</span> 
 <span class='line'> 74</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 75</span>      * The list view's items, respectively its child views.
 <span class='line'> 76</span>      *
-<span class='line'> 77</span>      * @property {Object}
+<span class='line'> 77</span>      * @type Object
 <span class='line'> 78</span>      */</span><span class="WHIT">
 <span class='line'> 79</span> </span><span class="WHIT">    </span><span class="NAME">items</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 80</span> 
@@ -89,7 +89,7 @@
 <span class='line'> 82</span>      * Determines whether the list view is currently in edit mode or not. This is mainly used by the
 <span class='line'> 83</span>      * built-in toggleRemove() functionality. 
 <span class='line'> 84</span>      *
-<span class='line'> 85</span>      * @property {Boolean}
+<span class='line'> 85</span>      * @type Boolean
 <span class='line'> 86</span>      */</span><span class="WHIT">
 <span class='line'> 87</span> </span><span class="WHIT">    </span><span class="NAME">inEditMode</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 88</span> 
@@ -97,42 +97,42 @@
 <span class='line'> 90</span>      * This property contains all available options for the edit mode. For example the target and action
 <span class='line'> 91</span>      * of the automatically rendered delete button can be specified using this property.
 <span class='line'> 92</span>      *
-<span class='line'> 93</span>      * @property {Object}
+<span class='line'> 93</span>      * @type Object
 <span class='line'> 94</span>      */</span><span class="WHIT">
 <span class='line'> 95</span> </span><span class="WHIT">    </span><span class="NAME">editOptions</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 96</span> 
 <span class='line'> 97</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 98</span>      * Defines if the ListView is rendered with prefixed numbering for each item.
 <span class='line'> 99</span>      *
-<span class='line'>100</span>      * @property {Boolean}
+<span class='line'>100</span>      * @type Boolean
 <span class='line'>101</span>      */</span><span class="WHIT">
 <span class='line'>102</span> </span><span class="WHIT">    </span><span class="NAME">isNumberedList</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>103</span> 
 <span class='line'>104</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>105</span>      * This property contains the list view's template view, the blueprint for every child view.
 <span class='line'>106</span>      *
-<span class='line'>107</span>      * @property {Object}
+<span class='line'>107</span>      * @type Object
 <span class='line'>108</span>      */</span><span class="WHIT">
 <span class='line'>109</span> </span><span class="WHIT">    </span><span class="NAME">listItemTemplateView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>110</span> 
 <span class='line'>111</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>112</span>      * Determines whether to display the list view 'inset' or at full width.
 <span class='line'>113</span>      *
-<span class='line'>114</span>      * @property {Boolean}
+<span class='line'>114</span>      * @type Boolean
 <span class='line'>115</span>      */</span><span class="WHIT">
 <span class='line'>116</span> </span><span class="WHIT">    </span><span class="NAME">isInsetList</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>117</span> 
 <span class='line'>118</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>119</span>      * The list view's search bar.
 <span class='line'>120</span>      *
-<span class='line'>121</span>      * @property {Object}
+<span class='line'>121</span>      * @type Object
 <span class='line'>122</span>       */</span><span class="WHIT">
 <span class='line'>123</span> </span><span class="WHIT">    </span><span class="NAME">searchBar</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>124</span> 
 <span class='line'>125</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>126</span>      * Determines whether or not to display a search bar at the top of the list view. 
 <span class='line'>127</span>      *
-<span class='line'>128</span>      * @property {Boolean}
+<span class='line'>128</span>      * @type Boolean
 <span class='line'>129</span>      */</span><span class="WHIT">
 <span class='line'>130</span> </span><span class="WHIT">    </span><span class="NAME">hasSearchBar</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>131</span> 
@@ -143,14 +143,14 @@
 <span class='line'>136</span>      *
 <span class='line'>137</span>      * If a custom search behaviour is needed, this property must be set to NO.
 <span class='line'>138</span>      *
-<span class='line'>139</span>      * @property {Boolean}
+<span class='line'>139</span>      * @type Boolean
 <span class='line'>140</span>      */</span><span class="WHIT">
 <span class='line'>141</span> </span><span class="WHIT">    </span><span class="NAME">usesDefaultSearchBehaviour</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>142</span> 
 <span class='line'>143</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>144</span>      * An object containing target and action to be triggered if the search string changes.
 <span class='line'>145</span>      *
-<span class='line'>146</span>      * @property {Object}
+<span class='line'>146</span>      * @type Object
 <span class='line'>147</span>      */</span><span class="WHIT">
 <span class='line'>148</span> </span><span class="WHIT">    </span><span class="NAME">onSearchStringDidChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>149</span> 

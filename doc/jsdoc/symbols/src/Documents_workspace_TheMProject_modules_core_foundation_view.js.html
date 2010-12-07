@@ -29,14 +29,14 @@
 <span class='line'> 22</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 23</span>      * The type of this object.
 <span class='line'> 24</span>      *
-<span class='line'> 25</span>      * @property {String}
+<span class='line'> 25</span>      * @type String
 <span class='line'> 26</span>      */</span><span class="WHIT">
 <span class='line'> 27</span> </span><span class="WHIT">    </span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'M.View'</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 28</span> 
 <span class='line'> 29</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 30</span>      * A boolean value to definitely recognize a view as a view.
 <span class='line'> 31</span>      *
-<span class='line'> 32</span>      * @property {Boolean}
+<span class='line'> 32</span>      * @type Boolean
 <span class='line'> 33</span>      */</span><span class="WHIT">
 <span class='line'> 34</span> </span><span class="WHIT">    </span><span class="NAME">isView</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 35</span> 
@@ -59,21 +59,21 @@
 <span class='line'> 52</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 53</span>      * An array specifying the view's children.
 <span class='line'> 54</span>      *
-<span class='line'> 55</span>      * @property {Object}
+<span class='line'> 55</span>      * @type Object
 <span class='line'> 56</span>      */</span><span class="WHIT">
 <span class='line'> 57</span> </span><span class="WHIT">    </span><span class="NAME">childViews</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 58</span> 
 <span class='line'> 59</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 60</span>      * Determines whether this view renders directly to the DOM or just returns its HTML representation.
 <span class='line'> 61</span>      *
-<span class='line'> 62</span>      * @property {Boolean}
+<span class='line'> 62</span>      * @type Boolean
 <span class='line'> 63</span>      */</span><span class="WHIT">
 <span class='line'> 64</span> </span><span class="WHIT">    </span><span class="NAME">renderToDOM</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 65</span> 
 <span class='line'> 66</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 67</span>      * Indicates whether this view currently has the focus or not.
 <span class='line'> 68</span>      *
-<span class='line'> 69</span>      * @property {Boolean}
+<span class='line'> 69</span>      * @type Boolean
 <span class='line'> 70</span>      */</span><span class="WHIT">
 <span class='line'> 71</span> </span><span class="WHIT">    </span><span class="NAME">hasFocus</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 72</span> 
@@ -111,7 +111,7 @@
 <span class='line'>104</span>      * This property can be used to assign a css class to the view using the jquery mobile
 <span class='line'>105</span>      * specific data-theme property. This allows you to create your custom styles.
 <span class='line'>106</span>      *
-<span class='line'>107</span>      * @property {String}
+<span class='line'>107</span>      * @type String
 <span class='line'>108</span>      */</span><span class="WHIT">
 <span class='line'>109</span> </span><span class="WHIT">    </span><span class="NAME">cssClass</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>110</span> 
@@ -119,7 +119,7 @@
 <span class='line'>112</span>      * This property can be used to assign a css style to the view using. This allows you to
 <span class='line'>113</span>      * create your custom styles inline.
 <span class='line'>114</span>      *
-<span class='line'>115</span>      * @property {String}
+<span class='line'>115</span>      * @type String
 <span class='line'>116</span>      */</span><span class="WHIT">
 <span class='line'>117</span> </span><span class="WHIT">    </span><span class="NAME">cssStyle</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>118</span> 
@@ -128,7 +128,7 @@
 <span class='line'>121</span>      * applying of this class is automatically triggered if the validation of the view
 <span class='line'>122</span>      * goes wrong.
 <span class='line'>123</span>      *
-<span class='line'>124</span>      * @property {String}
+<span class='line'>124</span>      * @type String
 <span class='line'>125</span>      */</span><span class="WHIT">
 <span class='line'>126</span> </span><span class="WHIT">    </span><span class="NAME">cssClassOnError</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>127</span> 
@@ -138,7 +138,7 @@
 <span class='line'>131</span>      * value that should be rendered in a different style than the later value entered by the
 <span class='line'>132</span>      * user.
 <span class='line'>133</span>      *
-<span class='line'>134</span>      * @property {String}
+<span class='line'>134</span>      * @type String
 <span class='line'>135</span>      */</span><span class="WHIT">
 <span class='line'>136</span> </span><span class="WHIT">    </span><span class="NAME">cssClassOnInit</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>137</span> 
@@ -147,7 +147,7 @@
 <span class='line'>140</span>      * It is once set within the render method and then eventually updated within the
 <span class='line'>141</span>      * renderUpdate method.
 <span class='line'>142</span>      *
-<span class='line'>143</span>      * @property {String} The pages html content.
+<span class='line'>143</span>      * @type String The pages html content.
 <span class='line'>144</span>      */</span><span class="WHIT">
 <span class='line'>145</span> </span><span class="WHIT">    </span><span class="NAME">html</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>146</span> 
@@ -156,7 +156,7 @@
 <span class='line'>149</span>      * This property is basically interesting for input ui elements, e.g. for
 <span class='line'>150</span>      * text fields.
 <span class='line'>151</span>      *
-<span class='line'>152</span>      * @property {Boolean}
+<span class='line'>152</span>      * @type Boolean
 <span class='line'>153</span>      */</span><span class="WHIT">
 <span class='line'>154</span> </span><span class="WHIT">    </span><span class="NAME">triggerActionOnChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>155</span> 
@@ -165,7 +165,7 @@
 <span class='line'>158</span>      * This property is basically interesting for input ui elements, e.g. for
 <span class='line'>159</span>      * text fields.
 <span class='line'>160</span>      *
-<span class='line'>161</span>      * @property {Boolean}
+<span class='line'>161</span>      * @type Boolean
 <span class='line'>162</span>      */</span><span class="WHIT">
 <span class='line'>163</span> </span><span class="WHIT">    </span><span class="NAME">triggerActionOnKeyUp</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>164</span> 
@@ -174,7 +174,7 @@
 <span class='line'>167</span>      * action or not. This property is basically interesting for input ui elements, e.g.
 <span class='line'>168</span>      * for text fields.
 <span class='line'>169</span>      *
-<span class='line'>170</span>      * @property {Boolean}
+<span class='line'>170</span>      * @type Boolean
 <span class='line'>171</span>      */</span><span class="WHIT">
 <span class='line'>172</span> </span><span class="WHIT">    </span><span class="NAME">triggerActionOnEnter</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>173</span> 
@@ -392,7 +392,7 @@
 <span class='line'>385</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>386</span>      * Adds a css class to the view's DOM representation.
 <span class='line'>387</span>      *
-<span class='line'>388</span>      * @property {String} cssClass The css class to be added.
+<span class='line'>388</span>      * @type String cssClass The css class to be added.
 <span class='line'>389</span>      */</span><span class="WHIT">
 <span class='line'>390</span> </span><span class="WHIT">    </span><span class="NAME">addCssClass</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">cssClass</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>391</span> </span><span class="WHIT">        </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.id</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="NAME">cssClass</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -401,7 +401,7 @@
 <span class='line'>394</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>395</span>      * Removes a css class to the view's DOM representation.
 <span class='line'>396</span>      *
-<span class='line'>397</span>      * @property {String} cssClass The css class to be removed.
+<span class='line'>397</span>      * @type String cssClass The css class to be removed.
 <span class='line'>398</span>      */</span><span class="WHIT">
 <span class='line'>399</span> </span><span class="WHIT">    </span><span class="NAME">removeCssClass</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">cssClass</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>400</span> </span><span class="WHIT">        </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.id</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="NAME">cssClass</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -410,8 +410,8 @@
 <span class='line'>403</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>404</span>      * Adds or updates a css property to the view's DOM representation.
 <span class='line'>405</span>      *
-<span class='line'>406</span>      * @property {String} key The property's name.
-<span class='line'>407</span>      * @property {String} value The property's value.
+<span class='line'>406</span>      * @type String key The property's name.
+<span class='line'>407</span>      * @type String value The property's value.
 <span class='line'>408</span>      */</span><span class="WHIT">
 <span class='line'>409</span> </span><span class="WHIT">    </span><span class="NAME">setCssProperty</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>410</span> </span><span class="WHIT">        </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.id</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">css</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -420,8 +420,8 @@
 <span class='line'>413</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>414</span>      * Adds or updates a css property to the view's DOM representation.
 <span class='line'>415</span>      *
-<span class='line'>416</span>      * @property {String} key The property's name.
-<span class='line'>417</span>      * @property {String} value The property's value.
+<span class='line'>416</span>      * @type String key The property's name.
+<span class='line'>417</span>      * @type String value The property's value.
 <span class='line'>418</span>      */</span><span class="WHIT">
 <span class='line'>419</span> </span><span class="WHIT">    </span><span class="NAME">removeCssProperty</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>420</span> </span><span class="WHIT">        </span><span class="NAME">this.setCssProperty</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
