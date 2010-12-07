@@ -11,7 +11,8 @@
 /**
  * @class
  *
- * The root object for ContainerView.
+ * A container view renders a simple div container that can be used to display
+ * any html valid content, e.g. by third party frameworks.
  *
  */
 M.ContainerView = M.View.extend(
@@ -26,6 +27,9 @@ M.ContainerView = M.View.extend(
 
     /**
      * Renders a simple div container and applies css classes if specified.
+     *
+     * @private
+     * @returns {String} The container view's html representation.
      */
     render: function() {
         this.html += '<div id="' + this.id + '"' + this.style() + '></div>';      
@@ -34,6 +38,9 @@ M.ContainerView = M.View.extend(
 
     /**
      * Applies some style-attributes to the container view.
+     *
+     * @private
+     * @returns {String} The container's styling as html representation.
      */
     style: function() {
         var html = '';

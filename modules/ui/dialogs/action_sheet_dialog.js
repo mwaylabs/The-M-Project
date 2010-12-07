@@ -12,8 +12,10 @@ m_require('ui/dialog.js');
 
 /**
  * @class
+ * @extends M.DialogView
  *
- * The root object for ActionSheetDialogView.
+ * The is the prototype for any action sheet dialog view. It is derived from M.DialogView
+ * and mainly used for implementing a action sheet dialog view specific render method.
  *
  */
 M.ActionSheetDialogView = M.DialogView.extend(
@@ -41,14 +43,17 @@ M.ActionSheetDialogView = M.DialogView.extend(
     transition: M.TRANSITION.SLIDEUP,
 
     /**
-     * Determines whether the dialog gets a default cancel button.
+     * Determines whether the action sheet dialog gets a default cancel button.
      *
      * @type Boolean
      */
     hasCancelButton: YES,
 
     /**
-     * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
+     * Renders an action sheet dialog as a slide-up page.
+     *
+     * @private
+     * @returns {String} The action sheet dialog view's html representation.
      */
     render: function() {
         this.html = '<div data-role="dialog" id="' + this.id + '">';
