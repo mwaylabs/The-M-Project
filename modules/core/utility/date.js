@@ -380,6 +380,10 @@ M.Date = M.Object.extend({
         } else {
             M.Logger.log('invalid date.', M.ERROR);
         }
+    },
+
+    toJSON: function() {
+        return String(this.date);
     }
 
 });
