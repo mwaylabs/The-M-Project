@@ -40,7 +40,7 @@ M.DialogView = M.View.extend(
      * The dialog's callback, splitted in target / action. It is called once the dialog's
      * closing transition did finish.
      *
-     * @property {Object)
+     * @property {Object}
      */
     callback: {},
 

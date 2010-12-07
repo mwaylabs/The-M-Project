@@ -17,7 +17,8 @@ m_require('core/utility/cypher_algorithms/sha256.js');
  * Object for decoding and encoding.
  *
  */
-M.Cypher = M.Object.extend({
+M.Cypher = M.Object.extend(
+/** @scope M.Cypher.prototype */ {
 
     /**
      * The type of this object.

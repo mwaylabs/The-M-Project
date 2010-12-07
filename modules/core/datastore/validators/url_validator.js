@@ -10,7 +10,8 @@
 
 m_require('core/datastore/validator.js')
 
-M.UrlValidator = M.Validator.extend({
+M.UrlValidator = M.Validator.extend(
+/** @scope M.UrlValidator.prototype */ {
 
     type: 'M.UrlValidator',
 

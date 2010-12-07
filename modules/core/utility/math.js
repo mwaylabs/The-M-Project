@@ -19,7 +19,8 @@ M.ROUND = 'round';
  *
  * Object for simpler handling of mathematical operations.
  */
-M.Math = M.Object.extend({
+M.Math = M.Object.extend(
+/** @scope M.Math.prototype */ {
 
     /**
      * The type of this object.

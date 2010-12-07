@@ -19,7 +19,8 @@ m_require('core/utility/logger.js');
  * which is important for storage (guid is primary key as default).
  * 
  */
-M.ModelRegistry = M.Object.extend({
+M.ModelRegistry = M.Object.extend(
+/** @scope M.ModelRegistry.prototype */ {
 
     /**
      * The type of this object.

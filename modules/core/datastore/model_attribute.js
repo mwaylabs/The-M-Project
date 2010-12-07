@@ -16,7 +16,8 @@ m_require('core/utility/logger.js');
  *
  * Defines an attribute for a model
  */
-M.ModelAttribute = M.Object.extend({
+M.ModelAttribute = M.Object.extend(
+/** @scope M.ModelAttribute.prototype */ {
 
     type: 'M.ModelAttribute',
 

@@ -10,7 +10,14 @@
 
 m_require('core/utility/logger.js');
 
-M.Validator = M.Object.extend({
+/**
+ * @class
+ *
+ * The root class for every validator.
+ *
+ */
+M.Validator = M.Object.extend(
+/** @scope M.Validator.prototype */ {
 
     type: 'M.Validator',
 
@@ -49,7 +56,10 @@ M.Validator = M.Object.extend({
         return this.extend(obj);
     },
 
-    /* empties the error buffer, is done before each new validation process */
+    /**
+     * empties the error buffer, is done before each new validation process
+     * @param ad
+     */
     clearErrorBuffer: function() {
         this.validationErrors.length = 0;
     }

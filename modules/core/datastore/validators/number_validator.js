@@ -10,7 +10,8 @@
 
 m_require('core/datastore/validator.js')
 
-M.NumberValidator = M.Validator.extend({
+M.NumberValidator = M.Validator.extend(
+/** @scope M.NumberValidator.prototype */ {
 
     type: 'M.NumberValidator',
 

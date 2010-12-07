@@ -23,10 +23,10 @@ var M = M || {};
 var m_require = m_require || function require() {};
 
 /**
- * global constants to write YES instead of true and NO instead of false
- *
- * *SproutCore* and *Objective-C* style...
- *
+ * global constant to write YES instead of true
  */
 var YES = true;
+/**
+ * global constant to write NO instead of false
+ */
 var NO = false;

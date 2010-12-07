@@ -31,7 +31,8 @@ M.MONTH_NAMES = [
  * 
  * Object for simpler handling of dates.
  */
-M.Date = M.Object.extend({
+M.Date = M.Object.extend(
+/** @scope M.Date.prototype */ {
 
     /**
      * The type of this object.

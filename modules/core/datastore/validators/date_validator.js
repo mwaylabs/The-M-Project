@@ -10,7 +10,9 @@
 
 m_require('core/datastore/validator.js')
 
-M.DateValidator = M.Validator.extend({
+M.DateValidator = M.Validator.extend(
+/** @scope M.DateValidator.prototype */ {
+
 
     type: 'M.DateValidator',
 

@@ -10,7 +10,8 @@
 
 m_require('core/datastore/validator.js')
 
-M.EmailValidator = M.Validator.extend({
+M.EmailValidator = M.Validator.extend(
+/** @scope M.EmailValidator.prototype */ {
 
     type: 'M.EmailValidator',
 

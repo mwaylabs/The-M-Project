@@ -24,7 +24,8 @@ M.INFO = 3;
  * Object for logging.
  *
  */
-M.Logger = M.Object.extend({
+M.Logger = M.Object.extend(
+/** @scope M.Logger.prototype */ {
 
     /**
      * The type of this object.

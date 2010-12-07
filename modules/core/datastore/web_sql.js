@@ -15,7 +15,8 @@ m_require('core/detox/data_provider.js');
  *
  * Encapsulates access to WebSQL (in-browser sqlite storage)
  */
-M.WebSqlProvider = M.DataProvider.extend({
+M.WebSqlProvider = M.DataProvider.extend(
+/** @scope M.WebSqlProvider.prototype */ {
 
     type: 'M.WebSqlProvider',
 

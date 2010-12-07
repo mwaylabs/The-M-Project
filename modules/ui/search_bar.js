@@ -35,7 +35,7 @@ M.SearchBarView = M.View.extend(
      * If the search bar belongs to a list view, this property contains this
      * list view.
      *
-     * @property {Object
+     * @property {Object}
      */
     listView: null,
 

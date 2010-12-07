@@ -11,21 +11,14 @@
 m_require('core/utility/logger.js');
 
 /**
- * available data source types
- */
-M.FIXTURE = 'fixture';
-M.LOCALSTORAGE = 'localStorage';
-M.WEBSQL = 'webSql';
-M.REMOTE = 'remote';
-
-/**
  * @class
  *
  * Wraps access to any defined data source and is the only interface for a model to
  * access this data.
  *
  */
-M.DataProvider = M.Object.extend({
+M.DataProvider = M.Object.extend(
+/** @scope M.DataProvider.prototype */ {
 
     /**
      * The type of this object.

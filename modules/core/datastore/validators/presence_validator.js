@@ -10,7 +10,8 @@
 
 m_require('core/datastore/validator.js')
 
-M.PresenceValidator = M.Validator.extend({
+M.PresenceValidator = M.Validator.extend(
+/** @scope M.PresenceValidator.prototype */ {
 
     type: 'M.PresenceValidator',
 

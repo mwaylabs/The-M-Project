@@ -20,7 +20,8 @@ m_require('core/foundation/view.js');
  * HTML representation. 
  *
  */
-M.ViewManager = M.Object.extend({
+M.ViewManager = M.Object.extend(
+/** @scope M.ViewManager.prototype */ {
 
     /**
      * The type of this object.

@@ -16,7 +16,8 @@ m_require('core/utility/logger.js');
  * The observable knows all observers, mainly views, and pushes updates if necessary.
  *
  */
-M.Observable = M.Object.extend({
+M.Observable = M.Object.extend(
+/** @scope M.Observable.prototype */ {
 
     /**
      * The type of this object.

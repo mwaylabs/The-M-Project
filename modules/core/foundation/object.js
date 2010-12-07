@@ -15,7 +15,8 @@ m_require('core/foundation/m.js');
  *
  * Base class of all objects.
  */
-M.Object = {
+M.Object =
+/** @scope M.Object.prototype */ {
 
     /**
      * The type of this object.
@@ -103,7 +104,8 @@ M.Object = {
      */
     destroy: function() {
         if(this.id && $('#' + this.id)) {
-            $('#' + this.id).remove();
+            //TODO: use page did close event...
+            //$('#' + this.id).remove();
         }
         delete this;
     }

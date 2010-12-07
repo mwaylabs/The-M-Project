@@ -16,7 +16,8 @@ m_require('core/utility/logger.js');
  * Object for dispatching all incoming events.
  *
  */
-M.EventDispatcher = M.Object.create({
+M.EventDispatcher = M.Object.create(
+/** @scope M.EventDispatcher.prototype */ {
 
     /**
      * The type of this object.

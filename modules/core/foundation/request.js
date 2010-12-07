@@ -10,7 +10,14 @@
 
 m_require('core/foundation/object.js');
 
-M.Request = M.Object.extend({
+/**
+ * @class
+ *
+ * The root class for every request.
+ *
+ */
+M.Request = M.Object.extend(
+/** @scope M.Request.prototype */ {
 
     /**
      * The type of this object.
@@ -20,7 +27,7 @@ M.Request = M.Object.extend({
     type: 'M.Request',
     
     init: function(obj){
-        this.type = obj['type'] ? obj['type'] : this.type;
+        this.method = obj['method'] ? obj['method'] : this.method;
         this.url = obj['url'] ? obj['url'] : this.url;
         this.isAsync = obj['isAsync'] ? obj['isAsync'] : this.isAsync;
         this.isJSON = obj['isJSON'] ? obj['isJSON'] : this.isJSON;
@@ -39,7 +46,7 @@ M.Request = M.Object.extend({
      *
      * @property {String}
      */
-    type: 'GET',
+    method: 'GET',
 
     /**
      * The URL this request is sent to.
@@ -112,7 +119,7 @@ M.Request = M.Object.extend({
      */
     send: function(){
         $.ajax({
-            type: this.type,
+            type: this.method,
             url: this.url,
             async: this.isAsync,
             dataType: this.isJSON ? 'json' : 'text',

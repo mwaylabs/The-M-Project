@@ -11,6 +11,13 @@
 M.HORIZONTAL = 'horizontal';
 M.VERTICAL = 'vertical';
 
+
+/**
+ * @class
+ *
+ * The root class for every ButtonGroupView.
+ *
+ */
 M.ButtonGroupView = M.View.extend(
 /** @scope M.ButtonGroupView.prototype */ {
 

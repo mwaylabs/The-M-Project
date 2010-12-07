@@ -28,7 +28,8 @@ m_require('core/foundation/observable.js');
  * Controllers, respectively their properties, are observables. Views can observe them.
  *
  */
-M.Controller = M.Object.extend({
+M.Controller = M.Object.extend(
+/** @scope M.Controller.prototype */ {
 
     /**
      * The type of this object.
@@ -62,7 +63,7 @@ M.Controller = M.Object.extend({
     switchToPage: function(page, transition, isBack, changeLoc) {
         var id = M.Application.viewManager.getIdByView(page);
         var isTabBarViewTopPage = NO;
-        
+
         if(id) {
             if(page.hasTabBarView) {
                 if(page.tabBarView.childViews) {

@@ -16,7 +16,8 @@ m_require('core/foundation/object.js');
  * Object for hashing with SHA256.
  *
  */
-M.SHA256 = M.Object.extend({
+M.SHA256 = M.Object.extend(
+/** @scope M.SHA256.prototype */ {
 
     /**
      * The type of this object.

@@ -16,7 +16,8 @@ m_require('core/foundation/object.js');
  * Object for decoding and encoding with Base64.
  *
  */
-M.Base64 = M.Object.extend({
+M.Base64 = M.Object.extend(
+/** @scope M.Base64.prototype */ {
 
     /**
      * The type of this object.

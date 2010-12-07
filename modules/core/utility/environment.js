@@ -21,7 +21,8 @@ M.ONLINE = 'online';
  * like browser used, platform, user agent (based on navigator object) or
  * if the device is on- or offline (determined via ajax request).
  */
-M.Environment = M.Object.extend({
+M.Environment = M.Object.extend(
+/** @scope M.Environment.prototype */ {
 
     /**
      * Checks the connection status by sending an ajax request

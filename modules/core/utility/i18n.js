@@ -15,7 +15,8 @@ m_require('core/foundation/object.js');
  *
  * Object for internationalisation and localisation.
  */
-M.I18N = M.Object.extend({
+M.I18N = M.Object.extend(
+/** @scope M.I18N.prototype */ {
 
     /**
      * The type of this object.

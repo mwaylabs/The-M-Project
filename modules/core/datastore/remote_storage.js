@@ -15,7 +15,8 @@ m_require('core/datastore/data_provider.js');
  *
  * Encapsulates access to a remote storage, a json based webservice.
  */
-M.RemoteStorageProvider = M.DataProvider.extend({
+M.RemoteStorageProvider = M.DataProvider.extend(
+/** @scope M.RemoteStorageProvider.prototype */ {
 
     type: 'M.RemoteStorageProvider',
 

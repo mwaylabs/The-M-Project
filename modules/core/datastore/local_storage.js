@@ -15,7 +15,8 @@ m_require('core/datastore/data_provider.js');
  *
  * Encapsulates access to LocalStorage (in-browser key value store)
  */
-M.LocalStorageProvider = M.DataProvider.extend({
+M.LocalStorageProvider = M.DataProvider.extend(
+/** @scope M.LocalStorageProvider.prototype */ {
 
     type: 'M.LocalStorageProvider',
 

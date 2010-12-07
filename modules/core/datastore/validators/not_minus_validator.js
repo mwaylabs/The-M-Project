@@ -10,7 +10,8 @@
 
 m_require('core/datastore/validator.js')
 
-M.NotMinusValidator = M.Validator.extend({
+M.NotMinusValidator = M.Validator.extend(
+/** @scope M.NotMinusValidator.prototype */ {
 
     type: 'M.NotMinusValidator',
 
