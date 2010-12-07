@@ -35,7 +35,6 @@ M.ListItemView = M.View.extend(
     deleteButton: M.ButtonView.design({
         icon: 'delete',
         renderToDOM: NO,
-        useOnClick: YES,
         target: null,
         action: '',
         value: ''

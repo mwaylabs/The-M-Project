@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c)2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -11,7 +11,9 @@
 /**
  * @class
  *
- * The root object for ButtonViews.
+ * This defines the prototype for any button view. A button is a view element that is
+ * typically used for triggering an action, e.g. switching to another page, firing a
+ * request or opening a dialog.
  *
  */
 M.ButtonView = M.View.extend(
@@ -20,23 +22,23 @@ M.ButtonView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.ButtonView',
-
-    useOnClick: NO,
 
     /**
      * Determines whether this button is active or not.
      *
-     * Note: This property is only used if the button is part of a button group.
+     * Note: This property is only used if the button is part of a button group (M.ButtonGroupView).
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isActive: NO,
 
     /**
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
+     *
+     * @return {String} The button view's html representation.
      */
     render: function() {
         this.html += '<a data-role="button" href="#" id="' + this.id + '"' + this.style() + '>' + this.value + '</a>';
@@ -52,20 +54,27 @@ M.ButtonView = M.View.extend(
         this.theme();
     },
 
+    /**
+     * Sets the button's value and calls renderUpdate() to make the value update visible.
+     *
+     * @param {String} value The button's new value.
+     */
     setValue: function(value) {
         this.value = value;
         this.renderUpdate();
     },
 
     /**
-     * Triggers rendering engine, e.g. jQuery mobile, to style the button.
+     * Triggers the rendering engine, jQuery mobile, to style the button.
      */
     theme: function() {
         $('#' + this.id).button();
     },
 
     /**
-     * Applies some style-attributes to the label.
+     * Applies some style-attributes to the button.
+     *
+     * @return {String} The button's styling as html representation.
      */
     style: function() {
         var html = '';
@@ -85,4 +94,3 @@ M.ButtonView = M.View.extend(
     }
 
 });
-

@@ -15,7 +15,8 @@ M.VERTICAL = 'vertical';
 /**
  * @class
  *
- * The root class for every ButtonGroupView.
+ * A button group is a vertically or horizontally aligned group of buttons. It
+ * isn't visible
  *
  */
 M.ButtonGroupView = M.View.extend(
