@@ -66,7 +66,7 @@ M.LocalStorageProvider = M.DataProvider.extend({
     find: function(obj) {
         if(obj.key) {
             console.log('got the key...');
-            var record = this.findByKey(obj.key);
+            var record = this.findByKey(obj);
             if(!record) {
                 return NO;
             }
@@ -147,9 +147,9 @@ M.LocalStorageProvider = M.DataProvider.extend({
         }
     },
 
-    findByKey: function(key) {
-        if(key) {
-            return JSON.parse(localStorage.getItem(key));
+    findByKey: function(obj) {
+        if(obj.key) {
+            return this.buildRecord(obj.key, obj)//JSON.parse(localStorage.getItem(key));
         }
         M.Logger.log("Please provide a key.", M.WARN);
         return NO;
@@ -168,7 +168,7 @@ M.LocalStorageProvider = M.DataProvider.extend({
             var k = localStorage.key(i);
             regexResult = new RegExp('^' + obj.model.name + '_').exec(k);
             if(regexResult) {
-                var record = JSON.parse(localStorage.getItem(k));
+                var record = this.buildRecord(k, obj);//JSON.parse(localStorage.getItem(k));
 
                 /*construct new model record with the saved id*/
                 var reg = new RegExp('^' + obj.model.name + '_([0-9]+)').exec(k);
@@ -183,6 +183,20 @@ M.LocalStorageProvider = M.DataProvider.extend({
             }
         }
         return result;
+    },
+
+    buildRecord: function(key, obj) {
+        var record = JSON.parse(localStorage.getItem(key));
+        for(var i in record) {
+            if(obj.model.__meta[i] && typeof(record[i]) !== obj.model.__meta[i].dataType.toLowerCase()) {
+                switch(obj.model.__meta[i].dataType) {
+                    case 'Date':
+                        record[i] = M.Date.create(record[i]);
+                        break;
+                }
+            }
+        }
+        return record;
     },
 
     /**
