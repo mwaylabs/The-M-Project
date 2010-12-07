@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c)2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      04.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -8,6 +8,11 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+/**
+ * A constant value for a two column layout of a grid view.
+ *
+ * @type String
+ */
 M.TWO_COLUMNS = {
     cssClass: 'ui-grid-a',
     columns: {
@@ -15,6 +20,12 @@ M.TWO_COLUMNS = {
         1: 'ui-block-b'
     }
 };
+
+/**
+ * A constant value for a three column layout of a grid view.
+ *
+ * @type String
+ */
 M.THREE_COLUMNS = {
     cssClass: 'ui-grid-b',
     columns: {
@@ -26,33 +37,65 @@ M.THREE_COLUMNS = {
 
 /**
  * @class
+ * @extends M.View
  *
- * The root object for GridViews.
- *
+ * M.GridView defines a prototype of a grid view, that allows you to display several
+ * views horizontally aligned. Therefore you can either use a predefined layout or you
+ * can provide a custom layout.
  */
 M.GridView = M.View.extend(
 /** @scope M.GridView.prototype */ {
 
+    /**
+     * The type of this object.
+     *
+     * @type String
+     */
     type: 'M.GridView',
 
+    /**
+     * The layout for the grid view. There are two predefined layouts available:
+     * 
+     * - M.TWO_COLUMNS: a two column layout, width: 50% / 50%
+     * - M.THREE_COLUMNS: a three column layout, width: 33% / 33% / 33%
+     *
+     * To specify your own layout, you will have to implement some css classes and
+     * then define your layout like:
+     *
+     *     cssClass: 'cssClassForWholeGrid',
+     *     columns: {
+     *         0: 'cssClassForColumn1',
+     *         1: 'cssClassForColumn2',
+     *         2: 'cssClassForColumn3',
+     *         3: 'cssClassForColumn4',
+     *         //........
+     *     }
+     *
+     * @type Object
+     */
     layout: null,
 
     /**
-     * Renders a GridView based on the specified layout.
+     * Renders a grid view based on the specified layout.
+     *
+     * @private
+     * @returns {String} The grid view's html representation.
      */
     render: function() {
         this.html += '<div id="' + this.id + '" ' + this.style() + '>';
 
         this.renderChildViews();
-        
+
         this.html += '</div>';
 
         return this.html;
     },
 
     /**
-     * Triggers render() on all children and includes some special GridView logic
+     * Triggers render() on all children and includes some special grid view logic
      * concerning the rendering of these child views.
+     *
+     * @private
      */
     renderChildViews: function() {
         if(this.childViews) {
@@ -73,12 +116,20 @@ M.GridView = M.View.extend(
         }
     },
 
+    /**
+     * This method themes the grid view, respectively its child views.
+     *
+     * @private
+     */
     theme: function() {
         this.themeChildViews();
     },
 
     /**
-     * Applies some style-attributes to the grid.
+     * Applies some style-attributes to the grid view.
+     *
+     * @private
+     * @returns {String} The grid view's styling as html representation.
      */
     style: function() {
         if(this.layout) {

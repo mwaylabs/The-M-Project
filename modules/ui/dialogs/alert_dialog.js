@@ -12,8 +12,10 @@ m_require('ui/dialog.js');
 
 /**
  * @class
+ * @extends M.DialogView
  *
- * The root object for AlertDialogView.
+ * The is the prototype for any alert dialog view. It is derived from M.DialogView
+ * and mainly used for implementing a alert dialog view specific render method.
  *
  */
 M.AlertDialogView = M.DialogView.extend(
@@ -48,14 +50,17 @@ M.AlertDialogView = M.DialogView.extend(
     transition: M.TRANSITION.POP,
 
     /**
-     * Determines whether the dialog gets a default ok button.
+     * Determines whether the alert dialog gets a default ok button.
      *
      * @type Boolean
      */
     hasOkButton: YES,
 
     /**
-     * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
+     * Renders an alert dialog as a pop-up page.
+     *
+     * @private
+     * @returns {String} The alert dialog view's html representation.
      */
     render: function() {
         this.html = '<div data-role="dialog" id="' + this.id + '">';

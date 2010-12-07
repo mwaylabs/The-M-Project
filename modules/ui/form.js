@@ -10,8 +10,13 @@
 
 /**
  * @class
+ * @extends M.View
  *
- * The root object for FormViews.
+ * M.FormViews is the prototype of a form view, a container like view for grouping
+ * input views, e.g. M.TextFieldView. It covers a lot of the jobs concerning the
+ * validation of input views. There is no visible representation of an M.FormView,
+ * it is only used to ease the validation process and its accessing out of a
+ * controller.
  *
  */
 M.FormView = M.View.extend(
@@ -25,11 +30,13 @@ M.FormView = M.View.extend(
     type: 'M.FormView',
 
     /**
-     * Determines whether to automatically show an alert view if the validation fails.
+     * Determines whether to automatically show an alert dialog view out of the showError method
+     * if the validation failed or not. So if set to YES, all error messages are shown in an alert
+     * dialog view once the showError method is called.
      *
      * @type Boolean
      */
-    showAlertOnError: YES,
+    showAlertDialogOnError: YES,
 
     /**
      * The title of the alert view that comes up automatically if the validation fails, depending
@@ -42,6 +49,8 @@ M.FormView = M.View.extend(
     /**
      * This method triggers the validate() on all child views, respectively
      * on their validators.
+     *
+     * @returns {Boolean} The result of the validation process: valid or not.
      */
     validate: function() {
         M.Validator.clearErrorBuffer();
@@ -62,9 +71,17 @@ M.FormView = M.View.extend(
                 }
             }
         }
+
         return isValid;
     },
 
+    /**
+     * This method adds a css class specified by the cssClassOnError property to any
+     * view that caused a validation error and has this property specified.
+     *
+     * If the showAlertDialogOnError property is set to YES, a alert dialog view
+     * is display additionally, presenting the error messages of all invalid views.
+     */
     showErrors: function() {
         var errors = '';
         _.each(M.Validator.validationErrors, function(error) {
@@ -75,7 +92,7 @@ M.FormView = M.View.extend(
             errors += '<li>' + error.msg + '</li>';
         });
 
-        if(this.showAlertOnError) {
+        if(this.showAlertDialogOnError) {
             M.DialogView.alert({
                 title: this.alertTitle,
                 message: errors

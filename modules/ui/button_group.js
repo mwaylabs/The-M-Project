@@ -8,16 +8,26 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+/**
+ * A constant value for horizontal alignment.
+ *
+ * @type String
+ */
 M.HORIZONTAL = 'horizontal';
+
+/**
+ * A constant value for vertical alignment.
+ *
+ * @type String
+ */
 M.VERTICAL = 'vertical';
 
 
 /**
  * @class
- *
- * A button group is a vertically or horizontally aligned group of buttons. It
- * isn't visible
- *
+ * @extends M.View
+ * 
+ * A button group is a vertically or horizontally aligned group of buttons.
  */
 M.ButtonGroupView = M.View.extend(
 /** @scope M.ButtonGroupView.prototype */ {
@@ -44,12 +54,17 @@ M.ButtonGroupView = M.View.extend(
     /**
      * This property contains a reference to the currently selected button.
      *
+     * @private
      * @type Object
      */
     activeButton: null,
 
     /**
-     * Renders a segmented control view.
+     * Renders a button group as a div container and calls the renderChildViews
+     * method to render the included buttons.
+     *
+     * @private
+     * @returns {String} The button group view's html representation.
      */
     render: function() {
         this.html += '<div data-role="controlgroup" href="#" id="' + this.id + '" data-type="' + this.direction + '">';
@@ -62,7 +77,9 @@ M.ButtonGroupView = M.View.extend(
     },
 
     /**
-     * Triggers render() on all children of type M.ButtonView.
+     * Triggers render() on all children of type M.ButtonGroupView.
+     *
+     * @private
      */
     renderChildViews: function() {
         if(this.childViews) {
@@ -99,6 +116,8 @@ M.ButtonGroupView = M.View.extend(
     /**
      * This method themes the button group and activates one of the included buttons
      * if its isActive property is set.
+     *
+     * @private
      */
     theme: function() {
         $('#' + this.id).controlgroup();
@@ -110,7 +129,7 @@ M.ButtonGroupView = M.View.extend(
                     var button = this[childViews[i]];
                     if(button.isActive) {
                         this.setActiveButton(button.id);
-                        return
+                        break;
                     }
                 }
             }
@@ -120,6 +139,8 @@ M.ButtonGroupView = M.View.extend(
     /**
      * This method returns the currently selected button of this button group. If no
      * button is selected, null is returned.
+     *
+     * @returns {M.ButtonView} The currently active button of this button group.
      */
     getActiveButton: function() {
         return this.activeButton;  
@@ -128,7 +149,7 @@ M.ButtonGroupView = M.View.extend(
     /**
      * This method activates one button within the button group.
      *
-     * @param id {Object, String} The button to be set active or its id.
+     * @param id {M.ButtonView, String} The button to be set active or its id.
      */
     setActiveButton: function(id) {
         this.activeButton = null;

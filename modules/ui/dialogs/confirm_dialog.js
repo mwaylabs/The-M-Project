@@ -12,8 +12,10 @@ m_require('ui/dialog.js');
 
 /**
  * @class
+ * @extends M.DialogView
  *
- * The root object for AlertDialogView.
+ * The is the prototype for any confirm dialog view. It is derived from M.DialogView
+ * and mainly used for implementing a confirm dialog view specific render method.
  *
  */
 M.ConfirmDialogView = M.DialogView.extend(
@@ -27,14 +29,14 @@ M.ConfirmDialogView = M.DialogView.extend(
     type: 'M.ConfirmDialogView',
 
     /**
-     * The default title of an alert dialog.
+     * The default title of an confirm dialog.
      *
      * @type String
      */
-    title: 'Alert',
+    title: 'Confirm',
 
     /**
-     * The default message of an alert dialog.
+     * The default message of an confirm dialog.
      *
      * @type String
      */
@@ -48,21 +50,24 @@ M.ConfirmDialogView = M.DialogView.extend(
     transition: M.TRANSITION.POP,
 
     /**
-     * Determines whether the dialog gets a default ok button.
+     * Determines whether the confirm dialog gets a default ok button.
      *
      * @type Boolean
      */
     hasOkButton: YES,
 
     /**
-     * Determines whether the dialog gets a default cancel button.
+     * Determines whether the confirm dialog gets a default cancel button.
      *
      * @type Boolean
      */
     hasCancelButton: YES,
 
     /**
-     * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
+     * Renders an confirm dialog as a pop-up page.
+     *
+     * @private
+     * @returns {String} The confirm dialog view's html representation.
      */
     render: function() {
         this.html = '<div data-role="dialog" id="' + this.id + '">';

@@ -10,11 +10,11 @@
 
 /**
  * @class
+ * @extends M.View
  *
  * This defines the prototype for any button view. A button is a view element that is
  * typically used for triggering an action, e.g. switching to another page, firing a
  * request or opening a dialog.
- *
  */
 M.ButtonView = M.View.extend(
 /** @scope M.ButtonView.prototype */ {
@@ -38,7 +38,8 @@ M.ButtonView = M.View.extend(
     /**
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
      *
-     * @return {String} The button view's html representation.
+     * @private
+     * @returns {String} The button view's html representation.
      */
     render: function() {
         this.html += '<a data-role="button" href="#" id="' + this.id + '"' + this.style() + '>' + this.value + '</a>';
@@ -48,6 +49,8 @@ M.ButtonView = M.View.extend(
 
     /**
      * Updates the value of the button with DOM access by jQuery.
+     *
+     * @private
      */
     renderUpdate: function() {
         $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
@@ -66,6 +69,8 @@ M.ButtonView = M.View.extend(
 
     /**
      * Triggers the rendering engine, jQuery mobile, to style the button.
+     *
+     * @private
      */
     theme: function() {
         $('#' + this.id).button();
@@ -74,7 +79,8 @@ M.ButtonView = M.View.extend(
     /**
      * Applies some style-attributes to the button.
      *
-     * @return {String} The button's styling as html representation.
+     * @private
+     * @returns {String} The button's styling as html representation.
      */
     style: function() {
         var html = '';
