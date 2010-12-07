@@ -26,8 +26,8 @@ m_require('core/foundation/model_registry.js');
  * The root class for every model.
  *
  */
-M.Model = M.Object.extend({
-
+M.Model = M.Object.extend(
+/** @scope M.Model.prototype */ { 
     /**
      * The type of this object.
      *
@@ -65,6 +65,18 @@ M.Model = M.Object.extend({
      * @property {Object}
      */
     __meta: {},
+
+    /**
+     * Manages records of this model
+     * @property {Object}
+     */
+    recordManager: null,
+
+    /**
+     *
+     * @param obj
+     */
+    records: null,
 
     /**
      * A constant defining the model's state. Important e.g. for syncing storage
@@ -138,7 +150,10 @@ M.Model = M.Object.extend({
                 model.__meta[prop] = obj[prop];    
             }
         }
-        
+
+        model.recordManager = M.RecordManager.extend({});
+        model.records = model.recordManager.records;
+
         M.Application.modelRegistry.register(model.name);
 
         /* Re-set the just registered model's id, if there is a value stored */
