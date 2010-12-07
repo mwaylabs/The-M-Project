@@ -21,14 +21,34 @@ M.ModelAttribute = M.Object.extend(
 
     type: 'M.ModelAttribute',
 
-    defaultValue: null,
-
+    /**
+     * The data type for the model record property.
+     * Extremely important e.g. to map model to relational database table.
+     *
+     * @type String
+     */
     dataType: null,
 
+    /**
+     * Indicates whether this property is required to be set before persisting.
+     * If YES, then automatically @link M.PresenceValidator is added to the property, to check the presence.
+     * 
+     * @type Boolean
+     */
     isRequired: NO,
 
+    /**
+     * Array containing all validators for this model record property.
+     * E.g. [@link M.PresenceValidator, @link M.NumberValidator]
+     * @type Object
+     */
     validators: null,
 
+    /**
+     * Iterates over validators array and calls validate on each validator with the param object passed to the validator.
+     * @param {Object} obj The parameter object containing the model id, the record as M.ModelAttribute object and the value of the property.
+     * @return {Boolean} Indicates wheter the property is valid (YES|true) or invalid (NO|false). 
+     */
     validate: function(obj) {
         var isValid = YES;
         for (var i in this.validators) {

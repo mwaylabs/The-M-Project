@@ -12,7 +12,8 @@ m_require('core/datastore/data_provider.js');
 
 /**
  * @class
- *
+ * @extends M.DataProvider
+ * 
  * Encapsulates access to LocalStorage (in-browser key value store).
  * LocalStorage is an in-browser key-value store to persist data.
  * This data provider persists model records as JSON strings with their name and id as key.
@@ -58,11 +59,14 @@ M.LocalStorageProvider = M.DataProvider.extend(
      */
     del: function(obj) {
         try {
-            
-            localStorage.removeItem(obj.model.name + '_' + obj.model.id);
-            return YES;
+            if(localStorage.getItem(obj.model.name + '_' + obj.model.id)){ // check if key-value pair exists
+                localStorage.removeItem(obj.model.name + '_' + obj.model.id);
+                return YES;
+            }
+            return NO;
         } catch(e) {
             M.Logger.log(M.WARN, 'Error removing ID: ' + obj.model.name + '_' + obj.model.id + ' from localStorage');
+            return NO;
         }
     },
 
@@ -73,6 +77,8 @@ M.LocalStorageProvider = M.DataProvider.extend(
      *
      * If no query is passed, all models are returned by calling findAll()
      * @param {Object} The param object containing e.g. the query or the key.
+     * @return {Object|Boolean} Returns an object if find is done with a key, an array of objects when a query is given or no
+     * parameter passed.
      */
     find: function(obj) {
         if(obj.key) {
@@ -86,7 +92,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
             var m_id = reg && reg[1] ? reg[1] : null;
             if (!m_id) {
                 M.Logger.log('retrieved model has no valid key: ' + obj.key, M.ERROR);
-                return;
+                return NO;
             }
             var m = obj.model.createRecord($.extend(record, {id: m_id, state: M.STATE_VALID}));
             return m;
@@ -158,9 +164,21 @@ M.LocalStorageProvider = M.DataProvider.extend(
         }
     },
 
+    /**
+     * Finds a record identified by the key.
+     *
+     * @param {Object} The param object containing e.g. the query or the key.
+     * @return {Object|Boolean} Returns an object identified by key, correctly built as a model record by calling
+     * or a boolean (NO|false) if no key is given or the key does not exist in LocalStorage.
+     * parameter passed.
+     */
     findByKey: function(obj) {
         if(obj.key) {
-            return this.buildRecord(obj.key, obj)//JSON.parse(localStorage.getItem(key));
+            if(localStorage.getItem(obj.key)) { // if key is available
+                return this.buildRecord(obj.key, obj)
+            } else {
+                return NO;
+            }
         }
         M.Logger.log("Please provide a key.", M.WARN);
         return NO;
@@ -172,6 +190,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
      * Models are saved with key: Modelname_ID, e.g. Note_123
      *
      * @param {Object} obj The param obj, includes model
+     * @return {Object} The array of fetched objects/model records. If no records the array is empty.
      */
     findAll: function(obj) {
         var result = [];
@@ -185,8 +204,8 @@ M.LocalStorageProvider = M.DataProvider.extend(
                 var reg = new RegExp('^' + obj.model.name + '_([0-9]+)').exec(k);
                 var m_id = reg && reg[1] ? reg[1] : null;
                 if (!m_id) {
-                    M.Logger.log('retrieved model has no valid key: ' + k, M.ERROR);
-                    return;
+                    M.Logger.log('Model Record id not correct: ' + m_id, M.ERROR);
+                    continue; // if m_id does not exist, continue with next record element
                 }
                 var m = obj.model.createRecord($.extend(record, {id: m_id, state: M.STATE_VALID}));
                 
@@ -196,6 +215,16 @@ M.LocalStorageProvider = M.DataProvider.extend(
         return result;
     },
 
+    /**
+     * Fetches a record from LocalStorage and checks whether automatic parsing by JSON.parse set the elements right.
+     * Means: check whether resulting object's properties have the data type define by their model attribute object.
+     * E.g. String containing a date is automatically transfered into a M.Date object when the model attribute has the data type
+     * 'Date' set for this property.
+     * 
+     * @param {String} key The key to fetch the element from LocalStorage
+     * @param {Object} obj The param object, includes model
+     * @return {Object} record The record object. Includes all model record properties with correctly set data types.
+     */
     buildRecord: function(key, obj) {
         var record = JSON.parse(localStorage.getItem(key));
         for(var i in record) {
@@ -214,17 +243,18 @@ M.LocalStorageProvider = M.DataProvider.extend(
      * Returns all keys for model defined by modelName.
      *
      * @param {Object} obj The param obj, includes model
+     * @result {Object} keys All keys for model records in LocalStorage for a certain model identified by the model's name. 
      */
     allKeys: function(obj) {
-        var result = [];
+        var keys = [];
         for (var i = 0; i < localStorage.length; i++){
             var k = localStorage.key(i)
             regexResult = new RegExp('^' + obj.model.name + '_').exec(k);
             if(regexResult) {
-                result.push(k);
+                keys.push(k);
             }
         }
-        return result;    
+        return keys;
     }
 
 });
