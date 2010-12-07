@@ -14,7 +14,8 @@
  * The root object for SearchBarViews.
  *
  */
-M.SearchBarView = M.View.extend({
+M.SearchBarView = M.View.extend(
+/** @scope M.SearchBarView.prototype */ {
 
     /**
      * The type of this object.

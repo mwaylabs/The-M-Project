@@ -14,7 +14,8 @@
  * The root object for TabBarViews.
  *
  */
-M.TabBarView = M.View.extend({
+M.TabBarView = M.View.extend(
+/** @scope M.TabBarView.prototype */ {
 
     /**
      * The type of this object.

@@ -14,7 +14,8 @@
  * The root object for LabelViews.
  *
  */
-M.LabelView = M.View.extend({
+M.LabelView = M.View.extend(
+/** @scope M.LabelView.prototype */ {
 
     /**
      * The type of this object.

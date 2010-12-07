@@ -14,7 +14,8 @@
  * The root object for ButtonViews.
  *
  */
-M.ButtonView = M.View.extend({
+M.ButtonView = M.View.extend(
+/** @scope M.ButtonView.prototype */ {
 
     /**
      * The type of this object.

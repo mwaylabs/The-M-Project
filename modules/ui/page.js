@@ -14,7 +14,8 @@
  * The root object for Pages.
  *
  */
-M.PageView = M.View.extend({
+M.PageView = M.View.extend(
+/** @scope M.PageView.prototype */ {
 
     /**
      * The type of this object.

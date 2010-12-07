@@ -14,7 +14,8 @@
  * The root object for LoaderViews.
  *
  */
-M.LoaderView = M.View.extend({
+M.LoaderView = M.View.extend(
+/** @scope M.LoaderView.prototype */ {
 
     /**
      * The type of this object.

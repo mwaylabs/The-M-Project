@@ -16,7 +16,8 @@ m_require('ui/search_bar.js');
  * The root object for ListViews.
  *
  */
-M.ListView = M.View.extend({
+M.ListView = M.View.extend(
+/** @scope M.ListView.prototype */ {
 
     /**
      * The type of this object.

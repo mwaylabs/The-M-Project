@@ -14,7 +14,8 @@
  * The root object for ImageViews.
  *
  */
-M.ImageView = M.View.extend({
+M.ImageView = M.View.extend(
+/** @scope M.ImageView.prototype */ {
 
     type: 'M.ImageView',
 

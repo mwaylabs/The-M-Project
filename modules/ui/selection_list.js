@@ -20,7 +20,8 @@ m_require('ui/selection_list_item.js');
  * The root object for SelectionListViews.
  *
  */
-M.SelectionListView = M.View.extend({
+M.SelectionListView = M.View.extend(
+/** @scope M.SelectionListView.prototype */ {
 
     /**
      * The type of this object.

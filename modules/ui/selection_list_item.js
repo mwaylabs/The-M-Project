@@ -14,7 +14,8 @@
  * The root object for SelectionListItemView.
  *
  */
-M.SelectionListItemView = M.View.extend({
+M.SelectionListItemView = M.View.extend(
+/** @scope M.SelectionListItemView.prototype */ {
 
     /**
      * The type of this object.

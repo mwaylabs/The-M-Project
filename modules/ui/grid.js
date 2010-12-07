@@ -30,7 +30,8 @@ M.THREE_COLUMNS = {
  * The root object for GridViews.
  *
  */
-M.GridView = M.View.extend({
+M.GridView = M.View.extend(
+/** @scope M.GridView.prototype */ {
 
     type: 'M.GridView',
 

@@ -16,7 +16,8 @@ m_require('ui/dialog.js');
  * The root object for ActionSheetDialogView.
  *
  */
-M.ActionSheetDialogView = M.DialogView.extend({
+M.ActionSheetDialogView = M.DialogView.extend(
+/** @scope M.ActionSheetDialogView.prototype */ {
 
     /**
      * The type of this object.

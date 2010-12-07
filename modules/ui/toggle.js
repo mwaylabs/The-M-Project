@@ -14,7 +14,8 @@
  * The root of all toggle views.
  *
  */
-M.ToggleView = M.View.extend({
+M.ToggleView = M.View.extend(
+/** @scope M.ToggleView.prototype */ {
 
     type: 'M.ToggleView',
 

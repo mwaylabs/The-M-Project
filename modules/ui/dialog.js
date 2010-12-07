@@ -18,7 +18,8 @@ M.DIALOG.ACTIONSHEET = 'ActionSheet';
  * The root object for DialogViews.
  *
  */
-M.DialogView = M.View.extend({
+M.DialogView = M.View.extend(
+/** @scope M.DialogView.prototype */ {
 
     /**
      * The type of this object.

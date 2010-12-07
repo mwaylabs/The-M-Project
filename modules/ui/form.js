@@ -14,7 +14,8 @@
  * The root object for FormViews.
  *
  */
-M.FormView = M.View.extend({
+M.FormView = M.View.extend(
+/** @scope M.FormView.prototype */ {
 
     /**
      * The type of this object.

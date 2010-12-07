@@ -20,7 +20,8 @@ M.RIGHT = 2;
  * The root object for ToolbarViews.
  *
  */
-M.ToolbarView = M.View.extend({
+M.ToolbarView = M.View.extend(
+/** @scope M.ToolbarView.prototype */ {
 
     /**
      * The type of this object.

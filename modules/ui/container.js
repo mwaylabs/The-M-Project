@@ -14,7 +14,8 @@
  * The root object for ContainerView.
  *
  */
-M.ContainerView = M.View.extend({
+M.ContainerView = M.View.extend(
+/** @scope M.ContainerView.prototype */ {
 
     /**
      * The type of this object.

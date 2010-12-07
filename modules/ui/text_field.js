@@ -14,7 +14,8 @@
  * The root object for TextFieldViews.
  *
  */
-M.TextFieldView = M.View.extend({
+M.TextFieldView = M.View.extend(
+/** @scope M.TextFieldView.prototype */ {
 
    /**
      * The type of this object.

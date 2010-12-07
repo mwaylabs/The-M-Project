@@ -16,7 +16,8 @@ m_require('ui/button.js');
  * The root object for ListItemViews.
  *
  */
-M.ListItemView = M.View.extend({
+M.ListItemView = M.View.extend(
+/** @scope M.ListItemView.prototype */ {
 
     type: 'M.ListItemView',
 

@@ -11,7 +11,8 @@
 M.HORIZONTAL = 'horizontal';
 M.VERTICAL = 'vertical';
 
-M.ButtonGroupView = M.View.extend({
+M.ButtonGroupView = M.View.extend(
+/** @scope M.ButtonGroupView.prototype */ {
 
     /**
      * The type of this object.

@@ -14,7 +14,8 @@
  * The root object for ScrollViews.
  *
  */
-M.ScrollView = M.View.extend({
+M.ScrollView = M.View.extend(
+/** @scope M.ScrollView.prototype */ {
 
     /**
      * The type of this object.

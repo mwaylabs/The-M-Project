@@ -16,7 +16,8 @@ m_require('ui/dialog.js');
  * The root object for AlertDialogView.
  *
  */
-M.ConfirmDialogView = M.DialogView.extend({
+M.ConfirmDialogView = M.DialogView.extend(
+/** @scope M.ConfirmDialogView.prototype */ {
 
     /**
      * The type of this object.
