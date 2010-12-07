@@ -31,14 +31,14 @@ M.Model = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.Model',
 
     /**
      * The name of the model.
      *
-     * @property {String}
+     * @type String
      */
     name: '',
 
@@ -48,7 +48,7 @@ M.Model = M.Object.extend(
      * Note: Unique doesn't mean that this id is a global unique ID, it is just unique
      * for records of this type of model.
      *
-     * @property {Number}
+     * @type Number
      */
     id: null,
 
@@ -56,19 +56,19 @@ M.Model = M.Object.extend(
      * The model's record defines the properties that are semantically bound to this model:
      * e.g. a person's record is in simplest case: firstname, lastname, age.
      *
-     * @property {Object} record
+     * @type Object record
      */
     record: null,
 
     /**
      * Object containing all meta information for the object's properties
-     * @property {Object}
+     * @type Object
      */
     __meta: {},
 
     /**
      * Manages records of this model
-     * @property {Object}
+     * @type Object
      */
     recordManager: null,
 
@@ -80,14 +80,14 @@ M.Model = M.Object.extend(
 
     /**
      * A constant defining the model's state. Important e.g. for syncing storage
-     * @property {String}
+     * @type String
      */
     state: M.STATE_UNDEFINED,
 
 
     /**
      * determines whether model shall be validated before saving to storage or not.
-     * @property {Boolean}
+     * @type Boolean
      */
     usesValidation: YES,
 
@@ -96,7 +96,7 @@ M.Model = M.Object.extend(
      *
      * Needs a refactoring, also in connection with storageEngine.
      *
-     * @property {Object}
+     * @type Object
      */
     dataProvider: null,
 
@@ -105,7 +105,7 @@ M.Model = M.Object.extend(
      *
      * Needs a refactoring, also in connection with dataProvider.
      *
-     * @property {String}
+     * @type String
      */
     storageEngine: M.WebStorage,
 

@@ -20,14 +20,14 @@ M.SearchBarView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.SearchBarView',
 
     /**
      * Determines whether the search bar is part of a list view.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isListViewSearchBar: NO,
 
@@ -35,7 +35,7 @@ M.SearchBarView = M.View.extend(
      * If the search bar belongs to a list view, this property contains this
      * list view.
      *
-     * @property {Object}
+     * @type Object
      */
     listView: null,
 

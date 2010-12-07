@@ -13,20 +13,28 @@ m_require('core/datastore/data_provider.js');
 /**
  * @class
  *
- * Encapsulates access to LocalStorage (in-browser key value store)
+ * Encapsulates access to LocalStorage (in-browser key value store).
+ * LocalStorage is an in-browser key-value store to persist data.
+ * This data provider persists model records as JSON strings with their name and id as key.
+ * When fetching these strings from storage, their automatically converted in their corresponding model records.
  */
 M.LocalStorageProvider = M.DataProvider.extend(
 /** @scope M.LocalStorageProvider.prototype */ {
 
+    /**
+     * The type of this object.
+     * @type String
+     */
     type: 'M.LocalStorageProvider',
 
     /**
-     * saves a model to the local storage
-     * key is name combined with id, value is stringified object
+     * Saves a model record to the local storage
+     * The key is the model record's name combined with id, value is stringified object
      * e.g.
      * Note_123 => '{ text: 'buy some food' }'
      *
      * @param {Object} that (is a model).
+     * @return {Boolean} Boolean indicating whether save was successful (YES|true) or not (NO|false).
      */
     save: function(obj) {
         try {
@@ -35,6 +43,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
             return YES;
         } catch(e) {
             M.Logger.log(M.WARN, 'Error saving ' + obj.model.record + ' to localStorage with ID: ' + obj.model.name + '_' + that.id);
+            return NO;
         }
 
     },              
@@ -45,9 +54,11 @@ M.LocalStorageProvider = M.DataProvider.extend(
      * e.g. key: 'Note_123'
      *
      * @param {Object} obj The param obj, includes model
+     * @return {Boolean} Boolean indicating whether save was successful (YES|true) or not (NO|false).
      */
     del: function(obj) {
         try {
+            
             localStorage.removeItem(obj.model.name + '_' + obj.model.id);
             return YES;
         } catch(e) {
@@ -61,8 +72,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
      * Right now, no AND or OR joins possible, just one query constraint.
      *
      * If no query is passed, all models are returned by calling findAll()
-     * @param {String} modelName
-     * @param {String} query
+     * @param {Object} The param object containing e.g. the query or the key.
      */
     find: function(obj) {
         if(obj.key) {

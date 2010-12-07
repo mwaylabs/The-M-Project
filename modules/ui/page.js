@@ -20,56 +20,56 @@ M.PageView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.PageView',
 
     /**
      * Is set to NO once the page was first loaded.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isFirstLoad: YES,
 
     /**
      * This property can be used to set the page's beforeLoad action.
      *
-     * @property {Object}
+     * @type Object
      */
     beforeLoad: null,
 
     /**
      * This property can be used to set the page's onLoad action.
      *
-     * @property {Object}
+     * @type Object
      */
     onLoad: null,
 
     /**
      * This property can be used to set the page's beforeHide action.
      *
-     * @property {Object}
+     * @type Object
      */
     beforeHide: null,
 
     /**
      * This property can be used to set the page's onHide action.
      *
-     * @property {Object}
+     * @type Object
      */
     onHide: null,
 
     /**
      * Indicates whether the page has a tab bar or not.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     hasTabBarView: NO,
 
     /**
      * The page's tab bar.
      *
-     * @property {Object}
+     * @type Object
      */
     tabBarView: null,
 

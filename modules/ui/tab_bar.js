@@ -20,7 +20,7 @@ M.TabBarView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.TabBarView',
     
@@ -29,7 +29,7 @@ M.TabBarView = M.View.extend(
      *
      * default: M.BOTTOM => is a footer bar
      *
-     * @property {String}
+     * @type String
      */
     anchorLocation: M.BOTTOM,
 
@@ -37,7 +37,7 @@ M.TabBarView = M.View.extend(
      * Defines whether this TabBar is only rendered once for every view that uses
      * this TabBar.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isSingelton: YES,
 

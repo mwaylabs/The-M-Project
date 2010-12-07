@@ -24,7 +24,7 @@ M.DialogView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.DialogView',
 
@@ -32,7 +32,7 @@ M.DialogView = M.View.extend(
      * Contains the ids of the button's within a dialog. They are used to later register a click
      * event to all of these views.
      *
-     * @property {Object}
+     * @type Object
      */
     buttonIds: [],
 
@@ -40,7 +40,7 @@ M.DialogView = M.View.extend(
      * The dialog's callback, splitted in target / action. It is called once the dialog's
      * closing transition did finish.
      *
-     * @property {Object}
+     * @type Object
      */
     callback: {},
 

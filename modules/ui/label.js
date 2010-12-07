@@ -20,7 +20,7 @@ M.LabelView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.LabelView',
 
@@ -28,7 +28,7 @@ M.LabelView = M.View.extend(
      * Determines whether a new line '\n' within the label's value should be transformed
      * into a line break '<br/>' before it is rendered. Default: YES.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     newLineToBreak: YES,
 

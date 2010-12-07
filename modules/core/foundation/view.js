@@ -22,14 +22,14 @@ M.View = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.View',
 
     /**
      * A boolean value to definitely recognize a view as a view.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isView: YES,
 
@@ -52,21 +52,21 @@ M.View = M.Object.extend(
     /**
      * An array specifying the view's children.
      *
-     * @property {Object}
+     * @type Object
      */
     childViews: null,
 
     /**
      * Determines whether this view renders directly to the DOM or just returns its HTML representation.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     renderToDOM: YES,
 
     /**
      * Indicates whether this view currently has the focus or not.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     hasFocus: NO,
 
@@ -104,7 +104,7 @@ M.View = M.Object.extend(
      * This property can be used to assign a css class to the view using the jquery mobile
      * specific data-theme property. This allows you to create your custom styles.
      *
-     * @property {String}
+     * @type String
      */
     cssClass: null,
 
@@ -112,7 +112,7 @@ M.View = M.Object.extend(
      * This property can be used to assign a css style to the view using. This allows you to
      * create your custom styles inline.
      *
-     * @property {String}
+     * @type String
      */
     cssStyle: null,
 
@@ -121,7 +121,7 @@ M.View = M.Object.extend(
      * applying of this class is automatically triggered if the validation of the view
      * goes wrong.
      *
-     * @property {String}
+     * @type String
      */
     cssClassOnError: null,
 
@@ -131,7 +131,7 @@ M.View = M.Object.extend(
      * value that should be rendered in a different style than the later value entered by the
      * user.
      *
-     * @property {String}
+     * @type String
      */
     cssClassOnInit: null,
 
@@ -140,7 +140,7 @@ M.View = M.Object.extend(
      * It is once set within the render method and then eventually updated within the
      * renderUpdate method.
      *
-     * @property {String} The pages html content.
+     * @type String The pages html content.
      */
     html: '',
 
@@ -149,7 +149,7 @@ M.View = M.Object.extend(
      * This property is basically interesting for input ui elements, e.g. for
      * text fields.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     triggerActionOnChange: NO,
 
@@ -158,7 +158,7 @@ M.View = M.Object.extend(
      * This property is basically interesting for input ui elements, e.g. for
      * text fields.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     triggerActionOnKeyUp: NO,
 
@@ -167,7 +167,7 @@ M.View = M.Object.extend(
      * action or not. This property is basically interesting for input ui elements, e.g.
      * for text fields.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     triggerActionOnEnter: NO,
 
@@ -385,7 +385,7 @@ M.View = M.Object.extend(
     /**
      * Adds a css class to the view's DOM representation.
      *
-     * @property {String} cssClass The css class to be added.
+     * @type String cssClass The css class to be added.
      */
     addCssClass: function(cssClass) {
         $('#' + this.id).addClass(cssClass);
@@ -394,7 +394,7 @@ M.View = M.Object.extend(
     /**
      * Removes a css class to the view's DOM representation.
      *
-     * @property {String} cssClass The css class to be removed.
+     * @type String cssClass The css class to be removed.
      */
     removeCssClass: function(cssClass) {
         $('#' + this.id).removeClass(cssClass);
@@ -403,8 +403,8 @@ M.View = M.Object.extend(
     /**
      * Adds or updates a css property to the view's DOM representation.
      *
-     * @property {String} key The property's name.
-     * @property {String} value The property's value.
+     * @type String key The property's name.
+     * @type String value The property's value.
      */
     setCssProperty: function(key, value) {
         $('#' + this.id).css(key, value);
@@ -413,8 +413,8 @@ M.View = M.Object.extend(
     /**
      * Adds or updates a css property to the view's DOM representation.
      *
-     * @property {String} key The property's name.
-     * @property {String} value The property's value.
+     * @type String key The property's name.
+     * @type String value The property's value.
      */
     removeCssProperty: function(key) {
         this.setCssProperty(key, '');

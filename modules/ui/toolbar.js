@@ -26,7 +26,7 @@ M.ToolbarView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.ToolbarView',
 
@@ -41,14 +41,14 @@ M.ToolbarView = M.View.extend(
      *
      * default: M.TOP => is a header bar
      *
-     * @property {String}
+     * @type String
      */
     anchorLocation: M.TOP,
 
     /**
      * Display an auto-generated back-button on any new page.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     showBackButton: NO,
 

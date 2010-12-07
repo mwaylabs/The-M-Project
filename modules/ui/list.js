@@ -22,21 +22,21 @@ M.ListView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.ListView',
 
     /**
      * Determines whether to remove all item if the list is updated or not.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     removeItemsOnUpdate: YES,
 
     /**
      * Determines whether to display the list as a divided list or not.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isDividedList: NO,
 
@@ -44,14 +44,14 @@ M.ListView = M.View.extend(
      * If the list view is a divided list, this property can be used to customize the style
      * of the list's dividers.
      *
-     * @property {String}
+     * @type String
      */
     cssClassForDivider: null,
 
     /**
      * Determines whether to display the the number of child items for each list item view.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isCountedList: NO,
 
@@ -59,7 +59,7 @@ M.ListView = M.View.extend(
      * If the list view is a counted list, this property can be used to customize the style
      * of the list item's counter.
      *
-     * @property {String}
+     * @type String
      */
     cssClassForCounter: null,
 
@@ -67,14 +67,14 @@ M.ListView = M.View.extend(
      * This property can be used to customize the style of the list view's split view. For example
      * the toggleRemove() of a list view uses the built-in split view functionality.
      *
-     * @property {String}
+     * @type String
      */
     cssClassForSplitView: null,
 
     /**
      * The list view's items, respectively its child views.
      *
-     * @property {Object}
+     * @type Object
      */
     items: null,
 
@@ -82,7 +82,7 @@ M.ListView = M.View.extend(
      * Determines whether the list view is currently in edit mode or not. This is mainly used by the
      * built-in toggleRemove() functionality. 
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     inEditMode: NO,
 
@@ -90,42 +90,42 @@ M.ListView = M.View.extend(
      * This property contains all available options for the edit mode. For example the target and action
      * of the automatically rendered delete button can be specified using this property.
      *
-     * @property {Object}
+     * @type Object
      */
     editOptions: null,
 
     /**
      * Defines if the ListView is rendered with prefixed numbering for each item.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isNumberedList: NO,
 
     /**
      * This property contains the list view's template view, the blueprint for every child view.
      *
-     * @property {Object}
+     * @type Object
      */
     listItemTemplateView: null,
 
     /**
      * Determines whether to display the list view 'inset' or at full width.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isInsetList: NO,
 
     /**
      * The list view's search bar.
      *
-     * @property {Object}
+     * @type Object
       */
     searchBar: null,
 
     /**
      * Determines whether or not to display a search bar at the top of the list view. 
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     hasSearchBar: NO,
 
@@ -136,14 +136,14 @@ M.ListView = M.View.extend(
      *
      * If a custom search behaviour is needed, this property must be set to NO.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     usesDefaultSearchBehaviour: YES,
 
     /**
      * An object containing target and action to be triggered if the search string changes.
      *
-     * @property {Object}
+     * @type Object
      */
     onSearchStringDidChange: null,
 

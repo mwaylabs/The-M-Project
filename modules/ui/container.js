@@ -20,7 +20,7 @@ M.ContainerView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.ContainerView',
 

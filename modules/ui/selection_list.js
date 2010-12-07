@@ -26,14 +26,14 @@ M.SelectionListView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.SelectionListView',
 
     /**
      * Determines whether to remove all item if the list is updated or not.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     removeItemsOnUpdate: YES,
 
@@ -44,7 +44,7 @@ M.SelectionListView = M.View.extend(
      * - M.SINGLE_SELECTION
      * - M.MULTIPLE_SELECTION
      *
-     * @property {String}
+     * @type String
      */
     selectionMode: M.SINGLE_SELECTION,
 
@@ -52,14 +52,14 @@ M.SelectionListView = M.View.extend(
      * This property is used to define a method that is executed onSelect of an
      * item of this selection list.
      *
-     * @property {Object}
+     * @type Object
      */
     onSelect: null,
 
     /**
      * The selected item(s) of this list.
      *
-     * @property {Object}
+     * @type Object
      */
     selection: null,
 

@@ -20,14 +20,14 @@ M.TabBarItemView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.TabBarItemView',
 
     /**
      * Determines whether this TabBarItem is active or not.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isActive: NO,
 

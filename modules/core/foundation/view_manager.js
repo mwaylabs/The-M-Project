@@ -26,7 +26,7 @@ M.ViewManager = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.ViewManager',
 
@@ -34,35 +34,35 @@ M.ViewManager = M.Object.extend(
      * The nextId delivered to a view (used as html id attribute value) with prefix m_.
      * Initial state is 0, will be incremeneted by 1 on each call.
      *
-     * @property {Number}
+     * @type Number
      */
     nextId: 0,
 
     /**
      * Prefix for Id.
      *
-     * @property {String} 
+     * @type String
      */
     idPrefix: 'm_',
 
     /**
      * Array containing all views used in the application.
      *
-     * @property {Object}
+     * @type Object
      */
     viewList: [],
 
     /**
      * A reference to the currently displayed page.
      *
-     * @property {Object}
+     * @type Object
      */
     currentPage: null,
 
     /**
      * A reference to the latest found view which is necassary for the findView() method.
      *
-     * @property {Object}
+     * @type Object
      */
     foundView: null,
 

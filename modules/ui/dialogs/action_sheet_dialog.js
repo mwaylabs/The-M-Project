@@ -22,28 +22,28 @@ M.ActionSheetDialogView = M.DialogView.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.ActionSheetDialogView',
 
     /**
      * The default title of an action sheet dialog.
      *
-     * @property {String}
+     * @type String
      */
     title: 'ActionSheet',
 
     /**
      * The default transition of an action sheet dialog.
      *
-     * @property {String}
+     * @type String
      */
     transition: M.TRANSITION.SLIDEUP,
 
     /**
      * Determines whether the dialog gets a default cancel button.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     hasCancelButton: YES,
 

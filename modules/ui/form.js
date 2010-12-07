@@ -20,14 +20,14 @@ M.FormView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.FormView',
 
     /**
      * Determines whether to automatically show an alert view if the validation fails.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     showAlertOnError: YES,
 
@@ -35,7 +35,7 @@ M.FormView = M.View.extend(
      * The title of the alert view that comes up automatically if the validation fails, depending
      * one the 'showAlertOnError' property.
      *
-     * @property {String}
+     * @type String
      */
      alertTitle: 'Validation Error(s)',
 

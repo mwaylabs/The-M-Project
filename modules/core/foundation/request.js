@@ -22,7 +22,7 @@ M.Request = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.Request',
     
@@ -44,14 +44,14 @@ M.Request = M.Object.extend(
      *
      * Defaults to GET.
      *
-     * @property {String}
+     * @type String
      */
     method: 'GET',
 
     /**
      * The URL this request is sent to.
      *
-     * @property {String}
+     * @type String
      */
     url: null,
 
@@ -62,7 +62,7 @@ M.Request = M.Object.extend(
      *
      * Defaults to YES.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isAsync: YES,
 
@@ -72,14 +72,14 @@ M.Request = M.Object.extend(
      *
      * Defaults to NO.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isJSON: NO,
 
     /**
      * Optional timeout value of the request in milliseconds.
      *
-     * @property {Number}
+     * @type Number
      */
     timeout: null,
 

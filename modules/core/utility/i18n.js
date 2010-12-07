@@ -21,14 +21,14 @@ M.I18N = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.I18N',
 
     /**
      * The default language.
      *
-     * @property {String}
+     * @type String
      */
     defaultLanguage: 'en_us',
 
@@ -36,7 +36,7 @@ M.I18N = M.Object.extend(
      * This property is used to map the navigator's language to an ISO standard
      * if necessary. E.g. 'de' will be mapped to 'de_de'.
      *
-     * @property {Object}
+     * @type Object
      */
     languageMapper: {
         de: ['de_de'],
@@ -46,7 +46,7 @@ M.I18N = M.Object.extend(
     /**
      * This property is used to set the language programmatically out of M.Application.
      *
-     * @property {String}
+     * @type String
      */
     forceLanguage: null,
 

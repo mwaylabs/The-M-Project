@@ -34,7 +34,7 @@ M.Controller = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.Controller',
 

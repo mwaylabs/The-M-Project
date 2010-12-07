@@ -22,14 +22,14 @@ M.Base64 = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.Base64',
 
     /**
      * The key string for the base 64 decoding and encoding.
      *
-     * @property {String}
+     * @type String
      */
     keyString: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",    
 

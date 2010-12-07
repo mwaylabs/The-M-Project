@@ -37,13 +37,13 @@ M.Date = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.Date',
     /**
      * The native javascript date object.
      *
-     * @property {Object}
+     * @type Object
      */
     date: null,
 

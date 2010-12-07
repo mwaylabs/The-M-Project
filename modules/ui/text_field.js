@@ -20,14 +20,14 @@ M.TextFieldView = M.View.extend(
    /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.TextFieldView',
 
    /**
      * The name of the text field.
      *
-     * @property {String}
+     * @type String
      */
     name: '',
 
@@ -35,7 +35,7 @@ M.TextFieldView = M.View.extend(
      * Label defines a text that is shown above or next to the textfield as a 'title' for the textfield.
      * e.g. "Name:"
      *
-     * @property {String}
+     * @type String
      */
     label: '',
 
@@ -43,21 +43,21 @@ M.TextFieldView = M.View.extend(
      * The initial text shown inside the text field describing the input or making a suggestion for input
      * e.g. "Please enter your Name."
      *
-     * @property {String}
+     * @type String
      */
     initialText: '',
 
     /**
      * Defines whether the text field is rendered as an password field or not.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isPassword: NO,
 
     /**
      * Defines whether the text field has multiple lines respectively is a text area.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     hasMultipleLines: NO,
 

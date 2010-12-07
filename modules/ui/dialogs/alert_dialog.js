@@ -22,35 +22,35 @@ M.AlertDialogView = M.DialogView.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.AlertDialogView',
 
     /**
      * The default title of an alert dialog.
      *
-     * @property {String}
+     * @type String
      */
     title: 'Alert',
 
     /**
      * The default message of an alert dialog.
      *
-     * @property {String}
+     * @type String
      */
     message: '',
 
     /**
      * The default transition of an alert dialog.
      *
-     * @property {String}
+     * @type String
      */
     transition: M.TRANSITION.POP,
 
     /**
      * Determines whether the dialog gets a default ok button.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     hasOkButton: YES,
 

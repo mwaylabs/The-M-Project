@@ -22,13 +22,13 @@ M.WebSqlProvider = M.DataProvider.extend(
 
     /**
      * Configuration object
-     * @property {Object}
+     * @type Object
      */
     config: {},
 
     /**
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isInitialized: NO,
 

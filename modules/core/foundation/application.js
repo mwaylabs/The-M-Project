@@ -22,56 +22,56 @@ M.Application = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.Application',
 
     /**
      * The application's name.
      *
-     * @property {String}
+     * @type String
      */
     name: null,
 
     /**
      * The application's view manager.
      *
-     * @property {Object}
+     * @type Object
      */
     viewManager: M.ViewManager,
 
     /**
      * The application's model registry.
      *
-     * @property {Object}
+     * @type Object
      */
     modelRegistry: M.ModelRegistry,
 
     /**
      * The application's event dispatcher.
      *
-     * @property {Object}
+     * @type Object
      */
     eventDispatcher: M.EventDispatcher,
 
     /**
      * The application's cypher object, used for encoding and decoding.
      *
-     * @property {Object}
+     * @type Object
      */
     cypher: M.Cypher,
 
     /**
      * The application's current language.
      *
-     * @property {String}
+     * @type String
      */
     currentLanguage: null,
 
     /**
      * The application's default / fallback language.
      *
-     * @property {String}
+     * @type String
      */
     defaultLanguage: null,
 

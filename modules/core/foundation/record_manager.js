@@ -24,14 +24,14 @@ M.RecordManager = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.RecordManager',
 
     /**
      * Array containing all currently loaded records.
      *
-     * @property {Object}
+     * @type Object
      */
     records: [],
 

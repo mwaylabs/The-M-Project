@@ -20,7 +20,7 @@ M.SelectionListItemView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.SelectionListItemView',
 
@@ -33,14 +33,14 @@ M.SelectionListItemView = M.View.extend(
      * value to '#FF0000' but its label to 'Red'. If there is no label specified,
      * the value is displayed instead.
      *
-     * @property {String}
+     * @type String
      */
     label: null,
 
     /**
      * This property determines whether a selection list item is selected or not.
      *
-     * @property {Boolean}
+     * @type Boolean
      */
     isSelected: NO,
 

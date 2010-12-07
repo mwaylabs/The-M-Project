@@ -21,7 +21,7 @@ M.Object =
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.Object',
 

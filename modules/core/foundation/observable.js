@@ -22,7 +22,7 @@ M.Observable = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.Observable',
 

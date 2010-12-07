@@ -25,7 +25,7 @@ M.ButtonGroupView = M.View.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.ButtonGroupView',
 
@@ -37,14 +37,14 @@ M.ButtonGroupView = M.View.extend(
      * - M.HORIZONTAL: horizontal
      * - M.VERTICAL: vertical
      *
-     * @property {String}
+     * @type String
      */
     direction: M.HORIZONTAL,
 
     /**
      * This property contains a reference to the currently selected button.
      *
-     * @property {Object}
+     * @type Object
      */
     activeButton: null,
 

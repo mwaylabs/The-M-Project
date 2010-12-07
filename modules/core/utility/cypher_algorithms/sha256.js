@@ -22,21 +22,21 @@ M.SHA256 = M.Object.extend(
     /**
      * The type of this object.
      *
-     * @property {String}
+     * @type String
      */
     type: 'M.SHA256',
 
     /**
      * Defines the bits per input character: 8 - ASCII, 16 - Unicode
      *  
-     * @property {Number}
+     * @type Number
      */
     chrsz: 8,
 
     /**
      * Defines the hex output format: 0 - lowercase, 1 - uppercase
      *
-     * @property {Number}
+     * @type Number
      */
     hexcase: 0,
 
