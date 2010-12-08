@@ -15,6 +15,7 @@ m_require('core/foundation/model.js');
  *
  * The root of all views.
  *
+ * @extends M.Object
  */
 M.View = M.Object.extend(
 /** @scope M.View.prototype */ {
