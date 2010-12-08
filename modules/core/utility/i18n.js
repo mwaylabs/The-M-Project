@@ -13,7 +13,11 @@ m_require('core/foundation/object.js');
 /**
  * @class
  *
- * Object for internationalisation and localisation.
+ * M.I18N defines a prototype for for internationalisation and localisation within
+ * The M-Project. It is used to set and get the application's language and to
+ * localize any string within an application.
+ *
+ * @extends M.Object
  */
 M.I18N = M.Object.extend(
 /** @scope M.I18N.prototype */ {
@@ -26,7 +30,7 @@ M.I18N = M.Object.extend(
     type: 'M.I18N',
 
     /**
-     * The default language.
+     * The system's default language.
      *
      * @type String
      */
@@ -34,27 +38,23 @@ M.I18N = M.Object.extend(
 
     /**
      * This property is used to map the navigator's language to an ISO standard
-     * if necessary. E.g. 'de' will be mapped to 'de_de'.
+     * if necessary. E.g. 'de' will be mapped to 'de_de'. Currently we only provide
+     * support for english and german. More languages are about to come or can be
+     * added by overwriting this property.
      *
      * @type Object
      */
     languageMapper: {
-        de: ['de_de'],
-        en: ['en_us', 'en_gb']
+        de: 'de_de',
+        en: 'en_us'
     },
-
-    /**
-     * This property is used to set the language programmatically out of M.Application.
-     *
-     * @type String
-     */
-    forceLanguage: null,
-
+    
     /**
      * This method returns the localized string for the given key based on
      * the current language.
      *
-     * @param key {String} The key to the localized string.
+     * @param {String} key The key to the localized string.
+     * @returns {String} The localizes string based on the current application language.
      */
     l: function(key) {
         return this.localize(key);
@@ -66,7 +66,8 @@ M.I18N = M.Object.extend(
      * a better readability.
      *
      * @private
-     * @param key {String} The key to the localized string.
+     * @param {String} key The key to the localized string.
+     * @returns {String} The localizes string based on the current application language.
      */
     localize: function(key) {
         if(!M.Application.currentLanguage) {
@@ -90,7 +91,7 @@ M.I18N = M.Object.extend(
     /**
      * This method sets the applications current language and forces it to reload.
      *
-     * @param language {String} The language to be set.
+     * @param {String} language The language to be set.
      */
     setLanguage: function(language) {
         if(!this.isLanguageAvailable(language)) {
@@ -107,6 +108,17 @@ M.I18N = M.Object.extend(
         }
     },
 
+    /**
+     * This method is used to get a language for the current user. This process is divided
+     * into three steps. If one step leads to a language, this on is returned. The steps are
+     * prioritized as follows:
+     *
+     * - get the user's language by checking his navigator
+     * - use the application's default language
+     * - use the systems's default language
+     *
+     * @returns {String} The user's language.
+     */
     getLanguage: function() {
         var language = null;
 
@@ -121,10 +133,8 @@ M.I18N = M.Object.extend(
             if(regexResult && this[regexResult[0]]) {
                 return regexResult[0].toLowerCase();
             } else if(regexResult && regexResult[1] && this.languageMapper[regexResult[1]]) {
-                for(var i in this.languageMapper[regexResult[1]]) {
-                    var language = this.languageMapper[regexResult[1]][i];
-                    return language.toLowerCase();
-                }
+                var language = this.languageMapper[regexResult[1]];
+                return language.toLowerCase();
             } else if(M.Application.defaultLanguage) {
                 return M.Application.defaultLanguage.toLowerCase();
             }
@@ -136,7 +146,8 @@ M.I18N = M.Object.extend(
     /**
      * This method checks if the passed language is available within the app or not. 
      *
-     * @param language {String} The language to be checked.
+     * @param {String} language The language to be checked.
+     * @returns {Boolean} Indicates whether the requested language is available or not.
      */
     isLanguageAvailable: function(language) {
         if(this[language] && typeof(this[language]) === 'object') {

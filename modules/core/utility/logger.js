@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      26.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -11,18 +11,40 @@
 m_require('core/foundation/request.js');
 
 /**
- * Logging levels as constants.
+ * A constant value for logging level: debug.
+ *
+ * @type Number
  */
 M.DEBUG = 0;
+
+/**
+ * A constant value for logging level: error.
+ *
+ * @type Number
+ */
 M.ERROR = 1;
+
+/**
+ * A constant value for logging level: warning.
+ *
+ * @type Number
+ */
 M.WARN = 2;
+
+/**
+ * A constant value for logging level: info.
+ *
+ * @type Number
+ */
 M.INFO = 3;
 
 /**
  * @class
  *
- * Object for logging.
+ * M.Logger defines the prototype for any logging object. It is used to log messages out of the application
+ * based on a given logging level.
  *
+ * @extends M.Object
  */
 M.Logger = M.Object.extend(
 /** @scope M.Logger.prototype */ {
@@ -35,11 +57,13 @@ M.Logger = M.Object.extend(
     type: 'M.Logger',
 
     /**
-     * Possible values for the logging level:
+     * This method is used to log anything out of an application based on the given logging level.
+     * Possible values for the logging level are:
      *
      * - debug:   M.DEBUG
      * - error:   M.ERROR
-     * - warning: M.WARNING
+     * - warning: M.WARN
+     * - info: M.INFO
      *
      * @param {String} msg The logging message.
      * @param {Number} level The logging level.
@@ -73,28 +97,40 @@ M.Logger = M.Object.extend(
     },
 
     /**
+     * This method is used to log a message on logging level debug.
+     *
      * @private
+     * @param {String} msg The logging message.
      */
     debug: function(msg) {
         console.debug(msg);
     },
 
     /**
+     * This method is used to log a message on logging level error.
+     *
      * @private
+     * @param {String} msg The logging message.
      */
     error: function(msg) {
         console.error(msg);
     },
 
     /**
+     * This method is used to log a message on logging level warning.
+     *
      * @private
+     * @param {String} msg The logging message.
      */
     warn: function(msg) {
         console.warn(msg);
     },
 
     /**
+     * This method is used to log a message on logging level info.
+     *
      * @private
+     * @param {String} msg The logging message.
      */
     info: function(msg) {
         console.info(msg);

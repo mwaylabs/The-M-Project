@@ -10,17 +10,56 @@
 
 m_require('core/foundation/object.js');
 
-/* definition of some date specific constants */
+/**
+ * A constant value for milliseconds.
+ *
+ * @type String
+ */
 M.MILLISECONDS = 'milliseconds';
+
+/**
+ * A constant value for seconds.
+ *
+ * @type String
+ */
 M.SECONDS = 'seconds';
+
+/**
+ * A constant value for minutes.
+ *
+ * @type String
+ */
 M.MINUTES = 'minutes';
+
+/**
+ * A constant value for hours.
+ *
+ * @type String
+ */
 M.HOURS = 'hours';
+
+/**
+ * A constant value for days.
+ *
+ * @type String
+ */
 M.DAYS = 'days';
 
+/**
+ * A constant array for day names.
+ *
+ * @type String
+ */
 M.DAY_NAMES = [
     "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
     "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 ]
+
+/**
+ * A constant array for month names.
+ *
+ * @type String
+ */
 M.MONTH_NAMES = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
     "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
@@ -29,7 +68,10 @@ M.MONTH_NAMES = [
 /**
  * @class
  * 
- * Object for simpler handling of dates.
+ * M.Date defines a prototype for creating, handling and computing dates. It is basically a wrapper
+ * to JavaScripts own date object that provides more convenient functionalities.
+ *
+ * @extends M.Object
  */
 M.Date = M.Object.extend(
 /** @scope M.Date.prototype */ {
@@ -41,7 +83,7 @@ M.Date = M.Object.extend(
      */
     type: 'M.Date',
     /**
-     * The native javascript date object.
+     * The native JavaScript date object.
      *
      * @type Object
      */
@@ -50,6 +92,8 @@ M.Date = M.Object.extend(
     /**
      * Returns the current date, e.g.
      * Thu Nov 11 2010 14:20:55 GMT+0100 (CET)
+     *
+     * @returns {M.Date} The current date.
      */
     now: function() {
         return this.extend({
@@ -59,9 +103,20 @@ M.Date = M.Object.extend(
 
     /**
      * This method returns the date, 24h in the future.
+     *
+     * @returns {M.Date} The current date, 24 hours in the future.
      */
     tomorrow: function() {
         return this.daysFromNow(1);
+    },
+
+    /**
+     * This method returns the date, 24h in the past.
+     *
+     * @returns {M.Date} The current date, 24 hours in the past.
+     */
+    yesterday: function() {
+        return this.daysFromNow(-1);
     },
 
     /**
@@ -84,6 +139,9 @@ M.Date = M.Object.extend(
      *
      * If a wrong formatted date string is given, the method will return null. Otherwise a
      * JS Date object will be returned.
+     *
+     * @param {String} dateString The date string specifying a certain date.
+     * @returns {M.Date} The date, specified by the given date string.
      */
     create: function(dateString) {
         var milliseconds = typeof(dateString) === 'number' ? dateString : null;
@@ -143,8 +201,9 @@ M.Date = M.Object.extend(
      * o 	    GMT/UTC timezone offset, e.g. -0500 or +0230.
      * S 	    The date's ordinal suffix (st, nd, rd, or th). Works well with d.
      *
-     * @param format {String} The format.
-     * @param utc {Boolean} Determines whether to convert to UTC time or not. Default: NO.
+     * @param {String} format The format.
+     * @param {Boolean} utc Determines whether to convert to UTC time or not. Default: NO.
+     * @returns {String} The date, formatted with a given format.
      */
     format: function(format, utc) {
         if(isNaN(this.date)) {
@@ -212,18 +271,12 @@ M.Date = M.Object.extend(
     },
 
     /**
-     * This method returns the date, 24h in the past.
-     */
-    yesterday: function() {
-        return this.daysFromNow(-1);
-    },
-
-    /**
      * This method returns a date in the future or past, based on 'days'. Basically it adds or
      * subtracts x times the milliseconds of a day, but also checks for clock changes and
      * automatically includes these into the calculation of the future or past date.
      *
      * @param {Number} days The number of days to be added to or subtracted from the current date.
+     * @returns {M.Date} The current date, x days in the future (based on parameter 'days').
      */
     daysFromNow: function(days) {
         var date = this.now();
@@ -236,6 +289,7 @@ M.Date = M.Object.extend(
      * these into the calculation of the future or past date.
      *
      * @param {Number} days The number of days to be added to or subtracted from the current date.
+     * @returns {M.Date} The date, x days in the future (based on parameter 'days').
      */
     daysFromDate: function(days) {
         return this.millisecondsFromDate(days * 24 * 60 * 60 * 1000);
@@ -247,6 +301,7 @@ M.Date = M.Object.extend(
      * automatically includes these into the calculation of the future or past date.
      *
      * @param {Number} hours The number of hours to be added to or subtracted from the current date.
+     * @returns {M.Date} The current date, x hours in the future (based on parameter 'hours').
      */
     hoursFromNow: function(hours) {
         var date = this.now();
@@ -259,6 +314,7 @@ M.Date = M.Object.extend(
      * these into the calculation of the future or past date.
      *
      * @param {Number} hours The number of hours to be added to or subtracted from the current date.
+     * @returns {M.Date} The date, x hours in the future (based on parameter 'hours').
      */
     hoursFromDate: function(hours) {
         return this.millisecondsFromDate(hours * 60 * 60 * 1000);
@@ -270,6 +326,7 @@ M.Date = M.Object.extend(
      * automatically includes these into the calculation of the future or past date.
      *
      * @param {Number} minutes The number of minutes to be added to or subtracted from the current date.
+     * @returns {M.Date} The current date, x minutes in the future (based on parameter 'minutes').
      */
     minutesFromNow: function(minutes) {
         var date = this.now();
@@ -282,6 +339,7 @@ M.Date = M.Object.extend(
      * these into the calculation of the future or past date.
      *
      * @param {Number} minutes The number of minutes to be added to or subtracted from the current date.
+     * @returns {M.Date} The date, x minutes in the future (based on parameter 'minutes').
      */
     minutesFromDate: function(minutes) {
         return this.millisecondsFromDate(minutes * 60 * 1000);
@@ -293,6 +351,7 @@ M.Date = M.Object.extend(
      * automatically includes these into the calculation of the future or past date.
      *
      * @param {Number} seconds The number of seconds to be added to or subtracted from the current date.
+     * @returns {M.Date} The current date, x seconds in the future (based on parameter 'seconds').
      */
     secondsFromNow: function(seconds) {
         var date = this.now();
@@ -305,6 +364,7 @@ M.Date = M.Object.extend(
      * these into the calculation of the future or past date.
      *
      * @param {Number} seconds The number of seconds to be added to or subtracted from the current date.
+     * @returns {M.Date} The date, x seconds in the future (based on parameter 'seconds').
      */
     secondsFromDate: function(seconds) {
         return this.millisecondsFromDate(seconds * 1000);
@@ -316,6 +376,7 @@ M.Date = M.Object.extend(
      * into the calculation of the future or past date.
      *
      * @param {Number} milliseconds The number of milliseconds to be added to or subtracted from the current date.
+     * @returns {M.Date} The current date, x milliseconds in the future (based on parameter 'milliseconds').
      */
     millisecondsFromNow: function(milliseconds) {
         var date = this.now();
@@ -328,6 +389,7 @@ M.Date = M.Object.extend(
      * these into the calculation of the future or past date.
      *
      * @param {Number} milliseconds The number of milliseconds to be added to or subtracted from the current date.
+     * @returns {M.Date} The date, x milliseconds in the future (based on parameter 'milliseconds').
      */
     millisecondsFromDate: function(milliseconds) {
         if(!this.date) {
@@ -352,6 +414,7 @@ M.Date = M.Object.extend(
      *
      * @param {Object} date The date.
      * @param {String} returnType The return type for the call.
+     * @returns {Number} The time between the two dates, computed as what is specified by the 'returnType' parameter.
      */
     timeBetween: function(date, returnType) {
         var firstDateInMilliseconds = this.date ? this.date.valueOf() : null;
@@ -383,6 +446,12 @@ M.Date = M.Object.extend(
         }
     },
 
+    /**
+     * This method is used for stringify an M.Date object, e.g. when persisting it into locale storage.
+     *
+     * @private
+     * @returns {String} The date as a string.
+     */
     toJSON: function() {
         return String(this.date);
     }

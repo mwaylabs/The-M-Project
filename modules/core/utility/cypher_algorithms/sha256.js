@@ -13,8 +13,11 @@ m_require('core/foundation/object.js');
 /**
  * @class
  *
- * Object for hashing with SHA256.
+ * This prototype defines a hashing mechanism based on the SHA256 algorithm. You normally
+ * don't call this object respectively its methods directly, but let M.Cypher handle
+ * this.
  *
+ * @extends M.Object
  */
 M.SHA256 = M.Object.extend(
 /** @scope M.SHA256.prototype */ {
@@ -41,10 +44,11 @@ M.SHA256 = M.Object.extend(
     hexcase: 0,
 
     /**
-     * This method is called from the 'outside world', constrols the hashing
-     * and finally returns the hash value.
+     * This method is called from the 'outside world', controls the hashing and
+     * finally returns the hash value.
      *
      * @param {String} input The input string to be hashed.
+     * @returns {String} The sha256 hashed string.
      */
     hash: function(input) {
         input = M.Cypher.utf8_encode(input);

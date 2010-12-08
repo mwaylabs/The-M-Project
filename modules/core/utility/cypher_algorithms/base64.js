@@ -13,8 +13,11 @@ m_require('core/foundation/object.js');
 /**
  * @class
  *
- * Object for decoding and encoding with Base64.
+ * This prototype defines decoding and encoding mechanisms based on the Base64 algorithm. You
+ * normally don't call this object respectively its methods directly, but let M.Cypher handle
+ * this.
  *
+ * @extends M.Object
  */
 M.Base64 = M.Object.extend(
 /** @scope M.Base64.prototype */ {
@@ -37,6 +40,7 @@ M.Base64 = M.Object.extend(
      * This method encodes a given input string, using the base64 encoding.
      *
      * @param {String} input The string to be encoded.
+     * @returns {String} The base64 encoded string.
      */
     encode: function(input) {
         var output = '';
@@ -71,6 +75,7 @@ M.Base64 = M.Object.extend(
      * This method decodes a given input string, using the base64 decoding.
      *
      * @param {String} input The string to be decoded.
+     * @returns {String} The base64 decoded string.
      */
     decode: function(input) {
         var output = "";

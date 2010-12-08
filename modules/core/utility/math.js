@@ -10,14 +10,33 @@
 
 m_require('core/foundation/object.js');
 
+/**
+ * A constant value for mathematical flooring.
+ *
+ * @type String
+ */
 M.FLOOR = 'floor';
+
+/**
+ * A constant value for mathematical ceiling.
+ *
+ * @type String
+ */
 M.CEIL = 'ceil';
+
+/**
+ * A constant value for mathematical rounding.
+ *
+ * @type String
+ */
 M.ROUND = 'round';
 
 /**
  * @class
  *
- * Object for simpler handling of mathematical operations.
+ * This prototype defines methods for simpler handling of mathematical operations.
+ *
+ * @extends M.Object
  */
 M.Math = M.Object.extend(
 /** @scope M.Math.prototype */ {
@@ -30,11 +49,12 @@ M.Math = M.Object.extend(
     type: 'M.Math',
 
     /**
-     * This method returns the value of the base (x) to the power of the exponent (y). So e.g.
-     * pow(2, 3) would return 8, pow(3, 2) would return 9.
+     * This method returns the value of the base to the power of the exponent. So e.g.
+     * pow(2, 3) would return '2 to the power of 3' --> 8.
      *
      * @param base {Number} The base.
      * @param exponent {Number} The exponent.
+     * @returns {Number} The result of the operation.
      */
     pow: function(base, exponent) {
         return Math.pow(base, exponent);
@@ -42,7 +62,7 @@ M.Math = M.Object.extend(
 
     /**
      * The method returns a random number within the range given by the min property
-     * and the max property.
+     * and the max property, including the min and max value.
      *
      * A test with 100.000 iterations for random(1, 3) created the following distribution:
      * - 1: 33.2%
@@ -51,6 +71,7 @@ M.Math = M.Object.extend(
      *
      * @param min {Number} The minimal value.
      * @param max {Number} The maximal value.
+     * @returns {Number} The result of the operation.
      */
     random: function(min, max) {
         return Math.ceil(Math.random() * (max - min + 1) + min - 1);
@@ -71,6 +92,7 @@ M.Math = M.Object.extend(
      * @param input {Number} The input value.
      * @param type {String} The type of rounding.
      * @param type {Number} The number of decimals (only available for M.ROUND).
+     * @returns {Number} The result of the operation.
      */
     round: function(input, type, decimals) {
         if(decimals) {

@@ -14,8 +14,10 @@ m_require('core/utility/cypher_algorithms/sha256.js');
 /**
  * @class
  *
- * Object for decoding and encoding.
+ * M.Cypher defines a prototype for handling decoding, encoding and hashing of string
+ * based values.
  *
+ * @extends M.Object
  */
 M.Cypher = M.Object.extend(
 /** @scope M.Cypher.prototype */ {
@@ -27,12 +29,37 @@ M.Cypher = M.Object.extend(
      */
     type: 'M.Cypher',
 
+    /**
+     * The default decoder.
+     *
+     * @type M.Base64
+     */
     defaultDecoder: M.Base64,
+
+    /**
+     * The default encoder.
+     *
+     * @type M.Base64
+     */
 
     defaultEncoder: M.Base64,
 
+    /**
+     * The default hash algorithm.
+     *
+     * @type M.SHA256
+     */
+
     defaultHasher: M.SHA256,
 
+    /**
+     * This method is the one that initiates the decoding of a given string, based on either
+     * the default decoder or a custom decoder.
+     *
+     * @param {String} input The input string to be decoded.
+     * @param {Object} algorithm The algorithm object containing a decode method.
+     * @returns {String} The decoded string.
+     */
     decode: function(input, algorithm) {
 
         if(algorithm && algorithm.decode) {
@@ -43,6 +70,14 @@ M.Cypher = M.Object.extend(
         
     },
 
+    /**
+     * This method is the one that initiates the encoding of a given string, based on either
+     * the default encoder or a custom encoder.
+     *
+     * @param {String} input The input string to be decoded.
+     * @param {Object} algorithm The algorithm object containing a encode method.
+     * @returns {String} The encoded string.
+     */
     encode: function(input, algorithm) {
 
         if(algorithm && algorithm.encode) {
@@ -53,6 +88,14 @@ M.Cypher = M.Object.extend(
 
     },
 
+    /**
+     * This method is the one that initiates the hashing of a given string, based on either
+     * the default hashing algorithm or a custom hashing algorithm.
+     *
+     * @param {String} input The input string to be hashed.
+     * @param {Object} algorithm The algorithm object containing a hash method.
+     * @returns {String} The hashed string.
+     */
     hash: function(input, algorithm) {
 
         if(algorithm && algorithm.hash) {
@@ -68,6 +111,7 @@ M.Cypher = M.Object.extend(
      *
      * @private
      * @param {String} string The string to be encoded.
+     * @returns {String} The utf8 encoded string.
      */
     utf8_encode : function (string) {
         string = string.replace(/\r\n/g, '\n');
@@ -100,6 +144,7 @@ M.Cypher = M.Object.extend(
      *
      * @private
      * @param {String} string The string to be decoded.
+     * @returns {String} The utf8 decoded string.
      */
     utf8_decode : function (utf8String) {
         var string = '';
