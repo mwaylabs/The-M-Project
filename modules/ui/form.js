@@ -10,15 +10,14 @@
 
 /**
  * @class
- * @constructor
- * @extends M.View
  *
  * M.FormViews is the prototype of a form view, a container like view for grouping
  * input views, e.g. M.TextFieldView. It covers a lot of the jobs concerning the
  * validation of input views. There is no visible representation of an M.FormView,
  * it is only used to ease the validation process and its accessing out of a
  * controller.
- *
+ * 
+ * @extends M.View
  */
 M.FormView = M.View.extend(
 /** @scope M.FormView.prototype */ {

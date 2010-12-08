@@ -9,13 +9,12 @@
 // ==========================================================================
 
 /**
- * @class
- * @constructor
- * @extends M.View
+ * @classx
  *
  * This is the prototype of any dialog view. It is responsible for showing and later
  * hiding a dialog.
  *
+ * @extends M.View
  */
 M.DialogView = M.View.extend(
 /** @scope M.DialogView.prototype */ {

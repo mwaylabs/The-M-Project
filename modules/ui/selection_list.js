@@ -8,17 +8,30 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+/**
+ * A constant value for single selection mode.
+ *
+ * @type String
+ */
 M.SINGLE_SELECTION = 'radio';
+
+/**
+ * A constant value for multiple selection mode.
+ *
+ * @type String
+ */
 M.MULTIPLE_SELECTION = 'checkbox';
-M.RAW = 'raw';
 
 m_require('ui/selection_list_item.js');
 
 /**
  * @class
  *
- * The root object for SelectionListViews.
+ * This defines the prototype of any selection list view. A selection list view displays
+ * a list with several items of which either only one single item (M.SINGLE_SELECTION) or
+ * many items (M.MULTIPLE_SELECTION) can be selected.
  *
+ * @extends M.View
  */
 M.SelectionListView = M.View.extend(
 /** @scope M.SelectionListView.prototype */ {
@@ -59,12 +72,15 @@ M.SelectionListView = M.View.extend(
     /**
      * The selected item(s) of this list.
      *
-     * @type Object
+     * @type String, Array
      */
     selection: null,
 
     /**
      * Renders a selection list.
+     *
+     * @private
+     * @returns {String} The selection list view's html representation.
      */
     render: function() {
         this.html += '<fieldset data-role="controlgroup" id="' + this.id + '">';
@@ -80,6 +96,12 @@ M.SelectionListView = M.View.extend(
         return this.html;
     },
 
+    /**
+     * Triggers render() on all children of type M.ButtonView based on the specified
+     * selection mode (single or multiple selection).
+     *
+     * @private
+     */
     renderChildViews: function() {
         if(this.childViews) {
             var childViews = $.trim(this.childViews).split(' ');
@@ -96,18 +118,34 @@ M.SelectionListView = M.View.extend(
             }
         } else if(!this.contentBinding) {
             M.Logger.log('No SelectionListItemViews specified.', M.WARN);
-            return;
         }
     },
 
+    /**
+     * This method adds a new selection list item to the selection list view by simply appending
+     * its html representation to the selection list view inside the DOM. This method is based
+     * on jQuery's append().
+     *
+     * @param {String} item The html representation of a selection list item to be added.
+     */
     addItem: function(item) {
         $('#' + this.id).append(item);
     },
 
+    /**
+     * This method removes all of the selection list view's items by removing all of its content in
+     * the DOM. This method is based on jQuery's empty().
+     */
     removeAllItems: function() {
         $('#' + this.id).empty();
     },
 
+    /**
+     * Updates the the selection list view by re-rendering all of its child views, respectively its
+     * item views.
+     *
+     * @private
+     */
     renderUpdate: function() {
         if(this.removeItemsOnUpdate) {
             this.removeAllItems();
@@ -137,6 +175,11 @@ M.SelectionListView = M.View.extend(
         }
     },
 
+    /**
+     * Triggers the rendering engine, jQuery mobile, to style the selection list.
+     *
+     * @private
+     */
     theme: function() {
         $('#' + this.id).controlgroup();
     },
@@ -144,6 +187,8 @@ M.SelectionListView = M.View.extend(
     /**
      * This method is called everytime a item is selected / clicked. If the selected item
      * changed, the defined onSelect action is triggered.
+     *
+     * @param {String} id The id of the selected item.
      */
     itemSelected: function(id) {
         var item = M.ViewManager.getViewById(id);
@@ -175,7 +220,10 @@ M.SelectionListView = M.View.extend(
     },
 
     /**
-     * This method returns the selected item's value(s).
+     * This method returns the selected item's value(s) either as a String (M.SINGLE_SELECTION)
+     * or as an Array (M.MULTIPLE_SELECTION).
+     *
+     * @returns {String, Array} The selected item's value(s).
      */
     getSelection: function() {
         if(this.selectionMode === M.SINGLE_SELECTION) {
@@ -194,7 +242,10 @@ M.SelectionListView = M.View.extend(
     },
 
     /**
-     * This method can be used to select items programmatically.
+     * This method can be used to select items programmatically. The given parameter can either
+     * be a String (M.SINGLE_SELECTION) or an Array (M.MULTIPLE_SELECTION).
+     *
+     * @param {String, Array} selection The selection that should be applied to the selection list.
      */
     setSelection: function(selection) {
         this.removeSelection();
@@ -211,7 +262,7 @@ M.SelectionListView = M.View.extend(
                     $(this).siblings('label:first').find('span .ui-icon-radio-off').removeClass('ui-icon-radio-off');
                 }
             });
-        } else  if(typeof(selection) === 'object') {
+        } else if(typeof(selection) === 'object') {
             $('#' + this.id).find('input').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 for(var i in selection) {
@@ -230,6 +281,9 @@ M.SelectionListView = M.View.extend(
         that.theme();
     },
 
+    /**
+     * This method de-selects all of the selection list's items.
+     */
     removeSelection: function() {
         var that = this;
         var type = '';

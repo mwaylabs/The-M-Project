@@ -11,8 +11,10 @@
 /**
  * @class
  *
- * The root object for SelectionListItemView.
+ * M.SelectionListItemView defines the prototype of any selection list item. It can only be used
+ * as a child view for a selection list view.
  *
+ * @extends M.View
  */
 M.SelectionListItemView = M.View.extend(
 /** @scope M.SelectionListItemView.prototype */ {
@@ -38,7 +40,7 @@ M.SelectionListItemView = M.View.extend(
     label: null,
 
     /**
-     * This property determines whether a selection list item is selected or not.
+     * This property states whether a selection list item is selected or not.
      *
      * @type Boolean
      */
@@ -46,6 +48,9 @@ M.SelectionListItemView = M.View.extend(
 
     /**
      * Renders a selection list item.
+     * 
+     * @private
+     * @returns {String} The selection list item view's html representation.
      */
     render: function() {
         this.html += '<input type="' + this.parentView.selectionMode + '" name="';
@@ -76,6 +81,11 @@ M.SelectionListItemView = M.View.extend(
         return this.html;
     },
 
+    /**
+     * Triggers the rendering engine, jQuery mobile, to style the selection list item.
+     *
+     * @private
+     */
     theme: function() {
         $('#' + this.id).checkboxradio();
     }

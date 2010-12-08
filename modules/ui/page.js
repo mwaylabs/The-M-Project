@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -11,8 +11,10 @@
 /**
  * @class
  *
- * The root object for Pages.
+ * M.PageView is the prototype of any page. It is the seconds 'highest' view, right after
+ * M.Application. A page is the container view for all other views.
  *
+ * @extends M.View
  */
 M.PageView = M.View.extend(
 /** @scope M.PageView.prototype */ {
@@ -25,7 +27,8 @@ M.PageView = M.View.extend(
     type: 'M.PageView',
 
     /**
-     * Is set to NO once the page was first loaded.
+     * States whether a page is loaded the first time or not. It is automatically set to NO
+     * once the page was first loaded.
      *
      * @type Boolean
      */
@@ -69,7 +72,7 @@ M.PageView = M.View.extend(
     /**
      * The page's tab bar.
      *
-     * @type Object
+     * @type M.TabBarView
      */
     tabBarView: null,
 
@@ -78,6 +81,9 @@ M.PageView = M.View.extend(
      * 1. Rendering Opening div tag with corresponding data-role
      * 2. Triggering render process of child views
      * 3. Rendering closing tag
+     *
+     * @private
+     * @returns {String} The page view's html representation.
      */
     render: function() {
         this.html += '<div id="' + this.id + '" data-role="page"' + this.style() + '>';
@@ -91,8 +97,16 @@ M.PageView = M.View.extend(
     },
 
     /**
-     * This method is called right before the page is loaded. It is then delegated to the view's
-     * specified beforeLoad-method.
+     * This method writes the view's html string into the DOM. M.Page is the only view that does
+     * that. All other views just deliver their html representation to a page view.
+     */
+    writeToDOM: function() {
+        document.write(this.html);
+    },
+
+    /**
+     * This method is called right before the page is loaded. If a beforeLoad-action is defined
+     * for the page, it is now called.
      */
     pageWillLoad: function() {
         if(this.beforeLoad) {
@@ -101,8 +115,8 @@ M.PageView = M.View.extend(
     },
 
     /**
-     * This method is called if the page is loaded. It is then delegated to the view's
-     * specified onLoad-method.
+     * This method is called right after the page was loaded. If a onLoad-action is defined
+     * for the page, it is now called.
      */
     pageDidLoad: function() {
         if(this.onLoad) {
@@ -139,8 +153,8 @@ M.PageView = M.View.extend(
     },
 
     /**
-     * This method is called right before the page is loaded. It is then delegated to the view's
-     * specified beforeLoad-method.
+     * This method is called right before the page is hidden. If a beforeHide-action is defined
+     * for the page, it is now called.
      */
     pageWillHide: function() {
         if(this.beforeHide) {
@@ -149,8 +163,8 @@ M.PageView = M.View.extend(
     },
 
     /**
-     * This method is called right before the page is loaded. It is then delegated to the view's
-     * specified beforeLoad-method.
+     * This method is called right after the page was hidden. If a onHide-action is defined
+     * for the page, it is now called.
      */
     pageDidHide: function() {
         if(this.onHide) {
@@ -168,7 +182,10 @@ M.PageView = M.View.extend(
     },
 
     /**
-     * This method triggers the styling of the page and its subviews.
+     * Triggers the rendering engine, jQuery mobile, to style the page and call the theme() of
+     * its child views.
+     *
+     * @private
      */
     theme: function() {
         $('#' + this.id).page();
@@ -177,6 +194,9 @@ M.PageView = M.View.extend(
 
     /**
      * Applies some style-attributes to the page.
+     *
+     * @private
+     * @returns {String} The page's styling as html representation.
      */
     style: function() {
         var html = '';

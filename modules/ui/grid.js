@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: (c)2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      04.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -37,12 +37,12 @@ M.THREE_COLUMNS = {
 
 /**
  * @class
- * @constructor
- * @extends M.View
  *
  * M.GridView defines a prototype of a grid view, that allows you to display several
  * views horizontally aligned. Therefore you can either use a predefined layout or you
  * can provide a custom layout.
+ * 
+ * @extends M.View
  */
 M.GridView = M.View.extend(
 /** @scope M.GridView.prototype */ {

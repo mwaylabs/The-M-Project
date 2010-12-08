@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      03.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -13,8 +13,11 @@ m_require('ui/search_bar.js');
 /**
  * @class
  *
- * The root object for ListViews.
+ * M.ListView is the prototype of any list view. It is used to display static or dynamic
+ * content as vertically aligned list items (M.ListItemView). A list view provides some
+ * easy to use helper method, e.g. an out-of-the-box delete view for items.
  *
+ * @extends M.View
  */
 M.ListView = M.View.extend(
 /** @scope M.ListView.prototype */ {
@@ -74,12 +77,12 @@ M.ListView = M.View.extend(
     /**
      * The list view's items, respectively its child views.
      *
-     * @type Object
+     * @type Array
      */
     items: null,
 
     /**
-     * Determines whether the list view is currently in edit mode or not. This is mainly used by the
+     * States whether the list view is currently in edit mode or not. This is mainly used by the
      * built-in toggleRemove() functionality. 
      *
      * @type Boolean
@@ -104,7 +107,7 @@ M.ListView = M.View.extend(
     /**
      * This property contains the list view's template view, the blueprint for every child view.
      *
-     * @type Object
+     * @type M.ListItemView
      */
     listItemTemplateView: null,
 
@@ -120,7 +123,7 @@ M.ListView = M.View.extend(
      *
      * @type Object
       */
-    searchBar: null,
+    searchBar: M.SearchBarView,
 
     /**
      * Determines whether or not to display a search bar at the top of the list view. 
@@ -150,6 +153,9 @@ M.ListView = M.View.extend(
     /**
      * This method renders the empty list view either as an ordered or as an unordered list. It also applies
      * some styling, if the corresponding properties where set.
+     *
+     * @private
+     * @returns {String} The list view's styling as html representation.
      */
     render: function() {
         if(this.hasSearchBar && !this.usesDefaultSearchBehaviour) {
@@ -165,22 +171,32 @@ M.ListView = M.View.extend(
         return this.html;
     },
 
-    renderChildViews: function() {
-
-    },
-
+    /**
+     * This method adds a new list item to the list view by simply appending its html representation
+     * to the list view inside the DOM. This method is based on jQuery's append().
+     *
+     * @param {String} item The html representation of a list item to be added.
+     */
     addItem: function(item) {
         $('#' + this.id).append(item);
     },
 
-    removeItem: function(id) {
-
-    },
-
+    /**
+     * This method removes all of the list view's items by removing all of its content in the DOM. This
+     * method is based on jQuery's empty().
+     */
     removeAllItems: function() {
         $('#' + this.id).empty();
     },
 
+    /**
+     * Updates the the list view by re-rendering all of its child views, respectively its item views. There
+     * is no rendering done inside this method itself. It is more like the manager of the rendering process
+     * and delegates the responsibility to renderListItemDivider() and renderListItemView() based on the
+     * given list view configuration.
+     *
+     * @private
+     */
     renderUpdate: function() {
 
         /* Remove all list items if the removeItemsOnUpdate property is set to YES */
@@ -215,6 +231,12 @@ M.ListView = M.View.extend(
         this.themeUpdate();
     },
 
+    /**
+     * Renders a list item divider based on a string given by its only parameter.
+     *
+     * @param {String} name The name of the list divider to be rendered.
+     * @private
+     */
     renderListItemDivider: function(name) {
         var obj = M.ListItemView.design({});
         obj.value = name;
@@ -223,6 +245,13 @@ M.ListView = M.View.extend(
         obj.theme();
     },
 
+    /**
+     * This method renders list items based on the passed parameters.
+     *
+     * @param {Array} content The list items to be rendered.
+     * @param {M.ListItemView} templateView The template for for each list item.
+     * @private
+     */
     renderListItemView: function(content, templateView) {
         /* Save this in variable that for later use within an other scope (e.g. _each()) */
         var that = this;
@@ -292,7 +321,9 @@ M.ListView = M.View.extend(
     },
 
     /**
-     * Triggers rendering engine, e.g. jQuery mobile, to style the list view.
+     * Triggers the rendering engine, jQuery mobile, to style the list view.
+     *
+     * @private
      */
     theme: function() {
         $('#' + this.id).listview();
@@ -302,7 +333,9 @@ M.ListView = M.View.extend(
     },
 
     /**
-     * Triggers rendering engine, e.g. jQuery mobile, to style the button.
+     * Triggers the rendering engine, jQuery mobile, to re-style the list view.
+     *
+     * @private
      */
     themeUpdate: function() {
         $('#' + this.id).listview('refresh');
@@ -322,6 +355,12 @@ M.ListView = M.View.extend(
         }
     },
 
+    /**
+     * This method activates a list item by applying the default 'isActive' css style to its
+     * DOM representation.
+     *
+     * @param {String} listItemId The id of the list item to be set active.
+     */
     setActiveListItem: function(listItemId) {
         $('#' + this.id).find('li').each(function() {
             var listItem = M.ViewManager.getViewById($(this).attr('id'));
@@ -332,6 +371,9 @@ M.ListView = M.View.extend(
 
     /**
      * Applies some style-attributes to the list view.
+     *
+     * @private
+     * @returns {String} The list's styling as html representation.
      */
     style: function() {
         var html = '';

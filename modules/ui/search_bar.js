@@ -11,8 +11,10 @@
 /**
  * @class
  *
- * The root object for SearchBarViews.
+ * M.SearchBarView defines a prototype of a search bar that can be used inside of a list
+ * view or independently as a plain input field with a search styling.
  *
+ * @extends M.View
  */
 M.SearchBarView = M.View.extend(
 /** @scope M.SearchBarView.prototype */ {
@@ -35,12 +37,15 @@ M.SearchBarView = M.View.extend(
      * If the search bar belongs to a list view, this property contains this
      * list view.
      *
-     * @type Object
+     * @type M.ListView
      */
     listView: null,
 
     /**
      * Renders a search bar.
+     *
+     * @private
+     * @returns {String} The search bar view's html representation.
      */
     render: function() {
         this.html += '<form role="search"' + this.style() + '>';
@@ -53,22 +58,13 @@ M.SearchBarView = M.View.extend(
     },
 
     /**
-     * Triggers rendering engine, e.g. jQuery mobile, to style the search bar.
-     */
-    theme: function() {
-
-    },
-
-    renderUpdate: function() {
-      console.log('update');  
-    },
-
-    /**
      * This method sets its value to the value it has in its DOM representation
      * and then delegates these changes to a controller property if the
      * contentBindingReverse property is set.
      *
      * Additionally call target / action if set.
+     *
+     * @param {Object} evt The event triggered this method.
      */
     setValueFromDOM: function(evt) {
         this.value = this.secure($('#' + this.id).val());
@@ -80,7 +76,10 @@ M.SearchBarView = M.View.extend(
     },
 
     /**
-     * Applies some style-attributes to the search bar.
+     * Applies some style-attributes to the button.
+     *
+     * @private
+     * @returns {String} The search bar's styling as html representation.
      */
     style: function() {
         var html = '';

@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -8,10 +8,39 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+/**
+ * A constant value for the anchor location: top.
+ *
+ * @type String
+ */
 M.TOP = 'header';
+
+/**
+ * A constant value for the anchor location: bottom.
+ *
+ * @type String
+ */
 M.BOTTOM = 'footer';
+
+/**
+ * A constant value for the anchor location: left.
+ *
+ * @type Number
+ */
 M.LEFT = 0;
+
+/**
+ * A constant value for the anchor location: center.
+ *
+ * @type Number
+ */
 M.CENTER = 1;
+
+/**
+ * A constant value for the anchor location: right.
+ *
+ * @type Number
+ */
 M.RIGHT = 2;
 
 /**
@@ -19,6 +48,7 @@ M.RIGHT = 2;
  *
  * The root object for ToolbarViews.
  *
+ * @extends M.View
  */
 M.ToolbarView = M.View.extend(
 /** @scope M.ToolbarView.prototype */ {
@@ -30,31 +60,30 @@ M.ToolbarView = M.View.extend(
      */
     type: 'M.ToolbarView',
 
-    /**
-     * Mapping to value attribute.
-     * text property is mixed in when extended.
-     */
-    //value: this.text,
-
      /**
-     * Defines the position of the Toolbar.
+     * Defines the position of the TabBar. Possible values are:
      *
-     * default: M.TOP => is a header bar
+     * - M.BOTTOM => is a footer bar
+     * - M.TOP => is a header bar
      *
      * @type String
      */
     anchorLocation: M.TOP,
 
     /**
-     * Display an auto-generated back-button on any new page.
+     * Determines whether to display an auto-generated back-button on the left side
+     * of the toolbar view or not.
      *
      * @type Boolean
      */
     showBackButton: NO,
 
     /**
-     * Renders a toolbar as a div tag with corresponding data-role attribute and inner h1 child tag
-     * (representing the title of the header)
+     * Renders a toolbar as a div tag with corresponding data-role attribute and inner
+     * h1 child tag (representing the title of the header)
+     *
+     * @private
+     * @returns {String} The toolbar view's html representation.
      */
     render: function() {
         this.html += '<div id="' + this.id + '" data-nobackbtn="' + !this.showBackButton + '" data-role="' + this.anchorLocation + '" data-position="fixed">';
@@ -64,10 +93,6 @@ M.ToolbarView = M.View.extend(
         this.html += '</div>';
 
         return this.html;
-    },
-
-    renderUpdate: function() {
-        $('#' + this.id + ' h1').html(this.value);
     },
 
     /**
@@ -110,7 +135,9 @@ M.ToolbarView = M.View.extend(
     },
 
     /**
-     * This method triggers the styling of the toolbar and its subviews.
+     * Triggers the rendering engine, jQuery mobile, to style the button.
+     *
+     * @private
      */
     theme: function() {
         this.themeChildViews();

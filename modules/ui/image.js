@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: (c)2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      04.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -10,12 +10,11 @@
 
 /**
  * @class
- * @constructor
- * @extends M.View
  *
  * The is the prototype of any image view. It basically renders a simple image and
  * can be styled using a css class.
  *
+ * @extends M.View
  */
 M.ImageView = M.View.extend(
 /** @scope M.ImageView.prototype */ {
