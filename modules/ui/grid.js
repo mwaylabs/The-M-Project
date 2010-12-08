@@ -37,6 +37,7 @@ M.THREE_COLUMNS = {
 
 /**
  * @class
+ * @constructor
  * @extends M.View
  *
  * M.GridView defines a prototype of a grid view, that allows you to display several

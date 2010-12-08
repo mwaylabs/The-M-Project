@@ -10,6 +10,7 @@
 
 /**
  * @class
+ * @constructor
  * @extends M.View
  *
  * This defines the prototype for any button view. A button is a view element that is

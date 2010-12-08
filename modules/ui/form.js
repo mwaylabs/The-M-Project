@@ -10,6 +10,7 @@
 
 /**
  * @class
+ * @constructor
  * @extends M.View
  *
  * M.FormViews is the prototype of a form view, a container like view for grouping

@@ -25,6 +25,7 @@ M.VERTICAL = 'vertical';
 
 /**
  * @class
+ * @constructor
  * @extends M.View
  * 
  * A button group is a vertically or horizontally aligned group of buttons.

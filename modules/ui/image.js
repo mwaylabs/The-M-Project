@@ -10,7 +10,8 @@
 
 /**
  * @class
- * @extends {M.View}
+ * @constructor
+ * @extends M.View
  *
  * The is the prototype of any image view. It basically renders a simple image and
  * can be styled using a css class.
