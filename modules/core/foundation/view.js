@@ -223,6 +223,7 @@ M.View = M.Object.extend(
                 }
                 this.html += this[childViews[i]].render();
             }
+            return this.html;
         }
     },
 
