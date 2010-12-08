@@ -19,6 +19,7 @@ m_require('core/foundation/view.js');
  * It is used by various other components (e.g. controller: switchToPage) to connect from javascript objects to their
  * HTML representation. 
  *
+ * @extends M.Object
  */
 M.ViewManager = M.Object.extend(
 /** @scope M.ViewManager.prototype */ {
@@ -60,7 +61,7 @@ M.ViewManager = M.Object.extend(
     currentPage: null,
 
     /**
-     * A reference to the latest found view which is necassary for the findView() method.
+     * A reference to the latest found view which is necessary for the findView() method.
      *
      * @type Object
      */
@@ -69,6 +70,7 @@ M.ViewManager = M.Object.extend(
     /**
      * Returns the next Id build from nextId property incremented by 1 and the prefix.
      * The id is used as the value for the HTML attribute id.
+     * @returns {String} The next id for a view, e.g. 'm_123' (if last id was 'm_122').
      */
     getNextId: function() {
         this.nextId = this.nextId + 1;
@@ -89,6 +91,7 @@ M.ViewManager = M.Object.extend(
      * by the value of its id attribute.
      *
      * @param {String} id
+     * @returns {Object} The view object from the view list identified by id.
      */
     getViewById: function(id) {
         var view = _.detect(this.viewList, function(v) {
@@ -101,6 +104,7 @@ M.ViewManager = M.Object.extend(
      * Returns the id for a given view.
      *
      * @param {Object} view. The view for which the id value is wanted.
+     * @returns {String} The id of a view object.
      */
     getIdByView: function(view) {
         return view.id;
@@ -115,6 +119,7 @@ M.ViewManager = M.Object.extend(
      *
      * @param {String, Object} parentView. The name of the parent view or the parent view itself.
      * @param {String} targetView. The name of the view to be returned.
+     * @returns {Object} The view object from the view list identified by the view's name and the page where it's on.
      */
     getView: function(parentView, targetView) {
         if(typeof(parentView) !== 'object') {
@@ -143,6 +148,7 @@ M.ViewManager = M.Object.extend(
      *
      * @param {Object} parentView. The parent view to search in.
      * @param {String} targetView. The name of the view to be returned.
+     * @returns {Object} The last found view.
      */
     findView: function(parentView, targetView) {
         if(parentView.childViews) {
@@ -165,6 +171,7 @@ M.ViewManager = M.Object.extend(
      * Note: Try to use unique names for your pages!
      *
      * @param {String} pageName. The name of the page to be returned.
+     * @returns {Object} M.Page object identified by its name.
      */
     getPage: function(pageName) {
         var page = M.Application.pages[pageName];
@@ -177,6 +184,7 @@ M.ViewManager = M.Object.extend(
 
     /**
      * Returns the currently displayed page.
+     * @returns {Object} The currently displayed page.
      */
     getCurrentPage: function() {
         return this.currentPage;
@@ -184,6 +192,7 @@ M.ViewManager = M.Object.extend(
 
     /**
      * Sets the currently displayed page.
+     * @param {Object} page The page to be set as current page.
      */
     setCurrentPage: function(page) {
         this.currentPage = page;
@@ -191,6 +200,7 @@ M.ViewManager = M.Object.extend(
 
     /**
      * Debug method to print out all content from the viewlist array to the console.
+     * @private
      */
     dumpViewList: function() {
       _.each(this.viewList, function(view){

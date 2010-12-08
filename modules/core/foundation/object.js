@@ -15,6 +15,10 @@ m_require('core/foundation/m.js');
  *
  * Base class of all objects.
  */
+
+/**
+ * @constructor
+ */
 M.Object =
 /** @scope M.Object.prototype */ {
 
@@ -38,7 +42,7 @@ M.Object =
 
     /**
      * Creates a new class and extends it with all functions of the defined super class
-     * The function takes multiple input arguments. Each argument Servers as additional
+     * The function takes multiple input arguments. Each argument serves as additional
      * super classes - see mixins.
      */
     extend: function(){

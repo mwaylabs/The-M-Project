@@ -15,6 +15,7 @@ m_require('core/utility/logger.js');
  *
  * Object for dispatching all incoming events.
  *
+ * @extends M.Object
  */
 M.EventDispatcher = M.Object.create(
 /** @scope M.EventDispatcher.prototype */ {
@@ -97,6 +98,11 @@ M.EventDispatcher = M.Object.create(
         }
     },
 
+    /**
+     * Registers events given from eventList to a view defined by an id. Can be used to register events after application load.
+     * @param {String} id The View Id, e.g. m_123
+     * @param {String} eventList The Events one after another in a string divided by whitespace.
+     */
     registerEvents: function(id, eventList) {
         var that = this;
         $('#' + id).bind(eventList, function(evt) {

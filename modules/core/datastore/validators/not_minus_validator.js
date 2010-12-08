@@ -10,12 +10,31 @@
 
 m_require('core/datastore/validator.js')
 
+/**
+ * @class
+ *
+ * Validates if it represents a minus number. Works with numbers and strings containing just a number.
+ *
+ * @extends M.Validator
+ */
 M.NotMinusValidator = M.Validator.extend(
 /** @scope M.NotMinusValidator.prototype */ {
 
+    /**
+     * The type of this object.
+     *
+     * @type String
+     */
     type: 'M.NotMinusValidator',
 
-   validate: function(obj) {
+    /**
+     * Validation method. Distinguishes between type of value: number or string. Both possible. If number value is checked if less than zero,
+     * if string value is checked if ^prefixed with a minus sign ( - ).
+     *
+     * @param {Object} obj Parameter object. Contains the value to be validated, the {@link M.ModelAttribute} object of the property and the model record's id.
+     * @returns {Boolean} Indicating whether validation passed (YES|true) or not (NO|false).
+     */
+    validate: function(obj) {
 
        if(typeof(obj.value) === 'number') {
            if(obj.value < 0) {
@@ -49,5 +68,5 @@ M.NotMinusValidator = M.Validator.extend(
            }
            return YES;
        }
-   }
+    }
 });

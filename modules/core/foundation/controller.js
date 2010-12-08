@@ -27,6 +27,7 @@ m_require('core/foundation/observable.js');
  *
  * Controllers, respectively their properties, are observables. Views can observe them.
  *
+ * @extends M.Object
  */
 M.Controller = M.Object.extend(
 /** @scope M.Controller.prototype */ {

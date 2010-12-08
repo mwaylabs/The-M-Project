@@ -13,16 +13,23 @@ m_require('core/utility/logger.js');
 /**
  * @class
  *
- * The root class for every validator.
+ * The prototype for every validator. All validation logic is implemented in the specific validators.
  *
+ * @extends M.Object
  */
 M.Validator = M.Object.extend(
 /** @scope M.Validator.prototype */ {
 
+    /**
+     * The type of this object.
+     * @type String
+     */
     type: 'M.Validator',
 
     /**
-     * Array containing error objects
+     * "Class-wide" array containing error objects.
+     * Specific validators do NOT have an own validationErrors array, but use this one to write errors to.
+     * 
      * Error object represent errors that occured during validation.
      * E.g. error object:
      *
@@ -37,11 +44,9 @@ M.Validator = M.Object.extend(
      * }
      * 
      *
-     * @property
+     * @type Array|Object
      */
     validationErrors: [],
-
-    msg: null,
 
     /**
      * extends this.
@@ -51,14 +56,14 @@ M.Validator = M.Object.extend(
      * M.EmailValidator.customize({msg: 'Please provide a valid e-mail adress.'});
      *
      * @param obj
+     * @returns {Object} The customized validator.
      */
     customize: function(obj) {
         return this.extend(obj);
     },
 
     /**
-     * empties the error buffer, is done before each new validation process
-     * @param ad
+     * Empties the error buffer, is done before each new validation process
      */
     clearErrorBuffer: function() {
         this.validationErrors.length = 0;

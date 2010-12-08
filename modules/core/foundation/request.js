@@ -13,8 +13,10 @@ m_require('core/foundation/object.js');
 /**
  * @class
  *
- * The root class for every request.
+ * The root class for every request. Makes ajax requests. Is used e.g. for querying REST web services.
+ * First M.Request.init needs to be called, then send.
  *
+ * @extends M.Object
  */
 M.Request = M.Object.extend(
 /** @scope M.Request.prototype */ {
@@ -25,7 +27,21 @@ M.Request = M.Object.extend(
      * @type String
      */
     type: 'M.Request',
-    
+
+    /**
+     * Initializes a request. Sets the parameter of this request object with the passed values.
+     * 
+     * @param {Object} obj The parameter object. Includes:
+     * * method: the http method to use, e.g. 'POST'
+     * * url: the request url, e.g. 'twitter.com/search.json' (needs a proxy to be set because of Same-Origin-Policy)
+     * * isAsync: defines whether request should be made async or not. defaults to YES. Should be YES.
+     * * isJSON: defines whether to process request and response as JSON
+     * * timout: defines timeout in milliseconds
+     * * data: the data to be transmitted
+     * * beforeSend: callback that is called before request is sent
+     * * onError: callback that is called when an error occured
+     * * onSuccess: callback that is called when request was successful
+     */
     init: function(obj){
         this.method = obj['method'] ? obj['method'] : this.method;
         this.url = obj['url'] ? obj['url'] : this.url;
@@ -116,6 +132,7 @@ M.Request = M.Object.extend(
 
     /**
      * Sends an Ajax request by using jQuery's $.ajax().
+     * Needs init first!
      */
     send: function(){
         $.ajax({
