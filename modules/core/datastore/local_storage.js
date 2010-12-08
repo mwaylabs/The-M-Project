@@ -12,12 +12,13 @@ m_require('core/datastore/data_provider.js');
 
 /**
  * @class
- * @extends M.DataProvider
  * 
  * Encapsulates access to LocalStorage (in-browser key value store).
  * LocalStorage is an in-browser key-value store to persist data.
  * This data provider persists model records as JSON strings with their name and id as key.
  * When fetching these strings from storage, their automatically converted in their corresponding model records.
+ *
+ * @extends M.DataProvider
  */
 M.LocalStorageProvider = M.DataProvider.extend(
 /** @scope M.LocalStorageProvider.prototype */ {
@@ -35,7 +36,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
      * Note_123 => '{ text: 'buy some food' }'
      *
      * @param {Object} that (is a model).
-     * @return {Boolean} Boolean indicating whether save was successful (YES|true) or not (NO|false).
+     * @returns {Boolean} Boolean indicating whether save was successful (YES|true) or not (NO|false).
      */
     save: function(obj) {
         try {
@@ -55,7 +56,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
      * e.g. key: 'Note_123'
      *
      * @param {Object} obj The param obj, includes model
-     * @return {Boolean} Boolean indicating whether save was successful (YES|true) or not (NO|false).
+     * @returns {Boolean} Boolean indicating whether save was successful (YES|true) or not (NO|false).
      */
     del: function(obj) {
         try {
@@ -77,7 +78,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
      *
      * If no query is passed, all models are returned by calling findAll()
      * @param {Object} The param object containing e.g. the query or the key.
-     * @return {Object|Boolean} Returns an object if find is done with a key, an array of objects when a query is given or no
+     * @returns {Object|Boolean} Returns an object if find is done with a key, an array of objects when a query is given or no
      * parameter passed.
      */
     find: function(obj) {
@@ -168,7 +169,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
      * Finds a record identified by the key.
      *
      * @param {Object} The param object containing e.g. the query or the key.
-     * @return {Object|Boolean} Returns an object identified by key, correctly built as a model record by calling
+     * @returns {Object|Boolean} Returns an object identified by key, correctly built as a model record by calling
      * or a boolean (NO|false) if no key is given or the key does not exist in LocalStorage.
      * parameter passed.
      */
@@ -190,7 +191,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
      * Models are saved with key: Modelname_ID, e.g. Note_123
      *
      * @param {Object} obj The param obj, includes model
-     * @return {Object} The array of fetched objects/model records. If no records the array is empty.
+     * @returns {Object} The array of fetched objects/model records. If no records the array is empty.
      */
     findAll: function(obj) {
         var result = [];
@@ -223,7 +224,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
      * 
      * @param {String} key The key to fetch the element from LocalStorage
      * @param {Object} obj The param object, includes model
-     * @return {Object} record The record object. Includes all model record properties with correctly set data types.
+     * @returns {Object} record The record object. Includes all model record properties with correctly set data types.
      */
     buildRecord: function(key, obj) {
         var record = JSON.parse(localStorage.getItem(key));
@@ -243,7 +244,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
      * Returns all keys for model defined by modelName.
      *
      * @param {Object} obj The param obj, includes model
-     * @result {Object} keys All keys for model records in LocalStorage for a certain model identified by the model's name. 
+     * @returns {Object} keys All keys for model records in LocalStorage for a certain model identified by the model's name.
      */
     allKeys: function(obj) {
         var keys = [];

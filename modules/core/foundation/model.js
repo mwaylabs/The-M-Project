@@ -21,12 +21,12 @@ m_require('core/foundation/model_registry.js');
 
 /**
  * @class
- * @extends M.Object
  * 
  * M.Model is the prototype for every model and for every model record (a model itself is the blueprint for a model record).
  * Models hold the business data of an application respectively the application's state. It's usually the part of an application that is persisted to storage.
  * M.Model acts as the gatekeeper to storage. It uses data provider for persistence and validators to validate its records.
  * 
+ * @extends M.Object
  */
 M.Model = M.Object.extend(
 /** @scope M.Model.prototype */ { 
@@ -107,7 +107,7 @@ M.Model = M.Object.extend(
      * You pass the object's specific attributes to it as an object.
      *
      * @param {Object} obj The specific attributes as an object, e.g. {firstname: 'peter', lastname ='fox'}
-     * @return {Object} The model record with the passed properties set. State depends on newly creation or fetch from storage: if
+     * @returns {Object} The model record with the passed properties set. State depends on newly creation or fetch from storage: if
      * from storage then state is M.STATE_NEW or 'state_new', if fetched from database then it is M.STATE_VALID or 'state_valid'
      */
     createRecord: function(obj) {
@@ -127,7 +127,7 @@ M.Model = M.Object.extend(
      *
      * @param {Object} obj An object defining the model's  
      * @param {Object} dp The data provider to use, e. g. M.LocalStorageProvider
-     * @return {Object} The model blueprint: acts as blueprint to all records created with @link M.Model#createRecord
+     * @returns {Object} The model blueprint: acts as blueprint to all records created with @link M.Model#createRecord
      */
     create: function(obj, dp) {
         var model = M.Model.extend({
@@ -166,7 +166,7 @@ M.Model = M.Object.extend(
      *
      * @param {String} type type of the attribute
      * @param {Object} opts options for the attribute, like required flag and validators array
-     * @return {Object} An M.ModelAttribute object configured with the type and options passed to the function.
+     * @returns {Object} An M.ModelAttribute object configured with the type and options passed to the function.
      */
     attr: function(type, opts) {
         return M.ModelAttribute.attr(type, opts); 
@@ -179,7 +179,7 @@ M.Model = M.Object.extend(
     /**
      * Get attribute propName from model
      * @param {String} propName the name of the property whose value shall be returned
-     * @return {Object|String} value of property
+     * @returns {Object|String} value of property
      */
     get: function(propName) {
         return this.record[propName];
@@ -196,7 +196,7 @@ M.Model = M.Object.extend(
 
     /**
      * Validates the model, means calling validate for each property.
-     * @return {Boolean} Indicating whether this record is valid (YES|true) or not (NO|false).
+     * @returns {Boolean} Indicating whether this record is valid (YES|true) or not (NO|false).
      */
     validate: function() {
         var isValid = YES;
@@ -238,7 +238,7 @@ M.Model = M.Object.extend(
      * Calls the corresponding find() of the data provider to fetch data based on the passed query or key.
      *
      * @param {Object} obj The param object with query or key and callbacks.
-     * @return {Boolean|Object} Depends on data provider used. When WebSQL used, a boolean is returned, the find result is returned asynchronously,
+     * @returns {Boolean|Object} Depends on data provider used. When WebSQL used, a boolean is returned, the find result is returned asynchronously,
      * because the call itself is asynchronous. If LocalStorage is used, the result of the query is returned.
      */
     find: function(obj){
@@ -250,7 +250,7 @@ M.Model = M.Object.extend(
      * Create or update a record in storage if it is valid (first check this).
      *
      * @param {Object} obj The param object with query and callbacks.
-     * @return {Boolean} The result of the data provider function call. Is a boolean. With LocalStorage used, it indicates if the save operation was successful.
+     * @returns {Boolean} The result of the data provider function call. Is a boolean. With LocalStorage used, it indicates if the save operation was successful.
      * When WebSQL is used, the result of the save operation returns asynchronously. The result then is just the standard result returned by the web sql provider's save method
      * which does not necessarily indicate whether the operation was successful, because the operation is asynchronous, means the operation's end is not predictable. 
      */
@@ -272,7 +272,7 @@ M.Model = M.Object.extend(
 
     /**
      * Delete a record in storage.
-     * @return {Boolean} Indicating whether deletion was successful or not (only with synchronous data providers, e.g. LocalStorage). When asynchronous data providers
+     * @returns {Boolean} Indicating whether deletion was successful or not (only with synchronous data providers, e.g. LocalStorage). When asynchronous data providers
      * are used, e.g. WebSQL provider the real result comes asynchronous and here just the result of the del() function call of the @link M.WebSqlProvider is used.
      */
     del: function() {

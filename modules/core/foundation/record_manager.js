@@ -11,13 +11,14 @@
 m_require('core/foundation/model.js');
 
 /**
- * @memberOf M
  * @class
  *
  * The root object for RecordManager.
  *
  * A RecordManager is used by a controllers and is an interface that makes it easy for him to
  * handle his model records.
+ *
+ * @extends M.Object
  */
 M.RecordManager = M.Object.extend(
 /** @scope M.RecordManager.prototype */ { 
@@ -44,6 +45,11 @@ M.RecordManager = M.Object.extend(
         this.records.push(record);
     },
 
+    /**
+     * Concats an array if records to the records array.
+     *
+     * @param {Object} record
+     */
     addMany: function(arrOfRecords) {
 
         if(_.isArray(arrOfRecords)){
@@ -55,10 +61,17 @@ M.RecordManager = M.Object.extend(
 
     },
 
+    /**
+     * Resets record list 
+     */
     removeAll: function() {
         this.records.length = 0;
     },
 
+    /**
+     * Deletes a model record from the record array
+     * @param {Number} id The internal model id of the model record.
+     */
     remove: function(id) {
         if(!id) {
             M.Logger.log('No id given.', M.WARN);
@@ -75,6 +88,10 @@ M.RecordManager = M.Object.extend(
         }
     },
 
+    /**
+     * Returns a record from the record array identified by the interal model id.
+     * @param {Number} id The internal model id of the model record.
+     */
     getRecordForId: function(id) {
         var record = _.detect(this.records, function(r){
             return r.id === id;
@@ -84,6 +101,7 @@ M.RecordManager = M.Object.extend(
 
     /**
      * Debug method to print out all content from the records array to the console.
+     * @private
      */
     dumpRecords: function() {
         _.each(this.records, function(rec){

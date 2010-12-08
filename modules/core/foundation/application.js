@@ -15,6 +15,7 @@ m_require('core/foundation/view_manager.js');
  *
  * The root class for an application.
  *
+ * @extends M.Object
  */
 M.Application = M.Object.extend(
 /** @scope M.Application.prototype */ {

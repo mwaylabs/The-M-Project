@@ -10,15 +10,30 @@
 
 m_require('core/utility/logger.js');
 
-
 /**
  * @class
  *
- * Defines an attribute for a model
+ * M.ModelAttribute encapsulates all meta information about a model record's property:
+ * * is it required?
+ * * what data type is it of? (important for mapping to relational database schemas)
+ * * what validators shall be applied
+ * All M.ModelAttributes for a model record are saved under {@link M.Model#__meta} property of a model.
+ * Each ModelAttribute is saved with the record properties name as key.
+ * That means:
+ *
+ * model.record[propA] is the value of the property.
+ * model.__meta[propA] is the {@link M.ModelAttribute} object for the record property.
+ *
+ * @extends M.Object
  */
 M.ModelAttribute = M.Object.extend(
 /** @scope M.ModelAttribute.prototype */ {
 
+    /**
+     * The type of this object.
+     *
+     * @type String
+     */
     type: 'M.ModelAttribute',
 
     /**
@@ -47,7 +62,7 @@ M.ModelAttribute = M.Object.extend(
     /**
      * Iterates over validators array and calls validate on each validator with the param object passed to the validator.
      * @param {Object} obj The parameter object containing the model id, the record as M.ModelAttribute object and the value of the property.
-     * @return {Boolean} Indicates wheter the property is valid (YES|true) or invalid (NO|false). 
+     * @returns {Boolean} Indicates wheter the property is valid (YES|true) or invalid (NO|false).
      */
     validate: function(obj) {
         var isValid = YES;
@@ -69,7 +84,7 @@ M.ModelAttribute = M.Object.extend(
  *
  * @param dataType The data type of the attribute: e.g. String 
  * @param opts options for the attribute, such as defaultValue, isRequired flag, etc. ...
- * @return {Object} Model attribute
+ * @returns {Object} {@link M.ModelAttribute} object
  */
 M.ModelAttribute.attr = function(dataType, opts) {
     if (!opts) {

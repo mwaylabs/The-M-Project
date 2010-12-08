@@ -10,18 +10,37 @@
 
 m_require('core/datastore/validator.js')
 
+/**
+ * @class
+ *
+ * Validates if passed value is a number. Works with Strings and Numbers. Strings are parsed into numbers and then checked.
+ *
+ * @extends M.Validator
+ */
 M.NumberValidator = M.Validator.extend(
 /** @scope M.NumberValidator.prototype */ {
 
+    /**
+     * The type of this object.
+     *
+     * @type String
+     */
     type: 'M.NumberValidator',
 
+    /**
+     * Validation method. If value's type is not "number" but a string, the value is parsed into an integer or float and checked versus the string value with '=='.
+     * The '==' operator makes an implicit conversion of the value. '===' would return false.
+     *
+     * @param {Object} obj Parameter object. Contains the value to be validated, the {@link M.ModelAttribute} object of the property and the model record's id.
+     * @returns {Boolean} Indicating whether validation passed (YES|true) or not (NO|false).
+     */
     validate: function(obj) {
         if(typeof(obj.value) === 'number') {
             return YES;
         }
 
         /* == makes implicit conversion */ 
-        if(typeof(obj.value) === 'string' && parseInt(obj.value) == obj.value){
+        if(typeof(obj.value) === 'string' && (parseInt(obj.value) == obj.value || parseFloat(obj.value) == obj.value)) {
             return YES;        
         }
 

@@ -13,11 +13,18 @@ m_require('core/detox/data_provider.js');
 /**
  * @class
  *
- * Encapsulates access to WebSQL (in-browser sqlite storage)
+ * Encapsulates access to WebSQL (in-browser sqlite storage). All CRUD operations are asynchronous. That means that onSuccess
+ * and onError callbacks have to be passed to the function calls to have the result returned when operation finished. 
+ *
+ * @extends M.DataProvider
  */
 M.WebSqlProvider = M.DataProvider.extend(
 /** @scope M.WebSqlProvider.prototype */ {
 
+    /**
+     * The type of this object.
+     * @type String
+     */
     type: 'M.WebSqlProvider',
 
     /**
@@ -27,11 +34,15 @@ M.WebSqlProvider = M.DataProvider.extend(
     config: {},
 
     /**
-     *
+     * Is set to YES when initialization ran successfully, means when {@link M.WebSqlProvider#init} was called, db and table created. 
      * @type Boolean
      */
     isInitialized: NO,
 
+    /**
+     * Object containing all rules for mapping JavaScript data types to SQLite data types.
+     * @type Object
+     */
     typeMapping: {
         'String': 'varchar(255)',
         'Text': 'text',
@@ -41,15 +52,39 @@ M.WebSqlProvider = M.DataProvider.extend(
         'Boolean': 'boolean'
     },
 
+    /**
+     * Is set when database "opened". Acts as handler for all db operations => transactions, queries, etc.
+     * @type Object
+     */
     dbHandler: null,
 
+    /**
+     * Saves the internal callback function. Is needed when provider/db is not initialized and init() must be executed first to have the return point again after
+     * initialization. 
+     * @type Function
+     */
     internalCallback: null,
 
+    /**
+     * Used internally. External callback for success case. 
+     * @private
+     */
     onSuccess: null,
+
+    /**
+     * Used internally. External callback for error case.
+     * @private
+     */
     onError: null,
 
+    /**
+     * Opens a database and creates the appropriate table for the model record.
+     * 
+     * @param {Object} obj The param obj, includes model. Not used here, just passed through.
+     * @param {Function} callback The function that called init as callback bind to this.
+     * @private
+     */
     init: function(obj, callback) {
-        console.log('init() called.');
         this.openDb();
         this.createTable(obj, callback);
     },
@@ -59,8 +94,14 @@ M.WebSqlProvider = M.DataProvider.extend(
     */
 
     /**
-     * TODO: fix callbacks! see find()
-     * @param model
+     * Saves a model in the database. Constructs the sql query from the model record. Prepares an INSERT or UPDATE depending on the state
+     * of the model. If M.STATE_NEW then prepares an INSERT, if M.STATE_VALID then prepares an UPDATE. The operation itself
+     * is done by {@link M.WebSqlProvider#performOp} that is called
+     *
+     * @param {Object} obj The param obj, includes:
+     * * onSuccess callback
+     * * onError callback
+     * * the model
      */
      save: function(obj) {
         console.log('save() called.');
@@ -117,20 +158,22 @@ M.WebSqlProvider = M.DataProvider.extend(
     },
 
     /**
-     * performs operation on websql storage: INSERT, UPDATE or DELETE. is used by them (save() & del())
-     *
+     * Performs operation on WebSQL storage: INSERT, UPDATE or DELETE. Is used by {@link M.WebSqlProvider#save} and {@link M.WebSqlProvider#del}.
+     * Calls is made asynchronously, means that result is just available in callback.
      * @param {String} sql The query.
      * @param {Object} obj The param object. Contains e.g. callbacks (onError & onSuccess)
+     * @param {String} opType The String identifying the operation: 'INSERT', 'UPDATE' oder 'DELETE'
+     * @private
      */
     performOp: function(sql, obj, opType) {
         var that = this;
         this.dbHandler.transaction(function(t) {
             t.executeSql(sql, null, function() {
-                if(opType === 'INSERT') {
+                if(opType === 'INSERT') { /* after INSERT operation set the assigned DB ID to the model records id */
                     that.queryDbForId(obj.model);
                 }
             }, function() { // error callback for SQLStatementTransaction
-                M.Logger.log('Incorrect statement: ' + sql, M.ERROR)
+                M.Logger.log('Incorrect statement: ' + sql, M.ERROR);       
             });
         },
         function() { // errorCallback
@@ -153,8 +196,13 @@ M.WebSqlProvider = M.DataProvider.extend(
     },
 
     /**
-     * Deletes the passed model from the database
-     * @param model
+     * Prepares delete query for a model record. Operation itself is performed by {@link M.WebSqlProvider#performOp}.
+     * Tuple is identified by ID (not the internal model id, but the ID provided by the DB in record).
+     *
+     * @param {Object} obj The param obj, includes:
+     * * onSuccess callback
+     * * onError callback
+     * * the model
      */
     del: function(obj) {
         console.log('del() called.');
@@ -173,7 +221,18 @@ M.WebSqlProvider = M.DataProvider.extend(
 
 
     /**
-     * @param {Object} obj The param object. Includes: model, query and callback(onSuccess, onError) as parameters.
+     * Finds model records in the database. If a constraint is given, result is filtered. 
+     * @param {Object} obj The param object. Includes:
+     * * model: the model blueprint
+     * * onSuccess:
+     * * onError:
+     * * columns: Array of strings naming the properties to be selected: ['name', 'age'] => SELECT name, age FROM...
+     * * constraint: Object containing itself two properties:
+     *      * statement: a string with the statement, e.g. 'WHERE ID = ?'
+     *      * parameters: array of strings with the parameters, length array must be the same as the number of ? in statement
+     *          => ? are substituted with the parameters
+     * * order: String with the ORDER expression: e.g. 'ORDER BY price ASC'
+     * * limit: Number defining the number of max. result items
      */
     find: function(obj) {
         console.log('find() called.');
@@ -238,7 +297,7 @@ M.WebSqlProvider = M.DataProvider.extend(
             sql += ' ORDER BY ' + obj.order
         }
 
-        /* now attach limt */
+        /* now attach limit */
         if(obj.limit) {
             sql += ' LIMIT ' + obj.limit
         }
@@ -281,7 +340,7 @@ M.WebSqlProvider = M.DataProvider.extend(
 
 
     /**
-     * private methods
+     * @private
      */
     openDb: function() {
         console.log('openDb() called.');
@@ -291,7 +350,8 @@ M.WebSqlProvider = M.DataProvider.extend(
 
 
     /**
-     * creates the table corresponding to the model.
+     * Creates the table corresponding to the model record.
+     * @private
      */
     createTable: function(obj, callback) {
         console.log('createTable() called.');
@@ -323,8 +383,8 @@ M.WebSqlProvider = M.DataProvider.extend(
     },
 
     /**
-     * creates a new data provider instance with the passed configuration parameters
-     * @param obj
+     * Creates a new data provider instance with the passed configuration parameters
+     * @param {Object} obj Includes dbName
      */
     configure: function(obj) {
         console.log('configure() called.');
@@ -337,8 +397,11 @@ M.WebSqlProvider = M.DataProvider.extend(
     /* Helper methods */
 
     /**
-     * @param {Object} 
-     * @return {String} The string used for db create to represent this property.
+     * @private
+     * Creates the column definitions from the properties of the model record with help of the meta information that
+     * the {@link M.ModelAttribute} objects provide.
+     * @param {Object}
+     * @returns {String} The string used for db create to represent this property.
      */
     buildDbAttrFromProp: function(model, prop) {
         var type = this.typeMapping[model.__meta[prop].type].toUpperCase();
@@ -350,7 +413,8 @@ M.WebSqlProvider = M.DataProvider.extend(
 
 
     /**
-     * Queries the WebSql storage for the maximum id that was provided for a table defined by model.name.
+     * Queries the WebSql storage for the maximum id that was provided for a table defined by model.name. Delegates to
+     * {@link M.WebSqlProvider#setDbIdOfModel}. Is used when creating or fetch
      * @param {Object} model The table's model
      */
     queryDbForId: function(model) {
@@ -362,14 +426,21 @@ M.WebSqlProvider = M.DataProvider.extend(
         });
     },
 
+    /**
+     * @private
+     * Is called when creating table successfully returned and therefor sets the initialization flag of the provider to YES.
+     * Then calls the internal callback => the function that called init().
+     */
     handleDbReturn: function(obj, callback) {
         console.log('handleDbReturn() called.');
         this.isInitialized = YES;
-        //console.log(model);
-        //console.log(callback);
         this.internalCallback(obj, callback);
     },
 
+    /**
+     * @private
+     * Is called from queryDbForId, sets the model record's ID to the latest value of ID in the database.
+     */
     setDbIdOfModel: function(model, id) {
         model.record.ID = id;
     }
