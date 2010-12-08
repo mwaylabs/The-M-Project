@@ -11,8 +11,11 @@
 /**
  * @class
  *
- * The root object for LoaderViews.
+ * M.LoaderView is the prototype for a loader a.k.a. activity indicator. This very simple
+ * view can be used to show the user that something is happening, e.g. while the application
+ * is waiting for a request to return some data.
  *
+ * @extends M.View
  */
 M.LoaderView = M.View.extend(
 /** @scope M.LoaderView.prototype */ {

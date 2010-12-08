@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -11,8 +11,10 @@
 /**
  * @class
  *
- * The root object for ScrollViews.
+ * The defines the prototype of a scrollable content view. It should be used as a wrapper
+ * for any content that isn't part of a header or footer toolbar / tabbar.
  *
+ * @extends M.View
  */
 M.ScrollView = M.View.extend(
 /** @scope M.ScrollView.prototype */ {
@@ -29,6 +31,9 @@ M.ScrollView = M.View.extend(
      * 1. Rendering Opening div tag with corresponding data-role
      * 2. Triggering render process of child views
      * 3. Rendering closing tag
+     *
+     * @private
+     * @returns {String} The scroll view's html representation.
      */
     render: function() {
         this.html += '<div id="' + this.id + '" data-role="content">';
@@ -41,7 +46,10 @@ M.ScrollView = M.View.extend(
     },
 
     /**
-     * This method triggers the styling of the scrollview and its subviews.
+     * Triggers the rendering engine, jQuery mobile, to style the scroll view and call the
+     * theme() of its child views.
+     *
+     * @private
      */
     theme: function() {
         $('#' + this.id).page();

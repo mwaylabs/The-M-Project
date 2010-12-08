@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -11,8 +11,11 @@
 /**
  * @class
  *
- * The root object for LabelViews.
+ * The is the prototype of any label view. It basically renders a simple plain
+ * text can be styled using several properties of M.LabelView or providing one
+ * ore more css classes.
  *
+ * @extends M.View
  */
 M.LabelView = M.View.extend(
 /** @scope M.LabelView.prototype */ {
@@ -33,13 +36,11 @@ M.LabelView = M.View.extend(
     newLineToBreak: YES,
 
     /**
-     * Mapping to value attribute.
-     * text property is mixed in when extended.
-     */
-    //value: this.text,
-
-    /**
-     * Renders a LabelView as a div tag with corresponding data-role attribute and inner text defined by value
+     * Renders a label view as a div tag with corresponding data-role attribute and inner
+     * text defined by value.
+     *
+     * @private
+     * @returns {String} The image view's styling as html representation.
      */
     render: function() {
         this.computeValue();
@@ -51,7 +52,9 @@ M.LabelView = M.View.extend(
     },
 
     /**
-     * Updates the value of the label with DOM access by jQuery. 
+     * Updates the value of the label with DOM access by jQuery.
+     *
+     * @private
      */
     renderUpdate: function() {
         this.computeValue();
@@ -60,6 +63,9 @@ M.LabelView = M.View.extend(
 
     /**
      * Applies some style-attributes to the label.
+     *
+     * @private
+     * @returns {String} The label's styling as html representation.
      */
     style: function() {
         var html = '';

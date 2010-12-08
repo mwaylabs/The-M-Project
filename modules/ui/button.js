@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: (c)2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -10,12 +10,12 @@
 
 /**
  * @class
- * @constructor
- * @extends M.View
  *
  * This defines the prototype for any button view. A button is a view element that is
  * typically used for triggering an action, e.g. switching to another page, firing a
  * request or opening a dialog.
+ *
+ * @extends M.View
  */
 M.ButtonView = M.View.extend(
 /** @scope M.ButtonView.prototype */ {

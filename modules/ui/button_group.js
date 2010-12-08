@@ -25,10 +25,10 @@ M.VERTICAL = 'vertical';
 
 /**
  * @class
- * @constructor
- * @extends M.View
- * 
+ *
  * A button group is a vertically or horizontally aligned group of buttons.
+ *
+ * @extends M.View
  */
 M.ButtonGroupView = M.View.extend(
 /** @scope M.ButtonGroupView.prototype */ {
@@ -150,7 +150,7 @@ M.ButtonGroupView = M.View.extend(
     /**
      * This method activates one button within the button group.
      *
-     * @param id {M.ButtonView, String} The button to be set active or its id.
+     * @param {M.ButtonView, String} id The button to be set active or its id.
      */
     setActiveButton: function(id) {
         this.activeButton = null;

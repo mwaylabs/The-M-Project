@@ -12,12 +12,11 @@ m_require('ui/dialog.js');
 
 /**
  * @class
- * @constructor
- * @extends M.DialogView
  *
- * The is the prototype for any alert dialog view. It is derived from M.DialogView
+ * This is the prototype for any alert dialog view. It is derived from M.DialogView
  * and mainly used for implementing a alert dialog view specific render method.
  *
+ * @extends M.DialogView
  */
 M.AlertDialogView = M.DialogView.extend(
 /** @scope M.AlertDialogView.prototype */ {

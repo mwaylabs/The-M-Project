@@ -10,11 +10,11 @@
 
 /**
  * @class
- * @constructor
  *
  * A container view renders a simple div container that can be used to display
  * any html valid content, e.g. by third party frameworks.
  *
+ * @extends M.View
  */
 M.ContainerView = M.View.extend(
 /** @scope M.ContainerView.prototype */ {

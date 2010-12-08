@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      04.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -11,8 +11,12 @@
 /**
  * @class
  *
- * The root object for TextFieldViews.
+ * M.TextFieldView is the prototype of any text field input view. It can be rendered as both
+ * a single line text field and a multiple line text field. If it is styled as a multiple
+ * line text field, is has a built-in autogrow mechanism so the textfield is getting larger
+ * depending on the number of lines of text a user enters.
  *
+ * @extends M.View
  */
 M.TextFieldView = M.View.extend(
 /** @scope M.TextFieldView.prototype */ {
@@ -25,19 +29,21 @@ M.TextFieldView = M.View.extend(
     type: 'M.TextFieldView',
 
    /**
-     * The name of the text field.
-     *
-     * @type String
-     */
-    name: '',
+    * The name of the text field. During the rendering, this property gets assigned to the name
+    * property of the text field's html representation. This can be used to manually access the
+    * text field's DOM representation later on.
+    *
+    * @type String
+    */
+    name: null,
 
     /**
-     * Label defines a text that is shown above or next to the textfield as a 'title' for the textfield.
-     * e.g. "Name:"
+     * The label proeprty defines a text that is shown above or next to the textfield as a 'title'
+     * for the textfield. e.g. "Name:". If no label is specified, no label will be displayed.
      *
      * @type String
      */
-    label: '',
+    label: null,
 
     /**
      * The initial text shown inside the text field describing the input or making a suggestion for input
@@ -63,21 +69,24 @@ M.TextFieldView = M.View.extend(
 
     /**
      * Renders a TextFieldView
+     * 
+     * @private
+     * @returns {String} The text field view's html representation.
      */
     render: function() {
         this.html += '<div ' + this.style() + ' data-role="fieldcontain">';
 
-        if(this.label !== '') {
-            this.html += '<label for="' + this.name + '">' + this.label + '</label>';
+        if(this.label) {
+            this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label + '</label>';
         }
 
         var type = this.isPassword ? 'password' : 'text';
 
         if(this.hasMultipleLines) {
-            this.html += '<textarea cols="40" rows="8" name="' + this.name + '" id="' + this.id + '">' + (this.value ? this.value : this.initialText) + '</textarea>';
+            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '">' + (this.value ? this.value : this.initialText) + '</textarea>';
             
         } else {
-            this.html += '<input type="' + type + '" name="' + this.name + '" id="' + this.id + '" value="' + (this.value ? this.value : this.initialText) + '" />';
+            this.html += '<input type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '" value="' + (this.value ? this.value : this.initialText) + '" />';
         }
 
         this.html += '</div>';
@@ -86,7 +95,9 @@ M.TextFieldView = M.View.extend(
     },
 
     /**
-     * Updates a TextFieldView.
+     * Updates a TextFieldView with DOM access by jQuery.
+     *
+     * @private
      */
     renderUpdate: function() {
         $('#' + this.id).val(this.value);
@@ -125,7 +136,10 @@ M.TextFieldView = M.View.extend(
     },
 
     /**
-     * Method to append css styles inline to the rendered view.
+     * Method to append css styles inline to the rendered text field.
+     *
+     * @private
+     * @returns {String} The text field's styling as html representation.
      */
     style: function() {
         var html = '';
@@ -147,6 +161,11 @@ M.TextFieldView = M.View.extend(
         return html;
     },
 
+    /**
+     * Triggers the rendering engine, jQuery mobile, to style the text field.
+     *
+     * @private
+     */
     theme: function() {
         if(this.initialText && !this.value && this.cssClassOnInit) {
             this.addCssClass(this.cssClassOnInit);
@@ -154,7 +173,9 @@ M.TextFieldView = M.View.extend(
     },
 
     /**
-     * Method to append css styles inline to the rendered view.
+     * Method to append css styles inline to the rendered view on the fly.
+     *
+     * @private
      */
     styleUpdate: function() {
         if(this.isInline) {
@@ -174,6 +195,10 @@ M.TextFieldView = M.View.extend(
      * This method sets its value to the value it has in its DOM representation
      * and then delegates these changes to a controller property if the
      * contentBindingReverse property is set.
+     *
+     * Additionally call target / action if set.
+     *
+     * @param {Object} evt The event triggered this method.
      */
     setValueFromDOM: function(evt) {
         this.value = this.secure($('#' + this.id).val());
@@ -187,6 +212,9 @@ M.TextFieldView = M.View.extend(
     /**
      * This method sets the text field's value, initiates its re-rendering
      * and call the delegateValueUpdate().
+     *
+     * @param {String} value The value to be applied to the text field view.
+     * @param {Boolean} delegateUpdate Determines whether to delegate this value update to any observer or not.
      */
     setValue: function(value, delegateUpdate) {
         this.value = value;
@@ -197,11 +225,19 @@ M.TextFieldView = M.View.extend(
         }
     },
 
+    /**
+     * This method disables the text field by setting the disabled property of its
+     * html representation to true.
+     */
     disable: function() {
         this.isEnabled = NO;
         this.renderUpdate();
     },
 
+    /**
+     * This method enables the text field by setting the disabled property of its
+     * html representation to false.
+     */
     enable: function() {
         this.isEnabled = YES;
         this.renderUpdate();

@@ -12,12 +12,11 @@ m_require('ui/dialog.js');
 
 /**
  * @class
- * @constructor
- * @extends M.DialogView
  *
- * The is the prototype for any confirm dialog view. It is derived from M.DialogView
+ * This is the prototype for any confirm dialog view. It is derived from M.DialogView
  * and mainly used for implementing a confirm dialog view specific render method.
  *
+ * @extends M.DialogView
  */
 M.ConfirmDialogView = M.DialogView.extend(
 /** @scope M.ConfirmDialogView.prototype */ {
