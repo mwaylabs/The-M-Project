@@ -7,479 +7,475 @@
 		
 		<title>JsDoc Reference - M.ContainerView</title>
 
-    <script type="text/javascript" src="../jproton.js"></script>
-    <script type="text/javascript" src="../ui.js"></script>
-    <script type="text/javascript" src="../sh.js"></script>
-		<link rel=stylesheet href="../sh.css" type="text/css">
-		<link rel=stylesheet href="../default.css" type="text/css">
+		<style type="text/css">
+			/* default.css */
+body
+{
+	font: 12px "Lucida Grande", Tahoma, Arial, Helvetica, sans-serif;
+	width: 800px;
+}
+
+.header
+{
+	clear: both;
+	background-color: #ccc;
+	padding: 8px;
+}
+
+h1
+{
+	font-size: 150%;
+	font-weight: bold;
+	padding: 0;
+	margin: 1em 0 0 .3em;
+}
+
+hr
+{
+	border: none 0;
+	border-top: 1px solid #7F8FB1;
+	height: 1px;
+}
+
+pre.code
+{
+	display: block;
+	padding: 8px;
+	border: 1px dashed #ccc;
+}
+
+#index
+{
+	margin-top: 24px;
+	float: left;
+	width: 160px;
+	position: absolute;
+	left: 8px;
+	background-color: #F3F3F3;
+	padding: 8px;
+}
+
+#content
+{
+	margin-left: 190px;
+	width: 600px;
+}
+
+.classList
+{
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 0 8px;
+	font-family: arial, sans-serif;
+	font-size: 1em;
+	overflow: auto;
+}
+
+.classList li
+{
+	padding: 0;
+	margin: 0 0 8px 0;
+}
+
+.summaryTable { width: 100%; }
+
+h1.classTitle
+{
+	font-size:170%;
+	line-height:130%;
+}
+
+h2 { font-size: 110%; }
+caption, div.sectionTitle
+{
+	background-color: #7F8FB1;
+	color: #fff;
+	font-size:130%;
+	text-align: left;
+	padding: 2px 6px 2px 6px;
+	border: 1px #7F8FB1 solid;
+}
+
+div.sectionTitle { margin-bottom: 8px; }
+.summaryTable thead { display: none; }
+
+.summaryTable td
+{
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px #7F8FB1 solid;
+	border-right: 1px #7F8FB1 solid;
+}
+
+/*col#summaryAttributes {}*/
+.summaryTable td.attributes
+{
+	border-left: 1px #7F8FB1 solid;
+	width: 140px;
+	text-align: right;
+}
+
+td.attributes, .fixedFont
+{
+	line-height: 15px;
+	color: #002EBE;
+	font-family: "Courier New",Courier,monospace;
+	font-size: 13px;
+}
+
+.summaryTable td.nameDescription
+{
+	text-align: left;
+	font-size: 13px;
+	line-height: 15px;
+}
+
+.summaryTable td.nameDescription, .description
+{
+	line-height: 15px;
+	padding: 4px;
+	padding-left: 4px;
+}
+
+.summaryTable { margin-bottom: 8px; }
+
+ul.inheritsList
+{
+	list-style: square;
+	margin-left: 20px;
+	padding-left: 0;
+}
+
+.detailList {
+	margin-left: 20px; 
+	line-height: 15px;
+}
+.detailList dt { margin-left: 20px; }
+
+.detailList .heading
+{
+	font-weight: bold;
+	padding-bottom: 6px;
+	margin-left: 0;
+}
+
+.light, td.attributes, .light a:link, .light a:visited
+{
+	color: #777;
+	font-style: italic;
+}
+
+.fineprint
+{
+	text-align: right;
+	font-size: 10px;
+}
+		</style>
 	</head>
 
 	<body>
-		<div id="main-wrapper">
-			<div id="main">
-<!-- ============================== classes index ============================ -->
-				<div id="index" class="fixed">
-					<div id="index-wrapper">
-	<div class="header">
-	  <div id="index-close" title="Esconde o outline.">&nbsp;</div>
-	  <div id="index-title">Project Outline</div>
-	</div>
-	<div id="index-menu"><a href="../index.html">Class Index</a>
-	| <a href="../files.html">File Index</a></div>
-	
-	<div id="index-content">
-		
-		<div class="classList">
-			
-			<div class="section">
-				<div title='Global namespace.' class='itemName namespace'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><i><a href="../symbols/_global_.html">_global_</a></i></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='These command is used by the build tool to control the load order.'><a href="../symbols/_global_.html#m_require">m_require</a></b></div><div class='sectionItem classProperty'><b class='icon' title='global constant to write YES instead of true'><a href="../symbols/_global_.html#YES">YES</a></b></div><div class='sectionItem classProperty'><b class='icon' title='global constant to write NO instead of false'><a href="../symbols/_global_.html#NO">NO</a></b></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/_global_.html#require">require</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName namespace'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.html">M</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='Logging levels as constants.'><a href="../symbols/M.html#.DEBUG">DEBUG</a></b></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ActionSheetDialogView.html">M.ActionSheetDialogView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.ActionSheetDialogView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The default title of an action sheet dialog.'><a href="../symbols/M.ActionSheetDialogView.html#title">title</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The default transition of an action sheet dialog.'><a href="../symbols/M.ActionSheetDialogView.html#transition">transition</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether the dialog gets a default cancel button.'><a href="../symbols/M.ActionSheetDialogView.html#hasCancelButton">hasCancelButton</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a button as an input tag.'><a href="../symbols/M.ActionSheetDialogView.html#render">render</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.AlertDialogView.html">M.AlertDialogView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.AlertDialogView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The default title of an alert dialog.'><a href="../symbols/M.AlertDialogView.html#title">title</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The default message of an alert dialog.'><a href="../symbols/M.AlertDialogView.html#message">message</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The default transition of an alert dialog.'><a href="../symbols/M.AlertDialogView.html#transition">transition</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether the dialog gets a default ok button.'><a href="../symbols/M.AlertDialogView.html#hasOkButton">hasOkButton</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a button as an input tag.'><a href="../symbols/M.AlertDialogView.html#render">render</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Application.html">M.Application</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.Application.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The application's name.'><a href="../symbols/M.Application.html#name">name</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The application's view manager.'><a href="../symbols/M.Application.html#viewManager">viewManager</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The application's model registry.'><a href="../symbols/M.Application.html#modelRegistry">modelRegistry</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The application's event dispatcher.'><a href="../symbols/M.Application.html#eventDispatcher">eventDispatcher</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The application's cypher object, used for encoding and decoding.'><a href="../symbols/M.Application.html#cypher">cypher</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The application's current language.'><a href="../symbols/M.Application.html#currentLanguage">currentLanguage</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The application's default / fallback language.'><a href="../symbols/M.Application.html#defaultLanguage">defaultLanguage</a></b></div><div class='sectionItem classMethod'><b class='icon' title='This method encapsulates the 'include' method of M.Object for better reading of code syntax.'><a href="../symbols/M.Application.html#design">design</a></b><span class='signature'>(<span title="(Object) The mixed in object for the extend call.">obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='The application's main-method, that is called automatically on load of the app.'><a href="../symbols/M.Application.html#main">main</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ButtonGroupView.html">M.ButtonGroupView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.ButtonGroupView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property determines whether to render the button group horizontally or vertically.'><a href="../symbols/M.ButtonGroupView.html#direction">direction</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property contains a reference to the currently selected button.'><a href="../symbols/M.ButtonGroupView.html#activeButton">activeButton</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a segmented control view.'><a href="../symbols/M.ButtonGroupView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Triggers render() on all children of type M.ButtonView.'><a href="../symbols/M.ButtonGroupView.html#renderChildViews">renderChildViews</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method themes the button group and activates one of the included buttons if its isActive property is set.'><a href="../symbols/M.ButtonGroupView.html#theme">theme</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns the currently selected button of this button group.'><a href="../symbols/M.ButtonGroupView.html#getActiveButton">getActiveButton</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method activates one button within the button group.'><a href="../symbols/M.ButtonGroupView.html#setActiveButton">setActiveButton</a></b><span class='signature'>(<span title="{Object, String} The button to be set active or its id.">id</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ButtonView.html">M.ButtonView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.ButtonView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether this button is active or not.'><a href="../symbols/M.ButtonView.html#isActive">isActive</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a button as an input tag.'><a href="../symbols/M.ButtonView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Updates the value of the button with DOM access by jQuery.'><a href="../symbols/M.ButtonView.html#renderUpdate">renderUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Sets the button's value and calls renderUpdate() to make the value update visible.'><a href="../symbols/M.ButtonView.html#setValue">setValue</a></b><span class='signature'>(<span title="(String) The button's new value.">value</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Triggers the rendering engine, jQuery mobile, to style the button.'><a href="../symbols/M.ButtonView.html#theme">theme</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Applies some style-attributes to the button.'><a href="../symbols/M.ButtonView.html#style">style</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ConfirmDialogView.html">M.ConfirmDialogView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.ConfirmDialogView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The default title of an alert dialog.'><a href="../symbols/M.ConfirmDialogView.html#title">title</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The default message of an alert dialog.'><a href="../symbols/M.ConfirmDialogView.html#message">message</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The default transition of an confirm dialog.'><a href="../symbols/M.ConfirmDialogView.html#transition">transition</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether the dialog gets a default ok button.'><a href="../symbols/M.ConfirmDialogView.html#hasOkButton">hasOkButton</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether the dialog gets a default cancel button.'><a href="../symbols/M.ConfirmDialogView.html#hasCancelButton">hasCancelButton</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a button as an input tag.'><a href="../symbols/M.ConfirmDialogView.html#render">render</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ContainerView.html">M.ContainerView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.ContainerView.html#type">type</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a simple div container and applies css classes if specified.'><a href="../symbols/M.ContainerView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Applies some style-attributes to the container view.'><a href="../symbols/M.ContainerView.html#style">style</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Controller.html">M.Controller</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.Controller.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Makes the controller's properties observable.'><a href="../symbols/M.Controller.html#observable">observable</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Helper function to build the location href for the view to be displayed.'><a href="../symbols/M.Controller.html#buildLocationHref">buildLocationHref</a></b><span class='signature'>(<span title="(String) The id of the new target.">id</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the class property behind the given key and informs its observers.'><a href="../symbols/M.Controller.html#switchToPage">switchToPage</a></b><span class='signature'>(<span title="(Object) The page to be displayed.">page</span>, <span title="(String) The transition that should be used.">transition</span>, <span title="(Boolean) YES will cause a reverse-direction transition.">isBack</span>, <span title="(Boolean) Update the browser history.">changeLoc</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the class property behind the given key and informs its observers.'><a href="../symbols/M.Controller.html#set">set</a></b><span class='signature'>(<span title="(String) The key of the property to be changed.">key</span>, <span title="(Object|String) The value to be set.">value</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Cypher.html">M.Cypher</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.Cypher.html#type">type</a></b></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.Cypher.html#decode">decode</a></b><span class='signature'>(<span>input</span>, <span>algorithm</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.Cypher.html#encode">encode</a></b><span class='signature'>(<span>input</span>, <span>algorithm</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.Cypher.html#hash">hash</a></b><span class='signature'>(<span>input</span>, <span>algorithm</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.DataProvider.html">M.DataProvider</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.DataProvider.html#type">type</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Interface method.'><a href="../symbols/M.DataProvider.html#find">find</a></b><span class='signature'>(<span title="(String) The query string.">query</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.DataProvider.html#save">save</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.DataProvider.html#del">del</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Checks if object has certain property.'><a href="../symbols/M.DataProvider.html#check">check</a></b><span class='signature'>(<span title="(obj) The object to check.">obj</span>, <span title="(String) The property to check for.">prop</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Date.html">M.Date</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.Date.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The native javascript date object.'><a href="../symbols/M.Date.html#date">date</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Returns the current date, e.g.'><a href="../symbols/M.Date.html#now">now</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns the date, 24h in the future.'><a href="../symbols/M.Date.html#tomorrow">tomorrow</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns a date for a given date string.'><a href="../symbols/M.Date.html#create">create</a></b><span class='signature'>(<span>dateString</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method formats a given date object according to the passed 'format' property and returns it as a String.'><a href="../symbols/M.Date.html#format">format</a></b><span class='signature'>(<span title="{String} The format.">format</span>, <span title="{Boolean} Determines whether to convert to UTC time or not.">utc</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns the date, 24h in the past.'><a href="../symbols/M.Date.html#yesterday">yesterday</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns a date in the future or past, based on 'days'.'><a href="../symbols/M.Date.html#daysFromNow">daysFromNow</a></b><span class='signature'>(<span title="(Number) The number of days to be added to or subtracted from the current date.">days</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns a date in the future or past, based on 'days' and a given date.'><a href="../symbols/M.Date.html#daysFromDate">daysFromDate</a></b><span class='signature'>(<span title="(Number) The number of days to be added to or subtracted from the current date.">days</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns a date in the future or past, based on 'hours'.'><a href="../symbols/M.Date.html#hoursFromNow">hoursFromNow</a></b><span class='signature'>(<span title="(Number) The number of hours to be added to or subtracted from the current date.">hours</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns a date in the future or past, based on 'hours' and a given date.'><a href="../symbols/M.Date.html#hoursFromDate">hoursFromDate</a></b><span class='signature'>(<span title="(Number) The number of hours to be added to or subtracted from the current date.">hours</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns a date in the future or past, based on 'minutes'.'><a href="../symbols/M.Date.html#minutesFromNow">minutesFromNow</a></b><span class='signature'>(<span title="(Number) The number of minutes to be added to or subtracted from the current date.">minutes</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns a date in the future or past, based on 'minutes' and a given date.'><a href="../symbols/M.Date.html#minutesFromDate">minutesFromDate</a></b><span class='signature'>(<span title="(Number) The number of minutes to be added to or subtracted from the current date.">minutes</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns a date in the future or past, based on 'seconds'.'><a href="../symbols/M.Date.html#secondsFromNow">secondsFromNow</a></b><span class='signature'>(<span title="(Number) The number of seconds to be added to or subtracted from the current date.">seconds</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns a date in the future or past, based on 'seconds' and a given date.'><a href="../symbols/M.Date.html#secondsFromDate">secondsFromDate</a></b><span class='signature'>(<span title="(Number) The number of seconds to be added to or subtracted from the current date.">seconds</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns a date in the future or past, based on 'milliseconds'.'><a href="../symbols/M.Date.html#millisecondsFromNow">millisecondsFromNow</a></b><span class='signature'>(<span title="(Number) The number of milliseconds to be added to or subtracted from the current date.">milliseconds</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns a date in the future or past, based on 'milliseconds' and a given date.'><a href="../symbols/M.Date.html#millisecondsFromDate">millisecondsFromDate</a></b><span class='signature'>(<span title="(Number) The number of milliseconds to be added to or subtracted from the current date.">milliseconds</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns the time between two dates, based on the given returnType.'><a href="../symbols/M.Date.html#timeBetween">timeBetween</a></b><span class='signature'>(<span title="(Object) The date.">date</span>, <span title="(String) The return type for the call.">returnType</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.Date.html#toJSON">toJSON</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.DialogView.html">M.DialogView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.DialogView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Contains the ids of the button's within a dialog.'><a href="../symbols/M.DialogView.html#buttonIds">buttonIds</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The dialog's callback, splitted in target / action.'><a href="../symbols/M.DialogView.html#callback">callback</a></b></div><div class='sectionItem classMethod'><b class='icon' title='This method controls the process of bringing a dialog to the screen.'><a href="../symbols/M.DialogView.html#show">show</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method triggers the styling of the dialog and its sub views.'><a href="../symbols/M.DialogView.html#theme">theme</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.DialogView.html#alert">alert</a></b><span class='signature'>(<span>obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.DialogView.html#confirm">confirm</a></b><span class='signature'>(<span>obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.DialogView.html#actionSheet">actionSheet</a></b><span class='signature'>(<span>obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.DialogView.html#dialogWillClose">dialogWillClose</a></b><span class='signature'>(<span>id</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.DialogView.html#dialogDidHide">dialogDidHide</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Environment.html">M.Environment</a></span></div><div class='sectionItems'><div class='sectionItem classMethod'><b class='icon' title='Checks the connection status by sending an ajax request and waiting for the response to decide whether online or offline.'><a href="../symbols/M.Environment.html#getConnectionStatus">getConnectionStatus</a></b><span class='signature'>(<span title="(function) The function to be called when request returns.">callback</span>, <span title="(String) Optional.">url</span>, <span title="(Number) Optional.">timeout</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the userAgent as received from navigator object.'><a href="../symbols/M.Environment.html#getUserAgent">getUserAgent</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the platform as received from navigator object.'><a href="../symbols/M.Environment.html#getPlatform">getPlatform</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the browser version as received from navigator object.'><a href="../symbols/M.Environment.html#getBrowserName">getBrowserName</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the currently available width and height of the browser window as an array: 0 -> width 1 -> height'><a href="../symbols/M.Environment.html#getSize">getSize</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the currently available width of the browser window.'><a href="../symbols/M.Environment.html#getWidth">getWidth</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the currently available height of the browser window.'><a href="../symbols/M.Environment.html#getHeight">getHeight</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.EventDispatcher.html">M.EventDispatcher</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.EventDispatcher.html#type">type</a></b></div><div class='sectionItem classMethod'><b class='icon' title='This method is called whenever an event is triggered within the app.'><a href="../symbols/M.EventDispatcher.html#eventDidHappen">eventDidHappen</a></b><span class='signature'>(<span title="(Object) The event.">evt</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method is called whenever an onClick event is triggered within the app.'><a href="../symbols/M.EventDispatcher.html#onClickEventDidHappen">onClickEventDidHappen</a></b><span class='signature'>(<span title="(String) The type of event that occured, e.g.">type</span>, <span title="(String) The id of the element that triggered the event.">id</span>, <span title="(Number) The keyCode property of the event, necessary for keypress event, e.g.">keyCode</span>, <span title="(String) The orientation of the device (only passed if an orientationChange event did happen).">orientation</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method looks for a corresponding event inside the view manager and delegates the call directly to the responsible controller defined by the target and action properties of the view.'><a href="../symbols/M.EventDispatcher.html#delegateEvent">delegateEvent</a></b><span class='signature'>(<span title="(String) The type of event that occured, e.g.">type</span>, <span title="(String) The id of the element that triggered the event.">id</span>, <span title="(Number) The keyCode property of the event, necessary for keypress event, e.g.">keyCode</span>, <span title="(String) The orientation of the device (only passed if an orientationChange event did happen).">orientation</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.EventDispatcher.html#registerEvents">registerEvents</a></b><span class='signature'>(<span>id</span>, <span>eventList</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.FormView.html">M.FormView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.FormView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether to automatically show an alert view if the validation fails.'><a href="../symbols/M.FormView.html#showAlertOnError">showAlertOnError</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The title of the alert view that comes up automatically if the validation fails, depending one the 'showAlertOnError' property.'><a href="../symbols/M.FormView.html#alertTitle">alertTitle</a></b></div><div class='sectionItem classMethod'><b class='icon' title='This method triggers the validate() on all child views, respectively on their validators.'><a href="../symbols/M.FormView.html#validate">validate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.FormView.html#showErrors">showErrors</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.GridView.html">M.GridView</a></span></div><div class='sectionItems'><div class='sectionItem classMethod'><b class='icon' title='Renders a GridView based on the specified layout.'><a href="../symbols/M.GridView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Triggers render() on all children and includes some special GridView logic concerning the rendering of these child views.'><a href="../symbols/M.GridView.html#renderChildViews">renderChildViews</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.GridView.html#theme">theme</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Applies some style-attributes to the grid.'><a href="../symbols/M.GridView.html#style">style</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.I18N.html">M.I18N</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.I18N.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The default language.'><a href="../symbols/M.I18N.html#defaultLanguage">defaultLanguage</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property is used to map the navigator's language to an ISO standard if necessary.'><a href="../symbols/M.I18N.html#languageMapper">languageMapper</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property is used to set the language programmatically out of M.Application.'><a href="../symbols/M.I18N.html#forceLanguage">forceLanguage</a></b></div><div class='sectionItem classMethod'><b class='icon' title='This method returns the localized string for the given key based on the current language.'><a href="../symbols/M.I18N.html#l">l</a></b><span class='signature'>(<span title="{String} The key to the localized string.">key</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method sets the applications current language and forces it to reload.'><a href="../symbols/M.I18N.html#setLanguage">setLanguage</a></b><span class='signature'>(<span title="{String} The language to be set.">language</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.I18N.html#getLanguage">getLanguage</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method checks if the passed language is available within the app or not.'><a href="../symbols/M.I18N.html#isLanguageAvailable">isLanguageAvailable</a></b><span class='signature'>(<span title="{String} The language to be checked.">language</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ImageView.html">M.ImageView</a></span></div><div class='sectionItems'><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ImageView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Applies some style-attributes to the image.'><a href="../symbols/M.ImageView.html#style">style</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.LabelView.html">M.LabelView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.LabelView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether a new line '\n' within the label's value should be transformed into a line break '' before it is rendered.'><a href="../symbols/M.LabelView.html#newLineToBreak">newLineToBreak</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a LabelView as a div tag with corresponding data-role attribute and inner text defined by value'><a href="../symbols/M.LabelView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Updates the value of the label with DOM access by jQuery.'><a href="../symbols/M.LabelView.html#renderUpdate">renderUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Applies some style-attributes to the label.'><a href="../symbols/M.LabelView.html#style">style</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ListItemView.html">M.ListItemView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='This property determines whether a list item has one single action that is triggered once there is a click anywhere inside the list item or if there are specific actions defined for single ui elements within one list item.'><a href="../symbols/M.ListItemView.html#hasSingleAction">hasSingleAction</a></b></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ListItemView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ListItemView.html#renderUpdate">renderUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Triggers render() on all children and returns their render result.'><a href="../symbols/M.ListItemView.html#renderChildViews">renderChildViews</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Applies some style-attributes to the list item.'><a href="../symbols/M.ListItemView.html#style">style</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ListView.html">M.ListView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.ListView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether to remove all item if the list is updated or not.'><a href="../symbols/M.ListView.html#removeItemsOnUpdate">removeItemsOnUpdate</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether to display the list as a divided list or not.'><a href="../symbols/M.ListView.html#isDividedList">isDividedList</a></b></div><div class='sectionItem classProperty'><b class='icon' title='If the list view is a divided list, this property can be used to customize the style of the list's dividers.'><a href="../symbols/M.ListView.html#cssClassForDivider">cssClassForDivider</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether to display the the number of child items for each list item view.'><a href="../symbols/M.ListView.html#isCountedList">isCountedList</a></b></div><div class='sectionItem classProperty'><b class='icon' title='If the list view is a counted list, this property can be used to customize the style of the list item's counter.'><a href="../symbols/M.ListView.html#cssClassForCounter">cssClassForCounter</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property can be used to customize the style of the list view's split view.'><a href="../symbols/M.ListView.html#cssClassForSplitView">cssClassForSplitView</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The list view's items, respectively its child views.'><a href="../symbols/M.ListView.html#items">items</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether the list view is currently in edit mode or not.'><a href="../symbols/M.ListView.html#inEditMode">inEditMode</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property contains all available options for the edit mode.'><a href="../symbols/M.ListView.html#editOptions">editOptions</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Defines if the ListView is rendered with prefixed numbering for each item.'><a href="../symbols/M.ListView.html#isNumberedList">isNumberedList</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property contains the list view's template view, the blueprint for every child view.'><a href="../symbols/M.ListView.html#listItemTemplateView">listItemTemplateView</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether to display the list view 'inset' or at full width.'><a href="../symbols/M.ListView.html#isInsetList">isInsetList</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The list view's search bar.'><a href="../symbols/M.ListView.html#searchBar">searchBar</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether or not to display a search bar at the top of the list view.'><a href="../symbols/M.ListView.html#hasSearchBar">hasSearchBar</a></b></div><div class='sectionItem classProperty'><b class='icon' title='If the hasSearchBar property is set to YES, this property determines whether to use the built-in simple search filters or not.'><a href="../symbols/M.ListView.html#usesDefaultSearchBehaviour">usesDefaultSearchBehaviour</a></b></div><div class='sectionItem classProperty'><b class='icon' title='An object containing target and action to be triggered if the search string changes.'><a href="../symbols/M.ListView.html#onSearchStringDidChange">onSearchStringDidChange</a></b></div><div class='sectionItem classMethod'><b class='icon' title='This method renders the empty list view either as an ordered or as an unordered list.'><a href="../symbols/M.ListView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ListView.html#renderChildViews">renderChildViews</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ListView.html#addItem">addItem</a></b><span class='signature'>(<span>item</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ListView.html#removeItem">removeItem</a></b><span class='signature'>(<span>id</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ListView.html#removeAllItems">removeAllItems</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ListView.html#renderUpdate">renderUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ListView.html#renderListItemDivider">renderListItemDivider</a></b><span class='signature'>(<span>name</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ListView.html#renderListItemView">renderListItemView</a></b><span class='signature'>(<span>content</span>, <span>templateView</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Triggers rendering engine, e.g.'><a href="../symbols/M.ListView.html#theme">theme</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Triggers rendering engine, e.g.'><a href="../symbols/M.ListView.html#themeUpdate">themeUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method activates the edit mode and forces the list view to re-render itself and to display a remove button for every list view item.'><a href="../symbols/M.ListView.html#toggleRemove">toggleRemove</a></b><span class='signature'>(<span title="(Object) The options for the remove button.">options</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ListView.html#setActiveListItem">setActiveListItem</a></b><span class='signature'>(<span>listItemId</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Applies some style-attributes to the list view.'><a href="../symbols/M.ListView.html#style">style</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.LoaderView.html">M.LoaderView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.LoaderView.html#type">type</a></b></div><div class='sectionItem classMethod'><b class='icon' title='This method shows the loader.'><a href="../symbols/M.LoaderView.html#show">show</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method hides the loader.'><a href="../symbols/M.LoaderView.html#hide">hide</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.LocalStorageProvider.html">M.LocalStorageProvider</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.LocalStorageProvider.html#type">type</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Saves a model record to the local storage The key is the model record's name combined with id, value is stringified object e.g.'><a href="../symbols/M.LocalStorageProvider.html#save">save</a></b><span class='signature'>(<span title="(Object) (is a model).">that</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='deletes a model from the local storage key defines which one to delete e.g.'><a href="../symbols/M.LocalStorageProvider.html#del">del</a></b><span class='signature'>(<span title="(Object) The param obj, includes model">obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Finds all models of type defined by modelName that match a key or a simple query.'><a href="../symbols/M.LocalStorageProvider.html#find">find</a></b><span class='signature'>(<span title="(Object) param object containing e.g.">The</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Finds a record identified by the key.'><a href="../symbols/M.LocalStorageProvider.html#findByKey">findByKey</a></b><span class='signature'>(<span title="(Object) param object containing e.g.">The</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns all models defined by modelName.'><a href="../symbols/M.LocalStorageProvider.html#findAll">findAll</a></b><span class='signature'>(<span title="(Object) The param obj, includes model">obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Fetches a record from LocalStorage and checks whether automatic parsing by JSON.parse set the elements right.'><a href="../symbols/M.LocalStorageProvider.html#buildRecord">buildRecord</a></b><span class='signature'>(<span title="(String) The key to fetch the element from LocalStorage">key</span>, <span title="(Object) The param object, includes model">obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns all keys for model defined by modelName.'><a href="../symbols/M.LocalStorageProvider.html#allKeys">allKeys</a></b><span class='signature'>(<span title="(Object) The param obj, includes model">obj</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Logger.html">M.Logger</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.Logger.html#type">type</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Possible values for the logging level: - debug: M.DEBUG - error: M.ERROR - warning: M.WARNING'><a href="../symbols/M.Logger.html#log">log</a></b><span class='signature'>(<span title="(String) The logging message.">msg</span>, <span title="(Number) The logging level.">level</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Math.html">M.Math</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.Math.html#type">type</a></b></div><div class='sectionItem classMethod'><b class='icon' title='This method returns the value of the base (x) to the power of the exponent (y).'><a href="../symbols/M.Math.html#pow">pow</a></b><span class='signature'>(<span title="{Number} The base.">base</span>, <span title="{Number} The exponent.">exponent</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='The method returns a random number within the range given by the min property and the max property.'><a href="../symbols/M.Math.html#random">random</a></b><span class='signature'>(<span title="{Number} The minimal value.">min</span>, <span title="{Number} The maximal value.">max</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='The method returns rounded version of the given input number.'><a href="../symbols/M.Math.html#round">round</a></b><span class='signature'>(<span title="{Number} The input value.">input</span>, <span title="{String} The type of rounding.">type</span>, <span title="{Number} The number of decimals (only available for M.ROUND).">type</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Model.html">M.Model</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.Model.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The name of the model.'><a href="../symbols/M.Model.html#name">name</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Unique identifier for the model record.'><a href="../symbols/M.Model.html#id">id</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The model's record defines the properties that are semantically bound to this model: e.g.'><a href="../symbols/M.Model.html#record">record</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Manages records of this model'><a href="../symbols/M.Model.html#recordManager">recordManager</a></b></div><div class='sectionItem classProperty'><b class='icon' title=''><a href="../symbols/M.Model.html#records">records</a></b></div><div class='sectionItem classProperty'><b class='icon' title='A constant defining the model's state.'><a href="../symbols/M.Model.html#state">state</a></b></div><div class='sectionItem classProperty'><b class='icon' title='determines whether model shall be validated before saving to storage or not.'><a href="../symbols/M.Model.html#usesValidation">usesValidation</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The model's data provider.'><a href="../symbols/M.Model.html#dataProvider">dataProvider</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Creates a new record of the model, means an instance of the model based on the blueprint.'><a href="../symbols/M.Model.html#createRecord">createRecord</a></b><span class='signature'>(<span title="(Object) The specific attributes as an object, e.g.">obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Create defines a new model blueprint.'><a href="../symbols/M.Model.html#create">create</a></b><span class='signature'>(<span title="(Object) An object defining the model's">obj</span>, <span title="(Object) The data provider to use, e.">dp</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns a M.ModelAttribute object to map an attribute in our record.'><a href="../symbols/M.Model.html#attr">attr</a></b><span class='signature'>(<span title="(String) type of the attribute">type</span>, <span title="(Object) options for the attribute, like required flag and validators array">opts</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Get attribute propName from model'><a href="../symbols/M.Model.html#get">get</a></b><span class='signature'>(<span title="(String) the name of the property whose value shall be returned">propName</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Set attribute propName of model with value val'><a href="../symbols/M.Model.html#set">set</a></b><span class='signature'>(<span title="(String) the name of the property whose value shall be set">propName</span>, <span title="(String|Object) the new value">val</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Validates the model, means calling validate for each property.'><a href="../symbols/M.Model.html#validate">validate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Calls the corresponding find() of the data provider to fetch data based on the passed query or key.'><a href="../symbols/M.Model.html#find">find</a></b><span class='signature'>(<span title="(Object) The param object with query or key and callbacks.">obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Create or update a record in storage if it is valid (first check this).'><a href="../symbols/M.Model.html#save">save</a></b><span class='signature'>(<span title="(Object) The param object with query and callbacks.">obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Delete a record in storage.'><a href="../symbols/M.Model.html#del">del</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ModelAttribute.html">M.ModelAttribute</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The data type for the model record property.'><a href="../symbols/M.ModelAttribute.html#dataType">dataType</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Indicates whether this property is required to be set before persisting.'><a href="../symbols/M.ModelAttribute.html#isRequired">isRequired</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Array containing all validators for this model record property.'><a href="../symbols/M.ModelAttribute.html#validators">validators</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Iterates over validators array and calls validate on each validator with the param object passed to the validator.'><a href="../symbols/M.ModelAttribute.html#validate">validate</a></b><span class='signature'>(<span title="(Object) The parameter object containing the model id, the record as M.ModelAttribute object and the value of the property.">obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns a model attribute.'><a href="../symbols/M.ModelAttribute.html#.attr">attr</a></b><span class='signature'>(<span title="The data type of the attribute: e.g.">dataType</span>, <span title="options for the attribute, such as defaultValue, isRequired flag, etc.">opts</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ModelRegistry.html">M.ModelRegistry</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.ModelRegistry.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='An array containing objects that save the model's name and their next GUId.'><a href="../symbols/M.ModelRegistry.html#registry">registry</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Calculates the next ID for a model named by modelName.'><a href="../symbols/M.ModelRegistry.html#getNextId">getNextId</a></b><span class='signature'>(<span title="(String) The name of the model, e.g.">modelName</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Sets the id for a certain model.'><a href="../symbols/M.ModelRegistry.html#setId">setId</a></b><span class='signature'>(<span title="(String) The name of the model, e.g.">modelName</span>, <span title="(Number) The id of the model, e.g.">id</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Register a model in the registry.'><a href="../symbols/M.ModelRegistry.html#register">register</a></b><span class='signature'>(<span title="(String) The name of the model, e.g.">modelName</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Object.html">M.Object</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.Object.html#type">type</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Creates an object.'><a href="../symbols/M.Object.html#create">create</a></b><span class='signature'>(<span>obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Creates a new class and extends it with all functions of the defined super class The function takes multiple input arguments.'><a href="../symbols/M.Object.html#extend">extend</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.Object.html#include">include</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Binds a method to its caller, so it is always executed within the right scope.'><a href="../symbols/M.Object.html#bindToCaller">bindToCaller</a></b><span class='signature'>(<span title="(Object) The scope of the method that should be bound.">caller</span>, <span title="(Object) The method to be bound.">method</span>, <span title="(Object) One or more arguments.">arg</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the class property behind the given key.'><a href="../symbols/M.Object.html#get">get</a></b><span class='signature'>(<span title="(String) The key of the property to be returned.">key</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the class property behind the given key.'><a href="../symbols/M.Object.html#set">set</a></b><span class='signature'>(<span title="(String) The key of the property to be changed.">key</span>, <span title="(Object|String) The value to be set.">value</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method will remove an object from the DOM and then delete it.'><a href="../symbols/M.Object.html#destroy">destroy</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Observable.html">M.Observable</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.Observable.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='List that contains pairs of an observer with an observable.'><a href="../symbols/M.Observable.html#bindingList">bindingList</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Attach an observer to an observable.'><a href="../symbols/M.Observable.html#attach">attach</a></b><span class='signature'>(<span title="(String) The observer.">observer</span>, <span title="(String) The observable.">observable</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Detach an observer from an observable.'><a href="../symbols/M.Observable.html#detach">detach</a></b><span class='signature'>(<span title="(String) The observer.">observer</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Notify all observers that observe the property behind 'key'.'><a href="../symbols/M.Observable.html#notifyObservers">notifyObservers</a></b><span class='signature'>(<span title="(String) The key of the property that changed.">key</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.PageView.html">M.PageView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.PageView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Is set to NO once the page was first loaded.'><a href="../symbols/M.PageView.html#isFirstLoad">isFirstLoad</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property can be used to set the page's beforeLoad action.'><a href="../symbols/M.PageView.html#beforeLoad">beforeLoad</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property can be used to set the page's onLoad action.'><a href="../symbols/M.PageView.html#onLoad">onLoad</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property can be used to set the page's beforeHide action.'><a href="../symbols/M.PageView.html#beforeHide">beforeHide</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property can be used to set the page's onHide action.'><a href="../symbols/M.PageView.html#onHide">onHide</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Indicates whether the page has a tab bar or not.'><a href="../symbols/M.PageView.html#hasTabBarView">hasTabBarView</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The page's tab bar.'><a href="../symbols/M.PageView.html#tabBarView">tabBarView</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders in three steps: 1.'><a href="../symbols/M.PageView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method is called right before the page is loaded.'><a href="../symbols/M.PageView.html#pageWillLoad">pageWillLoad</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method is called if the page is loaded.'><a href="../symbols/M.PageView.html#pageDidLoad">pageDidLoad</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method is called right before the page is loaded.'><a href="../symbols/M.PageView.html#pageWillHide">pageWillHide</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method is called right before the page is loaded.'><a href="../symbols/M.PageView.html#pageDidHide">pageDidHide</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method is called if the device's orientation changed.'><a href="../symbols/M.PageView.html#orientationDidChange">orientationDidChange</a></b><span class='signature'>(<span>orientation</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method triggers the styling of the page and its subviews.'><a href="../symbols/M.PageView.html#theme">theme</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Applies some style-attributes to the page.'><a href="../symbols/M.PageView.html#style">style</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.RecordManager.html">M.RecordManager</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.RecordManager.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Array containing all currently loaded records.'><a href="../symbols/M.RecordManager.html#records">records</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Add the given model to the modelList.'><a href="../symbols/M.RecordManager.html#add">add</a></b><span class='signature'>(<span title="(Object) Object">record</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.RecordManager.html#addMany">addMany</a></b><span class='signature'>(<span>arrOfRecords</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.RecordManager.html#removeAll">removeAll</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.RecordManager.html#remove">remove</a></b><span class='signature'>(<span>id</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.RecordManager.html#getRecordForId">getRecordForId</a></b><span class='signature'>(<span>id</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Debug method to print out all content from the records array to the console.'><a href="../symbols/M.RecordManager.html#dumpRecords">dumpRecords</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.RemoteStorageProvider.html">M.RemoteStorageProvider</a></span></div><div class='sectionItems'><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.RemoteStorageProvider.html#save">save</a></b><span class='signature'>(<span>obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.RemoteStorageProvider.html#del">del</a></b><span class='signature'>(<span>obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.RemoteStorageProvider.html#find">find</a></b><span class='signature'>(<span>obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.RemoteStorageProvider.html#remoteQuery">remoteQuery</a></b><span class='signature'>(<span>onSuccess</span>, <span>onError</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='creates a new data provider instance with the passed configuration parameters'><a href="../symbols/M.RemoteStorageProvider.html#configure">configure</a></b><span class='signature'>(<span>obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Creates result as an object passed to the request containing the request data.'><a href="../symbols/M.RemoteStorageProvider.html#deepObjectReplacement">deepObjectReplacement</a></b><span class='signature'>(<span>dataPattern</span>, <span>record</span>, <span>result</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Request.html">M.Request</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.Request.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The HTTP method to use.'><a href="../symbols/M.Request.html#method">method</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The URL this request is sent to.'><a href="../symbols/M.Request.html#url">url</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Sends the request asynchronously instead of blocking the browser.'><a href="../symbols/M.Request.html#isAsync">isAsync</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Processes the request and response as JSON if possible.'><a href="../symbols/M.Request.html#isJSON">isJSON</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Optional timeout value of the request in milliseconds.'><a href="../symbols/M.Request.html#timeout">timeout</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The data body of the request.'><a href="../symbols/M.Request.html#data">data</a></b></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.Request.html#init">init</a></b><span class='signature'>(<span>obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='A pre-callback that is called right before the request is sent.'><a href="../symbols/M.Request.html#beforeSend">beforeSend</a></b><span class='signature'>(<span title="(Object) The XMLHttpRequest object.">request</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='The callback to be called if the request failed.'><a href="../symbols/M.Request.html#onError">onError</a></b><span class='signature'>(<span title="(Object) The XMLHttpRequest object.">request</span>, <span title="(String) The error message.">msg</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='The callback to be called if the request succeeded.'><a href="../symbols/M.Request.html#onSuccess">onSuccess</a></b><span class='signature'>(<span title="(String|Object) The data returned from the server.">data</span>, <span title="(String) A String describing the status.">msg</span>, <span title="(Object) The XMLHttpRequest object.">request</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Sends an Ajax request by using jQuery's $.ajax().'><a href="../symbols/M.Request.html#send">send</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ScrollView.html">M.ScrollView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.ScrollView.html#type">type</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders in three steps: 1.'><a href="../symbols/M.ScrollView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method triggers the styling of the scrollview and its subviews.'><a href="../symbols/M.ScrollView.html#theme">theme</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.SearchBarView.html">M.SearchBarView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.SearchBarView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether the search bar is part of a list view.'><a href="../symbols/M.SearchBarView.html#isListViewSearchBar">isListViewSearchBar</a></b></div><div class='sectionItem classProperty'><b class='icon' title='If the search bar belongs to a list view, this property contains this list view.'><a href="../symbols/M.SearchBarView.html#listView">listView</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a search bar.'><a href="../symbols/M.SearchBarView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Triggers rendering engine, e.g.'><a href="../symbols/M.SearchBarView.html#theme">theme</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.SearchBarView.html#renderUpdate">renderUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method sets its value to the value it has in its DOM representation and then delegates these changes to a controller property if the contentBindingReverse property is set.'><a href="../symbols/M.SearchBarView.html#setValueFromDOM">setValueFromDOM</a></b><span class='signature'>(<span>evt</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Applies some style-attributes to the search bar.'><a href="../symbols/M.SearchBarView.html#style">style</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.SelectionListItemView.html">M.SelectionListItemView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.SelectionListItemView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property can be used to specify a label for a selection list item.'><a href="../symbols/M.SelectionListItemView.html#label">label</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property determines whether a selection list item is selected or not.'><a href="../symbols/M.SelectionListItemView.html#isSelected">isSelected</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a selection list item.'><a href="../symbols/M.SelectionListItemView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.SelectionListItemView.html#theme">theme</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.SelectionListView.html">M.SelectionListView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.SelectionListView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether to remove all item if the list is updated or not.'><a href="../symbols/M.SelectionListView.html#removeItemsOnUpdate">removeItemsOnUpdate</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The selection mode for this selection list.'><a href="../symbols/M.SelectionListView.html#selectionMode">selectionMode</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property is used to define a method that is executed onSelect of an item of this selection list.'><a href="../symbols/M.SelectionListView.html#onSelect">onSelect</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The selected item(s) of this list.'><a href="../symbols/M.SelectionListView.html#selection">selection</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a selection list.'><a href="../symbols/M.SelectionListView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.SelectionListView.html#renderChildViews">renderChildViews</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.SelectionListView.html#addItem">addItem</a></b><span class='signature'>(<span>item</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.SelectionListView.html#removeAllItems">removeAllItems</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.SelectionListView.html#renderUpdate">renderUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.SelectionListView.html#theme">theme</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method is called everytime a item is selected / clicked.'><a href="../symbols/M.SelectionListView.html#itemSelected">itemSelected</a></b><span class='signature'>(<span>id</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method returns the selected item's value(s).'><a href="../symbols/M.SelectionListView.html#getSelection">getSelection</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method can be used to select items programmatically.'><a href="../symbols/M.SelectionListView.html#setSelection">setSelection</a></b><span class='signature'>(<span>selection</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.SelectionListView.html#removeSelection">removeSelection</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.TabBarItemView.html">M.TabBarItemView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.TabBarItemView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether this TabBarItem is active or not.'><a href="../symbols/M.TabBarItemView.html#isActive">isActive</a></b></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.TabBarItemView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.TabBarItemView.html#switchPage">switchPage</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Applies some style-attributes to the label.'><a href="../symbols/M.TabBarItemView.html#style">style</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.TabBarView.html">M.TabBarView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.TabBarView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Defines the position of the TabBar.'><a href="../symbols/M.TabBarView.html#anchorLocation">anchorLocation</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Defines whether this TabBar is only rendered once for every view that uses this TabBar.'><a href="../symbols/M.TabBarView.html#isSingelton">isSingelton</a></b></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.TabBarView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.TabBarView.html#renderChildViews">renderChildViews</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.TabBarView.html#setActiveTab">setActiveTab</a></b><span class='signature'>(<span>page</span>, <span>tab</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.TextFieldView.html">M.TextFieldView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.TextFieldView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The name of the text field.'><a href="../symbols/M.TextFieldView.html#name">name</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Label defines a text that is shown above or next to the textfield as a 'title' for the textfield.'><a href="../symbols/M.TextFieldView.html#label">label</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The initial text shown inside the text field describing the input or making a suggestion for input e.g.'><a href="../symbols/M.TextFieldView.html#initialText">initialText</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Defines whether the text field is rendered as an password field or not.'><a href="../symbols/M.TextFieldView.html#isPassword">isPassword</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Defines whether the text field has multiple lines respectively is a text area.'><a href="../symbols/M.TextFieldView.html#hasMultipleLines">hasMultipleLines</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a TextFieldView'><a href="../symbols/M.TextFieldView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Updates a TextFieldView.'><a href="../symbols/M.TextFieldView.html#renderUpdate">renderUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method is called whenever the view gets the focus.'><a href="../symbols/M.TextFieldView.html#gotFocus">gotFocus</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method is called whenever the view lost the focus.'><a href="../symbols/M.TextFieldView.html#lostFocus">lostFocus</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Method to append css styles inline to the rendered view.'><a href="../symbols/M.TextFieldView.html#style">style</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.TextFieldView.html#theme">theme</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Method to append css styles inline to the rendered view.'><a href="../symbols/M.TextFieldView.html#styleUpdate">styleUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method sets its value to the value it has in its DOM representation and then delegates these changes to a controller property if the contentBindingReverse property is set.'><a href="../symbols/M.TextFieldView.html#setValueFromDOM">setValueFromDOM</a></b><span class='signature'>(<span>evt</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method sets the text field's value, initiates its re-rendering and call the delegateValueUpdate().'><a href="../symbols/M.TextFieldView.html#setValue">setValue</a></b><span class='signature'>(<span>value</span>, <span>delegateUpdate</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.TextFieldView.html#disable">disable</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.TextFieldView.html#enable">enable</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ToggleView.html">M.ToggleView</a></span></div><div class='sectionItems'><div class='sectionItem classMethod'><b class='icon' title='Renders a ToggleView and its child views.'><a href="../symbols/M.ToggleView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method renders the first child view of the toggle view, based on the isInFirstState property: YES = first child view, NO = second child view.'><a href="../symbols/M.ToggleView.html#renderChildViews">renderChildViews</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method toggles the child views.'><a href="../symbols/M.ToggleView.html#renderUpdateChildViews">renderUpdateChildViews</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method toggles the child views by first emptying the toggle view's content and then rendering the next child view by calling renderUpdateChildViews().'><a href="../symbols/M.ToggleView.html#toggleView">toggleView</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ToggleView.html#theme">theme</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ToolbarView.html">M.ToolbarView</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.ToolbarView.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Defines the position of the Toolbar.'><a href="../symbols/M.ToolbarView.html#anchorLocation">anchorLocation</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Display an auto-generated back-button on any new page.'><a href="../symbols/M.ToolbarView.html#showBackButton">showBackButton</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Renders a toolbar as a div tag with corresponding data-role attribute and inner h1 child tag (representing the title of the header)'><a href="../symbols/M.ToolbarView.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.ToolbarView.html#renderUpdate">renderUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Triggers render() on all children or simply display the value as a label, if it is set.'><a href="../symbols/M.ToolbarView.html#renderChildViews">renderChildViews</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method triggers the styling of the toolbar and its subviews.'><a href="../symbols/M.ToolbarView.html#theme">theme</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.Validator.html">M.Validator</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='Array containing error objects Error object represent errors that occured during validation.'><a href="../symbols/M.Validator.html#validationErrors">validationErrors</a></b></div><div class='sectionItem classMethod'><b class='icon' title='extends this.'><a href="../symbols/M.Validator.html#customize">customize</a></b><span class='signature'>(<span>obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='empties the error buffer, is done before each new validation process'><a href="../symbols/M.Validator.html#clearErrorBuffer">clearErrorBuffer</a></b><span class='signature'>(<span>ad</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.View.html">M.View</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.View.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='A boolean value to definitely recognize a view as a view.'><a href="../symbols/M.View.html#isView">isView</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Generic attribute for views.'><a href="../symbols/M.View.html#value">value</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The path to a content that is bind to the view's value.'><a href="../symbols/M.View.html#contentBinding">contentBinding</a></b></div><div class='sectionItem classProperty'><b class='icon' title='An array specifying the view's children.'><a href="../symbols/M.View.html#childViews">childViews</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether this view renders directly to the DOM or just returns its HTML representation.'><a href="../symbols/M.View.html#renderToDOM">renderToDOM</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Indicates whether this view currently has the focus or not.'><a href="../symbols/M.View.html#hasFocus">hasFocus</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The id of the View used for the HTML attribute ID.'><a href="../symbols/M.View.html#id">id</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Indicates whether the view should be displayed inline or not.'><a href="../symbols/M.View.html#isInline">isInline</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Indicates whether the view is visible or not.'><a href="../symbols/M.View.html#isVisible">isVisible</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property can be used to save a reference to the view's parent view.'><a href="../symbols/M.View.html#parentView">parentView</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property can be used to assign a css class to the view using the jquery mobile specific data-theme property.'><a href="../symbols/M.View.html#cssClass">cssClass</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property can be used to assign a css style to the view using.'><a href="../symbols/M.View.html#cssStyle">cssStyle</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property can be used to assign a css class to the view if an error occurs.'><a href="../symbols/M.View.html#cssClassOnError">cssClassOnError</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property can be used to assign a css class to the view on its initialization.'><a href="../symbols/M.View.html#cssClassOnInit">cssClassOnInit</a></b></div><div class='sectionItem classProperty'><b class='icon' title='This property is used internally to recursively build the pages html representation.'><a href="../symbols/M.View.html#html">html</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether an onChange event will trigger a defined action or not.'><a href="../symbols/M.View.html#triggerActionOnChange">triggerActionOnChange</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether an onKeyUp event will trigger a defined action or not.'><a href="../symbols/M.View.html#triggerActionOnKeyUp">triggerActionOnKeyUp</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Determines whether an onKeyUp event with the enter button will trigger a defined action or not.'><a href="../symbols/M.View.html#triggerActionOnEnter">triggerActionOnEnter</a></b></div><div class='sectionItem classMethod'><b class='icon' title='This method encapsulates the 'extend' method of M.Object for better reading of code syntax.'><a href="../symbols/M.View.html#design">design</a></b><span class='signature'>(<span title="(Object) The mixed in object for the extend call.">obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Interface method.'><a href="../symbols/M.View.html#render">render</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Interface method.'><a href="../symbols/M.View.html#renderUpdate">renderUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Triggers render() on all children.'><a href="../symbols/M.View.html#renderChildViews">renderChildViews</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Clears the html property of a view and triggers the same method on all of its child views.'><a href="../symbols/M.View.html#clearHtml">clearHtml</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='If the view's computedValue property is set, compute the value.'><a href="../symbols/M.View.html#computeValue">computeValue</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Interface method.'><a href="../symbols/M.View.html#theme">theme</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Triggers theme() on all children.'><a href="../symbols/M.View.html#themeChildViews">themeChildViews</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='contentDidChange is called by the observable when observable's state did change.'><a href="../symbols/M.View.html#contentDidChange">contentDidChange</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method attaches itself to an observable.'><a href="../symbols/M.View.html#attachToObservable">attachToObservable</a></b><span class='signature'>(<span title="(String) The path to the observable property.">contentBinding</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Interface method.'><a href="../symbols/M.View.html#setValueFromDOM">setValueFromDOM</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method delegates any value changes to a controller, if the 'contentBindingReverse' property is specified.'><a href="../symbols/M.View.html#delegateValueUpdate">delegateValueUpdate</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Interface method.'><a href="../symbols/M.View.html#style">style</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method is called whenever the view gets the focus.'><a href="../symbols/M.View.html#gotFocus">gotFocus</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='This method is called whenever the view lost the focus.'><a href="../symbols/M.View.html#lostFocus">lostFocus</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Secure the passed string.'><a href="../symbols/M.View.html#secure">secure</a></b><span class='signature'>(<span title="(String) The string to be escaped">str</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.View.html#nl2br">nl2br</a></b><span class='signature'>(<span>str</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='This method writes the view's html string into the DOM.'><a href="../symbols/M.View.html#writeToDOM">writeToDOM</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Adds a css class to the view's DOM representation.'><a href="../symbols/M.View.html#addCssClass">addCssClass</a></b><span class='signature'>(<span>cssClass</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Removes a css class to the view's DOM representation.'><a href="../symbols/M.View.html#removeCssClass">removeCssClass</a></b><span class='signature'>(<span>cssClass</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Adds or updates a css property to the view's DOM representation.'><a href="../symbols/M.View.html#setCssProperty">setCssProperty</a></b><span class='signature'>(<span>key</span>, <span>value</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Adds or updates a css property to the view's DOM representation.'><a href="../symbols/M.View.html#removeCssProperty">removeCssProperty</a></b><span class='signature'>(<span>key</span>)</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.ViewManager.html">M.ViewManager</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='The type of this object.'><a href="../symbols/M.ViewManager.html#type">type</a></b></div><div class='sectionItem classProperty'><b class='icon' title='The nextId delivered to a view (used as html id attribute value) with prefix m_.'><a href="../symbols/M.ViewManager.html#nextId">nextId</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Prefix for Id.'><a href="../symbols/M.ViewManager.html#idPrefix">idPrefix</a></b></div><div class='sectionItem classProperty'><b class='icon' title='Array containing all views used in the application.'><a href="../symbols/M.ViewManager.html#viewList">viewList</a></b></div><div class='sectionItem classProperty'><b class='icon' title='A reference to the currently displayed page.'><a href="../symbols/M.ViewManager.html#currentPage">currentPage</a></b></div><div class='sectionItem classProperty'><b class='icon' title='A reference to the latest found view which is necassary for the findView() method.'><a href="../symbols/M.ViewManager.html#foundView">foundView</a></b></div><div class='sectionItem classMethod'><b class='icon' title='Returns the next Id build from nextId property incremented by 1 and the prefix.'><a href="../symbols/M.ViewManager.html#getNextId">getNextId</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Adds the view to the viewlist array.'><a href="../symbols/M.ViewManager.html#register">register</a></b><span class='signature'>(<span title="(Object) The view to be registered in the viewlist.">view</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the view object from the view list array identified by the value of its id attribute.'><a href="../symbols/M.ViewManager.html#getViewById">getViewById</a></b><span class='signature'>(<span title="(String) String">id</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the id for a given view.'><a href="../symbols/M.ViewManager.html#getIdByView">getIdByView</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the view object from the view list array identified by the view's name and its page.'><a href="../symbols/M.ViewManager.html#getView">getView</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Searches for a certain view within a given parent view.'><a href="../symbols/M.ViewManager.html#findView">findView</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the page object from the view list array identified by its name.'><a href="../symbols/M.ViewManager.html#getPage">getPage</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Returns the currently displayed page.'><a href="../symbols/M.ViewManager.html#getCurrentPage">getCurrentPage</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='Sets the currently displayed page.'><a href="../symbols/M.ViewManager.html#setCurrentPage">setCurrentPage</a></b><span class='signature'>(<span>page</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Debug method to print out all content from the viewlist array to the console.'><a href="../symbols/M.ViewManager.html#dumpViewList">dumpViewList</a></b><span class='signature'>()</span></div></div></div>
-			
-			<div class="section">
-				<div title='' class='itemName'>
-				<div class='method-toggler'>&nbsp;</div><span class='icon'><a href="../symbols/M.WebSqlProvider.html">M.WebSqlProvider</a></span></div><div class='sectionItems'><div class='sectionItem classProperty'><b class='icon' title='Configuration object'><a href="../symbols/M.WebSqlProvider.html#config">config</a></b></div><div class='sectionItem classProperty'><b class='icon' title=''><a href="../symbols/M.WebSqlProvider.html#isInitialized">isInitialized</a></b></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.WebSqlProvider.html#init">init</a></b><span class='signature'>(<span>obj</span>, <span>callback</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='TODO: fix callbacks! see find()'><a href="../symbols/M.WebSqlProvider.html#save">save</a></b><span class='signature'>(<span>model</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='performs operation on websql storage: INSERT, UPDATE or DELETE.'><a href="../symbols/M.WebSqlProvider.html#performOp">performOp</a></b><span class='signature'>(<span title="(String) The query.">sql</span>, <span title="(Object) The param object.">obj</span>, <span>opType</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Deletes the passed model from the database'><a href="../symbols/M.WebSqlProvider.html#del">del</a></b><span class='signature'>(<span>model</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.WebSqlProvider.html#find">find</a></b><span class='signature'>(<span title="(Object) The param object.">obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='private methods'><a href="../symbols/M.WebSqlProvider.html#openDb">openDb</a></b><span class='signature'>()</span></div><div class='sectionItem classMethod'><b class='icon' title='creates the table corresponding to the model.'><a href="../symbols/M.WebSqlProvider.html#createTable">createTable</a></b><span class='signature'>(<span>obj</span>, <span>callback</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='creates a new data provider instance with the passed configuration parameters'><a href="../symbols/M.WebSqlProvider.html#configure">configure</a></b><span class='signature'>(<span>obj</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.WebSqlProvider.html#buildDbAttrFromProp">buildDbAttrFromProp</a></b><span class='signature'>(<span title="(Object) Object"></span>, <span>prop</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title='Queries the WebSql storage for the maximum id that was provided for a table defined by model.name.'><a href="../symbols/M.WebSqlProvider.html#queryDbForId">queryDbForId</a></b><span class='signature'>(<span title="(Object) The table's model">model</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.WebSqlProvider.html#handleDbReturn">handleDbReturn</a></b><span class='signature'>(<span>obj</span>, <span>callback</span>)</span></div><div class='sectionItem classMethod'><b class='icon' title=''><a href="../symbols/M.WebSqlProvider.html#setDbIdOfModel">setDbIdOfModel</a></b><span class='signature'>(<span>model</span>, <span>id</span>)</span></div></div></div>
-			
-		</div>
-	</div>
-</div>
-	
-
-				</div>
-				<div id="index-toggler" class="fixed">&laquo;</div>
-
 <!-- ============================== header ================================= -->	
-				<!-- begin static/header.html -->
-				<div class="header">
-  The-M-Project
+		<!-- begin static/header.html -->
+		<div id="header">
 </div>
+		<!-- end static/header.html -->
 
-				<!-- end static/header.html -->
-		
-				<div id="content">
-<!-- ============================== class title ============================ -->
-					<h1 class="classTitle">
-						Class M.ContainerView
-					</h1>
-		
-<!-- ============================== class summary ========================== -->			
-<!-- 
-					
--->
-					<div class="full-description">
-						<p>The root object for ContainerView.</p>
-					</div>
-					
-						<p class="fileName itemName"><i>Defined in: </i> <span class="icon"><a href="../symbols/src/Documents_workspace_TheMProject_modules_ui_container.js.html">container.js</a>.</span></p>
-					
-		
-<!-- ============================== constructor summary ==================== -->			
-					
-					<div class="summary section">
-						<div class="sectionTitle">Constructor Summary</div>
-						<div class="sectionItems">
-							<div class="sectionItem">
-								<div class="itemName">
-								  <!--
-									<div class="module-filter">&nbsp;</div>
-									-->
-									<b class="icon">new <a href="../symbols/M.ContainerView.html#constructor">M.ContainerView</a></b>
-									<span class='signature'>()</span>
-									<span class='description'></span>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-		
-<!-- ============================== properties summary ===================== -->
-					
-						
-						
-						<div class="summary section">
-							<div class="sectionTitle">Field Summary</div>
-							<div class="sectionItems">
-							
-								<div class="sectionItem classProperty">
-								  <!--
-									<div class="module-filter">&nbsp;</div>
-									-->
-									<b class="icon" title="The type of this object."><a href="../symbols/M.ContainerView.html#type">type</a></b>
-									<span class='description'>The type of this object.</span>
-								</div>
-							
-							</div>
-						</div>
-						
-					
-		
-<!-- ============================== methods summary ======================== -->
-					
-						
-						
-						<div class="summary section">
-							<div class="sectionTitle">Method Summary</div>
-							<div class="sectionItems">
-							
-								<div class="sectionItem classMethod">
-								  <!--
-									<div class="module-filter">&nbsp;</div>
-									-->
-									<b class="icon" title="Renders a simple div container and applies css classes if specified."><a href="../symbols/M.ContainerView.html#render">render</a></b><span class='signature'>()</span>
-									<span class='description'>Renders a simple div container and applies css classes if specified.</span>
-								</div>
-							
-								<div class="sectionItem classMethod">
-								  <!--
-									<div class="module-filter">&nbsp;</div>
-									-->
-									<b class="icon" title="Applies some style-attributes to the container view."><a href="../symbols/M.ContainerView.html#style">style</a></b><span class='signature'>()</span>
-									<span class='description'>Applies some style-attributes to the container view.</span>
-								</div>
-							
-							</div>
-						</div>
-						
-					
-		
-<!-- ============================== constructor details ==================== -->		
-					
-					<div class="section details">
-						<div class="sectionTitle">
-							Constructor Detail
-						</div>
-						<div class="sectionItems">
-							<div class="sectionItem classItem itemName">
-								<div class="details"><a name="constructor"> </a>
-									
-									<div class="icon">
-										new <b>M.ContainerView</b>()
-									</div>
-									
-									<div class="full-description">
-										
-										
-									</div>
-									
-									
-									<pre class="prettyprint"></pre>
-									
-									
-									
-										
-										
-										
-										
-										
-										
-										
-					
-								</div>
-							</div>
-						</div>
-					</div>
-					
-		
-<!-- ============================== field details ========================== -->		
-					
-					<div class="section details">
-						<div class="sectionTitle">
-							Field Detail
-						</div>
-						<div class="sectionItems">
-							
-								<div class='sectionItem classProperty'>
-									<a name="type"> </a>
-									<div class="itemTitle signature icon">
-										<b>type</b>
-										<span class="light">: String</span>
-									</div>
-
-									<div class="full-description">
-										The type of this object.
-										
-										
-									</div>
-									
-									
-									<pre class="prettyprint"></pre>
-									
-								
-									
-										
-										
-										
-										
-				
-								</div>
-							
-						</div>
-					</div>
-					
-		
-<!-- ============================== method details ========================= -->		
-					
-					<div class="details section">
-						<div class="sectionTitle">
-							Method Detail
-						</div>
-						<div class="sectionItems">
-							
-							
-								<div class='sectionItem classMethod '>
-									<a name="render"> </a>
-									<div class="itemTitle icon">
-										render<span class="signature">()</span>
-										
-									</div>
-									<div class="full-description">
-										Renders a simple div container and applies css classes if specified.
-										
-										
-									
-										
-										<pre class="prettyprint"></pre>
-										
-									</div>
-									
-									
-									
-									
-									
-									
-									
-									
-				
-								</div>
-							
-							
-								<div class='sectionItem classMethod '>
-									<a name="style"> </a>
-									<div class="itemTitle icon">
-										style<span class="signature">()</span>
-										
-									</div>
-									<div class="full-description">
-										Applies some style-attributes to the container view.
-										
-										
-									
-										
-										<pre class="prettyprint"></pre>
-										
-									</div>
-									
-									
-									
-									
-									
-									
-									
-									
-				
-								</div>
-							
-						</div>
-					</div>
-					
-					
-				</div>
-				
-<!-- ============================== footer ================================= -->
-				<div class="fineprint" style="clear:both">
-					
-					Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Dec 07 2010 17:02:19 GMT+0100 (MEZ)
-				</div>
-				
-			</div>
+<!-- ============================== classes index ============================ -->
+		<div id="index">
+			<!-- begin publish.classesIndex -->
+			<div align="center"><a href="../index.html">Class Index</a>
+| <a href="../files.html">File Index</a></div>
+<hr />
+<h2>Classes</h2>
+<ul class="classList">
+	
+	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	
+	<li><a href="../symbols/M.html">M</a></li>
+	
+	<li><a href="../symbols/M.ActionSheetDialogView.html">M.ActionSheetDialogView</a></li>
+	
+	<li><a href="../symbols/M.AlertDialogView.html">M.AlertDialogView</a></li>
+	
+	<li><a href="../symbols/M.Application.html">M.Application</a></li>
+	
+	<li><a href="../symbols/M.Base64.html">M.Base64</a></li>
+	
+	<li><a href="../symbols/M.ButtonGroupView.html">M.ButtonGroupView</a></li>
+	
+	<li><a href="../symbols/M.ButtonView.html">M.ButtonView</a></li>
+	
+	<li><a href="../symbols/M.ConfirmDialogView.html">M.ConfirmDialogView</a></li>
+	
+	<li><a href="../symbols/M.ContainerView.html">M.ContainerView</a></li>
+	
+	<li><a href="../symbols/M.Controller.html">M.Controller</a></li>
+	
+	<li><a href="../symbols/M.Cypher.html">M.Cypher</a></li>
+	
+	<li><a href="../symbols/M.DataProvider.html">M.DataProvider</a></li>
+	
+	<li><a href="../symbols/M.Date.html">M.Date</a></li>
+	
+	<li><a href="../symbols/M.DateValidator.html">M.DateValidator</a></li>
+	
+	<li><a href="../symbols/M.EmailValidator.html">M.EmailValidator</a></li>
+	
+	<li><a href="../symbols/M.Environment.html">M.Environment</a></li>
+	
+	<li><a href="../symbols/M.EventDispatcher.html">M.EventDispatcher</a></li>
+	
+	<li><a href="../symbols/M.FormView.html">M.FormView</a></li>
+	
+	<li><a href="../symbols/M.GridView.html">M.GridView</a></li>
+	
+	<li><a href="../symbols/M.I18N.html">M.I18N</a></li>
+	
+	<li><a href="../symbols/M.ImageView.html">M.ImageView</a></li>
+	
+	<li><a href="../symbols/M.LabelView.html">M.LabelView</a></li>
+	
+	<li><a href="../symbols/M.ListItemView.html">M.ListItemView</a></li>
+	
+	<li><a href="../symbols/M.ListView.html">M.ListView</a></li>
+	
+	<li><a href="../symbols/M.LoaderView.html">M.LoaderView</a></li>
+	
+	<li><a href="../symbols/M.LocalStorageProvider.html">M.LocalStorageProvider</a></li>
+	
+	<li><a href="../symbols/M.Logger.html">M.Logger</a></li>
+	
+	<li><a href="../symbols/M.Math.html">M.Math</a></li>
+	
+	<li><a href="../symbols/M.Model.html">M.Model</a></li>
+	
+	<li><a href="../symbols/M.ModelAttribute.html">M.ModelAttribute</a></li>
+	
+	<li><a href="../symbols/M.ModelRegistry.html">M.ModelRegistry</a></li>
+	
+	<li><a href="../symbols/M.NotMinusValidator.html">M.NotMinusValidator</a></li>
+	
+	<li><a href="../symbols/M.NumberValidator.html">M.NumberValidator</a></li>
+	
+	<li><a href="../symbols/M.Object.html">M.Object</a></li>
+	
+	<li><a href="../symbols/M.Observable.html">M.Observable</a></li>
+	
+	<li><a href="../symbols/M.PageView.html">M.PageView</a></li>
+	
+	<li><a href="../symbols/M.PhoneValidator.html">M.PhoneValidator</a></li>
+	
+	<li><a href="../symbols/M.PresenceValidator.html">M.PresenceValidator</a></li>
+	
+	<li><a href="../symbols/M.RecordManager.html">M.RecordManager</a></li>
+	
+	<li><a href="../symbols/M.RemoteStorageProvider.html">M.RemoteStorageProvider</a></li>
+	
+	<li><a href="../symbols/M.Request.html">M.Request</a></li>
+	
+	<li><a href="../symbols/M.ScrollView.html">M.ScrollView</a></li>
+	
+	<li><a href="../symbols/M.SearchBarView.html">M.SearchBarView</a></li>
+	
+	<li><a href="../symbols/M.SelectionListItemView.html">M.SelectionListItemView</a></li>
+	
+	<li><a href="../symbols/M.SelectionListView.html">M.SelectionListView</a></li>
+	
+	<li><a href="../symbols/M.SHA256.html">M.SHA256</a></li>
+	
+	<li><a href="../symbols/M.TabBarItemView.html">M.TabBarItemView</a></li>
+	
+	<li><a href="../symbols/M.TabBarView.html">M.TabBarView</a></li>
+	
+	<li><a href="../symbols/M.TextFieldView.html">M.TextFieldView</a></li>
+	
+	<li><a href="../symbols/M.ToggleView.html">M.ToggleView</a></li>
+	
+	<li><a href="../symbols/M.ToolbarView.html">M.ToolbarView</a></li>
+	
+	<li><a href="../symbols/M.UrlValidator.html">M.UrlValidator</a></li>
+	
+	<li><a href="../symbols/M.Validator.html">M.Validator</a></li>
+	
+	<li><a href="../symbols/M.View.html">M.View</a></li>
+	
+	<li><a href="../symbols/M.ViewManager.html">M.ViewManager</a></li>
+	
+	<li><a href="../symbols/M.WebSqlProvider.html">M.WebSqlProvider</a></li>
+	
+</ul>
+<hr />
+			<!-- end publish.classesIndex -->
 		</div>
 		
+		<div id="content">
+<!-- ============================== class title ============================ -->
+			<h1 class="classTitle">
+				
+				Class M.ContainerView
+			</h1>
+
+<!-- ============================== class summary ========================== -->			
+			<p class="description">
+				
+				<br />Extends
+					<a href="../symbols/M.View.html">M.View</a>.<br />
+				
+			
+				A container view renders a simple div container that can be used to displayany html valid content, e.g. by third party frameworks.
+				
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/Documents_workspace_TheMProject_modules_ui_container.js.html">container.js</a>.
+				
+			</p>
+
+<!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class M.ContainerView.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/M.ContainerView.html#constructor">M.ContainerView</a></b>()
+							</div>
+							<div class="description"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+<!-- ============================== properties summary ===================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class M.ContainerView.">
+					<caption>Field Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Field Attributes</th>
+							<th scope="col">Field Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/M.ContainerView.html#type">type</a></b>
+								</div>
+								<div class="description">The type of this object.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+				<dl class="inheritsList">
+				<dt>Fields borrowed from class <a href="../symbols/M.View.html">M.View</a>: </dt><dd><a href="../symbols/M.View.html#childViews">childViews</a>, <a href="../symbols/M.View.html#contentBinding">contentBinding</a>, <a href="../symbols/M.View.html#cssClass">cssClass</a>, <a href="../symbols/M.View.html#cssClassOnError">cssClassOnError</a>, <a href="../symbols/M.View.html#cssClassOnInit">cssClassOnInit</a>, <a href="../symbols/M.View.html#cssStyle">cssStyle</a>, <a href="../symbols/M.View.html#hasFocus">hasFocus</a>, <a href="../symbols/M.View.html#html">html</a>, <a href="../symbols/M.View.html#id">id</a>, <a href="../symbols/M.View.html#isInline">isInline</a>, <a href="../symbols/M.View.html#isView">isView</a>, <a href="../symbols/M.View.html#modelId">modelId</a>, <a href="../symbols/M.View.html#parentView">parentView</a>, <a href="../symbols/M.View.html#triggerActionOnChange">triggerActionOnChange</a>, <a href="../symbols/M.View.html#triggerActionOnEnter">triggerActionOnEnter</a>, <a href="../symbols/M.View.html#triggerActionOnKeyUp">triggerActionOnKeyUp</a>, <a href="../symbols/M.View.html#value">value</a></dd>
+				</dl>
+				
+			
+
+<!-- ============================== methods summary ======================== -->
+			
+				
+				
+				
+				
+				<dl class="inheritsList">
+				<dt>Methods borrowed from class <a href="../symbols/M.View.html">M.View</a>: </dt><dd><a href="../symbols/M.View.html#addCssClass">addCssClass</a>, <a href="../symbols/M.View.html#attachToObservable">attachToObservable</a>, <a href="../symbols/M.View.html#clearHtml">clearHtml</a>, <a href="../symbols/M.View.html#computeValue">computeValue</a>, <a href="../symbols/M.View.html#contentDidChange">contentDidChange</a>, <a href="../symbols/M.View.html#delegateValueUpdate">delegateValueUpdate</a>, <a href="../symbols/M.View.html#design">design</a>, <a href="../symbols/M.View.html#gotFocus">gotFocus</a>, <a href="../symbols/M.View.html#lostFocus">lostFocus</a>, <a href="../symbols/M.View.html#nl2br">nl2br</a>, <a href="../symbols/M.View.html#removeCssClass">removeCssClass</a>, <a href="../symbols/M.View.html#removeCssProperty">removeCssProperty</a>, <a href="../symbols/M.View.html#renderUpdate">renderUpdate</a>, <a href="../symbols/M.View.html#secure">secure</a>, <a href="../symbols/M.View.html#setCssProperty">setCssProperty</a>, <a href="../symbols/M.View.html#setValueFromDOM">setValueFromDOM</a>, <a href="../symbols/M.View.html#style">style</a>, <a href="../symbols/M.View.html#theme">theme</a>, <a href="../symbols/M.View.html#themeChildViews">themeChildViews</a></dd><dt>Methods borrowed from class <a href="../symbols/M.Object.html">M.Object</a>: </dt><dd><a href="../symbols/M.Object.html#bindToCaller">bindToCaller</a>, <a href="../symbols/M.Object.html#create">create</a>, <a href="../symbols/M.Object.html#destroy">destroy</a>, <a href="../symbols/M.Object.html#extend">extend</a>, <a href="../symbols/M.Object.html#get">get</a>, <a href="../symbols/M.Object.html#include">include</a>, <a href="../symbols/M.Object.html#set">set</a></dd>
+				</dl>
+				
+			
+<!-- ============================== events summary ======================== -->
+			
+
+<!-- ============================== constructor details ==================== -->		
+			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Class Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>M.ContainerView</b>()
+				</div>
+				
+				<div class="description">
+					
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
+			
+				<div class="sectionTitle">
+					Field Detail
+				</div>
+				
+					<a name="type"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>type</b>
+					
+					</div>
+					<div class="description">
+						The type of this object.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					
+				
+			
+
+<!-- ============================== method details ========================= -->		
+			
+			
+<!-- ============================== event details ========================= -->		
+			
+			
+			<hr />
+		</div>
+
+		
+<!-- ============================== footer ================================= -->
+		<div class="fineprint" style="clear:both">
+			
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Dec 08 2010 15:07:29 GMT+0100 (MEZ)
+		</div>
 	</body>
 </html>

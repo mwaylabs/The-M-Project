@@ -28,12 +28,12 @@
 <span class='line'> 21</span> 
 <span class='line'> 22</span> </span><span class="COMM">/**
 <span class='line'> 23</span>  * @class
-<span class='line'> 24</span>  * @extends M.Object
-<span class='line'> 25</span>  * 
-<span class='line'> 26</span>  * M.Model is the prototype for every model and for every model record (a model itself is the blueprint for a model record).
-<span class='line'> 27</span>  * Models hold the business data of an application respectively the application's state. It's usually the part of an application that is persisted to storage.
-<span class='line'> 28</span>  * M.Model acts as the gatekeeper to storage. It uses data provider for persistence and validators to validate its records.
-<span class='line'> 29</span>  * 
+<span class='line'> 24</span>  * 
+<span class='line'> 25</span>  * M.Model is the prototype for every model and for every model record (a model itself is the blueprint for a model record).
+<span class='line'> 26</span>  * Models hold the business data of an application respectively the application's state. It's usually the part of an application that is persisted to storage.
+<span class='line'> 27</span>  * M.Model acts as the gatekeeper to storage. It uses data provider for persistence and validators to validate its records.
+<span class='line'> 28</span>  * 
+<span class='line'> 29</span>  * @extends M.Object
 <span class='line'> 30</span>  */</span><span class="WHIT">
 <span class='line'> 31</span> </span><span class="NAME">M.Model</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">M.Object.extend</span><span class="PUNC">(</span><span class="WHIT">
 <span class='line'> 32</span> </span><span class="COMM">/** @scope M.Model.prototype */</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
@@ -114,7 +114,7 @@
 <span class='line'>107</span>      * You pass the object's specific attributes to it as an object.
 <span class='line'>108</span>      *
 <span class='line'>109</span>      * @param {Object} obj The specific attributes as an object, e.g. {firstname: 'peter', lastname ='fox'}
-<span class='line'>110</span>      * @return {Object} The model record with the passed properties set. State depends on newly creation or fetch from storage: if
+<span class='line'>110</span>      * @returns {Object} The model record with the passed properties set. State depends on newly creation or fetch from storage: if
 <span class='line'>111</span>      * from storage then state is M.STATE_NEW or 'state_new', if fetched from database then it is M.STATE_VALID or 'state_valid'
 <span class='line'>112</span>      */</span><span class="WHIT">
 <span class='line'>113</span> </span><span class="WHIT">    </span><span class="NAME">createRecord</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
@@ -134,7 +134,7 @@
 <span class='line'>127</span>      *
 <span class='line'>128</span>      * @param {Object} obj An object defining the model's  
 <span class='line'>129</span>      * @param {Object} dp The data provider to use, e. g. M.LocalStorageProvider
-<span class='line'>130</span>      * @return {Object} The model blueprint: acts as blueprint to all records created with @link M.Model#createRecord
+<span class='line'>130</span>      * @returns {Object} The model blueprint: acts as blueprint to all records created with @link M.Model#createRecord
 <span class='line'>131</span>      */</span><span class="WHIT">
 <span class='line'>132</span> </span><span class="WHIT">    </span><span class="NAME">create</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">dp</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>133</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">model</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">M.Model.extend</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
@@ -173,7 +173,7 @@
 <span class='line'>166</span>      *
 <span class='line'>167</span>      * @param {String} type type of the attribute
 <span class='line'>168</span>      * @param {Object} opts options for the attribute, like required flag and validators array
-<span class='line'>169</span>      * @return {Object} An M.ModelAttribute object configured with the type and options passed to the function.
+<span class='line'>169</span>      * @returns {Object} An M.ModelAttribute object configured with the type and options passed to the function.
 <span class='line'>170</span>      */</span><span class="WHIT">
 <span class='line'>171</span> </span><span class="WHIT">    </span><span class="NAME">attr</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>172</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">M.ModelAttribute.attr</span><span class="PUNC">(</span><span class="NAME">type</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> 
@@ -186,7 +186,7 @@
 <span class='line'>179</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>180</span>      * Get attribute propName from model
 <span class='line'>181</span>      * @param {String} propName the name of the property whose value shall be returned
-<span class='line'>182</span>      * @return {Object|String} value of property
+<span class='line'>182</span>      * @returns {Object|String} value of property
 <span class='line'>183</span>      */</span><span class="WHIT">
 <span class='line'>184</span> </span><span class="WHIT">    </span><span class="NAME">get</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">propName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>185</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.record</span><span class="PUNC">[</span><span class="NAME">propName</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
@@ -203,7 +203,7 @@
 <span class='line'>196</span> 
 <span class='line'>197</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>198</span>      * Validates the model, means calling validate for each property.
-<span class='line'>199</span>      * @return {Boolean} Indicating whether this record is valid (YES|true) or not (NO|false).
+<span class='line'>199</span>      * @returns {Boolean} Indicating whether this record is valid (YES|true) or not (NO|false).
 <span class='line'>200</span>      */</span><span class="WHIT">
 <span class='line'>201</span> </span><span class="WHIT">    </span><span class="NAME">validate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>202</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">isValid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">;</span><span class="WHIT">
@@ -245,7 +245,7 @@
 <span class='line'>238</span>      * Calls the corresponding find() of the data provider to fetch data based on the passed query or key.
 <span class='line'>239</span>      *
 <span class='line'>240</span>      * @param {Object} obj The param object with query or key and callbacks.
-<span class='line'>241</span>      * @return {Boolean|Object} Depends on data provider used. When WebSQL used, a boolean is returned, the find result is returned asynchronously,
+<span class='line'>241</span>      * @returns {Boolean|Object} Depends on data provider used. When WebSQL used, a boolean is returned, the find result is returned asynchronously,
 <span class='line'>242</span>      * because the call itself is asynchronous. If LocalStorage is used, the result of the query is returned.
 <span class='line'>243</span>      */</span><span class="WHIT">
 <span class='line'>244</span> </span><span class="WHIT">    </span><span class="NAME">find</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
@@ -257,7 +257,7 @@
 <span class='line'>250</span>      * Create or update a record in storage if it is valid (first check this).
 <span class='line'>251</span>      *
 <span class='line'>252</span>      * @param {Object} obj The param object with query and callbacks.
-<span class='line'>253</span>      * @return {Boolean} The result of the data provider function call. Is a boolean. With LocalStorage used, it indicates if the save operation was successful.
+<span class='line'>253</span>      * @returns {Boolean} The result of the data provider function call. Is a boolean. With LocalStorage used, it indicates if the save operation was successful.
 <span class='line'>254</span>      * When WebSQL is used, the result of the save operation returns asynchronously. The result then is just the standard result returned by the web sql provider's save method
 <span class='line'>255</span>      * which does not necessarily indicate whether the operation was successful, because the operation is asynchronous, means the operation's end is not predictable. 
 <span class='line'>256</span>      */</span><span class="WHIT">
@@ -279,7 +279,7 @@
 <span class='line'>272</span> 
 <span class='line'>273</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>274</span>      * Delete a record in storage.
-<span class='line'>275</span>      * @return {Boolean} Indicating whether deletion was successful or not (only with synchronous data providers, e.g. LocalStorage). When asynchronous data providers
+<span class='line'>275</span>      * @returns {Boolean} Indicating whether deletion was successful or not (only with synchronous data providers, e.g. LocalStorage). When asynchronous data providers
 <span class='line'>276</span>      * are used, e.g. WebSQL provider the real result comes asynchronous and here just the result of the del() function call of the @link M.WebSqlProvider is used.
 <span class='line'>277</span>      */</span><span class="WHIT">
 <span class='line'>278</span> </span><span class="WHIT">    </span><span class="NAME">del</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
