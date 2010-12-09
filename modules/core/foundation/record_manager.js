@@ -101,11 +101,11 @@ M.RecordManager = M.Object.extend(
 
     /**
      * Debug method to print out all content from the records array to the console.
-     * @private
      */
     dumpRecords: function() {
         _.each(this.records, function(rec){
-            console.log(rec.id);
+            //console.log(rec.id);
+            console.log(rec);
         });
     }
     
