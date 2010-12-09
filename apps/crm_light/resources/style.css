@@ -1,0 +1,4 @@
+div.startPage {
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0.09, #DDDDDD), color-stop(0.78, #FFFFFF));
+    background: -moz-linear-gradient(center bottom, #DDDDDD 9%, #FFFFFF 78%);
+}
