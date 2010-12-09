@@ -26,7 +26,11 @@ CRMLight.StartPage = M.PageView.design({
 
             value: M.I18N.l('activities'),
 
-            cssClass: 'activities'
+            cssClass: 'activities',
+
+            target: CRMLight.StartPageController,
+
+            action: 'openActivities'
 
         }),
 
@@ -34,7 +38,11 @@ CRMLight.StartPage = M.PageView.design({
 
             value: M.I18N.l('information'),
 
-            cssClass: 'info'
+            cssClass: 'info',
+
+            target: CRMLight.StartPageController,
+
+            action: 'openInformation'
 
         })
 
