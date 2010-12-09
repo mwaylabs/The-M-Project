@@ -86,7 +86,7 @@ M.ToolbarView = M.View.extend(
      * @returns {String} The toolbar view's html representation.
      */
     render: function() {
-        this.html += '<div id="' + this.id + '" data-nobackbtn="' + !this.showBackButton + '" data-role="' + this.anchorLocation + '" data-position="fixed">';
+        this.html += '<div id="' + this.id + '" data-nobackbtn="' + !this.showBackButton + '" data-role="' + this.anchorLocation + '"' + this.style() + ' data-position="fixed">';
 
         this.renderChildViews();
 
@@ -141,6 +141,20 @@ M.ToolbarView = M.View.extend(
      */
     theme: function() {
         this.themeChildViews();
+    },
+
+    /**
+     * Applies some style-attributes to the toolbar.
+     *
+     * @private
+     * @returns {String} The toolbar's styling as html representation.
+     */
+    style: function() {
+        var html = '';
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
+        }
+        return html;
     }
     
 });
