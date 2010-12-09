@@ -2,3 +2,58 @@ div.startPage {
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0.09, #DDDDDD), color-stop(0.78, #FFFFFF));
     background: -moz-linear-gradient(center bottom, #DDDDDD 9%, #FFFFFF 78%);
 }
+
+div.startPage div.red {
+    width:inherit;
+	display:block;
+	height:10px;
+	background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #c90000),color-stop(0.10, #c90000),color-stop(0.50, #e70000),color-stop(1.0, #ed1b2f));
+}
+
+div.startPage div.footer {
+    position:absolute;
+    bottom:0px;
+}
+
+div.startPage img.logo {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+a.ui-btn {
+    background-attachment: scroll;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    color: #31343D;
+    display: block;
+    padding: 33px 0 32px 100px;
+    margin: 0px;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    text-decoration: none;
+    text-align: left;
+}
+
+div.startPage a.ui-btn span.ui-btn-inner {
+    padding:0px;
+}
+
+div.startPage a.ui-btn span.ui-btn-inner span.ui-btn-text {
+    font-weight: bold;
+    line-height: 14px;
+    text-align: left;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+a.ui-btn-up-activities, a.ui-btn-hover-activities {
+    background-image: url("activityButton_left.png");
+}
+
+a.ui-btn-up-info, a.ui-btn-hover-info {
+    background-image: url("customerButton_left.png");
+}
