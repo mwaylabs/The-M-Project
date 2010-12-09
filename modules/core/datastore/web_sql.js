@@ -146,14 +146,14 @@ M.WebSqlProvider = M.DataProvider.extend(
             var sql = 'UPDATE ' + obj.model.name + ' SET ';
 
             for(var prop in obj.model.record) {
-                if(!obj.model.__meta[prop].isUpdated) { /* if property has not been updated, then exclude from update call */
+                if(prop === 'ID' || !obj.model.__meta[prop].isUpdated) { /* if property has not been updated, then exclude from update call */
                     continue;
                 }
                 var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' ? '"' : '';
-                sql += prop + ' = ' + pre_suffix + obj.model.record[prop] + pre_suffix + ', ';
+                sql += prop + '=' + pre_suffix + obj.model.record[prop] + pre_suffix + ', ';
             }
             sql = sql.substring(0, sql.lastIndexOf(','));
-            sql += ' WHERE ' + 'ID = ' + obj.model.record.ID;
+            sql += ' WHERE ' + 'ID=' + obj.model.record.ID + ';';
 
             console.log(sql);
 
@@ -281,7 +281,7 @@ M.WebSqlProvider = M.DataProvider.extend(
         if(obj.constraint) {
 
             var n = obj.constraint.statement.split("?").length - 1;
-
+            console.log('n: ' + n);
             /* if parameters are passed we assign them to stmtParameters, the array that is passed for prepared statement substitution*/
             if(obj.constraint.parameters) {
 
@@ -289,13 +289,12 @@ M.WebSqlProvider = M.DataProvider.extend(
                     sql += obj.constraint.statement;
                     stmtParameters = obj.constraint.parameters;
                 } else {
-                    M.Logger.log('Not enough parameters provided for statement.', M.ERROR);
+                    M.Logger.log('Not enough parameters provided for statement: given: ' + obj.constraint.parameters.length + ' needed: ' + n, M.ERROR);
                     return NO;
                 }    
            /* if no ? are in statement, we handle it as a non-prepared statement
             * => developer needs to take care of it by himself regarding
-            * sql injection => all statements that are constructed with dynamic
-            * input should be done as prepared statements
+            * sql injection
             */
             } else if(n === 0) {
                 sql += obj.constraint.statement;
@@ -320,9 +319,11 @@ M.WebSqlProvider = M.DataProvider.extend(
             t.executeSql(sql, stmtParameters, function (tx, res) {
                 var len = res.rows.length, i;
                 for (i = 0; i < len; i++) {
+                    var rec = JSON.parse(JSON.stringify(res.rows.item(i))); /* obj returned form WebSQL is non-writable, therefore needs to be converted */
                     /* create model record from result with state valid */
                     /* $.extend merges param1 object with param2 object*/
-                    result.push(obj.model.createRecord($.extend(res.rows.item(i), {state: M.STATE_VALID}), this));
+                    //result.push(obj.model.createRecord($.extend(res.rows.item(i), {state: M.STATE_VALID}), this));
+                    result.push(obj.model.createRecord($.extend(rec, {state: M.STATE_VALID})));
                 }
             }, function(){M.Logger.log('Incorrect statement: ' + sql, M.ERROR)}) // callbacks: SQLStatementErrorCallback
         }, function(){ // errorCallback

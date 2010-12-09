@@ -19,45 +19,10 @@ Contacts.Contact = M.Model.create({
         isRequired:YES
     }),
 
-    /*company: M.Model.attr('String', {
-        isRequired:NO
-    }),
-
-    street: M.Model.attr('String', {
-        isRequired:NO
-    }),*/
-
     zip: M.Model.attr('Integer', {
         isRequired:NO,
         validators: [M.NumberValidator]//, M.NotMinusValidator]
     })
-
-    /*city: M.Model.attr('String', {
-        isRequired:NO
-    }),
-
-    mobile: M.Model.attr('String', {
-        isRequired: NO,
-        validators: [M.PhoneValidator]
-    }),
-
-    email: M.Model.attr('String', {
-        isRequired: NO,
-        validators: [M.EmailValidator]
-    }),
-
-    homepage: M.Model.attr('String', {
-        isRequired: NO,
-        validators: [M.UrlValidator]
-    }),
-
-    birthday: M.Model.attr('String', {
-        isRequired: NO  
-    }),
-
-    notes: M.Model.attr('Text', {
-        isRequired: NO
-    })*/
 
 }, M.WebSqlProvider.configure({
     dbName: 'contacts_db'

@@ -133,7 +133,7 @@
                                 title: 'Error in contact form'
                             },
 
-                            childViews: 'firstNameField lastNameField zipField', //companyField streetField zipField cityField mobileField emailField homepageField birthdayField notesField'
+                            childViews: 'firstNameField lastNameField zipField', 
 
                             firstNameField: M.TextFieldView.design({
                                 label: 'First Name'
@@ -143,41 +143,8 @@
                                 label: 'Last Name'
                             }),
 
-                            companyField: M.TextFieldView.design({
-                                label: 'Company'
-                            }),
-
-                            streetField: M.TextFieldView.design({
-                                label: 'Street'
-                            }),
-
                             zipField: M.TextFieldView.design({
                                 label: 'Zip'
-                            }),
-
-                            cityField: M.TextFieldView.design({
-                                label: 'City'
-                            }),
-
-                            mobileField: M.TextFieldView.design({
-                                label: 'Mobile'
-                            }),
-
-                            emailField: M.TextFieldView.design({
-                                label: 'E-Mail'
-                            }),
-
-                            homepageField: M.TextFieldView.design({
-                                label: 'Homepage'
-                            }),
-
-                            birthdayField: M.TextFieldView.design({
-                                label: 'Birthday'
-                            }),
-
-                            notesField: M.TextFieldView.design({
-                                label: 'Notes',
-                                hasMultipleLines: YES
                             })
                         }),
 
@@ -198,7 +165,7 @@
                         childViews: 'centerLabel',
 
                         centerLabel: M.LabelView.design({
-                            value: 'New Contact',
+                            contentBinding: 'Contacts.ContactController.currentContactName',
                             anchorLocation: M.CENTER
                         }),
 
@@ -209,7 +176,7 @@
 
                     content: M.ScrollView.design({
 
-                        childViews: 'firstNameField lastNameField zipField delButton',
+                        childViews: 'firstNameField lastNameField zipField updateButton delButton',
 
                         firstNameField: M.TextFieldView.design({
                             label: 'First Name'
@@ -221,6 +188,13 @@
 
                         zipField: M.TextFieldView.design({
                             label: 'Zip'
+                        }),
+
+                        updateButton: M.ButtonView.design({
+                            value: 'Update Contact',
+                            cssClass: 'e',
+                            target: Contacts.ContactController,
+                            action: 'updateContact'
                         }),
 
                         delButton: M.ButtonView.design({

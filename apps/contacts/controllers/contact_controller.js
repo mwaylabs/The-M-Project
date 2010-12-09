@@ -10,39 +10,38 @@
 
 Contacts.ContactController = M.Controller.extend({
 
-    contactManager: M.ModelManager.extend({
-        model: Contacts.Contact
-    }),
-
     contacts: null,
 
     currentContact: null,
 
-    init: function(isFirstLoad) {        
-        if(isFirstLoad) {
-            Contacts.Contact.find({
+    currentContactName: '',
+
+    init: function(isFirstLoad) {
+        console.log('init in ContactController...');
+        Contacts.Contact.find({
             columns: ['firstName', 'lastName', 'zip'],
             /*constraint: {
                 statement: ' WHERE zip = ? ',
                 parameters: ['70182'] // length must match number of ? in statements
             },*/
 
+            order: 'lastName ASC',
+            //limit: 3,
+
             onSuccess: {
                 target: this,
                 action: 'setContacts'
             },
+
             onError: function() { M.Logger.log('Nothing found.', M.INFO); }
-            });    
-        }
+        });    
     },
 
 
     /* this is a callback for find, callbacks for success in find always have one parameter: the result set */
     setContacts: function(result) {
         if(result){
-            console.log(result);
-            this.contactManager.addMany(result);
-            this.set('contacts', this.contactManager.modelList);
+            this.set('contacts', result); // alternatively: this.set('contacts', Contacts.Contact.records);
         }
     },
 
@@ -50,36 +49,40 @@ Contacts.ContactController = M.Controller.extend({
         var c = Contacts.Contact.createRecord({
             firstName: M.ViewManager.getView('page2', 'firstNameField').value,
             lastName: M.ViewManager.getView('page2', 'lastNameField').value,
-            /*company: M.ViewManager.getView('page2', 'companyField').value,
-            street: M.ViewManager.getView('page2', 'streetField').value,*/
-            zip: M.ViewManager.getView('page2', 'zipField').value   
-            /*city: M.ViewManager.getView('page2', 'cityField').value,
-            mobile: M.ViewManager.getView('page2', 'mobileField').value,
-            email: M.ViewManager.getView('page2', 'emailField').value,
-            homepage: M.ViewManager.getView('page2', 'homepageField').value,
-            birthday: M.ViewManager.getView('page2', 'birthdayField').value,
-            notes: M.ViewManager.getView('page2', 'notesField').value*/
+            zip: M.ViewManager.getView('page2', 'zipField').value
         });
-        console.log(c);
-        c.save();
-        this.contactManager.add(c);
-        this.set('contacts', this.contactManager.modelList);
-        this.switchToPage(M.ViewManager.getPage('page'));
+        c.save({
+            onSuccess:{
+                target: this,
+                action: 'refreshList'
+            }
+        });
+    },
+
+    refreshList: function() {
+        console.log('refreshList called...');
+        this.set('contacts', Contacts.Contact.records);
+        this.switchToPage(M.ViewManager.getPage('page'), null, YES);
     },
 
     newContact: function() {
-        this.switchToPage(M.ViewManager.getPage('page2'));
+        this.switchToPage(M.ViewManager.getPage('page2'), null, YES);
     },
-
 
     /* show details of a contact */ 
     showDetails: function(viewId, modelId) {
-        //console.log('viewId: ' + viewId + ' modelId: ' + modelId);
-        var myModel = _.detect(this.contacts, function(model) {
+        console.log('show details called...');
+
+        //Contacts.Contact.recordManager.dumpRecords();
+
+        /*this.currentContact = _.detect(this.contacts, function(model) {
+            console.log(model.id + ' === ' + modelId);
             return model.id === modelId;
-        })
-        //console.log(myModel);
-        this.currentContact = myModel;
+        });*/
+
+        this.currentContact = Contacts.Contact.recordManager.getRecordForId(modelId);
+
+        this.set('currentContactName', this.currentContact.get('firstName') + ' ' + this.currentContact.get('lastName'));
 
         var firstNameField = M.ViewManager.getView('detailPage', 'firstNameField');
         firstNameField.setValue(this.currentContact.get('firstName'));
@@ -90,7 +93,31 @@ Contacts.ContactController = M.Controller.extend({
         var zipField = M.ViewManager.getView('detailPage', 'zipField');
         zipField.setValue(this.currentContact.get('zip'));
 
-        this.switchToPage(M.ViewManager.getPage('detailPage'));
+        this.switchToPage(M.ViewManager.getPage('page2'));
+    },
+
+    updateContact: function() {
+        var firstName = M.ViewManager.getView('detailPage', 'firstNameField').value;
+        var lastName = M.ViewManager.getView('detailPage', 'lastNameField').value;
+        var zip = M.ViewManager.getView('detailPage', 'zipField').value;
+
+
+        if(firstName) {
+            this.currentContact.set('firstName', firstName);
+        }
+        if(lastName) {
+            this.currentContact.set('lastName', lastName);
+        }
+        if(zip) {
+            this.currentContact.set('zip', zip);
+        }
+
+        this.currentContact.save({
+            onSuccess: {
+                target: this,
+                action: 'refreshList'
+            }
+        });
     },
 
     deleteContact: function(viewId, modelId){
@@ -111,11 +138,13 @@ Contacts.ContactController = M.Controller.extend({
     },
 
     doDelete: function() {
-        this.currentContact.del(); // delete in storage
-        this.contactManager.remove(this.currentContact.id);
-        this.set('contacts', this.contactManager.modelList);
+        this.currentContact.del({
+            onSuccess:{
+                target: this,
+                action: 'refreshList'
+            }
+        }); // delete in storage
         this.currentContact = null;
-        this.switchToPage(M.ViewManager.getPage('page'));
     },
 
     doNotDelete: function() {

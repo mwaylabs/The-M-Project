@@ -94,9 +94,7 @@ M.Model = M.Object.extend(
     usesValidation: YES,
 
     /**
-     * The model's data provider.
-     *
-     * Needs a refactoring, also in connection with storageEngine.
+     * The model's data provider. A data provider persists the model to a certain storage.
      *
      * @type Object
      */
@@ -113,7 +111,7 @@ M.Model = M.Object.extend(
     createRecord: function(obj) {
         var modelRecord = this.extend({
             id: obj.id ? obj.id : M.Application.modelRegistry.getNextId(this.name),
-            record: obj /* properties that are here added to record but are not part of __meta are deleted later (see below) */
+            record: obj /* properties that are added to record here, but are not part of __meta, are deleted later (see below) */
         });
 
         modelRecord.state = obj.state ? obj.state : M.STATE_NEW;
@@ -122,6 +120,9 @@ M.Model = M.Object.extend(
 
         /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
         for(var i in modelRecord.record) {
+            if(i === 'ID') {
+                continue;
+            }
             if(!modelRecord.__meta.hasOwnProperty(i)) {
                 delete modelRecord.record[i];
             }
@@ -225,6 +226,9 @@ M.Model = M.Object.extend(
         var validationBasis = this.state === M.STATE_NEW ? this.__meta : this.record;
 
         for (var i in validationBasis) {
+            if(i === 'ID') { // skip property ID
+                continue;
+            }
             var prop = this.__meta[i];
             var obj = {
                 value: this.record[i],
