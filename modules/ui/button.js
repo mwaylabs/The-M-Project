@@ -37,6 +37,13 @@ M.ButtonView = M.View.extend(
     isActive: NO,
 
     /**
+     * Determines whether to display the button ony with an icon but no text or not.
+     *
+     * @type Boolean
+     */
+    isIconOnly: NO,
+
+    /**
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
      *
      * @private
@@ -93,6 +100,9 @@ M.ButtonView = M.View.extend(
         }
         if(this.cssClass) {
             html += ' data-theme="' + this.cssClass + '"';
+        }
+        if(this.isIconOnly) {
+            html += ' data-iconpos="notext"';
         }
         if(this.cssStyle) {
             html += 'style="' + this.cssStyle + '"';
