@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link href="resources/app_icon.png" rel="apple-touch-icon" />
+
+    <title>TabBar & ButtonGroup Demo</title>
+    <script src="../../modules/jquery/jquery-1.4.4.min.js"></script>
+    <script src="../../modules/jquery_mobile/jquery.mobile-1.0a2.min.js"></script>
+    <script src="../../modules/underscore/underscore-min.js"></script>
+    <script src="../../modules/core/foundation/m.js"></script>
+    <script src="../../modules/core/foundation/object.js"></script>
+    <script src="../../modules/core/foundation/request.js"></script>
+    <script src="../../modules/core/utility/logger.js"></script>
+    <script src="../../modules/core/utility/date.js"></script>
+    <script src="../../modules/core/utility/math.js"></script>
+    <script src="../../modules/core/utility/environment.js"></script>
+    <script src="../../modules/core/utility/cypher_algorithms/base64.js"></script>
+    <script src="../../modules/core/utility/cypher_algorithms/sha256.js"></script>
+    <script src="../../modules/core/utility/cypher.js"></script>
+    <script src="../../modules/core/foundation/event_dispatcher.js"></script>
+    <script src="../../modules/core/foundation/observable.js"></script>
+    <script src="../../modules/core/foundation/controller.js"></script>
+    <script src="../../modules/core/datastore/data_provider.js"></script>
+    <script src="../../modules/core/foundation/model.js"></script>
+    <script src="../../modules/core/foundation/view.js"></script>
+    <script src="../../modules/core/foundation/view_manager.js"></script>
+    <script src="../../modules/core/foundation/model_registry.js"></script>
+    <script src="../../modules/core/foundation/record_manager.js"></script>
+    <script src="../../modules/core/foundation/application.js"></script>
+
+    <script src="../../modules/ui/page.js"></script>
+    <script src="../../modules/ui/toolbar.js"></script>
+    <script src="../../modules/ui/scroll.js"></script>
+    <script src="../../modules/ui/label.js"></script>
+    <script src="../../modules/ui/button.js"></script>
+    <script src="../../modules/ui/list.js"></script>
+    <script src="../../modules/ui/list_item.js"></script>
+    <script src="../../modules/ui/text_field.js"></script>
+    <script src="../../modules/ui/grid.js"></script>
+    <script src="../../modules/ui/image.js"></script>
+    <script src="../../modules/ui/toggle.js"></script>
+    <script src="../../modules/ui/tab_bar_item.js"></script>
+    <script src="../../modules/ui/tab_bar.js"></script>
+    <script src="../../modules/ui/button_group.js"></script>
+
+    <script src="tabbar.js"></script>
+
+    <link href="resources/style.css" rel="stylesheet" />
+    <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a2.min.css" rel="stylesheet" />
+</head>
+<body>
+        <script language="JavaScript">
+            Tabbar.app = M.Application.design({
+                page1: M.PageView.design({
+
+                    childViews: 'header content tabs',
+
+                    cssClass: 'page1',
+
+                    header: M.ToolbarView.design({
+
+                            value: 'BIRD',
+
+                            anchorLocation: M.TOP
+                        
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: 'buttonGroup',
+
+                        buttonGroup: M.ButtonGroupView.design({
+
+                            childViews: 'button1 button2 button3 button4',
+
+                            target: Tabbar.Controller,
+
+                            action: 'selChanged',
+
+                            button1: M.ButtonView.design({
+                                value: '#FF0000',
+                                isActive: YES
+                            }),
+
+                            button2: M.ButtonView.design({
+                                value: '#AA0000'
+                            }),
+
+                            button3: M.ButtonView.design({
+                                value: '#550000'
+                            }),
+
+                            button4: M.ButtonView.design({
+                                value: '#000000'
+                            })
+
+                        })
+
+                    }),
+
+                    tabs: Tabbar.tabs
+
+                }),
+
+                page2: M.PageView.design({
+
+                    childViews: 'header content tabs',
+
+                    cssClass: 'page2',
+
+                    header: M.ToolbarView.design({
+
+                            value: 'EYE',
+                            anchorLocation: M.TOP
+
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: 'buttonGroup',
+
+                        buttonGroup: M.ButtonGroupView.design({
+
+                            childViews: 'button1 button2 button3 button4',
+
+                            target: Tabbar.Controller,
+
+                            action: 'selChanged',
+
+                            direction: M.VERTICAL,
+
+                            button1: M.ButtonView.design({
+                                value: '#00FF00',
+                                isActive: YES
+                            }),
+
+                            button2: M.ButtonView.design({
+                                value: '#00AA00'
+                            }),
+
+                            button3: M.ButtonView.design({
+                                value: '#005500'
+                            }),
+
+                            button4: M.ButtonView.design({
+                                value: '#000000'
+                            })
+
+                        })
+
+                    }),
+
+                    tabs: Tabbar.tabs
+
+                }),
+
+                page3: M.PageView.design({
+
+                    childViews: 'header content tabs',
+
+                    cssClass: 'page3',
+
+                    header: M.ToolbarView.design({
+
+                            value: 'BEER',
+                            anchorLocation: M.TOP
+
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: 'buttonGroup',
+
+                        buttonGroup: M.ButtonGroupView.design({
+
+                            childViews: 'button1 button2 button3 button4',
+
+                            target: Tabbar.Controller,
+
+                            buttonsPerLine: 2,
+
+                            action: 'selChanged',
+
+                            button1: M.ButtonView.design({
+                                value: '#0000FF',
+                                isActive: YES
+                            }),
+
+                            button2: M.ButtonView.design({
+                                value: '#0000AA'
+                            }),
+
+                            button3: M.ButtonView.design({
+                                value: '#000055'
+                            }),
+
+                            button4: M.ButtonView.design({
+                                value: '#000000'
+                            })
+
+                        })
+
+                    }),
+
+                    tabs: Tabbar.tabs
+
+                }),
+
+                page4: M.PageView.design({
+
+                    childViews: 'header content tabs',
+
+                    cssClass: 'page4',
+
+                    header: M.ToolbarView.design({
+
+                            value: 'GIFT',
+                            anchorLocation: M.TOP
+
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: 'buttonGroup',
+
+                        buttonGroup: M.ButtonGroupView.design({
+
+                            childViews: 'button1 button2 button3 button4',
+
+                            buttonsPerLine: 2,
+
+                            isCompact: NO,
+
+                            target: Tabbar.Controller,
+
+                            action: 'selChanged',
+
+                            button1: M.ButtonView.design({
+                                value: '#FFFF00',
+                                isActive: YES
+                            }),
+
+                            button2: M.ButtonView.design({
+                                value: '#AAAA00'
+                            }),
+
+                            button3: M.ButtonView.design({
+                                value: '#555500'
+                            }),
+
+                            button4: M.ButtonView.design({
+                                value: '#000000'
+                            })
+
+                        })
+
+                    }),
+
+                    tabs: Tabbar.tabs
+
+                }),
+
+                page5: M.PageView.design({
+
+                    childViews: 'header content tabs',
+
+                    cssClass: 'page5',
+
+                    header: M.ToolbarView.design({
+
+                            value: 'LOVE',
+                            anchorLocation: M.TOP
+
+                    }),
+
+                    content: M.ScrollView.design({
+
+                        childViews: 'buttonGroup',
+
+                        buttonGroup: M.ButtonGroupView.design({
+
+                            childViews: 'button1 button2 button3 button4',
+
+                            target: Tabbar.Controller,
+
+                            buttonsPerLine: 2,
+
+                            isInset: NO,
+
+                            action: 'selChanged',
+
+                            button1: M.ButtonView.design({
+                                value: '#FF00CC',
+                                isActive: YES
+                            }),
+
+                            button2: M.ButtonView.design({
+                                value: '#AA0088'
+                            }),
+    
+                            button3: M.ButtonView.design({
+                                value: '#550044'
+                            }),
+
+                            button4: M.ButtonView.design({
+                                value: '#000000'
+                            })
+
+                        })
+
+                    }),
+
+                    tabs: Tabbar.tabs
+
+                })
+            });
+        </script>
+
+        <!-- START THE APP BY CALLING THE M.APPLICATION's MAIN-METHOD -->
+        <!-- in the future this call will be made automatically -->
+        <script language="JavaScript">
+            Tabbar.app.main();
+        </script>
+
+</body>
+</html>
