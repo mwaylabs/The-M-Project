@@ -116,7 +116,7 @@ M.ListView = M.View.extend(
      *
      * @type Boolean
      */
-    isInsetList: NO,
+    isInset: NO,
 
     /**
      * The list view's search bar.
@@ -380,7 +380,7 @@ M.ListView = M.View.extend(
         if(this.isDividedList && this.cssClassForDivider) {
             html += ' data-dividertheme="' + this.cssClassForDivider + '"';
         }
-        if(this.isInsetList) {
+        if(this.isInset) {
             html += ' data-inset="true"';
         }
         if(this.isCountedList && this.cssClassForCounter) {
