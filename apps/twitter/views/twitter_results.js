@@ -29,8 +29,9 @@ Twitter.TwitterResultsView = M.ListItemView.design({
     label2 : M.LabelView.design({
         computedValue: {
             valuePattern: '<%= created_at %>',
-            operation: function(v, label) {
-                return M.Date.format(M.Date.create(v), 'mm/dd/yyyy HH:MM');
+            operation: function(v) {
+                var date = M.Date.create(v);
+                return date.format('mm/dd/yyyy HH:MM');
             }
         },
         cssClass: 'date'

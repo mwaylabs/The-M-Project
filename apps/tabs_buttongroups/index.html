@@ -7,7 +7,7 @@
 
     <link href="resources/app_icon.png" rel="apple-touch-icon" />
 
-    <title>TabBarView Demo</title>
+    <title>TabBar & ButtonGroup Demo</title>
     <script src="../../modules/jquery/jquery-1.4.4.min.js"></script>
     <script src="../../modules/jquery_mobile/jquery.mobile-1.0a2.min.js"></script>
     <script src="../../modules/underscore/underscore-min.js"></script>
@@ -16,6 +16,8 @@
     <script src="../../modules/core/foundation/request.js"></script>
     <script src="../../modules/core/utility/logger.js"></script>
     <script src="../../modules/core/utility/date.js"></script>
+    <script src="../../modules/core/utility/math.js"></script>
+    <script src="../../modules/core/utility/environment.js"></script>
     <script src="../../modules/core/utility/cypher_algorithms/base64.js"></script>
     <script src="../../modules/core/utility/cypher_algorithms/sha256.js"></script>
     <script src="../../modules/core/utility/cypher.js"></script>
@@ -73,7 +75,7 @@
 
                         buttonGroup: M.ButtonGroupView.design({
 
-                            childViews: 'button1 button2 button3',
+                            childViews: 'button1 button2 button3 button4',
 
                             target: Tabbar.Controller,
 
@@ -90,6 +92,10 @@
 
                             button3: M.ButtonView.design({
                                 value: '#550000'
+                            }),
+
+                            button4: M.ButtonView.design({
+                                value: '#000000'
                             })
 
                         })
@@ -119,11 +125,13 @@
 
                         buttonGroup: M.ButtonGroupView.design({
 
-                            childViews: 'button1 button2 button3',
+                            childViews: 'button1 button2 button3 button4',
 
                             target: Tabbar.Controller,
 
                             action: 'selChanged',
+
+                            direction: M.VERTICAL,
 
                             button1: M.ButtonView.design({
                                 value: '#00FF00',
@@ -136,6 +144,10 @@
 
                             button3: M.ButtonView.design({
                                 value: '#005500'
+                            }),
+
+                            button4: M.ButtonView.design({
+                                value: '#000000'
                             })
 
                         })
@@ -165,9 +177,11 @@
 
                         buttonGroup: M.ButtonGroupView.design({
 
-                            childViews: 'button1 button2 button3',
+                            childViews: 'button1 button2 button3 button4',
 
                             target: Tabbar.Controller,
+
+                            buttonsPerLine: 2,
 
                             action: 'selChanged',
 
@@ -182,6 +196,10 @@
 
                             button3: M.ButtonView.design({
                                 value: '#000055'
+                            }),
+
+                            button4: M.ButtonView.design({
+                                value: '#000000'
                             })
 
                         })
@@ -211,7 +229,11 @@
 
                         buttonGroup: M.ButtonGroupView.design({
 
-                            childViews: 'button1 button2 button3',
+                            childViews: 'button1 button2 button3 button4',
+
+                            buttonsPerLine: 2,
+
+                            isCompact: NO,
 
                             target: Tabbar.Controller,
 
@@ -228,6 +250,10 @@
 
                             button3: M.ButtonView.design({
                                 value: '#555500'
+                            }),
+
+                            button4: M.ButtonView.design({
+                                value: '#000000'
                             })
 
                         })
@@ -257,9 +283,13 @@
 
                         buttonGroup: M.ButtonGroupView.design({
 
-                            childViews: 'button1 button2 button3',
+                            childViews: 'button1 button2 button3 button4',
 
                             target: Tabbar.Controller,
+
+                            buttonsPerLine: 2,
+
+                            isInset: NO,
 
                             action: 'selChanged',
 
@@ -274,6 +304,10 @@
     
                             button3: M.ButtonView.design({
                                 value: '#550044'
+                            }),
+
+                            button4: M.ButtonView.design({
+                                value: '#000000'
                             })
 
                         })
