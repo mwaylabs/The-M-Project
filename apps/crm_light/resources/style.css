@@ -1,4 +1,4 @@
-div.startPage {
+div.bg {
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0.09, #DDDDDD), color-stop(0.78, #FFFFFF));
     background: -moz-linear-gradient(center bottom, #DDDDDD 9%, #FFFFFF 78%);
 }
@@ -22,7 +22,7 @@ div.startPage img.logo {
     margin-bottom: 50px;
 }
 
-a.ui-btn {
+div.startPage a.ui-btn {
     background-attachment: scroll;
     background-position: 0 0;
     background-repeat: no-repeat;
@@ -56,4 +56,56 @@ a.ui-btn-up-activities, a.ui-btn-hover-activities {
 
 a.ui-btn-up-info, a.ui-btn-hover-info {
     background-image: url("customerButton_left.png");
+}
+
+[data-role=header] {
+    background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #fafafa),color-stop(0.40, #f3f3f3),color-stop(0.60, #eaeaea),color-stop(0.97, #dadada), color-stop(1.0, #cad2db));
+    text-shadow: 0px 1px 0 #ffffff;
+    padding:5px;
+    font-weight:bold;
+    color:#000000;
+    border:0px;
+    margin:0px;
+    height:35px;
+}
+
+[data-role=header] h1 {
+    font-size:20px;
+    margin:0px;
+    margin-left:53px;
+    margin-top:4px;
+}
+
+[data-theme=back] {
+    background-image:url(backButton_right.png);
+    background-position:right top;
+    background-repeat:no-repeat;
+    color:#ffffff;
+    display:block;
+    float:left;
+    font:14px arial,sans-serif;
+    font-weight:normal;
+    height:30px;
+    margin-right:6px;
+    margin-left:-5px;
+    margin-top:-1px;
+    padding-right:5px;
+    text-decoration:none;
+    text-shadow: 0px -1px 0 #464a55;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+
+[data-theme=back] span.ui-btn-inner {
+    background-attachment:scroll;
+    background-image:url(backButton_left.png);
+    background-position:0 0;
+    background-repeat:no-repeat;
+    display:block;
+    line-height:14px;
+    padding:8px 5px 9px 22px;
+    margin-top:-1px;
 }

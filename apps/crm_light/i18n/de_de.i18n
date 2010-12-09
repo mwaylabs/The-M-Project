@@ -2,6 +2,10 @@ M.I18N.de_de = {
 
     "activities": "Aktivitäten",
 
-    "information": "Informationen"
+    "information": "Informationen",
+
+    "back": "Zurück",
+
+    "customer_information": "Kundeninfo"
 
 }

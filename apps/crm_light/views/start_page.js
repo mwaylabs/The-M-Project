@@ -2,7 +2,7 @@ CRMLight.StartPage = M.PageView.design({
 
     childViews: 'header content footer',
 
-    cssClass: 'startPage',
+    cssClass: 'bg startPage',
 
     header: M.ContainerView.design({
 
@@ -30,7 +30,7 @@ CRMLight.StartPage = M.PageView.design({
 
             target: CRMLight.StartPageController,
 
-            action: 'openActivities'
+            action: 'openActivitiesPage'
 
         }),
 
@@ -42,7 +42,7 @@ CRMLight.StartPage = M.PageView.design({
 
             target: CRMLight.StartPageController,
 
-            action: 'openInformation'
+            action: 'openInformationPage'
 
         })
 
