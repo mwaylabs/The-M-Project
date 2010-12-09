@@ -76,6 +76,15 @@ M.ButtonGroupView = M.View.extend(
     isInset: YES,
 
     /**
+     * Determines whether to display the button group compact, i.e. without top/bottom
+     * margin. This property only is relevant in combination with multiple lines of
+     * buttons (c.p.: buttonsPerLine property).
+     *
+     * @type Boolean
+     */
+    isCompact: YES,
+
+    /**
      * This property, if set, defines how many buttons are rendered per line. If there
      * are more buttons defined that fitting into one line, the following buttons are
      * rendered into a new line. Make sure, the number of your buttons is divisible by
@@ -171,13 +180,15 @@ M.ButtonGroupView = M.View.extend(
 
                 this.html += '<div data-role="controlgroup" href="#" id="' + this.id + '_' + i + '" data-type="' + this.direction + '"';
 
-                /* assign specific margin, depending on line number (first, last, other) */
-                if(i == 0) {
-                    this.html += this.isInset ? ' style="margin-bottom:0px"' : ' style="margin:0px"';
-                } else if(i > 0 && i < this.numberOfLines - 1) {
-                    this.html += this.isInset ? ' style="margin:0px 0px 0px 0px"' : ' style="margin:0px"';
-                } else if(i < this.numberOfLines) {
-                    this.html += this.isInset ? ' style="margin-top:0px"' : ' style="margin:0px"';
+                /* if isCompact, assign specific margin, depending on line number (first, last, other) */
+                if(!this.isInset || this.isCompact) {
+                    if(i == 0) {
+                        this.html += this.isInset ? ' style="margin-bottom:0px"' : ' style="margin:0px"';
+                    } else if(i > 0 && i < this.numberOfLines - 1) {
+                        this.html += this.isInset ? ' style="margin:0px 0px 0px 0px"' : ' style="margin:0px"';
+                    } else if(i < this.numberOfLines) {
+                        this.html += this.isInset ? ' style="margin-top:0px"' : ' style="margin:0px"';
+                    }
                 }
 
                 this.html += '>';
@@ -267,52 +278,54 @@ M.ButtonGroupView = M.View.extend(
                 var childViews = $.trim(this.childViews).split(' ');
                 var currentButtonIndex = 0;
                 
-                /* iterate through all buttons */
-                for(var i in childViews) {
-                    i = parseInt(i);
-                    if(this[childViews[i]] && this[childViews[i]].type === 'M.ButtonView') {
-                        currentButtonIndex = currentButtonIndex + 1;
-                        var currentLine = M.Math.round(currentButtonIndex / this.buttonsPerLine, M.CEIL) - 1;
-                        var button = this[childViews[i]];
+                /* if isCompact, iterate through all buttons */
+                if(this.isCompact) {
+                    for(var i in childViews) {
+                        i = parseInt(i);
+                        if(this[childViews[i]] && this[childViews[i]].type === 'M.ButtonView') {
+                            currentButtonIndex = currentButtonIndex + 1;
+                            var currentLine = M.Math.round(currentButtonIndex / this.buttonsPerLine, M.CEIL) - 1;
+                            var button = this[childViews[i]];
 
-                        /* if the button belongs to the current line adjust its styling according to its position,
-                           e.g. the first button in the first row gets the css class 'ui-corner-tl' (top left). */
-                        if(line === currentLine) {
+                            /* if the button belongs to the current line adjust its styling according to its position,
+                               e.g. the first button in the first row gets the css class 'ui-corner-tl' (top left). */
+                            if(line === currentLine) {
 
-                            /* first line */
-                            if(line === 0) {
-                                /* first button */
-                                if(currentButtonIndex === 1) {
-                                    $('#' + button.id).removeClass('ui-corner-left');
-                                    if(this.isInset) {
-                                        $('#' + button.id).addClass('ui-corner-tl');
+                                /* first line */
+                                if(line === 0) {
+                                    /* first button */
+                                    if(currentButtonIndex === 1) {
+                                        $('#' + button.id).removeClass('ui-corner-left');
+                                        if(this.isInset) {
+                                            $('#' + button.id).addClass('ui-corner-tl');
+                                        }
+                                    /* last button */
+                                    } else if(currentButtonIndex === this.buttonsPerLine) {
+                                        $('#' + button.id).removeClass('ui-corner-right');
+                                        if(this.isInset) {
+                                            $('#' + button.id).addClass('ui-corner-tr');
+                                        }
                                     }
-                                /* last button */
-                                } else if(currentButtonIndex === this.buttonsPerLine) {
-                                    $('#' + button.id).removeClass('ui-corner-right');
-                                    if(this.isInset) {
-                                        $('#' + button.id).addClass('ui-corner-tr');
+                                /* last line */
+                                } else if(line === this.numberOfLines - 1) {
+                                    /* first button */
+                                    if(currentButtonIndex === (currentLine * this.buttonsPerLine) + 1) {
+                                        $('#' + button.id).removeClass('ui-corner-left');
+                                        $('#' + button.id).addClass('ui-corner-bl');
+                                    /* last button */
+                                    } else if(currentButtonIndex === ((currentLine + 1) * this.buttonsPerLine)) {
+                                        $('#' + button.id).removeClass('ui-corner-right');
+                                        $('#' + button.id).addClass('ui-corner-br');
                                     }
-                                }
-                            /* last line */
-                            } else if(line === this.numberOfLines - 1) {
-                                /* first button */
-                                if(currentButtonIndex === (currentLine * this.buttonsPerLine) + 1) {
-                                    $('#' + button.id).removeClass('ui-corner-left');
-                                    $('#' + button.id).addClass('ui-corner-bl');
-                                /* last button */
-                                } else if(currentButtonIndex === ((currentLine + 1) * this.buttonsPerLine)) {
-                                    $('#' + button.id).removeClass('ui-corner-right');
-                                    $('#' + button.id).addClass('ui-corner-br');
-                                }
-                            /* all other lines */
-                            } else {
-                                /* first button */
-                                if(currentButtonIndex === (currentLine * this.buttonsPerLine) + 1) {
-                                    $('#' + button.id).removeClass('ui-corner-left');
-                                /* last button */
-                                } else if(currentButtonIndex === ((currentLine + 1) * this.buttonsPerLine)) {
-                                    $('#' + button.id).removeClass('ui-corner-right');
+                                /* all other lines */
+                                } else {
+                                    /* first button */
+                                    if(currentButtonIndex === (currentLine * this.buttonsPerLine) + 1) {
+                                        $('#' + button.id).removeClass('ui-corner-left');
+                                    /* last button */
+                                    } else if(currentButtonIndex === ((currentLine + 1) * this.buttonsPerLine)) {
+                                        $('#' + button.id).removeClass('ui-corner-right');
+                                    }
                                 }
                             }
                         }
