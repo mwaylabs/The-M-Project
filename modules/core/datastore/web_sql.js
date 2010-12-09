@@ -48,6 +48,7 @@ M.WebSqlProvider = M.DataProvider.extend(
         'Text': 'text',
         'Float': 'float',
         'Integer': 'integer',
+        'Number': 'interger',
         'Date': 'date',
         'Boolean': 'boolean'
     },
@@ -131,7 +132,7 @@ M.WebSqlProvider = M.DataProvider.extend(
 
             for(var prop in obj.model.record) {
                 /* if property is string or text write value in quotes */
-                var pre_suffix = obj.model.__meta[prop].type === 'String' || obj.model.__meta[prop].type === 'Text' ? '"' : '';
+                var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' ? '"' : '';
                 sql += pre_suffix + obj.model.record[prop] + pre_suffix + ', ';
             }
             sql = sql.substring(0, sql.lastIndexOf(',')) + '); ';
@@ -145,7 +146,10 @@ M.WebSqlProvider = M.DataProvider.extend(
             var sql = 'UPDATE ' + obj.model.name + ' SET ';
 
             for(var prop in obj.model.record) {
-                var pre_suffix = obj.model.__meta[prop].type === 'String' || obj.model.__meta[prop].type === 'Text' ? '"' : '';
+                if(!obj.model.__meta[prop].isUpdated) { /* if property has not been updated, then exclude from update call */
+                    continue;
+                }
+                var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' ? '"' : '';
                 sql += prop + ' = ' + pre_suffix + obj.model.record[prop] + pre_suffix + ', ';
             }
             sql = sql.substring(0, sql.lastIndexOf(','));
@@ -181,18 +185,24 @@ M.WebSqlProvider = M.DataProvider.extend(
             if (obj.onError && obj.onError.target && obj.onError.action) {
                 obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action]);
                 obj.onError();
-            } else if (typeof(obj.onError) !== 'function') {
-                M.Logger.log('Target and action in onError not defined.', M.INFO);
             }
-        }, function() { // voidCallback (success)
+        },
+
+        function() {    // voidCallback (success)
+             /* delete  the model from the model record list */
+            if(opType === 'DELETE') {
+                obj.model.recordManager.remove(obj.model.id);
+            }
+            console.log('success callback in performOP');
+            console.log('obj.onSuccess:');
+            console.log(obj.onSuccess);
             /* bind success callback */
             if (obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
                 obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
                 obj.onSuccess();
-            } else if (typeof(obj.onError) !== 'function') {
-                M.Logger.log('Target and action in onSuccess not defined.', M.INFO);
             }
-        });        
+
+        });
     },
 
     /**
@@ -404,7 +414,9 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @returns {String} The string used for db create to represent this property.
      */
     buildDbAttrFromProp: function(model, prop) {
-        var type = this.typeMapping[model.__meta[prop].type].toUpperCase();
+        console.log(model);
+        console.log(prop);
+        var type = this.typeMapping[model.__meta[prop].dataType].toUpperCase();
 
         var isReqStr = model.__meta[prop].isRequired ? ' NOT NULL' : '';
 
@@ -413,8 +425,9 @@ M.WebSqlProvider = M.DataProvider.extend(
 
 
     /**
-     * Queries the WebSql storage for the maximum id that was provided for a table defined by model.name. Delegates to
-     * {@link M.WebSqlProvider#setDbIdOfModel}. Is used when creating or fetch
+     * Queries the WebSQL storage for the maximum db ID that was provided for a table that is defined by model.name. Delegates to
+     * {@link M.WebSqlProvider#setDbIdOfModel}.
+     * 
      * @param {Object} model The table's model
      */
     queryDbForId: function(model) {

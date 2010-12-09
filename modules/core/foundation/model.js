@@ -113,11 +113,21 @@ M.Model = M.Object.extend(
     createRecord: function(obj) {
         var modelRecord = this.extend({
             id: obj.id ? obj.id : M.Application.modelRegistry.getNextId(this.name),
-            record: obj
+            record: obj /* properties that are here added to record but are not part of __meta are deleted later (see below) */
         });
+
         modelRecord.state = obj.state ? obj.state : M.STATE_NEW;
         delete obj.state;
         delete modelRecord.record.id;
+
+        /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
+        for(var i in modelRecord.record) {
+            if(!modelRecord.__meta.hasOwnProperty(i)) {
+                delete modelRecord.record[i];
+            }
+        }
+
+        this.recordManager.add(modelRecord);
         return modelRecord;
     },
 
@@ -192,6 +202,7 @@ M.Model = M.Object.extend(
      */
     set: function(propName, val) {
         this.record[propName] = val;
+        this.__meta[propName].isUpdated = YES;
     },
 
     /**
@@ -242,6 +253,13 @@ M.Model = M.Object.extend(
      * because the call itself is asynchronous. If LocalStorage is used, the result of the query is returned.
      */
     find: function(obj){
+        /* check if the record list shall be cleared (default) before new found model records are appended to the record list */
+        /* TODO: needs to be placed in callback */
+        obj['deleteRecordList'] = obj['deleteRecordList'] ? obj.deleteRecordList : YES;
+        if(obj.deleteRecordList) {
+            this.recordManager.removeAll();
+        }
+        
         /* extends the given obj with self as model property in obj */
         return this.dataProvider.find( $.extend(obj, {model: this}) );
     },
@@ -275,12 +293,13 @@ M.Model = M.Object.extend(
      * @returns {Boolean} Indicating whether deletion was successful or not (only with synchronous data providers, e.g. LocalStorage). When asynchronous data providers
      * are used, e.g. WebSQL provider the real result comes asynchronous and here just the result of the del() function call of the @link M.WebSqlProvider is used.
      */
-    del: function() {
+    del: function(obj) {
+        obj = obj ? obj : {};
         if(!this.id) {
             return NO;
         }
 
-       var isDel = this.dataProvider.del({model: this});
+       var isDel = this.dataProvider.del($.extend(obj, {model: this}));
         if(isDel) {
             this.state = M.STATE_DELETED;
             return YES

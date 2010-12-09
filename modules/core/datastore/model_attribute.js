@@ -53,6 +53,12 @@ M.ModelAttribute = M.Object.extend(
     isRequired: NO,
 
     /**
+     * Indicates whether an update has been performed on this property with the set method or not.
+     * @type Boolean
+     */
+    isUpdated: NO,
+
+    /**
      * Array containing all validators for this model record property.
      * E.g. [@link M.PresenceValidator, @link M.NumberValidator]
      * @type Object
