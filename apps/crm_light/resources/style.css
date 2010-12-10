@@ -238,3 +238,66 @@ li[data-role=list-divider] {
     font-weight:bold;
     color:#ffffff;  
 }
+
+div.activitiesPage div.searchgrid {
+    margin:-15px;
+    background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #fafafa),color-stop(0.40, #f3f3f3),color-stop(0.60, #eaeaea),color-stop(0.97, #dadada),color-stop(1.0, #dadada));
+    height:55px;
+}
+
+div.grid70 {
+    width:75%;
+    float:left;
+}
+
+div.grid30 {
+    width:25%;
+    float:left;
+}
+
+div.searchbar {
+    padding: 3px 10px;
+    border:0px;
+}
+
+div.searchbar input {
+    margin:0px;
+    margin-top:2px;
+    padding:0px;
+    width:96%;
+    height:15px;
+    border:1px solid #414243;
+    font-size:14px;
+    padding:6px 5px;
+    font-weight:bold;
+    background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #bfbfbf),color-stop(0.02, #bfbfbf),color-stop(0.02, #eaeaea),color-stop(0.06, #eaeaea),color-stop(0.06, #ffffff),color-stop(1.0, #ffffff));
+    -webkit-border-radius:5px;
+}
+
+
+[data-theme=searchbutton] {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    display:block;
+    border: thin solid #cc0000;
+    -webkit-border-radius:5px;
+    text-decoration:none;
+    background-image:-webkit-gradient(linear, left top, left bottom,color-stop(0.00, #fca2ab),color-stop(0.03, #fca2ab),color-stop(0.03, #fa5868),color-stop(0.50, #f91f34),color-stop(0.50, #ed1b2f),color-stop(1.0, #dc1326));
+    text-shadow: 0px -1px 0 #961a26;
+    font-size:14px;
+    font-weight:bold;
+    color:#ffffff;
+    margin-top:5px;
+}
+
+[data-theme=searchbutton] span.ui-btn-inner {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    background:none;
+    border:0px;
+    padding:5px;
+}

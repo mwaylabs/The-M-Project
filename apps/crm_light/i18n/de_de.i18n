@@ -10,6 +10,8 @@ M.I18N.de_de = {
 
     "search": "Suchen",
 
-    "new_activity": "Neue Aktivität"
+    "new_activity": "Neue Aktivität",
+
+    "activities_search": "Kunden Suche"
 
 }

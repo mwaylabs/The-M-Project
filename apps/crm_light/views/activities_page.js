@@ -73,7 +73,11 @@ CRMLight.ActivitiesPage = M.PageView.design({
 
             search: M.ButtonView.design({
 
-                value: M.I18N.l('search')
+                value: M.I18N.l('search'),
+
+                target: CRMLight.ActivitiesPageController,
+
+                action: 'openSearchPage'
 
             }),
 

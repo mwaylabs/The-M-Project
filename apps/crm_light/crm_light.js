@@ -12,5 +12,6 @@ document.write("<script src='views/start_page.js'></script>");
 document.write("<script src='views/activities_page.js'></script>");
 document.write("<script src='views/information_page.js'></script>");
 document.write("<script src='views/start_page.js'></script>");
+document.write("<script src='views/activities_search_page.js'></script>");
 document.write("<script src='models/activity.js'></script>");
 document.write("<script src='models/customer.js'></script>");
