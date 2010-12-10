@@ -260,6 +260,9 @@ M.Model = M.Object.extend(
      * because the call itself is asynchronous. If LocalStorage is used, the result of the query is returned.
      */
     find: function(obj){
+        if(!this.dataProvider) {
+            M.Logger.log('No data provider given.', M.ERROR);
+        }
         obj = obj ? obj : {};
         /* check if the record list shall be cleared (default) before new found model records are appended to the record list */
         /* TODO: needs to be placed in callback */
@@ -267,7 +270,10 @@ M.Model = M.Object.extend(
         if(obj.deleteRecordList) {
             this.recordManager.removeAll();
         }
-        
+        if(!this.dataProvider) {
+            M.Logger.log('No data provider given.', M.ERROR);
+        }
+
         /* extends the given obj with self as model property in obj */
         return this.dataProvider.find( $.extend(obj, {model: this}) );
     },
@@ -281,6 +287,9 @@ M.Model = M.Object.extend(
      * which does not necessarily indicate whether the operation was successful, because the operation is asynchronous, means the operation's end is not predictable. 
      */
     save: function(obj) {
+        if(!this.dataProvider) {
+            M.Logger.log('No data provider given.', M.ERROR);
+        }
         obj = obj ? obj: {};
         if(!this.id) {
             return NO;
@@ -302,6 +311,9 @@ M.Model = M.Object.extend(
      * are used, e.g. WebSQL provider the real result comes asynchronous and here just the result of the del() function call of the @link M.WebSqlProvider is used.
      */
     del: function(obj) {
+        if(!this.dataProvider) {
+            M.Logger.log('No data provider given.', M.ERROR);
+        }
         obj = obj ? obj : {};
         if(!this.id) {
             return NO;
