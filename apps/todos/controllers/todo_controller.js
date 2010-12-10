@@ -16,7 +16,7 @@ Todos.TodoController = M.Controller.extend({
 
     init: function() {
         Todos.Task.find();
-        this.set('todos', Todos.Task.records);
+        this.set('todos', Todos.Task.records());
         this.calculateCounter();
     },
 
@@ -27,7 +27,7 @@ Todos.TodoController = M.Controller.extend({
         }
 
         Todos.Task.createRecord( { title: text } ).save();
-        this.set('todos', Todos.Task.records);
+        this.set('todos', Todos.Task.records());
 
         this.calculateCounter();
 
@@ -39,7 +39,7 @@ Todos.TodoController = M.Controller.extend({
         if(doDelete) {
             var record = Todos.Task.recordManager.getRecordForId(modelId);
             record.del();
-            this.set('todos', Todos.Task.records);
+            this.set('todos', Todos.Task.records());
             this.calculateCounter();
         }
     },
