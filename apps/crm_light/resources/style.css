@@ -3,10 +3,17 @@ div.bg {
     background: -moz-linear-gradient(center bottom, #DDDDDD 9%, #FFFFFF 78%);
 }
 
-div.startPage div.red {
+div.red {
     width:inherit;
 	display:block;
 	height:10px;
+	background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #c90000),color-stop(0.10, #c90000),color-stop(0.50, #e70000),color-stop(1.0, #ed1b2f));
+}
+
+div.redSmall {
+    width:inherit;
+	display:block;
+	height:5px;
 	background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #c90000),color-stop(0.10, #c90000),color-stop(0.50, #e70000),color-stop(1.0, #ed1b2f));
 }
 
@@ -16,8 +23,8 @@ div.startPage div.footer {
 }
 
 div.startPage img.logo {
-    /*width: 80%;*/
-    margin-left: -10px;
+    width: 95%;
+    margin-left: 10px;
     margin-top: 40px;
     margin-bottom: 50px;
 }
@@ -40,7 +47,7 @@ div.startPage a.ui-btn {
 
 div.startPage a.ui-btn span.ui-btn-inner {
     background-image:url("menuButton_right.png");
-    background-position:100% -2%;
+    background-position:top right;
     background-repeat:no-repeat;
 }
 
@@ -56,7 +63,7 @@ div.startPage a.ui-btn span.ui-btn-inner span.ui-btn-text {
     font-weight:bold;
     color:#31343d;
     line-height:14px;
-    margin: 20px 0px 0px 80px;
+    margin: 17px 0px 0px 80px;
     font: bold 24px arial,sans-serif;
 }
 
@@ -72,6 +79,7 @@ a.ui-btn-up-info, a.ui-btn-hover-info {
     background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #fafafa),color-stop(0.40, #f3f3f3),color-stop(0.60, #eaeaea),color-stop(0.97, #dadada), color-stop(1.0, #cad2db));
     text-shadow: 0px 1px 0 #ffffff;
     padding:5px;
+    padding-top:0px;
     font-weight:bold;
     color:#000000;
     border:0px;
@@ -79,11 +87,9 @@ a.ui-btn-up-info, a.ui-btn-hover-info {
     height:35px;
 }
 
-[data-role=header] h1 {
+[data-role=header] h1 div {
     font-size:20px;
     margin:0px;
-    margin-left:53px;
-    margin-top:4px;
 }
 
 [data-theme=back] {
@@ -94,7 +100,7 @@ a.ui-btn-up-info, a.ui-btn-hover-info {
     display:block;
     float:left;
     font:14px arial,sans-serif;
-    font-weight:normal;
+    font-weight:bold;
     height:30px;
     margin-right:6px;
     margin-left:-5px;
@@ -118,4 +124,49 @@ a.ui-btn-up-info, a.ui-btn-hover-info {
     line-height:14px;
     padding:8px 5px 9px 22px;
     margin-top:-1px;
+}
+
+[data-theme=back] span.ui-btn-inner span.ui-btn-text {
+    font-size:14px;
+}
+
+[data-role=footer] {
+    background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #fafafa),color-stop(0.40, #f3f3f3),color-stop(0.60, #eaeaea),color-stop(0.97, #dadada), color-stop(1.0, #cad2db));
+    text-shadow: 0px 1px 0 #ffffff;
+    padding:5px;
+    padding-top:0px;
+    font-weight:bold;
+    color:#000000;
+    border:0px;
+    margin:0px;
+    height:70px;
+}
+
+[data-role=footer] h1.ui-title {
+    width:100%;
+    padding:0px;
+    margin:0px;
+}
+
+[data-role=footer] [role=button] {
+    margin-left:5%;
+    margin-top:10px;
+    display:block;
+    width:85%;
+    border: thin solid #c3c3c3;
+    -webkit-border-radius:5px;
+    text-decoration:none;
+    background-image:-webkit-gradient( linear, left top, left bottom,color-stop(0.00, #fafafa),color-stop(0.40, #f3f3f3),color-stop(0.60, #eaeaea),color-stop(0.97, #dadada),color-stop(1.0, #cad2db));
+    text-shadow: 0px 1px 0 #ffffff;
+    padding:5px;
+    padding-bottom:10px;
+    font-size:16px;
+    font-weight:bold;
+    color:#31343d;
+    height:30px;
+}
+
+div.bottom {
+    position:fixed;
+    bottom:75px;
 }

@@ -6,6 +6,10 @@ M.I18N.de_de = {
 
     "back": "Zurück",
 
-    "customer_information": "Kundeninfo"
+    "customer_information": "Kundeninfo",
+
+    "search": "Suchen",
+
+    "new_activity": "Neue Aktivität"
 
 }
