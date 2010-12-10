@@ -96,7 +96,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
                 M.Logger.log('retrieved model has no valid key: ' + obj.key, M.ERROR);
                 return NO;
             }
-            var m = obj.model.createRecord($.extend(record, {id: m_id, state: M.STATE_VALID}));
+            var m = obj.model.createRecord($.extend(record, {id: parseInt(m_id), state: M.STATE_VALID}));
             return m;
         }
 
@@ -209,7 +209,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
                     M.Logger.log('Model Record id not correct: ' + m_id, M.ERROR);
                     continue; // if m_id does not exist, continue with next record element
                 }
-                var m = obj.model.createRecord($.extend(record, {id: m_id, state: M.STATE_VALID}));
+                var m = obj.model.createRecord($.extend(record, {id: parseInt(m_id), state: M.STATE_VALID}));
                 
                 result.push(m);
             }

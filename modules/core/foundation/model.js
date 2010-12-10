@@ -75,12 +75,6 @@ M.Model = M.Object.extend(
     recordManager: null,
 
     /**
-     *
-     * @param obj
-     */
-    records: null,
-
-    /**
      * A constant defining the model's state. Important e.g. for syncing storage
      * @type String
      */
@@ -159,7 +153,6 @@ M.Model = M.Object.extend(
         }
 
         model.recordManager = M.RecordManager.extend({});
-        model.records = model.recordManager.records;
 
         M.Application.modelRegistry.register(model.name);
 
@@ -204,6 +197,16 @@ M.Model = M.Object.extend(
     set: function(propName, val) {
         this.record[propName] = val;
         this.__meta[propName].isUpdated = YES;
+    },
+
+    /**
+     * Returns the records array of the model's record manager.
+     * @returns {Object|Array} The records array of record manager.
+     */
+    records: function() {
+        if(this.recordManager && this.recordManager.records) {
+            return this.recordManager.records;
+        }
     },
 
     /**
