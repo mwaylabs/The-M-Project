@@ -257,6 +257,7 @@ M.Model = M.Object.extend(
      * because the call itself is asynchronous. If LocalStorage is used, the result of the query is returned.
      */
     find: function(obj){
+        obj = obj ? obj : {};
         /* check if the record list shall be cleared (default) before new found model records are appended to the record list */
         /* TODO: needs to be placed in callback */
         obj['deleteRecordList'] = obj['deleteRecordList'] ? obj.deleteRecordList : YES;
