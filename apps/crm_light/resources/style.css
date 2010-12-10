@@ -16,9 +16,9 @@ div.startPage div.footer {
 }
 
 div.startPage img.logo {
-    width: 80%;
-    margin-left: 10%;
-    margin-top: 50px;
+    /*width: 80%;*/
+    margin-left: -10px;
+    margin-top: 40px;
     margin-bottom: 50px;
 }
 
@@ -28,7 +28,6 @@ div.startPage a.ui-btn {
     background-repeat: no-repeat;
     color: #31343D;
     display: block;
-    padding: 33px 0 32px 100px;
     margin: 0px;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
@@ -40,14 +39,25 @@ div.startPage a.ui-btn {
 }
 
 div.startPage a.ui-btn span.ui-btn-inner {
-    padding:0px;
+    background-image:url("menuButton_right.png");
+    background-position:100% -2%;
+    background-repeat:no-repeat;
 }
 
 div.startPage a.ui-btn span.ui-btn-inner span.ui-btn-text {
-    font-weight: bold;
-    line-height: 14px;
-    text-align: left;
-    text-shadow: 0 1px 0 #FFFFFF;
+    display:block;
+    float:left;
+    height:48px;
+    width:100%;
+    text-decoration:none;
+    margin-top:-1px;   
+    text-align:left;
+    text-shadow: 0px 1px 0 #ffffff;
+    font-weight:bold;
+    color:#31343d;
+    line-height:14px;
+    margin: 20px 0px 0px 80px;
+    font: bold 24px arial,sans-serif;
 }
 
 a.ui-btn-up-activities, a.ui-btn-hover-activities {
