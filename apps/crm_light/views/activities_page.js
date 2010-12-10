@@ -1,6 +1,6 @@
 CRMLight.ActivitiesPage = M.PageView.design({
 
-    childViews: 'header red content red2 footer',
+    childViews: 'header content footer',
 
     cssClass: 'bg activitiesPage',
 
@@ -41,12 +41,6 @@ CRMLight.ActivitiesPage = M.PageView.design({
 
     }),
 
-    red: M.ContainerView.design({
-
-        cssClass: 'redSmall'
-
-    }),
-
     content: M.ScrollView.design({
 
         childViews: 'activityList',
@@ -60,12 +54,6 @@ CRMLight.ActivitiesPage = M.PageView.design({
             listItemTemplateView: CRMLight.ActivitiesListTemplateView
 
         })
-
-    }),
-
-    red2: M.ContainerView.design({
-
-        cssClass: 'redSmall bottom'
 
     }),
 

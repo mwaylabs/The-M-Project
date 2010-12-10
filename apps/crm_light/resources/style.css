@@ -1,3 +1,7 @@
+.ui-btn-active {
+    background:none;
+}
+
 div.bg {
     background: -webkit-gradient(linear, left bottom, left top, color-stop(0.09, #DDDDDD), color-stop(0.78, #FFFFFF));
     background: -moz-linear-gradient(center bottom, #DDDDDD 9%, #FFFFFF 78%);
@@ -85,6 +89,7 @@ a.ui-btn-up-info, a.ui-btn-hover-info {
     border:0px;
     margin:0px;
     height:35px;
+    border-bottom:5px solid #c90000;
 }
 
 [data-role=header] h1 div {
@@ -140,6 +145,7 @@ a.ui-btn-up-info, a.ui-btn-hover-info {
     border:0px;
     margin:0px;
     height:70px;
+    border-top:5px solid #c90000;
 }
 
 [data-role=footer] h1.ui-title {
@@ -169,4 +175,66 @@ a.ui-btn-up-info, a.ui-btn-hover-info {
 div.bottom {
     position:fixed;
     bottom:75px;
+}
+
+li.activity_list {
+    height:60px;
+}
+
+li.activity_list span.ui-icon {
+    margin-top:-20px;
+}
+
+div.list_text {
+    color: #31343D;
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #FFFFFF;
+    width: inherit;
+}
+
+div.list_activity_name {
+    position:absolute;
+    top:10px;
+    left:70px;
+}
+
+div.list_company_name {
+    position:absolute;
+    top:30px;
+    left:70px;
+    font-weight: normal;
+}
+
+div.list_company_city {
+    position:relative;
+    top:0px;
+    left:0px;
+    font-weight: normal;
+}
+
+div.list_date {
+    position:absolute;
+    top:10px;
+    left:10px;
+}
+
+img.list_icon {
+    position:absolute;
+    top:32px;
+    left:20px;
+}
+
+li[data-role=list-divider] {
+    display:block;
+    width:inherit;
+    border-top:1px solid #000000;
+    border-bottom:1px solid #000000;
+    background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #9da1af),color-stop(0.02, #9da1af),color-stop(0.02, #70778c),color-stop(0.47, #454a57),color-stop(1.0, #31343d));
+    text-shadow: 0px 1px 0 #1f2126;
+    padding:3px 10px;
+    font-size:16px;
+    font-weight:bold;
+    color:#ffffff;  
 }
