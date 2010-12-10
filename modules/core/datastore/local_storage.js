@@ -62,6 +62,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
         try {
             if(localStorage.getItem(obj.model.name + '_' + obj.model.id)){ // check if key-value pair exists
                 localStorage.removeItem(obj.model.name + '_' + obj.model.id);
+                obj.model.recordManager.remove(obj.model.id);
                 return YES;
             }
             return NO;
