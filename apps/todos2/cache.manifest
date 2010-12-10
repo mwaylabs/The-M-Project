@@ -53,6 +53,7 @@ index.html
 ../../modules/ui/form.js
 ../../modules/ui/selection_list.js
 ../../modules/ui/selection_list_item.js
+../../modules/ui/loader.js
 
 todos.js
 ../../modules/themes/jquery_mobile/jquery.mobile-1.0a2.min.css
@@ -71,6 +72,7 @@ views/tabs.js
 ../../modules/themes/jquery_mobile/images/form-radio-off.png
 resources/app_icon.png
 resources/settings.png
+resources/mway_logo.png
 resources/notepad.png
 resources/todo.png
 

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<!--<html manifest="cache.manifest">-->
-<html>
+<html manifest="cache.manifest">
 <head>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -63,6 +62,7 @@
     <script src="../../modules/ui/form.js"></script>
     <script src="../../modules/ui/selection_list.js"></script>
     <script src="../../modules/ui/selection_list_item.js"></script>
+    <script src="../../modules/ui/loader.js"></script>
 
     <script src="todos.js"></script>
 
@@ -73,6 +73,8 @@
         <script language="JavaScript">
             Todos.app = M.Application.design({
                 page1: M.PageView.design({
+
+                    cssClass: 'bg',
 
                     onLoad: {
                         target: Todos.TodoController,
@@ -129,6 +131,8 @@
                 }),
 
                 subpage1: M.PageView.design({
+
+                    cssClass: 'bg',
 
                     onHide: {
                         target: Todos.TodoController,
@@ -275,6 +279,8 @@
 
                 page2: M.PageView.design({
 
+                    cssClass: 'bg',
+
                     childViews: 'header content tabs',
 
                     header: M.ToolbarView.design({
@@ -349,6 +355,8 @@
                 }),
 
                 page3: M.PageView.design({
+
+                    cssClass: 'bg',
 
                     childViews: 'header content tabs',
 

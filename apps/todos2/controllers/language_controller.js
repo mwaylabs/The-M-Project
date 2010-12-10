@@ -14,8 +14,9 @@ Todos.LanguageController = M.Controller.extend({
 
     changeLanguage: function() {
 
-       var language = M.ViewManager.getView('page3', 'langSelection').getSelection();
-       M.I18N.setLanguage(language);
+        var language = M.ViewManager.getView('page3', 'langSelection').getSelection();
+        M.LoaderView.show();
+        M.I18N.setLanguage(language);
 
     }
 

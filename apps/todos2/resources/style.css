@@ -1,3 +1,8 @@
+.bg {
+    background: url("mway_logo.png") no-repeat 50% 75% transparent;
+    background-size: 80%;
+}
+
 .listText {
     font-size: 12px;
     font-weight: normal;
