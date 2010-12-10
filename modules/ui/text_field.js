@@ -74,7 +74,7 @@ M.TextFieldView = M.View.extend(
      * @returns {String} The text field view's html representation.
      */
     render: function() {
-        this.html += '<div ' + this.style() + ' data-role="fieldcontain">';
+        this.html += '<div' + this.style() + ' data-role="fieldcontain">';
 
         if(this.label) {
             this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label + '</label>';
@@ -143,15 +143,18 @@ M.TextFieldView = M.View.extend(
      */
     style: function() {
         var html = '';
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
+        }
         if(this.isInline) {
             if(!html) {
-                html += 'style="';
+                html += ' style="';
             }
             html += 'display:inline;';
         }
         if(!this.isEnabled) {
             if(!html) {
-                html += 'style="';
+                html += ' style="';
             }
             html += 'disabled="disabled"';
         }
