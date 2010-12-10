@@ -28,7 +28,7 @@ index.html
 ../../modules/core/foundation/view.js
 ../../modules/core/foundation/view_manager.js
 ../../modules/core/foundation/model_registry.js
-../../modules/core/foundation/model_manager.js
+../../modules/core/foundation/record_manager.js
 ../../modules/core/foundation/application.js
 ../../modules/core/utility/environment.js
 ../../modules/core/utility/i18n.js

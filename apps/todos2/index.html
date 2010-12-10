@@ -130,9 +130,9 @@
 
                 subpage1: M.PageView.design({
 
-                    onLoad: {
+                    onHide: {
                         target: Todos.TodoController,
-                        action: 'init2'
+                        action: 'hide'
                     },
 
                     childViews: 'header content tabs',

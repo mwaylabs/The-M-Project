@@ -10,10 +10,6 @@
 
 Todos.TodoController = M.Controller.extend({
 
-    notes: M.ModelManager.extend({
-        model: Todos.Note
-    }),
-
     todos: null,
 
     selId: null,
@@ -30,8 +26,7 @@ Todos.TodoController = M.Controller.extend({
 
     init: function(isFirst) {
         if(isFirst) {
-            var notes = Todos.Note.find();
-            this.set('todos', notes);
+            this.set('todos', Todos.Note.find());
         }
 
         if(M.ViewManager.getView('page1', 'todoList').inEditMode) {
@@ -43,7 +38,7 @@ Todos.TodoController = M.Controller.extend({
         }
     },
 
-    init2: function() {
+    hide: function() {
         if(!M.ViewManager.getView('subpage1', 'toggleView').isInFirstState) {
             M.ViewManager.getView('subpage1', 'content').toggleView();
             M.ViewManager.getView('subpage1', 'toggleView').toggleView();
@@ -62,10 +57,8 @@ Todos.TodoController = M.Controller.extend({
         var text = M.ViewManager.getView('page2', 'text').value;
         var date = M.Date.create(M.ViewManager.getView('page2', 'date').value);
 
-        var note = Todos.Note.createRecord( { title: title, text: text, date: date } );
-        this.notes.add(note);
-        note.save();
-        this.set('todos', this.notes.modelList);
+        Todos.Note.createRecord( { title: title, text: text, date: date } ).save();
+        this.set('todos', Todos.Note.records());
 
         M.ViewManager.getView('page2', 'title').setValue('');
         M.ViewManager.getView('page2', 'text').setValue('');
@@ -93,23 +86,22 @@ Todos.TodoController = M.Controller.extend({
 
     doDelete: function() {
         if(this.noteToDelete) {
-            this.notes.del(this.noteToDelete);
-            this.notes.remove(this.noteToDelete);
-            this.set('todos', this.notes.modelList);
+            var record = Todos.Note.recordManager.getRecordForId(this.noteToDelete);
+            record.del();
+            this.set('todos', Todos.Note.records());
             this.noteToDelete = null;
         }
     },
 
     doDeleteFromSubView: function() {
         if(this.noteToDelete) {
-            this.notes.del(this.noteToDelete);
-            this.notes.remove(this.noteToDelete);
-            this.set('todos', this.notes.modelList);
+            var record = Todos.Note.recordManager.getRecordForId(this.noteToDelete);
+            record.del();
+            this.set('todos', Todos.Note.records());
             this.noteToDelete = null;
-
-            M.ViewManager.getView('subpage1', 'toggleView').toggleView();
-            M.ViewManager.getView('subpage1', 'content').toggleView();
-            this.switchToPage(M.ViewManager.getPage('page1'));
+            
+            this.switchToPage(M.ViewManager.getPage('page1'), null, YES, YES);
+            this.switchToPage(M.ViewManager.getPage('page1'), null, YES, YES);
         }
     },
 
@@ -137,15 +129,15 @@ Todos.TodoController = M.Controller.extend({
     },
 
     showDetails: function(viewId, modelId) {
-        var record = this.notes.getModelForId(modelId);
+        var record = Todos.Note.recordManager.getRecordForId(modelId);
         this.selId = modelId;
 
-        this.set('selTitle', record.record.title);
-        this.set('selText', record.record.text);
+        this.set('selTitle', record.get('title'));
+        this.set('selText', record.get('text'));
 
-        var date = M.Date.create(record.record.date);
-        var dateFormat = M.Date.format(date, M.I18N.l('due_date_format'));
-        var days = M.Math.round(M.Date.timeBetween(M.Date.now(), date, M.DAYS));
+        var date = record.get('date');
+        var dateFormat = date.format(M.I18N.l('due_date_format'));
+        var days = M.Math.round(M.Date.now().timeBetween(date, M.DAYS));
         this.set('selDateFormat', dateFormat + ' (' + days + ' ' + M.I18N.l('days') + ')');
         this.set('selDate', dateFormat);
         this.switchToPage(M.ViewManager.getPage('subpage1'));
@@ -175,19 +167,19 @@ Todos.TodoController = M.Controller.extend({
         var text = M.ViewManager.getView('subpage1', 'text').value;
         var date = date = M.Date.create(M.ViewManager.getView('subpage1', 'date').value);
         
-        var note = this.notes.getModelForId(this.selId);
-        note.record.title = title;
-        note.record.text = text;
-        note.record.date = date;
+        var note = Todos.Note.recordManager.getRecordForId(this.selId);
+        note.set('title', title);
+        note.set('text', text);
+        note.set('date', date);
         note.save();
-        this.set('todos', this.notes.modelList);
+        this.set('todos', Todos.Note.records());
 
-        this.set('selTitle', note.record.title);
-        this.set('selText', note.record.text);
+        this.set('selTitle', note.get('title'));
+        this.set('selText', note.get('text'));
 
-        var date = M.Date.create(note.record.date);
-        var dateFormat = M.Date.format(date, M.I18N.l('due_date_format'));
-        var days = M.Math.round(M.Date.timeBetween(M.Date.now(), date, M.DAYS));
+        var date = note.get('date');
+        var dateFormat = date.format(M.I18N.l('due_date_format'));
+        var days = M.Math.round(M.Date.now().timeBetween(date, M.DAYS));
         this.set('selDateFormat', dateFormat + ' (' + days + ' ' + M.I18N.l('days') + ')');
         this.set('selDate', dateFormat);
 
