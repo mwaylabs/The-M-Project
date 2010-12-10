@@ -12,21 +12,20 @@ Persistor.ValidationController = M.Controller.extend({
 
     validationResults : [],
 
-    tasks: M.ModelManager.extend({
-        model: Persistor.Task
-    }),
+    tasks: [],
 
     startTime: null,
     time: null,
 
     init: function() {
-        this.tasks.modelList.length = 0;
+        this.tasks.length = 0;
+        Persistor.Task.recordManager.removeAll();
         localStorage.clear();
         this.startTime = null;
         this.startTime = M.Date.now();
         var numModels = parseInt(M.ViewManager.getView('page2', 'input').value) ? parseInt(M.ViewManager.getView('page2', 'input').value) : 10;
         for(var i=0; i < numModels; i++) {
-            this.tasks.add(Persistor.Task.createRecord({
+            this.tasks.push(Persistor.Task.createRecord({
                 title: 'Title' + i,
                 subtitle: 'Subtitle' + i,
                 text: 'Das ist Eintrag Nr. ' + i,
@@ -39,8 +38,8 @@ Persistor.ValidationController = M.Controller.extend({
 
     createAndValidateModels: function() {
         var arr = [];
-        for(var i in this.tasks.modelList) {
-            var res = this.tasks.modelList[i];
+        for(var i in this.tasks) {
+            var res = this.tasks[i];
             var result = res.save();
             if(result) {
                 arr.push({result: 'Model ' + res.name + '_' + res.id + ' was saved.'});
