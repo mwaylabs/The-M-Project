@@ -245,6 +245,10 @@ div.activitiesPage div.searchgrid {
     height:55px;
 }
 
+input.searchbarInit {
+    color:#CCCCCC;
+}
+
 div.grid70 {
     width:75%;
     float:left;

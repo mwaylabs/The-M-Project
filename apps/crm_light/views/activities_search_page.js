@@ -56,7 +56,11 @@ CRMLight.ActivitiesSearchPage = M.PageView.design({
 
             searchbar: M.TextFieldView.design({
 
-                cssClass: 'searchbar'
+                cssClass: 'searchbar',
+
+                cssClassOnInit: 'searchbarInit',
+
+                initialText: M.I18N.l('searchString')
 
             }),
 
