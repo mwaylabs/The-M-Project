@@ -10,17 +10,13 @@
 
 Todos.TodoController = M.Controller.extend({
 
-    notes: M.ModelManager.extend({
-        model: Todos.Task
-    }),
-
     todos: null,
 
     counter: 0,
 
     init: function() {
-        this.notes.find();
-        this.set('todos', this.notes.modelList);
+        Todos.Task.find();
+        this.set('todos', Todos.Task.records);
         this.calculateCounter();
     },
 
@@ -30,10 +26,8 @@ Todos.TodoController = M.Controller.extend({
             return;
         }
 
-        var note = Todos.Task.createRecord( { title: text } );
-        this.notes.add(note);
-        note.save();
-        this.set('todos', this.notes.modelList);
+        Todos.Task.createRecord( { title: text } ).save();
+        this.set('todos', Todos.Task.records);
 
         this.calculateCounter();
 
@@ -43,9 +37,9 @@ Todos.TodoController = M.Controller.extend({
     removeTodo: function(domId, modelId) {
         var doDelete = confirm('Do you really want to delete this item?');
         if(doDelete) {
-            this.notes.del(modelId);
-            this.notes.remove(modelId);
-            this.set('todos', this.notes.modelList);
+            var record = Todos.Task.recordManager.getRecordForId(modelId);
+            record.del();
+            this.set('todos', Todos.Task.records);
             this.calculateCounter();
         }
     },
