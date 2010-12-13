@@ -77,22 +77,46 @@ M.SelectionListView = M.View.extend(
     selection: null,
 
     /**
+     * This property determines whether the selection list is part of a form view
+     * and is rendered as an input field.
+     *
+     * @type Boolean
+     */
+    isInsideFormView: NO,
+
+    /**
      * Renders a selection list.
      *
      * @private
      * @returns {String} The selection list view's html representation.
      */
     render: function() {
-        this.html += '<fieldset data-role="controlgroup" id="' + this.id + '">';
+        if(this.isInsideFormView) {
+            this.html = '<div' + this.style() + ' data-role="fieldcontain">';
 
-        if(this.label) {
-            this.html += '<legend>' + this.label + '</legend>';
+            if(this.label) {
+                this.html += '<label for="' + this.id + '">' + this.label + '</label>';
+            }
+
+            this.html += '<select id="' + this.id + '">';
+
+            this.renderChildViews();
+
+            this.html += '</select>';
+
+            this.html += '</div>';
+        } else {
+            this.html += '<fieldset data-role="controlgroup" id="' + this.id + '">';
+
+            if(this.label) {
+                this.html += '<legend>' + this.label + '</legend>';
+            }
+
+            this.renderChildViews();
+
+            this.html += '</fieldset>';
         }
 
-        this.renderChildViews();
-
-        this.html += '</fieldset>';
-        
         return this.html;
     },
 
@@ -182,6 +206,23 @@ M.SelectionListView = M.View.extend(
      */
     theme: function() {
         $('#' + this.id).controlgroup();
+    },
+
+    /**
+     * Method to append css styles inline to the rendered selection list.
+     *
+     * @private
+     * @returns {String} The selection list's styling as html representation.
+     */
+    style: function() {
+        var html = '';
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
+        }
+        if(html) {
+            html += '"';
+        }
+        return html;
     },
 
     /**
