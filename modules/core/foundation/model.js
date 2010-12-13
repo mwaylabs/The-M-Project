@@ -153,6 +153,11 @@ M.Model = M.Object.extend(
         }
 
         model.recordManager = M.RecordManager.extend({});
+        
+        /* if dataprovider is WebSqlProvider, create table for this model */
+        if(model.dataProvider.type === 'M.WebSqlProvider') {
+            model.dataProvider.init({model: model}, function() {});
+        }
 
         M.Application.modelRegistry.register(model.name);
 
