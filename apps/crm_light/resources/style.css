@@ -92,9 +92,15 @@ a.ui-btn-up-info, a.ui-btn-hover-info {
     border-bottom:5px solid #c90000;
 }
 
+[data-role=header] h1 {
+    width:100%;
+}
+
 [data-role=header] h1 div {
     font-size:20px;
     margin:0px;
+    margin-left:5px;
+    text-align:left;
 }
 
 [data-theme=back] {
