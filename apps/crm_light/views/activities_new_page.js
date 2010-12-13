@@ -23,7 +23,7 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
             target: CRMLight.ActivitiesNewPageController,
 
-            action: 'openActivitiesPage'
+            action: 'openActivitiesNewSelectPage'
 
         }),
 
@@ -47,7 +47,7 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
         form: M.FormView.design({
 
-            childViews: 'description customerId vkst companyName responsiblePerson beginDate endDate activityReason goal status result resultReason text',
+            childViews: 'processType description customerId vkst companyName responsiblePerson beginDate endDate activityReason goal status result resultReason text',
 
             processType: M.TextFieldView.design({
 
