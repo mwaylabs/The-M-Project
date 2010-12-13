@@ -2,7 +2,7 @@ CRMLight.ActivitiesSearchPage = M.PageView.design({
 
     childViews: 'header content',
 
-    cssClass: 'bg activitiesPage',
+    cssClass: 'bg activitiesSearchPage',
 
     onLoad: {
         target: CRMLight.ActivitiesSearchPageController,

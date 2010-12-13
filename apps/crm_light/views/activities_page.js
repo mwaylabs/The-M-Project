@@ -83,7 +83,11 @@ CRMLight.ActivitiesPage = M.PageView.design({
 
             newActivity: M.ButtonView.design({
 
-                value: M.I18N.l('new_activity')
+                value: M.I18N.l('new_activity'),
+
+                target: CRMLight.ActivitiesPageController,
+
+                action: 'openNewSelectPage'
 
             }),
 

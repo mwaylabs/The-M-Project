@@ -7,6 +7,19 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
             var activity = CRMLight.ActivityFixtures.content[i];
             var activityRecord = CRMLight.Activity.createRecord(activity);
         }
+
+    },
+
+    openSearchPage: function() {
+
+        this.switchToPage(M.ViewManager.getPage('activitiesSearchPage'));
+
+    },
+
+    openNewSelectPage: function() {
+
+        this.switchToPage(M.ViewManager.getPage('activitiesNewSelectPage'));
+
     },
 
     openStartPage: function() {
