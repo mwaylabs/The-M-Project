@@ -37,6 +37,12 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
 
     },
 
+    openNewPage: function() {
+
+        this.switchToPage(M.ViewManager.getPage('activitiesNewPage'));
+
+    },
+
     openStartPage: function() {
 
         this.switchToPage(M.ViewManager.getPage('startPage'), null, YES);
