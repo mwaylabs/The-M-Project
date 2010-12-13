@@ -1,4 +1,4 @@
-.ui-btn-active {
+[data-role=listview] li.ui-btn-active {
     background:none;
 }
 
@@ -246,7 +246,7 @@ li[data-role=list-divider] {
     color:#ffffff;  
 }
 
-div.activitiesPage div.searchgrid {
+div.searchgrid {
     margin:-15px;
     background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #fafafa),color-stop(0.40, #f3f3f3),color-stop(0.60, #eaeaea),color-stop(0.97, #dadada),color-stop(1.0, #dadada));
     height:55px;
@@ -320,7 +320,7 @@ div.searchbar input {
     font-weight:bold;
 }
 
-[data-role=fieldcontain] {
+div.activitiesNewPage [data-role=fieldcontain] {
     padding: 0px;
     margin: -15px;
     border:0px;
@@ -328,7 +328,7 @@ div.searchbar input {
     border-bottom: 1px solid #C7C7C7;
 }
 
-[data-role=fieldcontain] label {
+div.activitiesNewPage [data-role=fieldcontain] label {
     color: #747A80;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
@@ -339,8 +339,7 @@ div.searchbar input {
     padding:10px;
 }
 
-[data-role=fieldcontain] input[type=text], [data-role=fieldcontain] textarea {
-    width:94%;
+div.activitiesNewPage [data-role=fieldcontain] input[type=text], [data-role=fieldcontain] textarea, div.activitiesNewPage [data-role=fieldcontain].select div.ui-select a {
     border:1px solid #414243;
     font-size:14px;
     padding:5px;
@@ -354,6 +353,36 @@ div.searchbar input {
     float:left;
 }
 
-[data-role=fieldcontain] input[type=text] {
+div.activitiesNewPage [data-role=fieldcontain].select {
+    border:0px;
+}
+
+div.activitiesNewPage [data-role=fieldcontain].select div.ui-select {
+    width:60%;
+    float:left;
+    height:15px;
+    padding:0px;
+}
+
+div.activitiesNewPage [data-role=fieldcontain].select div.ui-select a {
+    width:100%;
+    height:15px;
+    background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #bfbfbf),color-stop(0.02, #bfbfbf),color-stop(0.02, #eaeaea),color-stop(0.06, #eaeaea),color-stop(0.06, #ffffff),color-stop(1.0, #ffffff));
+    -webkit-border-radius:5px;
+    text-align:left;
+}
+
+div.activitiesNewPage [data-role=fieldcontain].select div.ui-select a span.ui-btn-inner {
+    padding:0px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+div.activitiesNewPage [data-role=fieldcontain].select div.ui-select a span.ui-icon {
+    background: none;
+    border:0px;
+}
+
+div.activitiesNewPage [data-role=fieldcontain] input[type=text] {
     height:15px;
 }

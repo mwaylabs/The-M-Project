@@ -49,9 +49,39 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
             childViews: 'description customerId vkst companyName responsiblePerson beginDate endDate processType activityReason goal status result resultReason text',
 
-            description: M.TextFieldView.design({
+            description: M.SelectionListView.design({
 
-                label: M.I18N.l('description')
+                label: M.I18N.l('description'),
+
+                isInsideFormView: YES,
+
+                cssClass: 'select',
+
+                childViews: 'test test2 test3',
+
+                test: M.SelectionListItemView.design({
+
+                    value: 'test',
+                    
+                    label: 'Test'
+
+                }),
+
+                test2: M.SelectionListItemView.design({
+
+                    value: 'test2',
+
+                    label: 'Test2'
+
+                }),
+
+                test3: M.SelectionListItemView.design({
+
+                    value: 'test3',
+                    
+                    label: 'Test3'
+
+                })
 
             }),
 
