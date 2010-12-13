@@ -65,6 +65,10 @@ M.EventDispatcher = M.Object.create(
     delegateEvent: function(type, id, keyCode, orientation) {
         var view = M.Application.viewManager.getViewById(id);
 
+        if(!view) {
+            return;
+        }
+
         switch(type) {
             case 'click':
                 if(view && view.internalTarget && view.internalAction) {
