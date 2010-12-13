@@ -98,6 +98,19 @@ M.FormView = M.View.extend(
                 message: errors
             });
         }
+    },
+
+    /**
+     * This method clears the form by clearing all input's values.
+     */
+    clearForm: function() {
+        if(this.childViews) {
+            var childViews = $.trim(this.childViews).split(' ');
+            for(var i in childViews) {
+                var childView = this[childViews[i]];
+                childView.clearValue();
+            }
+        }
     }
 
 });
