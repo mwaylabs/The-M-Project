@@ -87,7 +87,7 @@ CRMLight.ActivitiesPage = M.PageView.design({
 
                 target: CRMLight.ActivitiesPageController,
 
-                action: 'openNewPage'
+                action: 'openNewSelectPage'
 
             }),
 

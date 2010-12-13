@@ -1,6 +1,6 @@
-CRMLight.ActivitiesPageController = M.Controller.extend({
+CRMLight.ActivitiesNewSelectPageController = M.Controller.extend({
 
-    activities: null,
+    activity_selection: null,
 
     init: function(isFirstTime) {
 
@@ -14,7 +14,7 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
                 },
                 onSuccess: function(data){
                     M.LoaderView.hide();
-                    CRMLight.ActivitiesPageController.set('activities', data);
+                    CRMLight.ActivitiesNewSelectPageController.set('activity_selection', data);
                 },
                 onError: function(request, message){
                     M.LoaderView.hide();
@@ -25,21 +25,9 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
 
     },
 
-    openSearchPage: function() {
+    openActivitiesPage: function() {
 
-        this.switchToPage(M.ViewManager.getPage('activitiesSearchPage'));
-
-    },
-
-    openNewSelectPage: function() {
-
-        this.switchToPage(M.ViewManager.getPage('activitiesNewSelectPage'));
-
-    },
-
-    openStartPage: function() {
-
-        this.switchToPage(M.ViewManager.getPage('startPage'), null, YES);
+        this.switchToPage(M.ViewManager.getPage('activitiesPage'), null, YES);
 
     }
 

@@ -1,3 +1,12 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+li.ui-btn-active {
+    background: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #f56372),color-stop(0.03, #f65061),color-stop(0.03, #fa293e),color-stop(0.50, #f91f34),color-stop(0.50, #ed1b2f),color-stop(1.0, #dc1326));
+    text-shadow: #721414 0px -1px 1px;
+}
+
 [data-role=listview] li.ui-btn-active {
     background:none;
 }
@@ -377,6 +386,7 @@ div.activitiesNewPage [data-role=fieldcontain].select div.ui-select a span.ui-bt
     font-size: 14px;
     font-weight: bold;
     color:#333333;
+    padding-left:1px;
 }
 
 div.activitiesNewPage [data-role=fieldcontain].select div.ui-select a span.ui-icon {
