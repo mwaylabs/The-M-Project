@@ -4,6 +4,11 @@ CRMLight.ActivitiesSearchPage = M.PageView.design({
 
     cssClass: 'bg activitiesPage',
 
+    onLoad: {
+        target: CRMLight.ActivitiesSearchPageController,
+        action: 'init'
+    },
+
     header: M.ToolbarView.design({
 
         childViews: 'back title',
@@ -16,7 +21,7 @@ CRMLight.ActivitiesSearchPage = M.PageView.design({
 
             cssClass: 'back',
 
-            target: CRMLight.ActivitiesPageController,
+            target: CRMLight.ActivitiesSearchPageController,
 
             action: 'openActivitiesPage'
 
@@ -68,7 +73,11 @@ CRMLight.ActivitiesSearchPage = M.PageView.design({
 
                 value: M.I18N.l('search'),
 
-                cssClass: 'searchbutton'
+                cssClass: 'searchbutton',
+
+                target: CRMLight.ActivitiesSearchPageController,
+
+                action: 'search'
 
             })
 
@@ -76,7 +85,7 @@ CRMLight.ActivitiesSearchPage = M.PageView.design({
 
         activityList: M.ListView.design({
 
-            contentBinding: 'CRMLight.ActivitiesPageController.activities',
+            contentBinding: 'CRMLight.ActivitiesSearchPageController.activitiesSearch',
 
             isDividedList: YES,
 
