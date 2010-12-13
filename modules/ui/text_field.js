@@ -156,7 +156,7 @@ M.TextFieldView = M.View.extend(
             if(!html) {
                 html += ' style="';
             }
-            html += 'disabled="disabled"';
+            html += 'disabled:disabled';
         }
         if(html) {
             html += '"';
