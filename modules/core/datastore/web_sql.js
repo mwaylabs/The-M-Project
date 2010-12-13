@@ -86,6 +86,9 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @private
      */
     init: function(obj, callback) {
+        if(!this.internalCallback) {
+            this.internalCallback = callback;
+        }
         this.openDb();
         this.createTable(obj, callback);
     },
@@ -106,7 +109,6 @@ M.WebSqlProvider = M.DataProvider.extend(
      */
      save: function(obj) {
         console.log('save() called.');
-         console.log(obj);
 
         this.onSuccess = obj.onSuccess;
         this.onError = obj.onError;
@@ -134,7 +136,6 @@ M.WebSqlProvider = M.DataProvider.extend(
             sql += 'VALUES (';
 
             for(var prop in obj.model.record) {
-                console.log(prop);
                 /* if property is string or text write value in quotes */
                 var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' || obj.model.__meta[prop].dataType === 'Date' ? '"' : '';
                 /* if property is date object, convert to string by calling toJSON */
@@ -423,6 +424,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      */
     configure: function(obj) {
         console.log('configure() called.');
+        obj.size = obj.size ? obj.size : 1024*1024;
         // maybe some value checking
         return this.extend({
             config:obj
