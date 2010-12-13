@@ -12,39 +12,39 @@ CRMLight.Customer = M.Model.create({
     __name__: 'Customer',
 
     nr: M.Model.attr('String', {    // customernr
-        isRequired:YES
+        isRequired:NO
     }),
 
     gvl: M.Model.attr('String', {   // gvl
-        isRequired:YES
+        isRequired:NO
     }),
 
     outlet: M.Model.attr('String', { // outlet
-        isRequired:YES
+        isRequired:NO
     }),
 
     outletName: M.Model.attr('String', { // outletname
-        isRequired:YES    
+        isRequired:NO    
     }),
 
     customerName: M.Model.attr('String', { // customername
-        isRequired:YES
+        isRequired:NO
     }),
 
     customerName2: M.Model.attr('String', { // customername2
-        isRequired:YES
+        isRequired:NO
     }),
 
     pzo: M.Model.attr('String', {   // pzo
-        isRequired:YES
+        isRequired:NO
     }),
 
     pzoName: M.Model.attr('String', {   // pzoname
-        isRequired:YES
+        isRequired:NO
     }),
 
     createDate: M.Model.attr('String', { // createdate
-        isRequired:YES
+        isRequired:NO
     }),
 
     modifyDate: M.Model.attr('Date', {  // modifydate
@@ -52,15 +52,15 @@ CRMLight.Customer = M.Model.create({
     }),
 
     city: M.Model.attr('String', {  // city
-        isRequired:YES
+        isRequired:NO
     }),
 
     zipCode: M.Model.attr('String', { // zipcode
-        isRequired:YES
+        isRequired:NO
     }),
 
     street: M.Model.attr('String', { // street
-        isRequired:YES
+        isRequired:NO
     }),
 
     houseNo: M.Model.attr('String', { // houseno
@@ -78,35 +78,37 @@ CRMLight.Customer = M.Model.create({
     }),
 
     contactName: M.Model.attr('String', { // namecontact
-        isRequired:YES
+        isRequired:NO
     }),
 
     contactPerson: M.Model.attr('String', { // prescontact => maybe should be renamed to perscontact, bug?
-        isRequired:YES
+        isRequired:NO
     }),
 
     segment: M.Model.attr('String', { // segment
-        isRequired:YES
+        isRequired:NO
     }),
 
     cuas: M.Model.attr('String', { // cuas
-        isRequired:YES
+        isRequired:NO
     }),
 
     zgpl: M.Model.attr('String', {
-        isRequired:YES
+        isRequired:NO
     }),
 
     zp: M.Model.attr('String', {
-        isRequired:YES
+        isRequired:NO
     }),
 
     kwa: M.Model.attr('String', {
-        isRequired:YES
+        isRequired:NO
     }),
 
     read: M.Model.attr('Boolean', {
-        isRequired:YES
+        isRequired:NO
     })
 
-})
+}, M.WebSqlProvider.configure({
+    dbName: 'crm_light_db'
+}));

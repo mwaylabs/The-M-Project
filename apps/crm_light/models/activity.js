@@ -14,16 +14,16 @@ CRMLight.Activity = M.Model.create({
     /* Properties on basis of list in "Fachkonzept", page 9 */
 
     gvl: M.Model.attr('String', {   // gvl is blackberry client
-       isRequired:YES 
+       isRequired:NO
     }),
 
-    beginDate: M.Model.attr('String', {   // begindate
-        isRequired: YES,
+    beginDate: M.Model.attr('Date', {   // begindate
+        isRequired: NO,
         validators: [M.DateValidator]
     }),
 
-    endDate: M.Model.attr('String', {     // enddate
-        isRequired: YES,
+    endDate: M.Model.attr('Date', {     // enddate
+        isRequired: NO,
         validators: [M.DateValidator]
     }),
 
@@ -36,44 +36,44 @@ CRMLight.Activity = M.Model.create({
     }),
 
     category: M.Model.attr('String', {  // category
-        isRequired: YES
+        isRequired: NO
     }),
 
     description: M.Model.attr('Text', { // desc
-        isRequired: YES
+        isRequired: NO
     }),
 
     processType: M.Model.attr('String', {   // proctype
-        isRequired: YES
+        isRequired: NO
     }),
 
     status: M.Model.attr('String', {    // status
-        isRequired: YES
+        isRequired: NO
     }),
 
     activityReason: M.Model.attr('String', {    // actreason
-        isRequired: YES
+        isRequired: NO
     }),
 
     goal: M.Model.attr('String', {  // 
-        isRequired: YES
+        isRequired: NO
     }),
 
     result: M.Model.attr('String', { // result
-        isRequired: YES
+        isRequired: NO
     }),
 
     resultReason: M.Model.attr('String', { // ?
-        isRequired: YES
+        isRequired: NO
     }),
 
     text: M.Model.attr('Text', {    // appendtext
-        isRequired: YES
+        isRequired: NO
     }),
 
     // maybe changed to link to a contact model
     responsiblePerson: M.Model.attr('String', { // responname  
-        isRequired: YES
+        isRequired: NO
     }),
 
     isRead: M.Model.attr('Boolean', {   // read
@@ -81,7 +81,7 @@ CRMLight.Activity = M.Model.create({
     }),
 
     customerId: M.Model.attr('Integer', {   // customer
-        isRequired: YES,
+        isRequired: NO,
         validators: [M.NumberValidator]
     })
 
