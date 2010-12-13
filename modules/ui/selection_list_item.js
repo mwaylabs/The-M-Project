@@ -95,9 +95,7 @@ M.SelectionListItemView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.parentView && this.parentView.isInsideFormView) {
-            $('#' + this.id).selectmenu();
-        } else {
+        if(this.parentView && !this.parentView.isInsideFormView) {
             $('#' + this.id).checkboxradio();
         }
     }

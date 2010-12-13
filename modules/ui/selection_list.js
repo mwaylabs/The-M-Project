@@ -92,13 +92,13 @@ M.SelectionListView = M.View.extend(
      */
     render: function() {
         if(this.isInsideFormView) {
-            this.html = '<div' + this.style() + ' data-role="fieldcontain">';
+            this.html = '<div' + this.style() + ' data-role="fieldcontain" id="' + this.id + '">';
 
             if(this.label) {
-                this.html += '<label for="' + this.id + '">' + this.label + '</label>';
+                this.html += '<label for="' + this.id + '_select">' + this.label + '</label>';
             }
 
-            this.html += '<select id="' + this.id + '">';
+            this.html += '<select id="' + this.id + '_select">';
 
             this.renderChildViews();
 
@@ -152,8 +152,12 @@ M.SelectionListView = M.View.extend(
      *
      * @param {String} item The html representation of a selection list item to be added.
      */
-    addItem: function(item) {
-        $('#' + this.id).append(item);
+    addItem: function(item, isInsideSelect) {
+        if(isInsideSelect) {
+            $('#' + this.id + '_select').append(item);
+        } else {
+            $('#' + this.id).append(item);
+        }
     },
 
     /**
@@ -171,11 +175,16 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     renderUpdate: function() {
-        if(this.removeItemsOnUpdate) {
+        if(this.removeItemsOnUpdate || this.isInsideFormView) {
             this.removeAllItems();
 
-            if(this.label) {
+            if(this.label && !this.isInsideFormView) {
                 this.addItem('<legend>' + this.label + '</legend>');
+            } else if(this.isInsideFormView) {
+                if(this.label) {
+                    this.addItem('<label for="' + this.id + '_select">' + this.label + '</label>');
+                }
+                this.addItem('<select id="' + this.id + '_select"></select>');
             }
         }
 
@@ -183,17 +192,29 @@ M.SelectionListView = M.View.extend(
             var items = eval(this.contentBinding);
             for(var i in items) {
                 var item  = items[i];
-                var obj = M.SelectionListItemView.design({
-                    value: item.value,
-                    label: item.label,
-                    name: item.name,
-                    isSelected: item.isSelected,
-                    parentView: this,
-                    internalTarget: this,
-                    internalAction: 'itemSelected'
-                });
-                this.addItem(obj.render());
-                obj.theme()
+                var obj = null;
+                if(this.isInsideFormView) {
+                    obj = M.SelectionListItemView.design({
+                        value: item.value ? item.value : item,
+                        label: item.label ? item.label : (item.value ? item.value : item),
+                        parentView: this
+                    });
+                } else {
+                    obj = M.SelectionListItemView.design({
+                        value: item.value,
+                        label: item.label,
+                        name: item.name,
+                        isSelected: item.isSelected,
+                        parentView: this,
+                        internalTarget: this,
+                        internalAction: 'itemSelected'
+                    });
+                }
+                if(this.isInsideFormView) {
+                    this.addItem(obj.render(), YES);
+                } else {
+                    this.addItem(obj.render());
+                }
             }
             this.theme();
         }
@@ -205,7 +226,11 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     theme: function() {
-        $('#' + this.id).controlgroup();
+        if(this.isInsideFormView) {
+            $('#' + this.id + '_select').selectmenu();
+        } else {
+            $('#' + this.id).controlgroup();
+        }
     },
 
     /**
