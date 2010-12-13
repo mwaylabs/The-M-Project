@@ -376,6 +376,7 @@ div.activitiesNewPage [data-role=fieldcontain].select div.ui-select a span.ui-bt
     padding:0px;
     font-size: 14px;
     font-weight: bold;
+    color:#333333;
 }
 
 div.activitiesNewPage [data-role=fieldcontain].select div.ui-select a span.ui-icon {
