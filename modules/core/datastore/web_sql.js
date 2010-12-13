@@ -49,7 +49,7 @@ M.WebSqlProvider = M.DataProvider.extend(
         'Float': 'float',
         'Integer': 'integer',
         'Number': 'interger',
-        'Date': 'date',
+        'Date': 'varchar(255)',
         'Boolean': 'boolean'
     },
 
@@ -106,6 +106,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      */
      save: function(obj) {
         console.log('save() called.');
+         console.log(obj);
 
         this.onSuccess = obj.onSuccess;
         this.onError = obj.onError;
@@ -115,7 +116,7 @@ M.WebSqlProvider = M.DataProvider.extend(
          */
         if(!this.isInitialized) {
             this.internalCallback = this.save;
-            this.init(obj.model);
+            this.init(obj);
             return;
         }
 
@@ -128,12 +129,18 @@ M.WebSqlProvider = M.DataProvider.extend(
             }
 
             sql = sql.substring(0, sql.lastIndexOf(',')) + ') ';
+
+            /* VALUES(12, 'Test', ... ) */
             sql += 'VALUES (';
 
             for(var prop in obj.model.record) {
+                console.log(prop);
                 /* if property is string or text write value in quotes */
-                var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' ? '"' : '';
-                sql += pre_suffix + obj.model.record[prop] + pre_suffix + ', ';
+                var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' || obj.model.__meta[prop].dataType === 'Date' ? '"' : '';
+                /* if property is date object, convert to string by calling toJSON */
+                var recordPropValue = obj.model.__meta[prop].dataType === 'Date' ? obj.model.record[prop].toJSON() : obj.model.record[prop]; 
+
+                sql += pre_suffix + recordPropValue + pre_suffix + ', ';
             }
             sql = sql.substring(0, sql.lastIndexOf(',')) + '); ';
 
@@ -149,8 +156,12 @@ M.WebSqlProvider = M.DataProvider.extend(
                 if(prop === 'ID' || !obj.model.__meta[prop].isUpdated) { /* if property has not been updated, then exclude from update call */
                     continue;
                 }
-                var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' ? '"' : '';
-                sql += prop + '=' + pre_suffix + obj.model.record[prop] + pre_suffix + ', ';
+                var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' || obj.model.__meta[prop].dataType === 'Date' ? '"' : '';
+
+                /* if property is date object, convert to string by calling toJSON */
+                var recordPropValue = obj.model.__meta[prop].dataType === 'Date' ? obj.record[prop].toJSON() : obj.record[prop]; 
+
+                sql += prop + '=' + pre_suffix + recordPropValue + pre_suffix + ', ';
             }
             sql = sql.substring(0, sql.lastIndexOf(','));
             sql += ' WHERE ' + 'ID=' + obj.model.record.ID + ';';
@@ -322,9 +333,21 @@ M.WebSqlProvider = M.DataProvider.extend(
                     var rec = JSON.parse(JSON.stringify(res.rows.item(i))); /* obj returned form WebSQL is non-writable, therefore needs to be converted */
                     /* create model record from result with state valid */
                     /* $.extend merges param1 object with param2 object*/
-                    //result.push(obj.model.createRecord($.extend(res.rows.item(i), {state: M.STATE_VALID}), this));
-                    result.push(obj.model.createRecord($.extend(rec, {state: M.STATE_VALID})));
+
+                    var myRec = obj.model.createRecord($.extend(rec, {state: M.STATE_VALID}));
+
+                    /* create M.Date objects for all date properties */
+                    for(var i in myRec) {
+                        /* here we can work with setter and getter because myRec already is a model record */
+                        if(myRec.__meta[i].dataType === 'Date' && typeof(myRec.get(i)) === 'string') {
+                            myRec.set(i, M.Date.create(myRec.get(i)));
+                        }
+                    }
+
+                    /* add to result array */
+                    result.push(myRec);
                 }
+                
             }, function(){M.Logger.log('Incorrect statement: ' + sql, M.ERROR)}) // callbacks: SQLStatementErrorCallback
         }, function(){ // errorCallback
             /* bind error callback */
@@ -366,6 +389,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      */
     createTable: function(obj, callback) {
         console.log('createTable() called.');
+        console.log(obj);
         var sql = 'CREATE TABLE IF NOT EXISTS '  + obj.model.name
                     + ' (ID INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE';
 
@@ -415,8 +439,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @returns {String} The string used for db create to represent this property.
      */
     buildDbAttrFromProp: function(model, prop) {
-        console.log(model);
-        console.log(prop);
+
         var type = this.typeMapping[model.__meta[prop].dataType].toUpperCase();
 
         var isReqStr = model.__meta[prop].isRequired ? ' NOT NULL' : '';
