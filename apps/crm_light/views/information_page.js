@@ -1,6 +1,6 @@
 CRMLight.InformationPage = M.PageView.design({
 
-    childViews: 'header red red2 footer',
+    childViews: 'header footer',
 
     cssClass: 'bg informationPage',
 
@@ -36,18 +36,6 @@ CRMLight.InformationPage = M.PageView.design({
 
     }),
 
-    red: M.ContainerView.design({
-
-        cssClass: 'redSmall'
-
-    }),
-
-    red2: M.ContainerView.design({
-
-        cssClass: 'redSmall bottom'
-
-    }),
-
     footer: M.ToolbarView.design({
 
         childViews: 'grid',
@@ -58,13 +46,17 @@ CRMLight.InformationPage = M.PageView.design({
 
         grid: M.GridView.design({
 
-            childViews: 'search newActivity',
+            childViews: 'initDB newActivity',
 
             layout: M.TWO_COLUMNS,
 
-            search: M.ButtonView.design({
+            initDB: M.ButtonView.design({
 
-                value: M.I18N.l('search')
+                value: 'Init DB',
+
+                target: CRMLight.ActivitiesPageController,
+
+                action: 'loadInitData'
 
             }),
 
