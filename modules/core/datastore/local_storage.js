@@ -40,11 +40,11 @@ M.LocalStorageProvider = M.DataProvider.extend(
      */
     save: function(obj) {
         try {
-            console.log(obj);
-            localStorage.setItem(obj.model.name + '_' + obj.model.id, JSON.stringify(obj.model.record));
+            //console.log(obj);
+            localStorage.setItem(M.Application.name + '_' + obj.model.name + '_' + obj.model.id, JSON.stringify(obj.model.record));
             return YES;
         } catch(e) {
-            M.Logger.log(M.WARN, 'Error saving ' + obj.model.record + ' to localStorage with ID: ' + obj.model.name + '_' + that.id);
+            M.Logger.log(M.WARN, 'Error saving ' + obj.model.record + ' to localStorage with ID: ' + M.Application.name + '_' + obj.model.name + '_' + that.id);
             return NO;
         }
 
@@ -60,14 +60,14 @@ M.LocalStorageProvider = M.DataProvider.extend(
      */
     del: function(obj) {
         try {
-            if(localStorage.getItem(obj.model.name + '_' + obj.model.id)){ // check if key-value pair exists
-                localStorage.removeItem(obj.model.name + '_' + obj.model.id);
+            if(localStorage.getItem(M.Application.name + '_' + obj.model.name + '_' + obj.model.id)){ // check if key-value pair exists
+                localStorage.removeItem(M.Application.name + '_' + obj.model.name + '_' + obj.model.id);
                 obj.model.recordManager.remove(obj.model.id);
                 return YES;
             }
             return NO;
         } catch(e) {
-            M.Logger.log(M.WARN, 'Error removing ID: ' + obj.model.name + '_' + obj.model.id + ' from localStorage');
+            M.Logger.log(M.WARN, 'Error removing ID: ' + M.Application.name + '_' + obj.model.name + '_' + obj.model.id + ' from localStorage');
             return NO;
         }
     },
@@ -90,7 +90,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
                 return NO;
             }
             /*construct new model record with the saved id*/
-            var reg = new RegExp('^' + obj.model.name + '_([0-9]+)').exec(obj.key);
+            var reg = new RegExp('^' + M.Application.name + '_' + obj.model.name + '_([0-9]+)').exec(obj.key);
             var m_id = reg && reg[1] ? reg[1] : null;
             if (!m_id) {
                 M.Logger.log('retrieved model has no valid key: ' + obj.key, M.ERROR);
@@ -198,12 +198,12 @@ M.LocalStorageProvider = M.DataProvider.extend(
         var result = [];
         for (var i = 0; i < localStorage.length; i++){
             var k = localStorage.key(i);
-            regexResult = new RegExp('^' + obj.model.name + '_').exec(k);
+            regexResult = new RegExp('^' + M.Application.name + '_' + obj.model.name + '_').exec(k);
             if(regexResult) {
                 var record = this.buildRecord(k, obj);//JSON.parse(localStorage.getItem(k));
 
                 /*construct new model record with the saved id*/
-                var reg = new RegExp('^' + obj.model.name + '_([0-9]+)').exec(k);
+                var reg = new RegExp('^' + M.Application.name + '_' + obj.model.name + '_([0-9]+)').exec(k);
                 var m_id = reg && reg[1] ? reg[1] : null;
                 if (!m_id) {
                     M.Logger.log('Model Record id not correct: ' + m_id, M.ERROR);
@@ -251,7 +251,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
         var keys = [];
         for (var i = 0; i < localStorage.length; i++){
             var k = localStorage.key(i)
-            regexResult = new RegExp('^' + obj.model.name + '_').exec(k);
+            regexResult = new RegExp('^' + M.Application.name + '_' + obj.model.name + '_').exec(k);
             if(regexResult) {
                 keys.push(k);
             }

@@ -121,7 +121,6 @@ M.Model = M.Object.extend(
                 delete modelRecord.record[i];
             }
         }
-
         this.recordManager.add(modelRecord);
         return modelRecord;
     },
@@ -139,6 +138,7 @@ M.Model = M.Object.extend(
             __meta: {},
             name: obj.__name__,
             dataProvider: dp,
+            recordManager: {},
             usesValidation: obj.usesValidation === null || obj.usesValidation === undefined ? this.usesValidation : obj.usesValidation
         });
         delete obj.__name__;
@@ -163,7 +163,7 @@ M.Model = M.Object.extend(
 
         /* Re-set the just registered model's id, if there is a value stored */
         /* Model Registry stores the current id of a model type into localStorage */
-        var id = localStorage.getItem(model.name);
+        var id = localStorage.getItem(M.Application.name + '_' + model.name);
         if(id) {
             M.Application.modelRegistry.setId(model.name, parseInt(id));
         }
