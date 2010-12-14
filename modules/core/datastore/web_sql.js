@@ -193,10 +193,10 @@ M.WebSqlProvider = M.DataProvider.extend(
                 M.Logger.log('Incorrect statement: ' + sql, M.ERROR);
             });
         },
-        function() { // errorCallback
+        function(sqlError) { // errorCallback
             /* bind error callback */
             if (obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action]);
+                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
                 obj.onError();
             }
         },
