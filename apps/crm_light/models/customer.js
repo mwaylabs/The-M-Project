@@ -110,5 +110,5 @@ CRMLight.Customer = M.Model.create({
     })
 
 }, M.WebSqlProvider.configure({
-    dbName: 'crm_light_db'
+    dbName: 'crm_light_database'
 }));

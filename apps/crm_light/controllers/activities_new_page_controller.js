@@ -56,10 +56,22 @@ CRMLight.ActivitiesNewPageController = M.Controller.extend({
             customerId: M.ViewManager.getView('activitiesNewPage', 'customerId').value
         });
 
-        a.save();
+        M.LoaderView.show();
+        a.save({
+            onSuccess: {
+                target: this,
+                action: 'saveDone'
+            },
+            onError: function() {
+                M.LoaderView.hide();
+            }
+        });
 
+    },
+
+    saveDone: function() {
+        M.LoaderView.hide();
         this.switchToPage(M.ViewManager.getPage('activitiesPage'), null, YES);
-
     }
 
 });
