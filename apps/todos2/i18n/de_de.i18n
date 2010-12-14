@@ -42,6 +42,10 @@ M.I18N.de_de = {
 
     "spanish": "Spanisch",
 
-    "days": "Tag(e)"
+    "days": "Tag(e)",
+
+    "contact": "Kontakt",
+
+    "contactText": "Für weitere Informationen bezüglich dieser Anwendung oder 'The-M-Project' kontaktieren Sie bitte die M-Way Solutions GmbH."
 
 }

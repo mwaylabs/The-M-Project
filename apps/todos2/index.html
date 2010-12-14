@@ -374,9 +374,9 @@
 
                     content: M.ScrollView.design({
 
-                        childViews: 'langSelection',
+                        childViews: 'langSelection contactHeader contactText contactMail contactUrl',
 
-                            langSelection: M.SelectionListView.design({
+                        langSelection: M.SelectionListView.design({
 
                             childViews: 'item1 item2',
 
@@ -408,6 +408,42 @@
                                 value: 'en_us'
 
                             })
+
+                        }),
+
+                        contactHeader: M.LabelView.design({
+
+                            value: M.I18N.l('contact'),
+
+                            cssClass: 'label'
+
+                        }),
+
+                        contactText: M.LabelView.design({
+
+                            value: M.I18N.l('contactText'),
+
+                            cssClass: 'contactText'
+
+                        }),
+
+                        contactMail: M.LabelView.design({
+
+                            value: 'info@mwaysolutions.com',
+
+                            hyperlinkType: M.HYPERLINK_EMAIL,
+
+                            hyperlinkTarget: 'info@mwaysolutions.com'
+
+                        }),
+
+                        contactUrl: M.LabelView.design({
+
+                            value: 'www.mwaysolutions.com',
+
+                            hyperlinkType: M.HYPERLINK_WEBSITE,
+
+                            hyperlinkTarget: 'http://www.mwaysolutions.com/'
 
                         })
 

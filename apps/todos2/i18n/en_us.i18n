@@ -42,6 +42,10 @@ M.I18N.en_us = {
 
     "spanish": "Spanish",
 
-    "days": "day(s)"
+    "days": "day(s)",
+
+    "contact": "Contact",
+
+    "contactText": "For further information concerning this app or 'The-M-Project' please contact the M-Way Solutions GmbH."
 
 }

@@ -57,3 +57,16 @@
 .error {
     border: 1px solid #FF0000;
 }
+
+.ui-controlgroup-label, .label {
+    font-weight: bold;
+    margin-bottom:10px;
+}
+
+.label {
+    margin-top:30px;
+}
+
+.contactText {    
+    margin-bottom:10px;
+}
