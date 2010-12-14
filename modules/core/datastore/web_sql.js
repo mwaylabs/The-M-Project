@@ -108,7 +108,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * * the model
      */
      save: function(obj) {
-        console.log('save() called.');
+        //console.log('save() called.');
 
         this.onSuccess = obj.onSuccess;
         this.onError = obj.onError;
@@ -145,7 +145,7 @@ M.WebSqlProvider = M.DataProvider.extend(
             }
             sql = sql.substring(0, sql.lastIndexOf(',')) + '); ';
 
-            console.log(sql);
+            //console.log(sql);
 
             this.performOp(sql, obj, 'INSERT');
 
@@ -167,7 +167,7 @@ M.WebSqlProvider = M.DataProvider.extend(
             sql = sql.substring(0, sql.lastIndexOf(','));
             sql += ' WHERE ' + 'ID=' + obj.model.record.ID + ';';
 
-            console.log(sql);
+            //console.log(sql);
 
             this.performOp(sql, obj, 'UPDATE');
         }
@@ -205,9 +205,9 @@ M.WebSqlProvider = M.DataProvider.extend(
             if(opType === 'DELETE') {
                 obj.model.recordManager.remove(obj.model.id);
             }
-            console.log('success callback in performOP');
-            console.log('obj.onSuccess:');
-            console.log(obj.onSuccess);
+            //console.log('success callback in performOP');
+            //console.log('obj.onSuccess:');
+            //console.log(obj.onSuccess);
             /* bind success callback */
             if (obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
                 obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
@@ -227,7 +227,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * * the model
      */
     del: function(obj) {
-        console.log('del() called.');
+        //console.log('del() called.');
         if(!this.isInitialized) {
             this.internalCallback = this.del;
             this.init(obj, this.bindToCaller(this, this.del));
@@ -236,7 +236,7 @@ M.WebSqlProvider = M.DataProvider.extend(
 
         var sql = 'DELETE FROM ' + obj.model.name + ' WHERE ID=' + obj.model.record.ID + ';';
 
-        console.log(sql);
+        //console.log(sql);
 
         this.performOp(sql, obj, 'DELETE');
     },
@@ -257,7 +257,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * * limit: Number defining the number of max. result items
      */
     find: function(obj) {
-        console.log('find() called.');
+        //console.log('find() called.');
         
         this.onSuccess = obj.onSuccess;
         this.onError = obj.onError;
@@ -293,7 +293,7 @@ M.WebSqlProvider = M.DataProvider.extend(
         if(obj.constraint) {
 
             var n = obj.constraint.statement.split("?").length - 1;
-            console.log('n: ' + n);
+            //console.log('n: ' + n);
             /* if parameters are passed we assign them to stmtParameters, the array that is passed for prepared statement substitution*/
             if(obj.constraint.parameters) {
 
@@ -323,7 +323,7 @@ M.WebSqlProvider = M.DataProvider.extend(
             sql += ' LIMIT ' + obj.limit
         }
 
-        console.log(sql);
+        //console.log(sql);
 
         var result = [];
         var that = this;
@@ -378,7 +378,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @private
      */
     openDb: function() {
-        console.log('openDb() called.');
+        //console.log('openDb() called.');
         /* openDatabase(db_name, version, description, estimated_size, callback) */
         this.dbHandler = openDatabase(this.config.dbName, '1.0', 'Database for M app', this.config.size);
     },
@@ -389,8 +389,8 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @private
      */
     createTable: function(obj, callback) {
-        console.log('createTable() called.');
-        console.log(obj);
+        //console.log('createTable() called.');
+        //console.log(obj);
         var sql = 'CREATE TABLE IF NOT EXISTS '  + obj.model.name
                     + ' (ID INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE';
 
@@ -400,7 +400,7 @@ M.WebSqlProvider = M.DataProvider.extend(
 
         sql += ');';
 
-        console.log(sql);
+        //console.log(sql);
         
         if(this.dbHandler) {
             var that = this;
@@ -423,7 +423,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @param {Object} obj Includes dbName
      */
     configure: function(obj) {
-        console.log('configure() called.');
+        //console.log('configure() called.');
         obj.size = obj.size ? obj.size : 1024*1024;
         // maybe some value checking
         return this.extend({
@@ -471,7 +471,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * Then calls the internal callback => the function that called init().
      */
     handleDbReturn: function(obj, callback) {
-        console.log('handleDbReturn() called.');
+        //console.log('handleDbReturn() called.');
         this.isInitialized = YES;
         this.internalCallback(obj, callback);
     },
