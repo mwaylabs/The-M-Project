@@ -244,6 +244,13 @@ M.TextFieldView = M.View.extend(
     enable: function() {
         this.isEnabled = YES;
         this.renderUpdate();
+    },
+
+    /**
+     * This method clears the text field's value, both in the DOM and within the JS object.
+     */
+    clearValue: function() {
+        this.setValue('');
     }
 
 });

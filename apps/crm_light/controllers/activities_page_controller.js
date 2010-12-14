@@ -129,6 +129,10 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
                 onSuccess: {
                     target: this,
                     action: 'activitiesLoaded'
+                },
+                onError: {
+                    target: this,
+                    action: 'sqlLoadFailed'
                 }
             });
         }
@@ -139,6 +143,10 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
                 onSuccess: {
                     target: this,
                     action: 'customersLoaded'
+                },
+                onError: {
+                    target: this,
+                    action: 'sqlLoadFailed'
                 }
             });
         }
@@ -156,6 +164,12 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
         if(this.aL && this.cL) {
             M.LoaderView.hide();
         }   
+    },
+
+    sqlLoadFailed: function(sqlError) {
+        M.DialogView.alert({
+            message: sqlError.code + ': ' + sqlError.message
+        });
     }
 
 });
