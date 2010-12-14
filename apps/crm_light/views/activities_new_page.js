@@ -5,7 +5,7 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
     cssClass: 'activitiesNewPage',
 
     onLoad: {
-        target: CRMLight.ActivitiesPageController,
+        target: CRMLight.ActivitiesNewPageController,
         action: 'init'
     },
 
@@ -23,7 +23,7 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
             target: CRMLight.ActivitiesNewPageController,
 
-            action: 'openActivitiesPage'
+            action: 'openActivitiesNewSelectPage'
 
         }),
 
@@ -47,41 +47,21 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
         form: M.FormView.design({
 
-            childViews: 'description customerId vkst companyName responsiblePerson beginDate endDate processType activityReason goal status result resultReason text',
+            childViews: 'processType description customerId vkst companyName responsiblePerson beginDate endDate activityReason goal status result resultReason text',
 
-            description: M.SelectionListView.design({
+            processType: M.TextFieldView.design({
 
-                label: M.I18N.l('description'),
+                label: M.I18N.l('processType'),
 
-                isInsideFormView: YES,
+                contentBinding: 'CRMLight.ActivitiesNewPageController.activityName',
 
-                cssClass: 'select',
+                isEnabled: NO
 
-                childViews: 'test test2 test3',
+            }),
 
-                test: M.SelectionListItemView.design({
+            description: M.TextFieldView.design({
 
-                    value: 'test',
-                    
-                    label: 'Test'
-
-                }),
-
-                test2: M.SelectionListItemView.design({
-
-                    value: 'test2',
-
-                    label: 'Test2'
-
-                }),
-
-                test3: M.SelectionListItemView.design({
-
-                    value: 'test3',
-                    
-                    label: 'Test3'
-
-                })
+                label: M.I18N.l('description')
 
             }),
 
@@ -121,15 +101,17 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
             }),
 
-            processType: M.TextFieldView.design({
+            activityReason: M.SelectionListView.design({
 
-                label: M.I18N.l('processType')
+                label: M.I18N.l('activityReason'),
 
-            }),
+                removeItemsOnUpdate: YES,
 
-            activityReason: M.TextFieldView.design({
+                isInsideFormView: YES,
 
-                label: M.I18N.l('activityReason')
+                cssClass: 'select',
+
+                contentBinding: 'CRMLight.ActivitiesNewPageController.activityReason'
 
             }),
 
@@ -139,15 +121,31 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
             }),
 
-            status: M.TextFieldView.design({
+            status: M.SelectionListView.design({
 
-                label: M.I18N.l('status')
+                label: M.I18N.l('status'),
+
+                removeItemsOnUpdate: YES,
+
+                isInsideFormView: YES,
+
+                cssClass: 'select',
+
+                contentBinding: 'CRMLight.ActivitiesNewPageController.activityStatus'
 
             }),
 
-            result: M.TextFieldView.design({
+            result: M.SelectionListView.design({
 
-                label: M.I18N.l('result')
+                label: M.I18N.l('result'),
+
+                removeItemsOnUpdate: YES,
+
+                isInsideFormView: YES,
+
+                cssClass: 'select',
+
+                contentBinding: 'CRMLight.ActivitiesNewPageController.activityResult'
 
             }),
 

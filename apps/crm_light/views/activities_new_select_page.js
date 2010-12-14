@@ -2,7 +2,7 @@ CRMLight.ActivitiesNewSelectPage = M.PageView.design({
 
     childViews: 'header content',
 
-    cssClass: 'activitiesNewPage',
+    cssClass: 'activitiesNewSelectPage',
 
     onLoad: {
         target: CRMLight.ActivitiesNewSelectPageController,

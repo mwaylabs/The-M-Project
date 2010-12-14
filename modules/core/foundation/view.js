@@ -400,6 +400,16 @@ M.View = M.Object.extend(
     },
 
     /**
+     * @interface
+     *
+     * This method defines an interface method for clearing a view's value. This should be
+     * implemented with a specific behaviour for any input view.
+     */
+    clearValue: function() {
+        
+    },
+
+    /**
      * Adds a css class to the view's DOM representation.
      *
      * @param {String} cssClass The css class to be added.

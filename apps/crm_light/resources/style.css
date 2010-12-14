@@ -7,7 +7,7 @@ li.ui-btn-active {
     text-shadow: #721414 0px -1px 1px;
 }
 
-[data-role=listview] li.ui-btn-active {
+div.activitiesPage li.ui-btn-active, div.activitiesNewSelectPage li.ui-btn-active {
     background:none;
 }
 
@@ -396,4 +396,19 @@ div.activitiesNewPage [data-role=fieldcontain].select div.ui-select a span.ui-ic
 
 div.activitiesNewPage [data-role=fieldcontain] input[type=text] {
     height:15px;
+}
+
+div.activitiesNewSelectPage li div.activityName {
+    color: #31343D;
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #FFFFFF;
+    width: inherit;
+}
+
+[role=listbox] div.ui-btn-text {
+    font-size: 12px;
+    font-weight: bold;
+    color:#333333;
 }

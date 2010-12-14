@@ -28,6 +28,14 @@ M.EventDispatcher = M.Object.create(
     type: 'M.EventDispatcher',
 
     /**
+     * Saves the latest on click event to make sure that there are no multiple events
+     * fired for one click.
+     *
+     * @type {Object}
+     */
+    lastOnClickEvent: null,
+
+    /**
      * This method is called whenever an event is triggered within the app.
      *
      * @param {Object} evt The event.
@@ -47,8 +55,20 @@ M.EventDispatcher = M.Object.create(
      * @param {String} orientation The orientation of the device (only passed if an orientationChange event did happen).
      */
     onClickEventDidHappen: function(type, id, keyCode, orientation) {
-        if(!M.Application.viewManager.getViewById(id).inEditMode) {
-            this.delegateEvent(type, id, keyCode, orientation);
+        var evt = {
+            type: type,
+            id: id,
+            keyCode: keyCode,
+            orientation: orientation,
+            date: M.Date.create()
+        };
+
+        /* only delegate the incoming event if there hasn't been the same event within the last 100 milliseconds */
+        if(!this.lastOnClickEvent || (this.lastOnClickEvent && this.lastOnClickEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
+            this.lastOnClickEvent = evt;
+            if(!M.Application.viewManager.getViewById(id).inEditMode) {
+                this.delegateEvent(type, id, keyCode, orientation);
+            }
         }
     },
 

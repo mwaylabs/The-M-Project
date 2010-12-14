@@ -7,7 +7,7 @@ CRMLight.ActivitiesNewSelectPageController = M.Controller.extend({
         if(isFirstTime) {
 
             M.Request.init({
-                url: 'activities.json',
+                url: 'fixtures/select_lists.json',
                 isJSON: YES,
                 beforeSend: function(req) {
                     M.LoaderView.show();
@@ -28,6 +28,18 @@ CRMLight.ActivitiesNewSelectPageController = M.Controller.extend({
     openActivitiesPage: function() {
 
         this.switchToPage(M.ViewManager.getPage('activitiesPage'), null, YES);
+
+    },
+
+    openActivitiesNewPage: function(id) {
+
+        var activityName = M.ViewManager.getViewById(id).value;
+        var activity = _.detect(this.activity_selection, function(activity) {
+            return activity.name === activityName;
+        });
+        CRMLight.ActivitiesNewPageController.set('activity', _.clone(activity));
+
+        this.switchToPage(M.ViewManager.getPage('activitiesNewPage'));
 
     }
 

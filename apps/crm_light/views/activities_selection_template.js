@@ -4,7 +4,13 @@ CRMLight.ActivitiesSelectionListTemplateView = M.ListItemView.design({
 
     activityName: M.LabelView.design({
 
-        value: 'Item'
+        cssClass: 'activityName',
+
+        target: CRMLight.ActivitiesNewSelectPageController,
+
+        action: 'openActivitiesNewPage',
+        
+        valuePattern: '<%= name %>'
 
     })
 
