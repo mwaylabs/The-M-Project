@@ -35,9 +35,7 @@ M.DateValidator = M.Validator.extend(
      * @returns {Boolean} Indicating whether validation passed (YES|true) or not (NO|false).
      */
     validate: function(obj, key) {
-        console.log(obj);
-        console.log(obj.value.type);
-        if(obj.value.type !== 'M.Date' && (obj.value === null || obj.value === undefined || obj.value === '' || !M.Date.create(obj.value))) {
+        if(obj.value.type && obj.value.type !== 'M.Date' && (obj.value === null || obj.value === undefined || obj.value === '' || !M.Date.create(obj.value))) {
             if(obj.isView) {
                 this.validationErrors.push({
                     msg: this.msg ? this.msg : key + ' is not a valid date.',
