@@ -74,7 +74,6 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
                     return parseInt(customer.get('nr')) === parseInt(activities[i][j].customerId);
                 });
                 delete activities[i][j].customerId;
-                console.log(customer);
                 activities[i][j].companyName = M.Cypher.utf8_decode(customer.get('customerName') + ' | ' + customer.get('city'));
                 activities[i][j].companyCity = M.Cypher.utf8_decode(customer.get('city'));
             }
