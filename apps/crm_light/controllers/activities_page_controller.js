@@ -90,6 +90,7 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
                 });
                 delete activities[i][j].customerId;
                 activities[i][j].companyName = M.Cypher.utf8_decode(customer.record.customerName + ' | ' + customer.record.city);
+                activities[i][j].companyCity = M.Cypher.utf8_decode(customer.record.city);
             }
         }
         this.set('activities', activities);
