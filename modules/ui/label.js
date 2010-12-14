@@ -89,7 +89,7 @@ M.LabelView = M.View.extend(
                     this.html += '<a rel="external" href="mailto:' + this.hyperlinkTarget + '">';
                     break;
                 case M.HYPERLINK_WEBSITE:
-                    this.html += '<a rel="external" href="' + this.hyperlinkTarget + '">';
+                    this.html += '<a rel="external" target="_blank" href="' + this.hyperlinkTarget + '">';
                     break;
                 case M.HYPERLINK_PHONE:
                     this.html += '<a rel="external" href="tel:' + this.hyperlinkTarget + '">';
