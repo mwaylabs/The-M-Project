@@ -135,11 +135,11 @@ M.WebSqlProvider = M.DataProvider.extend(
             /* VALUES(12, 'Test', ... ) */
             sql += 'VALUES (';
 
-            for(var prop in obj.model.record) {
+            for(var prop2 in obj.model.record) {
                 /* if property is string or text write value in quotes */
-                var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' || obj.model.__meta[prop].dataType === 'Date' ? '"' : '';
+                var pre_suffix = obj.model.__meta[prop2].dataType === 'String' || obj.model.__meta[prop2].dataType === 'Text' || obj.model.__meta[prop2].dataType === 'Date' ? '"' : '';
                 /* if property is date object, convert to string by calling toJSON */
-                var recordPropValue = (obj.model.record[prop].type === 'M.Date') ? obj.model.record[prop].toJSON() : obj.model.record[prop]; 
+                var recordPropValue = (obj.model.record[prop2].type === 'M.Date') ? obj.model.record[prop2].toJSON() : obj.model.record[prop2]; 
 
                 sql += pre_suffix + recordPropValue + pre_suffix + ', ';
             }
@@ -350,10 +350,10 @@ M.WebSqlProvider = M.DataProvider.extend(
                 }
                 
             }, function(){M.Logger.log('Incorrect statement: ' + sql, M.ERROR)}) // callbacks: SQLStatementErrorCallback
-        }, function(){ // errorCallback
+        }, function(sqlError){ // errorCallback
             /* bind error callback */
             if(obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action]);
+                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
                 obj.onError();
             } else if (typeof(obj.onError) !== 'function') {
                 M.Logger.log('Target and action in onError not defined.', M.ERROR);
@@ -380,7 +380,7 @@ M.WebSqlProvider = M.DataProvider.extend(
     openDb: function() {
         //console.log('openDb() called.');
         /* openDatabase(db_name, version, description, estimated_size, callback) */
-        this.dbHandler = openDatabase(this.config.dbName, '1.0', 'Database for M app', this.config.size);
+        this.dbHandler = openDatabase(this.config.dbName, '2.0', 'Database for M app', this.config.size);
     },
 
 
@@ -408,7 +408,14 @@ M.WebSqlProvider = M.DataProvider.extend(
                 /* transaction has 3 parameters: the transaction callback, the error callback and the success callback */
                 this.dbHandler.transaction(function(t) {
                     t.executeSql(sql);
-                }, null, that.bindToCaller(that, that.handleDbReturn, [obj, callback]));
+                }, function(sqlError){ // errorCallback
+                    /* bind error callback */
+                    if(obj.onError && obj.onError.target && obj.onError.action) {
+                        obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
+                        obj.onError();
+                    } else if (typeof(obj.onError) !== 'function') {
+                        M.Logger.log('Target and action in onError not defined.', M.ERROR);
+                    }}, that.bindToCaller(that, that.handleDbReturn, [obj, callback])); // success callback
             } catch(e) {
                 M.Logger.log('Error code: ' + e.code + ' msg: ' + e.message, M.ERROR);
                 return;
