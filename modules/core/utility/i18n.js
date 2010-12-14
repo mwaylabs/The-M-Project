@@ -104,7 +104,6 @@ M.I18N = M.Object.extend(
 
         if(localStorage) {
             localStorage.setItem('$' + M.Application.name + '_lang$', language);
-            location.hash = '';
             location.reload();
         }
     },
