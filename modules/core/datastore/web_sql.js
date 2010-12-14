@@ -139,7 +139,7 @@ M.WebSqlProvider = M.DataProvider.extend(
                 /* if property is string or text write value in quotes */
                 var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' || obj.model.__meta[prop].dataType === 'Date' ? '"' : '';
                 /* if property is date object, convert to string by calling toJSON */
-                var recordPropValue = obj.model.__meta[prop].dataType === 'Date' ? obj.model.record[prop].toJSON() : obj.model.record[prop]; 
+                var recordPropValue = (obj.model.record[prop].type === 'M.Date') ? obj.model.record[prop].toJSON() : obj.model.record[prop]; 
 
                 sql += pre_suffix + recordPropValue + pre_suffix + ', ';
             }
@@ -192,10 +192,10 @@ M.WebSqlProvider = M.DataProvider.extend(
                 M.Logger.log('Incorrect statement: ' + sql, M.ERROR);       
             });
         },
-        function() { // errorCallback
+        function(sqlError) { // errorCallback
             /* bind error callback */
             if (obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action]);
+                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
                 obj.onError();
             }
         },
@@ -380,7 +380,7 @@ M.WebSqlProvider = M.DataProvider.extend(
     openDb: function() {
         console.log('openDb() called.');
         /* openDatabase(db_name, version, description, estimated_size, callback) */
-        this.dbHandler = openDatabase(this.config.dbName, '2.0', 'Database for M app', this.config.size);
+        this.dbHandler = openDatabase(this.config.dbName, '1.0', 'Database for M app', this.config.size);
     },
 
 
