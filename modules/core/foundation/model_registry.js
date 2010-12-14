@@ -48,7 +48,7 @@ M.ModelRegistry = M.Object.extend(
         for(i in this.registry){
             if(this.registry[i].modelName === modelName){
                 this.registry[i].id = this.registry[i].id + 1;
-                localStorage.setItem(modelName, this.registry[i].id);
+                localStorage.setItem(M.Application.name + '_' + modelName, this.registry[i].id);
                 return this.registry[i].id;
             }
         }  
