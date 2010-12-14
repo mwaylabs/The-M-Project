@@ -27,11 +27,11 @@ CRMLight.Activity = M.Model.create({
         validators: [M.DateValidator]
     }),
 
-    createDate: M.Model.attr('String', {  // createdate
+    createDate: M.Model.attr('Date', {  // createdate
         isRequired: NO    
     }),
 
-    modifyDate: M.Model.attr('String', {  // modifydate
+    modifyDate: M.Model.attr('Date', {  // modifydate
         isRequired: NO
     }),
 

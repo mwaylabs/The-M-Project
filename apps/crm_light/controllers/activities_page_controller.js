@@ -2,18 +2,26 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
 
     activities: null,
 
-    init: function() {
-        M.LoaderView.show();
-        CRMLight.Activity.find({
-            order: 'beginDate ASC',
+    aL: NO,
 
-            onSuccess: {
-                target: this,
-                action: 'setActivities'
-            },
+    cL: NO,
 
-            onError: function() { M.LoaderView.hide(); }
-        });    
+    init: function(isFirstTime) {
+
+        if(isFirstTime) {
+            M.LoaderView.show();
+            CRMLight.Activity.find({
+                order: 'beginDate ASC',
+
+                onSuccess: {
+                    target: this,
+                    action: 'setActivities'
+                },
+
+                onError: function() { M.LoaderView.hide(); }
+            });
+        }
+        
     },
 
     setActivities: function() {
@@ -112,16 +120,41 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
     },
 
     loadInitData: function() {
+        M.LoaderView.show();
         for(var i in CRMLight.ActivityFixtures.content) {
             var activity = CRMLight.ActivityFixtures.content[i];
             var activityRecord = CRMLight.Activity.createRecord(activity);
-            activityRecord.save();
+            activityRecord.save({
+                onSuccess: {
+                    target: this,
+                    action: 'activitiesLoaded'
+                }
+            });
         }
         for(var i in CRMLight.CustomerFixtures.content) {
             var customer = CRMLight.CustomerFixtures.content[i];
             var customerRecord = CRMLight.Customer.createRecord(customer);
-            customerRecord.save();
+            customerRecord.save({
+                onSuccess: {
+                    target: this,
+                    action: 'customersLoaded'
+                }
+            });
         }
+    },
+
+    activitiesLoaded: function() {
+        this.aL = YES;
+        if(this.aL && this.cL) {
+            M.LoaderView.hide();
+        }
+    },
+
+    customersLoaded: function() {
+        this.cL = YES;
+        if(this.aL && this.cL) {
+            M.LoaderView.hide();
+        }   
     }
 
 });
