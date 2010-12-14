@@ -330,7 +330,7 @@ M.WebSqlProvider = M.DataProvider.extend(
         this.dbHandler.readTransaction(function(t) {
             t.executeSql(sql, stmtParameters, function (tx, res) {
                 var len = res.rows.length, i;
-                for (i = 0; i < len; i++) {
+                for (var i = 0; i < len; i++) {
                     var rec = JSON.parse(JSON.stringify(res.rows.item(i))); /* obj returned form WebSQL is non-writable, therefore needs to be converted */
                     /* create model record from result with state valid */
                     /* $.extend merges param1 object with param2 object*/
@@ -338,10 +338,10 @@ M.WebSqlProvider = M.DataProvider.extend(
                     var myRec = obj.model.createRecord($.extend(rec, {state: M.STATE_VALID}));
 
                     /* create M.Date objects for all date properties */
-                    for(var i in myRec) {
+                    for(var j in myRec.__meta) {
                         /* here we can work with setter and getter because myRec already is a model record */
-                        if(myRec.__meta[i].dataType === 'Date' && typeof(myRec.get(i)) === 'string') {
-                            myRec.set(i, M.Date.create(myRec.get(i)));
+                        if(myRec.__meta[j].dataType === 'Date' && typeof(myRec.get(j)) === 'string') {
+                            myRec.set(j, M.Date.create(myRec.get(j)));
                         }
                     }
 
