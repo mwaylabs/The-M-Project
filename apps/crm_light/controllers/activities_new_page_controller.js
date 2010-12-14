@@ -25,7 +25,9 @@ CRMLight.ActivitiesNewPageController = M.Controller.extend({
 
     },
 
-    cancelNewActivity: function() {
+    cancelNewActivity: function(pageSwitch) {
+
+        pageSwitch = pageSwitch === NO ? NO : YES;
 
         M.ViewManager.getView('activitiesNewPage', 'form').clearForm();
 
@@ -34,7 +36,9 @@ CRMLight.ActivitiesNewPageController = M.Controller.extend({
         this.set('activityReason', this.activity.values['activity_reason']);
         this.set('activityResult', this.activity.values['result']);
 
-        this.openActivitiesNewSelectPage();
+        if(pageSwitch) {
+            this.openActivitiesNewSelectPage();
+        }
 
     },
 
@@ -69,8 +73,10 @@ CRMLight.ActivitiesNewPageController = M.Controller.extend({
 
     },
 
-    saveDone: function() {
+    saveDone: function() {        
+        this.cancelNewActivity(NO);
         M.LoaderView.hide();
+        CRMLight.ActivitiesPageController.init(YES);
         this.switchToPage(M.ViewManager.getPage('activitiesPage'), null, YES);
     }
 
