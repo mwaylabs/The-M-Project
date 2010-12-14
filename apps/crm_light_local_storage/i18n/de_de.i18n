@@ -1,0 +1,51 @@
+M.I18N.de_de = {
+
+    "activities": "Aktivitäten",
+
+    "information": "Informationen",
+
+    "back": "Zurück",
+
+    "customer_information": "Kundeninfo",
+
+    "search": "Suchen",
+
+    "new_activity": "Neue Aktivität",
+
+    "activities_search": "Aktivitäten Suche",
+
+    "searchString": "Suchbegriff",
+
+    "cancel": "Abbrechen",
+
+    "save": "Sichern",
+
+    "description": "Beschr.",
+
+    "customerId": "KDNR",
+
+    "vkst": "VKST",
+
+    "companyName": "Name",
+
+    "responsiblePerson": "Verantw.",
+
+    "beginDate": "Beginn",
+
+    "endDate": "Ende",
+
+    "processType": "Vorgang",
+
+    "activityReason": "Akt.grund",
+
+    "goal": "Ziel",
+
+    "status": "Status",
+
+    "result": "Ergebnis",
+
+    "resultReason": "Erg.grund",
+
+    "text": "Text"
+
+}
