@@ -88,5 +88,5 @@ CRMLight.Activity = M.Model.create({
     // hasOne: Customers
 
 }, M.WebSqlProvider.configure({
-    dbName: 'contacts_db'
+    dbName: 'crm_light_db'
 }));

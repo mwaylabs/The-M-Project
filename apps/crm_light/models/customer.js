@@ -67,7 +67,7 @@ CRMLight.Customer = M.Model.create({
         isRequired:NO
     }),
 
-    phone: M.Model.attr('String', { // tel
+    /*phone: M.Model.attr('String', { // tel
         isRequired:NO,
         validators: [M.PhoneValidator]
     }),
@@ -75,7 +75,7 @@ CRMLight.Customer = M.Model.create({
     email: M.Model.attr('String', { // email
         isRequired:NO,
         validators: [M.EmailValidator]
-    }),
+    }),*/
 
     contactName: M.Model.attr('String', { // namecontact
         isRequired:NO
