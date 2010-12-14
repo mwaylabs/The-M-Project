@@ -214,6 +214,10 @@ div.list_activity_name {
     position:absolute;
     top:10px;
     left:70px;
+    right:30px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 
 div.list_company_name {
