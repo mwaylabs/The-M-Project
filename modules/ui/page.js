@@ -149,6 +149,11 @@ M.PageView = M.View.extend(
             }
         }
 
+        /* initialize the loader for later use (if not already done) */
+        if(M.LoaderView) {
+            M.LoaderView.initialize();
+        }
+
         this.isFirstLoad = NO;
     },
 
