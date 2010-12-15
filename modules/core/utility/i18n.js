@@ -104,7 +104,7 @@ M.I18N = M.Object.extend(
 
         if(localStorage) {
             localStorage.setItem('$' + M.Application.name + '_lang$', language);
-            location.href = location.protocol + '//' + location.pathname;
+            location.href = location.protocol + '//' + location.host + location.pathname;
         }
     },
 
