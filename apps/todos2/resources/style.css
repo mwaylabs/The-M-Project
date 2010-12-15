@@ -1,6 +1,6 @@
 .bg {
-    background: url("mway_logo.png") no-repeat 50% 75% transparent;
-    background-size: 80%;
+    background: url("mway_logo.png") no-repeat 50% 80% transparent;
+    background-size: 200px;
 }
 
 .listText {
@@ -28,7 +28,7 @@
 .detailsLabel {
     color: #77ACF7;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .detailsSpacer {
@@ -69,4 +69,26 @@
 
 .contactText {    
     margin-bottom:10px;
+}
+
+div.todos_form {
+    padding-right:15px;
+    border:0px;
+}
+
+div.todos_form label {
+    width: 20%;
+    font-weight:bold;
+}
+
+div.todos_form input[type=text], div.todos_form textarea {
+    width: 100%!important;
+}
+
+div.ui-loader span.ui-icon {
+    background: url("loader.gif") no-repeat 50% 50% transparent;
+    -webkit-transform:none;
+    -webkit-animation:none;
+    height:32px;
+    width:32;
 }

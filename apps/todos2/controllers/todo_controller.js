@@ -159,13 +159,17 @@ Todos.TodoController = M.Controller.extend({
         if(!M.ViewManager.getView('subpage1', 'form2').validate()) {
             if(M.Validator.validationErrors) {
                 M.ViewManager.getView('subpage1', 'form2').showErrors();
+                this.set('selDate', this.selDate);
+                this.set('selDateFormat', this.selDateFormat);
+                this.set('selText', this.selText);
+                this.set('selTitle', this.selTitle);
                 return;
             }
         }
 
         var title = M.ViewManager.getView('subpage1', 'title').value;
         var text = M.ViewManager.getView('subpage1', 'text').value;
-        var date = date = M.Date.create(M.ViewManager.getView('subpage1', 'date').value);
+        var date = M.Date.create(M.ViewManager.getView('subpage1', 'date').value);
         
         var note = Todos.Note.recordManager.getRecordForId(this.selId);
         note.set('title', title);

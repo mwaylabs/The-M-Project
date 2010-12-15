@@ -70,11 +70,14 @@ views/tabs.js
 ../../modules/themes/jquery_mobile/images/form-check-off.png
 ../../modules/themes/jquery_mobile/images/form-radio-on.png
 ../../modules/themes/jquery_mobile/images/form-radio-off.png
+../../modules/themes/jquery_mobile/images/ajax-loader.png
+../../modules/themes/jquery_mobile/images/ajax-loader.gif
 resources/app_icon.png
 resources/settings.png
 resources/mway_logo.png
 resources/notepad.png
 resources/todo.png
+resources/loader.gif
 
 NETWORK:
 

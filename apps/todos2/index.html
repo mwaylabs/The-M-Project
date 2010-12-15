@@ -232,7 +232,8 @@
                                         msg: M.I18N.l('title_req')
                                     })],
                                     cssClassOnError: 'error',
-                                    contentBinding: 'Todos.TodoController.selTitle'
+                                    contentBinding: 'Todos.TodoController.selTitle',
+                                    cssClass: 'todos_form'
                                 }),
 
                                 text: M.TextFieldView.design({
@@ -243,7 +244,8 @@
                                         msg: M.I18N.l('details_req')
                                     })],
                                     cssClassOnError: 'error',
-                                    contentBinding: 'Todos.TodoController.selText'
+                                    contentBinding: 'Todos.TodoController.selText',
+                                    cssClass: 'todos_form'
                                 }),
 
                                 date: M.TextFieldView.design({
@@ -257,7 +259,8 @@
                                         msg: M.I18N.l('due_date_invalid')
                                     })],
                                     cssClassOnError: 'error',
-                                    contentBinding: 'Todos.TodoController.selDate'
+                                    contentBinding: 'Todos.TodoController.selDate',
+                                    cssClass: 'todos_form'
                                 })
 
                             }),
@@ -320,7 +323,8 @@
                                 validators: [M.PresenceValidator.customize({
                                     msg: M.I18N.l('title_req')
                                 })],
-                                cssClassOnError: 'error'
+                                cssClassOnError: 'error',
+                                cssClass: 'todos_form'
                             }),
 
                             text: M.TextFieldView.design({
@@ -330,7 +334,8 @@
                                 validators: [M.PresenceValidator.customize({
                                     msg: M.I18N.l('details_req')
                                 })],
-                                cssClassOnError: 'error'
+                                cssClassOnError: 'error',
+                                cssClass: 'todos_form'
                             }),
 
                             date: M.TextFieldView.design({
@@ -343,7 +348,8 @@
                                 }), M.DateValidator.customize({
                                     msg: M.I18N.l('due_date_invalid')
                                 })],
-                                cssClassOnError: 'error'
+                                cssClassOnError: 'error',
+                                cssClass: 'todos_form'
                             })
 
                         })
