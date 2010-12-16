@@ -119,6 +119,23 @@ M.SelectionListView = M.View.extend(
     initialText: null,
 
     /**
+     * The label proeprty defines a text that is shown above or next to the selection list as a 'title'
+     * for the selection list. e.g. "Name:". If no label is specified, no label will be displayed.
+     *
+     * @type String
+     */
+    label: null,
+
+    /**
+     * Determines whether to display the selection list grouped with the label specified with the label property.
+     * If set to YES, the selection list and its label are wrapped in a container and styled as a unit 'out of
+     * the box'. If set to NO, custom styling could be necessary.
+     *
+     * @type Boolean
+     */
+    isGrouped: YES,
+
+    /**
      * Renders a selection list.
      *
      * @private
@@ -127,14 +144,20 @@ M.SelectionListView = M.View.extend(
     render: function() {
 
         if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
-            
-            this.html = '<div' + this.style() + ' data-role="fieldcontain" id="' + this.id + '_field">';
+
+            this.html += '<div id="' + this.id + '_container"';
+
+            if(this.isGrouped) {
+                this.html += ' data-role="fieldcontain"';
+            }
+
+            this.html += '>';
 
             if(this.label) {
                 this.html += '<label for="' + this.id + '">' + this.label + '</label>';
             }
 
-            this.html += '<select id="' + this.id + '" onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');">';
+            this.html += '<select id="' + this.id + '"' + this.style() + ' onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');">';
 
             this.renderChildViews();
 
@@ -345,18 +368,27 @@ M.SelectionListView = M.View.extend(
      * This method returns the selected item's value(s) either as a String (M.SINGLE_SELECTION)
      * or as an Array (M.MULTIPLE_SELECTION).
      *
-     * @returns {String, Array} The selected item's value(s).
+     * @param {Boolean} returnObject Determines whether to return the selected item(s) as object or not.
+     * @returns {String, Object, Array} The selected item's value(s).
      */
-    getSelection: function() {
+    getSelection: function(returnObject) {
         if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             if(this.selection) {
-                return this.selection.value;
+                if(returnObject) {
+                    return this.selection;
+                } else {
+                    return this.selection.value;
+                }
             }
         } else {
             if(this.selection) {
                 var selection = [];
                 _.each(this.selection, function(item) {
-                    selection.push(item.value);
+                    if(returnObject) {
+                        selection.push(item);
+                    } else {
+                        selection.push(item.value);
+                    }
                 });
                 return selection;
             }
