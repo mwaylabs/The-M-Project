@@ -54,6 +54,15 @@ M.TextFieldView = M.View.extend(
     initialText: '',
 
     /**
+     * Determines whether to display the textfield grouped with the label specified with the label property.
+     * If set to YES, the textfield and its label are wrapped in a container and styled as a unit 'out of
+     * the box'. If set to NO, custom styling could be necessary.
+     *
+     * @type Boolean
+     */
+    isGrouped: YES,
+
+    /**
      * Defines whether the text field is rendered as an password field or not.
      *
      * @type Boolean
@@ -74,7 +83,13 @@ M.TextFieldView = M.View.extend(
      * @returns {String} The text field view's html representation.
      */
     render: function() {
-        this.html += '<div' + this.style() + ' data-role="fieldcontain">';
+        this.html += '<div';
+
+        if(this.isGrouped) {
+            this.html += ' data-role="fieldcontain"';
+        }
+
+        this.html += '>';
 
         if(this.label) {
             this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label + '</label>';
@@ -83,14 +98,14 @@ M.TextFieldView = M.View.extend(
         var type = this.isPassword ? 'password' : 'text';
 
         if(this.hasMultipleLines) {
-            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '">' + (this.value ? this.value : this.initialText) + '</textarea>';
+            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>' + (this.value ? this.value : this.initialText) + '</textarea>';
             
         } else {
-            this.html += '<input type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '" value="' + (this.value ? this.value : this.initialText) + '" />';
+            this.html += '<input type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
         }
 
         this.html += '</div>';
-
+        
         return this.html;
     },
 
@@ -142,25 +157,19 @@ M.TextFieldView = M.View.extend(
      * @returns {String} The text field's styling as html representation.
      */
     style: function() {
-        var html = '';
-        if(this.cssClass) {
-            html += ' class="' + this.cssClass + '"';
-        }
+        var html = ' style="';
         if(this.isInline) {
-            if(!html) {
-                html += ' style="';
-            }
             html += 'display:inline;';
         }
         if(!this.isEnabled) {
-            if(!html) {
-                html += ' style="';
-            }
-            html += 'disabled:disabled';
+            html += 'disabled:disabled;';
         }
-        if(html) {
-            html += '"';
+        html += '"';
+        
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
         }
+
         return html;
     },
 
