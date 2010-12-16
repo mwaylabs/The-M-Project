@@ -53,9 +53,18 @@ M.SelectionListItemView = M.View.extend(
      * @returns {String} The selection list item view's html representation.
      */
     render: function() {
-        if(this.parentView && this.parentView.isInsideFormView) {
-            this.html += '<option id="' + this.id + '" value="' + this.value + '">';
+        if(this.parentView && this.parentView.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+            this.html += '<option id="' + this.id + '" value="' + this.value + '"';
 
+            if((!this.parentView.initialText && this.isSelected && typeof(this.isSelected) === 'boolean') || (this.isSelected === String(YES))) {
+                if(!this.parentView.selection) {
+                    this.html += ' selected="selected"';
+                    this.parentView.selection = this;
+                }
+            }
+
+            this.html += '>';
+            
             this.html += this.label ? this.label : this.value;
 
             this.html += '</option>';
