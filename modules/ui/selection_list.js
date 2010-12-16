@@ -196,12 +196,8 @@ M.SelectionListView = M.View.extend(
      *
      * @param {String} item The html representation of a selection list item to be added.
      */
-    addItem: function(item, isInsideSelect) {
-        if(isInsideSelect) {
-            $('#' + this.id).append(item);
-        } else {
-            $('#' + this.id).append(item);
-        }
+    addItem: function(item) {
+        $('#' + this.id).append(item);
     },
 
     /**
@@ -218,27 +214,26 @@ M.SelectionListView = M.View.extend(
      *
      * @private
      */
-    /* TODO: refactor to use M.SINGLE_SELECTION_DIALOG */
     renderUpdate: function() {
-        if(this.removeItemsOnUpdate || this.isInsideFormView) {
+        if(this.removeItemsOnUpdate || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             this.removeAllItems();
 
-            if(this.label && !this.isInsideFormView) {
+            if(this.label && !(this.selectionMode === M.SINGLE_SELECTION_DIALOG)) {
                 this.addItem('<legend>' + this.label + '</legend>');
-            } else if(this.isInsideFormView) {
+            } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
                 if(this.label) {
-                    this.addItem('<label for="' + this.id + '">' + this.label + '</label>');
+                    //this.addItem('<label for="' + this.id + '">' + this.label + '</label>');
                 }
-                this.addItem('<select id="' + this.id + '"></select>');
+                //this.addItem('<select id="' + this.id + '" onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');"></select>');
             }
         }
-
+        
         if(this.contentBinding) {
             var items = eval(this.contentBinding);
             for(var i in items) {
                 var item  = items[i];
                 var obj = null;
-                if(this.isInsideFormView) {
+                if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
                     obj = M.SelectionListItemView.design({
                         value: item.value ? item.value : item,
                         label: item.label ? item.label : (item.value ? item.value : item),
@@ -255,13 +250,10 @@ M.SelectionListView = M.View.extend(
                         internalAction: 'itemSelected'
                     });
                 }
-                if(this.isInsideFormView) {
-                    this.addItem(obj.render(), YES);
-                } else {
-                    this.addItem(obj.render());
-                }
+
+                this.addItem(obj.render());
             }
-            this.theme();
+            this.themeUpdate();
         }
     },
 
@@ -273,6 +265,22 @@ M.SelectionListView = M.View.extend(
     theme: function() {
         if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             $('#' + this.id).selectmenu();
+            if(this.initialText) {
+                $('#' + this.id + '-button').find('span.ui-btn-text').html(this.initialText);
+            }
+        } else {
+            $('#' + this.id).controlgroup();
+        }
+    },
+
+    /**
+     * Triggers the rendering engine, jQuery mobile, to style the selection list.
+     *
+     * @private
+     */
+    themeUpdate: function() {
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+            $('#' + this.id).selectmenu('refresh');
             if(this.initialText) {
                 $('#' + this.id + '-button').find('span.ui-btn-text').html(this.initialText);
             }

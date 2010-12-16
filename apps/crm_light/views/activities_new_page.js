@@ -107,7 +107,7 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
                 removeItemsOnUpdate: YES,
 
-                isInsideFormView: YES,
+                selectionMode: M.SINGLE_SELECTION_DIALOG,
 
                 cssClass: 'select',
 
@@ -127,7 +127,7 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
                 removeItemsOnUpdate: YES,
 
-                isInsideFormView: YES,
+                selectionMode: M.SINGLE_SELECTION_DIALOG,
 
                 cssClass: 'select',
 
@@ -141,7 +141,7 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
                 removeItemsOnUpdate: YES,
 
-                isInsideFormView: YES,
+                selectionMode: M.SINGLE_SELECTION_DIALOG,
 
                 cssClass: 'select',
 
