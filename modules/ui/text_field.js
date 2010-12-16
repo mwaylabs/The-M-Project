@@ -105,7 +105,7 @@ M.TextFieldView = M.View.extend(
         }
 
         this.html += '</div>';
-        
+
         return this.html;
     },
 
@@ -229,7 +229,7 @@ M.TextFieldView = M.View.extend(
      * @param {Boolean} delegateUpdate Determines whether to delegate this value update to any observer or not.
      */
     setValue: function(value, delegateUpdate) {
-        this.value = value && value !== '' ? value : this.initialText;
+        this.value = value;
         this.renderUpdate();
 
         if(delegateUpdate) {
