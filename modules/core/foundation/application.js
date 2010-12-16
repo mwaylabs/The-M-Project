@@ -77,6 +77,14 @@ M.Application = M.Object.extend(
     defaultLanguage: null,
 
     /**
+     * This property determines whether to use transitions within the application, e.g. on
+     * page switches, or not. If set to NO, there will be no framework-sided transitions.
+     *
+     * @type Boolean
+     */
+    useTransitions: YES,
+
+    /**
      * This method encapsulates the 'include' method of M.Object for better reading of code syntax.
      * Basically it integrates the defined pages within the application into M.Application and sets
      * some basic configuration properties, e.g. the default language.
