@@ -212,6 +212,8 @@ M.WebSqlProvider = M.DataProvider.extend(
             if (obj.onError && obj.onError.target && obj.onError.action) {
                 obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
                 obj.onError();
+            } else if(obj.onError && typeof(obj.onError) === 'function') {
+                obj.onError(sqlError);
             }
         },
 
@@ -227,8 +229,9 @@ M.WebSqlProvider = M.DataProvider.extend(
             if (obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
                 obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
                 obj.onSuccess();
+            }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                obj.onSuccess(result);
             }
-
         });
     },
 
@@ -282,7 +285,7 @@ M.WebSqlProvider = M.DataProvider.extend(
             this.init(obj, this.bindToCaller(this, this.find));
             return;
         }
-
+        
         var sql = 'SELECT ';
 
         if(obj.columns) {
@@ -359,7 +362,7 @@ M.WebSqlProvider = M.DataProvider.extend(
                             myRec.set(j, M.Date.create(myRec.get(j)));
                         }
                     }
-
+                    
                     /* add to result array */
                     result.push(myRec);
                 }
@@ -384,6 +387,8 @@ M.WebSqlProvider = M.DataProvider.extend(
                  *  */
                 obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], [result]);
                 obj.onSuccess();
+            }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                obj.onSuccess(result);
             }
         });
     },
@@ -405,7 +410,7 @@ M.WebSqlProvider = M.DataProvider.extend(
                 //this.dbHandler = openDatabase(this.config.dbName, '1.0', 'Database for ' + M.Application.name, this.config.size);
                 /* leave version empty to open database regardless of its version */
                 if(!this.dbHandler) {
-                    this.dbHandler = openDatabase(this.config.dbName, '', 'Database for ' + M.Application.name, this.config.size);    
+                    this.dbHandler = openDatabase(this.config.dbName, '', 'Database for ' + M.Application.name, this.config.size);
                 }
 
             }
@@ -535,7 +540,6 @@ M.WebSqlProvider = M.DataProvider.extend(
      * Is called from queryDbForId, sets the model record's ID to the latest value of ID in the database.
      */
     setDbIdOfModel: function(model, id) {
-        console.log('id von model wird gesetzt...');
         model.record.ID = id;
     }
 
