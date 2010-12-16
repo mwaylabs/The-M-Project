@@ -105,7 +105,7 @@ M.TextFieldView = M.View.extend(
         }
 
         this.html += '</div>';
-        console.log(this.html);
+        
         return this.html;
     },
 
