@@ -22,14 +22,21 @@ M.SINGLE_SELECTION = 'radio';
  */
 M.MULTIPLE_SELECTION = 'checkbox';
 
+/**
+ * A constant value for single selection mode in a dialog / popup.
+ *
+ * @type String
+ */
+M.SINGLE_SELECTION_DIALOG = 'select';
+
 m_require('ui/selection_list_item.js');
 
 /**
  * @class
  *
  * This defines the prototype of any selection list view. A selection list view displays
- * a list with several items of which either only one single item (M.SINGLE_SELECTION) or
- * many items (M.MULTIPLE_SELECTION) can be selected.
+ * a list with several items of which either only one single item (M.SINGLE_SELECTION /
+ * M.SINGLE_SELECTION_DIALOG) or many items (M.MULTIPLE_SELECTION) can be selected.
  *
  * @extends M.View
  */
@@ -52,10 +59,31 @@ M.SelectionListView = M.View.extend(
 
     /**
      * The selection mode for this selection list. This can either be single or
-     * multiple selection. To set this value use one of the two constants:
-     * 
+     * multiple selection. To set this value use one of the three constants:
+     *
      * - M.SINGLE_SELECTION
+     *
+     *   This selection mode will render a selection list with several list items
+     *   of which only one can be selected. Whenever a new item is selected, the
+     *   previously selected item automatically gets de-selected. This selection
+     *   mode's behaviour is equivalent to the plain HTML's radio button.
+     *
+     *
+     * - M.SINGLE_SELECTION_DIALOG
+     *
+     *   This selection mode will render a selection list equivalent to the plain
+     *   HTML's select menu. Only the currently selected item will be visible, and
+     *   by clicking on this item, the selection list will be displayed in a dialog
+     *   respectively a popup view. By selecting on of the items, this popup will
+     *   automatically close and the selected value will be displayed.
+     *
+     *
      * - M.MULTIPLE_SELECTION
+     *
+     *   This selection mode will render a selection list with several list items
+     *   of which all be selected. So the selection of a new item doesn't lead to
+     *   automatic de-selected of previously selected items. This selection mode's
+     *   behaviour is equivalent to the plain HTML's checkboxes.
      *
      * @type String
      */
@@ -75,14 +103,20 @@ M.SelectionListView = M.View.extend(
      * @type String, Array
      */
     selection: null,
-
+    
     /**
-     * This property determines whether the selection list is part of a form view
-     * and is rendered as an input field.
+     * This property is used to specify an initial value for the selection list if
+     * it is running in 'single selection dialog' (M.SINGLE_SELECTION_DIALOG) mode.
+     * This value is then displayed at startup. You would typically use this e.g. to
+     * specify something like: 'Please select...'.
      *
-     * @type Boolean
+     * As long as this initial value is 'selected', the getSelection() of this selection
+     * list will return nothing. Once a 'real' option is selected, this value is
+     * removed from the selection list.
+     *
+     * @type String
      */
-    isInsideFormView: NO,
+    initialText: null,
 
     /**
      * Renders a selection list.
@@ -91,21 +125,29 @@ M.SelectionListView = M.View.extend(
      * @returns {String} The selection list view's html representation.
      */
     render: function() {
-        if(this.isInsideFormView) {
-            this.html = '<div' + this.style() + ' data-role="fieldcontain" id="' + this.id + '">';
+
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+            
+            this.html = '<div' + this.style() + ' data-role="fieldcontain" id="' + this.id + '_field">';
 
             if(this.label) {
-                this.html += '<label for="' + this.id + '_select">' + this.label + '</label>';
+                this.html += '<label for="' + this.id + '">' + this.label + '</label>';
             }
 
-            this.html += '<select id="' + this.id + '_select">';
+            this.html += '<select id="' + this.id + '" onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');">';
 
             this.renderChildViews();
 
             this.html += '</select>';
 
             this.html += '</div>';
+
+            /* set internal action for select-menu to get informed if the selected item did change */
+            this.internalTarget = this;
+            this.internalAction = 'itemSelected';
+
         } else {
+
             this.html += '<fieldset data-role="controlgroup" id="' + this.id + '">';
 
             if(this.label) {
@@ -115,6 +157,7 @@ M.SelectionListView = M.View.extend(
             this.renderChildViews();
 
             this.html += '</fieldset>';
+
         }
 
         return this.html;
@@ -129,6 +172,7 @@ M.SelectionListView = M.View.extend(
     renderChildViews: function() {
         if(this.childViews) {
             var childViews = $.trim(this.childViews).split(' ');
+
             for(var i in childViews) {
                 var view = this[childViews[i]];
                 if(view.type === 'M.SelectionListItemView') {
@@ -154,7 +198,7 @@ M.SelectionListView = M.View.extend(
      */
     addItem: function(item, isInsideSelect) {
         if(isInsideSelect) {
-            $('#' + this.id + '_select').append(item);
+            $('#' + this.id).append(item);
         } else {
             $('#' + this.id).append(item);
         }
@@ -174,6 +218,7 @@ M.SelectionListView = M.View.extend(
      *
      * @private
      */
+    /* TODO: refactor to use M.SINGLE_SELECTION_DIALOG */
     renderUpdate: function() {
         if(this.removeItemsOnUpdate || this.isInsideFormView) {
             this.removeAllItems();
@@ -182,9 +227,9 @@ M.SelectionListView = M.View.extend(
                 this.addItem('<legend>' + this.label + '</legend>');
             } else if(this.isInsideFormView) {
                 if(this.label) {
-                    this.addItem('<label for="' + this.id + '_select">' + this.label + '</label>');
+                    this.addItem('<label for="' + this.id + '">' + this.label + '</label>');
                 }
-                this.addItem('<select id="' + this.id + '_select"></select>');
+                this.addItem('<select id="' + this.id + '"></select>');
             }
         }
 
@@ -226,8 +271,11 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.isInsideFormView) {
-            $('#' + this.id + '_select').selectmenu();
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+            $('#' + this.id).selectmenu();
+            if(this.initialText) {
+                $('#' + this.id + '-button').find('span.ui-btn-text').html(this.initialText);
+            }
         } else {
             $('#' + this.id).controlgroup();
         }
@@ -257,16 +305,16 @@ M.SelectionListView = M.View.extend(
      * @param {String} id The id of the selected item.
      */
     itemSelected: function(id) {
-        var item = M.ViewManager.getViewById(id);
-        
-        if(this.selectionMode === M.SINGLE_SELECTION) {
+        var item = this.selectionMode === M.SINGLE_SELECTION_DIALOG ? M.ViewManager.getViewById($('#' + this.id + ' :selected').attr('id')) : M.ViewManager.getViewById(id);
+
+        if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             if(!_.isEqual(item, this.selection)) {
                 this.selection = item;
                 if(this.onSelect && this.onSelect.target && this.onSelect.action) {
                     this.onSelect.target[this.onSelect.action]();
                 }
             }
-        } else {
+        } else {        
             if(!this.selection) {
                 this.selection = [];
             }
@@ -292,7 +340,7 @@ M.SelectionListView = M.View.extend(
      * @returns {String, Array} The selected item's value(s).
      */
     getSelection: function() {
-        if(this.selectionMode === M.SINGLE_SELECTION) {
+        if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             if(this.selection) {
                 return this.selection.value;
             }
@@ -314,12 +362,12 @@ M.SelectionListView = M.View.extend(
      * @param {String, Array} selection The selection that should be applied to the selection list.
      */
     setSelection: function(selection) {
-        this.removeSelection();
         var that = this;
         if(this.selectionMode === M.SINGLE_SELECTION && typeof(selection) === 'string') {
             $('#' + this.id).find('input').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 if(item.value === selection) {
+                    that.removeSelection();
                     item.isSelected = YES;
                     that.selection = item;
                     $(this).attr('checked', 'checked');
@@ -328,12 +376,32 @@ M.SelectionListView = M.View.extend(
                     $(this).siblings('label:first').find('span .ui-icon-radio-off').removeClass('ui-icon-radio-off');
                 }
             });
+        } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && typeof(selection) === 'string') {
+            $('#' + this.id).find('option').each(function() {
+                var item = M.ViewManager.getViewById($(this).attr('id'));
+                if(item.value === selection) {
+                    that.removeSelection();
+                    item.isSelected = YES;
+                    that.selection = item;
+                    $('#' + that.id).val(item.value);
+                    if(that.initialText && $('#' + that.id + '-button').find('span.ui-btn-text').html() === that.initialText) {
+                        $('#' + that.id + '-button').find('span.ui-btn-text').html(item.label ? item.label : item.value);
+                    }
+                }
+            });
+            this.initialText = null;
+            $('#' + this.id).selectmenu('refresh');
         } else if(typeof(selection) === 'object') {
+            var removedItems = NO;
             $('#' + this.id).find('input').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 for(var i in selection) {
                     var selectionItem = selection[i];
                     if(item.value === selectionItem) {
+                        if(!removedItems) {
+                            that.removeSelection();
+                            removedItems = YES;
+                        }
                         item.isSelected = YES;
                         that.selection.push(item);
                         $(this).attr('checked', 'checked');
@@ -352,22 +420,35 @@ M.SelectionListView = M.View.extend(
      */
     removeSelection: function() {
         var that = this;
-        var type = '';
-        if(this.selectionMode === M.SINGLE_SELECTION) {
+        var type = null;
+        if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             this.selection = null;
-            type = 'radio';
+
+            if(this.selectionMode === M.SINGLE_SELECTION) {
+                type = 'radio';
+            } else {
+                type = 'select';
+            }
         } else {
             this.selection = [];
             type = 'checkbox';
         }
-        $('#' + this.id).find('input').each(function() {
-            var item = M.ViewManager.getViewById($(this).attr('id'));
-            item.isSelected = NO;
-            $(this).removeAttr('checked');
-            $(this).siblings('label:first').removeClass('ui-btn-active');
-            $(this).siblings('label:first').find('span .ui-icon-radio-on').addClass('ui-icon-' + type + '-off');
-            $(this).siblings('label:first').find('span .ui-icon-radio-on').removeClass('ui-icon-' + type + '-on');
-        });
+        
+        if(type !== 'select'){
+            $('#' + this.id).find('input').each(function() {
+                var item = M.ViewManager.getViewById($(this).attr('id'));
+                item.isSelected = NO;
+                $(this).removeAttr('checked');
+                $(this).siblings('label:first').removeClass('ui-btn-active');
+                $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').addClass('ui-icon-' + type + '-off');
+                $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').removeClass('ui-icon-' + type + '-on');
+            });
+        } else if(type === 'select') {
+            $('#' + this.id).find('option').each(function() {
+                var item = M.ViewManager.getViewById($(this).attr('id'));
+                item.isSelected = NO;
+            });
+        }
     }
 
 });

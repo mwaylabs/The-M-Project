@@ -5,9 +5,61 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <link href="resources/app_icon.png" rel="apple-touch-icon" />
+    <!-- TODO: create splash screen -->
+    <link rel="apple-touch-startup-image" href="resources/spashscreen.png" />
 
     <title>TabBar & ButtonGroup Demo</title>
+</head>
+<body>
+
+    <div style="
+        position:absolute;
+        top:0px;
+        right:0px;
+        bottom:0px;
+        left:0px;
+        background: -webkit-gradient(
+            linear,
+            left bottom,
+            left top,
+            color-stop(0, #DBDBDB),
+            color-stop(0.6, #F0F0F0),
+            color-stop(1, #FFFFFF)
+        );
+        background: -moz-linear-gradient(
+            center bottom,
+            #DBDBDB 0%,
+            #F0F0F0 60%,
+            #FFFFFF 100%
+        );
+        color:#FFFFFF;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        text-shadow: 1px 1px 4px #333333;
+    ">
+        <div style="
+            position:absolute;
+            top:50%;
+            margin-top:-31px;
+            text-align:center;
+            left:0px;
+            right:0px;
+            height:32px;
+        ">
+            <img src="resources/loader.gif" />
+        </div>
+        <div style="
+            position:absolute;
+            top:50%;
+            text-align:center;
+            left:0px;
+            right:0px;
+            margin-top:9px;
+            height:20px;
+            padding:0px;
+        ">LOADING</div>
+    </div>
+
     <script src="../../modules/jquery/jquery-1.4.4.min.js"></script>
     <script src="../../modules/jquery_mobile/jquery.mobile-1.0a2.min.js"></script>
     <script src="../../modules/underscore/underscore-min.js"></script>
@@ -46,13 +98,10 @@
     <script src="../../modules/ui/tab_bar_item.js"></script>
     <script src="../../modules/ui/tab_bar.js"></script>
     <script src="../../modules/ui/button_group.js"></script>
+    <script src="../../modules/ui/selection_list.js"></script>
+    <script src="../../modules/ui/selection_list_item.js"></script>
 
     <script src="tabbar.js"></script>
-
-    <link href="resources/style.css" rel="stylesheet" />
-    <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a2.min.css" rel="stylesheet" />
-</head>
-<body>
         <script language="JavaScript">
             Tabbar.app = M.Application.design({
                 page1: M.PageView.design({
@@ -71,7 +120,7 @@
 
                     content: M.ScrollView.design({
 
-                        childViews: 'buttonGroup',
+                        childViews: 'buttonGroup selectionList',
 
                         buttonGroup: M.ButtonGroupView.design({
 
@@ -96,6 +145,37 @@
 
                             button4: M.ButtonView.design({
                                 value: '#000000'
+                            })
+
+                        }),
+
+                        selectionList: M.SelectionListView.design({
+
+                            childViews: 'option1 option2 option3 option4',
+
+                            selectionMode: M.SINGLE_SELECTION_DIALOG,
+
+                            initialText: 'Please choose...',
+
+                            option1: M.SelectionListItemView.design({
+                                value: 'option1',
+                                label: 'Option1'
+                            }),
+
+                            option2: M.SelectionListItemView.design({
+                                value: 'option2',
+                                label: 'Option2'
+                            }),
+
+                            option3: M.SelectionListItemView.design({
+                                value: 'option3',
+                                label: 'Option3'
+                            }),
+
+                            option4: M.SelectionListItemView.design({
+                                value: 'option4',
+                                label: 'Option4',
+                                isSelected: YES
                             })
 
                         })
@@ -319,6 +399,9 @@
                 })
             });
         </script>
+
+        <link href="resources/style.css" rel="stylesheet" />
+        <link href="../../modules/themes/jquery_mobile/jquery.mobile-1.0a2.min.css" rel="stylesheet" />
 
         <!-- START THE APP BY CALLING THE M.APPLICATION's MAIN-METHOD -->
         <!-- in the future this call will be made automatically -->
