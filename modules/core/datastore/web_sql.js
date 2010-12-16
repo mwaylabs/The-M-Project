@@ -14,7 +14,20 @@ m_require('core/detox/data_provider.js');
  * @class
  *
  * Encapsulates access to WebSQL (in-browser sqlite storage). All CRUD operations are asynchronous. That means that onSuccess
- * and onError callbacks have to be passed to the function calls to have the result returned when operation finished. 
+ * and onError callbacks have to be passed to the function calls to have the result returned when operation finished.
+ *
+ * WebSQL Error Codes (see e.g. http://www.w3.org/TR/webdatabase/):
+ *
+ * Constant         Code    Situation
+ * --------         ----    ---------
+ * UNKNOWN_ERR      0       The transaction failed for reasons unrelated to the database itself and not covered by any other error code.
+ * DATABASE_ERR     1       The statement failed for database reasons not covered by any other error code.
+ * VERSION_ERR      2       The operation failed because the actual database version was not what it should be. For example, a statement found that the actual database version no longer matched the expected version of the Database or DatabaseSync object, or the Database.changeVersion() or DatabaseSync.changeVersion() methods were passed a version that doesn't match the actual database version.
+ * TOO_LARGE_ERR    3       The statement failed because the data returned from the database was too large. The SQL "LIMIT" modifier might be useful to reduce the size of the result set.
+ * QUOTA_ERR        4       The statement failed because there was not enough remaining storage space, or the storage quota was reached and the user declined to give more space to the database.
+ * SYNTAX_ERR       5       The statement failed because of a syntax error, or the number of arguments did not match the number of ? placeholders in the statement, or the statement tried to use a statement that is not allowed, such as BEGIN, COMMIT, or ROLLBACK, or the statement tried to use a verb that could modify the database but the transaction was read-only.
+ * CONSTRAINT_ERR   6       An INSERT, UPDATE, or REPLACE statement failed due to a constraint failure. For example, because a row was being inserted and the value given for the primary key column duplicated the value of an existing row.
+ * TIMEOUT_ERR      7       A lock for the transaction could not be obtained in a reasonable time.
  *
  * @extends M.DataProvider
  */
@@ -48,7 +61,8 @@ M.WebSqlProvider = M.DataProvider.extend(
         'Text': 'text',
         'Float': 'float',
         'Integer': 'integer',
-        'Number': 'interger',
+        'Number': 'integer',
+        'Reference': 'integer',
         'Date': 'varchar(255)',
         'Boolean': 'boolean'
     },
@@ -381,7 +395,39 @@ M.WebSqlProvider = M.DataProvider.extend(
     openDb: function() {
         //console.log('openDb() called.');
         /* openDatabase(db_name, version, description, estimated_size, callback) */
-        this.dbHandler = openDatabase(this.config.dbName, '2.0', 'Database for M app', this.config.size);
+        try {
+            if (!window.openDatabase) {
+                M.DialogView.alert({
+                    message: 'Your browser does not support WebSQL.',
+                    title: 'WebSQL Not Supported.'
+                });
+            } else {
+                //this.dbHandler = openDatabase(this.config.dbName, '1.0', 'Database for ' + M.Application.name, this.config.size);
+                /* leave version empty to open database regardless of its version */
+                if(!this.dbHandler) {
+                    this.dbHandler = openDatabase(this.config.dbName, '', 'Database for ' + M.Application.name, this.config.size);    
+                }
+
+            }
+        } catch(e) {
+            
+            if (e == 2) {
+                // Version number mismatch.
+                //M.Logger.log('Invalid database version.', M.ERROR);
+                M.DialogView.alert({
+                    message: 'Database version 1.0 not supported.',
+                    title: 'Invalid database version.'
+                });
+            } else {
+                //M.Logger.log('Unknown error ' + e + '.', M.ERROR);
+                M.DialogView.alert({
+                    message: e,
+                    title: 'Unknown error.'
+                });
+            }
+            return;
+        }
+        
     },
 
 
@@ -489,6 +535,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * Is called from queryDbForId, sets the model record's ID to the latest value of ID in the database.
      */
     setDbIdOfModel: function(model, id) {
+        console.log('id von model wird gesetzt...');
         model.record.ID = id;
     }
 

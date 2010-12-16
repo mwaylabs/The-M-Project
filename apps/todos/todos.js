@@ -10,6 +10,9 @@
 
 var Todos = Todos || {};
 
+M.Application.defaultLanguage = 'en_us';
+M.Application.name = 'Todos';
+
 document.write("<script src='views/todo_item.js'></script>");
 document.write("<script src='models/task.js'></script>");
 document.write("<script src='controllers/todo_controller.js'></script>");
