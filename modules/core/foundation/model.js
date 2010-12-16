@@ -75,6 +75,12 @@ M.Model = M.Object.extend(
     recordManager: null,
 
     /**
+     * List containing all models in application
+     * @type Object|Array
+     */
+    modelList: {},
+
+    /**
      * A constant defining the model's state. Important e.g. for syncing storage
      * @type String
      */
@@ -98,7 +104,7 @@ M.Model = M.Object.extend(
      * Creates a new record of the model, means an instance of the model based on the blueprint.
      * You pass the object's specific attributes to it as an object.
      *
-     * @param {Object} obj The specific attributes as an object, e.g. {firstname: 'peter', lastname ='fox'}
+     * @param {Object} obj The properties object, e.g. {firstname: 'peter', lastname ='fox'}
      * @returns {Object} The model record with the passed properties set. State depends on newly creation or fetch from storage: if
      * from storage then state is M.STATE_NEW or 'state_new', if fetched from database then it is M.STATE_VALID or 'state_valid'
      */
@@ -110,7 +116,6 @@ M.Model = M.Object.extend(
 
         modelRecord.state = obj.state ? obj.state : M.STATE_NEW;
         delete obj.state;
-        delete modelRecord.record.id;
 
         /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
         for(var i in modelRecord.record) {
@@ -161,14 +166,47 @@ M.Model = M.Object.extend(
 
         M.Application.modelRegistry.register(model.name);
 
+        /* save model in modelList with model name as key */
+        this.modelList[model.name] = this;
+
         /* Re-set the just registered model's id, if there is a value stored */
         /* Model Registry stores the current id of a model type into localStorage */
-        var id = localStorage.getItem(M.Application.name + '_' + model.name);
+        var id = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + model.name);
         if(id) {
             M.Application.modelRegistry.setId(model.name, parseInt(id));
         }
         return model;
-    }, 
+    },
+
+    /**
+     * Defines a to-one-relationship.
+     * @param refName
+     * @param refEntity
+     */
+    hasOne: function(refEntity, obj) {
+        var relAttr = this.attr('Reference', {
+            refType: 'toOne',
+            reference: refEntity,
+            validators: obj.validators,
+            isRequired: obj.isRequired
+        });
+        console.log(relAttr);
+        return relAttr;
+    },
+
+    /**
+     * Defines a to-many-relationship
+     * @param colName
+     * @param refEntity
+     * @param invRel
+     */
+    hasMany: function(colName, refEntity, invRel) {
+        var relAttr = this.attr('Reference', {
+            refType: 'toMany',
+            reference: refEntity
+        });
+        return relAttr;
+    },
 
     /**
      * Returns a M.ModelAttribute object to map an attribute in our record.

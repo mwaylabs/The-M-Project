@@ -103,7 +103,7 @@ M.I18N = M.Object.extend(
         }
 
         if(localStorage) {
-            localStorage.setItem('$' + M.Application.name + '_lang$', language);
+            localStorage.setItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + 'lang', language);
             location.href = location.protocol + '//' + location.host + location.pathname;
         }
     },
@@ -123,7 +123,7 @@ M.I18N = M.Object.extend(
         var language = null;
 
         if(localStorage) {
-            language = localStorage.getItem('$' + M.Application.name + '_lang$');
+            language = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + 'lang');
         }
 
         if(language) {

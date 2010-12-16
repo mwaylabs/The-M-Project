@@ -30,3 +30,31 @@ var YES = true;
  * global constant to write NO instead of false
  */
 var NO = false;
+
+M.LOCAL_STORAGE_PREFIX = '#m#';
+M.LOCAL_STORAGE_SUFFIX = '_';
+
+/**
+ * Overwrites clear() of LocalStorage to clear only key-value pairs belonging to the application. If the previously existing,
+ * delivered clear shall be used, users have to pass 'f' as param to clear to force it.
+ * @param {String} param One character string. If it is 'f' (means 'force'), the existing clear() is used to clear the whole storage
+ * if param is undefined or another letter, the custom clear is used.
+ */
+localStorage.__proto__.clear = function(param) {
+    /* Call localStorage.clear() with parameter 'f' to use system wide localStorage.clear() */
+    var l = this.length;
+    if(param === 'f') {
+        var l = this.length;
+        for (var i = l - 1; i >= 0; i--){
+            this.removeItem(this.key(i));
+        }
+    } else {
+        for (var i = l - 1; i >= 0; i--){
+            var k = this.key(i);
+            var regexResult = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX).exec(k);
+            if(regexResult) {
+                this.removeItem(k);
+            }
+        }
+    }
+}
