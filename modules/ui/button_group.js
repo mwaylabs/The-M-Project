@@ -137,6 +137,15 @@ M.ButtonGroupView = M.View.extend(
     activeButton: null,
 
     /**
+     * This property determines whether the buttons of this button group are selectable or not. If
+     * set to YES, a click on one of the buttons will set this button as the currently active button
+     * and automatically change its styling to visualize its selection.
+     *
+     * @type Boolean
+     */
+    isSelectable: YES,
+
+    /**
      * Renders a button group as a div container and calls the renderChildViews
      * method to render the included buttons.
      *
@@ -368,23 +377,25 @@ M.ButtonGroupView = M.View.extend(
      * @param {M.ButtonView, String} id The button to be set active or its id.
      */
     setActiveButton: function(id) {
-        this.activeButton = null;
-        $('#' + this.id).find('a').each(function() {
-            var button = M.ViewManager.getViewById($(this).attr('id'));
-            button.removeCssClass('ui-btn-active');
-            button.isActive = NO;
-        });
+        if(this.isSelectable) {
+            this.activeButton = null;
+            $('#' + this.id).find('a').each(function() {
+                var button = M.ViewManager.getViewById($(this).attr('id'));
+                button.removeCssClass('ui-btn-active');
+                button.isActive = NO;
+            });
 
-        var button = M.ViewManager.getViewById(id);
-        if(!button) {
-            if(id && typeof(id) === 'object' && id.type === 'M.ButtonView') {
-                button = id;
+            var button = M.ViewManager.getViewById(id);
+            if(!button) {
+                if(id && typeof(id) === 'object' && id.type === 'M.ButtonView') {
+                    button = id;
+                }
             }
-        }
-        if(button) {
-            button.addCssClass('ui-btn-active');
-            button.isActive = YES;
-            this.activeButton = button;
+            if(button) {
+                button.addCssClass('ui-btn-active');
+                button.isActive = YES;
+                this.activeButton = button;
+            }
         }
     }
 

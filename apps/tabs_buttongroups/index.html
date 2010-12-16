@@ -120,7 +120,7 @@
 
                     content: M.ScrollView.design({
 
-                        childViews: 'buttonGroup selectionList',
+                        childViews: 'buttonGroup',
 
                         buttonGroup: M.ButtonGroupView.design({
 
@@ -145,37 +145,6 @@
 
                             button4: M.ButtonView.design({
                                 value: '#000000'
-                            })
-
-                        }),
-
-                        selectionList: M.SelectionListView.design({
-
-                            childViews: 'option1 option2 option3 option4',
-
-                            selectionMode: M.SINGLE_SELECTION_DIALOG,
-
-                            initialText: 'Please choose...',
-
-                            option1: M.SelectionListItemView.design({
-                                value: 'option1',
-                                label: 'Option1'
-                            }),
-
-                            option2: M.SelectionListItemView.design({
-                                value: 'option2',
-                                label: 'Option2'
-                            }),
-
-                            option3: M.SelectionListItemView.design({
-                                value: 'option3',
-                                label: 'Option3'
-                            }),
-
-                            option4: M.SelectionListItemView.design({
-                                value: 'option4',
-                                label: 'Option4',
-                                isSelected: YES
                             })
 
                         })
