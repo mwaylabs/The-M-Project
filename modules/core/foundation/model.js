@@ -162,6 +162,7 @@ M.Model = M.Object.extend(
         /* if dataprovider is WebSqlProvider, create table for this model */
         if(model.dataProvider.type === 'M.WebSqlProvider') {
             model.dataProvider.init({model: model}, function() {});
+            model.dataProvider.isInitialized = YES;
         }
 
         M.Application.modelRegistry.register(model.name);
@@ -190,7 +191,6 @@ M.Model = M.Object.extend(
             validators: obj.validators,
             isRequired: obj.isRequired
         });
-        console.log(relAttr);
         return relAttr;
     },
 
