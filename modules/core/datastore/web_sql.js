@@ -164,7 +164,7 @@ M.WebSqlProvider = M.DataProvider.extend(
 
             //sql = sql.substring(0, sql.lastIndexOf(',')) + '); ';
 
-            console.log(sql);
+            //console.log(sql);
 
             this.performOp(sql, obj, 'INSERT');
 
@@ -172,11 +172,17 @@ M.WebSqlProvider = M.DataProvider.extend(
 
             var sql = 'UPDATE ' + obj.model.name + ' SET ';
 
+            var nrOfUpdates = 0;
+
             for(var prop in obj.model.record) {
                 
                 if(prop === 'ID' || !obj.model.__meta[prop].isUpdated) { /* if property has not been updated, then exclude from update call */
                     continue;
                 }
+                console.log('property updated: ');
+                console.log(obj.model.record[prop]);
+                nrOfUpdates = nrOfUpdates + 1;
+                
                 var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' || obj.model.__meta[prop].dataType === 'Date' ? '"' : '';
 
                 /* if property is date object, convert to string by calling toJSON */
@@ -189,7 +195,18 @@ M.WebSqlProvider = M.DataProvider.extend(
 
             //console.log(sql);
 
-            this.performOp(sql, obj, 'UPDATE');
+            /* if no properties updated, do nothing, just return by calling onSuccess callback */
+            if(nrOfUpdates === 0) {
+                if (obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
+                    obj.onSuccess = this.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
+                    obj.onSuccess();
+                }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                    obj.onSuccess(result);
+                }
+            } else {
+                console.log(nrOfUpdates);
+                this.performOp(sql, obj, 'UPDATE');
+            }
         }
     },
 
@@ -202,6 +219,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @private
      */
     performOp: function(sql, obj, opType) {
+        console.log('Update');
         var that = this;
         this.dbHandler.transaction(function(t) {
             t.executeSql(sql, null, function() {
@@ -227,9 +245,6 @@ M.WebSqlProvider = M.DataProvider.extend(
             if(opType === 'DELETE') {
                 obj.model.recordManager.remove(obj.model.m_id);
             }
-            //console.log('success callback in performOP');
-            //console.log('obj.onSuccess:');
-            //console.log(obj.onSuccess);
             /* bind success callback */
             if (obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
                 obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
