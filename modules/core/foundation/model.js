@@ -254,7 +254,6 @@ M.Model = M.Object.extend(
      */
     set: function(propName, val) {
         if(this.record[propName] !== val) {
-            console.log('isch anders');
             this.record[propName] = val;
             this.__meta[propName].isUpdated = YES;
             /* mark record as updated with new timestamp*/
