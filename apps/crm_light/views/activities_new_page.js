@@ -111,6 +111,8 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
                 cssClass: 'select',
 
+                isGrouped: YES,
+
                 contentBinding: 'CRMLight.ActivitiesNewPageController.activityReason'
 
             }),
@@ -131,6 +133,8 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
                 cssClass: 'select',
 
+                isGrouped: YES,
+
                 contentBinding: 'CRMLight.ActivitiesNewPageController.activityStatus'
 
             }),
@@ -144,6 +148,8 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
                 selectionMode: M.SINGLE_SELECTION_DIALOG,
 
                 cssClass: 'select',
+
+                isGrouped: YES,
 
                 contentBinding: 'CRMLight.ActivitiesNewPageController.activityResult'
 
