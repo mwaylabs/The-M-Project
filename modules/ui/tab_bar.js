@@ -38,6 +38,21 @@ M.TabBarView = M.View.extend(
     anchorLocation: M.BOTTOM,
 
     /**
+     * This property defines the tab bar's name. This is used internally to identify
+     * the tab bar inside the DOM.
+     *
+     * @type String
+     */
+    name: 'tab_bar',
+
+    /**
+     * This property holds a reference to the currently active tab.
+     *
+     * @type M.TabBarItemView
+     */
+    activeTab: null,
+
+    /**
      * Renders a tab bar as an unordered list.
      *
      * @private
@@ -64,9 +79,33 @@ M.TabBarView = M.View.extend(
     renderChildViews: function() {
         if(this.childViews) {
             var childViews = $.trim(this.childViews).split(' ');
+
+            /* pre-process the child views to define which tab is selected */
+            var hasActiveTab = NO;
+            for(var i in childViews) {
+                var view = this[childViews[i]];
+                if(view.type === 'M.TabBarItemView' && view.isActive) {
+                    if(!hasActiveTab) {
+                        hasActiveTab = YES;
+                        this.activeTab = view;
+                    } else {
+                        view.isActive = NO;
+                    }
+                }
+            }
+
+            var numTabBarViews = 0;
             for(var i in childViews) {
                 var view = this[childViews[i]];
                 if(view.type === 'M.TabBarItemView') {
+                    numTabBarViews = numTabBarViews + 1;
+
+                    /* set first tab to active tab if nothing else specified */
+                    if(numTabBarViews === 1 && !hasActiveTab) {
+                        view.isActive = YES;
+                        this.activeTab = view;
+                    }
+
                     view.parentView = this;
                     this.html += view.render();
                 } else {
