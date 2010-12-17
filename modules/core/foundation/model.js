@@ -248,15 +248,18 @@ M.Model = M.Object.extend(
 
     /**
      * Set attribute propName of model with value val, sets' property to isUpdated (=> will be included in UPDATE call)
-     * and sets a new timestamp to _updatedAt.
+     * and sets a new timestamp to _updatedAt. Will not do anything, if newVal is the same as the current prop value.
      * @param {String} propName the name of the property whose value shall be set
      * @param {String|Object} val the new value
      */
     set: function(propName, val) {
-        this.record[propName] = val;
-        this.__meta[propName].isUpdated = YES;
-        /* mark record as updated with new timestamp*/
-        this.record['_updatedAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+        if(this.record[propName] !== val) {
+            console.log('isch anders');
+            this.record[propName] = val;
+            this.__meta[propName].isUpdated = YES;
+            /* mark record as updated with new timestamp*/
+            this.record['_updatedAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+        }        
     },
 
     /**
