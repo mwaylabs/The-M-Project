@@ -133,7 +133,7 @@
                                 title: 'Error in contact form'
                             },
 
-                            childViews: 'firstNameField lastNameField zipField', 
+                            childViews: 'firstNameField lastNameField streetField numberField zipField cityField', 
 
                             firstNameField: M.TextFieldView.design({
                                 label: 'First Name'
@@ -143,8 +143,20 @@
                                 label: 'Last Name'
                             }),
 
+                            streetField: M.TextFieldView.design({
+                                label: 'Street' 
+                            }),
+
+                            numberField: M.TextFieldView.design({
+                                label: 'No.'
+                            }),
+
                             zipField: M.TextFieldView.design({
                                 label: 'Zip'
+                            }),
+
+                            cityField: M.TextFieldView.design({
+                                label: 'City'
                             })
                         }),
 

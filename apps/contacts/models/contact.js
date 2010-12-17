@@ -19,9 +19,9 @@ Contacts.Contact = M.Model.create({
         isRequired:YES
     }),
 
-    zip: M.Model.attr('Integer', {
-        isRequired:NO,
-        validators: [M.NumberValidator]//, M.NotMinusValidator]
+    /* Model Reference */
+    address: M.Model.hasOne('Address', {
+        isRequired:NO
     })
 
 }, M.WebSqlProvider.configure({
