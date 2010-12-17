@@ -133,7 +133,7 @@ M.SelectionListView = M.View.extend(
      *
      * @type Boolean
      */
-    isGrouped: YES,
+    isGrouped: NO,
 
     /**
      * Renders a selection list.
@@ -143,16 +143,25 @@ M.SelectionListView = M.View.extend(
      */
     render: function() {
 
-        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+        this.html += '<div id="' + this.id + '_container"';
 
-            this.html += '<div id="' + this.id + '_container"';
+        if(this.isGrouped) {
+            this.html += ' data-role="fieldcontain"';
+        }
 
-            if(this.isGrouped) {
-                this.html += ' data-role="fieldcontain"';
+        if(this.cssClass) {
+            this.html += ' class="';
+            var cssClasses = $.trim(this.cssClass).split(' ');            
+            for(var i in cssClasses) {
+                this.html += (i > 0 ? ' ' : '') + cssClasses[i] + '_container';
             }
+            this.html += '"';
+        }
 
-            this.html += '>';
+        this.html += '>';
 
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+            
             if(this.label) {
                 this.html += '<label for="' + this.id + '">' + this.label + '</label>';
             }
@@ -162,8 +171,6 @@ M.SelectionListView = M.View.extend(
             this.renderChildViews();
 
             this.html += '</select>';
-
-            this.html += '</div>';
 
             /* set internal action for select-menu to get informed if the selected item did change */
             this.internalTarget = this;
@@ -183,6 +190,8 @@ M.SelectionListView = M.View.extend(
 
         }
 
+        this.html += '</div>';
+        
         return this.html;
     },
 
