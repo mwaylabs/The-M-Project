@@ -109,6 +109,20 @@ M.PageView = M.View.extend(
      * for the page, it is now called.
      */
     pageWillLoad: function() {
+        /* if this is the first page to be loaded, check if there is a tab bar and an active tab
+           specified and switch to this tab */
+        if(M.Application.isFirstLoad) {
+            M.Application.isFirstLoad = NO;
+            var currentPage = M.ViewManager.getCurrentPage();
+            if(currentPage && currentPage.hasTabBarView) {
+                var tabBarView = currentPage.tabBarView;
+                var activePage = M.ViewManager.getPage(tabBarView.activeTab.page);
+                if(activePage !== currentPage) {
+                    M.Controller.switchToPage(tabBarView.activeTab.page);
+                }
+            }
+        }
+        
         if(this.beforeLoad) {
             this.beforeLoad.target[this.beforeLoad.action](this.isFirstLoad);
         }
