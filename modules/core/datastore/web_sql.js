@@ -225,7 +225,7 @@ M.WebSqlProvider = M.DataProvider.extend(
         function() {    // voidCallback (success)
              /* delete  the model from the model record list */
             if(opType === 'DELETE') {
-                obj.model.recordManager.remove(obj.model.id);
+                obj.model.recordManager.remove(obj.model.m_id);
             }
             //console.log('success callback in performOP');
             //console.log('obj.onSuccess:');
