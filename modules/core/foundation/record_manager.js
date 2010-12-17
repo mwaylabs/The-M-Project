@@ -73,7 +73,7 @@ M.RecordManager = M.Object.extend(
      * @param {Number} m_id The internal model id of the model record.
      */
     remove: function(m_id) {
-        console.log('id: '+m_id);
+
         if(!m_id) {
             M.Logger.log('No id given.', M.WARN);
             return;
@@ -82,7 +82,7 @@ M.RecordManager = M.Object.extend(
             m_id = parseInt(m_id);
         }
         rec = this.getRecordForId(m_id);
-        console.log(rec);
+
         if(rec) {
             this.records = _.select(this.records, function(r){
                 return r.m_id !== rec.m_id;
