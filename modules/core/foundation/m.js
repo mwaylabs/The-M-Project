@@ -34,6 +34,20 @@ var NO = false;
 M.LOCAL_STORAGE_PREFIX = '#m#';
 M.LOCAL_STORAGE_SUFFIX = '_';
 
+/* TODO: evaluate if the timestamp constants could be included in config file, for user's customization */
+/**
+ * constant that defines name of createdAt property and column name
+ */
+M.META_CREATED_AT = '_createdAt';
+/**
+ * constant that defines name of updatedAt property and column name
+ */
+M.META_UPDATED_AT = '_updatedAt';
+/**
+ * constant that defines name of m_id column name
+ */
+M.META_M_ID = '_m_id';
+
 /**
  * Overwrites clear() of LocalStorage to clear only key-value pairs belonging to the application. If the previously existing,
  * delivered clear shall be used, users have to pass 'f' as param to clear to force it.
