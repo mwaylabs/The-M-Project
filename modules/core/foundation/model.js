@@ -19,6 +19,13 @@ M.STATE_DELETED = 'state_deleted';
 
 m_require('core/foundation/model_registry.js');
 
+/*
+    TODO: make model customizable regarding performance killing features. means configurable activation of certain features:
+    - validation
+    - model references
+    - maybe also: automatic date transformation
+ */
+
 /**
  * @class
  * 
@@ -123,11 +130,22 @@ M.Model = M.Object.extend(
             rec.record[M.META_UPDATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
         }
 
-        /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
         for(var i in rec.record) {
-            if(i === 'ID') {
+            if(i === 'ID' || i === M.META_CREATED_AT || i === M.META_UPDATED_AT) {
                 continue;
             }
+
+            /* if reference to a record entity is in param obj, assign it like in set. */
+            if(rec.__meta[i].dataType === 'Reference' && rec.record[i] && rec.record[i].type && rec.record[i].type === 'M.Model') {
+                // call set of model
+                rec.set(i, rec.record[i]);
+            }
+            
+            if(rec.__meta[i]) {
+                rec.__meta[i].isUpdated = NO;    
+            }
+
+            /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
             if(!rec.__meta.hasOwnProperty(i)) {
                 delete rec.record[i];
             }
@@ -253,6 +271,19 @@ M.Model = M.Object.extend(
      * @param {String|Object} val the new value
      */
     set: function(propName, val) {
+
+        /* TODO: implement hasMany... */
+        /* TODO: evaluate whether to save m_id in record and entity reference in __meta or other way round */
+        if(this.__meta[propName].dataType === 'Reference' && val.type && val.type === 'M.Model') {    // reference set
+            /* first check if new value is passed */ 
+            if(this.record[propName] !== val.m_id) {
+                /* set m_id of reference in record */
+                this.record[propName] = val.m_id;
+                this.__meta[propName].refEntity = val;
+            }
+            return;
+        }
+
         if(this.record[propName] !== val) {
             this.record[propName] = val;
             this.__meta[propName].isUpdated = YES;
@@ -387,6 +418,51 @@ M.Model = M.Object.extend(
             return YES
         }
         
+    },
+
+    /**
+     * completes the model record by loading all referenced entities.
+     */
+    complete: function(callback) {
+        console.log('complete...');
+        var records = [];
+        for(var i in this.record) {
+            if(this.__meta[i].dataType === 'Reference') {
+                console.log(i + ' is reference.');
+                records.push(this.__meta[i].refEntity);
+                // records.push(this.modelList[this.__meta[i].reference];
+            }
+        }
+        this.deepFind(records, callback);
+    },
+
+    
+    deepFind: function(records, callback) {
+        console.log('deepFind...');
+        console.log(records);
+        if(records.length < 1) {
+            callback();
+            return;
+        }
+        var curRec = records.pop(); // delete last element
+        var cb = this.bindToCaller(this, this.deepFind,[records, callback]); // cb is callback for find in dataprovider
+        this.find({
+            constraint: {
+                statement: ' WHERE ' + M.META_M_ID + ' = ? ',
+                parameters: [curRec.m_id] // length must match number of ? in statements
+            },
+
+            onSuccess: cb, /* in both cases call deepFind again */
+            onError: cb
+        });
+    },
+
+    /**
+     * sync model with storage (only websql)
+     */
+    schemaSync: function() {
+        
     }
+
 
 });
