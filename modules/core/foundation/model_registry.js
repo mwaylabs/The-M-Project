@@ -47,9 +47,9 @@ M.ModelRegistry = M.Object.extend(
     getNextId: function(modelName) {
         for(i in this.registry){
             if(this.registry[i].modelName === modelName){
-                this.registry[i].id = this.registry[i].id + 1;
-                localStorage.setItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + modelName, this.registry[i].id);
-                return this.registry[i].id;
+                this.registry[i].m_id = this.registry[i].m_id + 1;
+                localStorage.setItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + modelName, this.registry[i].m_id);
+                return this.registry[i].m_id;
             }
         }
         return null;
@@ -59,12 +59,12 @@ M.ModelRegistry = M.Object.extend(
      * Sets the id for a certain model.
      *
      * @param {String} modelName The name of the model, e.g. 'Person'.
-     * @param {Number} id The id of the model, e.g. 1.
+     * @param {Number} m_id The id of the model, e.g. 1.
      */
-    setId: function(modelName, id) {
+    setId: function(modelName, m_id) {
         for(i in this.registry){
             if(this.registry[i].modelName === modelName){
-                this.registry[i].id = id;
+                this.registry[i].m_id = m_id;
             }
         }
     },
@@ -83,7 +83,7 @@ M.ModelRegistry = M.Object.extend(
 
         var obj = {
             modelName: modelName,
-            id: 0
+            m_id: 0
         };
         this.registry.push(obj);
         
