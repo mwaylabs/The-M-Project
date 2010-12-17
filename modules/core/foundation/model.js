@@ -47,12 +47,12 @@ M.Model = M.Object.extend(
     /**
      * Unique identifier for the model record.
      *
-     * Note: Unique doesn't mean that this id is a global unique ID, it is just unique
+     * Note: Unique doesn't mean that this m_id is a global unique ID, it is just unique
      * for records of this type of model.
      *
      * @type Number
      */
-    id: null,
+    m_id: null,
 
     /**
      * The model's record defines the properties that are semantically bound to this model:
@@ -109,25 +109,31 @@ M.Model = M.Object.extend(
      * from storage then state is M.STATE_NEW or 'state_new', if fetched from database then it is M.STATE_VALID or 'state_valid'
      */
     createRecord: function(obj) {
-        var modelRecord = this.extend({
-            id: obj.id ? obj.id : M.Application.modelRegistry.getNextId(this.name),
+        var rec = this.extend({
+            m_id: obj.m_id ? obj.m_id : M.Application.modelRegistry.getNextId(this.name),
             record: obj /* properties that are added to record here, but are not part of __meta, are deleted later (see below) */
         });
 
-        modelRecord.state = obj.state ? obj.state : M.STATE_NEW;
+        rec.state = obj.state ? obj.state : M.STATE_NEW;
         delete obj.state;
 
+        /* set timestamps if new */
+        if(rec.state === M.STATE_NEW) {
+            rec.record['_createdAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+            rec.record['_updatedAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+        }
+
         /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
-        for(var i in modelRecord.record) {
+        for(var i in rec.record) {
             if(i === 'ID') {
                 continue;
             }
-            if(!modelRecord.__meta.hasOwnProperty(i)) {
-                delete modelRecord.record[i];
+            if(!rec.__meta.hasOwnProperty(i)) {
+                delete rec.record[i];
             }
         }
-        this.recordManager.add(modelRecord);
-        return modelRecord;
+        this.recordManager.add(rec);
+        return rec;
     },
 
     /** 
@@ -157,6 +163,14 @@ M.Model = M.Object.extend(
             }
         }
 
+        /* add _createdAt und _modifiedAt properties in meta for timestamps  */
+        model.__meta['_createdAt'] = this.attr('String', { // could be 'Date', too
+            isRequired:YES
+        });
+        model.__meta['_updatedAt'] = this.attr('String', { // could be 'Date', too
+            isRequired:YES
+        });
+
         model.recordManager = M.RecordManager.extend({});
         
         /* if dataprovider is WebSqlProvider, create table for this model */
@@ -172,9 +186,9 @@ M.Model = M.Object.extend(
 
         /* Re-set the just registered model's id, if there is a value stored */
         /* Model Registry stores the current id of a model type into localStorage */
-        var id = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + model.name);
-        if(id) {
-            M.Application.modelRegistry.setId(model.name, parseInt(id));
+        var m_id = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + model.name);
+        if(m_id) {
+            M.Application.modelRegistry.setId(model.name, parseInt(m_id));
         }
         return model;
     },
@@ -233,13 +247,16 @@ M.Model = M.Object.extend(
     },
 
     /**
-     * Set attribute propName of model with value val
+     * Set attribute propName of model with value val, sets' property to isUpdated (=> will be included in UPDATE call)
+     * and sets a new timestamp to _updatedAt.
      * @param {String} propName the name of the property whose value shall be set
      * @param {String|Object} val the new value
      */
     set: function(propName, val) {
         this.record[propName] = val;
         this.__meta[propName].isUpdated = YES;
+        /* mark record as updated with new timestamp*/
+        this.record['_updatedAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
     },
 
     /**
@@ -278,7 +295,7 @@ M.Model = M.Object.extend(
             var prop = this.__meta[i];
             var obj = {
                 value: this.record[i],
-                modelId: this.name + '_' + this.id,
+                modelId: this.name + '_' + this.m_id,
                 property: i
             };
             if (!prop.validate(obj)) {
@@ -334,7 +351,7 @@ M.Model = M.Object.extend(
             M.Logger.log('No data provider given.', M.ERROR);
         }
         obj = obj ? obj: {};
-        if(!this.id) {
+        if(!this.m_id) {
             return NO;
         }
         var isValid = YES;
@@ -358,7 +375,7 @@ M.Model = M.Object.extend(
             M.Logger.log('No data provider given.', M.ERROR);
         }
         obj = obj ? obj : {};
-        if(!this.id) {
+        if(!this.m_id) {
             return NO;
         }
 
