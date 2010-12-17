@@ -113,14 +113,14 @@ M.Model = M.Object.extend(
             m_id: obj.m_id ? obj.m_id : M.Application.modelRegistry.getNextId(this.name),
             record: obj /* properties that are added to record here, but are not part of __meta, are deleted later (see below) */
         });
-
+        delete obj.m_id;
         rec.state = obj.state ? obj.state : M.STATE_NEW;
         delete obj.state;
 
         /* set timestamps if new */
         if(rec.state === M.STATE_NEW) {
-            rec.record['_createdAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
-            rec.record['_updatedAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+            rec.record[M.META_CREATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+            rec.record[M.META_UPDATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
         }
 
         /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
@@ -164,10 +164,10 @@ M.Model = M.Object.extend(
         }
 
         /* add _createdAt und _modifiedAt properties in meta for timestamps  */
-        model.__meta['_createdAt'] = this.attr('String', { // could be 'Date', too
+        model.__meta[M.META_CREATED_AT] = this.attr('String', { // could be 'Date', too
             isRequired:YES
         });
-        model.__meta['_updatedAt'] = this.attr('String', { // could be 'Date', too
+        model.__meta[M.META_UPDATED_AT] = this.attr('String', { // could be 'Date', too
             isRequired:YES
         });
 
@@ -175,7 +175,7 @@ M.Model = M.Object.extend(
         
         /* if dataprovider is WebSqlProvider, create table for this model */
         if(model.dataProvider.type === 'M.WebSqlProvider') {
-            model.dataProvider.init({model: model}, function() {});
+            model.dataProvider.init({model: model, onError:function(err){console.log(err);}}, function() {});
             model.dataProvider.isInitialized = YES;
         }
 
@@ -248,15 +248,17 @@ M.Model = M.Object.extend(
 
     /**
      * Set attribute propName of model with value val, sets' property to isUpdated (=> will be included in UPDATE call)
-     * and sets a new timestamp to _updatedAt.
+     * and sets a new timestamp to _updatedAt. Will not do anything, if newVal is the same as the current prop value.
      * @param {String} propName the name of the property whose value shall be set
      * @param {String|Object} val the new value
      */
     set: function(propName, val) {
-        this.record[propName] = val;
-        this.__meta[propName].isUpdated = YES;
-        /* mark record as updated with new timestamp*/
-        this.record['_updatedAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+        if(this.record[propName] !== val) {
+            this.record[propName] = val;
+            this.__meta[propName].isUpdated = YES;
+            /* mark record as updated with new timestamp*/
+            this.record['_updatedAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+        }        
     },
 
     /**

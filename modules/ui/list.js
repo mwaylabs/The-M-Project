@@ -263,7 +263,7 @@ M.ListView = M.View.extend(
 
             /* If item is a model, assign the model's id to the view's modelId property */
             if(item.type === 'M.Model') {
-                obj.modelId = item.id;
+                obj.modelId = item.m_id;
             }
 
             /* Get the child views as an array of strings */
