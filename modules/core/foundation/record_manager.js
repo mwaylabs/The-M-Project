@@ -92,7 +92,7 @@ M.RecordManager = M.Object.extend(
 
     /**
      * Returns a record from the record array identified by the interal model id.
-     * @param {Number} id The internal model id of the model record.
+     * @param {Number} m_id The internal model id of the model record.
      */
     getRecordForId: function(m_id) {
         var record = _.detect(this.records, function(r){
