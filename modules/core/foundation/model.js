@@ -113,14 +113,14 @@ M.Model = M.Object.extend(
             m_id: obj.m_id ? obj.m_id : M.Application.modelRegistry.getNextId(this.name),
             record: obj /* properties that are added to record here, but are not part of __meta, are deleted later (see below) */
         });
-
+        delete obj.m_id;
         rec.state = obj.state ? obj.state : M.STATE_NEW;
         delete obj.state;
 
         /* set timestamps if new */
         if(rec.state === M.STATE_NEW) {
-            rec.record['_createdAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
-            rec.record['_updatedAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+            rec.record[M.META_CREATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+            rec.record[M.META_UPDATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
         }
 
         /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
@@ -164,10 +164,10 @@ M.Model = M.Object.extend(
         }
 
         /* add _createdAt und _modifiedAt properties in meta for timestamps  */
-        model.__meta['_createdAt'] = this.attr('String', { // could be 'Date', too
+        model.__meta[M.META_CREATED_AT] = this.attr('String', { // could be 'Date', too
             isRequired:YES
         });
-        model.__meta['_updatedAt'] = this.attr('String', { // could be 'Date', too
+        model.__meta[M.META_UPDATED_AT] = this.attr('String', { // could be 'Date', too
             isRequired:YES
         });
 
@@ -175,7 +175,7 @@ M.Model = M.Object.extend(
         
         /* if dataprovider is WebSqlProvider, create table for this model */
         if(model.dataProvider.type === 'M.WebSqlProvider') {
-            model.dataProvider.init({model: model}, function() {});
+            model.dataProvider.init({model: model, onError:function(err){console.log(err);}}, function() {});
             model.dataProvider.isInitialized = YES;
         }
 
