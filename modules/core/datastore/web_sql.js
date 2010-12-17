@@ -144,7 +144,10 @@ M.WebSqlProvider = M.DataProvider.extend(
                 sql += prop + ', ';
             }
 
-            sql = sql.substring(0, sql.lastIndexOf(',')) + ') ';
+            /* now name m_id column */
+            sql += M.META_M_ID + ') ';
+
+            //sql = sql.substring(0, sql.lastIndexOf(',')) + ') ';
 
             /* VALUES(12, 'Test', ... ) */
             sql += 'VALUES (';
@@ -153,14 +156,15 @@ M.WebSqlProvider = M.DataProvider.extend(
                 /* if property is string or text write value in quotes */
                 var pre_suffix = obj.model.__meta[prop2].dataType === 'String' || obj.model.__meta[prop2].dataType === 'Text' || obj.model.__meta[prop2].dataType === 'Date' ? '"' : '';
                 /* if property is date object, convert to string by calling toJSON */
-                if(obj.model.record[prop].type === 'M.Date') {}
-                //console.log(obj.model.record[prop]);
                 var recordPropValue = (obj.model.record[prop2].type === 'M.Date') ? obj.model.record[prop2].toJSON() : obj.model.record[prop2];
                 sql += pre_suffix + recordPropValue + pre_suffix + ', ';
             }
-            sql = sql.substring(0, sql.lastIndexOf(',')) + '); ';
 
-            //console.log(sql);
+            sql += obj.model.m_id + ')';
+
+            //sql = sql.substring(0, sql.lastIndexOf(',')) + '); ';
+
+            console.log(sql);
 
             this.performOp(sql, obj, 'INSERT');
 
@@ -350,9 +354,11 @@ M.WebSqlProvider = M.DataProvider.extend(
                 var len = res.rows.length, i;
                 for (var i = 0; i < len; i++) {
                     var rec = JSON.parse(JSON.stringify(res.rows.item(i))); /* obj returned form WebSQL is non-writable, therefore needs to be converted */
+                    /* set m_id property of record to m_id got from db, then delete m_id property named after db column (M.META_M_ID) */
+                    rec['m_id'] = rec[M.META_M_ID];
+                    delete rec[M.META_M_ID];
                     /* create model record from result with state valid */
                     /* $.extend merges param1 object with param2 object*/
-
                     var myRec = obj.model.createRecord($.extend(rec, {state: M.STATE_VALID}));
 
                     /* create M.Date objects for all date properties */
@@ -450,7 +456,7 @@ M.WebSqlProvider = M.DataProvider.extend(
            sql += ', ' + this.buildDbAttrFromProp(obj.model, r);
         }
 
-        sql += ');';
+        sql += ', ' + M.META_M_ID + ' INTEGER NOT NULL);';
 
         //console.log(sql);
 
@@ -465,9 +471,9 @@ M.WebSqlProvider = M.DataProvider.extend(
                     if(obj.onError && obj.onError.target && obj.onError.action) {
                         obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
                         obj.onError();
-                    } else if (typeof(obj.onError) !== 'function') {
-                        M.Logger.log('Target and action in onError not defined.', M.ERROR);
-                    }}, that.bindToCaller(that, that.handleDbReturn, [obj, callback])); // success callback
+                    } else if (typeof(obj.onError) === 'function') {
+                        obj.onError(sqlError);
+                    } else {M.Logger.log('Target and action in onError not defined.', M.ERROR); }}, that.bindToCaller(that, that.handleDbReturn, [obj, callback])); // success callback
             } catch(e) {
                 M.Logger.log('Error code: ' + e.code + ' msg: ' + e.message, M.ERROR);
                 return;
