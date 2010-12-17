@@ -173,13 +173,14 @@ M.WebSqlProvider = M.DataProvider.extend(
             var sql = 'UPDATE ' + obj.model.name + ' SET ';
 
             for(var prop in obj.model.record) {
+                
                 if(prop === 'ID' || !obj.model.__meta[prop].isUpdated) { /* if property has not been updated, then exclude from update call */
                     continue;
                 }
                 var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' || obj.model.__meta[prop].dataType === 'Date' ? '"' : '';
 
                 /* if property is date object, convert to string by calling toJSON */
-                var recordPropValue = obj.model.__meta[prop].dataType === 'Date' ? obj.record[prop].toJSON() : obj.record[prop];
+                var recordPropValue = obj.model.__meta[prop].dataType === 'Date' ? obj.model.record[prop].toJSON() : obj.model.record[prop];
 
                 sql += prop + '=' + pre_suffix + recordPropValue + pre_suffix + ', ';
             }
