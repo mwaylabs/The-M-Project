@@ -4,8 +4,6 @@ SelectionList.TabBar = M.TabBarView.design({
 
     anchorLocation: M.BOTTOM,
 
-    name: 'tabBar',
-
     TabSingleSelection: M.TabBarItemView.design({
 
         value: 'Single',
@@ -25,7 +23,6 @@ SelectionList.TabBar = M.TabBarView.design({
 
         value: 'Single (Dialog)',
         page: 'singleSelectionDialog'
-
     })
 
 })
