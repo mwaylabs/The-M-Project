@@ -56,13 +56,14 @@ M.Controller = M.Object.extend(
     /**
      * Returns the class property behind the given key and informs its observers.
      *
-     * @param {Object} page The page to be displayed.
+     * @param {Object, String} page The page to be displayed or its name.
      * @param {String} transition The transition that should be used. Default: horizontal slide
      * @param {Boolean} isBack YES will cause a reverse-direction transition. Default: NO
      * @param {Boolean} changeLoc Update the browser history. Default: YES
      */
     switchToPage: function(page, transition, isBack, changeLoc) {
-        var id = M.Application.viewManager.getIdByView(page);
+        page = page && page.type === 'M.PageView' ? page : M.Application.viewManager.getPage(page);
+        var id = page && page.id ? page.id : null;
         var isTabBarViewTopPage = NO;
 
         if(id) {
