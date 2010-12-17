@@ -96,7 +96,7 @@ M.RecordManager = M.Object.extend(
      */
     getRecordForId: function(m_id) {
         var record = _.detect(this.records, function(r){
-            return r.id === m_id;
+            return r.m_id === m_id;
         });
         return record;
     },
