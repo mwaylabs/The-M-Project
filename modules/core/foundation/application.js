@@ -85,6 +85,15 @@ M.Application = M.Object.extend(
     useTransitions: YES,
 
     /**
+     * This property is set to NO once the first page within an application was loaded. So this
+     * can be used as a hook to trigger some actions at the first load of any view. To do initial
+     * things for a specific view, use the isFirstLoad property of M.PageView.
+     *
+     * @type Boolean
+     */
+    isFirstLoad: YES,
+
+    /**
      * This method encapsulates the 'include' method of M.Object for better reading of code syntax.
      * Basically it integrates the defined pages within the application into M.Application and sets
      * some basic configuration properties, e.g. the default language.
