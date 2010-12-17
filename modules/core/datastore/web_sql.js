@@ -136,6 +136,8 @@ M.WebSqlProvider = M.DataProvider.extend(
             return;
         }
 
+        var pre_suffix = '';
+        var sif
 
         if(obj.model.state === M.STATE_NEW) { // perform an INSERT
 
@@ -154,9 +156,9 @@ M.WebSqlProvider = M.DataProvider.extend(
 
             for(var prop2 in obj.model.record) {
                 /* if property is string or text write value in quotes */
-                var pre_suffix = obj.model.__meta[prop2].dataType === 'String' || obj.model.__meta[prop2].dataType === 'Text' || obj.model.__meta[prop2].dataType === 'Date' ? '"' : '';
+                pre_suffix = obj.model.__meta[prop2].dataType === 'String' || obj.model.__meta[prop2].dataType === 'Text' || obj.model.__meta[prop2].dataType === 'Date' ? '"' : '';
                 /* if property is date object, convert to string by calling toJSON */
-                var recordPropValue = (obj.model.record[prop2].type === 'M.Date') ? obj.model.record[prop2].toJSON() : obj.model.record[prop2];
+                recordPropValue = (obj.model.record[prop2].type === 'M.Date') ? obj.model.record[prop2].toJSON() : obj.model.record[prop2];
                 sql += pre_suffix + recordPropValue + pre_suffix + ', ';
             }
 
@@ -174,21 +176,19 @@ M.WebSqlProvider = M.DataProvider.extend(
 
             var nrOfUpdates = 0;
 
-            for(var prop in obj.model.record) {
+            for(var p in obj.model.record) {
                 
-                if(prop === 'ID' || !obj.model.__meta[prop].isUpdated) { /* if property has not been updated, then exclude from update call */
+                if(p === 'ID' || !obj.model.__meta[p].isUpdated) { /* if property has not been updated, then exclude from update call */
                     continue;
                 }
-                console.log('property updated: ');
-                console.log(obj.model.record[prop]);
                 nrOfUpdates = nrOfUpdates + 1;
                 
-                var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' || obj.model.__meta[prop].dataType === 'Date' ? '"' : '';
+                pre_suffix = obj.model.__meta[p].dataType === 'String' || obj.model.__meta[p].dataType === 'Text' || obj.model.__meta[p].dataType === 'Date' ? '"' : '';
 
                 /* if property is date object, convert to string by calling toJSON */
-                var recordPropValue = obj.model.__meta[prop].dataType === 'Date' ? obj.model.record[prop].toJSON() : obj.model.record[prop];
+                recordPropValue = obj.model.__meta[p].dataType === 'Date' ? obj.model.record[p].toJSON() : obj.model.record[p];
 
-                sql += prop + '=' + pre_suffix + recordPropValue + pre_suffix + ', ';
+                sql += p + '=' + pre_suffix + recordPropValue + pre_suffix + ', ';
             }
             sql = sql.substring(0, sql.lastIndexOf(','));
             sql += ' WHERE ' + 'ID=' + obj.model.record.ID + ';';
@@ -204,7 +204,6 @@ M.WebSqlProvider = M.DataProvider.extend(
                     obj.onSuccess(result);
                 }
             } else {
-                console.log(nrOfUpdates);
                 this.performOp(sql, obj, 'UPDATE');
             }
         }
