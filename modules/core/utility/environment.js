@@ -24,6 +24,27 @@ M.OFFLINE = 'offline';
  */
 M.ONLINE = 'online';
 
+/**
+ * A constant value for portrait orientation mode.
+ *
+ * @type String
+ */
+M.PORTRAIT = 0;
+
+/**
+ * A constant value for landscape right orientation mode.
+ *
+ * @type String
+ */
+M.LANDSCAPE_RIGHT = -90;
+
+/**
+ * A constant value for landscape left orientation mode.
+ *
+ * @type String
+ */
+M.LANDSCAPE_LEFT = 90;
+
 
 /**
  * @class
@@ -136,6 +157,34 @@ M.Environment = M.Object.extend(
      */
     getHeight: function() {
         return this.getSize()[1];
+    },
+
+    /**
+     * This method returns the device's current orientation, depending on whether
+     * or not the device is capable of detecting the current orientation. If the
+     * device is unable to detect the current orientation, this method will return
+     * NO.
+     *
+     * Possible return values are:
+     *
+     *   - M.PORTRAIT
+     *   - M.LANDSCAPE_LEFT
+     *   - M.LANDSCAPE_RIGHT
+     *
+     * @return {Number, Boolean} The orientation type as a constant value. (If the orientation can not be detected: NO.)
+     */
+    getOrientation: function() {
+        switch(window.orientation) {
+            case M.PORTRAIT:
+                return M.PORTRAIT;
+            case M.LANDSCAPE_LEFT:
+                return M.LANDSCAPE_LEFT;
+            case M.LANDSCAPE_RIGHT:
+                return M.LANDSCAPE_RIGHT;
+            default:
+                M.Logger.log('This device does not support orientation detection.', M.WARN);
+                return NO;
+        }
     }
 
 });

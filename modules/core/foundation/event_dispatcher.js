@@ -41,7 +41,7 @@ M.EventDispatcher = M.Object.create(
      * @param {Object} evt The event.
      */
     eventDidHappen: function(evt) {
-        this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode, evt.orientation);
+        this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode);
     },
 
     /**
@@ -54,12 +54,11 @@ M.EventDispatcher = M.Object.create(
      * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
      * @param {String} orientation The orientation of the device (only passed if an orientationChange event did happen).
      */
-    onClickEventDidHappen: function(type, id, keyCode, orientation) {
+    onClickEventDidHappen: function(type, id, keyCode) {
         var evt = {
             type: type,
             id: id,
             keyCode: keyCode,
-            orientation: orientation,
             date: M.Date.create()
         };
 
@@ -67,7 +66,7 @@ M.EventDispatcher = M.Object.create(
         if(!this.lastOnClickEvent || (this.lastOnClickEvent && this.lastOnClickEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
             this.lastOnClickEvent = evt;
             if(!M.Application.viewManager.getViewById(id).inEditMode) {
-                this.delegateEvent(type, id, keyCode, orientation);
+                this.delegateEvent(type, id, keyCode);
             }
         }
     },
@@ -82,10 +81,10 @@ M.EventDispatcher = M.Object.create(
      * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
      * @param {String} orientation The orientation of the device (only passed if an orientationChange event did happen).
      */
-    delegateEvent: function(type, id, keyCode, orientation) {
+    delegateEvent: function(type, id, keyCode) {
         var view = M.Application.viewManager.getViewById(id);
 
-        if(!view) {
+        if(!view && type !== 'orientationchange') {
             return;
         }
 
@@ -117,7 +116,7 @@ M.EventDispatcher = M.Object.create(
                 view.lostFocus(type);
                 break;
             case 'orientationchange':
-                M.Application.viewManager.getCurrentPage().orientationDidChange(orientation);
+                M.Application.viewManager.getCurrentPage().orientationDidChange();
                 break;
         }
     },
