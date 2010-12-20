@@ -63,6 +63,13 @@ M.PageView = M.View.extend(
     onHide: null,
 
     /**
+     * This property can be used to set the page's onOrientationChange action.
+     *
+     * @type Object
+     */
+    onOrientationChange: null,
+
+    /**
      * Indicates whether the page has a tab bar or not.
      *
      * @type Boolean
