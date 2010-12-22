@@ -1,5 +1,21 @@
 SelectionList.SingleSelection = M.PageView.design({
 
+    onLoad: {
+
+        target: SelectionList.SingleSelectionController,
+
+        action: 'setOrientation'
+
+    },
+
+    onOrientationChange: {
+
+        target: SelectionList.SingleSelectionController,
+
+        action: 'setOrientation'
+
+    },
+
     childViews: 'header content tabBar',
 
     header: M.ToolbarView.design({
@@ -12,7 +28,7 @@ SelectionList.SingleSelection = M.PageView.design({
 
     content: M.ScrollView.design({
 
-        childViews: 'selectionList textField buttonGroup',
+        childViews: 'selectionList textField buttonGroup orientation',
 
         selectionList: M.SelectionListView.design({
 
@@ -83,6 +99,12 @@ SelectionList.SingleSelection = M.PageView.design({
 
             })
 
+        }),
+
+        orientation: M.LabelView.design({
+
+            contentBinding: 'SelectionList.SingleSelectionController.orientation'
+            
         })
 
     }),
