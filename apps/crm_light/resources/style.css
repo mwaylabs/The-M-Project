@@ -42,7 +42,7 @@ div.startPage img.logo {
     margin-bottom: 50px;
 }
 
-div.startPage a.ui-btn {
+div.startPage div.ui-btn {
     background-attachment: scroll;
     background-position: 0 0;
     background-repeat: no-repeat;
@@ -58,13 +58,15 @@ div.startPage a.ui-btn {
     text-align: left;
 }
 
-div.startPage a.ui-btn span.ui-btn-inner {
+div.startPage div.ui-btn span.ui-btn-inner {
     background-image:url("menuButton_right.png");
     background-position:top right;
     background-repeat:no-repeat;
+    padding:9px;
+    margin-bottom:12px;
 }
 
-div.startPage a.ui-btn span.ui-btn-inner span.ui-btn-text {
+div.startPage div.ui-btn span.ui-btn-inner span.ui-btn-text {
     display:block;
     float:left;
     height:48px;
@@ -80,19 +82,19 @@ div.startPage a.ui-btn span.ui-btn-inner span.ui-btn-text {
     font: bold 24px arial,sans-serif;
 }
 
-a.ui-btn-up-activities, a.ui-btn-hover-activities {
+div.ui-btn-up-activities, div.ui-btn-hover-activities {
     background-image: url("activityButton_left.png");
 }
 
-a.ui-btn-up-info, a.ui-btn-hover-info {
+div.ui-btn-up-info, div.ui-btn-hover-info {
     background-image: url("customerButton_left.png");
 }
 
 [data-role=header] {
     background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #fafafa),color-stop(0.40, #f3f3f3),color-stop(0.60, #eaeaea),color-stop(0.97, #dadada), color-stop(1.0, #cad2db));
     text-shadow: 0px 1px 0 #ffffff;
-    padding:5px;
-    padding-top:0px;
+    padding:0px;
+    padding-bottom:5px;
     font-weight:bold;
     color:#000000;
     border:0px;
@@ -153,8 +155,8 @@ a.ui-btn-up-info, a.ui-btn-hover-info {
 [data-role=footer] {
     background-image: -webkit-gradient(linear, left top, left bottom,color-stop(0.00, #fafafa),color-stop(0.40, #f3f3f3),color-stop(0.60, #eaeaea),color-stop(0.97, #dadada), color-stop(1.0, #cad2db));
     text-shadow: 0px 1px 0 #ffffff;
-    padding:5px;
-    padding-top:0px;
+    padding:0px;
+    padding-bottom:5px;
     font-weight:bold;
     color:#000000;
     border:0px;
@@ -169,7 +171,7 @@ a.ui-btn-up-info, a.ui-btn-hover-info {
     margin:0px;
 }
 
-[data-role=footer] [role=button] {
+[data-role=footer] div.ui-btn {
     margin-left:5%;
     margin-top:10px;
     display:block;
@@ -279,12 +281,12 @@ div.grid30 {
     float:left;
 }
 
-div.searchbar {
+div.searchbar_container {
     padding: 3px 10px;
     border:0px;
 }
 
-div.searchbar input {
+div.searchbar_container input {
     margin:0px;
     margin-top:2px;
     padding:0px;
@@ -352,7 +354,7 @@ div.activitiesNewPage [data-role=fieldcontain] label {
     padding:10px;
 }
 
-div.activitiesNewPage [data-role=fieldcontain] input[type=text], [data-role=fieldcontain] textarea, div.activitiesNewPage [data-role=fieldcontain].select_container div.ui-select a {
+div.activitiesNewPage [data-role=fieldcontain] input[type=text], [data-role=fieldcontain] textarea, div.activitiesNewPage [data-role=fieldcontain].select_container select {
     border:1px solid #414243;
     font-size:14px;
     padding:5px;

@@ -17,15 +17,12 @@ CRMLight.ActivitiesSearchPageController = M.Controller.extend({
 
         /* get all loaded activities */
         var results = _.clone(CRMLight.ActivitiesPageController.activities);
-        console.log(JSON.stringify(results));
         /* iterate through all activities */
         for(var i in results) {
             var day = results[i];
             day = _.select(day, function(activity) {
-                console.log(activity);
                 return (activity.activityName.lastIndexOf(searchstring) > -1 || activity.companyName.lastIndexOf(searchstring) > -1 || activity.companyCity.lastIndexOf(searchstring) > -1);
             });
-            console.log(day);
             if(day.length > 0) {
                 results[i] = day;
             } else {

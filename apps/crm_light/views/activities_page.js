@@ -13,6 +13,8 @@ CRMLight.ActivitiesPage = M.PageView.design({
 
         childViews: 'back title',
 
+        isFixed: NO,
+
         back: M.ButtonView.design({
 
             value: M.I18N.l('back'),
@@ -64,6 +66,8 @@ CRMLight.ActivitiesPage = M.PageView.design({
         anchorLocation: M.BOTTOM,
 
         cssClass: 'footer',
+
+        isFixed: NO,
 
         grid: M.GridView.design({
 
