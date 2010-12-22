@@ -191,8 +191,11 @@ M.Model = M.Object.extend(
 
         model.recordManager = M.RecordManager.extend({});
         
-        /* if dataprovider is WebSqlProvider, create table for this model */
+        /* if dataprovider is WebSqlProvider, create table for this model and add ID ModelAttribute Object to __meta */
         if(model.dataProvider.type === 'M.WebSqlProvider') {
+            model.__meta['ID'] = this.attr('Integer', {
+                isRequired:NO
+            });
             model.dataProvider.init({model: model, onError:function(err){console.log(err);}}, function() {});
             model.dataProvider.isInitialized = YES;
         }
@@ -200,7 +203,7 @@ M.Model = M.Object.extend(
         M.Application.modelRegistry.register(model.name);
 
         /* save model in modelList with model name as key */
-        this.modelList[model.name] = this;
+        this.modelList[model.name] = model;
 
         /* Re-set the just registered model's id, if there is a value stored */
         /* Model Registry stores the current id of a model type into localStorage */
@@ -423,38 +426,47 @@ M.Model = M.Object.extend(
     /**
      * completes the model record by loading all referenced entities.
      */
-    complete: function(callback) {
+    complete: function(callback, dataProviderName) {
         console.log('complete...');
         var records = [];
         for(var i in this.record) {
             if(this.__meta[i].dataType === 'Reference') {
-                console.log(i + ' is reference.');
-                records.push(this.__meta[i].refEntity);
-                // records.push(this.modelList[this.__meta[i].reference];
+                //records.push(this.__meta[i].refEntity);
+                records.push({model: this.modelList[this.__meta[i].reference], m_id: this.record[i]});
             }
         }
-        this.deepFind(records, callback);
+        this.deepFind(records, callback, dataProviderName);
     },
 
     
-    deepFind: function(records, callback) {
+    deepFind: function(records, callback, dataProviderName) {
         console.log('deepFind...');
-        console.log(records);
+        console.log(JSON.stringify(records));
         if(records.length < 1) {
             callback();
             return;
         }
         var curRec = records.pop(); // delete last element
-        var cb = this.bindToCaller(this, this.deepFind,[records, callback]); // cb is callback for find in dataprovider
+        var cb = this.bindToCaller(this, this.deepFind,[records, callback]); // cb is callback for find in data provider
+        var that = this;
         this.find({
             constraint: {
-                statement: ' WHERE ' + M.META_M_ID + ' = ? ',
+                statement: 'WHERE ' + M.META_M_ID + ' = ? ',
                 parameters: [curRec.m_id] // length must match number of ? in statements
             },
 
-            onSuccess: cb, /* in both cases call deepFind again */
-            onError: cb
+            onSuccess: function(result) {
+                that.setReference(result);
+            },
+            onError: this.setReference
         });
+        cb();
+    },
+
+    setReference: function(result) {
+        console.log('setReference()...');
+        console.log(result);
+        
     },
 
     /**

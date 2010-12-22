@@ -322,7 +322,7 @@ M.WebSqlProvider = M.DataProvider.extend(
             sql += '* ';
         }
 
-        sql += ' FROM ' + obj.model.name;
+        sql += ' FROM ' + obj.model.name + ' ';
 
         var stmtParameters = [];
 
@@ -360,7 +360,7 @@ M.WebSqlProvider = M.DataProvider.extend(
             sql += ' LIMIT ' + obj.limit
         }
 
-        //console.log(sql);
+        console.log(sql);
 
         var result = [];
         var that = this;
@@ -401,7 +401,7 @@ M.WebSqlProvider = M.DataProvider.extend(
             /* bind success callback */
             if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
                 /* [result] is a workaround for bindToCaller: bindToCaller uses call() instead of apply() if an array is given.
-                 * result is an array, but we what call is doing with it is wrong in this case. call maps each array element to one method
+                 * result is an array, but what call is doing with it is wrong in this case. call maps each array element to one method
                  * parameter of the function called. Our callback only has one parameter so it would just pass the first value of our result set to the
                  * callback. therefor we now put result into an array (so we have an array inside an array) and result as a whole is now passed as the first
                  * value to the callback.
@@ -468,6 +468,9 @@ M.WebSqlProvider = M.DataProvider.extend(
                     + ' (ID INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE';
 
         for(var r in obj.model.__meta) {
+            if(r === 'ID') {/* skip ID, it is defined manually above */
+                continue;
+            }
            sql += ', ' + this.buildDbAttrFromProp(obj.model, r);
         }
 
