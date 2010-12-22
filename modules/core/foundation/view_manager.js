@@ -112,18 +112,18 @@ M.ViewManager = M.Object.extend(
 
     /**
      * Returns the view object from the view list array identified by the view's
-     * name and its page. If there are multiple views with the same name on the
-     * same page, the first result is returned.
+     * name and its surrounding view. If there are multiple views with the same
+     * name on the same surrounding view, the first result is returned.
      *
-     * Note: Try to use unique names for your views within the same page!
+     * Note: Try to use unique names for your views within the same surrounding view!
      *
-     * @param {String, Object} parentView. The name of the parent view or the parent view itself.
+     * @param {String, Object} parentView. The name of the parent view (if it is a page), its id or the parent view itself.
      * @param {String} targetView. The name of the view to be returned.
      * @returns {Object} The view object from the view list identified by the view's name and the page where it's on.
      */
     getView: function(parentView, targetView) {
         if(typeof(parentView) !== 'object') {
-            parentView = M.Application.pages[parentView];  
+            parentView = M.Application.pages[parentView] ? M.Application.pages[parentView] : (this.getViewById(parentView) ? this.getViewById(parentView) : null);  
         }
         var view = null;
 
