@@ -89,6 +89,10 @@ M.TextFieldView = M.View.extend(
             this.html += ' data-role="fieldcontain"';
         }
 
+        if(this.cssClass) {
+            this.html += ' class="' + this.cssClass + '_container"';
+        }
+
         this.html += '>';
 
         if(this.label) {
