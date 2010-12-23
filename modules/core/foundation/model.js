@@ -383,8 +383,9 @@ M.Model = M.Object.extend(
 
     /**
      * Create or update a record in storage if it is valid (first check this).
+     * If param obj includes cascade:YES then save is cascadaded through all references recursively.
      *
-     * @param {Object} obj The param object with query and callbacks.
+     * @param {Object} obj The param object with query, cascade flag and callbacks.
      * @returns {Boolean} The result of the data provider function call. Is a boolean. With LocalStorage used, it indicates if the save operation was successful.
      * When WebSQL is used, the result of the save operation returns asynchronously. The result then is just the standard result returned by the web sql provider's save method
      * which does not necessarily indicate whether the operation was successful, because the operation is asynchronous, means the operation's end is not predictable. 
@@ -493,8 +494,6 @@ M.Model = M.Object.extend(
                 var ref = this.modelList[curRec.name].find({
                     key: curRec.m_id
                 });
-                console.log('find auf model mit name: ' + curRec.name);
-                console.log('key: ' + curRec.m_id);
 
                 this.__meta[curRec.prop].refEntity = ref;
 
