@@ -183,6 +183,11 @@ M.LocalStorageProvider = M.DataProvider.extend(
      */
     findByKey: function(obj) {
         if(obj.key) {
+
+            var reg = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX);
+            /* assume that if key starts with local storage prefix, correct key is given, other wise construct it and key might be m_id */
+            obj.key = reg.test(obj.key) ? obj.key : M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_' + obj.key;
+
             if(localStorage.getItem(obj.key)) { // if key is available
                 return this.buildRecord(obj.key, obj)
             } else {
