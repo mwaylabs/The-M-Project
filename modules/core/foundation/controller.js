@@ -62,7 +62,7 @@ M.Controller = M.Object.extend(
      * @param {Boolean} changeLoc Update the browser history. Default: YES
      */
     switchToPage: function(page, transition, isBack, changeLoc) {
-        page = page && page.type === 'M.PageView' ? page : M.Application.viewManager.getPage(page);
+        page = page && typeof(page) === 'object' ? page : M.Application.viewManager.getPage(page);
         var id = page && page.id ? page.id : null;
         var isTabBarViewTopPage = NO;
 
