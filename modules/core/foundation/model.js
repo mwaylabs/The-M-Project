@@ -266,6 +266,11 @@ M.Model = M.Object.extend(
      * @returns {Object|String} value of property
      */
     get: function(propName) {
+        /* return ref entity if property is a reference */
+        if(this.__meta[propName] && this.__meta[propName].dataType === 'Reference') {
+            /* TODO: what to do if  refEntity is not yet set? complete() first? */
+            return this.__meta[propName].refEntity;
+        }
         return this.record[propName];
     },
 
@@ -398,6 +403,14 @@ M.Model = M.Object.extend(
             isValid = this.validate();
         }
 
+        if(obj.cascade) {
+            for(var prop in this.__meta) {
+                if(this.__meta[prop] && this.__meta[prop].dataType === 'Reference' && this.__meta[prop].refEntity) {
+                    this.__meta[prop].refEntity.save({cascade:YES});
+                }
+            }
+        }
+
         if(isValid) {
             return this.dataProvider.save($.extend(obj, {model: this}));
         }
@@ -445,7 +458,9 @@ M.Model = M.Object.extend(
         console.log('deepFind...');
         console.log('### records.length: ' + records.length);
         if(records.length < 1) {    // cancel constraint for recursion
-            callback();
+            if(callback) {
+                callback();
+            }
             return;
         }
         var curRec = records.pop(); // delete last element, decreases length of records by 1 => important for reconstraint constraint
@@ -478,6 +493,8 @@ M.Model = M.Object.extend(
                 var ref = this.modelList[curRec.name].find({
                     key: curRec.m_id
                 });
+                console.log('find auf model mit name: ' + curRec.name);
+                console.log('key: ' + curRec.m_id);
 
                 this.__meta[curRec.prop].refEntity = ref;
 
@@ -500,7 +517,7 @@ M.Model = M.Object.extend(
      * sync model with storage (only websql)
      */
     schemaSync: function() {
-        
+
     }
 
 
