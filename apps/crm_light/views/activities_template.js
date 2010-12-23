@@ -9,7 +9,7 @@ CRMLight.ActivitiesListTemplateView = M.ListItemView.design({
             valuePattern: '<%= icon %>',
             operation: function(v, label) {
                 if(!v) { v = 'default';}
-                return 'resources/icon_activity_' + v + '.png';
+                return '../resources/icon_activity_' + v + '.png';
             }
         },
         cssClass: 'list_icon'

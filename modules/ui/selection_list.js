@@ -166,7 +166,14 @@ M.SelectionListView = M.View.extend(
                 this.html += '<label for="' + this.id + '">' + this.label + '</label>';
             }
 
-            this.html += '<select id="' + this.id + '"' + this.style() + ' onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');">';
+            this.html += '<select ';
+
+            if(!this.applyTheme) {
+                this.html += 'data-role="none" ';
+
+            }
+
+            this.html += 'id="' + this.id + '"' + this.style() + ' onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');">';
 
             this.renderChildViews();
 
@@ -191,7 +198,7 @@ M.SelectionListView = M.View.extend(
         }
 
         this.html += '</div>';
-        
+
         return this.html;
     },
 
@@ -295,12 +302,12 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
             $('#' + this.id).selectmenu();
             if(this.initialText) {
                 $('#' + this.id + '-button').find('span.ui-btn-text').html(this.initialText);
             }
-        } else {
+        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
             $('#' + this.id).controlgroup();
         }
     },
@@ -311,12 +318,12 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     themeUpdate: function() {
-        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
             $('#' + this.id).selectmenu('refresh');
             if(this.initialText) {
                 $('#' + this.id + '-button').find('span.ui-btn-text').html(this.initialText);
             }
-        } else {
+        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
             $('#' + this.id).controlgroup();
         }
     },
@@ -331,9 +338,6 @@ M.SelectionListView = M.View.extend(
         var html = '';
         if(this.cssClass) {
             html += ' class="' + this.cssClass + '"';
-        }
-        if(html) {
-            html += '"';
         }
         return html;
     },

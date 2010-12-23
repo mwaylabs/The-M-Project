@@ -1,5 +1,15 @@
 SelectionList.SingleSelectionController = M.Controller.extend({
 
+    orientation: '',
+
+    setOrientation: function(isFirstLoad) {
+
+        var orientation = M.Environment.getOrientation();
+        console.log('orientation detected: ' + orientation);
+        this.set('orientation', orientation);
+
+    },
+
     setSelection: function() {
 
         var selectionList = M.ViewManager.getView('singleSelection', 'selectionList');

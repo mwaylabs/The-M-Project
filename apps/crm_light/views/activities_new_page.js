@@ -13,6 +13,8 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
         childViews: 'back title',
 
+        isFixed: NO,
+
         back: M.ButtonView.design({
 
             value: M.I18N.l('back'),
@@ -107,6 +109,8 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
                 removeItemsOnUpdate: YES,
 
+                applyTheme: NO,
+
                 selectionMode: M.SINGLE_SELECTION_DIALOG,
 
                 cssClass: 'select',
@@ -129,6 +133,8 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
 
                 removeItemsOnUpdate: YES,
 
+                applyTheme: NO,
+
                 selectionMode: M.SINGLE_SELECTION_DIALOG,
 
                 cssClass: 'select',
@@ -144,6 +150,8 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
                 label: M.I18N.l('result'),
 
                 removeItemsOnUpdate: YES,
+
+                applyTheme: NO,
 
                 selectionMode: M.SINGLE_SELECTION_DIALOG,
 
@@ -180,6 +188,8 @@ CRMLight.ActivitiesNewPage = M.PageView.design({
         anchorLocation: M.BOTTOM,
 
         cssClass: 'footer',
+
+        isFixed: NO,
 
         grid: M.GridView.design({
 

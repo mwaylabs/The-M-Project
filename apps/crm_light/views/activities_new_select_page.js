@@ -13,6 +13,8 @@ CRMLight.ActivitiesNewSelectPage = M.PageView.design({
 
         childViews: 'back title',
 
+        isFixed: NO,
+
         back: M.ButtonView.design({
 
             value: M.I18N.l('back'),

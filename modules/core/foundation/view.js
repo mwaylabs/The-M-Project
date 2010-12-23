@@ -84,6 +84,13 @@ M.View = M.Object.extend(
     isEnabled: YES,
 
     /**
+     * This property determines whether to apply a theme to a view or not.
+     *
+     * @type Boolean
+     */
+    applyTheme: YES,
+
+    /**
      * This property can be used to save a reference to the view's parent view.
      *
      * @param {Object}

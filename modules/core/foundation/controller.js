@@ -91,7 +91,7 @@ M.Controller = M.Object.extend(
             }
 
             /* Now do the page change by using a jquery mobile method and pass the properties */
-            $.mobile.changePage(id, M.Application.useTransitions ? transition : M.TRANSITION.NONE, isBack, changeLoc);
+            $.mobile.changePage(id, M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, changeLoc);
 
             /* Save the current page in the view manager */
             M.Application.viewManager.setCurrentPage(page);
