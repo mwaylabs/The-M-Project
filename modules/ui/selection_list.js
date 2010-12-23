@@ -430,20 +430,34 @@ M.SelectionListView = M.View.extend(
                 }
             });
         } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && typeof(selection) === 'string') {
-            $('#' + this.id).find('option').each(function() {
-                var item = M.ViewManager.getViewById($(this).attr('id'));
-                if(item.value === selection) {
-                    that.removeSelection();
-                    item.isSelected = YES;
-                    that.selection = item;
-                    $('#' + that.id).val(item.value);
-                    if(that.initialText && $('#' + that.id + '-button').find('span.ui-btn-text').html() === that.initialText) {
-                        $('#' + that.id + '-button').find('span.ui-btn-text').html(item.label ? item.label : item.value);
+            if(this.applyTheme) {
+                $('#' + this.id).find('option').each(function() {
+                    var item = M.ViewManager.getViewById($(this).attr('id'));
+                    if(item.value === selection) {
+                        that.removeSelection();
+                        item.isSelected = YES;
+                        that.selection = item;
+                        $('#' + that.id).val(item.value);
+                        if(that.initialText && $('#' + that.id + '-button').find('span.ui-btn-text').html() === that.initialText) {
+                            $('#' + that.id + '-button').find('span.ui-btn-text').html(item.label ? item.label : item.value);
+                        }
                     }
-                }
-            });
-            this.initialText = null;
-            $('#' + this.id).selectmenu('refresh');
+                });
+                this.initialText = null;
+                $('#' + this.id).selectmenu('refresh');
+            } else {
+                $('#' + this.id).find('option').each(function() {
+                    var item = M.ViewManager.getViewById($(this).attr('id'));
+                    if(item.value === selection) {
+                        item.isSelected = YES;
+                        that.selection = item;
+                        $(this).attr('selected', 'selected');
+                    } else {
+                        item.isSelected = NO;
+                        $(this).attr('selected', '');
+                    }
+                });
+            }
         } else if(typeof(selection) === 'object') {
             var removedItems = NO;
             $('#' + this.id).find('input').each(function() {
