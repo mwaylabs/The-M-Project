@@ -116,6 +116,7 @@ M.Model = M.Object.extend(
      * from storage then state is M.STATE_NEW or 'state_new', if fetched from database then it is M.STATE_VALID or 'state_valid'
      */
     createRecord: function(obj) {
+        
         var rec = this.extend({
             m_id: obj.m_id ? obj.m_id : M.Application.modelRegistry.getNextId(this.name),
             record: obj /* properties that are added to record here, but are not part of __meta, are deleted later (see below) */
@@ -150,6 +151,7 @@ M.Model = M.Object.extend(
                 delete rec.record[i];
             }
         }
+
         this.recordManager.add(rec);
         return rec;
     },
@@ -189,7 +191,7 @@ M.Model = M.Object.extend(
             isRequired:YES
         });
 
-        model.recordManager = M.RecordManager.extend({});
+        model.recordManager = M.RecordManager.extend({records:[]});
         
         /* if dataprovider is WebSqlProvider, create table for this model and add ID ModelAttribute Object to __meta */
         if(model.dataProvider.type === 'M.WebSqlProvider') {
