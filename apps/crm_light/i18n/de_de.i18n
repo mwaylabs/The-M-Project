@@ -46,6 +46,8 @@ M.I18N.de_de = {
 
     "resultReason": "Erg.grund",
 
-    "text": "Text"
+    "text": "Text",
+
+    "edit_activity": "Aktivität bearbeiten"
 
 }

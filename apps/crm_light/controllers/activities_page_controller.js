@@ -24,6 +24,34 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
         
     },
 
+    selectActivity: function(id, mId) {
+
+        var activity = CRMLight.Activity.recordManager.getRecordForId(mId);
+        var customer = _.detect(CRMLight.Customer.records(), function(record) {
+            return record.get('ID') === activity.get('customerId');
+        });
+        CRMLight.ActivitiesEditPageController.activity = activity;
+        CRMLight.ActivitiesEditPageController.customer = customer;
+
+        var that = this;
+        M.Request.init({
+            url: '../fixtures/select_lists.json',
+            isJSON: YES,
+            beforeSend: function(req) {
+                M.LoaderView.show();
+            },
+            onSuccess: function(data){
+                M.LoaderView.hide();
+                CRMLight.ActivitiesEditPageController.activity_selection = data;
+                that.switchToPage(M.ViewManager.getPage('activitiesEditPage'));
+            },
+            onError: function(request, message){
+                M.LoaderView.hide();
+            }
+        }).send();
+
+    },
+
     setActivities: function() {
         M.LoaderView.hide();
         var data = CRMLight.Activity.records();
@@ -34,12 +62,13 @@ CRMLight.ActivitiesPageController = M.Controller.extend({
         };
         var activities = {};
         for(var i in data) {
-            var day = data[i].record.beginDate.format('yyyy/mm/dd');
+            var day = data[i].get('beginDate').format('yyyy/mm/dd');
             var obj = {
-                date: data[i].record.beginDate.toJSON(),
-                activityName: M.Cypher.utf8_decode(data[i].record.activityReason),
-                icon: icons[data[i].record.status] ? icons[data[i].record.status] : 'default',
-                customerId: data[i].record.customerId
+                date: data[i].get('beginDate').toJSON(),
+                activityName: M.Cypher.utf8_decode(data[i].get('activityReason')),
+                icon: icons[data[i].get('status')] ? icons[data[i].get('status')] : 'default',
+                customerId: data[i].get('customerId'),
+                id: data[i].m_id
             }
             if(!activities[day]) {
                 activities[day] = [];

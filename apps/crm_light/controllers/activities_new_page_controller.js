@@ -51,10 +51,10 @@ CRMLight.ActivitiesNewPageController = M.Controller.extend({
             modifyDate: M.Date.now(),
             category: 'Aktivität',
             processType: M.ViewManager.getView('activitiesNewPage', 'processType').value,
-            status: 'Ziel erreicht',//M.ViewManager.getView('activitiesNewPage', 'status').getSelection(),
-            activityReason: 'Backofen', //M.ViewManager.getView('activitiesNewPage', 'activityReason').getSelection(),
+            status: M.ViewManager.getView('activitiesNewPage', 'status').getSelection(),
+            activityReason: M.ViewManager.getView('activitiesNewPage', 'activityReason').getSelection(),
             goal: M.ViewManager.getView('activitiesNewPage', 'goal').value,
-            result: 'Ziel erreicht, Kunde beraten',//M.ViewManager.getView('activitiesNewPage', 'result').getSelection(),
+            result: M.ViewManager.getView('activitiesNewPage', 'result').getSelection(),
             resultReason: M.ViewManager.getView('activitiesNewPage', 'resultReason').value,
             text: M.ViewManager.getView('activitiesNewPage', 'text').value,
             customerId: M.ViewManager.getView('activitiesNewPage', 'customerId').value
