@@ -155,6 +155,7 @@ M.WebSqlProvider = M.DataProvider.extend(
             sql += 'VALUES (';
 
             for(var prop2 in obj.model.record) {
+                console.log(obj.model.record[prop2]);
                 /* if property is string or text write value in quotes */
                 pre_suffix = obj.model.__meta[prop2].dataType === 'String' || obj.model.__meta[prop2].dataType === 'Text' || obj.model.__meta[prop2].dataType === 'Date' ? '"' : '';
                 /* if property is date object, convert to string by calling toJSON */
@@ -218,7 +219,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @private
      */
     performOp: function(sql, obj, opType) {
-        console.log('Update');
+
         var that = this;
         this.dbHandler.transaction(function(t) {
             t.executeSql(sql, null, function() {
