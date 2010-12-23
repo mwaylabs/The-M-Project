@@ -432,7 +432,7 @@ M.Model = M.Object.extend(
         for(var i in this.record) {
             if(this.__meta[i].dataType === 'Reference') {
                 //records.push(this.__meta[i].refEntity);
-                records.push({model: this.modelList[this.__meta[i].reference], m_id: this.record[i]});
+                records.push({prop:i, name: this.__meta[i].reference, model: this.modelList[this.__meta[i].reference], m_id: this.record[i]});
             }
         }
         this.deepFind(records, callback, dataProviderName);
@@ -441,32 +441,57 @@ M.Model = M.Object.extend(
     
     deepFind: function(records, callback, dataProviderName) {
         console.log('deepFind...');
-        console.log(JSON.stringify(records));
-        if(records.length < 1) {
+        console.log('### records.length: ' + records.length);
+        if(records.length < 1) {    // cancel constraint for recursion
             callback();
             return;
         }
-        var curRec = records.pop(); // delete last element
+        var curRec = records.pop(); // delete last element, decreases length of records by 1 => important for reconstraint constraint
         var cb = this.bindToCaller(this, this.deepFind,[records, callback]); // cb is callback for find in data provider
         var that = this;
-        this.find({
-            constraint: {
-                statement: 'WHERE ' + M.META_M_ID + ' = ? ',
-                parameters: [curRec.m_id] // length must match number of ? in statements
-            },
 
-            onSuccess: function(result) {
-                that.setReference(result);
-            },
-            onError: this.setReference
-        });
-        cb();
+
+        switch(this.dataProvider.type) {
+
+            case 'M.WebSqlProvider':
+                console.log('case websql');
+                this.modelList[curRec.name].find({     // call find on to fetched model record object
+                    constraint: {
+                        statement: 'WHERE ' + M.META_M_ID + ' = ? ',
+                        parameters: [curRec.m_id] // length must match number of ? in statements
+                    },
+
+                    onSuccess: function(result) {
+                        that.setReference(result, that, curRec.prop, cb);
+                    },
+                    onError: function(err) {
+                        M.Logger.log('Error: ' + err, M.ERROR);
+                    }
+                });
+
+                break;
+
+            case 'M.LocalStorageProvider':
+
+                var ref = this.modelList[curRec.name].find({
+                    key: curRec.m_id
+                });
+
+                this.__meta[curRec.prop].refEntity = ref;
+
+                this.deepFind(records, callback, dataProviderName); // recursion
+                break;
+
+            default:
+                    
+                break;
+        }
     },
 
-    setReference: function(result) {
+    setReference: function(result, that, prop, callback) {
         console.log('setReference()...');
-        console.log(result);
-        
+        that.__meta[prop].refEntity = result[0];    // set reference in source model defined by that
+        callback();
     },
 
     /**
