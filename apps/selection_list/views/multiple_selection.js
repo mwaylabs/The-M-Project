@@ -16,6 +16,8 @@ SelectionList.MultipleSelection = M.PageView.design({
 
         selectionList: M.SelectionListView.design({
 
+            //applyTheme: NO,
+
             childViews: 'optionGermany optionItaly optionUS optionSpain',
 
             selectionMode: M.MULTIPLE_SELECTION,

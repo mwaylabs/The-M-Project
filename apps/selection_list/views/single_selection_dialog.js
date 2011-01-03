@@ -16,6 +16,8 @@ SelectionList.SingleSelectionDialog = M.PageView.design({
 
         selectionList: M.SelectionListView.design({
 
+            //applyTheme: NO,
+
             childViews: 'optionGermany optionItaly optionUS optionSpain',
 
             selectionMode: M.SINGLE_SELECTION_DIALOG,
