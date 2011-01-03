@@ -1,0 +1,22 @@
+[data-id=tab_bar] .ui-icon {
+    width:30px;
+    height:30px;
+    margin-left:-14px !important;
+    margin-top:-4px !important;
+}
+
+[data-icon=core] .ui-icon {
+    background: url("core.png") no-repeat scroll 50% 50% transparent;
+}
+
+[data-icon=storage] .ui-icon {
+    background: url("storage.png") no-repeat scroll 50% 50% transparent;
+}
+
+[data-icon=utilities] .ui-icon {
+    background: url("utilities.png") no-repeat scroll 50% 50% transparent;
+}
+
+[data-icon=controls] .ui-icon {
+    background: url("controls.png") no-repeat scroll 50% 50% transparent;
+}
