@@ -79,8 +79,11 @@ M.TabBarItemView = M.View.extend(
      */
     style: function() {
         var html = '';
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
+        }
         if(this.isActive) {
-            html += ' class="';
+            html += html != '' ? '' : ' class="';
             html += 'ui-btn-active';
             html += '"';
         }
