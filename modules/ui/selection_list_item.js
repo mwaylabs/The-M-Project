@@ -69,9 +69,13 @@ M.SelectionListItemView = M.View.extend(
 
             this.html += '</option>';
         } else {
-            this.html += '<input type="' + this.parentView.selectionMode + '" name="';
+            this.html += '<input type="' + this.parentView.selectionMode + '" ';
 
-            this.html += this.parentView.name ? this.parentView.name : this.parentView.id;
+            if(!this.applyTheme || !this.parentView.applyTheme) {
+                this.html += 'data-role="none" ';
+            }            
+
+            this.html +=  'name="' + (this.parentView.name ? this.parentView.name : this.parentView.id);
 
             this.html += '" id="' + this.id + '"';
 
@@ -104,7 +108,7 @@ M.SelectionListItemView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.parentView && !this.parentView.isInsideFormView) {
+        if(this.parentView && !this.parentView.isInsideFormView && this.applyTheme && this.parentView.applyTheme) {
             $('#' + this.id).checkboxradio();
         }
     }
