@@ -4,6 +4,10 @@ CRMLight.ActivitiesListTemplateView = M.ListItemView.design({
 
     cssClass: 'activity_list',
 
+    target: CRMLight.ActivitiesPageController,
+
+    action: 'selectActivity',
+
     icon : M.ImageView.design({
         computedValue: {
             valuePattern: '<%= icon %>',

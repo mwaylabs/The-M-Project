@@ -95,13 +95,19 @@
                             isInset: NO,
                             isDividedList: YES,
                             hasSearchBar: YES,
-                            usesDefaultSearchBehaviour: NO,
+
+                            /* comment this out to use a custom search bar (see below) */
+                            usesDefaultSearchBehaviour: YES
+
+
+                            /* comment this in, to use a custom search bar (see controller) */
+                            /*usesDefaultSearchBehaviour: NO,
                             searchBar: {
                                 target: DividedList.ListController,
                                 action: 'searchStringDidChange',
                                 triggerActionOnChange: YES,
                                 triggerActionOnKeyUp: YES
-                            }
+                            }*/
 
                         })
 

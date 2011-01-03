@@ -39,13 +39,15 @@ SelectionList.MultipleSelectionController = M.Controller.extend({
             message += selection[i].label + '<br />';
         }
 
-        M.DialogView.alert({
+        /*M.DialogView.alert({
 
             title: 'Selected Item(s)',
 
             message: message
 
-        });
+        });*/
+        
+        M.Logger.log(message, M.INFO);
 
     }
 

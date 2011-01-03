@@ -114,6 +114,9 @@ M.SelectionListView = M.View.extend(
      * list will return nothing. Once a 'real' option is selected, this value is
      * removed from the selection list.
      *
+     * Note: This property currently doesn't support non-themed selection lists (see the
+     * applyTheme property).
+     *
      * @type String
      */
     initialText: null,
@@ -185,7 +188,14 @@ M.SelectionListView = M.View.extend(
 
         } else {
 
-            this.html += '<fieldset data-role="controlgroup" id="' + this.id + '">';
+            this.html += '<fieldset ';
+
+            if(!this.applyTheme) {
+                this.html += 'data-role="none" ';
+            } else {
+                this.html += 'data-role="controlgroup" ';
+            }
+            this.html += 'id="' + this.id + '">';
 
             if(this.label) {
                 this.html += '<legend>' + this.label + '</legend>';
@@ -307,7 +317,7 @@ M.SelectionListView = M.View.extend(
             if(this.initialText) {
                 $('#' + this.id + '-button').find('span.ui-btn-text').html(this.initialText);
             }
-        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
+        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
             $('#' + this.id).controlgroup();
         }
     },
@@ -424,26 +434,42 @@ M.SelectionListView = M.View.extend(
                     item.isSelected = YES;
                     that.selection = item;
                     $(this).attr('checked', 'checked');
-                    $(this).siblings('label:first').addClass('ui-btn-active');
-                    $(this).siblings('label:first').find('span .ui-icon-radio-off').addClass('ui-icon-radio-on');
-                    $(this).siblings('label:first').find('span .ui-icon-radio-off').removeClass('ui-icon-radio-off');
-                }
-            });
-        } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && typeof(selection) === 'string') {
-            $('#' + this.id).find('option').each(function() {
-                var item = M.ViewManager.getViewById($(this).attr('id'));
-                if(item.value === selection) {
-                    that.removeSelection();
-                    item.isSelected = YES;
-                    that.selection = item;
-                    $('#' + that.id).val(item.value);
-                    if(that.initialText && $('#' + that.id + '-button').find('span.ui-btn-text').html() === that.initialText) {
-                        $('#' + that.id + '-button').find('span.ui-btn-text').html(item.label ? item.label : item.value);
+                    if(that.applyTheme) {
+                        $(this).siblings('label:first').addClass('ui-btn-active');
+                        $(this).siblings('label:first').find('span .ui-icon-radio-off').addClass('ui-icon-radio-on');
+                        $(this).siblings('label:first').find('span .ui-icon-radio-off').removeClass('ui-icon-radio-off');
                     }
                 }
             });
-            this.initialText = null;
-            $('#' + this.id).selectmenu('refresh');
+        } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && typeof(selection) === 'string') {
+            if(this.applyTheme) {
+                $('#' + this.id).find('option').each(function() {
+                    var item = M.ViewManager.getViewById($(this).attr('id'));
+                    if(item.value === selection) {
+                        that.removeSelection();
+                        item.isSelected = YES;
+                        that.selection = item;
+                        $('#' + that.id).val(item.value);
+                        if(that.initialText && $('#' + that.id + '-button').find('span.ui-btn-text').html() === that.initialText) {
+                            $('#' + that.id + '-button').find('span.ui-btn-text').html(item.label ? item.label : item.value);
+                        }
+                    }
+                });
+                this.initialText = null;
+                $('#' + this.id).selectmenu('refresh');
+            } else {
+                $('#' + this.id).find('option').each(function() {
+                    var item = M.ViewManager.getViewById($(this).attr('id'));
+                    if(item.value === selection) {
+                        item.isSelected = YES;
+                        that.selection = item;
+                        $(this).attr('selected', 'selected');
+                    } else {
+                        item.isSelected = NO;
+                        $(this).attr('selected', '');
+                    }
+                });
+            }
         } else if(typeof(selection) === 'object') {
             var removedItems = NO;
             $('#' + this.id).find('input').each(function() {
@@ -458,9 +484,11 @@ M.SelectionListView = M.View.extend(
                         item.isSelected = YES;
                         that.selection.push(item);
                         $(this).attr('checked', 'checked');
-                        $(this).siblings('label:first').addClass('ui-btn-active');
-                        $(this).siblings('label:first').find('span .ui-icon-checkbox-off').addClass('ui-icon-checkbox-on');
-                        $(this).siblings('label:first').find('span .ui-icon-checkbox-off').removeClass('ui-icon-checkbox-off');
+                        if(that.applyTheme) {
+                            $(this).siblings('label:first').addClass('ui-btn-active');
+                            $(this).siblings('label:first').find('span .ui-icon-checkbox-off').addClass('ui-icon-checkbox-on');
+                            $(this).siblings('label:first').find('span .ui-icon-checkbox-off').removeClass('ui-icon-checkbox-off');
+                        }
                     }
                 }
             });
@@ -492,9 +520,11 @@ M.SelectionListView = M.View.extend(
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 item.isSelected = NO;
                 $(this).removeAttr('checked');
-                $(this).siblings('label:first').removeClass('ui-btn-active');
-                $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').addClass('ui-icon-' + type + '-off');
-                $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').removeClass('ui-icon-' + type + '-on');
+                if(that.applyTheme) {
+                    $(this).siblings('label:first').removeClass('ui-btn-active');
+                    $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').addClass('ui-icon-' + type + '-off');
+                    $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').removeClass('ui-icon-' + type + '-on');
+                }
             });
         } else if(type === 'select') {
             $('#' + this.id).find('option').each(function() {

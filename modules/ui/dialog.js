@@ -64,7 +64,7 @@ M.DialogView = M.View.extend(
         }
 
         /* finally show the dialog on the screen */
-        M.Controller.switchToPage(this, M.Application.useTransitions ? this.transition : NO, NO, NO);
+        M.Controller.switchToPage(this, this.transition, NO, NO);
         
     },
 
