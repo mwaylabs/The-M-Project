@@ -47,6 +47,13 @@ M.WebSqlProvider = M.DataProvider.extend(
     config: {},
 
     /**
+     * Indicates whether data provider operates asynchronously or not.
+     * 
+     * @type Boolean
+     */
+    isAsync: YES,
+
+    /**
      * Is set to YES when initialization ran successfully, means when {@link M.WebSqlProvider#init} was called, db and table created. 
      * @type Boolean
      */
