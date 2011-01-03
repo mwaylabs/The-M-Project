@@ -29,6 +29,13 @@ M.DataProvider = M.Object.extend(
     type: 'M.DataProvider',
 
     /**
+     * Indicates whether data provider operates asynchronously or not.
+     *
+     * @type Boolean
+     */
+    isAsync: NO,
+
+    /**
      * Interface method.
      * Implemented by specific data provider.
      */
