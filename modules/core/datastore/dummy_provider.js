@@ -8,6 +8,8 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+m_require('core/datastore/data_provider.js');
+
 /**
  * @class
  *
