@@ -33,7 +33,7 @@ M.Observable = M.Object.extend(
      *
      * @type Array|Object
      */
-    bindingList: [],
+    bindingList: null,
 
     /**
      * Attach an observer to an observable.
@@ -42,6 +42,9 @@ M.Observable = M.Object.extend(
      * @param {String} observable The observable.
      */
     attach: function(observer, observable) {
+        if(!this.bindingList) {
+            this.bindingList = [];
+        }
         this.bindingList.push({
             observer: observer,
             observable: observable

@@ -42,7 +42,7 @@ M.Controller = M.Object.extend(
     /**
      * Makes the controller's properties observable.
      */
-    observable: M.Observable.extend({}),
+    observable: null,
 
     /**
      * Helper function to build the location href for the view to be displayed.

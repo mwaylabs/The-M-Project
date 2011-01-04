@@ -313,7 +313,11 @@ M.View = M.Object.extend(
     attachToObservable: function(contentBinding) {
         var bindingPath = contentBinding.split('.');
         if(bindingPath && bindingPath.length === 3 && eval(bindingPath[0]) && eval(bindingPath[0])[bindingPath[1]]) {
-            eval(bindingPath[0])[bindingPath[1]].observable.attach(this, bindingPath[2]);
+            var controller = eval(bindingPath[0])[bindingPath[1]];
+            if(!controller.observable) {
+                controller.observable = M.Observable.extend({});
+            }
+            controller.observable.attach(this, bindingPath[2]);
             this.isObserver = YES;
         } else {
             M.Logger.log('bindingPath not valid', M.WARN);
