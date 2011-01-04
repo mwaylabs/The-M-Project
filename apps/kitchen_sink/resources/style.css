@@ -21,12 +21,20 @@
     background: url("images/controls.png") no-repeat scroll 50% 50% transparent;
 }
 
+div[data-role=header] h1.ui-title {
+    overflow:visible;
+}
+
 .titleSource {
     margin-top: 25px;
     color: #999999;
     font-weight: bold;
     margin-bottom:10px;
     font-size: 14px;
+}
+
+.afterControlGroup {
+    margin-top:40px;
 }
 
 .source {
@@ -36,6 +44,7 @@
     border: 1px dashed #999999;
     text-shadow: none;
     font-family: monospace;
+    font-size:12px;
 }
 
 a[data-theme=customButton] {

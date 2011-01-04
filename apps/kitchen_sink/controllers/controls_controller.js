@@ -26,7 +26,7 @@ KitchenSink.ControlsController = M.Controller.extend({
                 {
 
                     name: "M.ButtonGroupView",
-                    page: "ControlsButtonGroupViewPage"
+                    page: "controlsButtonGroupView"
 
                 },
 
