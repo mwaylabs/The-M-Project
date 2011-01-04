@@ -1,10 +1,12 @@
-KitchenSink.PageStorage = M.PageView.design({
+m_require('app/views/tabs.js');
+
+KitchenSink.PageUtilities = M.PageView.design({
 
     childViews: 'header content tabBar',
 
     header: M.ToolbarView.design({
 
-        value: 'Storage',
+        value: 'Utilities',
 
         anchorLocation: M.TOP
 
@@ -18,4 +20,4 @@ KitchenSink.PageStorage = M.PageView.design({
 
     tabBar: KitchenSink.TabBar
 
-})
+});

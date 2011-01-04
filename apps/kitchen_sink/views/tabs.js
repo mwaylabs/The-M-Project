@@ -34,4 +34,4 @@ KitchenSink.TabBar = M.TabBarView.design({
         icon: 'storage'
 
     })
-})
+});

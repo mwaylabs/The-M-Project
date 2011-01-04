@@ -6,17 +6,76 @@
 }
 
 [data-icon=core] .ui-icon {
-    background: url("core.png") no-repeat scroll 50% 50% transparent;
+    background: url("images/core.png") no-repeat scroll 50% 50% transparent;
 }
 
 [data-icon=storage] .ui-icon {
-    background: url("storage.png") no-repeat scroll 50% 50% transparent;
+    background: url("images/storage.png") no-repeat scroll 50% 50% transparent;
 }
 
 [data-icon=utilities] .ui-icon {
-    background: url("utilities.png") no-repeat scroll 50% 50% transparent;
+    background: url("images/utilities.png") no-repeat scroll 50% 50% transparent;
 }
 
 [data-icon=controls] .ui-icon {
-    background: url("controls.png") no-repeat scroll 50% 50% transparent;
+    background: url("images/controls.png") no-repeat scroll 50% 50% transparent;
+}
+
+.titleSource {
+    margin-top: 25px;
+    color: #999999;
+    font-weight: bold;
+    margin-bottom:10px;
+    font-size: 14px;
+}
+
+.source {
+    background: #EFEFEF;
+    padding: 10px;
+    color: #333333;
+    border: 1px dashed #999999;
+    text-shadow: none;
+    font-family: monospace;
+}
+
+a[data-theme=customButton] {
+    color:#ffffff;
+    -moz-box-shadow: 0px 0px 0px #ffffff;
+    -webkit-box-shadow: 0px 0px 0px #ffffff;
+    -o-box-shadow: 0px 0px 0px #ffffff;
+    box-shadow: 0px 0px 0px #ffffff;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="3166ff", endColorstr="00009b");
+    background: -webkit-gradient(linear, left top, left bottom, from(#3166ff), to(#00009b));
+    background: -moz-linear-gradient(top center, #3166ff, #00009b);
+    font-size: 14px;
+    font-family: Georgia, serif;
+    text-decoration: none;
+    vertical-align: middle;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    width:74%;
+    border:1px solid #232323;
+    margin-left:13%;
+}
+
+a[data-theme=customButton]:hover {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="00009b", endColorstr="3166ff");
+    background: -webkit-gradient(linear, left top, left bottom, from(#00009b), to(#3166ff));
+    background: -moz-linear-gradient(top center, #00009b, #3166ff);
+}
+
+a[data-theme=customButton] span {
+    text-shadow: none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -moz-box-shadow: 0px 0px 0px #ffffff;
+    -webkit-box-shadow: 0px 0px 0px #ffffff;
+    -o-box-shadow: 0px 0px 0px #ffffff;
+    box-shadow: 0px 0px 0px #ffffff;
+}
+
+a[data-theme=customButton] span:hover {
+    font-weight: bold;
 }
