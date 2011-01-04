@@ -101,7 +101,7 @@ KitchenSink.ControlsButtonGroupViewController = M.Controller.extend({
     getActiveButton: function() {
 
         var buttonGroup = M.ViewManager.getView('controlsButtonGroupView6', 'buttonGroup');
-        this.set('activeButton', buttonGroup.getActiveButton().value);
+        this.set('activeButton', buttonGroup.getActiveButton() ? buttonGroup.getActiveButton().value : '-');
 
     },
 
