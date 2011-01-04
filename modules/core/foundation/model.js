@@ -63,7 +63,7 @@ M.Model = M.Object.extend(
 
     /**
      * The model's record defines the properties that are semantically bound to this model:
-     * e.g. a person's record is in simplest case: firstname, lastname, age.
+     * e.g. a person's record is (in simplest case): firstname, lastname, age.
      *
      * @type Object record
      */
@@ -261,17 +261,51 @@ M.Model = M.Object.extend(
      */
 
     /**
-     * Get attribute propName from model
+     * Get attribute propName from model, if async provider is used, get on references does not return the property value but a boolean indicating
+     * the load status. get must then be called again in onSuccess callback to retrieve the value
      * @param {String} propName the name of the property whose value shall be returned
-     * @returns {Object|String} value of property
+     * @param {Object} obj optional parameter containing the load force flag and callbacks, e.g.:
+     * {
+     *   force: YES,
+     *   onSuccess: function() { console.log('yeah'); }
+     * }
+     * @returns {Boolean|Object|String} value of property or boolean indicating the load status
      */
-    get: function(propName) {
+    get: function(propName, obj) {
+        var metaProp = this.__meta[propName];
+        var recProp = this.record[propName];
         /* return ref entity if property is a reference */
-        if(this.__meta[propName] && this.__meta[propName].dataType === 'Reference') {
-            /* TODO: what to do if  refEntity is not yet set? complete() first? */
-            return this.__meta[propName].refEntity;
+        if(metaProp && metaProp.dataType === 'Reference') {
+            if(metaProp.refEntity) {// if entity is already loaded and assigned here in model record
+                return metaProp.refEntity;
+            } else if(recProp) { // if model record has a reference set, but it is not loaded yet
+                if(obj && obj.force) { // if force flag was set
+                    /* custom call to deepFind with record passed only being the one property that needs to be filled, type of dp checked in deepFind */
+                    var callback = this.dataProvider.isAsync ? obj.onSuccess : null
+                    this.deepFind([{
+                        prop: propName,
+                        name: metaProp.reference,
+                        model: this.modelList[metaProp.reference],
+                        m_id: recProp
+                    }], callback);
+                    if(!this.dataProvider.isAsync) { // if data provider acts synchronous, we can now return the fetched entity
+                        return metaProp.refEntity;
+                    }
+                    return YES;
+                } else { // if force flag was not set, and object is not in memory and record manager load is not done and we return NO
+                    var r = this.recordManager.getRecordForId(recProp);
+                    if(r) { /* if object is already loaded and in record manager don't access storage */
+                        return r;
+                    } else {
+                        return NO; // return
+                    }
+                }
+            } else { // if reference has not been set yet
+                return null;
+            }
         }
-        return this.record[propName];
+        /* if propName is not a reference, but a "simple" property, just return it */
+        return recProp;
     },
 
     /**
@@ -407,7 +441,7 @@ M.Model = M.Object.extend(
         if(obj.cascade) {
             for(var prop in this.__meta) {
                 if(this.__meta[prop] && this.__meta[prop].dataType === 'Reference' && this.__meta[prop].refEntity) {
-                    this.__meta[prop].refEntity.save({cascade:YES});
+                    this.__meta[prop].refEntity.save({cascade:YES}); // cascades recursively through all referenced model records
                 }
             }
         }
@@ -448,23 +482,28 @@ M.Model = M.Object.extend(
         for(var i in this.record) {
             if(this.__meta[i].dataType === 'Reference') {
                 //records.push(this.__meta[i].refEntity);
-                records.push({prop:i, name: this.__meta[i].reference, model: this.modelList[this.__meta[i].reference], m_id: this.record[i]});
+                records.push({
+                    prop:i,
+                    name: this.__meta[i].reference,
+                    model: this.modelList[this.__meta[i].reference],
+                    m_id: this.record[i]
+                });
             }
         }
         this.deepFind(records, callback, dataProviderName);
     },
 
-    
+    // TODO: handle onSuccess AND onError
     deepFind: function(records, callback, dataProviderName) {
         console.log('deepFind...');
         console.log('### records.length: ' + records.length);
-        if(records.length < 1) {    // cancel constraint for recursion
+        if(records.length < 1) {    // recursion end constraint
             if(callback) {
                 callback();
             }
             return;
         }
-        var curRec = records.pop(); // delete last element, decreases length of records by 1 => important for reconstraint constraint
+        var curRec = records.pop(); // delete last element, decreases length of records by 1 => important for recursion constraint above
         var cb = this.bindToCaller(this, this.deepFind,[records, callback]); // cb is callback for find in data provider
         var that = this;
 
@@ -472,7 +511,6 @@ M.Model = M.Object.extend(
         switch(this.dataProvider.type) {
 
             case 'M.WebSqlProvider':
-                console.log('case websql');
                 this.modelList[curRec.name].find({     // call find on to fetched model record object
                     constraint: {
                         statement: 'WHERE ' + M.META_M_ID + ' = ? ',
@@ -507,7 +545,6 @@ M.Model = M.Object.extend(
     },
 
     setReference: function(result, that, prop, callback) {
-        console.log('setReference()...');
         that.__meta[prop].refEntity = result[0];    // set reference in source model defined by that
         callback();
     },
