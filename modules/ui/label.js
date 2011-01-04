@@ -57,6 +57,14 @@ M.LabelView = M.View.extend(
     newLineToBreak: YES,
 
     /**
+     * Determines whether a tabulator '\t' within the label's value should be transformed
+     * into four spaces '&#160;' before it is rendered. Default: YES.
+     *
+     * @type Boolean
+     */
+    tabToSpaces: YES,
+
+    /**
      * This property can be used to specify a certain hyperlink type for this label. It only
      * works in combination with the hyperlinkTarget property.
      *
@@ -97,7 +105,7 @@ M.LabelView = M.View.extend(
             }
         }
 
-        this.html += this.newLineToBreak ? this.nl2br(this.value) : this.value;
+        this.html += this.newLineToBreak ? this.nl2br(this.tabToSpaces ? this.tab2space(this.value) : this.value) : (this.tabToSpaces ? this.tab2space(this.value) : this.value);
 
         if(this.hyperlinkTarget && this.hyperlinkType) {
             this.html += '</a>';
