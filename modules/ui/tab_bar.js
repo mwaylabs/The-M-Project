@@ -132,6 +132,7 @@ M.TabBarView = M.View.extend(
                 var view = this[childViews[i]];
                 if(view.page === page) {
                     view.isActive = YES;
+                    this.activeTab = view;
                     $('[data-id="' + this.name + '"]').each(function() {
                         $(this).find('#' + view.id).addClass('ui-btn-active');
                     });
