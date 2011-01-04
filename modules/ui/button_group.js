@@ -301,7 +301,7 @@ M.ButtonGroupView = M.View.extend(
                             if(line === currentLine) {
 
                                 /* first line */
-                                if(line === 0) {
+                                if(line === 0 && this.numberOfLines > 1) {
                                     /* first button */
                                     if(currentButtonIndex === 1) {
                                         $('#' + button.id).removeClass('ui-corner-left');
