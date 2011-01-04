@@ -405,7 +405,25 @@ M.View = M.Object.extend(
             if(typeof(str) !== 'string') {
                 str = String(str);
             }
-            return str.replace(/\n/g, '<br />\n');
+            return str.replace(/\n/g, '<br />');
+        }
+        return str;
+    },
+
+    /**
+     * This method parses a given string, replaces any tabulator, '\t', with four spaces, '&#160;',
+     * and returns the modified string. This can be useful especially for input views, e.g. it is
+     * used in context with the M.TextFieldView.
+     *
+     * @param {String} str The string to be modified.
+     * @returns {String} The modified string.
+     */
+    tab2space: function(str) {
+        if(str) {
+            if(typeof(str) !== 'string') {
+                str = String(str);
+            }
+            return str.replace(/\t/g, '&#160;&#160;&#160;&#160;');
         }
         return str;
     },
