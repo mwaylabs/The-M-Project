@@ -65,22 +65,29 @@ M.Controller = M.Object.extend(
         page = page && typeof(page) === 'object' ? page : M.Application.viewManager.getPage(page);
         var id = page && page.id ? page.id : null;
         var isTabBarViewTopPage = NO;
+        var targetIsTabBarViewTopPage = NO;
 
         if(id) {
             if(page.hasTabBarView) {
                 if(page.tabBarView.childViews) {
                     var tabItemViews = $.trim(page.tabBarView.childViews).split(' ');
                     for(var i in tabItemViews) {
+                        if(M.ViewManager.getPage(page.tabBarView[tabItemViews[i]].page) === M.ViewManager.getCurrentPage()) {
+                            isTabBarViewTopPage = YES;
+                        }
+                    }
+                    for(var i in tabItemViews) {
                         var tabItemView = page.tabBarView[tabItemViews[i]];
                         if(M.ViewManager.getPage(tabItemView.page) === page) {
                             page.tabBarView.setActiveTab(tabItemView.page, M.Application.viewManager.getIdByView(tabItemView));
-                            isTabBarViewTopPage = YES;
+                            targetIsTabBarViewTopPage = YES;
                         }
                     }
                 }
             }
+
             /* If the new page is a real tabBarViewPage (has a tabBarView and is no sub view), use no transition. */
-            if(isTabBarViewTopPage) {
+            if(isTabBarViewTopPage && targetIsTabBarViewTopPage) {
                 transition = page.tabBarView.transition ? page.tabBarView.transition : M.TRANSITION.NONE;
                 isBack = NO;
                 changeLoc = changeLoc !== undefined ? changeLoc : NO;
