@@ -88,3 +88,37 @@ a[data-theme=customButton] span {
 a[data-theme=customButton] span:hover {
     font-weight: bold;
 }
+
+div.container div {
+    text-shadow:none;
+    color: #FFFFFF;
+    font-weight:bold;
+}
+
+div.container .column1, div.container .column2, div.container .column3 {
+    float: left;
+    width:25%;
+    text-align:center;
+}
+
+div.container .column1 {
+    background-color: #FF0000;
+    width:50%;
+}
+
+div.container .column2 {
+    background-color: #00FF00;
+}
+
+div.container .column3 {
+    background-color: #0000FF;
+}
+
+img.myImage {
+    border:5px solid #FF0000;
+    position:relative;
+    left:50%;
+    margin-left: -100px;
+    width:200px;
+    height:75px;
+}
