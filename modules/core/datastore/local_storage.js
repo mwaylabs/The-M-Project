@@ -18,6 +18,8 @@ m_require('core/datastore/data_provider.js');
  * This data provider persists model records as JSON strings with their name and id as key.
  * When fetching these strings from storage, their automatically converted in their corresponding model records.
  *
+ * Operates synchronous.
+ *
  * @extends M.DataProvider
  */
 M.LocalStorageProvider = M.DataProvider.extend(
