@@ -30,59 +30,52 @@ KitchenSink.ControlsController = M.Controller.extend({
 
                 },
 
-                {
+                /*{
 
                     name: "M.ContainerView",
                     page: "ControlsContainerViewPage"
 
-                },
+                },*/
 
                 {
 
                     name: "M.DialogView",
-                    page: "ControlsDialogViewPage"
-
-                },
-
-                {
-
-                    name: "M.FormView",
-                    page: "ControlsFormViewPage"
+                    page: "controlsDialogView"
 
                 },
 
                 {
 
                     name: "M.GridView",
-                    page: "ControlsGridViewPage"
+                    page: "controlsGridView"
 
                 },
 
                 {
 
                     name: "M.ImageView",
-                    page: "ControlsImageViewPage"
+                    page: "controlsImageView"
 
                 },
 
                 {
 
                     name: "M.LabelView",
-                    page: "ControlsLabelViewPage"
+                    page: "controlsLabelView"
 
                 },
 
                 {
 
                     name: "M.ListView",
-                    page: "ControlsListViewPage"
+                    page: "controlsListView"
 
                 },
 
                 {
 
                     name: "M.LoaderView",
-                    page: "ControlsLoaderViewPage"
+                    page: "controlsLoaderView"
 
                 },
 
