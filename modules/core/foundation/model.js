@@ -475,8 +475,10 @@ M.Model = M.Object.extend(
 
     /**
      * completes the model record by loading all referenced entities.
+     *
+     * @param {Function |ÊObject} obj The param object with query, cascade flag and callbacks.
      */
-    complete: function(callback, dataProviderName) {
+    complete: function(callback) {
         console.log('complete...');
         var records = [];
         for(var i in this.record) {
@@ -490,11 +492,11 @@ M.Model = M.Object.extend(
                 });
             }
         }
-        this.deepFind(records, callback, dataProviderName);
+        this.deepFind(records, callback);
     },
 
     // TODO: handle onSuccess AND onError
-    deepFind: function(records, callback, dataProviderName) {
+    deepFind: function(records, callback) {
         console.log('deepFind...');
         console.log('### records.length: ' + records.length);
         if(records.length < 1) {    // recursion end constraint
@@ -535,7 +537,7 @@ M.Model = M.Object.extend(
 
                 this.__meta[curRec.prop].refEntity = ref;
 
-                this.deepFind(records, callback, dataProviderName); // recursion
+                this.deepFind(records, callback); // recursion
                 break;
 
             default:
@@ -555,6 +557,5 @@ M.Model = M.Object.extend(
     schemaSync: function() {
 
     }
-
 
 });
