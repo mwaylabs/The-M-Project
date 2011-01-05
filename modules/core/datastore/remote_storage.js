@@ -38,15 +38,9 @@ M.RemoteStorageProvider = M.DataProvider.extend(
 
         var config = this.config[obj.model.name];
         var result = null;
-        var dataPattern = null;
-        var dataResult = null;
+        var dataResult = config.create.map(obj.model.record);
 
         if(obj.model.state === M.STATE_NEW) {   /* if the model is new we need to make a create request, if not new then we make an update request */
-
-            /* the given dataPattern must be a valid JSON string that is then transformed into an object structure*/ 
-            dataPattern = JSON.parse(config.create.dataPattern);
-            dataResult = this.deepObjectReplacement(dataPattern, obj.model.record, result);
-
             M.Request.init({
                 url: config.location + config.create.url,
                 type: config.create.httpMethod,                
@@ -62,10 +56,6 @@ M.RemoteStorageProvider = M.DataProvider.extend(
             }).send();
             
         } else { // make an update request
-            dataPattern = JSON.parse(config.create.dataPattern);
-            dataResult = this.deepObjectReplacement(dataPattern, obj.model.record, result);
-
-
             /* make generic */
             var updateURL = config.update.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/, object.model.record.ID);
             
@@ -98,7 +88,7 @@ M.RemoteStorageProvider = M.DataProvider.extend(
         var config = this.config[obj.model.name];
         var readUrl = obj.ID ? config.read.url.one.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/,obj.ID) : config.read.url.all;
 
-        console.log(config.location + readUrl+ '.json');
+        var that = this;
 
         M.Request.init({
             url: config.location + readUrl + '.json',
@@ -106,12 +96,39 @@ M.RemoteStorageProvider = M.DataProvider.extend(
             isJSON: YES,
             contentType: 'application/JSON',
             onSuccess: function(data) {
-                obj.onSuccess(data);
+                if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
+                    obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], [data]);
+                    that.createModelsFromResult(data, obj.onSuccess, obj);
+                }else {
+                    M.Logger.log('No success callback given.', M.WARN);
+                }
             },
-            onError: function() {
-                obj.onError();
+            onError: function(req, msg) {
+                if(obj.onError && obj.onError.target && obj.onError.action) {
+                    obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], msg);
+                    obj.onError();
+                } else if (typeof(obj.onError) !== 'function') {
+                    M.Logger.log('No error callback given.', M.WARN);
+                }
             }
         }).send();
+    },
+
+    createModelsFromResult: function(data, callback, obj) {
+        console.log(data);
+        var result = [];
+        var config = this.config[obj.model.name]
+        if(_.isArray(data)) {
+            for(var i in data) {
+                var res = data[i];
+                /* create model record from result by first map with given mapper function before passing
+                 * to createRecord
+                 */
+                result.push(obj.model.createRecord($.extend(config.read.map(res.contact), {state: M.STATE_VALID})));
+            }
+        }
+        callback(result);
+        
     },
 
     remoteQuery: function(onSuccess, onError) {
