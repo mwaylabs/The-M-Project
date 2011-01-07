@@ -42,11 +42,11 @@ M.RemoteStorageProvider = M.DataProvider.extend(
 
         if(obj.model.state === M.STATE_NEW) {   /* if the model is new we need to make a create request, if not new then we make an update request */
             
-            this.remoteQuery('create', config.location + config.create.url + '.json', config.create.httpMethod, dataResult, obj, null);
+            this.remoteQuery('create', config.location + config.create.url, config.create.httpMethod, dataResult, obj, null);
             
         } else { // make an update request
 
-            var updateUrl = config.update.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/, object.model.record.ID) + '.json';
+            var updateUrl = config.update.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/, object.model.record.ID);
 
             this.remoteQuery('update', updateUrl, config.update.httpMethod, dataResult, obj, function(xhr) {
                   xhr.setRequestHeader("X-Http-Method-Override", config.update.httpMethod);
@@ -58,7 +58,7 @@ M.RemoteStorageProvider = M.DataProvider.extend(
     del: function(obj) {
         var config = this.config[obj.model.name];
         var delUrl = config.del.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/,obj.model.get('ID'));
-        delUrl = config.location + delUrl + '.json';
+        delUrl = config.location + delUrl;
 
         this.remoteQuery('delete', delUrl, config.del.httpMethod, null, obj,  function(xhr) {
             xhr.setRequestHeader("X-Http-Method-Override", config.del.httpMethod);
@@ -69,7 +69,7 @@ M.RemoteStorageProvider = M.DataProvider.extend(
         var config = this.config[obj.model.name];
 
         var readUrl = obj.ID ? config.read.url.one.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/,obj.ID) : config.read.url.all;
-        readUrl = config.location + readUrl + '.json';
+        readUrl = config.location + readUrl;
 
         this.remoteQuery('read', readUrl, config.read.httpMethod, null, obj);
 
