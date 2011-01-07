@@ -42,11 +42,11 @@ M.RemoteStorageProvider = M.DataProvider.extend(
 
         if(obj.model.state === M.STATE_NEW) {   /* if the model is new we need to make a create request, if not new then we make an update request */
             
-            this.remoteQuery('create', config.location + config.create.url, config.create.httpMethod, dataResult, obj, null);
+            this.remoteQuery('create', config.location + config.create.url + '.json', config.create.httpMethod, dataResult, obj, null);
             
         } else { // make an update request
 
-            var updateUrl = config.update.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/, object.model.record.ID);
+            var updateUrl = config.update.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/, object.model.record.ID) + '.json';
 
             this.remoteQuery('update', updateUrl, config.update.httpMethod, dataResult, obj, function(xhr) {
                   xhr.setRequestHeader("X-Http-Method-Override", config.update.httpMethod);
@@ -81,7 +81,7 @@ M.RemoteStorageProvider = M.DataProvider.extend(
         if(_.isArray(data)) {
             for(var i in data) {
                 var res = data[i];
-                /* create model record from result by first map with given mapper function before passing
+                /* create model  record from result by first map with given mapper function before passing
                  * to createRecord
                  */
                 result.push(obj.model.createRecord($.extend(config.read.map(res.contact), {state: M.STATE_VALID})));
@@ -94,12 +94,7 @@ M.RemoteStorageProvider = M.DataProvider.extend(
 
     remoteQuery: function(opType, url, type, data, obj, beforeSend) {
         var that = this;
-
-        console.log('### REMOTE URL: ' + url);
-        console.log('### REMOTE TYPE: ' + type);
-        console.log('### DATA: ' + data);
-        console.log('### BEFORE SEND: ' + beforeSend);
-
+        
         M.Request.init({
             url: url,
             method: type,
@@ -107,6 +102,8 @@ M.RemoteStorageProvider = M.DataProvider.extend(
             contentType: 'application/JSON',
             data: data ? data : null,
             onSuccess: function(data) {
+                console.log('### response:')
+                console.log(data);
 
                 if(opType === 'delete') {
                     obj.model.recordManager.remove(obj.model.m_id);
