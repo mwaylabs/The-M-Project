@@ -33,7 +33,7 @@ Contacts.ContactController = M.Controller.extend({
             },
 
             onError: function() { M.Logger.log('Nothing found.', M.INFO); }
-        });    
+        });
     },
 
 
@@ -52,9 +52,12 @@ Contacts.ContactController = M.Controller.extend({
             city: M.ViewManager.getView('page2', 'zipField').value
         });
 
+        a.save({});
+
         var c = Contacts.Contact.createRecord({
             firstName: M.ViewManager.getView('page2', 'firstNameField').value,
-            lastName: M.ViewManager.getView('page2', 'lastNameField').value
+            lastName: M.ViewManager.getView('page2', 'lastNameField').value,
+            address:a
         });
         c.save({
             onSuccess:{

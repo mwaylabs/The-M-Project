@@ -11,6 +11,9 @@
 
 var Contacts = Contacts || {};
 
+M.Application.defaultLanguage = 'de_de';
+M.Application.name = 'Contacts';
+
 document.write("<script src='models/address.js'></script>");
 document.write("<script src='models/contact.js'></script>");
 document.write("<script src='controllers/contact_controller.js'></script>");

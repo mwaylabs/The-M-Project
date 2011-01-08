@@ -38,15 +38,19 @@ M.RemoteStorageProvider = M.DataProvider.extend(
 
         var config = this.config[obj.model.name];
         var result = null;
-        var dataResult = config.create.map(obj.model.record);
+        var dataResult = null;
 
         if(obj.model.state === M.STATE_NEW) {   /* if the model is new we need to make a create request, if not new then we make an update request */
-            
+
+            dataResult = config.create.map(obj.model.record);
+
             this.remoteQuery('create', config.location + config.create.url, config.create.httpMethod, dataResult, obj, null);
             
         } else { // make an update request
 
-            var updateUrl = config.update.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/, object.model.record.ID);
+            dataResult = config.update.map(obj.model.record);
+
+            var updateUrl = config.location + config.update.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/, obj.model.record.ID);
 
             this.remoteQuery('update', updateUrl, config.update.httpMethod, dataResult, obj, function(xhr) {
                   xhr.setRequestHeader("X-Http-Method-Override", config.update.httpMethod);
@@ -94,6 +98,9 @@ M.RemoteStorageProvider = M.DataProvider.extend(
 
     remoteQuery: function(opType, url, type, data, obj, beforeSend) {
         var that = this;
+
+        console.log('### data ###');
+        console.log(data);
         
         M.Request.init({
             url: url,
