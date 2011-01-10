@@ -74,7 +74,7 @@ KitchenSink.ControlsLabelViewPage6 = M.PageView.design({
 
         markup: M.LabelView.design({
 
-            value: 'M.LabelView.design({\n\n\tvalue: \'We are both \',\n\n\tisInline: YES\n\n})\n\nM.LabelView.design({\n\n\tvalue: \'inline labels.\',\n\n\tisInline: YES\n\n})',
+            value: 'M.LabelView.design({\n\n\tvalue: \'The current time is \',\n\n\tisInline: YES\n\n})\n\nM.LabelView.design({\n\n\tcomputedValue: {\n\n\t\toperation: function() {\n\n\t\t\tvar d = M.Date.now();\n\n\t\t\treturn d.format(\'HH:MM\');\n\n\t\t}\n\n\t},\n\n\tisInline: YES\n\n})',
 
             cssClass: 'source'
 
