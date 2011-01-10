@@ -122,3 +122,15 @@ img.myImage {
     width:200px;
     height:75px;
 }
+
+.listPage3Subtitle {
+    font-size: 10px;
+    width:120px;
+    white-space:pre;
+    display:block;
+}
+
+img.listPage3Image {
+    margin-left: 15px;
+    margin-top: 15px;
+}

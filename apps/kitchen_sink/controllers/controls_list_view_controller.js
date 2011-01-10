@@ -14,6 +14,8 @@ KitchenSink.ControlsListViewController = M.Controller.extend({
 
     page2: null,
 
+    page3: null,
+
     callback: null,
 
     init: function(isFirstLoad) {
@@ -33,6 +35,13 @@ KitchenSink.ControlsListViewController = M.Controller.extend({
 
                     name: "Segmented list",
                     page: "controlsListView2"
+
+                },
+
+                {
+
+                    name: "Complex list",
+                    page: "controlsListView3"
 
                 }
 
@@ -145,6 +154,70 @@ KitchenSink.ControlsListViewController = M.Controller.extend({
             };
 
             this.set('page2', page2);
+
+        }
+
+    },
+
+    initPage3: function(isFirstLoad) {
+
+        if(isFirstLoad) {
+
+            var page3 = [
+
+                {
+
+                    name: "Item 1",
+
+                    subtitle: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr...",
+
+                    image: "square_cyan.png"
+
+                },
+
+                {
+
+                    name: "Item 2",
+
+                    subtitle: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr...",
+
+                    image: "square_yellow.png"
+
+                },
+
+                {
+
+                    name: "Item 3",
+
+                    subtitle: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr...",
+
+                    image: "square_magenta.png"
+
+                },
+
+                {
+
+                    name: "Item 4",
+
+                    subtitle: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr...",
+
+                    image: "square_green.png"
+
+                },
+
+                {
+
+                    name: "Item 5",
+
+                    subtitle: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr...",
+
+                    image: "square_red.png"
+
+                }
+
+            ];
+
+            this.set('page3', page3);
 
         }
 
