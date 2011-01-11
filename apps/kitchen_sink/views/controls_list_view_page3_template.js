@@ -10,7 +10,7 @@ KitchenSink.ControlsListViewPage3Template = M.ListItemView.design({
 
             operation: function(v) {
 
-                return 'resources/images/' + v;
+                return 'images/' + v;
 
             }
             
