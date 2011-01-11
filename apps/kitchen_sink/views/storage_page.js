@@ -3,6 +3,11 @@ m_require('app/views/storage_page_list_item_template.js');
 
 KitchenSink.PageStorage = M.PageView.design({
 
+    onLoad : {
+        target: KitchenSink.StorageController,
+        action: 'init'
+    },
+
     childViews: 'header content tabBar',
 
     header: M.ToolbarView.design({
