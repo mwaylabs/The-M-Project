@@ -1,4 +1,4 @@
-KitchenSink.StoragePageListItemTemplate = M.ListItemView.design({
+KitchenSink.ControlsPageListItemTemplate = M.ListItemView.design({
 
     childViews: 'name',
 
