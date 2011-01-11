@@ -79,7 +79,7 @@ KitchenSink.ControlsController = M.Controller.extend({
 
                 },
 
-                {
+                /*{
 
                     name: "M.PageView",
                     page: "ControlsPageViewPage"
@@ -91,12 +91,12 @@ KitchenSink.ControlsController = M.Controller.extend({
                     name: "M.ScrollView",
                     page: "ControlsScrollViewPage"
 
-                },
+                },*/
 
                 {
 
                     name: "M.SearchBarView",
-                    page: "ControlsSearchBarViewPage"
+                    page: "controlsSearchBarView"
 
                 },
 
