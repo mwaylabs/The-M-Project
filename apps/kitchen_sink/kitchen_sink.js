@@ -1,5 +1,8 @@
 var KitchenSink = KitchenSink || {};
 
+document.write("<script src='models/task.js'></script>");
+
+document.write("<script src='controllers/storage_controller.js'></script>");
 document.write("<script src='controllers/controls_controller.js'></script>");
 document.write("<script src='controllers/controls_button_view_controller.js'></script>");
 document.write("<script src='controllers/controls_button_group_view_controller.js'></script>");
@@ -13,7 +16,10 @@ document.write("<script src='views/tabs.js'></script>");
 document.write("<script src='views/controls_page.js'></script>");
 document.write("<script src='views/core_page.js'></script>");
 document.write("<script src='views/utilities_page.js'></script>");
+document.write("<script src='views/storage_page_list_item_template.js'></script>");
 document.write("<script src='views/storage_page.js'></script>");
+document.write("<script src='views/storage_local_storage_task_app_template.js'></script>");
+document.write("<script src='views/storage_local_storage_task_app_page.js'></script>");
 document.write("<script src='views/controls_button_view_page_list_item_template.js'></script>");
 document.write("<script src='views/controls_button_view_page.js'></script>");
 document.write("<script src='views/controls_button_view_page1.js'></script>");
