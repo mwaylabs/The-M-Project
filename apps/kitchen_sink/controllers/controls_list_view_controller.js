@@ -16,7 +16,11 @@ KitchenSink.ControlsListViewController = M.Controller.extend({
 
     page3: null,
 
+    page4: null,
+
     callback: null,
+
+    searchString: null,
 
     init: function(isFirstLoad) {
 
@@ -42,6 +46,27 @@ KitchenSink.ControlsListViewController = M.Controller.extend({
 
                     name: "Complex list",
                     page: "controlsListView3"
+
+                },
+
+                {
+
+                    name: "Counted list",
+                    page: "controlsListView4"
+
+                },
+
+                {
+
+                    name: "Default searchbar list",
+                    page: "controlsListView5"
+
+                },
+
+                {
+
+                    name: "Custom searchbar list",
+                    page: "controlsListView6"
 
                 }
 
@@ -223,6 +248,149 @@ KitchenSink.ControlsListViewController = M.Controller.extend({
 
     },
 
+
+    initPage4: function(isFirstLoad) {
+
+        if(isFirstLoad) {
+
+            var page4 = [
+
+                {
+
+                    name: "Item 1",
+
+                    number: "2"
+
+                },
+
+                {
+
+                    name: "Item 2",
+
+                    number: "9"
+
+                },
+
+                {
+
+                    name: "Item 3",
+
+                    number: "24"
+
+                },
+
+                {
+
+                    name: "Item 4",
+
+                    number: "4"
+
+                },
+
+                {
+
+                    name: "Item 5",
+
+                    number: "11"
+
+                }
+
+            ];
+
+            this.set('page4', page4);
+
+        }
+
+    },
+
+    initPage5: function(isFirstLoad) {
+
+        if(isFirstLoad) {
+
+            var page5 = [
+
+                {
+
+                    name: "Item 1"
+
+                },
+
+                {
+
+                    name: "Item 2"
+
+                },
+
+                {
+
+                    name: "Item 3"
+
+                },
+
+                {
+
+                    name: "Item 4"
+
+                },
+
+                {
+
+                    name: "Item 5"
+
+                }
+
+            ];
+
+            this.set('page5', page5);
+
+        }
+
+    },
+
+    initPage6: function(isFirstLoad) {
+
+        if(isFirstLoad) {
+
+            var page6 = [
+
+                {
+
+                    name: "Item 1"
+
+                },
+
+                {
+
+                    name: "Item 2"
+
+                },
+
+                {
+
+                    name: "Item 3"
+
+                },
+
+                {
+
+                    name: "Item 4"
+
+                },
+
+                {
+
+                    name: "Item 5"
+
+                }
+
+            ];
+
+            this.set('page6', page6);
+
+        }
+
+    },
+
     controlSelected: function(id) {
 
         var controlName = M.ViewManager.getView(id, 'name').value;
@@ -243,6 +411,14 @@ KitchenSink.ControlsListViewController = M.Controller.extend({
     here: function() {
 
         this.switchToPage('controlsListView', M.TRANSITION.SLIDE, YES);
+
+    },
+
+    searchStringDidChange: function(str) {
+
+        str = str ? str : '-';
+
+        this.set('searchString', str);
 
     }
 

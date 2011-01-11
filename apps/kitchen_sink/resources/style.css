@@ -125,9 +125,8 @@ img.myImage {
 
 .listPage3Subtitle {
     font-size: 10px;
-    width:120px;
-    white-space:pre;
-    display:block;
+    font-weight: normal;
+    white-space: normal;
 }
 
 img.listPage3Image {
