@@ -58,7 +58,7 @@ M.SearchBarView = M.View.extend(
     render: function() {
         this.html += '<form role="search"' + this.style() + '>';
 
-        this.html += '<input id="' + this.id + '" data-type="search" value="' + (this.value ? this.value : this.initialText) + '" />';
+        this.html += '<input id="' + this.id + '" data-type="search" value="' + (this.value ? this.value : this.initialText) + '" class="' + this.cssClass + '" />';
 
         this.html += '</form>';
 
@@ -189,6 +189,17 @@ M.SearchBarView = M.View.extend(
 
         if(delegateUpdate) {
             this.delegateValueUpdate();
+        }
+    },
+
+    /**
+     * Triggers the rendering engine, jQuery mobile, to style the search bar field.
+     *
+     * @private
+     */
+    theme: function() {
+        if(this.initialText && !this.value && this.cssClassOnInit) {
+            this.addCssClass(this.cssClassOnInit);
         }
     }
 

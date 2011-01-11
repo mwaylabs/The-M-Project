@@ -304,7 +304,8 @@ M.View = M.Object.extend(
         } else if(bindingPath && bindingPath.length === 3) {
             return;
         } else {
-            M.Logger.log('bindingPath: ' + bindingPath + ' not valid', M.Error);
+            var bindingPathString = bindingPath.join('.');
+            M.Logger.log('bindingPath \'' + bindingPathString + '\' not valid', M.Error);
         }
     },
 
@@ -324,7 +325,8 @@ M.View = M.Object.extend(
             controller.observable.attach(this, bindingPath[2]);
             this.isObserver = YES;
         } else {
-            M.Logger.log('bindingPath: ' + bindingPath + ' not valid', M.Error);
+            var bindingPathString = bindingPath.join('.');
+            M.Logger.log('bindingPath \'' + bindingPathString + '\' not valid', M.Error);
         }
     },
 

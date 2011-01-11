@@ -10,18 +10,53 @@
 
 KitchenSink.StorageLocalStorageTaskAppController = M.Controller.extend({
 
-    taskList: null,
+    tasks: null,
+    currentTask:null,
 
-    addTask: function() {
-        
+    init: function() {
+        KitchenSink.Task.find();
+        this.setTasks();
     },
 
-    deleteTask: function() {
+    addTask: function() {
+        task = KitchenSink.Task.createRecord({
+            text: M.ViewManager.getView('storageLocalStorageTaskApp', 'taskField').value
+        });
+
+        task.save();
+        this.setTasks();
+        M.ViewManager.getView('storageLocalStorageTaskApp', 'taskField').setValue('');
+    },
+
+    removeTodo: function(domId, modelId) {  
+        console.log('### m_id: ' + modelId);
+        this.currentTask = KitchenSink.Task.recordManager.getRecordForId(modelId);
         
+        M.DialogView.confirm({
+            title: 'Delete a Task',
+            message: 'Do you really want to delete this item?',
+
+            onOk: {
+                target: this,
+                action: 'deleteTodo'
+            }
+        });
+    },
+
+    deleteTodo: function() {
+        this.currentTask.del();
+        this.setTasks();
     },
 
     setTasks: function() {
-        this.set('taskList', KitchenSink.Task.records());  
+        this.set('tasks', KitchenSink.Task.records());
+    },
+
+    edit: function() {
+        M.ViewManager.getView('storageLocalStorageTaskApp', 'taskList').toggleRemove({
+            target: this,
+            action: 'removeTodo'
+        });
     }
 
 });
