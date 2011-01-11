@@ -304,7 +304,7 @@ M.ListView = M.View.extend(
             if(that.inEditMode) {
                 obj.inEditMode = that.inEditMode;
                 obj.deleteButton = obj.deleteButton.design({
-                    modelId: item.id,
+                    modelId: obj.modelId,
                     target: that.editOptions.target,
                     action: that.editOptions.action
                 });
