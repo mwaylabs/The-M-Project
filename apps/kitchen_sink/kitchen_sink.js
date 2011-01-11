@@ -67,3 +67,5 @@ document.write("<script src='views/controls_list_view_page1_template.js'></scrip
 document.write("<script src='views/controls_list_view_page1.js'></script>");
 document.write("<script src='views/controls_list_view_page2_template.js'></script>");
 document.write("<script src='views/controls_list_view_page2.js'></script>");
+document.write("<script src='views/controls_list_view_page3_template.js'></script>");
+document.write("<script src='views/controls_list_view_page3.js'></script>");
