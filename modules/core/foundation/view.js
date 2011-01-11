@@ -230,7 +230,11 @@ M.View = M.Object.extend(
                     this.hasTabBarView = YES;
                     this.tabBarView = this[childViews[i]];
                 }
-                this.html += this[childViews[i]].render();
+                if(this[childViews[i]]) {
+                    this.html += this[childViews[i]].render();
+                } else {
+                    M.Logger.log(childViews[i] + ' is undefinded. Can\' call render() of an undefinded object', M.ERROR);
+                }
             }
             return this.html;
         }
