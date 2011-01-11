@@ -3,6 +3,7 @@ var KitchenSink = KitchenSink || {};
 document.write("<script src='models/task.js'></script>");
 
 document.write("<script src='controllers/storage_controller.js'></script>");
+document.write("<script src='controllers/storage_local_storage_task_app_controller.js'></script>");
 document.write("<script src='controllers/controls_controller.js'></script>");
 document.write("<script src='controllers/controls_button_view_controller.js'></script>");
 document.write("<script src='controllers/controls_button_group_view_controller.js'></script>");
