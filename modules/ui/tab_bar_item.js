@@ -70,6 +70,8 @@ M.TabBarItemView = M.View.extend(
     switchPage: function() {
         if(this.page) {
             M.Controller.switchToPage(M.ViewManager.getPage(this.page));
+        } else {
+            this.parentView.setActiveTab(this);
         }
     },
 
