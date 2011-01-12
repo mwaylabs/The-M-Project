@@ -1,11 +1,15 @@
 var KitchenSink = KitchenSink || {};
 
+M.Application.useTransitions = NO;
+M.Application.name = 'KitchenSink';
+
 document.write("<script src='models/task.js'></script>");
 document.write("<script src='models/task_websql.js'></script>");
 
 document.write("<script src='controllers/data_controller.js'></script>");
 document.write("<script src='controllers/data_local_storage_task_app_controller.js'></script>");
 document.write("<script src='controllers/data_web_sql_task_app_controller.js'></script>");
+document.write("<script src='controllers/data_request_sample_controller.js'></script>");
 document.write("<script src='controllers/controls_controller.js'></script>");
 document.write("<script src='controllers/controls_button_view_controller.js'></script>");
 document.write("<script src='controllers/controls_button_group_view_controller.js'></script>");
@@ -32,6 +36,7 @@ document.write("<script src='views/data_local_storage_task_app_template.js'></sc
 document.write("<script src='views/data_local_storage_task_app_page.js'></script>");
 document.write("<script src='views/data_web_sql_task_app_template.js'></script>");
 document.write("<script src='views/data_web_sql_task_app_page.js'></script>");
+document.write("<script src='views/data_request_sample_page.js'></script>");
 document.write("<script src='views/controls_button_view_page_list_item_template.js'></script>");
 document.write("<script src='views/controls_button_view_page.js'></script>");
 document.write("<script src='views/controls_button_view_page1.js'></script>");

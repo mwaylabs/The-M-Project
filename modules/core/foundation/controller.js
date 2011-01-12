@@ -62,12 +62,16 @@ M.Controller = M.Object.extend(
      * @param {Boolean} changeLoc Update the browser history. Default: YES
      */
     switchToPage: function(page, transition, isBack, changeLoc) {
+        var timeStart = M.Date.now();
         page = page && typeof(page) === 'object' ? page : M.Application.viewManager.getPage(page);
         var id = page && page.id ? page.id : null;
         var isTabBarViewTopPage = NO;
         var targetIsTabBarViewTopPage = NO;
         var isNewTab = NO;
 
+        // TODO: optimize
+
+        var timeStartTab = M.Date.now();
         if(id) {
             if(page.hasTabBarView) {
                 if(page.tabBarView.childViews) {
@@ -109,6 +113,15 @@ M.Controller = M.Object.extend(
         } else {
             M.Logger.log('"' + page + '" not found', M.WARN);
         }
+        var timeEndTab = M.Date.now();
+        var tabTime = timeStartTab.timeBetween(timeEndTab);
+        console.log('### Time for: switchToPage TAB CHANGE: ' + tabTime);
+
+        var timeEnd = M.Date.now();
+        var totalTime = timeStart.timeBetween(timeEnd);
+        console.log('### Time for: switchToPage call: ' + totalTime);
+
+        console.log('### Time without tab processing: ' + (totalTime - tabTime));
     },
 
     /**
