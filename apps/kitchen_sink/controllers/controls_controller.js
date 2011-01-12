@@ -103,7 +103,7 @@ KitchenSink.ControlsController = M.Controller.extend({
                 {
 
                     name: "M.SelectionListView",
-                    page: "ControlsSelectionListViewPage"
+                    page: "controlsSelectionListView"
 
                 },
 
