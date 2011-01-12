@@ -124,7 +124,7 @@ KitchenSink.ControlsController = M.Controller.extend({
                 {
 
                     name: "M.ToggleView",
-                    page: "ControlsToggleViewPage"
+                    page: "controlsToggleView"
 
                 },
 
