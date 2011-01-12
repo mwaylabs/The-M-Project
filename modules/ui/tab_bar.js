@@ -32,10 +32,11 @@ M.TabBarView = M.View.extend(
      *
      * - M.BOTTOM => is a footer tab bar
      * - M.TOP => is a header tab bar
+     * - null / not set ==> a tab bar outside header / footer
      *
      * @type String
      */
-    anchorLocation: M.BOTTOM,
+    anchorLocation: null,
 
     /**
      * This property defines the tab bar's name. This is used internally to identify
@@ -62,11 +63,19 @@ M.TabBarView = M.View.extend(
         if(!this.html) {
             this.html = '';
 
-            this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed"><div data-role="navbar"><ul>';
+            if(this.anchorLocation) {
+                this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed"><div data-role="navbar"><ul>';
+            } else {
+                this.html += '<div data-role="navbar" id="' + this.id + '" data-id="' + this.name + '"><ul>';
+            }
 
             this.renderChildViews();
 
-            this.html += '</ul></div></div>';
+            this.html += '</ul></div>';
+
+            if(this.anchorLocation) {
+                this.html += '</div>';
+            }
         }
         return this.html;
     },
