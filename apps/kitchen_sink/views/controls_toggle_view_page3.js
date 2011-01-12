@@ -36,7 +36,6 @@ KitchenSink.ControlsToggleViewPage3 = M.PageView.design({
 
     }),
 
-
     toggle: M.ToggleView.design({
 
         childViews: 'content1 content2',
@@ -53,7 +52,9 @@ KitchenSink.ControlsToggleViewPage3 = M.PageView.design({
 
             textfield: M.TextFieldView.design({
 
-                isGrouped: NO
+                isGrouped: NO,
+
+                value: 'I am the textfield of the first view.'
 
             }),
 
