@@ -1,6 +1,6 @@
 KitchenSink.TabBar = M.TabBarView.design({
 
-    childViews: 'TabUI TabCore TabUtil TabData',
+    childViews: 'TabUI TabUtil TabData',
 
     anchorLocation: M.BOTTOM,
 
@@ -13,13 +13,6 @@ KitchenSink.TabBar = M.TabBarView.design({
 
     }),
 
-    TabCore: M.TabBarItemView.design({
-
-        value: 'Core',
-        page: 'core',
-        icon: 'core'
-    }),
-
     TabUtil: M.TabBarItemView.design({
 
         value: 'Utilities',
@@ -29,8 +22,8 @@ KitchenSink.TabBar = M.TabBarView.design({
 
     TabData: M.TabBarItemView.design({
 
-        value: 'Storage',
-        page: 'storage',
+        value: 'Data',
+        page: 'data',
         icon: 'storage'
 
     })

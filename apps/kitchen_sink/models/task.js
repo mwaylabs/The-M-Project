@@ -8,8 +8,6 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('app/models/tasks.js');
-
 KitchenSink.Task = M.Model.create({
     __name__: 'Task',
 
