@@ -131,7 +131,7 @@ KitchenSink.ControlsController = M.Controller.extend({
                 {
 
                     name: "M.ToolbarView",
-                    page: "ControlsToolbarView"
+                    page: "controlsToolbarView"
 
                 }
 

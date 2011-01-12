@@ -156,3 +156,26 @@ div.customTextField_container input:focus {
     border: 2px solid #ff00cc;
 	color: #00caff;
 }
+
+div.myToolbar {
+    height:62px;
+}
+
+div.myToolbar h1.ui-title {
+    margin-right:10px;
+}
+
+div.myToolbar div.ui-btn-left {
+    overflow:visible;
+}
+
+.toolbarText {
+    font-size: 10px;
+    font-weight: normal;
+    white-space: normal;
+}
+
+div.myToolbar2 h1.ui-title {
+    margin-right:10px;
+    margin-left:10px;
+}
