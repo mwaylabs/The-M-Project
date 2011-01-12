@@ -137,3 +137,24 @@ img.listPage3Image {
 .initialText {
     color: #CCCCCC;
 }
+
+div.customTextField_container input {
+	border: 2px solid #000000;
+	background: url(none) no-repeat #FFFFFF;
+	font-family: Georgia, Times, serif;
+	font-style: bold;
+	font-size: 16px;
+	color: #00a6ff;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: 0px 0px 0px ;
+    -moz-box-shadow: 0px 0px 0px ;
+    box-shadow: 0px 0px 0px ;
+}
+
+div.customTextField_container input:focus {
+    border: 2px solid #CDCDCD;
+	background: url(none) no-repeat #EEEEEE;
+	color: #00caff;
+}
+

@@ -10,6 +10,8 @@ KitchenSink.ControlsSelectionListViewController = M.Controller.extend({
 
     controlsList: null,
 
+    selection: null,
+
     init: function(isFirstLoad) {
 
         if(isFirstLoad) {
@@ -34,6 +36,20 @@ KitchenSink.ControlsSelectionListViewController = M.Controller.extend({
 
                     name: "Selection list (single selection dialog)",
                     page: "controlsSelectionListView3"
+
+                },
+
+                {
+
+                    name: "getSelection()",
+                    page: "controlsSelectionListView4"
+
+                },
+
+                {
+
+                    name: "setSelection()",
+                    page: "controlsSelectionListView5"
 
                 }
 
@@ -65,6 +81,20 @@ KitchenSink.ControlsSelectionListViewController = M.Controller.extend({
     here: function() {
 
         this.switchToPage('controlsSelectionListView', M.TRANSITION.SLIDE, YES);
+
+    },
+
+    getSelection: function() {
+
+        var selection = M.ViewManager.getView('controlsSelectionListView4', 'selectionList').getSelection();
+
+        this.set('selection', selection.length > 0 ? selection : '-');
+
+    },
+
+    setSelection: function() {
+
+        M.ViewManager.getView('controlsSelectionListView5', 'selectionList').setSelection('item2');
 
     }
 

@@ -32,10 +32,11 @@ M.TabBarView = M.View.extend(
      *
      * - M.BOTTOM => is a footer tab bar
      * - M.TOP => is a header tab bar
+     * - null / not set ==> a tab bar outside header / footer
      *
      * @type String
      */
-    anchorLocation: M.BOTTOM,
+    anchorLocation: null,
 
     /**
      * This property defines the tab bar's name. This is used internally to identify
@@ -62,11 +63,19 @@ M.TabBarView = M.View.extend(
         if(!this.html) {
             this.html = '';
 
-            this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed"><div data-role="navbar"><ul>';
+            if(this.anchorLocation) {
+                this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed"><div data-role="navbar"><ul>';
+            } else {
+                this.html += '<div data-role="navbar" id="' + this.id + '" data-id="' + this.name + '"><ul>';
+            }
 
             this.renderChildViews();
 
-            this.html += '</ul></div></div>';
+            this.html += '</ul></div>';
+
+            if(this.anchorLocation) {
+                this.html += '</div>';
+            }
         }
         return this.html;
     },
@@ -119,18 +128,16 @@ M.TabBarView = M.View.extend(
     },
 
     /**
-     * This method activates a tab bar item based on a given page.
+     * This method visually activates a tab bar item based on a given page.
      *
      * @param {String, M.PageView} page The page to the corresponding tab that is to be set active.
      */
     setActiveTab: function(page) {
         if(this.childViews) {
             var childViews = $.trim(this.childViews).split(' ');
-            var previousPage = M.Application.viewManager.getCurrentPage();
-            var nextPage = page.type === 'M.PageView' ? page : M.ViewManager.getPage(page);
             for(var i in childViews) {
                 var view = this[childViews[i]];
-                if(view.page === page) {
+                if((page && page.type === 'M.TabBarItemView' && page === view) || (page && page.type !== 'M.TabBarItemView' && (view.page === page || M.ViewManager.getPage(view.page) === page))) {
                     view.isActive = YES;
                     this.activeTab = view;
                     $('[data-id="' + this.name + '"]').each(function() {

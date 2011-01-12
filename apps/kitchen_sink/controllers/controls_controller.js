@@ -110,14 +110,14 @@ KitchenSink.ControlsController = M.Controller.extend({
                 {
 
                     name: "M.TabBarView",
-                    page: "ControlsTabBarViewPage"
+                    page: "controlsTabBarView"
 
                 },
 
                 {
 
                     name: "M.TextFieldView",
-                    page: "ControlsTextFieldViewPage"
+                    page: "controlsTextFieldView"
 
                 },
 
