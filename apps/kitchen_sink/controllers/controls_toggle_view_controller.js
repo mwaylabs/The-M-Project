@@ -6,11 +6,9 @@
 // Controller: ControlsListViewController
 // ==========================================================================
 
-KitchenSink.ControlsTextFieldViewController = M.Controller.extend({
+KitchenSink.ControlsToggleViewController = M.Controller.extend({
 
     controlsList: null,
-
-    textfieldvalue: null,
 
     init: function(isFirstLoad) {
 
@@ -20,29 +18,22 @@ KitchenSink.ControlsTextFieldViewController = M.Controller.extend({
 
                 {
 
-                    name: "Default textfield",
-                    page: "controlsTextFieldView1"
+                    name: "Toggle buttons automatically",
+                    page: "controlsToggleView1"
 
                 },
 
                 {
 
-                    name: "Textfield with initial text",
-                    page: "controlsTextFieldView2"
+                    name: "Toggle buttons manually",
+                    page: "controlsToggleView2"
 
                 },
 
                 {
 
-                    name: "Two linked textfields",
-                    page: "controlsTextFieldView3"
-
-                },
-
-                {
-
-                    name: "Custom textfield",
-                    page: "controlsTextFieldView4"
+                    name: "Toggle complex view",
+                    page: "controlsToggleView3"
 
                 }
 
@@ -73,7 +64,19 @@ KitchenSink.ControlsTextFieldViewController = M.Controller.extend({
 
     here: function() {
 
-        this.switchToPage('controlsTextFieldView', M.TRANSITION.SLIDE, YES);
+        this.switchToPage('controlsToggleView', M.TRANSITION.SLIDE, YES);
+
+    },
+
+    toggleButtons: function() {
+
+        M.ViewManager.getView('controlsToggleView2', 'toggle').toggleView();
+
+    },
+
+    toggleViews: function() {
+
+        M.ViewManager.getView('controlsToggleView3', 'toggle').toggleView();
 
     }
 
