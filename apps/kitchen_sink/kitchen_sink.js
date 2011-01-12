@@ -93,3 +93,5 @@ document.write("<script src='views/controls_selectionlist_view_page.js'></script
 document.write("<script src='views/controls_selectionlist_view_page1.js'></script>");
 document.write("<script src='views/controls_selectionlist_view_page2.js'></script>");
 document.write("<script src='views/controls_selectionlist_view_page3.js'></script>");
+document.write("<script src='views/controls_selectionlist_view_page4.js'></script>");
+document.write("<script src='views/controls_selectionlist_view_page5.js'></script>");
