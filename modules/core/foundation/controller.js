@@ -86,7 +86,7 @@ M.Controller = M.Object.extend(
      */
     switchToPage: function(page, transition, isBack, changeLoc) {
         var timeStart = M.Date.now();
-        page = page && typeof(page) === 'object' && (page.type === 'M.PageView' || page.type === 'M.AlertDialogView') ? page : M.Application.viewManager.getPage(page);
+        page = page && typeof(page) === 'object' ? page : M.Application.viewManager.getPage(page);
 
         if(page) {
             transition = transition ? transition : M.TRANSITION.SLIDE;
@@ -94,7 +94,9 @@ M.Controller = M.Object.extend(
             changeLoc = changeLoc !== undefined ? changeLoc : YES;
 
             /* Now do the page change by using a jquery mobile method and pass the properties */
-            $.mobile.changePage(page.id, M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, changeLoc);
+            if(page.type === 'M.PageView') {
+                $.mobile.changePage(page.id, M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, changeLoc);
+            }
 
             /* Save the current page in the view manager */
             M.Application.viewManager.setCurrentPage(page);
