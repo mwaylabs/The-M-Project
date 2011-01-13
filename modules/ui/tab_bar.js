@@ -130,27 +130,34 @@ M.TabBarView = M.View.extend(
     /**
      * This method visually activates a tab bar item based on a given page.
      *
-     * @param {String, M.PageView} page The page to the corresponding tab that is to be set active.
+     * @param {M.TabBarItemView} tab The tab to set active.
      */
-    setActiveTab: function(page) {
-        if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
-            for(var i in childViews) {
-                var view = this[childViews[i]];
-                if((page && page.type === 'M.TabBarItemView' && page === view) || (page && page.type !== 'M.TabBarItemView' && (view.page === page || M.ViewManager.getPage(view.page) === page))) {
-                    view.isActive = YES;
-                    this.activeTab = view;
-                    $('[data-id="' + this.name + '"]').each(function() {
-                        $(this).find('#' + view.id).addClass('ui-btn-active');
-                    });
-                } else {
-                    view.isActive = NO;
-                    $('[data-id="' + this.name + '"]').each(function() {
-                        $(this).find('#' + view.id).removeClass('ui-btn-active');
-                    });
-                }
-            }
-        }
+    setActiveTab: function(tab) {
+        var timeStart = M.Date.now();
+
+        console.log(tab.id);
+
+        /* deactivate current active tav */
+        this.activeTab.isActive = NO;
+
+        var that = this;
+
+        $('[data-id="' + this.name + '"]').each(function() {
+            $(this).find('#' + that.activeTab.id).removeClass('ui-btn-active');
+        });
+
+        /* activate new tab */
+        tab.isActive = YES;
+        $('[data-id="' + this.name + '"]').each(function() {
+            $(this).find('#' + tab.id).addClass('ui-btn-active');
+        });
+
+        /* store active tab in tab bar */
+        this.activeTab = tab;
+
+        var timeEnd = M.Date.now();
+        var totalTime = timeStart.timeBetween(timeEnd);
+        console.log('### Time for: setActiveTab call: ' + totalTime);
     }
 
 });

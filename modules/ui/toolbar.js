@@ -94,7 +94,7 @@ M.ToolbarView = M.View.extend(
      * @returns {String} The toolbar view's html representation.
      */
     render: function() {
-        this.html += '<div id="' + this.id + '" data-nobackbtn="' + !this.showBackButton + '" data-role="' + this.anchorLocation + '"' + this.style();
+        this.html += '<div id="' + this.id + '" data-backbtn="' + this.showBackButton + '" data-role="' + this.anchorLocation + '"' + this.style();
 
         if(this.isFixed) {
             this.html += ' data-position="fixed"';
@@ -121,7 +121,7 @@ M.ToolbarView = M.View.extend(
 
             /* A ToolbarView accepts only 3 childViews, one for each location: left, center, right */
             if(childViews.length > 3) {
-                M.Logger.log('To many childViews defined for toolbarView.', M.WARN);
+                M.Logger.log('To many childViews defined for toolb  arView.', M.WARN);
                 return;
             }
 

@@ -152,24 +152,6 @@ M.PageView = M.View.extend(
             }
         });
 
-        /* WORKAROUND for being able to use more than two tab items within a tab bar */
-        /* TODO: Get rid of this workaround with a future version of jquery mobile */
-        if(this.isFirstLoad && this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
-            for(var i in childViews) {
-                var view = this[childViews[i]];
-                if(view.type === 'M.TabBarView' && view.anchorLocation === M.BOTTOM) {
-                    $('[data-id="' + view.name + '"]:not(:last-child)').each(function() {
-                        if(!$(this).hasClass('ui-footer-duplicate')) {
-                            /* first empty the tabbar and then hide it, since jQuery's remove() doesn't work */
-                            $(this).empty();
-                            $(this).hide();
-                        }
-                    });
-                }
-            }
-        }
-
         /* initialize the loader for later use (if not already done) */
         if(M.LoaderView) {
             M.LoaderView.initialize();

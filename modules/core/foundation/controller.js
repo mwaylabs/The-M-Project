@@ -54,6 +54,30 @@ M.Controller = M.Object.extend(
     },
 
     /**
+     *
+     */
+    switchToTab: function(tab) {
+        var currentTab = tab.parentView.activeTab;
+
+        var newPage = M.ViewManager.getPage(tab.page);        
+
+        tab.parentView.setActiveTab(tab);
+
+        if(tab === currentTab) {
+            var currentPage = M.ViewManager.getCurrentPage();
+            if(currentPage === newPage) {
+                console.log('same tab and same page');
+                return;
+            } else {
+                console.log('same tab different page');
+                this.switchToPage(newPage, null, YES, NO);
+            }
+        } else {
+            this.switchToPage(newPage, newPage.tabBarView.transition ? newPage.tabBarView.transition : M.TRANSITION.NONE, NO, NO);
+        }
+    },
+
+    /**
      * Returns the class property behind the given key and informs its observers.
      *
      * @param {Object, String} page The page to be displayed or its name.
@@ -63,65 +87,27 @@ M.Controller = M.Object.extend(
      */
     switchToPage: function(page, transition, isBack, changeLoc) {
         var timeStart = M.Date.now();
-        page = page && typeof(page) === 'object' ? page : M.Application.viewManager.getPage(page);
-        var id = page && page.id ? page.id : null;
-        var isTabBarViewTopPage = NO;
-        var targetIsTabBarViewTopPage = NO;
-        var isNewTab = NO;
+        page = page && typeof(page) === 'object' && (page.type === 'M.PageView' || page.type === 'M.AlertDialogView') ? page : M.Application.viewManager.getPage(page);
 
-        // TODO: optimize
-
-        var timeStartTab = M.Date.now();
-        if(id) {
-            if(page.hasTabBarView) {
-                if(page.tabBarView.childViews) {
-                    var tabItemViews = $.trim(page.tabBarView.childViews).split(' ');
-                    for(var i in tabItemViews) {
-                        if(M.ViewManager.getPage(page.tabBarView[tabItemViews[i]].page) === M.ViewManager.getCurrentPage()) {
-                            isTabBarViewTopPage = YES;
-                        }
-                    }
-                    for(var i in tabItemViews) {
-                        var tabItemView = page.tabBarView[tabItemViews[i]];
-                        if(M.ViewManager.getPage(tabItemView.page) === page) {
-                            if(page.tabBarView.activeTab.page !== tabItemView.page) {
-                                page.tabBarView.setActiveTab(tabItemView.page);
-                                isNewTab = YES;
-                            }
-                            targetIsTabBarViewTopPage = YES;
-                        }
-                    }
-                }
-            }
-
-            /* If the new page and the current page are both tab bar root pages or if there was a tab change, do not use any transition. */
-            if(isTabBarViewTopPage && targetIsTabBarViewTopPage || isNewTab) {
-                transition = page.tabBarView.transition ? page.tabBarView.transition : M.TRANSITION.NONE;
-                isBack = NO;
-                changeLoc = changeLoc !== undefined ? changeLoc : NO;
-            } else {
-                transition = transition ? transition : M.TRANSITION.SLIDE;
-                isBack = isBack !== undefined ? isBack : NO;
-                changeLoc = changeLoc !== undefined ? changeLoc : YES;
-            }
+        if(page) {
+            transition = transition ? transition : M.TRANSITION.SLIDE;
+            isBack = isBack !== undefined ? isBack : NO;
+            changeLoc = changeLoc !== undefined ? changeLoc : YES;
 
             /* Now do the page change by using a jquery mobile method and pass the properties */
-            $.mobile.changePage(id, M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, changeLoc);
+            //alert('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + changeLoc + ');');
+            $.mobile.changePage(page.id, M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, changeLoc);
+            //$.mobile.changePage(page.id, M.TRANSITION.SLIDE, NO, NO);
 
             /* Save the current page in the view manager */
             M.Application.viewManager.setCurrentPage(page);
         } else {
-            M.Logger.log('"' + page + '" not found', M.WARN);
+            M.Logger.log('Page "' + page + '" not found', M.ERROR);
         }
-        var timeEndTab = M.Date.now();
-        var tabTime = timeStartTab.timeBetween(timeEndTab);
-        console.log('### Time for: switchToPage TAB CHANGE: ' + tabTime);
-
+        
         var timeEnd = M.Date.now();
         var totalTime = timeStart.timeBetween(timeEnd);
         console.log('### Time for: switchToPage call: ' + totalTime);
-
-        console.log('### Time without tab processing: ' + (totalTime - tabTime));
     },
 
     /**
