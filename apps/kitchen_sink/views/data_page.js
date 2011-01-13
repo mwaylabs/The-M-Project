@@ -12,7 +12,7 @@ KitchenSink.PageData = M.PageView.design({
 
     header: M.ToolbarView.design({
 
-        value: 'Storage',
+        value: 'Data',
 
         anchorLocation: M.TOP
 
