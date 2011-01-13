@@ -54,22 +54,21 @@ M.Controller = M.Object.extend(
     },
 
     /**
+     * Switch the active tab in the application. This includes both activating this tab
+     * visually and switching the page.
      *
+     * @param {M.TabBarView} tab The tab to be activated.
      */
     switchToTab: function(tab) {
         var currentTab = tab.parentView.activeTab;
+        var newPage = M.ViewManager.getPage(tab.page);       
 
-        var newPage = M.ViewManager.getPage(tab.page);        
-
+        /* store the active tab in tab bar view */
         tab.parentView.setActiveTab(tab);
 
         if(tab === currentTab) {
             var currentPage = M.ViewManager.getCurrentPage();
-            if(currentPage === newPage) {
-                console.log('same tab and same page');
-                return;
-            } else {
-                console.log('same tab different page');
+            if(currentPage !== newPage) {
                 this.switchToPage(newPage, null, YES, NO);
             }
         } else {
@@ -78,7 +77,7 @@ M.Controller = M.Object.extend(
     },
 
     /**
-     * Returns the class property behind the given key and informs its observers.
+     * Switch the active page in the application.
      *
      * @param {Object, String} page The page to be displayed or its name.
      * @param {String} transition The transition that should be used. Default: horizontal slide
@@ -95,19 +94,13 @@ M.Controller = M.Object.extend(
             changeLoc = changeLoc !== undefined ? changeLoc : YES;
 
             /* Now do the page change by using a jquery mobile method and pass the properties */
-            //alert('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + changeLoc + ');');
             $.mobile.changePage(page.id, M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, changeLoc);
-            //$.mobile.changePage(page.id, M.TRANSITION.SLIDE, NO, NO);
 
             /* Save the current page in the view manager */
             M.Application.viewManager.setCurrentPage(page);
         } else {
             M.Logger.log('Page "' + page + '" not found', M.ERROR);
         }
-        
-        var timeEnd = M.Date.now();
-        var totalTime = timeStart.timeBetween(timeEnd);
-        console.log('### Time for: switchToPage call: ' + totalTime);
     },
 
     /**

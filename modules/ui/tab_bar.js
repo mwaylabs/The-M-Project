@@ -133,15 +133,9 @@ M.TabBarView = M.View.extend(
      * @param {M.TabBarItemView} tab The tab to set active.
      */
     setActiveTab: function(tab) {
-        var timeStart = M.Date.now();
-
-        console.log(tab.id);
-
         /* deactivate current active tav */
         this.activeTab.isActive = NO;
-
         var that = this;
-
         $('[data-id="' + this.name + '"]').each(function() {
             $(this).find('#' + that.activeTab.id).removeClass('ui-btn-active');
         });
@@ -154,10 +148,6 @@ M.TabBarView = M.View.extend(
 
         /* store active tab in tab bar */
         this.activeTab = tab;
-
-        var timeEnd = M.Date.now();
-        var totalTime = timeStart.timeBetween(timeEnd);
-        console.log('### Time for: setActiveTab call: ' + totalTime);
     }
 
 });
