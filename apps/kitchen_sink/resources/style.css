@@ -179,3 +179,8 @@ div.myToolbar2 h1.ui-title {
     margin-right:10px;
     margin-left:10px;
 }
+
+.twitter_user_name {
+    font-weight:bold;
+    color:#000;
+}

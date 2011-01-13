@@ -41,7 +41,7 @@ KitchenSink.DataLocalStorageTaskAppController = M.Controller.extend({
     removeTodo: function(domId, modelId) {  
         this.currentTask = KitchenSink.Task.recordManager.getRecordForId(modelId);
         
-        M.DialogView.confirm({
+        /*M.DialogView.confirm({
             title: 'Delete a Task',
             message: 'Do you really want to delete this item?',
 
@@ -49,7 +49,10 @@ KitchenSink.DataLocalStorageTaskAppController = M.Controller.extend({
                 target: this,
                 action: 'deleteTodo'
             }
-        });
+        });*/
+        if(confirm("Do you really want to delete this item?")) {
+            this.deleteTodo();
+        }
     },
 
     deleteTodo: function() {
