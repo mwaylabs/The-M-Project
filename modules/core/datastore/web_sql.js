@@ -8,7 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('core/detox/data_provider.js');
+m_require('core/datastore/data_provider.js');
 
 /**
  * @class
