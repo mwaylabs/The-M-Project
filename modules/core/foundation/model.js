@@ -479,7 +479,7 @@ M.Model = M.Object.extend(
      * @param {Function |ÊObject} obj The param object with query, cascade flag and callbacks.
      */
     complete: function(callback) {
-        console.log('complete...');
+        //console.log('complete...');
         var records = [];
         for(var i in this.record) {
             if(this.__meta[i].dataType === 'Reference') {
@@ -497,8 +497,8 @@ M.Model = M.Object.extend(
 
     // TODO: handle onSuccess AND onError
     deepFind: function(records, callback) {
-        console.log('deepFind...');
-        console.log('### records.length: ' + records.length);
+        //console.log('deepFind...');
+        //console.log('### records.length: ' + records.length);
         if(records.length < 1) {    // recursion end constraint
             if(callback) {
                 callback();
