@@ -81,7 +81,7 @@ M.AlertDialogView = M.DialogView.extend(
 
         this.html += '</div>';        
         this.html += '</div>';
-        
+
         $('body').append(this.html);
     }
 

@@ -35,6 +35,13 @@ M.DialogView = M.View.extend(
     buttonIds: [],
 
     /**
+     * This property states whether the dialog is currently active or not.
+     *
+     * @type Boolean
+     */
+    isActive: NO,
+
+    /**
      * The dialog's callback, split in target / action. It is called once the dialog's closing
      * transition did finish.
      *
@@ -65,7 +72,9 @@ M.DialogView = M.View.extend(
 
         /* finally show the dialog on the screen */
         M.Controller.switchToPage(this, this.transition, NO, NO);
-        
+
+        this.isActive = YES;
+
     },
 
     /**
@@ -115,13 +124,17 @@ M.DialogView = M.View.extend(
      * @param {String} id The id of the dialog.
      */
     dialogWillClose: function(id) {
-        var button = M.ViewManager.getViewById(id);
-        if(this[button.role] && this[button.role].target && this[button.role].action) {
-            this.callback.target = this[button.role].target;
-            this.callback.action = this[button.role].action;
-        } else if (this.buttons && this.buttons[button.role] && this.buttons[button.role].target && this.buttons[button.role].action) {
-            this.callback.target = this.buttons[button.role].target;
-            this.callback.action = this.buttons[button.role].action;
+        if(this.isActive) {
+            var button = M.ViewManager.getViewById(id);
+            if(this[button.role] && this[button.role].target && this[button.role].action) {
+                this.callback.target = this[button.role].target;
+                this.callback.action = this[button.role].action;
+            } else if (this.buttons && this.buttons[button.role] && this.buttons[button.role].target && this.buttons[button.role].action) {
+                this.callback.target = this.buttons[button.role].target;
+                this.callback.action = this.buttons[button.role].action;
+            }
+            $('#' + this.id).dialog('close');
+            this.isActive = NO;
         }
     },
 
