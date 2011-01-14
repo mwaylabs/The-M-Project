@@ -47,7 +47,6 @@ KitchenSink.DataRequestSampleController = M.Controller.extend({
     },
 
     showResponse: function(data) {
-        console.log(data);
 
         var response = '-';
 
