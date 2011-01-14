@@ -50,7 +50,7 @@ KitchenSink.DataWebSqlTaskAppController = M.Controller.extend({
     removeTodo: function(domId, modelId) {
         this.currentTask = KitchenSink.TaskWebSql.recordManager.getRecordForId(modelId);
 
-        M.DialogView.confirm({
+        /*M.DialogView.confirm({
             title: 'Delete a Task',
             message: 'Do you really want to delete this item?',
 
@@ -58,7 +58,11 @@ KitchenSink.DataWebSqlTaskAppController = M.Controller.extend({
                 target: this,
                 action: 'deleteTodo'
             }
-        });
+        });*/
+
+        if(confirm("Do you really want to delete this item?")) {
+            this.deleteTodo();
+        }
     },
 
     deleteTodo: function() {
