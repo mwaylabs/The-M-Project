@@ -108,8 +108,7 @@ M.Object =
      */
     destroy: function() {
         if(this.id && $('#' + this.id)) {
-            //TODO: use page did close event...
-            //$('#' + this.id).remove();
+            $('#' + this.id).remove();
         }
         delete this;
     }
