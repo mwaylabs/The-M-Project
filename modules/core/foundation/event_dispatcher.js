@@ -41,6 +41,10 @@ M.EventDispatcher = M.Object.create(
      * @param {Object} evt The event.
      */
     eventDidHappen: function(evt) {
+        /* WORKAROUND FOR FOOTER / HEADER BUG IN JQM */
+        /* TODO: REMOVE ONCE IT IS FIXED BY JQM */
+        $.fixedToolbars.show();
+
         this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode);
     },
 
