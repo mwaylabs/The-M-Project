@@ -66,17 +66,17 @@
     margin-bottom:10px;
 }
 
-div.todos_form {
+div.todos_form_container {
     padding-right:15px;
     border:0px;
 }
 
-div.todos_form label {
+div.todos_form_container label {
     width: 20%;
     font-weight:bold;
 }
 
-div.todos_form input[type=text], div.todos_form textarea {
+div.todos_form_container input[type=text], div.todos_form_container textarea {
     width: 100%!important;
 }
 
