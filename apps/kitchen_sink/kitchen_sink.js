@@ -35,6 +35,7 @@ document.write("<script src='views/utilities_page_list_item_template.js'></scrip
 document.write("<script src='views/utilities_page.js'></script>");
 document.write("<script src='views/utilities_i18n_list_item_template.js'></script>");
 document.write("<script src='views/utilities_i18n_page.js'></script>");
+document.write("<script src='views/utilities_i18n_localization_label_page.js'></script>");
 document.write("<script src='views/data_page_list_item_template.js'></script>");
 document.write("<script src='views/data_page.js'></script>");
 document.write("<script src='views/data_local_storage_task_app_template.js'></script>");
