@@ -117,9 +117,10 @@ M.I18N = M.Object.extend(
      * - use the application's default language
      * - use the systems's default language
      *
+     * @param {Boolean} returnNavigatorLanguage Specify whether to return the navigator's language even if this language is not supported by this app.
      * @returns {String} The user's language.
      */
-    getLanguage: function() {
+    getLanguage: function(returnNavigatorLanguage) {
         var language = null;
 
         if(localStorage) {
