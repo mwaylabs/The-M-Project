@@ -99,6 +99,7 @@ M.ModelAttribute = M.Object.extend(
  * @returns {Object} {@link M.ModelAttribute} object
  */
 M.ModelAttribute.attr = function(dataType, opts) {
+    //console.log('attr in model_attribute');
     if (!opts) {
         opts = {};
     }
