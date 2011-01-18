@@ -108,14 +108,27 @@ M.RemoteStorageProvider = M.DataProvider.extend(
             data: data ? data : null,
             onSuccess: function(data, msg, xhr) {
 
+                /*
+                * delete from record manager if delete request was made.
+                */
                 if(opType === 'delete') {
                     obj.model.recordManager.remove(obj.model.m_id);
                 }
 
+                /*
+                * call the receiveIdentifier method if provided, that sets the ID for the newly created model
+                */
                 if(opType === 'create') {
-                    obj.model.set('ID', data[config.objIdentifier][config.identifier]);
+                    if(config.create.receiveIdentifier) {
+                        config.create.receiveIdentifier(data, obj.model);
+                    } else {
+                        M.Logger.log('No ID receiving operation defined.');
+                    }
                 }
 
+                /*
+                * call callback 
+                */
                 if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
                     obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], [data]);
                     if(opType === 'read') {
