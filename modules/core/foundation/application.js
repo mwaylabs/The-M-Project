@@ -116,7 +116,7 @@ M.Application = M.Object.extend(
         var that = this;
 
         /* live is jQuery fn that binds an event to all elements matching a certain selector now and in the future */
-        var eventList = 'click change keyup focus blur orientationchange';
+        var eventList = 'click change keyup focus blur orientationchange tap taphold swipe swipeleft swiperight scrollstart scrollstop';
         $('*[id]').live(eventList, function(evt) {
             that.eventDispatcher.eventDidHappen(evt);
         });

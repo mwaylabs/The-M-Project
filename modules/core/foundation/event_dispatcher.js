@@ -41,6 +41,14 @@ M.EventDispatcher = M.Object.create(
      * @param {Object} evt The event.
      */
     eventDidHappen: function(evt) {
+        /* WORKAROUND FOR FOOTER / HEADER BUG IN JQM */
+        /* TODO: REMOVE ONCE IT IS FIXED BY JQM */
+        if(evt.type === 'scrollstart') {
+            $.fixedToolbars.hide(YES);
+        } else {
+            window.setTimeout('$.fixedToolbars.show()', 100);
+        }
+
         this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode);
     },
 

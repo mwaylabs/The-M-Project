@@ -157,6 +157,11 @@ M.PageView = M.View.extend(
             M.LoaderView.initialize();
         }
 
+        /* WORKAROUND FOR FOOTER / HEADER BUG IN JQM */
+        /* TODO: REMOVE ONCE IT IS FIXED BY JQM */
+        window.setTimeout('scroll(0, 0)', 100);
+        window.setTimeout('$.fixedToolbars.show()', 150);
+
         this.isFirstLoad = NO;
     },
 
