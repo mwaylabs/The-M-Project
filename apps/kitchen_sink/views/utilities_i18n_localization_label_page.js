@@ -27,17 +27,12 @@ KitchenSink.UtilitiesI18nLocalizationLabelPage = M.PageView.design({
     }),
 
     content: M.ScrollView.design({
-        childViews: 'buttonGroup markupTitle markup',
+        childViews: 'label markupTitle markup',
 
-        buttonGroup: M.ButtonGroupView.design({
-            childViews: 'button1 button2',
-            button1: M.ButtonView.design({
-                value: 'Button 1'
-            }),
+        label: M.LabelView.design({
 
-            button2: M.ButtonView.design({
-                value: 'Button 2'
-            })
+            value: M.I18N.l('welcome')
+
         }),
 
         markupTitle: M.LabelView.design({
@@ -46,7 +41,7 @@ KitchenSink.UtilitiesI18nLocalizationLabelPage = M.PageView.design({
         }),
 
         markup: M.LabelView.design({
-            value: 'M.ButtonGroupView.design({\n\n\tchildViews: \'button1 button2\',\n\n\tbutton1: M.ButtonView.design({\n\n\t\tvalue: \'Button 1\'\n\n\t}),\n\n\tbutton2: M.ButtonView.design({\n\n\t\tvalue: \'Button 2\'\n\n\t})\n\n})',
+            value: 'M.LabelView.design({\n\n\tvalue: M.I18N.l(\'welcome\')\n\n})',
             cssClass: 'source'
         })
 

@@ -64,7 +64,7 @@ Todos.TodoController = M.Controller.extend({
         M.ViewManager.getView('page2', 'text').setValue('');
         M.ViewManager.getView('page2', 'date').setValue('');
 
-        this.switchToPage(M.ViewManager.getPage('page1'));
+        this.switchToTab(Todos.tabs.tabItem1);
     },
 
     removeTodo: function(domId, modelId) {
