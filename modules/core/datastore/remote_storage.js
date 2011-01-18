@@ -44,7 +44,7 @@ M.RemoteStorageProvider = M.DataProvider.extend(
 
             dataResult = config.create.map(obj.model.record);
 
-            this.remoteQuery('create', config.location + config.create.url, config.create.httpMethod, dataResult, obj, null);
+            this.remoteQuery('create', config.location + config.create.url, config.create.httpMethod, dataResult, obj, null);   
             
         } else { // make an update request
 
@@ -81,26 +81,24 @@ M.RemoteStorageProvider = M.DataProvider.extend(
 
     createModelsFromResult: function(data, callback, obj) {
         var result = [];
-        var config = this.config[obj.model.name]
+        var config = this.config[obj.model.name];
         if(_.isArray(data)) {
             for(var i in data) {
                 var res = data[i];
                 /* create model  record from result by first map with given mapper function before passing
                  * to createRecord
                  */
-                result.push(obj.model.createRecord($.extend(config.read.map(res.contact), {state: M.STATE_VALID})));
+                result.push(obj.model.createRecord($.extend(config.read.map(res[config.objIdentifier]), {state: M.STATE_VALID})));
             }
         } else if(typeof(data) === 'object') {
-            result.push(obj.model.createRecord($.extend(config.read.map(data.contact), {state: M.STATE_VALID})));
+            result.push(obj.model.createRecord($.extend(config.read.map(data[config.objIdentifier]), {state: M.STATE_VALID})));
         }
         callback(result);
     },
 
     remoteQuery: function(opType, url, type, data, obj, beforeSend) {
         var that = this;
-
-        console.log('### data ###');
-        console.log(data);
+        var config = this.config[obj.model.name];
         
         M.Request.init({
             url: url,
@@ -108,12 +106,14 @@ M.RemoteStorageProvider = M.DataProvider.extend(
             isJSON: YES,
             contentType: 'application/JSON',
             data: data ? data : null,
-            onSuccess: function(data) {
-                console.log('### response:')
-                console.log(data);
+            onSuccess: function(data, msg, xhr) {
 
                 if(opType === 'delete') {
                     obj.model.recordManager.remove(obj.model.m_id);
+                }
+
+                if(opType === 'create') {
+                    obj.model.set('ID', data[config.objIdentifier][config.identifier]);
                 }
 
                 if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
@@ -127,7 +127,7 @@ M.RemoteStorageProvider = M.DataProvider.extend(
                     M.Logger.log('No success callback given.', M.WARN);
                 }
             },
-            onError: function(req, msg) {
+            onError: function(xhr, msg) {
                 if(obj.onError && typeof(obj.onError) === 'function') {
                     obj.onError(msg);
                 }

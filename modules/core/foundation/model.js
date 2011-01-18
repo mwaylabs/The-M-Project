@@ -183,7 +183,10 @@ M.Model = M.Object.extend(
             }
         }
 
-        /* add _createdAt und _modifiedAt properties in meta for timestamps  */
+        /* add ID, _createdAt and _modifiedAt properties in meta for timestamps  */
+        model.__meta['ID'] = this.attr('Integer', {
+            isRequired:NO
+        });
         model.__meta[M.META_CREATED_AT] = this.attr('String', { // could be 'Date', too
             isRequired:YES
         });
@@ -192,12 +195,9 @@ M.Model = M.Object.extend(
         });
 
         model.recordManager = M.RecordManager.extend({records:[]});
-        
+
         /* if dataprovider is WebSqlProvider, create table for this model and add ID ModelAttribute Object to __meta */
         if(model.dataProvider.type === 'M.WebSqlProvider') {
-            model.__meta['ID'] = this.attr('Integer', {
-                isRequired:NO
-            });
             model.dataProvider.init({model: model, onError:function(err){console.log(err);}}, function() {});
             model.dataProvider.isInitialized = YES;
         }
