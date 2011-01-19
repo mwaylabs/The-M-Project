@@ -9,6 +9,27 @@
 // ==========================================================================
 
 /**
+ * A constant value for hyperlink of type email.
+ *
+ * @type String
+ */
+M.HYPERLINK_EMAIL = 'mail';
+
+/**
+ * A constant value for hyperlink of type website.
+ *
+ * @type String
+ */
+M.HYPERLINK_WEBSITE = 'website';
+
+/**
+ * A constant value for hyperlink of type phone number.
+ *
+ * @type String
+ */
+M.HYPERLINK_PHONE = 'phone';
+
+/**
  * @class
  *
  * The is the prototype of any label view. It basically renders a simple plain
@@ -36,6 +57,30 @@ M.LabelView = M.View.extend(
     newLineToBreak: YES,
 
     /**
+     * Determines whether a tabulator '\t' within the label's value should be transformed
+     * into four spaces '&#160;' before it is rendered. Default: YES.
+     *
+     * @type Boolean
+     */
+    tabToSpaces: YES,
+
+    /**
+     * This property can be used to specify a certain hyperlink type for this label. It only
+     * works in combination with the hyperlinkTarget property.
+     *
+     * @type String
+     */
+    hyperlinkType: null,
+
+    /**
+     * This property can be used to specify a hyperlink target for this label. It only
+     * works in combination with the hyperlinkType property.
+     *
+     * @type String
+     */
+    hyperlinkTarget: null,
+
+    /**
      * Renders a label view as a div tag with corresponding data-role attribute and inner
      * text defined by value.
      *
@@ -45,7 +90,27 @@ M.LabelView = M.View.extend(
     render: function() {
         this.computeValue();
         this.html += '<div id="' + this.id + '"' + this.style() + '>';
-        this.html += this.newLineToBreak ? this.nl2br(this.value) : this.value;
+
+        if(this.hyperlinkTarget && this.hyperlinkType) {
+            switch (this.hyperlinkType) {
+                case M.HYPERLINK_EMAIL:
+                    this.html += '<a rel="external" href="mailto:' + this.hyperlinkTarget + '">';
+                    break;
+                case M.HYPERLINK_WEBSITE:
+                    this.html += '<a rel="external" target="_blank" href="' + this.hyperlinkTarget + '">';
+                    break;
+                case M.HYPERLINK_PHONE:
+                    this.html += '<a rel="external" href="tel:' + this.hyperlinkTarget + '">';
+                    break;
+            }
+        }
+
+        this.html += this.newLineToBreak ? this.nl2br(this.tabToSpaces ? this.tab2space(this.value) : this.value) : (this.tabToSpaces ? this.tab2space(this.value) : this.value);
+
+        if(this.hyperlinkTarget && this.hyperlinkType) {
+            this.html += '</a>';
+        }
+
         this.html += '</div>';
         
         return this.html;

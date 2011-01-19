@@ -32,10 +32,26 @@ M.TabBarView = M.View.extend(
      *
      * - M.BOTTOM => is a footer tab bar
      * - M.TOP => is a header tab bar
+     * - null / not set ==> a tab bar outside header / footer
      *
      * @type String
      */
-    anchorLocation: M.BOTTOM,
+    anchorLocation: null,
+
+    /**
+     * This property defines the tab bar's name. This is used internally to identify
+     * the tab bar inside the DOM.
+     *
+     * @type String
+     */
+    name: 'tab_bar',
+
+    /**
+     * This property holds a reference to the currently active tab.
+     *
+     * @type M.TabBarItemView
+     */
+    activeTab: null,
 
     /**
      * Renders a tab bar as an unordered list.
@@ -47,11 +63,19 @@ M.TabBarView = M.View.extend(
         if(!this.html) {
             this.html = '';
 
-            this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed"><div data-role="navbar"><ul>';
+            if(this.anchorLocation) {
+                this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed"><div data-role="navbar"><ul>';
+            } else {
+                this.html += '<div data-role="navbar" id="' + this.id + '" data-id="' + this.name + '"><ul>';
+            }
 
             this.renderChildViews();
 
-            this.html += '</ul></div></div>';
+            this.html += '</ul></div>';
+
+            if(this.anchorLocation) {
+                this.html += '</div>';
+            }
         }
         return this.html;
     },
@@ -64,9 +88,33 @@ M.TabBarView = M.View.extend(
     renderChildViews: function() {
         if(this.childViews) {
             var childViews = $.trim(this.childViews).split(' ');
+
+            /* pre-process the child views to define which tab is selected */
+            var hasActiveTab = NO;
+            for(var i in childViews) {
+                var view = this[childViews[i]];
+                if(view.type === 'M.TabBarItemView' && view.isActive) {
+                    if(!hasActiveTab) {
+                        hasActiveTab = YES;
+                        this.activeTab = view;
+                    } else {
+                        view.isActive = NO;
+                    }
+                }
+            }
+
+            var numTabBarViews = 0;
             for(var i in childViews) {
                 var view = this[childViews[i]];
                 if(view.type === 'M.TabBarItemView') {
+                    numTabBarViews = numTabBarViews + 1;
+
+                    /* set first tab to active tab if nothing else specified */
+                    if(numTabBarViews === 1 && !hasActiveTab) {
+                        view.isActive = YES;
+                        this.activeTab = view;
+                    }
+
                     view.parentView = this;
                     this.html += view.render();
                 } else {
@@ -80,30 +128,26 @@ M.TabBarView = M.View.extend(
     },
 
     /**
-     * This method activates a tab bar item based on a given page.
+     * This method visually activates a tab bar item based on a given page.
      *
-     * @param {String, M.PageView} page The page to the corresponding tab that is to be set active.
+     * @param {M.TabBarItemView} tab The tab to set active.
      */
-    setActiveTab: function(page) {
-        if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
-            var previousPage = M.Application.viewManager.getCurrentPage();
-            var nextPage = page.type === 'M.PageView' ? page : M.ViewManager.getPage(page);
-            for(var i in childViews) {
-                var view = this[childViews[i]];
-                if(view.page === page) {
-                    view.isActive = YES;
-                    $('[data-id="' + this.name + '"]').each(function() {
-                        $(this).find('#' + view.id).addClass('ui-btn-active');
-                    });
-                } else {
-                    view.isActive = NO;
-                    $('[data-id="' + this.name + '"]').each(function() {
-                        $(this).find('#' + view.id).removeClass('ui-btn-active');
-                    });
-                }
-            }
-        }
+    setActiveTab: function(tab) {
+        /* deactivate current active tav */
+        this.activeTab.isActive = NO;
+        var that = this;
+        $('[data-id="' + this.name + '"]').each(function() {
+            $(this).find('#' + that.activeTab.id).removeClass('ui-btn-active');
+        });
+
+        /* activate new tab */
+        tab.isActive = YES;
+        $('[data-id="' + this.name + '"]').each(function() {
+            $(this).find('#' + tab.id).addClass('ui-btn-active');
+        });
+
+        /* store active tab in tab bar */
+        this.activeTab = tab;
     }
 
 });

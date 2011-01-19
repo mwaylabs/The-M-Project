@@ -8,13 +8,26 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('core/detox/data_provider.js');
+m_require('core/datastore/data_provider.js');
 
 /**
  * @class
  *
  * Encapsulates access to WebSQL (in-browser sqlite storage). All CRUD operations are asynchronous. That means that onSuccess
- * and onError callbacks have to be passed to the function calls to have the result returned when operation finished. 
+ * and onError callbacks have to be passed to the function calls to have the result returned when operation finished.
+ *
+ * WebSQL Error Codes (see e.g. http://www.w3.org/TR/webdatabase/):
+ *
+ * Constant         Code    Situation
+ * --------         ----    ---------
+ * UNKNOWN_ERR      0       The transaction failed for reasons unrelated to the database itself and not covered by any other error code.
+ * DATABASE_ERR     1       The statement failed for database reasons not covered by any other error code.
+ * VERSION_ERR      2       The operation failed because the actual database version was not what it should be. For example, a statement found that the actual database version no longer matched the expected version of the Database or DatabaseSync object, or the Database.changeVersion() or DatabaseSync.changeVersion() methods were passed a version that doesn't match the actual database version.
+ * TOO_LARGE_ERR    3       The statement failed because the data returned from the database was too large. The SQL "LIMIT" modifier might be useful to reduce the size of the result set.
+ * QUOTA_ERR        4       The statement failed because there was not enough remaining storage space, or the storage quota was reached and the user declined to give more space to the database.
+ * SYNTAX_ERR       5       The statement failed because of a syntax error, or the number of arguments did not match the number of ? placeholders in the statement, or the statement tried to use a statement that is not allowed, such as BEGIN, COMMIT, or ROLLBACK, or the statement tried to use a verb that could modify the database but the transaction was read-only.
+ * CONSTRAINT_ERR   6       An INSERT, UPDATE, or REPLACE statement failed due to a constraint failure. For example, because a row was being inserted and the value given for the primary key column duplicated the value of an existing row.
+ * TIMEOUT_ERR      7       A lock for the transaction could not be obtained in a reasonable time.
  *
  * @extends M.DataProvider
  */
@@ -34,6 +47,13 @@ M.WebSqlProvider = M.DataProvider.extend(
     config: {},
 
     /**
+     * Indicates whether data provider operates asynchronously or not.
+     * 
+     * @type Boolean
+     */
+    isAsync: YES,
+
+    /**
      * Is set to YES when initialization ran successfully, means when {@link M.WebSqlProvider#init} was called, db and table created. 
      * @type Boolean
      */
@@ -48,8 +68,9 @@ M.WebSqlProvider = M.DataProvider.extend(
         'Text': 'text',
         'Float': 'float',
         'Integer': 'integer',
-        'Number': 'interger',
-        'Date': 'date',
+        'Number': 'integer',
+        'Reference': 'integer',
+        'Date': 'varchar(255)',
         'Boolean': 'boolean'
     },
 
@@ -86,6 +107,9 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @private
      */
     init: function(obj, callback) {
+        if(!this.internalCallback) {
+            this.internalCallback = callback;
+        }
         this.openDb();
         this.createTable(obj, callback);
     },
@@ -105,7 +129,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * * the model
      */
      save: function(obj) {
-        console.log('save() called.');
+        //console.log('save() called.');
 
         this.onSuccess = obj.onSuccess;
         this.onError = obj.onError;
@@ -115,10 +139,12 @@ M.WebSqlProvider = M.DataProvider.extend(
          */
         if(!this.isInitialized) {
             this.internalCallback = this.save;
-            this.init(obj.model);
+            this.init(obj);
             return;
         }
 
+        var pre_suffix = '';
+        var sif
 
         if(obj.model.state === M.STATE_NEW) { // perform an INSERT
 
@@ -127,17 +153,28 @@ M.WebSqlProvider = M.DataProvider.extend(
                 sql += prop + ', ';
             }
 
-            sql = sql.substring(0, sql.lastIndexOf(',')) + ') ';
+            /* now name m_id column */
+            sql += M.META_M_ID + ') ';
+
+            //sql = sql.substring(0, sql.lastIndexOf(',')) + ') ';
+
+            /* VALUES(12, 'Test', ... ) */
             sql += 'VALUES (';
 
-            for(var prop in obj.model.record) {
+            for(var prop2 in obj.model.record) {
+                //console.log(obj.model.record[prop2]);
                 /* if property is string or text write value in quotes */
-                var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' ? '"' : '';
-                sql += pre_suffix + obj.model.record[prop] + pre_suffix + ', ';
+                pre_suffix = obj.model.__meta[prop2].dataType === 'String' || obj.model.__meta[prop2].dataType === 'Text' || obj.model.__meta[prop2].dataType === 'Date' ? '"' : '';
+                /* if property is date object, convert to string by calling toJSON */
+                recordPropValue = (obj.model.record[prop2].type === 'M.Date') ? obj.model.record[prop2].toJSON() : obj.model.record[prop2];
+                sql += pre_suffix + recordPropValue + pre_suffix + ', ';
             }
-            sql = sql.substring(0, sql.lastIndexOf(',')) + '); ';
 
-            console.log(sql);
+            sql += obj.model.m_id + ')';
+
+            //sql = sql.substring(0, sql.lastIndexOf(',')) + '); ';
+
+            //console.log(sql);
 
             this.performOp(sql, obj, 'INSERT');
 
@@ -145,19 +182,38 @@ M.WebSqlProvider = M.DataProvider.extend(
 
             var sql = 'UPDATE ' + obj.model.name + ' SET ';
 
-            for(var prop in obj.model.record) {
-                if(prop === 'ID' || !obj.model.__meta[prop].isUpdated) { /* if property has not been updated, then exclude from update call */
+            var nrOfUpdates = 0;
+
+            for(var p in obj.model.record) {
+                
+                if(p === 'ID' || !obj.model.__meta[p].isUpdated) { /* if property has not been updated, then exclude from update call */
                     continue;
                 }
-                var pre_suffix = obj.model.__meta[prop].dataType === 'String' || obj.model.__meta[prop].dataType === 'Text' ? '"' : '';
-                sql += prop + '=' + pre_suffix + obj.model.record[prop] + pre_suffix + ', ';
+                nrOfUpdates = nrOfUpdates + 1;
+                
+                pre_suffix = obj.model.__meta[p].dataType === 'String' || obj.model.__meta[p].dataType === 'Text' || obj.model.__meta[p].dataType === 'Date' ? '"' : '';
+
+                /* if property is date object, convert to string by calling toJSON */
+                recordPropValue = obj.model.__meta[p].dataType === 'Date' ? obj.model.record[p].toJSON() : obj.model.record[p];
+
+                sql += p + '=' + pre_suffix + recordPropValue + pre_suffix + ', ';
             }
             sql = sql.substring(0, sql.lastIndexOf(','));
             sql += ' WHERE ' + 'ID=' + obj.model.record.ID + ';';
 
-            console.log(sql);
+            //console.log(sql);
 
-            this.performOp(sql, obj, 'UPDATE');
+            /* if no properties updated, do nothing, just return by calling onSuccess callback */
+            if(nrOfUpdates === 0) {
+                if (obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
+                    obj.onSuccess = this.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
+                    obj.onSuccess();
+                }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                    obj.onSuccess(result);
+                }
+            } else {
+                this.performOp(sql, obj, 'UPDATE');
+            }
         }
     },
 
@@ -170,6 +226,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @private
      */
     performOp: function(sql, obj, opType) {
+
         var that = this;
         this.dbHandler.transaction(function(t) {
             t.executeSql(sql, null, function() {
@@ -177,31 +234,31 @@ M.WebSqlProvider = M.DataProvider.extend(
                     that.queryDbForId(obj.model);
                 }
             }, function() { // error callback for SQLStatementTransaction
-                M.Logger.log('Incorrect statement: ' + sql, M.ERROR);       
+                M.Logger.log('Incorrect statement: ' + sql, M.ERROR);
             });
         },
-        function() { // errorCallback
+        function(sqlError) { // errorCallback
             /* bind error callback */
             if (obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action]);
+                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
                 obj.onError();
+            } else if(obj.onError && typeof(obj.onError) === 'function') {
+                obj.onError(sqlError);
             }
         },
 
         function() {    // voidCallback (success)
              /* delete  the model from the model record list */
             if(opType === 'DELETE') {
-                obj.model.recordManager.remove(obj.model.id);
+                obj.model.recordManager.remove(obj.model.m_id);
             }
-            console.log('success callback in performOP');
-            console.log('obj.onSuccess:');
-            console.log(obj.onSuccess);
             /* bind success callback */
             if (obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
                 obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
                 obj.onSuccess();
+            }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                obj.onSuccess(result);
             }
-
         });
     },
 
@@ -215,7 +272,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * * the model
      */
     del: function(obj) {
-        console.log('del() called.');
+        //console.log('del() called.');
         if(!this.isInitialized) {
             this.internalCallback = this.del;
             this.init(obj, this.bindToCaller(this, this.del));
@@ -224,14 +281,14 @@ M.WebSqlProvider = M.DataProvider.extend(
 
         var sql = 'DELETE FROM ' + obj.model.name + ' WHERE ID=' + obj.model.record.ID + ';';
 
-        console.log(sql);
+        //console.log(sql);
 
         this.performOp(sql, obj, 'DELETE');
     },
 
 
     /**
-     * Finds model records in the database. If a constraint is given, result is filtered. 
+     * Finds model records in the database. If a constraint is given, result is filtered.
      * @param {Object} obj The param object. Includes:
      * * model: the model blueprint
      * * onSuccess:
@@ -245,17 +302,17 @@ M.WebSqlProvider = M.DataProvider.extend(
      * * limit: Number defining the number of max. result items
      */
     find: function(obj) {
-        console.log('find() called.');
-        
+        //console.log('find() called.');
+
         this.onSuccess = obj.onSuccess;
         this.onError = obj.onError;
-        
+
         if(!this.isInitialized) {
             this.internalCallback = this.find;
             this.init(obj, this.bindToCaller(this, this.find));
             return;
         }
-
+        
         var sql = 'SELECT ';
 
         if(obj.columns) {
@@ -272,8 +329,8 @@ M.WebSqlProvider = M.DataProvider.extend(
         } else {
             sql += '* ';
         }
-        
-        sql += ' FROM ' + obj.model.name;
+
+        sql += ' FROM ' + obj.model.name + ' ';
 
         var stmtParameters = [];
 
@@ -281,7 +338,7 @@ M.WebSqlProvider = M.DataProvider.extend(
         if(obj.constraint) {
 
             var n = obj.constraint.statement.split("?").length - 1;
-            console.log('n: ' + n);
+            //console.log('n: ' + n);
             /* if parameters are passed we assign them to stmtParameters, the array that is passed for prepared statement substitution*/
             if(obj.constraint.parameters) {
 
@@ -291,7 +348,7 @@ M.WebSqlProvider = M.DataProvider.extend(
                 } else {
                     M.Logger.log('Not enough parameters provided for statement: given: ' + obj.constraint.parameters.length + ' needed: ' + n, M.ERROR);
                     return NO;
-                }    
+                }
            /* if no ? are in statement, we handle it as a non-prepared statement
             * => developer needs to take care of it by himself regarding
             * sql injection
@@ -311,25 +368,39 @@ M.WebSqlProvider = M.DataProvider.extend(
             sql += ' LIMIT ' + obj.limit
         }
 
-        console.log(sql);
+        //console.log(sql);
 
         var result = [];
         var that = this;
         this.dbHandler.readTransaction(function(t) {
             t.executeSql(sql, stmtParameters, function (tx, res) {
                 var len = res.rows.length, i;
-                for (i = 0; i < len; i++) {
+                for (var i = 0; i < len; i++) {
                     var rec = JSON.parse(JSON.stringify(res.rows.item(i))); /* obj returned form WebSQL is non-writable, therefore needs to be converted */
+                    /* set m_id property of record to m_id got from db, then delete m_id property named after db column (M.META_M_ID) */
+                    rec['m_id'] = rec[M.META_M_ID];
+                    delete rec[M.META_M_ID];
                     /* create model record from result with state valid */
                     /* $.extend merges param1 object with param2 object*/
-                    //result.push(obj.model.createRecord($.extend(res.rows.item(i), {state: M.STATE_VALID}), this));
-                    result.push(obj.model.createRecord($.extend(rec, {state: M.STATE_VALID})));
+                    var myRec = obj.model.createRecord($.extend(rec, {state: M.STATE_VALID}));
+
+                    /* create M.Date objects for all date properties */
+                    for(var j in myRec.__meta) {
+                        /* here we can work with setter and getter because myRec already is a model record */
+                        if(myRec.__meta[j].dataType === 'Date' && typeof(myRec.get(j)) === 'string') {
+                            myRec.set(j, M.Date.create(myRec.get(j)));
+                        }
+                    }
+                    
+                    /* add to result array */
+                    result.push(myRec);
                 }
+
             }, function(){M.Logger.log('Incorrect statement: ' + sql, M.ERROR)}) // callbacks: SQLStatementErrorCallback
-        }, function(){ // errorCallback
+        }, function(sqlError){ // errorCallback
             /* bind error callback */
             if(obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action]);
+                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
                 obj.onError();
             } else if (typeof(obj.onError) !== 'function') {
                 M.Logger.log('Target and action in onError not defined.', M.ERROR);
@@ -338,13 +409,15 @@ M.WebSqlProvider = M.DataProvider.extend(
             /* bind success callback */
             if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
                 /* [result] is a workaround for bindToCaller: bindToCaller uses call() instead of apply() if an array is given.
-                 * result is an array, but we what call is doing with it is wrong in this case. call maps each array element to one method
+                 * result is an array, but what call is doing with it is wrong in this case. call maps each array element to one method
                  * parameter of the function called. Our callback only has one parameter so it would just pass the first value of our result set to the
                  * callback. therefor we now put result into an array (so we have an array inside an array) and result as a whole is now passed as the first
                  * value to the callback.
                  *  */
                 obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], [result]);
                 obj.onSuccess();
+            }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                obj.onSuccess(result);
             }
         });
     },
@@ -354,9 +427,41 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @private
      */
     openDb: function() {
-        console.log('openDb() called.');
+        //console.log('openDb() called.');
         /* openDatabase(db_name, version, description, estimated_size, callback) */
-        this.dbHandler = openDatabase(this.config.dbName, '2.0', 'Database for M app', this.config.size);
+        try {
+            if (!window.openDatabase) {
+                M.DialogView.alert({
+                    message: 'Your browser does not support WebSQL.',
+                    title: 'WebSQL Not Supported.'
+                });
+            } else {
+                //this.dbHandler = openDatabase(this.config.dbName, '1.0', 'Database for ' + M.Application.name, this.config.size);
+                /* leave version empty to open database regardless of its version */
+                if(!this.dbHandler) {
+                    this.dbHandler = openDatabase(this.config.dbName, '', 'Database for ' + M.Application.name, this.config.size);
+                }
+
+            }
+        } catch(e) {
+            
+            if (e == 2) {
+                // Version number mismatch.
+                //M.Logger.log('Invalid database version.', M.ERROR);
+                M.DialogView.alert({
+                    message: 'Database version 1.0 not supported.',
+                    title: 'Invalid database version.'
+                });
+            } else {
+                //M.Logger.log('Unknown error ' + e + '.', M.ERROR);
+                M.DialogView.alert({
+                    message: e,
+                    title: 'Unknown error.'
+                });
+            }
+            return;
+        }
+        
     },
 
 
@@ -365,25 +470,36 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @private
      */
     createTable: function(obj, callback) {
-        console.log('createTable() called.');
+        //console.log('createTable() called.');
+        //console.log(obj);
         var sql = 'CREATE TABLE IF NOT EXISTS '  + obj.model.name
                     + ' (ID INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE';
 
         for(var r in obj.model.__meta) {
+            if(r === 'ID') {/* skip ID, it is defined manually above */
+                continue;
+            }
            sql += ', ' + this.buildDbAttrFromProp(obj.model, r);
         }
 
-        sql += ');';
+        sql += ', ' + M.META_M_ID + ' INTEGER NOT NULL);';
 
-        console.log(sql);
-        
+        //console.log(sql);
+
         if(this.dbHandler) {
             var that = this;
             try {
                 /* transaction has 3 parameters: the transaction callback, the error callback and the success callback */
                 this.dbHandler.transaction(function(t) {
                     t.executeSql(sql);
-                }, null, that.bindToCaller(that, that.handleDbReturn, [obj, callback]));
+                }, function(sqlError){ // errorCallback
+                    /* bind error callback */
+                    if(obj.onError && obj.onError.target && obj.onError.action) {
+                        obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
+                        obj.onError();
+                    } else if (typeof(obj.onError) === 'function') {
+                        obj.onError(sqlError);
+                    } else {M.Logger.log('Target and action in onError not defined.', M.ERROR); }}, that.bindToCaller(that, that.handleDbReturn, [obj, callback])); // success callback
             } catch(e) {
                 M.Logger.log('Error code: ' + e.code + ' msg: ' + e.message, M.ERROR);
                 return;
@@ -398,7 +514,8 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @param {Object} obj Includes dbName
      */
     configure: function(obj) {
-        console.log('configure() called.');
+        //console.log('configure() called.');
+        obj.size = obj.size ? obj.size : 1024*1024;
         // maybe some value checking
         return this.extend({
             config:obj
@@ -415,8 +532,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * @returns {String} The string used for db create to represent this property.
      */
     buildDbAttrFromProp: function(model, prop) {
-        console.log(model);
-        console.log(prop);
+
         var type = this.typeMapping[model.__meta[prop].dataType].toUpperCase();
 
         var isReqStr = model.__meta[prop].isRequired ? ' NOT NULL' : '';
@@ -428,7 +544,7 @@ M.WebSqlProvider = M.DataProvider.extend(
     /**
      * Queries the WebSQL storage for the maximum db ID that was provided for a table that is defined by model.name. Delegates to
      * {@link M.WebSqlProvider#setDbIdOfModel}.
-     * 
+     *
      * @param {Object} model The table's model
      */
     queryDbForId: function(model) {
@@ -446,7 +562,7 @@ M.WebSqlProvider = M.DataProvider.extend(
      * Then calls the internal callback => the function that called init().
      */
     handleDbReturn: function(obj, callback) {
-        console.log('handleDbReturn() called.');
+        //console.log('handleDbReturn() called.');
         this.isInitialized = YES;
         this.internalCallback(obj, callback);
     },

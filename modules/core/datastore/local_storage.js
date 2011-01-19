@@ -18,6 +18,8 @@ m_require('core/datastore/data_provider.js');
  * This data provider persists model records as JSON strings with their name and id as key.
  * When fetching these strings from storage, their automatically converted in their corresponding model records.
  *
+ * Operates synchronous.
+ *
  * @extends M.DataProvider
  */
 M.LocalStorageProvider = M.DataProvider.extend(
@@ -40,11 +42,18 @@ M.LocalStorageProvider = M.DataProvider.extend(
      */
     save: function(obj) {
         try {
-            console.log(obj);
-            localStorage.setItem(obj.model.name + '_' + obj.model.id, JSON.stringify(obj.model.record));
+            //console.log(obj);
+            /* add m_id to saved object */
+            /*var a = JSON.stringify(obj.model.record).split('{', 2);
+            a[2] = a[1];
+            a[1] = '"m_id":' + obj.model.m_id + ',';
+            a[0] = '{';
+            var value = a.join('');*/
+            var value = JSON.stringify(obj.model.record);
+            localStorage.setItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_' + obj.model.m_id, value);
             return YES;
         } catch(e) {
-            M.Logger.log(M.WARN, 'Error saving ' + obj.model.record + ' to localStorage with ID: ' + obj.model.name + '_' + that.id);
+            M.Logger.log(M.WARN, 'Error saving ' + obj.model.record + ' to localStorage with key: ' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_' + that.m_id);
             return NO;
         }
 
@@ -60,14 +69,14 @@ M.LocalStorageProvider = M.DataProvider.extend(
      */
     del: function(obj) {
         try {
-            if(localStorage.getItem(obj.model.name + '_' + obj.model.id)){ // check if key-value pair exists
-                localStorage.removeItem(obj.model.name + '_' + obj.model.id);
-                obj.model.recordManager.remove(obj.model.id);
+            if(localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_' + obj.model.m_id)){ // check if key-value pair exists
+                localStorage.removeItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_' + obj.model.m_id);
+                obj.model.recordManager.remove(obj.model.m_id);
                 return YES;
             }
             return NO;
         } catch(e) {
-            M.Logger.log(M.WARN, 'Error removing ID: ' + obj.model.name + '_' + obj.model.id + ' from localStorage');
+            M.Logger.log(M.WARN, 'Error removing key: ' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_' + obj.model.m_id + ' from localStorage');
             return NO;
         }
     },
@@ -90,13 +99,13 @@ M.LocalStorageProvider = M.DataProvider.extend(
                 return NO;
             }
             /*construct new model record with the saved id*/
-            var reg = new RegExp('^' + obj.model.name + '_([0-9]+)').exec(obj.key);
+            var reg = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_([0-9]+)').exec(obj.key);
             var m_id = reg && reg[1] ? reg[1] : null;
             if (!m_id) {
                 M.Logger.log('retrieved model has no valid key: ' + obj.key, M.ERROR);
                 return NO;
             }
-            var m = obj.model.createRecord($.extend(record, {id: parseInt(m_id), state: M.STATE_VALID}));
+            var m = obj.model.createRecord($.extend(record, {m_id: parseInt(m_id), state: M.STATE_VALID}));
             return m;
         }
 
@@ -176,6 +185,11 @@ M.LocalStorageProvider = M.DataProvider.extend(
      */
     findByKey: function(obj) {
         if(obj.key) {
+
+            var reg = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX);
+            /* assume that if key starts with local storage prefix, correct key is given, other wise construct it and key might be m_id */
+            obj.key = reg.test(obj.key) ? obj.key : M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_' + obj.key;
+
             if(localStorage.getItem(obj.key)) { // if key is available
                 return this.buildRecord(obj.key, obj)
             } else {
@@ -198,18 +212,18 @@ M.LocalStorageProvider = M.DataProvider.extend(
         var result = [];
         for (var i = 0; i < localStorage.length; i++){
             var k = localStorage.key(i);
-            regexResult = new RegExp('^' + obj.model.name + '_').exec(k);
+            regexResult = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_').exec(k);
             if(regexResult) {
                 var record = this.buildRecord(k, obj);//JSON.parse(localStorage.getItem(k));
 
-                /*construct new model record with the saved id*/
-                var reg = new RegExp('^' + obj.model.name + '_([0-9]+)').exec(k);
+                /*construct new model record with the saved m_id*/
+                var reg = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_([0-9]+)').exec(k);
                 var m_id = reg && reg[1] ? reg[1] : null;
                 if (!m_id) {
-                    M.Logger.log('Model Record id not correct: ' + m_id, M.ERROR);
+                    M.Logger.log('Model Record m_id not correct: ' + m_id, M.ERROR);
                     continue; // if m_id does not exist, continue with next record element
                 }
-                var m = obj.model.createRecord($.extend(record, {id: parseInt(m_id), state: M.STATE_VALID}));
+                var m = obj.model.createRecord($.extend(record, {m_id: parseInt(m_id), state: M.STATE_VALID}));
                 
                 result.push(m);
             }
@@ -251,7 +265,7 @@ M.LocalStorageProvider = M.DataProvider.extend(
         var keys = [];
         for (var i = 0; i < localStorage.length; i++){
             var k = localStorage.key(i)
-            regexResult = new RegExp('^' + obj.model.name + '_').exec(k);
+            regexResult = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_').exec(k);
             if(regexResult) {
                 keys.push(k);
             }

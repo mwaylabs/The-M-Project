@@ -63,6 +63,13 @@ M.PageView = M.View.extend(
     onHide: null,
 
     /**
+     * This property can be used to set the page's onOrientationChange action.
+     *
+     * @type Object
+     */
+    onOrientationChange: null,
+
+    /**
      * Indicates whether the page has a tab bar or not.
      *
      * @type Boolean
@@ -109,6 +116,20 @@ M.PageView = M.View.extend(
      * for the page, it is now called.
      */
     pageWillLoad: function() {
+        /* if this is the first page to be loaded, check if there is a tab bar and an active tab
+           specified and switch to this tab */
+        if(M.Application.isFirstLoad) {
+            M.Application.isFirstLoad = NO;
+            var currentPage = M.ViewManager.getCurrentPage();
+            if(currentPage && currentPage.hasTabBarView) {
+                var tabBarView = currentPage.tabBarView;
+                var activePage = M.ViewManager.getPage(tabBarView.activeTab.page);
+                if(activePage !== currentPage) {
+                    M.Controller.switchToPage(tabBarView.activeTab.page);
+                }
+            }
+        }
+        
         if(this.beforeLoad) {
             this.beforeLoad.target[this.beforeLoad.action](this.isFirstLoad);
         }
@@ -131,23 +152,15 @@ M.PageView = M.View.extend(
             }
         });
 
-        /* WORKAROUND for being able to use more than two tab items within a tab bar */
-        /* TODO: Get rid of this workaround with a future version of jquery mobile */
-        if(this.isFirstLoad && this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
-            for(var i in childViews) {
-                var view = this[childViews[i]];
-                if(view.type === 'M.TabBarView' && view.anchorLocation === M.BOTTOM) {
-                    $('[data-id="' + view.name + '"]:not(:last-child)').each(function() {
-                        if(!$(this).hasClass('ui-footer-duplicate')) {
-                            /* first empty the tabbar and then hide it, since jQuery's remove() doesn't work */
-                            $(this).empty();
-                            $(this).hide();
-                        }
-                    });
-                }
-            }
+        /* initialize the loader for later use (if not already done) */
+        if(M.LoaderView) {
+            M.LoaderView.initialize();
         }
+
+        /* WORKAROUND FOR FOOTER / HEADER BUG IN JQM */
+        /* TODO: REMOVE ONCE IT IS FIXED BY JQM */
+        window.setTimeout('scroll(0, 0)', 100);
+        window.setTimeout('$.fixedToolbars.show()', 150);
 
         this.isFirstLoad = NO;
     },
@@ -175,9 +188,9 @@ M.PageView = M.View.extend(
     /**
      * This method is called if the device's orientation changed.
      */
-    orientationDidChange: function(orientation) {
+    orientationDidChange: function() {
         if(this.onOrientationChange) {
-            this.onOrientationChange.target[this.onOrientationChange.action](orientation);
+            this.onOrientationChange.target[this.onOrientationChange.action](M.Environment.getOrientation());
         }
     },
 

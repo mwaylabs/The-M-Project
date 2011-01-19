@@ -33,6 +33,7 @@ M.ImageView = M.View.extend(
      * @returns {String} The image view's html representation.
      */
     render: function() {
+        this.computeValue();
         this.html += '<img id="' + this.id + '" src="' + this.value + '"' + this.style() + '>';
         return this.html;
     },

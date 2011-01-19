@@ -35,8 +35,12 @@ M.DateValidator = M.Validator.extend(
      * @returns {Boolean} Indicating whether validation passed (YES|true) or not (NO|false).
      */
     validate: function(obj, key) {
-        if(obj.value === null || obj.value === undefined || obj.value === '' || !M.Date.create(obj.value)) {
-            if(obj.isView) {
+        /* validate the date to be a valid german or us date: dd.mm.yyyy or mm/dd/yyyy */
+        var patternDateUS =  /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})(\s+([0-9]{2})\:([0-9]{2})(\:([0-9]{2}))?)?$/;
+        var patternDateDE =  /^([0-9]{2})\.([0-9]{2})\.([0-9]{4})(\s+([0-9]{2})\:([0-9]{2})(\:([0-9]{2}))?)?$/;
+
+        if(obj.isView) {
+            if(obj.value === null || obj.value === undefined || obj.value === '' || !(patternDateUS.test(obj.value) || patternDateDE.test(obj.value)) || !M.Date.create(obj.value)) {
                 this.validationErrors.push({
                     msg: this.msg ? this.msg : key + ' is not a valid date.',
                     viewId: obj.id,
@@ -44,7 +48,11 @@ M.DateValidator = M.Validator.extend(
                     onSuccess: obj.onSuccess,
                     onError: obj.onError
                 });
-            } else {
+                return NO;
+            }
+            return YES;
+        } else {
+            if(obj.value.type && obj.value.type !== 'M.Date' && (obj.value === null || obj.value === undefined || obj.value === '' || !M.Date.create(obj.value))) {
                 this.validationErrors.push({
                     msg: this.msg ? this.msg : obj.property + ' is not a valid date.',
                     modelId: obj.modelId,
@@ -53,10 +61,10 @@ M.DateValidator = M.Validator.extend(
                     onSuccess: obj.onSuccess,
                     onError: obj.onError
                 });
+                return NO;
             }
-            return NO;
+            return YES;
         }
-        return YES;
     }
 
 });

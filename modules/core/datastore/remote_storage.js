@@ -38,84 +38,121 @@ M.RemoteStorageProvider = M.DataProvider.extend(
 
         var config = this.config[obj.model.name];
         var result = null;
-        var dataPattern = null;
         var dataResult = null;
 
         if(obj.model.state === M.STATE_NEW) {   /* if the model is new we need to make a create request, if not new then we make an update request */
 
-            /* the given dataPattern must be a valid JSON string that is then transformed into an object structure*/ 
-            dataPattern = JSON.parse(config.create.dataPattern);
-            dataResult = this.deepObjectReplacement(dataPattern, obj.model.record, result);
+            dataResult = config.create.map(obj.model.record);
 
-            M.Request.init({
-                url: config.location + config.create.url,
-                type: config.create.httpMethod,                
-                isJSON: YES,
-                contentType: 'application/JSON',
-                data: dataResult,
-                onSuccess: function(data) {
-                    obj.onSuccess(data);
-                },
-                onError: function() {
-                    obj.onError();
-                }
-            }).send();
+            this.remoteQuery('create', config.location + config.create.url, config.create.httpMethod, dataResult, obj, null);   
             
         } else { // make an update request
-            dataPattern = JSON.parse(config.create.dataPattern);
-            dataResult = this.deepObjectReplacement(dataPattern, obj.model.record, result);
 
+            dataResult = config.update.map(obj.model.record);
 
-            /* make generic */
-            var updateURL = config.update.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/, object.model.record.ID);
-            
-            M.Request.init({
-                url: config.location + updateUrl,
-                type: config.update.httpMethod,
-                isJSON: YES,
-                contentType: 'application/JSON',
-                data: dataResult,
-                onSuccess: function(data) {
-                    obj.onSuccess(data);
-                },
-                onError: function() {
-                    obj.onError();
-                },
-                beforeSend: function(xhr) {
+            var updateUrl = config.location + config.update.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/, obj.model.record.ID);
+
+            this.remoteQuery('update', updateUrl, config.update.httpMethod, dataResult, obj, function(xhr) {
                   xhr.setRequestHeader("X-Http-Method-Override", config.update.httpMethod);
-                }
-            }).send();
-
+            });
         }
         
     },
 
     del: function(obj) {
+        var config = this.config[obj.model.name];
+        var delUrl = config.del.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/,obj.model.get('ID'));
+        delUrl = config.location + delUrl;
 
+        this.remoteQuery('delete', delUrl, config.del.httpMethod, null, obj,  function(xhr) {
+            xhr.setRequestHeader("X-Http-Method-Override", config.del.httpMethod);
+        });
     },
 
     find: function(obj) {
         var config = this.config[obj.model.name];
+
         var readUrl = obj.ID ? config.read.url.one.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/,obj.ID) : config.read.url.all;
+        readUrl = config.location + readUrl;
 
-        console.log(config.location + readUrl+ '.json');
+        this.remoteQuery('read', readUrl, config.read.httpMethod, null, obj);
 
-        M.Request.init({
-            url: config.location + readUrl + '.json',
-            type: config.read.httpMethod,
-            isJSON: YES,
-            contentType: 'application/JSON',
-            onSuccess: function(data) {
-                obj.onSuccess(data);
-            },
-            onError: function() {
-                obj.onError();
-            }
-        }).send();
     },
 
-    remoteQuery: function(onSuccess, onError) {
+    createModelsFromResult: function(data, callback, obj) {
+        var result = [];
+        var config = this.config[obj.model.name];
+        if(_.isArray(data)) {
+            for(var i in data) {
+                var res = data[i];
+                /* create model  record from result by first map with given mapper function before passing
+                 * to createRecord
+                 */
+                result.push(obj.model.createRecord($.extend(config.read.map(res[config.objIdentifier]), {state: M.STATE_VALID})));
+            }
+        } else if(typeof(data) === 'object') {
+            result.push(obj.model.createRecord($.extend(config.read.map(data[config.objIdentifier]), {state: M.STATE_VALID})));
+        }
+        callback(result);
+    },
+
+    remoteQuery: function(opType, url, type, data, obj, beforeSend) {
+        var that = this;
+        var config = this.config[obj.model.name];
         
+        M.Request.init({
+            url: url,
+            method: type,
+            isJSON: YES,
+            contentType: 'application/JSON',
+            data: data ? data : null,
+            onSuccess: function(data, msg, xhr) {
+
+                /*
+                * delete from record manager if delete request was made.
+                */
+                if(opType === 'delete') {
+                    obj.model.recordManager.remove(obj.model.m_id);
+                }
+
+                /*
+                * call the receiveIdentifier method if provided, that sets the ID for the newly created model
+                */
+                if(opType === 'create') {
+                    if(config.create.receiveIdentifier) {
+                        config.create.receiveIdentifier(data, obj.model);
+                    } else {
+                        M.Logger.log('No ID receiving operation defined.');
+                    }
+                }
+
+                /*
+                * call callback 
+                */
+                if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
+                    obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], [data]);
+                    if(opType === 'read') {
+                        that.createModelsFromResult(data, obj.onSuccess, obj);
+                    } else {
+                        obj.onSuccess();
+                    }
+                }else {
+                    M.Logger.log('No success callback given.', M.WARN);
+                }
+            },
+            onError: function(xhr, msg) {
+                if(obj.onError && typeof(obj.onError) === 'function') {
+                    obj.onError(msg);
+                }
+                if(obj.onError && obj.onError.target && obj.onError.action) {
+                    obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], msg);
+                    obj.onError(msg);
+                } else if (typeof(obj.onError) !== 'function') {
+                    M.Logger.log('No error callback given.', M.WARN);
+                }
+            },
+            beforeSend: beforeSend ? beforeSend : null
+        }).send();    
     },
 
     /**
@@ -128,30 +165,6 @@ M.RemoteStorageProvider = M.DataProvider.extend(
         return this.extend({
             config:obj
         });
-    },
-
-
-    /**
-     * Creates result as an object passed to the request containing the request data.
-     *
-     * @param dataPattern
-     * @param record
-     * @param result
-     */
-    deepObjectReplacement: function(dataPattern, record, result) {
-        for(var i in dataPattern) {
-            if(typeof(dataPattern[i]) === 'object') {
-                this.deepObjectReplacement(dataPattern[i], record, result);
-            }
-            var valueRegEx = /<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/;
-
-            if(typeof(dataPattern[i]) != 'object') {
-                var regExResult = valueRegEx.exec(dataPattern[i]);
-                dataPattern[i] = record[i];
-                console.log(dataPattern[i]);
-            }
-        }
-        return dataPattern;
     }
 
 }); 

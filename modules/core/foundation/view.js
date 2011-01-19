@@ -84,6 +84,13 @@ M.View = M.Object.extend(
     isEnabled: YES,
 
     /**
+     * This property determines whether to apply a theme to a view or not.
+     *
+     * @type Boolean
+     */
+    applyTheme: YES,
+
+    /**
      * This property can be used to save a reference to the view's parent view.
      *
      * @param {Object}
@@ -223,7 +230,11 @@ M.View = M.Object.extend(
                     this.hasTabBarView = YES;
                     this.tabBarView = this[childViews[i]];
                 }
-                this.html += this[childViews[i]].render();
+                if(this[childViews[i]]) {
+                    this.html += this[childViews[i]].render();
+                } else {
+                    M.Logger.log(childViews[i] + ' is undefinded. Can\' call render() of an undefinded object', M.ERROR);
+                }
             }
             return this.html;
         }
@@ -293,7 +304,8 @@ M.View = M.Object.extend(
         } else if(bindingPath && bindingPath.length === 3) {
             return;
         } else {
-            M.Logger.log('bindingPath not valid', M.WARN);
+            var bindingPathString = bindingPath.join('.');
+            M.Logger.log('bindingPath \'' + bindingPathString + '\' not valid', M.Error);
         }
     },
 
@@ -306,10 +318,15 @@ M.View = M.Object.extend(
     attachToObservable: function(contentBinding) {
         var bindingPath = contentBinding.split('.');
         if(bindingPath && bindingPath.length === 3 && eval(bindingPath[0]) && eval(bindingPath[0])[bindingPath[1]]) {
-            eval(bindingPath[0])[bindingPath[1]].observable.attach(this, bindingPath[2]);
+            var controller = eval(bindingPath[0])[bindingPath[1]];
+            if(!controller.observable) {
+                controller.observable = M.Observable.extend({});
+            }
+            controller.observable.attach(this, bindingPath[2]);
             this.isObserver = YES;
         } else {
-            M.Logger.log('bindingPath not valid', M.WARN);
+            var bindingPathString = bindingPath.join('.');
+            M.Logger.log('bindingPath \'' + bindingPathString + '\' not valid', M.Error);
         }
     },
 
@@ -394,9 +411,37 @@ M.View = M.Object.extend(
             if(typeof(str) !== 'string') {
                 str = String(str);
             }
-            return str.replace(/\n/g, '<br />\n');
+            return str.replace(/\n/g, '<br />');
         }
         return str;
+    },
+
+    /**
+     * This method parses a given string, replaces any tabulator, '\t', with four spaces, '&#160;',
+     * and returns the modified string. This can be useful especially for input views, e.g. it is
+     * used in context with the M.TextFieldView.
+     *
+     * @param {String} str The string to be modified.
+     * @returns {String} The modified string.
+     */
+    tab2space: function(str) {
+        if(str) {
+            if(typeof(str) !== 'string') {
+                str = String(str);
+            }
+            return str.replace(/\t/g, '&#160;&#160;&#160;&#160;');
+        }
+        return str;
+    },
+
+    /**
+     * @interface
+     *
+     * This method defines an interface method for clearing a view's value. This should be
+     * implemented with a specific behaviour for any input view.
+     */
+    clearValue: function() {
+        
     },
 
     /**

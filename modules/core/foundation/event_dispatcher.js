@@ -28,12 +28,28 @@ M.EventDispatcher = M.Object.create(
     type: 'M.EventDispatcher',
 
     /**
+     * Saves the latest on click event to make sure that there are no multiple events
+     * fired for one click.
+     *
+     * @type {Object}
+     */
+    lastOnClickEvent: null,
+
+    /**
      * This method is called whenever an event is triggered within the app.
      *
      * @param {Object} evt The event.
      */
     eventDidHappen: function(evt) {
-        this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode, evt.orientation);
+        /* WORKAROUND FOR FOOTER / HEADER BUG IN JQM */
+        /* TODO: REMOVE ONCE IT IS FIXED BY JQM */
+        if(evt.type === 'scrollstart') {
+            $.fixedToolbars.hide(YES);
+        } else {
+            window.setTimeout('$.fixedToolbars.show()', 100);
+        }
+
+        this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode);
     },
 
     /**
@@ -46,9 +62,20 @@ M.EventDispatcher = M.Object.create(
      * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
      * @param {String} orientation The orientation of the device (only passed if an orientationChange event did happen).
      */
-    onClickEventDidHappen: function(type, id, keyCode, orientation) {
-        if(!M.Application.viewManager.getViewById(id).inEditMode) {
-            this.delegateEvent(type, id, keyCode, orientation);
+    onClickEventDidHappen: function(type, id, keyCode) {
+        var evt = {
+            type: type,
+            id: id,
+            keyCode: keyCode,
+            date: M.Date.create()
+        };
+
+        /* only delegate the incoming event if there hasn't been the same event within the last 100 milliseconds */
+        if(!this.lastOnClickEvent || (this.lastOnClickEvent && this.lastOnClickEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
+            this.lastOnClickEvent = evt;
+            if(!M.Application.viewManager.getViewById(id).inEditMode) {
+                this.delegateEvent(type, id, keyCode);
+            }
         }
     },
 
@@ -62,8 +89,12 @@ M.EventDispatcher = M.Object.create(
      * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
      * @param {String} orientation The orientation of the device (only passed if an orientationChange event did happen).
      */
-    delegateEvent: function(type, id, keyCode, orientation) {
+    delegateEvent: function(type, id, keyCode) {
         var view = M.Application.viewManager.getViewById(id);
+
+        if(!view && type !== 'orientationchange') {
+            return;
+        }
 
         switch(type) {
             case 'click':
@@ -93,7 +124,7 @@ M.EventDispatcher = M.Object.create(
                 view.lostFocus(type);
                 break;
             case 'orientationchange':
-                M.Application.viewManager.getCurrentPage().orientationDidChange(orientation);
+                M.Application.viewManager.getCurrentPage().orientationDidChange();
                 break;
         }
     },

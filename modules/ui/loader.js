@@ -28,6 +28,25 @@ M.LoaderView = M.View.extend(
     type: 'M.LoaderView',
 
     /**
+     * This property states whether the loader has already been initialized or not.
+     *
+     * @type Boolean
+     */
+    isInitialized: NO,
+
+    /**
+     * This method initializes the loader by loading it once.
+     *
+     * @private 
+     */
+    initialize: function() {
+        if(!this.isInitialized) {
+            this.show();
+            this.hide();
+        }
+    },
+
+    /**
      * This method shows the loader.
      */
     show: function() {

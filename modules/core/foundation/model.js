@@ -19,6 +19,13 @@ M.STATE_DELETED = 'state_deleted';
 
 m_require('core/foundation/model_registry.js');
 
+/*
+    TODO: make model customizable regarding performance killing features. means configurable activation of certain features:
+    - validation
+    - model references
+    - maybe also: automatic date transformation
+ */
+
 /**
  * @class
  * 
@@ -47,16 +54,16 @@ M.Model = M.Object.extend(
     /**
      * Unique identifier for the model record.
      *
-     * Note: Unique doesn't mean that this id is a global unique ID, it is just unique
+     * Note: Unique doesn't mean that this m_id is a global unique ID, it is just unique
      * for records of this type of model.
      *
      * @type Number
      */
-    id: null,
+    m_id: null,
 
     /**
      * The model's record defines the properties that are semantically bound to this model:
-     * e.g. a person's record is in simplest case: firstname, lastname, age.
+     * e.g. a person's record is (in simplest case): firstname, lastname, age.
      *
      * @type Object record
      */
@@ -73,6 +80,12 @@ M.Model = M.Object.extend(
      * @type Object
      */
     recordManager: null,
+
+    /**
+     * List containing all models in application
+     * @type Object|Array
+     */
+    modelList: {},
 
     /**
      * A constant defining the model's state. Important e.g. for syncing storage
@@ -98,32 +111,49 @@ M.Model = M.Object.extend(
      * Creates a new record of the model, means an instance of the model based on the blueprint.
      * You pass the object's specific attributes to it as an object.
      *
-     * @param {Object} obj The specific attributes as an object, e.g. {firstname: 'peter', lastname ='fox'}
+     * @param {Object} obj The properties object, e.g. {firstname: 'peter', lastname ='fox'}
      * @returns {Object} The model record with the passed properties set. State depends on newly creation or fetch from storage: if
      * from storage then state is M.STATE_NEW or 'state_new', if fetched from database then it is M.STATE_VALID or 'state_valid'
      */
     createRecord: function(obj) {
-        var modelRecord = this.extend({
-            id: obj.id ? obj.id : M.Application.modelRegistry.getNextId(this.name),
+        
+        var rec = this.extend({
+            m_id: obj.m_id ? obj.m_id : M.Application.modelRegistry.getNextId(this.name),
             record: obj /* properties that are added to record here, but are not part of __meta, are deleted later (see below) */
         });
-
-        modelRecord.state = obj.state ? obj.state : M.STATE_NEW;
+        delete obj.m_id;
+        rec.state = obj.state ? obj.state : M.STATE_NEW;
         delete obj.state;
-        delete modelRecord.record.id;
 
-        /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
-        for(var i in modelRecord.record) {
-            if(i === 'ID') {
+        /* set timestamps if new */
+        if(rec.state === M.STATE_NEW) {
+            rec.record[M.META_CREATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+            rec.record[M.META_UPDATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+        }
+
+        for(var i in rec.record) {
+            if(i === 'ID' || i === M.META_CREATED_AT || i === M.META_UPDATED_AT) {
                 continue;
             }
-            if(!modelRecord.__meta.hasOwnProperty(i)) {
-                delete modelRecord.record[i];
+
+            /* if reference to a record entity is in param obj, assign it like in set. */
+            if(rec.__meta[i].dataType === 'Reference' && rec.record[i] && rec.record[i].type && rec.record[i].type === 'M.Model') {
+                // call set of model
+                rec.set(i, rec.record[i]);
+            }
+            
+            if(rec.__meta[i]) {
+                rec.__meta[i].isUpdated = NO;    
+            }
+
+            /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
+            if(!rec.__meta.hasOwnProperty(i)) {
+                delete rec.record[i];
             }
         }
 
-        this.recordManager.add(modelRecord);
-        return modelRecord;
+        this.recordManager.add(rec);
+        return rec;
     },
 
     /** 
@@ -139,6 +169,7 @@ M.Model = M.Object.extend(
             __meta: {},
             name: obj.__name__,
             dataProvider: dp,
+            recordManager: {},
             usesValidation: obj.usesValidation === null || obj.usesValidation === undefined ? this.usesValidation : obj.usesValidation
         });
         delete obj.__name__;
@@ -152,18 +183,67 @@ M.Model = M.Object.extend(
             }
         }
 
-        model.recordManager = M.RecordManager.extend({});
+        /* add ID, _createdAt and _modifiedAt properties in meta for timestamps  */
+        model.__meta['ID'] = this.attr('Integer', {
+            isRequired:NO
+        });
+        model.__meta[M.META_CREATED_AT] = this.attr('String', { // could be 'Date', too
+            isRequired:YES
+        });
+        model.__meta[M.META_UPDATED_AT] = this.attr('String', { // could be 'Date', too
+            isRequired:YES
+        });
+
+        model.recordManager = M.RecordManager.extend({records:[]});
+
+        /* if dataprovider is WebSqlProvider, create table for this model and add ID ModelAttribute Object to __meta */
+        if(model.dataProvider.type === 'M.WebSqlProvider') {
+            model.dataProvider.init({model: model, onError:function(err){console.log(err);}}, function() {});
+            model.dataProvider.isInitialized = YES;
+        }
 
         M.Application.modelRegistry.register(model.name);
 
+        /* save model in modelList with model name as key */
+        this.modelList[model.name] = model;
+
         /* Re-set the just registered model's id, if there is a value stored */
         /* Model Registry stores the current id of a model type into localStorage */
-        var id = localStorage.getItem(model.name);
-        if(id) {
-            M.Application.modelRegistry.setId(model.name, parseInt(id));
+        var m_id = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + model.name);
+        if(m_id) {
+            M.Application.modelRegistry.setId(model.name, parseInt(m_id));
         }
         return model;
-    }, 
+    },
+
+    /**
+     * Defines a to-one-relationship.
+     * @param refName
+     * @param refEntity
+     */
+    hasOne: function(refEntity, obj) {
+        var relAttr = this.attr('Reference', {
+            refType: 'toOne',
+            reference: refEntity,
+            validators: obj.validators,
+            isRequired: obj.isRequired
+        });
+        return relAttr;
+    },
+
+    /**
+     * Defines a to-many-relationship
+     * @param colName
+     * @param refEntity
+     * @param invRel
+     */
+    hasMany: function(colName, refEntity, invRel) {
+        var relAttr = this.attr('Reference', {
+            refType: 'toMany',
+            reference: refEntity
+        });
+        return relAttr;
+    },
 
     /**
      * Returns a M.ModelAttribute object to map an attribute in our record.
@@ -181,22 +261,79 @@ M.Model = M.Object.extend(
      */
 
     /**
-     * Get attribute propName from model
+     * Get attribute propName from model, if async provider is used, get on references does not return the property value but a boolean indicating
+     * the load status. get must then be called again in onSuccess callback to retrieve the value
      * @param {String} propName the name of the property whose value shall be returned
-     * @returns {Object|String} value of property
+     * @param {Object} obj optional parameter containing the load force flag and callbacks, e.g.:
+     * {
+     *   force: YES,
+     *   onSuccess: function() { console.log('yeah'); }
+     * }
+     * @returns {Boolean|Object|String} value of property or boolean indicating the load status
      */
-    get: function(propName) {
-        return this.record[propName];
+    get: function(propName, obj) {
+        var metaProp = this.__meta[propName];
+        var recProp = this.record[propName];
+        /* return ref entity if property is a reference */
+        if(metaProp && metaProp.dataType === 'Reference') {
+            if(metaProp.refEntity) {// if entity is already loaded and assigned here in model record
+                return metaProp.refEntity;
+            } else if(recProp) { // if model record has a reference set, but it is not loaded yet
+                if(obj && obj.force) { // if force flag was set
+                    /* custom call to deepFind with record passed only being the one property that needs to be filled, type of dp checked in deepFind */
+                    var callback = this.dataProvider.isAsync ? obj.onSuccess : null
+                    this.deepFind([{
+                        prop: propName,
+                        name: metaProp.reference,
+                        model: this.modelList[metaProp.reference],
+                        m_id: recProp
+                    }], callback);
+                    if(!this.dataProvider.isAsync) { // if data provider acts synchronous, we can now return the fetched entity
+                        return metaProp.refEntity;
+                    }
+                    return YES;
+                } else { // if force flag was not set, and object is not in memory and record manager load is not done and we return NO
+                    var r = this.recordManager.getRecordForId(recProp);
+                    if(r) { /* if object is already loaded and in record manager don't access storage */
+                        return r;
+                    } else {
+                        return NO; // return
+                    }
+                }
+            } else { // if reference has not been set yet
+                return null;
+            }
+        }
+        /* if propName is not a reference, but a "simple" property, just return it */
+        return recProp;
     },
 
     /**
-     * Set attribute propName of model with value val
+     * Set attribute propName of model with value val, sets' property to isUpdated (=> will be included in UPDATE call)
+     * and sets a new timestamp to _updatedAt. Will not do anything, if newVal is the same as the current prop value.
      * @param {String} propName the name of the property whose value shall be set
      * @param {String|Object} val the new value
      */
     set: function(propName, val) {
-        this.record[propName] = val;
-        this.__meta[propName].isUpdated = YES;
+
+        /* TODO: implement hasMany... */
+        /* TODO: evaluate whether to save m_id in record and entity reference in __meta or other way round */
+        if(this.__meta[propName].dataType === 'Reference' && val.type && val.type === 'M.Model') {    // reference set
+            /* first check if new value is passed */ 
+            if(this.record[propName] !== val.m_id) {
+                /* set m_id of reference in record */
+                this.record[propName] = val.m_id;
+                this.__meta[propName].refEntity = val;
+            }
+            return;
+        }
+
+        if(this.record[propName] !== val) {
+            this.record[propName] = val;
+            this.__meta[propName].isUpdated = YES;
+            /* mark record as updated with new timestamp*/
+            this.record['_updatedAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+        }        
     },
 
     /**
@@ -235,7 +372,7 @@ M.Model = M.Object.extend(
             var prop = this.__meta[i];
             var obj = {
                 value: this.record[i],
-                modelId: this.name + '_' + this.id,
+                modelId: this.name + '_' + this.m_id,
                 property: i
             };
             if (!prop.validate(obj)) {
@@ -260,6 +397,9 @@ M.Model = M.Object.extend(
      * because the call itself is asynchronous. If LocalStorage is used, the result of the query is returned.
      */
     find: function(obj){
+        if(!this.dataProvider) {
+            M.Logger.log('No data provider given.', M.ERROR);
+        }
         obj = obj ? obj : {};
         /* check if the record list shall be cleared (default) before new found model records are appended to the record list */
         /* TODO: needs to be placed in callback */
@@ -267,28 +407,43 @@ M.Model = M.Object.extend(
         if(obj.deleteRecordList) {
             this.recordManager.removeAll();
         }
-        
+        if(!this.dataProvider) {
+            M.Logger.log('No data provider given.', M.ERROR);
+        }
+
         /* extends the given obj with self as model property in obj */
         return this.dataProvider.find( $.extend(obj, {model: this}) );
     },
 
     /**
      * Create or update a record in storage if it is valid (first check this).
+     * If param obj includes cascade:YES then save is cascadaded through all references recursively.
      *
-     * @param {Object} obj The param object with query and callbacks.
+     * @param {Object} obj The param object with query, cascade flag and callbacks.
      * @returns {Boolean} The result of the data provider function call. Is a boolean. With LocalStorage used, it indicates if the save operation was successful.
      * When WebSQL is used, the result of the save operation returns asynchronously. The result then is just the standard result returned by the web sql provider's save method
      * which does not necessarily indicate whether the operation was successful, because the operation is asynchronous, means the operation's end is not predictable. 
      */
     save: function(obj) {
+        if(!this.dataProvider) {
+            M.Logger.log('No data provider given.', M.ERROR);
+        }
         obj = obj ? obj: {};
-        if(!this.id) {
+        if(!this.m_id) {
             return NO;
         }
         var isValid = YES;
 
         if(this.usesValidation) {
             isValid = this.validate();
+        }
+
+        if(obj.cascade) {
+            for(var prop in this.__meta) {
+                if(this.__meta[prop] && this.__meta[prop].dataType === 'Reference' && this.__meta[prop].refEntity) {
+                    this.__meta[prop].refEntity.save({cascade:YES}); // cascades recursively through all referenced model records
+                }
+            }
         }
 
         if(isValid) {
@@ -302,8 +457,11 @@ M.Model = M.Object.extend(
      * are used, e.g. WebSQL provider the real result comes asynchronous and here just the result of the del() function call of the @link M.WebSqlProvider is used.
      */
     del: function(obj) {
+        if(!this.dataProvider) {
+            M.Logger.log('No data provider given.', M.ERROR);
+        }
         obj = obj ? obj : {};
-        if(!this.id) {
+        if(!this.m_id) {
             return NO;
         }
 
@@ -313,6 +471,91 @@ M.Model = M.Object.extend(
             return YES
         }
         
+    },
+
+    /**
+     * completes the model record by loading all referenced entities.
+     *
+     * @param {Function |ÊObject} obj The param object with query, cascade flag and callbacks.
+     */
+    complete: function(callback) {
+        //console.log('complete...');
+        var records = [];
+        for(var i in this.record) {
+            if(this.__meta[i].dataType === 'Reference') {
+                //records.push(this.__meta[i].refEntity);
+                records.push({
+                    prop:i,
+                    name: this.__meta[i].reference,
+                    model: this.modelList[this.__meta[i].reference],
+                    m_id: this.record[i]
+                });
+            }
+        }
+        this.deepFind(records, callback);
+    },
+
+    // TODO: handle onSuccess AND onError
+    deepFind: function(records, callback) {
+        //console.log('deepFind...');
+        //console.log('### records.length: ' + records.length);
+        if(records.length < 1) {    // recursion end constraint
+            if(callback) {
+                callback();
+            }
+            return;
+        }
+        var curRec = records.pop(); // delete last element, decreases length of records by 1 => important for recursion constraint above
+        var cb = this.bindToCaller(this, this.deepFind,[records, callback]); // cb is callback for find in data provider
+        var that = this;
+
+
+        switch(this.dataProvider.type) {
+
+            case 'M.WebSqlProvider':
+                this.modelList[curRec.name].find({     // call find on to fetched model record object
+                    constraint: {
+                        statement: 'WHERE ' + M.META_M_ID + ' = ? ',
+                        parameters: [curRec.m_id] // length must match number of ? in statements
+                    },
+
+                    onSuccess: function(result) {
+                        that.setReference(result, that, curRec.prop, cb);
+                    },
+                    onError: function(err) {
+                        M.Logger.log('Error: ' + err, M.ERROR);
+                    }
+                });
+
+                break;
+
+            case 'M.LocalStorageProvider':
+
+                var ref = this.modelList[curRec.name].find({
+                    key: curRec.m_id
+                });
+
+                this.__meta[curRec.prop].refEntity = ref;
+
+                this.deepFind(records, callback); // recursion
+                break;
+
+            default:
+                    
+                break;
+        }
+    },
+
+    setReference: function(result, that, prop, callback) {
+        that.__meta[prop].refEntity = result[0];    // set reference in source model defined by that
+        callback();
+    },
+
+    /**
+     * sync model with storage (only websql)
+     */
+    schemaSync: function() {
+
     }
 
 });

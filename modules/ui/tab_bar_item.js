@@ -65,10 +65,14 @@ M.TabBarItemView = M.View.extend(
 
     /**
      * This method is automatically called if a tab bar item is clicked. It delegates the
-     * page switching job to M.Controller.
+     * page switching job to M.Controller's switchToTab().
      */
     switchPage: function() {
-        M.Controller.switchToPage(M.ViewManager.getPage(this.page));
+        if(this.page) {
+            M.Controller.switchToTab(this);
+        } else {
+            this.parentView.setActiveTab(this);
+        }
     },
 
     /**
@@ -79,8 +83,11 @@ M.TabBarItemView = M.View.extend(
      */
     style: function() {
         var html = '';
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
+        }
         if(this.isActive) {
-            html += ' class="';
+            html += html != '' ? '' : ' class="';
             html += 'ui-btn-active';
             html += '"';
         }

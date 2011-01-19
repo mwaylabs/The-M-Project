@@ -263,6 +263,9 @@ M.ListView = M.View.extend(
 
             /* If item is a model, assign the model's id to the view's modelId property */
             if(item.type === 'M.Model') {
+                obj.modelId = item.m_id;
+            /* Otherwise, if there is an id property, save this automatically to have a reference */
+            } else if(item.id) {
                 obj.modelId = item.id;
             }
 
@@ -301,7 +304,7 @@ M.ListView = M.View.extend(
             if(that.inEditMode) {
                 obj.inEditMode = that.inEditMode;
                 obj.deleteButton = obj.deleteButton.design({
-                    modelId: item.id,
+                    modelId: obj.modelId,
                     target: that.editOptions.target,
                     action: that.editOptions.action
                 });

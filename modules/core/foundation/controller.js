@@ -42,7 +42,7 @@ M.Controller = M.Object.extend(
     /**
      * Makes the controller's properties observable.
      */
-    observable: M.Observable.extend({}),
+    observable: null,
 
     /**
      * Helper function to build the location href for the view to be displayed.
@@ -54,48 +54,57 @@ M.Controller = M.Object.extend(
     },
 
     /**
-     * Returns the class property behind the given key and informs its observers.
+     * Switch the active tab in the application. This includes both activating this tab
+     * visually and switching the page.
      *
-     * @param {Object} page The page to be displayed.
+     * @param {M.TabBarView} tab The tab to be activated.
+     */
+    switchToTab: function(tab) {
+        var currentTab = tab.parentView.activeTab;
+        var newPage = M.ViewManager.getPage(tab.page);       
+
+        /* store the active tab in tab bar view */
+        tab.parentView.setActiveTab(tab);
+
+        if(tab === currentTab) {
+            var currentPage = M.ViewManager.getCurrentPage();
+            if(currentPage !== newPage) {
+                this.switchToPage(newPage, null, YES, NO);
+            }
+        } else {
+            this.switchToPage(newPage, newPage.tabBarView.transition ? newPage.tabBarView.transition : M.TRANSITION.NONE, NO, NO);
+        }
+    },
+
+    /**
+     * Switch the active page in the application.
+     *
+     * @param {Object, String} page The page to be displayed or its name.
      * @param {String} transition The transition that should be used. Default: horizontal slide
      * @param {Boolean} isBack YES will cause a reverse-direction transition. Default: NO
      * @param {Boolean} changeLoc Update the browser history. Default: YES
      */
     switchToPage: function(page, transition, isBack, changeLoc) {
-        var id = M.Application.viewManager.getIdByView(page);
-        var isTabBarViewTopPage = NO;
+        var timeStart = M.Date.now();
+        page = page && typeof(page) === 'object' ? page : M.Application.viewManager.getPage(page);
 
-        if(id) {
-            if(page.hasTabBarView) {
-                if(page.tabBarView.childViews) {
-                    var tabItemViews = $.trim(page.tabBarView.childViews).split(' ');
-                    for(var i in tabItemViews) {
-                        var tabItemView = page.tabBarView[tabItemViews[i]];
-                        if(M.ViewManager.getPage(tabItemView.page) === page) {
-                            page.tabBarView.setActiveTab(tabItemView.page, M.Application.viewManager.getIdByView(tabItemView));
-                            isTabBarViewTopPage = YES;
-                        }
-                    }
-                }
-            }
-            /* If the new page is a real tabBarViewPage (has a tabBarView and is no sub view), use no transition. */
-            if(isTabBarViewTopPage) {
-                transition = page.tabBarView.transition ? page.tabBarView.transition : M.TRANSITION.NONE;
-                isBack = NO;
-                changeLoc = changeLoc !== undefined ? changeLoc : NO;
-            } else {
-                transition = transition ? transition : M.TRANSITION.SLIDE;
-                isBack = isBack !== undefined ? isBack : NO;
-                changeLoc = changeLoc !== undefined ? changeLoc : YES;
-            }
+        if(page) {
+            transition = transition ? transition : M.TRANSITION.SLIDE;
+            isBack = isBack !== undefined ? isBack : NO;
+            changeLoc = changeLoc !== undefined ? changeLoc : YES;
 
             /* Now do the page change by using a jquery mobile method and pass the properties */
-            $.mobile.changePage(id, transition, isBack, changeLoc);
-
+            if(page.type === 'M.PageView') {
+                //console.log('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + changeLoc + ');');
+                $.mobile.changePage(page.id, M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, changeLoc);
+            } else if(page.type === 'M.AlertDialogView' || page.type === 'M.ConfirmDialogView' || page.type === 'M.ActionSheetDialogView') {
+                $.mobile.changePage($('#' + page.id), M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, changeLoc);
+            }
+            
             /* Save the current page in the view manager */
             M.Application.viewManager.setCurrentPage(page);
         } else {
-            M.Logger.log('"' + page + '" not found', M.WARN);
+            M.Logger.log('Page "' + page + '" not found', M.ERROR);
         }
     },
 

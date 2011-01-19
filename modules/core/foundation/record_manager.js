@@ -70,33 +70,33 @@ M.RecordManager = M.Object.extend(
 
     /**
      * Deletes a model record from the record array
-     * @param {Number} id The internal model id of the model record.
+     * @param {Number} m_id The internal model id of the model record.
      */
-    remove: function(id) {
-        console.log('id: '+id);
-        if(!id) {
+    remove: function(m_id) {
+
+        if(!m_id) {
             M.Logger.log('No id given.', M.WARN);
             return;
         }
-        if(typeof(id) === 'string') {
-            id = parseInt(id);
+        if(typeof(m_id) === 'string') {
+            m_id = parseInt(m_id);
         }
-        rec = this.getRecordForId(id);
-        console.log(rec);
+        rec = this.getRecordForId(m_id);
+
         if(rec) {
             this.records = _.select(this.records, function(r){
-                return r.id !== rec.id;
+                return r.m_id !== rec.m_id;
             });
         }
     },
 
     /**
      * Returns a record from the record array identified by the interal model id.
-     * @param {Number} id The internal model id of the model record.
+     * @param {Number} m_id The internal model id of the model record.
      */
-    getRecordForId: function(id) {
+    getRecordForId: function(m_id) {
         var record = _.detect(this.records, function(r){
-            return r.id === id;
+            return r.m_id === m_id;
         });
         return record;
     },
@@ -106,7 +106,7 @@ M.RecordManager = M.Object.extend(
      */
     dumpRecords: function() {
         _.each(this.records, function(rec){
-            //console.log(rec.id);
+            //console.log(rec.m_id);
             console.log(rec);
         });
     }

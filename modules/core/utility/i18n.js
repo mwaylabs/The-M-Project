@@ -103,8 +103,8 @@ M.I18N = M.Object.extend(
         }
 
         if(localStorage) {
-            localStorage.setItem('$' + M.Application.name + '_lang$', language);
-            location.reload();
+            localStorage.setItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + 'lang', language);
+            location.href = location.protocol + '//' + location.host + location.pathname;
         }
     },
 
@@ -117,13 +117,14 @@ M.I18N = M.Object.extend(
      * - use the application's default language
      * - use the systems's default language
      *
+     * @param {Boolean} returnNavigatorLanguage Specify whether to return the navigator's language even if this language is not supported by this app.
      * @returns {String} The user's language.
      */
-    getLanguage: function() {
+    getLanguage: function(returnNavigatorLanguage) {
         var language = null;
 
         if(localStorage) {
-            language = localStorage.getItem('$' + M.Application.name + '_lang$');
+            language = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + 'lang');
         }
 
         if(language) {

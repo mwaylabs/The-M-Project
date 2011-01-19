@@ -77,6 +77,23 @@ M.Application = M.Object.extend(
     defaultLanguage: null,
 
     /**
+     * This property determines whether to use transitions within the application, e.g. on
+     * page switches, or not. If set to NO, there will be no framework-sided transitions.
+     *
+     * @type Boolean
+     */
+    useTransitions: YES,
+
+    /**
+     * This property is set to NO once the first page within an application was loaded. So this
+     * can be used as a hook to trigger some actions at the first load of any view. To do initial
+     * things for a specific view, use the isFirstLoad property of M.PageView.
+     *
+     * @type Boolean
+     */
+    isFirstLoad: YES,
+
+    /**
      * This method encapsulates the 'include' method of M.Object for better reading of code syntax.
      * Basically it integrates the defined pages within the application into M.Application and sets
      * some basic configuration properties, e.g. the default language.
@@ -99,7 +116,7 @@ M.Application = M.Object.extend(
         var that = this;
 
         /* live is jQuery fn that binds an event to all elements matching a certain selector now and in the future */
-        var eventList = 'click change keyup focus blur orientationchange';
+        var eventList = 'click change keyup focus blur orientationchange tap taphold swipe swipeleft swiperight scrollstart scrollstop';
         $('*[id]').live(eventList, function(evt) {
             that.eventDispatcher.eventDidHappen(evt);
         });
