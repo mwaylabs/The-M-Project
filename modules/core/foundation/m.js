@@ -17,9 +17,14 @@
 var M = M || {};
 
 /**
+ * The version of The-M-Project
+ */
+M.version = '0.1';
+
+/**
  * These command is used by the build tool to control the load order.
  * It does nothing on the client side.
- */
+ */ 
 var m_require = m_require || function require() {};
 
 /**
