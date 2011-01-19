@@ -13,7 +13,7 @@ m_require('core/datastore/data_provider.js');
 /**
  * @class
  *
- * Encapsulates access to a remote storage, a json based webservice.
+ * Encapsulates access to a remote storage, a json based web service.
  *
  * @extends M.DataProvider
  */
