@@ -96,7 +96,7 @@ M.Controller = M.Object.extend(
             /* Now do the page change by using a jquery mobile method and pass the properties */
             if(page.type === 'M.PageView') {
                 //console.log('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + changeLoc + ');');
-                $.mobile.changePage(page.id, M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, changeLoc);
+                $.mobile.changePage(page.id, M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, !isBack ? changeLoc : NO);
             } else if(page.type === 'M.AlertDialogView' || page.type === 'M.ConfirmDialogView' || page.type === 'M.ActionSheetDialogView') {
                 $.mobile.changePage($('#' + page.id), M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, changeLoc);
             }
