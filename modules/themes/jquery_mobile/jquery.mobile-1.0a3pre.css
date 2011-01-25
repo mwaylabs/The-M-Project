@@ -20,9 +20,9 @@
 .ui-bar-a {
 	border: 1px solid 		#2A2A2A;
 	background: 			#111111;
-	color: 					#fff;
+	color: 					#ffffff;
 	font-weight: bold;
-	text-shadow: 0 -1px 1px #000;
+	text-shadow: 0 -1px 1px #000000;
 	background-image: -moz-linear-gradient(top, 
 							#3c3c3c, 
 							#111111);
@@ -288,12 +288,12 @@
 	text-shadow: 0 1px 0 	#fff;
 	background: 			#f0f0f0;
 	background-image: -moz-linear-gradient(, 
-							#fff, 
-							#f0f0f0);
+							#eeeeee, 
+							#dddddd);
 	background-image: -webkit-gradient(linear,left top,left bottom,
-		color-stop(0, 		#fff),
-		color-stop(1, 		#f0f0f0));
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#f0f0f0')";
+		color-stop(0, 		#eeeeee),
+		color-stop(1, 		#dddddd));
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#eeeeee', EndColorStr='#dddddd')";
 }
 .ui-body-c,
 .ui-body-c input,
@@ -319,7 +319,7 @@
 	text-shadow: 0 1px 1px #f6f6f6;
 	text-decoration: none;
 	background-image: -moz-linear-gradient(, 
-							#fdfdfd, 
+							#fefefe, 
 							#eeeeee);
 	background-image: -webkit-gradient(linear,left top,left bottom,
 		color-stop(0, 		#fdfdfd),
@@ -331,19 +331,19 @@
 }
 
 .ui-btn-hover-c {
-	border: 1px solid 		#aaa;
-	background: 			#f5f5f5;
+	border: 1px solid 		#bbb;
+	background: 			#dadada;
 	font-weight: bold;
-	color: 					#111111;
+	color: 					#101010;
 	text-decoration: none;
 	text-shadow: 0 1px 1px 	#fff;
 	background-image: -moz-linear-gradient(, 
-							#ffffff, 
-							#f5f5f5);
+							#ededed, 
+							#dadada);
 	background-image: -webkit-gradient(linear,left top,left bottom,
-		color-stop(0, 		#ffffff),
-		color-stop(1, 		#f5f5f5));
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#f5f5f5')";
+		color-stop(0, 		#ededed),
+		color-stop(1, 		#dadada));
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ededed', EndColorStr='#dadada')";
 }
 .ui-btn-hover-c a.ui-link-inherit {
 	color: 					#2F3E46;
@@ -386,7 +386,7 @@
 	background-image: -webkit-gradient(linear,left top,left bottom,
 		color-stop(0, 		#ddd),
 		color-stop(1, 		#bbb));
-  	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ddd', EndColorStr='#bbb')";
+  	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#dddddd', EndColorStr='#bbbbbb')";
 }
 .ui-bar-d,
 .ui-bar-d input,
@@ -633,6 +633,7 @@ a.ui-link-inherit {
 		color-stop(0, 		#85bae4),
 		color-stop(1, 		#5393c5));
   	-msfilter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#85bae4', EndColorStr='#5393c5')";
+  	outline: none;
 }
 .ui-btn-active a.ui-link-inherit {
 	color: 					#fff;
@@ -992,7 +993,6 @@ a.ui-link-inherit {
 -----------------------------------------------------------------------------------------------------------*/
 
 .ui-focus {
-	outline-width: 0;
 	-moz-box-shadow: 0px 0px 12px 		#387bbe;
 	-webkit-box-shadow: 0px 0px 12px 	#387bbe;
 	box-shadow: 0px 0px 12px 			#387bbe;
@@ -1036,7 +1036,7 @@ a.ui-link-inherit {
 .ui-loading .ui-mobile-viewport { overflow: hidden !important; }
 .ui-loading .ui-loader { display: block; }
 .ui-loading .ui-page { overflow: hidden;  }
-.ui-loader { display: none; position: absolute; opacity: .85; z-index: 10; top: 75px; left: 50%; width: 200px; margin-left: -130px; padding: 20px 30px; }
+.ui-loader { display: none; position: absolute; opacity: .85; z-index: 10; left: 50%; width: 200px; margin-left: -130px; margin-top: -35px; padding: 10px 30px; }
 .ui-loader h1 { font-size: 15px; text-align: center; }
 .ui-loader .ui-icon { position: static; display: block; opacity: .9; margin: 0 auto; width: 35px; height: 35px; background-color: transparent; }
 
@@ -1229,7 +1229,6 @@ Built by David Kaneda and maintained by Jonathan Stark.
 .ui-mobile-viewport-transitioning .ui-page {
 	width: 100%;
 	height: 100%;
-	overflow: hidden;
 }
 
 .flip {
@@ -1377,8 +1376,8 @@ Built by David Kaneda and maintained by Jonathan Stark.
 .ui-navbar ul, .ui-navbar-expanded ul { list-style:none; padding: 0; margin: 0; position: relative; display: block; border: 0;}
 .ui-navbar-collapsed ul { float: left; width: 75%; margin-right: -2px; }
 .ui-navbar-collapsed .ui-navbar-toggle { float: left; width: 25%; }
-.ui-navbar li.ui-navbar-truncate { position: absolute; left: -99999px; top: -99999px; }
-.ui-navbar li .ui-btn, .ui-navbar .ui-navbar-toggle .ui-btn { display: block; font-size: 12px; text-align: center; margin: 0; outline: none; border-right-width: 0; }
+.ui-navbar li.ui-navbar-truncate { position: absolute; left: -9999px; top: -9999px; }
+.ui-navbar li .ui-btn, .ui-navbar .ui-navbar-toggle .ui-btn { display: block; font-size: 12px; text-align: center; margin: 0; border-right-width: 0; }
 .ui-navbar li .ui-btn {  margin-right: -1px; }
 .ui-navbar li .ui-btn:last-child { margin-right: 0; }
 .ui-header .ui-navbar li .ui-btn, .ui-header .ui-navbar .ui-navbar-toggle .ui-btn,
@@ -1393,13 +1392,13 @@ Built by David Kaneda and maintained by Jonathan Stark.
 .ui-navbar-expanded .ui-btn-icon-bottom .ui-btn-inner { padding: 15px 5px 45px; text-align: center; }
 .ui-navbar-expanded .ui-btn-icon-bottom .ui-icon { bottom: 15px; }
 .ui-navbar-expanded li .ui-btn .ui-btn-inner { min-height: 2.5em; }
-.ui-navbar-expanded .ui-navbar-noicons .ui-btn .ui-btn-inner { padding-top: 1.8em; padding-bottom: 1.9em; }/*
+.ui-navbar-expanded .ui-navbar-noicons .ui-btn .ui-btn-inner { padding-top: 1.8em; padding-bottom: 1.9em; }
+/*
 * jQuery Mobile Framework
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) or GPL (GPL-LICENSE.txt) licenses.
 */
 .ui-btn { display: block; text-align: center; cursor:pointer;  position: relative; margin: .5em 5px; padding: 0; }
-.ui-btn:focus, .ui-btn a:focus { outline: none; }
 .ui-header .ui-btn, .ui-footer .ui-btn, .ui-bar .ui-btn { display: inline-block; font-size: 13px; margin: 0; }
 .ui-btn-inline { display: inline-block; }
 .ui-btn-inner { padding: .6em 25px; display: block; height: 100%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; position: relative; }
@@ -1458,12 +1457,13 @@ Built by David Kaneda and maintained by Jonathan Stark.
 .ui-collapsible-heading a span.ui-btn { position: absolute; left: 6px; top: 50%; margin: -12px 0 0 0; width: 20px; height: 20px; padding: 1px 0px 1px 2px; text-indent: -9999px; }
 .ui-collapsible-heading a span.ui-btn .ui-btn-inner { padding: 0; }
 .ui-collapsible-heading a span.ui-btn .ui-icon { left: 0; margin-top: -10px; }
-.ui-collapsible-heading-status { position:absolute; left:-99999px; }
+.ui-collapsible-heading-status { position:absolute; left:-9999px; }
 .ui-collapsible-content {  display: block; padding: 10px 0 10px 8px; }
 .ui-collapsible-content-collapsed { display: none; }
 
 .ui-collapsible-set { margin: .5em 0; }
-.ui-collapsible-set .ui-collapsible-contain { margin: -1px 0 0; }/*
+.ui-collapsible-set .ui-collapsible-contain { margin: -1px 0 0; }
+/*
 * jQuery Mobile Framework
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) or GPL (GPL-LICENSE.txt) licenses.
@@ -1523,7 +1523,7 @@ Built by David Kaneda and maintained by Jonathan Stark.
 * Dual licensed under the MIT (MIT-LICENSE.txt) or GPL (GPL-LICENSE.txt) licenses.
 */
 .ui-select { display: block; }
-.ui-select select { position: absolute; left: -99999px; top: -99999px; }
+.ui-select select { position: absolute; left: -9999px; top: -9999px; }
 .ui-select .ui-btn-icon-right .ui-btn-inner { padding-right: 45px; } 
 .ui-select .ui-btn-icon-right .ui-icon { right: 15px;  }
 
@@ -1537,7 +1537,7 @@ label.ui-select { font-size: 16px; line-height: 1.4;  font-weight: normal; margi
 .ui-selectmenu { position: absolute; padding: 0; z-index: 100 !important; width: 80%; max-width: 350px; padding: 6px; }
 .ui-selectmenu .ui-listview { margin: 0; }
 .ui-selectmenu .ui-btn.ui-li-divider { cursor: default; }
-.ui-selectmenu-hidden { top: -999999px; left: -99999px; }
+.ui-selectmenu-hidden { top: -9999px; left: -9999px; }
 .ui-selectmenu-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%;  z-index: 99; }
 .ui-screen-hidden, .ui-selectmenu-list .ui-li .ui-icon { display: none; }
 .ui-selectmenu-list .ui-li .ui-icon { display: block; }
