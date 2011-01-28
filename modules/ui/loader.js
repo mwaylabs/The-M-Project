@@ -53,7 +53,9 @@ M.LoaderView = M.View.extend(
      * @param {String} title The title for this loader.
      */
     show: function(title) {
-        $('.ui-loader h1').text(title);
+        if(title && typeof(title) === 'string') {
+            $('.ui-loader h1').text(title);
+        }
         $.mobile.pageLoading();
     },
 
