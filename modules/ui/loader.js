@@ -47,9 +47,13 @@ M.LoaderView = M.View.extend(
     },
 
     /**
-     * This method shows the loader.
+     * This method shows the default loader. You can specify the displayed label with the
+     * title parameter.
+     *
+     * @param {String} title The title for this loader.
      */
-    show: function() {
+    show: function(title) {
+        $('.ui-loader h1').text(title);
         $.mobile.pageLoading();
     },
 
