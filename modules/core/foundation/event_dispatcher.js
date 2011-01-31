@@ -60,9 +60,9 @@ M.EventDispatcher = M.Object.create(
      * @param {String} type The type of event that occured, e.g. 'click'.
      * @param {String} id The id of the element that triggered the event.
      * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
-     * @param {String} orientation The orientation of the device (only passed if an orientationChange event did happen).
+     * @param {Object} obj The object that triggered the event (can be passed instead of an id).
      */
-    onClickEventDidHappen: function(type, id, keyCode) {
+    onClickEventDidHappen: function(type, id, keyCode, obj) {
         var evt = {
             type: type,
             id: id,
@@ -73,8 +73,10 @@ M.EventDispatcher = M.Object.create(
         /* only delegate the incoming event if there hasn't been the same event within the last 100 milliseconds */
         if(!this.lastOnClickEvent || (this.lastOnClickEvent && this.lastOnClickEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
             this.lastOnClickEvent = evt;
-            if(!M.Application.viewManager.getViewById(id).inEditMode) {
+            if(M.Application.viewManager.getViewById(id) && !M.Application.viewManager.getViewById(id).inEditMode) {
                 this.delegateEvent(type, id, keyCode);
+            } else if(obj) {
+                this.delegateEvent(type, id, keyCode, obj);
             }
         }
     },
@@ -87,12 +89,12 @@ M.EventDispatcher = M.Object.create(
      * @param {String} type The type of event that occured, e.g. 'click'.
      * @param {String} id The id of the element that triggered the event.
      * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
-     * @param {String} orientation The orientation of the device (only passed if an orientationChange event did happen).
+     * @param {Object} obj The object that triggered the event (can be passed instead of an id).
      */
-    delegateEvent: function(type, id, keyCode) {
+    delegateEvent: function(type, id, keyCode, obj) {
         var view = M.Application.viewManager.getViewById(id);
 
-        if(!view && type !== 'orientationchange') {
+        if(!((view && type !== 'orientationchange') || (obj && typeof(obj) === 'object'))) {
             return;
         }
 
@@ -103,6 +105,11 @@ M.EventDispatcher = M.Object.create(
                 }
                 if(view && view.target && view.action && view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView') {
                     view.target[view.action](id, view.modelId);
+                }
+                if(obj && obj.target && obj.action && obj.type === 'M.MapMarkerView') {
+                    obj.target[obj.action](obj.map, obj);
+                } else if(obj && obj.map && obj.map.target && obj.map.action && obj.type === 'M.MapMarkerView' && obj.map.type === 'M.MapView') {
+                    obj.map.target[obj.map.action](obj.map.id, obj);
                 }
                 break;
             case 'change':
