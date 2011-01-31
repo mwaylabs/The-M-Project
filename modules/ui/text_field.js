@@ -9,6 +9,27 @@
 // ==========================================================================
 
 /**
+ * A constant value for input type: text
+ *
+ * @type String
+ */
+M.INPUT_TEXT = 'text';
+
+/**
+ * A constant value for input type: password
+ *
+ * @type String
+ */
+M.INPUT_PASSWORD = 'password';
+
+/**
+ * A constant value for input type: number
+ *
+ * @type String
+ */
+M.INPUT_NUMBER = 'number';
+
+/**
  * @class
  *
  * M.TextFieldView is the prototype of any text field input view. It can be rendered as both
@@ -77,6 +98,17 @@ M.TextFieldView = M.View.extend(
     hasMultipleLines: NO,
 
     /**
+     * This property specifies the input type of this input field. Possible values are:
+     *
+     *   - M.INPUT_TEXT --> text input (default)
+     *   - M.INPUT_PASSWORD --> password
+     *   - M.INPUT_NUMBER --> number
+     *
+     * @type String
+     */
+    type: M.INPUT_TEXT,
+
+    /**
      * Renders a TextFieldView
      * 
      * @private
@@ -99,13 +131,11 @@ M.TextFieldView = M.View.extend(
             this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label + '</label>';
         }
 
-        var type = this.isPassword ? 'password' : 'text';
-
         if(this.hasMultipleLines) {
             this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>' + (this.value ? this.value : this.initialText) + '</textarea>';
             
         } else {
-            this.html += '<input type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
+            this.html += '<input type="' + this.type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
         }
 
         this.html += '</div>';
