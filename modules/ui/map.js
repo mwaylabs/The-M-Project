@@ -164,7 +164,7 @@ M.MapView = M.View.extend(
     /**
      * This property determines whether or not to show a marker at the map view's
      * initial location. This location can be specified by the initialLocation
-     * property of this map view.     *
+     * property of this map view.
      *
      * @type Boolean
      */
@@ -190,6 +190,15 @@ M.MapView = M.View.extend(
     isInitialized: NO,
 
     /**
+     * This property specifies whether or not to remove all existing markers on a
+     * map update. A map update can either be an automatic update due to content
+     * binding or a implicit call of the map view's updateMap() method.
+     *
+     * @type Boolean
+     */
+    removeMarkersOnUpdate: YES,
+
+    /**
      * Renders a map view, respectively a map view container.
      *
      * @private
@@ -211,6 +220,9 @@ M.MapView = M.View.extend(
      *
      * If M.Location objects are passed, the default settings for map markers
      * of this map view are assigned.
+     *
+     * Note that you can not use individual click events for your markers if
+     * you pass M.Location objects.
      */
     renderUpdate: function() {
         /* get the marker / location objects from content binding */
@@ -238,7 +250,9 @@ M.MapView = M.View.extend(
         }
 
         /* remove current markers */
-        this.removeAllMarkers();
+        if(this.removeMarkersOnUpdate) {
+            this.removeAllMarkers();
+        }
 
         /* add all new markers */
         _.each(markers, function(marker) {
@@ -302,6 +316,7 @@ M.MapView = M.View.extend(
                      case 'showStreetViewControl':
                      case 'isDraggable':
                      case 'setMarkerAtInitialLocation':
+                     case 'removeMarkersOnUpdate':
                         this[i] = typeof(options[i]) === 'boolean' ? options[i] : this[i];
                         break;
                      case 'initialLocation':
@@ -312,6 +327,9 @@ M.MapView = M.View.extend(
                  }
             };
             if(isUpdate) {
+                if(this.removeMarkersOnUpdate) {
+                    this.removeAllMarkers();
+                }
                 this.map.setOptions({
                     zoom: this.zoomLevel,
                     center: new google.maps.LatLng(this.initialLocation.latitude, this.initialLocation.longitude),
@@ -385,6 +403,9 @@ M.MapView = M.View.extend(
                 draggable: NO,
                 animation: google.maps.Animation[marker.markerAnimationType ? marker.markerAnimationType : this.markerAnimationType],
                 position: new google.maps.LatLng(marker.location.latitude, marker.location.longitude)
+            });
+            google.maps.event.addListener(marker.marker, 'click', function() {
+                M.EventDispatcher.onClickEventDidHappen('click', null, null, marker);
             });
             this.markers.push(
                 marker
