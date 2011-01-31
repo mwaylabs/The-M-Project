@@ -58,11 +58,64 @@ M.MapMarkerView = M.View.extend(
     marker: null,
 
     /**
+     * This property can be used to store additional information about a marker.
+     * Since this property is an object, you can store pretty much anything in
+     * thi property.
+     *
+     * This can be useful especially if you are using the click event for map
+     * markers. So you can store any information with a marker and retrieve
+     * this information on the click event.
+     *
+     * @type Object
+     */
+    data: null,
+
+    /**
      * This property contains a reference to the marker's map view.
      *
      * @type M.MapView
      */
     map: null,
+
+    internalTarget: null,
+
+    internalAction: 'showAnnotation',
+
+    /**
+     * This property specifies the title of a map marker view. It can be used in
+     * an annotation.
+     *
+     * @type String
+     */
+    title: null,
+
+    /**
+     * This property specifies the message of a map marker view respectivelly for
+     * its annotation.
+     *
+     * @type String
+     */
+    message: null,
+
+    /**
+     * This property can be used to specify whether or not to show the annotation,
+     * if title and / or message are defined, automatically on click event.
+     *
+     * @type Boolean
+     */
+    showAnnotationOnClick: NO,
+
+    /**
+     * This property contains a reference to a google maps info window that is
+     * connected to this map marker. By calling either the showAnnotation() or
+     * the hideAnnotation() method, this info window can be toggled.
+     *
+     * Additionally the info window will be automatically set to visible if the
+     * showAnnotationOnClick property is set to YES.
+     *
+     * @type Object
+     */
+    annotation: null,
 
     /**
      * This property specifies whether the marker is draggable or not. If set
@@ -108,7 +161,33 @@ M.MapMarkerView = M.View.extend(
      * the parent map view and returns the created M.MapMarkerView object.
      */
     init: function(options) {
-        return this.extend(options);
+        var marker = this.extend(options);
+        marker.internalTarget = marker;
+
+        if(marker.annotation || marker.message) {
+            var content = marker.title ? '<h1 class="ui-annotation-header">' + marker.title + '</h1>' : '';
+            content += marker.message ? '<p class="ui-annotation-message">' + marker.message + '</p>' : '';
+            
+            marker.annotation = new google.maps.InfoWindow({
+                content: content,
+                maxWidth: 100
+            });
+        }
+
+        return marker;
+    },
+
+    /**
+     * This method can be used to remove a map marker from a map view.
+     */
+    remove: function() {
+        this.map.removeMarker(this);
+    },
+
+    showAnnotation: function() {
+        if(this.annotation) {
+            this.annotation.open(this.map.map, this.marker);
+        }
     }
 
 });
