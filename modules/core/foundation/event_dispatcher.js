@@ -106,10 +106,15 @@ M.EventDispatcher = M.Object.create(
                 if(view && view.target && view.action && view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView') {
                     view.target[view.action](id, view.modelId);
                 }
-                if(obj && obj.target && obj.action && obj.type === 'M.MapMarkerView') {
-                    obj.target[obj.action](obj.map, obj);
-                } else if(obj && obj.map && obj.map.target && obj.map.action && obj.type === 'M.MapMarkerView' && obj.map.type === 'M.MapView') {
-                    obj.map.target[obj.map.action](obj.map.id, obj);
+                if(obj && obj.type === 'M.MapMarkerView') {
+                    if(obj && obj.internalTarget && obj.internalAction) {
+                        obj.internalTarget[obj.internalAction]();
+                    }
+                    if(obj && obj.target && obj.action) {
+                        obj.target[obj.action](obj.map, obj);
+                    } else if(obj && obj.map && obj.map.target && obj.map.action && obj.map.type === 'M.MapView') {
+                        obj.map.target[obj.map.action](obj.map.id, obj);
+                    }
                 }
                 break;
             case 'change':
