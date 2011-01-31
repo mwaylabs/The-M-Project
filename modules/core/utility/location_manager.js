@@ -46,6 +46,76 @@ M.LOCATION_UNKNOWN_ERROR = 'UNKNOWN_ERROR';
 M.LOCATION_NOT_SUPPORTED = 'NOT_SUPPORTED';
 
 /**
+ * A constant value for location type: approximate.
+ *
+ * @type Number
+ */
+M.LOCATION_TYPE_APPROXIMATE = 0;
+
+/**
+ * A constant value for location type: geometric center.
+ *
+ * @type Number
+ */
+M.LOCATION_TYPE_GEOMETRIC_CENTER = 1;
+
+/**
+ * A constant value for location type: range interpolated.
+ *
+ * @type Number
+ */
+M.LOCATION_TYPE_RANGE_INTERPOLATED = 2;
+
+/**
+ * A constant value for location type: rooftop.
+ *
+ * @type Number
+ */
+M.LOCATION_TYPE_ROOFTOP = 3;
+
+/**
+ * A constant value for connection error of the google geocoder.
+ *
+ * @type String
+ */
+M.LOCATION_GEOCODER_ERROR = 'ERROR';
+
+/**
+ * A constant value for an invalid request of the google geocoder.
+ *
+ * @type String
+ */
+M.LOCATION_GEOCODER_INVALID_REQUEST = 'INVALID_REQUEST';
+
+/**
+ * A constant value for an error due to too many requests to the google geocoder service.
+ *
+ * @type String
+ */
+M.LOCATION_GEOCODER_OVER_QUERY_LIMIT = 'OVER_QUERY_LIMIT';
+
+/**
+ * A constant value for a denied request of the google geocoder.
+ *
+ * @type String
+ */
+M.LOCATION_GEOCODER_REQUEST_DENIED = 'REQUEST_DENIED';
+
+/**
+ * A constant value for an unknown error of the google geocoder.
+ *
+ * @type String
+ */
+M.LOCATION_GEOCODER_UNKNOWN_ERROR = 'UNKNOWN_ERROR';
+
+/**
+ * A constant value for no results of the google geocoder.
+ *
+ * @type String
+ */
+M.LOCATION_GEOCODER_ZERO_RESULTS = 'ZERO_RESULTS';
+
+/**
  * @class
  *
  * M.LocationManager defines a prototype for managing the user's respectively the
@@ -63,6 +133,22 @@ M.LocationManager = M.Object.extend(
      * @type String
      */
     type: 'M.LocationManager',
+
+    /**
+     * This property contains the date, as an M.Date object, of the last geolocation
+     * call. It is needed internally to interpret the timeout.
+     *
+     * @type M.Date
+     */
+    lastLocationUpdate: null,
+
+    /**
+     * This property contains a reference to google maps geocoder class. It is used
+     * in combination with the getLocationByAddress() method. 
+     *
+     * @type Object
+     */
+    geoCoder: null,
 
     /**
      * This method is used for retrieving the current location.
@@ -83,7 +169,8 @@ M.LocationManager = M.Object.extend(
      *   - NOT_SUPPORTED
      *
      * The third parameter, options, can be used to define some parameters for
-     * retrieving the location. These are based on the HTML5 Geolocation API:
+     * retrieving the location. These are based on the HTML5 Geolocation API but
+     * extend it:
      *
      *   http://dev.w3.org/geo/api/spec-source.html#position_options_interface
      *
@@ -91,8 +178,9 @@ M.LocationManager = M.Object.extend(
      * 
      *   {
      *     enableHighAccuracy: YES,
-     *     maximumAge:600000,
-     *     timeout:0
+     *     maximumAge: 600000,
+     *     timeout: 0,
+     *     accuracy: 100
      *   }
      *
      * If you do not specify any options, the following default values are taken:
@@ -100,6 +188,7 @@ M.LocationManager = M.Object.extend(
      *   enableHighAccuracy = NO --> turned off, due to better performance
      *   maximumAge = 0 --> always retrieve a new location
      *   timeout = 5000 --> 5 seconds until timeout error
+     *   accuracy = 50 --> 50 meters accuracy
      *
      * @param {Object} caller The object, calling this function. 
      * @param {Object} onSuccess The success callback.
@@ -109,20 +198,33 @@ M.LocationManager = M.Object.extend(
     getLocation: function(caller, onSuccess, onError, options) {
         var that = this;
 
+        this.lastLocationUpdate = M.Date.now();
+
         options = options ? options : {};
         options.enableHighAccuracy = options.enableHighAccuracy ? options.enableHighAccuracy : NO;
         options.maximumAge = options.maximumAge ? options.maximumAge : 0;
         options.timeout = options.timeout ? options.timeout : 3000;
+        options.accuracy = options.accuracy ? options.accuracy : 50;
 
         if(navigator && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
-                    var location = M.Location.extend({
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        date: M.Date.now()
-                    });
-                    that.bindToCaller(caller, onSuccess, location)();
+                    console.log(position);
+                    if(position.coords.accuracy <= options.accuracy) {
+                        var location = M.Location.extend({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            accuracy: position.coords.accuracy,
+                            date: M.Date.now()
+                        });
+                        that.bindToCaller(caller, onSuccess, location)();
+                    } else {
+                        M.Logger.log('Location retrieved, but accuracy too low: ' + position.coords.accuracy, M.INFO);
+                        
+                        var now = M.Date.now();
+                        options.timeout = options.timeout - that.lastLocationUpdate.timeBetween(now);
+                        that.getLocation(caller, onSuccess, onError, options);
+                    }
                 },
                 function(error) {
                     switch (error.code) {
@@ -144,6 +246,85 @@ M.LocationManager = M.Object.extend(
             );
         } else {
             that.bindToCaller(that, onError, M.LOCATION_NOT_SUPPORTED)();
+        }
+    },
+
+    /**
+     * This method tries to transform a given address into an M.Location object.
+     * This method is based on the google maps api, respectively on its geocoder
+     * class.
+     *
+     * If a valid location could be found matching the given address parameter,
+     * the success callback is called with a valid M.Location object as its
+     * only parameter, containing the information about this location.
+     *
+     * If no location could be retrieved, the error callback is called, with the
+     * error message as its only parameter. Possible values for this error message
+     * are the following:
+     *
+     *   - M.LOCATION_GEOCODER_ERROR
+     *
+     *   - M.LOCATION_GEOCODER_INVALID_REQUEST
+     *
+     *   - M.LOCATION_GEOCODER_OVER_QUERY_LIMIT
+     *
+     *   - M.LOCATION_GEOCODER_REQUEST_DENIED
+     *
+     *   - M.LOCATION_GEOCODER_UNKNOWN_ERROR
+     * 
+     *   - M.LOCATION_GEOCODER_ZERO_RESULTS
+     *
+     * @param {Object} caller The object, calling this function.
+     * @param {Function} onSuccess The method to be called after retrieving the location.
+     * @param {Function} onError The method to be called if retrieving the location went wrong.
+     * @param {String} address The address to be transformed into an M.Location object.
+     */
+    getLocationByAddress: function(caller, onSuccess, onError, address) {
+        if(address && typeof(address) === 'string') {
+            if(!this.geoCoder) {
+                this.geoCoder = new google.maps.Geocoder(); 
+            }
+
+            var that = this;
+
+            this.geoCoder.geocode({
+                address: address,
+                language: M.I18N.getLanguage().substr(0, 2),
+                region: M.I18N.getLanguage().substr(3, 2)
+            }, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var bestResult = null;
+                    _.each(results, function(result) {
+                        if(!bestResult || M['LOCATION_TYPE_' + bestResult.geometry.location_type] < M['LOCATION_TYPE_' + result.geometry.location_type]) {
+                            bestResult = result;
+                        }
+                    })
+                    if(bestResult) {
+                        that.bindToCaller(caller, onSuccess, M.Location.init(bestResult.geometry.location.lat(), bestResult.geometry.location.lng()))();
+                    }
+                } else {
+                    switch (status) {
+                        case 'ERROR':
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_ERROR)();
+                            break;
+                        case 'INVALID_REQUEST':
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_INVALID_REQUEST)();
+                            break;
+                        case 'OVER_QUERY_LIMIT':
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_OVER_QUERY_LIMIT)();
+                            break;
+                        case 'REQUEST_DENIED':
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_REQUEST_DENIED)();
+                            break;
+                        case 'ZERO_RESULTS':
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_ZERO_RESULTS)();
+                            break;
+                        default:
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_UNKNOWN_ERROR)();
+                            break;
+                    }
+                }
+            });
         }
     }
 

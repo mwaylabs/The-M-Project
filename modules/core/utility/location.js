@@ -50,10 +50,37 @@ M.Location = M.Object.extend(
      */
     date: null,
 
+    /**
+     * This property specifies the location's accuracy in meters.
+     *
+     * @type Number
+     */
+    accuracy: null,
+
+    /**
+     * This property contains a reference to the object, that called the
+     * update() of this location. This reference is needed for calling back
+     * to the defined success and error callbacks.
+     *
+     * @private
+     * @type Object
+     */
     caller: null,
 
+    /**
+     * This method contains a reference to the specified success callback
+     * method.
+     *
+     * @type Function
+     */
     onUpdateSuccess: null,
 
+    /**
+     * This method contains a reference to the specified error callback
+     * method.
+     *
+     * @type Function
+     */
     onUpdateError: null,
 
     /**
@@ -113,6 +140,13 @@ M.Location = M.Object.extend(
         M.LocationManager.getLocation(this, this.onUpdateSuccessInternal, this.onUpdateErrorInternal, options);
     },
 
+    /**
+     * This method is called automatically as the success callback of the
+     * update(). After updating this location object, the external success
+     * callback is called.
+     *
+     * @param {Object} position The position object of the Geolocation API.
+     */
     onUpdateSuccessInternal: function(position) {
         if(position && position.coords) {
             this.latitude = position.coords.latitude;
@@ -133,6 +167,13 @@ M.Location = M.Object.extend(
         }
     },
 
+    /**
+     * This method is called automatically as the error callback of the
+     * update(). After updating this location object, the external error
+     * callback is called.
+     *
+     * @param {Object} position The error that occurred.
+     */
     onUpdateErrorInternal: function(error) {
         if(this.caller) {
             if(this.onUpdateError) {

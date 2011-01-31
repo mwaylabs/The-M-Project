@@ -183,6 +183,13 @@ M.MapView = M.View.extend(
     markerAnimationType: M.MAP_MARKER_ANIMATION_NONE,
 
     /**
+     * This property spacifies whether or not this map has already been initialized.
+     *
+     * @type Boolean
+     */
+    isInitialized: NO,
+
+    /**
      * Renders a map view, respectively a map view container.
      *
      * @private
@@ -274,48 +281,94 @@ M.MapView = M.View.extend(
      *
      * @param {Object} options The options for the map view.
      */
-    initMap: function(options) {
-        this.markers = [];        
-        for(var i in options) {
-             switch (i) {
-                 case 'zoomLevel':
-                    this[i] = (typeof(options[i]) === 'number' && options[i] > 0) ? (options[i] > 22 ? 22 : options[i]) : this[i];
-                    break;
-                 case 'mapType':
-                    this[i] = (options[i] === M.MAP_ROADMAP || options[i] === M.MAP_HYBRID || options[i] === M.MAP_SATELLITE || options[i] === M.MAP_TERRAIN) ? options[i] : this[i];
-                    break;
-                 case 'markerAnimationType':
-                    this[i] = (options[i] === M.MAP_MARKER_ANIMATION_BOUNCE || options[i] === M.MAP_MARKER_ANIMATION_DROP) ? options[i] : this[i];
-                    break;
-                 case 'showMapTypeControl':
-                 case 'showNavigationControl':
-                 case 'showStreetViewControl':
-                 case 'isDraggable':
-                 case 'setMarkerAtInitialLocation':
-                    this[i] = typeof(options[i]) === 'boolean' ? options[i] : this[i];
-                    break;
-                 case 'initialLocation':
-                    this[i] = (typeof(options[i]) === 'object' && options[i].type === 'M.Location') ? options[i] : this[i];
-                    break;
-                 default:
-                    break;
-             }
-        };
-        this.map = new google.maps.Map($('#' + this.id + '_map')[0], {
-            zoom: this.zoomLevel,
-            center: new google.maps.LatLng(this.initialLocation.latitude, this.initialLocation.longitude),
-            mapTypeId: google.maps.MapTypeId[this.mapType],
-            mapTypeControl: this.showMapTypeControl,
-            navigationControl: this.showNavigationControl,
-            streetViewControl: this.showStreetViewControl,
-            draggable: this.isDraggable
-        });
+    initMap: function(options, isUpdate) {
+        if(!this.isInitialized || isUpdate) {
+            if(!isUpdate) {
+                this.markers = [];
+            }
+            for(var i in options) {
+                 switch (i) {
+                     case 'zoomLevel':
+                        this[i] = (typeof(options[i]) === 'number' && options[i] > 0) ? (options[i] > 22 ? 22 : options[i]) : this[i];
+                        break;
+                     case 'mapType':
+                        this[i] = (options[i] === M.MAP_ROADMAP || options[i] === M.MAP_HYBRID || options[i] === M.MAP_SATELLITE || options[i] === M.MAP_TERRAIN) ? options[i] : this[i];
+                        break;
+                     case 'markerAnimationType':
+                        this[i] = (options[i] === M.MAP_MARKER_ANIMATION_BOUNCE || options[i] === M.MAP_MARKER_ANIMATION_DROP) ? options[i] : this[i];
+                        break;
+                     case 'showMapTypeControl':
+                     case 'showNavigationControl':
+                     case 'showStreetViewControl':
+                     case 'isDraggable':
+                     case 'setMarkerAtInitialLocation':
+                        this[i] = typeof(options[i]) === 'boolean' ? options[i] : this[i];
+                        break;
+                     case 'initialLocation':
+                        this[i] = (typeof(options[i]) === 'object' && options[i].type === 'M.Location') ? options[i] : this[i];
+                        break;
+                     default:
+                        break;
+                 }
+            };
+            if(isUpdate) {
+                this.map.setOptions({
+                    zoom: this.zoomLevel,
+                    center: new google.maps.LatLng(this.initialLocation.latitude, this.initialLocation.longitude),
+                    mapTypeId: google.maps.MapTypeId[this.mapType],
+                    mapTypeControl: this.showMapTypeControl,
+                    navigationControl: this.showNavigationControl,
+                    streetViewControl: this.showStreetViewControl,
+                    draggable: this.isDraggable
+                });
+            } else {
+                this.map = new google.maps.Map($('#' + this.id + '_map')[0], {
+                    zoom: this.zoomLevel,
+                    center: new google.maps.LatLng(this.initialLocation.latitude, this.initialLocation.longitude),
+                    mapTypeId: google.maps.MapTypeId[this.mapType],
+                    mapTypeControl: this.showMapTypeControl,
+                    navigationControl: this.showNavigationControl,
+                    streetViewControl: this.showStreetViewControl,
+                    draggable: this.isDraggable
+                });
+            }
 
-        if(this.setMarkerAtInitialLocation) {
-            this.addMarker(M.MapMarkerView.init({
-                location: this.initialLocation
-            }));
+            if(this.setMarkerAtInitialLocation) {
+                this.addMarker(M.MapMarkerView.init({
+                    location: this.initialLocation
+                }));
+            }
+            
+            this.isInitialized = YES;
+        } else {
+            M.Logger.log('The M.MapView has already been initialized', M.WARN);
         }
+    },
+
+    /**
+     * This method is used to update a map view, typically out of a controller.
+     * With its options parameter you can update or update almost every parameter
+     * of a map view. This allows you to define a map view within your view, but
+     * then update its parameters later when you want this view to display a map
+     * and to update those options over and over again for this map. 
+     *
+     * The options parameter must be passed as a simple object, containing all of
+     * the M.MapView's properties you want to be updated. Such an options object
+     * could look like the following:
+     *
+     *   {
+     *     zoomLevel: 12,
+     *     mapType: M.MAP_HYBRID,
+     *     initialLocation: location
+     *   }
+     *
+     * While all properties of the options parameter can be given as Number, String
+     * or a constant value, the location must be a valid M.Location object.
+     *
+     * @param {Object} options The options for the map view.
+     */
+    updateMap: function(options) {
+        this.initMap(options, YES);
     },
 
     /**
