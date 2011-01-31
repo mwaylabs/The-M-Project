@@ -1,11 +1,11 @@
-The M-Project - Mobile HTML5 Application Framework
+The-M-Project - Mobile HTML5 Application Framework
 ======================================
 
-The M-Project is a server-agnostic JavaScript framework for mobile web apps.
+The-M-Project is an HTML5 Javascript framework for writing cross-platform mobile apps
 
 ## Acknowledgements
 
-The M-Project includes code from a number of different open source projects
+The-M-Project includes code from a number of different open source projects
 including:
 
 * [jQuery](http://www.jquery.com/)
@@ -13,7 +13,7 @@ including:
 * [underscore](http://documentcloud.github.com/underscore/)
 
 
-The M-Project contains concepts of different open source projects
+The-M-Project contains concepts of different open source projects
 including:
 
 * [SproutCore](http://www.sproutcore.com/)
