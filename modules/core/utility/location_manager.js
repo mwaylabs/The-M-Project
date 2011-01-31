@@ -151,6 +151,14 @@ M.LocationManager = M.Object.extend(
     geoCoder: null,
 
     /**
+     * This property specifies whether the M.LocationManager is currently trying to
+     * get a position or not.
+     *
+     * @type Boolean
+     */
+    isGettingLocation: NO,
+
+    /**
      * This method is used for retrieving the current location.
      *
      * The first two parameters define the success and error callbacks. They are
@@ -194,8 +202,17 @@ M.LocationManager = M.Object.extend(
      * @param {Object} onSuccess The success callback.
      * @param {Object} onError The error callback.
      * @param {Object} options The options for retrieving a location.
+     *
+     * @return Boolean Determines whether the getLocation call was initialized successfully or not.
      */
     getLocation: function(caller, onSuccess, onError, options) {
+        if(this.isGettingLocation) {
+            M.Logger.log('M.LocationManager is currently already trying to retrieve a location.', M.WARN);
+            return NO;
+        } else {
+            this.isGettingLocation = YES; 
+        }
+
         var that = this;
 
         this.lastLocationUpdate = M.Date.now();
@@ -209,7 +226,6 @@ M.LocationManager = M.Object.extend(
         if(navigator && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
-                    console.log(position);
                     if(position.coords.accuracy <= options.accuracy) {
                         var location = M.Location.extend({
                             latitude: position.coords.latitude,
@@ -225,6 +241,7 @@ M.LocationManager = M.Object.extend(
                         options.timeout = options.timeout - that.lastLocationUpdate.timeBetween(now);
                         that.getLocation(caller, onSuccess, onError, options);
                     }
+                    that.isGettingLocation = NO;
                 },
                 function(error) {
                     switch (error.code) {
@@ -241,12 +258,15 @@ M.LocationManager = M.Object.extend(
                             that.bindToCaller(caller, onError, M.LOCATION_UNKNOWN_ERROR)();
                             break;
                     }
+                    that.isGettingLocation = NO;
                 },
                 options
             );
         } else {
             that.bindToCaller(that, onError, M.LOCATION_NOT_SUPPORTED)();
         }
+
+        return YES;
     },
 
     /**
@@ -271,7 +291,7 @@ M.LocationManager = M.Object.extend(
      *   - M.LOCATION_GEOCODER_REQUEST_DENIED
      *
      *   - M.LOCATION_GEOCODER_UNKNOWN_ERROR
-     * 
+     *
      *   - M.LOCATION_GEOCODER_ZERO_RESULTS
      *
      * @param {Object} caller The object, calling this function.
@@ -282,7 +302,7 @@ M.LocationManager = M.Object.extend(
     getLocationByAddress: function(caller, onSuccess, onError, address) {
         if(address && typeof(address) === 'string') {
             if(!this.geoCoder) {
-                this.geoCoder = new google.maps.Geocoder(); 
+                this.geoCoder = new google.maps.Geocoder();
             }
 
             var that = this;
@@ -301,6 +321,81 @@ M.LocationManager = M.Object.extend(
                     })
                     if(bestResult) {
                         that.bindToCaller(caller, onSuccess, M.Location.init(bestResult.geometry.location.lat(), bestResult.geometry.location.lng()))();
+                    }
+                } else {
+                    switch (status) {
+                        case 'ERROR':
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_ERROR)();
+                            break;
+                        case 'INVALID_REQUEST':
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_INVALID_REQUEST)();
+                            break;
+                        case 'OVER_QUERY_LIMIT':
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_OVER_QUERY_LIMIT)();
+                            break;
+                        case 'REQUEST_DENIED':
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_REQUEST_DENIED)();
+                            break;
+                        case 'ZERO_RESULTS':
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_ZERO_RESULTS)();
+                            break;
+                        default:
+                            that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_UNKNOWN_ERROR)();
+                            break;
+                    }
+                }
+            });
+        }
+    },
+
+    /**
+     * This method tries to transform a given location as an M.Location object into
+     * a valid address. This method is based on the google maps api, respectively
+     * on its geocoder class.
+     *
+     * If a valid address could be found matching the given location parameter,
+     * the success callback is called with a valid address string as its only
+     * parameter.
+     *
+     * If no address could be retrieved, the error callback is called, with the
+     * error message as its only parameter. Possible values for this error message
+     * are the following:
+     *
+     *   - M.LOCATION_GEOCODER_ERROR
+     *
+     *   - M.LOCATION_GEOCODER_INVALID_REQUEST
+     *
+     *   - M.LOCATION_GEOCODER_OVER_QUERY_LIMIT
+     *
+     *   - M.LOCATION_GEOCODER_REQUEST_DENIED
+     *
+     *   - M.LOCATION_GEOCODER_UNKNOWN_ERROR
+     *
+     *   - M.LOCATION_GEOCODER_ZERO_RESULTS
+     *
+     * @param {Object} caller The object, calling this function.
+     * @param {Function} onSuccess The method to be called after retrieving the address.
+     * @param {Function} onError The method to be called if retrieving the address went wrong.
+     * @param {M.Location} location The location to be transformed into an address.
+     */
+    getAddressByLocation: function(caller, onSuccess, onError, location) {
+        if(location && typeof(location) === 'object' && location.type === 'M.Location') {
+            if(!this.geoCoder) {
+                this.geoCoder = new google.maps.Geocoder();
+            }
+
+            var that = this;
+
+            this.geoCoder.geocode({
+                location: new google.maps.LatLng(location.latitude, location.longitude),
+                language: M.I18N.getLanguage().substr(0, 2),
+                region: M.I18N.getLanguage().substr(3, 2)
+            }, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if(results[0]) {
+                        that.bindToCaller(caller, onSuccess, results[0].formatted_address)();
+                    } else {
+                        that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_ZERO_RESULTS)();
                     }
                 } else {
                     switch (status) {
