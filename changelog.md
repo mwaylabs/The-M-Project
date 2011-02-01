@@ -5,3 +5,4 @@
   * Fixed a bug with M.DialogView's automatically called 'dialogDidHide()' method.
   * Moved init of M.LoaderView to pageWillLoad() to prevent possible access errors.
   * Added title property to M.LoaderView.
+  * Added changelog file.
