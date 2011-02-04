@@ -94,6 +94,17 @@ M.Application = M.Object.extend(
     isFirstLoad: YES,
 
     /**
+     * This property can be used to define the application's entry page. If set, this page will
+     * be the first to be displayed if your application is started.
+     *
+     * Even if this property is not absolutely necessary, we highly recommend to specify an entry
+     * page! 
+     *
+     * @type String
+     */
+    entryPage: null,
+
+    /**
      * This method encapsulates the 'include' method of M.Object for better reading of code syntax.
      * Basically it integrates the defined pages within the application into M.Application and sets
      * some basic configuration properties, e.g. the default language.
@@ -148,6 +159,16 @@ M.Application = M.Object.extend(
                 }
             }
         }
+
+        /* set entry page for the application */
+        if(this.entryPage && this.viewManager.getPage(this.entryPage)) {
+            this.viewManager.setCurrentPage(this.viewManager.getPage(this.entryPage));
+            var that = this;
+            window.setTimeout(function() {
+                M.Controller.switchToPage(that.entryPage, M.TRANSITION.NONE, NO, NO)
+            }, 0);
+        }
+
     }
 
 });
