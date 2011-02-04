@@ -165,7 +165,7 @@ M.Application = M.Object.extend(
             this.viewManager.setCurrentPage(this.viewManager.getPage(this.entryPage));
             var that = this;
             window.setTimeout(function() {
-                M.Controller.switchToPage(that.entryPage, M.TRANSITION.NONE, NO, NO)
+                M.Controller.switchToPage(that.entryPage, M.TRANSITION.NONE, NO, YES)
             }, 0);
         }
 
