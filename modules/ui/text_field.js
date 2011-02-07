@@ -106,7 +106,7 @@ M.TextFieldView = M.View.extend(
      *
      * @type String
      */
-    type: M.INPUT_TEXT,
+    inputType: M.INPUT_TEXT,
 
     /**
      * Renders a TextFieldView
@@ -135,7 +135,7 @@ M.TextFieldView = M.View.extend(
             this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>' + (this.value ? this.value : this.initialText) + '</textarea>';
             
         } else {
-            this.html += '<input type="' + this.type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
+            this.html += '<input type="' + this.inputType + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
         }
 
         this.html += '</div>';
