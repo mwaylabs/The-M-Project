@@ -33,7 +33,7 @@ M.EventDispatcher = M.Object.create(
      *
      * @type {Object}
      */
-    lastOnClickEvent: null,
+    lastEvent: null,
 
     /**
      * This method is called whenever an event is triggered within the app.
@@ -42,12 +42,12 @@ M.EventDispatcher = M.Object.create(
      */
     eventDidHappen: function(evt) {
         /* WORKAROUND FOR FOOTER / HEADER BUG IN JQM */
-        /* TODO: REMOVE ONCE IT IS FIXED BY JQM */
+        /* TODO: REMOVE ONCE IT IS FIXED BY JQM
         if(evt.type === 'scrollstart') {
             $.fixedToolbars.hide(YES);
         } else {
             window.setTimeout('$.fixedToolbars.show()', 100);
-        }
+        }*/
 
         this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode);
     },
@@ -71,8 +71,8 @@ M.EventDispatcher = M.Object.create(
         };
 
         /* only delegate the incoming event if there hasn't been the same event within the last 100 milliseconds */
-        if(!this.lastOnClickEvent || (this.lastOnClickEvent && this.lastOnClickEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
-            this.lastOnClickEvent = evt;
+        if(!this.lastEvent || (this.lastEvent && this.lastEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
+            this.lastEvent = evt;
             if(M.Application.viewManager.getViewById(id) && !M.Application.viewManager.getViewById(id).inEditMode) {
                 this.delegateEvent(type, id, keyCode);
             } else if(obj) {
@@ -92,7 +92,7 @@ M.EventDispatcher = M.Object.create(
      * @param {Object} obj The object that triggered the event (can be passed instead of an id).
      */
     delegateEvent: function(type, id, keyCode, obj) {
-        var view = M.Application.viewManager.getViewById(id);
+        var view = M.Application.viewManager.getViewById(id);       
 
         if(!((view && type !== 'orientationchange') || (obj && typeof(obj) === 'object'))) {
             return;
@@ -118,6 +118,19 @@ M.EventDispatcher = M.Object.create(
                 }
                 break;
             case 'change':
+                /* only delegate the on change event for selection lists if there hasn't been the same event within the last 100 milliseconds */
+                var evt = {
+                    type: type,
+                    id: id,
+                    keyCode: keyCode,
+                    date: M.Date.create()
+                };
+                if(!this.lastEvent || (this.lastEvent && this.lastEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
+                    this.lastEvent = evt;
+                    if(view && view.type === 'M.SelectionListItemView' && view.internalTarget && view.internalAction) {
+                        view.internalTarget[view.internalAction]();
+                    }
+                }
                 view.setValueFromDOM(type);
                 break;
             case 'keyup':
