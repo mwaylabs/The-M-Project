@@ -8,7 +8,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('core/foundation/utility/location.js');
+m_require('core/utility/location.js');
 
 /**
  * A constant value for permisson denied error.
