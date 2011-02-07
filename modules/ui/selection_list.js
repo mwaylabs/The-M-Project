@@ -176,7 +176,8 @@ M.SelectionListView = M.View.extend(
 
             }
 
-            this.html += 'id="' + this.id + '"' + this.style() + ' onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');">';
+            this.html += 'name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');">';
+            //this.html += 'name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>';
 
             this.renderChildViews();
 
@@ -359,7 +360,17 @@ M.SelectionListView = M.View.extend(
      * @param {String} id The id of the selected item.
      */
     itemSelected: function(id) {
-        var item = this.selectionMode === M.SINGLE_SELECTION_DIALOG ? M.ViewManager.getViewById($('#' + this.id + ' :selected').attr('id')) : M.ViewManager.getViewById(id);
+        var item = null;
+
+        if(this.selectionMode === M.SINGLE_SELECTION) {
+            item = M.ViewManager.getViewById($('input[name=' + (this.name ? this.name : this.id) + ']:checked').attr('id'));
+        } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+            item = M.ViewManager.getViewById($('#' + this.id + ' :selected').attr('id'));
+        }
+
+        if(item === this.getSelection()) {
+            return;
+        }
 
         if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             if(!_.isEqual(item, this.selection)) {
@@ -369,17 +380,12 @@ M.SelectionListView = M.View.extend(
                 }
             }
         } else {        
-            if(!this.selection) {
-                this.selection = [];
-            }
+            this.selection = [];
 
-            if($('#' + id + ':checked').length > 0) {
-                this.selection.push(item);
-            } else {
-                this.selection = _.select(this.selection,  function(i) {
-                    return i !== item;
-                });
-            }
+            var that = this;
+            _.each($('input[name=' + (that.name ? that.name : that.id) + ']:checked'), function(item) {
+                that.selection.push(M.ViewManager.getViewById(item.id));
+            })
 
             if(this.onSelect && this.onSelect.target && this.onSelect.action) {
                 this.onSelect.target[this.onSelect.action]();
