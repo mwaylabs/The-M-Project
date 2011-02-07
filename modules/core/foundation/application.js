@@ -112,9 +112,18 @@ M.Application = M.Object.extend(
      * @param {Object} obj The mixed in object for the extend call.
      */
     design: function(obj) {
+        var pages = {};
+        for(var pageName in obj) {
+            if(obj[pageName] && obj[pageName].type === 'M.PageView') {
+                pages[pageName] = obj[pageName];
+            }
+        }      
         this.include({
-            pages: obj
+            pages: pages
         });
+
+        this.entryPage = ((obj.entryPage && typeof(obj.entryPage) === 'string') ? obj.entryPage : null);
+
         return this;
     },
 
@@ -138,7 +147,7 @@ M.Application = M.Object.extend(
         });
 
         var html = '';
-        for(i in this.viewManager.viewList) {
+        for(var i in this.viewManager.viewList) {
             if(this.viewManager.viewList[i].type === 'M.PageView') {
                 html += this.viewManager.viewList[i].render();
                 /* bind the pageshow event to any view's pageDidLoad property function */
