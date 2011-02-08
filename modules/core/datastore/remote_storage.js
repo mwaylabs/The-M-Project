@@ -17,14 +17,14 @@ m_require('core/datastore/data_provider.js');
  *
  * @extends M.DataProvider
  */
-M.RemoteStorageProvider = M.DataProvider.extend(
+M.DataProviderRemoteStorage = M.DataProvider.extend(
 /** @scope M.RemoteStorageProvider.prototype */ {
 
     /**
      * The type of this object.
      * @type String
      */
-    type: 'M.RemoteStorageProvider',
+    type: 'M.DataProviderRemoteStorage',
 
     /**
      * The type of this object.
@@ -44,13 +44,13 @@ M.RemoteStorageProvider = M.DataProvider.extend(
 
             dataResult = config.create.map(obj.model.record);
 
-            this.remoteQuery('create', config.location + config.create.url, config.create.httpMethod, dataResult, obj, null);   
+            this.remoteQuery('create', config.location + config.create.url(obj.model.get('ID')), config.create.httpMethod, dataResult, obj, null);
             
         } else { // make an update request
 
             dataResult = config.update.map(obj.model.record);
 
-            var updateUrl = config.location + config.update.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/, obj.model.record.ID);
+            var updateUrl = config.location + config.update.url(obj.model.get('ID'));
 
             this.remoteQuery('update', updateUrl, config.update.httpMethod, dataResult, obj, function(xhr) {
                   xhr.setRequestHeader("X-Http-Method-Override", config.update.httpMethod);
@@ -61,7 +61,7 @@ M.RemoteStorageProvider = M.DataProvider.extend(
 
     del: function(obj) {
         var config = this.config[obj.model.name];
-        var delUrl = config.del.url.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/,obj.model.get('ID'));
+        var delUrl = config.del.url(obj.model.get('ID'));
         delUrl = config.location + delUrl;
 
         this.remoteQuery('delete', delUrl, config.del.httpMethod, null, obj,  function(xhr) {
@@ -72,7 +72,7 @@ M.RemoteStorageProvider = M.DataProvider.extend(
     find: function(obj) {
         var config = this.config[obj.model.name];
 
-        var readUrl = obj.ID ? config.read.url.one.replace(/<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>/,obj.ID) : config.read.url.all;
+        var readUrl = obj.ID ? config.read.url.one(obj.ID) : config.read.url.all();
         readUrl = config.location + readUrl;
 
         this.remoteQuery('read', readUrl, config.read.httpMethod, null, obj);
