@@ -61,7 +61,7 @@ M.Controller = M.Object.extend(
      */
     switchToTab: function(tab) {
         var currentTab = tab.parentView.activeTab;
-        var newPage = M.ViewManager.getPage(tab.page);       
+        var newPage = M.ViewManager.getPage(tab.page);
 
         /* store the active tab in tab bar view */
         tab.parentView.setActiveTab(tab);
@@ -100,7 +100,7 @@ M.Controller = M.Object.extend(
             } else if(page.type === 'M.AlertDialogView' || page.type === 'M.ConfirmDialogView' || page.type === 'M.ActionSheetDialogView') {
                 $.mobile.changePage($('#' + page.id), M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO);
             }
-            
+
             /* Save the current page in the view manager */
             M.Application.viewManager.setCurrentPage(page);
         } else {

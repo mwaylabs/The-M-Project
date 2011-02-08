@@ -10,6 +10,8 @@
 
 // Returns a unique identifier
 
+m_require('core/foundation/object.js');
+
 M.UniqueId = M.Object.extend({
     uuid: function(len, radix) {
         // based on Robert Kieffer's randomUUID.js at http://www.broofa.com
