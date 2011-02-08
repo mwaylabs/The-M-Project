@@ -22,14 +22,14 @@ m_require('core/datastore/data_provider.js');
  *
  * @extends M.DataProvider
  */
-M.LocalStorageProvider = M.DataProvider.extend(
+M.DataProviderLocalStorage = M.DataProvider.extend(
 /** @scope M.LocalStorageProvider.prototype */ {
 
     /**
      * The type of this object.
      * @type String
      */
-    type: 'M.LocalStorageProvider',
+    type: 'M.DataProviderLocalStorage',
 
     /**
      * Saves a model record to the local storage
@@ -93,7 +93,6 @@ M.LocalStorageProvider = M.DataProvider.extend(
      */
     find: function(obj) {
         if(obj.key) {
-            console.log('got the key...');
             var record = this.findByKey(obj);
             if(!record) {
                 return NO;
