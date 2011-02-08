@@ -33,7 +33,7 @@ M.EventDispatcher = M.Object.create(
      *
      * @type {Object}
      */
-    lastOnClickEvent: null,
+    lastEvent: null,
 
     /**
      * This method is called whenever an event is triggered within the app.
@@ -42,12 +42,12 @@ M.EventDispatcher = M.Object.create(
      */
     eventDidHappen: function(evt) {
         /* WORKAROUND FOR FOOTER / HEADER BUG IN JQM */
-        /* TODO: REMOVE ONCE IT IS FIXED BY JQM */
+        /* TODO: REMOVE ONCE IT IS FIXED BY JQM
         if(evt.type === 'scrollstart') {
             $.fixedToolbars.hide(YES);
         } else {
             window.setTimeout('$.fixedToolbars.show()', 100);
-        }
+        }*/
 
         this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode);
     },
@@ -60,9 +60,9 @@ M.EventDispatcher = M.Object.create(
      * @param {String} type The type of event that occured, e.g. 'click'.
      * @param {String} id The id of the element that triggered the event.
      * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
-     * @param {String} orientation The orientation of the device (only passed if an orientationChange event did happen).
+     * @param {Object} obj The object that triggered the event (can be passed instead of an id).
      */
-    onClickEventDidHappen: function(type, id, keyCode) {
+    onClickEventDidHappen: function(type, id, keyCode, obj) {
         var evt = {
             type: type,
             id: id,
@@ -71,10 +71,12 @@ M.EventDispatcher = M.Object.create(
         };
 
         /* only delegate the incoming event if there hasn't been the same event within the last 100 milliseconds */
-        if(!this.lastOnClickEvent || (this.lastOnClickEvent && this.lastOnClickEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
-            this.lastOnClickEvent = evt;
-            if(!M.Application.viewManager.getViewById(id).inEditMode) {
+        if(!this.lastEvent || (this.lastEvent && this.lastEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
+            this.lastEvent = evt;
+            if(M.Application.viewManager.getViewById(id) && !M.Application.viewManager.getViewById(id).inEditMode) {
                 this.delegateEvent(type, id, keyCode);
+            } else if(obj) {
+                this.delegateEvent(type, id, keyCode, obj);
             }
         }
     },
@@ -87,12 +89,12 @@ M.EventDispatcher = M.Object.create(
      * @param {String} type The type of event that occured, e.g. 'click'.
      * @param {String} id The id of the element that triggered the event.
      * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
-     * @param {String} orientation The orientation of the device (only passed if an orientationChange event did happen).
+     * @param {Object} obj The object that triggered the event (can be passed instead of an id).
      */
-    delegateEvent: function(type, id, keyCode) {
-        var view = M.Application.viewManager.getViewById(id);
+    delegateEvent: function(type, id, keyCode, obj) {
+        var view = M.Application.viewManager.getViewById(id);       
 
-        if(!view && type !== 'orientationchange') {
+        if(!((view && type !== 'orientationchange') || (obj && typeof(obj) === 'object'))) {
             return;
         }
 
@@ -104,8 +106,31 @@ M.EventDispatcher = M.Object.create(
                 if(view && view.target && view.action && view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView') {
                     view.target[view.action](id, view.modelId);
                 }
+                if(obj && obj.type === 'M.MapMarkerView') {
+                    if(obj && obj.internalTarget && obj.internalAction) {
+                        obj.internalTarget[obj.internalAction]();
+                    }
+                    if(obj && obj.target && obj.action) {
+                        obj.target[obj.action](obj.map, obj);
+                    } else if(obj && obj.map && obj.map.target && obj.map.action && obj.map.type === 'M.MapView') {
+                        obj.map.target[obj.map.action](obj.map.id, obj);
+                    }
+                }
                 break;
             case 'change':
+                /* only delegate the on change event for selection lists if there hasn't been the same event within the last 100 milliseconds */
+                var evt = {
+                    type: type,
+                    id: id,
+                    keyCode: keyCode,
+                    date: M.Date.create()
+                };
+                if(!this.lastEvent || (this.lastEvent && this.lastEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
+                    this.lastEvent = evt;
+                    if(view && view.type === 'M.SelectionListItemView' && view.internalTarget && view.internalAction) {
+                        view.internalTarget[view.internalAction]();
+                    }
+                }
                 view.setValueFromDOM(type);
                 break;
             case 'keyup':

@@ -30,6 +30,30 @@ M.INPUT_PASSWORD = 'password';
 M.INPUT_NUMBER = 'number';
 
 /**
+<<<<<<< HEAD
+=======
+ * A constant value for input type: tel
+ *
+ * @type String
+ */
+M.INPUT_TELEPHONE = 'tel';
+
+/**
+ * A constant value for input type: url
+ *
+ * @type String
+ */
+M.INPUT_URL = 'url';
+
+/**
+ * A constant value for input type: email
+ *
+ * @type String
+ */
+M.INPUT_EMAIL = 'email';
+
+/**
+>>>>>>> detox
  * @class
  *
  * M.TextFieldView is the prototype of any text field input view. It can be rendered as both
@@ -103,10 +127,15 @@ M.TextFieldView = M.View.extend(
      *   - M.INPUT_TEXT --> text input (default)
      *   - M.INPUT_PASSWORD --> password
      *   - M.INPUT_NUMBER --> number
+     *   - M.INPUT_TELEPHONE --> tel
+     *   - M.INPUT_URL --> url
+     *   - M.INPUT_EMAIL --> email
+     *
+     * Note, that these types are not yet supported by all browsers!
      *
      * @type String
      */
-    type: M.INPUT_TEXT,
+    inputType: M.INPUT_TEXT,
 
     /**
      * Renders a TextFieldView
@@ -135,7 +164,11 @@ M.TextFieldView = M.View.extend(
             this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>' + (this.value ? this.value : this.initialText) + '</textarea>';
             
         } else {
+<<<<<<< HEAD
             this.html += '<input type="' + this.type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
+=======
+            this.html += '<input type="' + this.inputType + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
+>>>>>>> detox
         }
 
         this.html += '</div>';

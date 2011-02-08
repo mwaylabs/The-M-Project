@@ -129,7 +129,12 @@ M.PageView = M.View.extend(
                 }
             }
         }
-        
+
+        /* initialize the loader for later use (if not already done) */
+        if(M.LoaderView) {
+            M.LoaderView.initialize();
+        }
+
         if(this.beforeLoad) {
             this.beforeLoad.target[this.beforeLoad.action](this.isFirstLoad);
         }
@@ -151,11 +156,6 @@ M.PageView = M.View.extend(
                 listItem.removeCssClass('ui-btn-active');
             }
         });
-
-        /* initialize the loader for later use (if not already done) */
-        if(M.LoaderView) {
-            M.LoaderView.initialize();
-        }
 
         /* WORKAROUND FOR FOOTER / HEADER BUG IN JQM */
         /* TODO: REMOVE ONCE IT IS FIXED BY JQM */

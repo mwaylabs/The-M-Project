@@ -18,7 +18,7 @@ m_require('core/datastore/data_provider.js');
  *
  * @extends M.DataProvider
  */
-M.DummyProvider = M.DataProvider.extend(
+M.DataProviderDummy = M.DataProvider.extend(
 /** @scope M.DummyProvider.prototype */ {
 
     find: function() {

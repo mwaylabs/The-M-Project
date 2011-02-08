@@ -94,6 +94,17 @@ M.Application = M.Object.extend(
     isFirstLoad: YES,
 
     /**
+     * This property can be used to define the application's entry page. If set, this page will
+     * be the first to be displayed if your application is started.
+     *
+     * Even if this property is not absolutely necessary, we highly recommend to specify an entry
+     * page! 
+     *
+     * @type String
+     */
+    entryPage: null,
+
+    /**
      * This method encapsulates the 'include' method of M.Object for better reading of code syntax.
      * Basically it integrates the defined pages within the application into M.Application and sets
      * some basic configuration properties, e.g. the default language.
@@ -101,9 +112,18 @@ M.Application = M.Object.extend(
      * @param {Object} obj The mixed in object for the extend call.
      */
     design: function(obj) {
+        var pages = {};
+        for(var pageName in obj) {
+            if(obj[pageName] && obj[pageName].type === 'M.PageView') {
+                pages[pageName] = obj[pageName];
+            }
+        }      
         this.include({
-            pages: obj
+            pages: pages
         });
+
+        this.entryPage = ((obj.entryPage && typeof(obj.entryPage) === 'string') ? obj.entryPage : null);
+
         return this;
     },
 
@@ -127,7 +147,7 @@ M.Application = M.Object.extend(
         });
 
         var html = '';
-        for(i in this.viewManager.viewList) {
+        for(var i in this.viewManager.viewList) {
             if(this.viewManager.viewList[i].type === 'M.PageView') {
                 html += this.viewManager.viewList[i].render();
                 /* bind the pageshow event to any view's pageDidLoad property function */
@@ -148,6 +168,16 @@ M.Application = M.Object.extend(
                 }
             }
         }
+
+        /* set entry page for the application */
+        if(this.entryPage && this.viewManager.getPage(this.entryPage)) {
+            this.viewManager.setCurrentPage(this.viewManager.getPage(this.entryPage));
+            var that = this;
+            window.setTimeout(function() {
+                M.Controller.switchToPage(that.entryPage, M.TRANSITION.NONE, NO, YES)
+            }, 0);
+        }
+
     }
 
 });

@@ -52,7 +52,7 @@ M.ScrollView = M.View.extend(
      * @private
      */
     theme: function() {
-        $('#' + this.id).page();
+        //$('#' + this.id).page();
         this.themeChildViews();
     }
 

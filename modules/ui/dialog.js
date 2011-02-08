@@ -9,7 +9,7 @@
 // ==========================================================================
 
 /**
- * @classx
+ * @class
  *
  * This is the prototype of any dialog view. It is responsible for showing and later
  * hiding a dialog.
@@ -129,7 +129,7 @@ M.DialogView = M.View.extend(
             if(this[button.role] && this[button.role].target && this[button.role].action) {
                 this.callback.target = this[button.role].target;
                 this.callback.action = this[button.role].action;
-            } else if (this.buttons && this.buttons[button.role] && this.buttons[button.role].target && this.buttons[button.role].action) {
+            } else if(this.buttons && this.buttons[button.role] && this.buttons[button.role].target && this.buttons[button.role].action) {
                 this.callback.target = this.buttons[button.role].target;
                 this.callback.action = this.buttons[button.role].action;
             }
@@ -150,7 +150,10 @@ M.DialogView = M.View.extend(
             if(this.callback && this.callback.target && this.callback.action) {
                 this.callback.target[this.callback.action]();
             }
-            this.destroy();
+
+            /* Destroy the dialog and remove it from DOM, but wait 100ms to make sure, JQM's processing is finished */
+            var that = this;
+            window.setTimeout(that.bindToCaller(that, that.destroy), 100);
         }
     }
 

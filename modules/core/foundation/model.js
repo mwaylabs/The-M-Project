@@ -197,7 +197,7 @@ M.Model = M.Object.extend(
         model.recordManager = M.RecordManager.extend({records:[]});
 
         /* if dataprovider is WebSqlProvider, create table for this model and add ID ModelAttribute Object to __meta */
-        if(model.dataProvider.type === 'M.WebSqlProvider') {
+        if(model.dataProvider.type === 'M.DataProviderWebSql') {
             model.dataProvider.init({model: model, onError:function(err){console.log(err);}}, function() {});
             model.dataProvider.isInitialized = YES;
         }
@@ -476,7 +476,7 @@ M.Model = M.Object.extend(
     /**
      * completes the model record by loading all referenced entities.
      *
-     * @param {Function |ÊObject} obj The param object with query, cascade flag and callbacks.
+     * @param {Function | Object} obj The param object with query, cascade flag and callbacks.
      */
     complete: function(callback) {
         //console.log('complete...');
@@ -512,7 +512,7 @@ M.Model = M.Object.extend(
 
         switch(this.dataProvider.type) {
 
-            case 'M.WebSqlProvider':
+            case 'M.DataProviderWebSql':
                 this.modelList[curRec.name].find({     // call find on to fetched model record object
                     constraint: {
                         statement: 'WHERE ' + M.META_M_ID + ' = ? ',
@@ -529,7 +529,7 @@ M.Model = M.Object.extend(
 
                 break;
 
-            case 'M.LocalStorageProvider':
+            case 'M.DataProviderLocalStorage':
 
                 var ref = this.modelList[curRec.name].find({
                     key: curRec.m_id

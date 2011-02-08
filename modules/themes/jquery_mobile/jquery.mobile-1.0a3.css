@@ -1,5 +1,5 @@
 /*!
- * jQuery Mobile v1.0a3pre
+ * jQuery Mobile v1.0a3
  * http://jquerymobile.com/
  *
  * Copyright 2010, jQuery Project
@@ -20,9 +20,9 @@
 .ui-bar-a {
 	border: 1px solid 		#2A2A2A;
 	background: 			#111111;
-	color: 					#fff;
+	color: 					#ffffff;
 	font-weight: bold;
-	text-shadow: 0 -1px 1px #000;
+	text-shadow: 0 -1px 1px #000000;
 	background-image: -moz-linear-gradient(top, 
 							#3c3c3c, 
 							#111111);
@@ -267,7 +267,7 @@
 	color: 					#3E3E3E;
 	font-weight: bold;
 	text-shadow: 0 1px 1px 	#fff;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#f0f0f0,
 							#e9eaeb);
 	background-image: -webkit-gradient(linear,left top,left bottom,
@@ -287,13 +287,13 @@
 	color: 					#333333;
 	text-shadow: 0 1px 0 	#fff;
 	background: 			#f0f0f0;
-	background-image: -moz-linear-gradient(, 
-							#fff, 
-							#f0f0f0);
+	background-image: -moz-linear-gradient(top, 
+							#eeeeee, 
+							#dddddd);
 	background-image: -webkit-gradient(linear,left top,left bottom,
-		color-stop(0, 		#fff),
-		color-stop(1, 		#f0f0f0));
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#f0f0f0')";
+		color-stop(0, 		#eeeeee),
+		color-stop(1, 		#dddddd));
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#eeeeee', EndColorStr='#dddddd')";
 }
 .ui-body-c,
 .ui-body-c input,
@@ -318,8 +318,8 @@
 	cursor: pointer;
 	text-shadow: 0 1px 1px #f6f6f6;
 	text-decoration: none;
-	background-image: -moz-linear-gradient(, 
-							#fdfdfd, 
+	background-image: -moz-linear-gradient(top, 
+							#fefefe, 
 							#eeeeee);
 	background-image: -webkit-gradient(linear,left top,left bottom,
 		color-stop(0, 		#fdfdfd),
@@ -331,19 +331,19 @@
 }
 
 .ui-btn-hover-c {
-	border: 1px solid 		#aaa;
-	background: 			#f5f5f5;
+	border: 1px solid 		#bbb;
+	background: 			#dadada;
 	font-weight: bold;
-	color: 					#111111;
+	color: 					#101010;
 	text-decoration: none;
 	text-shadow: 0 1px 1px 	#fff;
-	background-image: -moz-linear-gradient(, 
-							#ffffff, 
-							#f5f5f5);
+	background-image: -moz-linear-gradient(top, 
+							#ededed, 
+							#dadada);
 	background-image: -webkit-gradient(linear,left top,left bottom,
-		color-stop(0, 		#ffffff),
-		color-stop(1, 		#f5f5f5));
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ffffff', EndColorStr='#f5f5f5')";
+		color-stop(0, 		#ededed),
+		color-stop(1, 		#dadada));
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ededed', EndColorStr='#dadada')";
 }
 .ui-btn-hover-c a.ui-link-inherit {
 	color: 					#2F3E46;
@@ -354,7 +354,7 @@
 	font-weight: bold;
 	color: 					#111111;
 	text-shadow: 0 1px 1px 	#ffffff;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#eeeeee, 
 							#fdfdfd);
 	background-image: -webkit-gradient(linear,left top,left bottom,
@@ -380,13 +380,13 @@
 	background: 			#bbb;
 	color: 					#333;
 	text-shadow: 0 1px 0 #eee;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#ddd, 
 							#bbb);
 	background-image: -webkit-gradient(linear,left top,left bottom,
 		color-stop(0, 		#ddd),
 		color-stop(1, 		#bbb));
-  	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#ddd', EndColorStr='#bbb')";
+  	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#dddddd', EndColorStr='#bbbbbb')";
 }
 .ui-bar-d,
 .ui-bar-d input,
@@ -441,7 +441,7 @@
 	cursor: pointer;
 	text-shadow: 0 1px 1px 	#fff;
 	text-decoration: none;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#fdfdfd, 
 							#eeeeee);
 	background-image: -webkit-gradient(linear,left top,left bottom,
@@ -458,7 +458,7 @@
 	font-weight: bold;
 	color: 					#111;
 	text-shadow: 0 1px 1px 	#ffffff;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#eeeeee, 
 							#ffffff);
 	background-image: -webkit-gradient(linear,left top,left bottom,
@@ -472,7 +472,7 @@
 	font-weight: bold;
 	color: 					#111;
 	text-shadow: none;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#cccccc, 
 							#eeeeee);
 	background-image: -webkit-gradient(linear,left top,left bottom,
@@ -495,7 +495,7 @@
 	background: 			#fadb4e;
 	color: 					#333;
 	text-shadow: 0 1px 0 	#fff;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#fceda7, 
 							#fadb4e);
 	background-image: -webkit-gradient(linear,left top,left bottom,
@@ -522,7 +522,7 @@
 	color: 					#333333;
 	text-shadow: 0 1px 0 	#fff;
 	background: 			#faeb9e;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#fff, 
 							#faeb9e);
 	background-image: -webkit-gradient(linear,left top,left bottom,
@@ -553,7 +553,7 @@
 	text-shadow: 0 1px 1px 	#fe3;
 	text-decoration: none;
 	text-shadow: 0 1px 0 	#fff;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#fceda7, 
 							#fadb4e);
 	background-image: -webkit-gradient(linear,left top,left bottom,
@@ -571,7 +571,7 @@
 	color: 					#111;
 	text-decoration: none;
 	text-shadow: 0 1px 1px 	#fff;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#fcf0b5, 
 							#fbe26f);
 	background-image: -webkit-gradient(linear,left top,left bottom,
@@ -589,7 +589,7 @@
 	font-weight: bold;
 	color: 					#111;
 	text-shadow: 0 1px 1px 	#ffffff;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#fadb4e, 
 							#fceda7);
 	background-image: -webkit-gradient(linear,left top,left bottom,
@@ -626,13 +626,14 @@ a.ui-link-inherit {
 	cursor: pointer;
 	text-shadow: 0 -1px 1px #145072;
 	text-decoration: none;
-	background-image: -moz-linear-gradient(, 
+	background-image: -moz-linear-gradient(top, 
 							#85bae4, 
 							#5393c5);
 	background-image: -webkit-gradient(linear,left top,left bottom,
 		color-stop(0, 		#85bae4),
 		color-stop(1, 		#5393c5));
   	-msfilter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#85bae4', EndColorStr='#5393c5')";
+  	outline: none;
 }
 .ui-btn-active a.ui-link-inherit {
 	color: 					#fff;
@@ -761,7 +762,7 @@ a.ui-link-inherit {
 @media screen and (-webkit-min-device-pixel-ratio: 2), screen and (max--moz-device-pixel-ratio: 2) {
 	.ui-icon {
 	background-image: url(images/icons-36-white.png);
-	background-size: 558px 18px;
+	background-size: 630px 18px;
 }
 	.ui-icon-black {
 	background-image: url(images/icons-36-black.png);
@@ -823,6 +824,13 @@ a.ui-link-inherit {
 .ui-icon-info {
 	background-position: 	-540px 0;
 }
+.ui-icon-home {
+	background-position: 	-576px 0;
+}
+.ui-icon-search {
+	background-position: 	-612px 0;
+}
+
 
 /* checks,radios */
 .ui-icon-checkbox-off,
@@ -846,7 +854,7 @@ a.ui-link-inherit {
 .ui-icon-radio-on {
 	background-image: url(images/form-radio-on.png);
 }
-.ui-icon-search {
+.ui-icon-searchfield {
 	background-image: url(images/icon-search-black.png);
 	background-size: 16px 16px;
 }
@@ -992,7 +1000,6 @@ a.ui-link-inherit {
 -----------------------------------------------------------------------------------------------------------*/
 
 .ui-focus {
-	outline-width: 0;
 	-moz-box-shadow: 0px 0px 12px 		#387bbe;
 	-webkit-box-shadow: 0px 0px 12px 	#387bbe;
 	box-shadow: 0px 0px 12px 			#387bbe;
@@ -1024,19 +1031,21 @@ a.ui-link-inherit {
 /* responsive page widths */
 .ui-mobile-viewport {  margin: 0; overflow-x: hidden; -webkit-text-size-adjust: none; -ms-text-size-adjust:none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
-/*orientations from js are available */
-.portrait {  }
-.landscape {  }
-
 /* "page" containers - full-screen views, one should always be in view post-pageload */
-.ui-page { top: 0; left: 0; width: 100%; min-height: 100%; position: absolute; display: none; border: 0; } 
-.ui-page-active { display: block; overflow: visible; min-height: 100%; }
+[data-role=page], [data-role=dialog], .ui-page { top: 0; left: 0; width: 100%; min-height: 100%; position: absolute; display: none; border: 0; } 
+.ui-page-active { display: block; overflow: visible; }
+
+/*orientations from js are available */
+.portrait,
+.portrait .ui-page { min-height: 480px; }
+.landscape,
+.landscape .ui-page  { min-height: 320px; }
 
 /* loading screen */
 .ui-loading .ui-mobile-viewport { overflow: hidden !important; }
 .ui-loading .ui-loader { display: block; }
 .ui-loading .ui-page { overflow: hidden;  }
-.ui-loader { display: none; position: absolute; opacity: .85; z-index: 10; top: 75px; left: 50%; width: 200px; margin-left: -130px; padding: 20px 30px; }
+.ui-loader { display: none; position: absolute; opacity: .85; z-index: 10; left: 50%; width: 200px; margin-left: -130px; margin-top: -35px; padding: 10px 30px; }
 .ui-loader h1 { font-size: 15px; text-align: center; }
 .ui-loader .ui-icon { position: static; display: block; opacity: .9; margin: 0 auto; width: 35px; height: 35px; background-color: transparent; }
 
@@ -1377,8 +1386,8 @@ Built by David Kaneda and maintained by Jonathan Stark.
 .ui-navbar ul, .ui-navbar-expanded ul { list-style:none; padding: 0; margin: 0; position: relative; display: block; border: 0;}
 .ui-navbar-collapsed ul { float: left; width: 75%; margin-right: -2px; }
 .ui-navbar-collapsed .ui-navbar-toggle { float: left; width: 25%; }
-.ui-navbar li.ui-navbar-truncate { position: absolute; left: -99999px; top: -99999px; }
-.ui-navbar li .ui-btn, .ui-navbar .ui-navbar-toggle .ui-btn { display: block; font-size: 12px; text-align: center; margin: 0; outline: none; border-right-width: 0; }
+.ui-navbar li.ui-navbar-truncate { position: absolute; left: -9999px; top: -9999px; }
+.ui-navbar li .ui-btn, .ui-navbar .ui-navbar-toggle .ui-btn { display: block; font-size: 12px; text-align: center; margin: 0; border-right-width: 0; }
 .ui-navbar li .ui-btn {  margin-right: -1px; }
 .ui-navbar li .ui-btn:last-child { margin-right: 0; }
 .ui-header .ui-navbar li .ui-btn, .ui-header .ui-navbar .ui-navbar-toggle .ui-btn,
@@ -1393,18 +1402,19 @@ Built by David Kaneda and maintained by Jonathan Stark.
 .ui-navbar-expanded .ui-btn-icon-bottom .ui-btn-inner { padding: 15px 5px 45px; text-align: center; }
 .ui-navbar-expanded .ui-btn-icon-bottom .ui-icon { bottom: 15px; }
 .ui-navbar-expanded li .ui-btn .ui-btn-inner { min-height: 2.5em; }
-.ui-navbar-expanded .ui-navbar-noicons .ui-btn .ui-btn-inner { padding-top: 1.8em; padding-bottom: 1.9em; }/*
+.ui-navbar-expanded .ui-navbar-noicons .ui-btn .ui-btn-inner { padding-top: 1.8em; padding-bottom: 1.9em; }
+/*
 * jQuery Mobile Framework
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) or GPL (GPL-LICENSE.txt) licenses.
 */
 .ui-btn { display: block; text-align: center; cursor:pointer;  position: relative; margin: .5em 5px; padding: 0; }
-.ui-btn:focus, .ui-btn a:focus { outline: none; }
+.ui-btn:focus, .ui-btn:active { outline: none; }
 .ui-header .ui-btn, .ui-footer .ui-btn, .ui-bar .ui-btn { display: inline-block; font-size: 13px; margin: 0; }
 .ui-btn-inline { display: inline-block; }
 .ui-btn-inner { padding: .6em 25px; display: block; height: 100%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; position: relative; }
 .ui-header .ui-btn-inner, .ui-footer .ui-btn-inner, .ui-bar .ui-btn-inner { padding: .4em 8px .5em; }
-.ui-btn-icon-notext { display: inline-block; width: 20px; height: 20px; padding: 1px 0px 1px 2px; text-indent: -9999px; }
+.ui-btn-icon-notext { display: inline-block; width: 20px; height: 20px; padding: 2px 1px 2px 3px; text-indent: -9999px; }
 .ui-btn-icon-notext .ui-btn-inner { padding: 0; }
 .ui-btn-icon-notext .ui-btn-text { position: absolute; left: -999px; }
 .ui-btn-icon-left .ui-btn-inner { padding-left: 33px; }
@@ -1458,12 +1468,13 @@ Built by David Kaneda and maintained by Jonathan Stark.
 .ui-collapsible-heading a span.ui-btn { position: absolute; left: 6px; top: 50%; margin: -12px 0 0 0; width: 20px; height: 20px; padding: 1px 0px 1px 2px; text-indent: -9999px; }
 .ui-collapsible-heading a span.ui-btn .ui-btn-inner { padding: 0; }
 .ui-collapsible-heading a span.ui-btn .ui-icon { left: 0; margin-top: -10px; }
-.ui-collapsible-heading-status { position:absolute; left:-99999px; }
+.ui-collapsible-heading-status { position:absolute; left:-9999px; }
 .ui-collapsible-content {  display: block; padding: 10px 0 10px 8px; }
 .ui-collapsible-content-collapsed { display: none; }
 
 .ui-collapsible-set { margin: .5em 0; }
-.ui-collapsible-set .ui-collapsible-contain { margin: -1px 0 0; }/*
+.ui-collapsible-set .ui-collapsible-contain { margin: -1px 0 0; }
+/*
 * jQuery Mobile Framework
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) or GPL (GPL-LICENSE.txt) licenses.
@@ -1494,6 +1505,7 @@ Built by David Kaneda and maintained by Jonathan Stark.
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) or GPL (GPL-LICENSE.txt) licenses.
 */
+.ui-dialog { min-height: 480px; }
 .ui-dialog .ui-header, .ui-dialog .ui-content,  .ui-dialog .ui-footer { margin: 15px; position: relative; }
 .ui-dialog .ui-header, .ui-dialog .ui-footer { z-index: 10; width: auto; }
 .ui-dialog .ui-content, .ui-dialog .ui-footer { margin-top: -15px;  }/*
@@ -1515,15 +1527,16 @@ Built by David Kaneda and maintained by Jonathan Stark.
 */
 .ui-field-contain { background: none; padding: 1.5em 0; margin: 0; border-bottom-width: 1px; overflow: visible; }
 .ui-field-contain:first-child { border-top-width: 0; }
-@media screen and (max-width: 480px){ 
-	.ui-field-contain { border-width: 0; padding: 0; margin: 1em 0; }
-}/*
+.min-width-480px .ui-field-contain { border-width: 0; padding: 0; margin: 1em 0; }/*
 * jQuery Mobile Framework
 * Copyright (c) jQuery Project
 * Dual licensed under the MIT (MIT-LICENSE.txt) or GPL (GPL-LICENSE.txt) licenses.
 */
-.ui-select { display: block; }
-.ui-select select { position: absolute; left: -99999px; top: -99999px; }
+.ui-select { display: block; position: relative; }
+.ui-select select { position: absolute; left: -9999px; top: -9999px; }
+.ui-select .ui-btn select { cursor: pointer; -webkit-appearance: button; left: 0; top:0; width: 100%; height: 100%; opacity: 0.001; }
+.ui-select .ui-btn select.ui-select-nativeonly { opacity: 1; }
+
 .ui-select .ui-btn-icon-right .ui-btn-inner { padding-right: 45px; } 
 .ui-select .ui-btn-icon-right .ui-icon { right: 15px;  }
 
@@ -1537,7 +1550,7 @@ label.ui-select { font-size: 16px; line-height: 1.4;  font-weight: normal; margi
 .ui-selectmenu { position: absolute; padding: 0; z-index: 100 !important; width: 80%; max-width: 350px; padding: 6px; }
 .ui-selectmenu .ui-listview { margin: 0; }
 .ui-selectmenu .ui-btn.ui-li-divider { cursor: default; }
-.ui-selectmenu-hidden { top: -999999px; left: -99999px; }
+.ui-selectmenu-hidden { top: -9999px; left: -9999px; }
 .ui-selectmenu-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%;  z-index: 99; }
 .ui-screen-hidden, .ui-selectmenu-list .ui-li .ui-icon { display: none; }
 .ui-selectmenu-list .ui-li .ui-icon { display: block; }
@@ -1559,7 +1572,7 @@ input.ui-input-text { -webkit-appearance: none; }
 textarea.ui-input-text { height: 50px; -webkit-transition: height 200ms linear; -moz-transition: height 200ms linear; -o-transition: height 200ms linear; transition: height 200ms linear; }
 .ui-input-search { padding: 0 30px; width: 77%; background-position: 8px 50%; background-repeat: no-repeat; position: relative; }
 .ui-input-search input.ui-input-text { border: none; width: 98%; padding: .4em 0; margin: 0; display: block; background: transparent none; outline: 0 !important; }
-.ui-input-search .ui-input-clear { position: absolute; right: 2px; top: 50%; margin-top: -12px; }
+.ui-input-search .ui-input-clear { position: absolute; right: 0; top: 50%; margin-top: -14px; }
 .ui-input-search .ui-input-clear-hidden { display: none; }
 
 /* orientation adjustments - incomplete!*/

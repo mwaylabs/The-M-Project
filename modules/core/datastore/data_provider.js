@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: ï¿½2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      28.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -40,6 +40,7 @@ M.DataProvider = M.Object.extend(
      * Implemented by specific data provider.
      */
     find: function(query) {
+        
     },
 
     /**
@@ -47,6 +48,7 @@ M.DataProvider = M.Object.extend(
      * Implemented by specific data provider.
      */
     save: function() {
+        
     },
 
     /**

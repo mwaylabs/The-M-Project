@@ -31,14 +31,14 @@ m_require('core/datastore/data_provider.js');
  *
  * @extends M.DataProvider
  */
-M.WebSqlProvider = M.DataProvider.extend(
+M.DataProviderWebSql = M.DataProvider.extend(
 /** @scope M.WebSqlProvider.prototype */ {
 
     /**
      * The type of this object.
      * @type String
      */
-    type: 'M.WebSqlProvider',
+    type: 'M.DataProviderWebSql',
 
     /**
      * Configuration object
