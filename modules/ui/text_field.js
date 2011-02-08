@@ -128,6 +128,8 @@ M.TextFieldView = M.View.extend(
      *   - M.INPUT_URL --> url
      *   - M.INPUT_EMAIL --> email
      *
+     * Note, that these types are not yet supported by all browsers!
+     *
      * @type String
      */
     inputType: M.INPUT_TEXT,
