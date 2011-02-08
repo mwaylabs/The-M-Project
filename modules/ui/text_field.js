@@ -30,6 +30,27 @@ M.INPUT_PASSWORD = 'password';
 M.INPUT_NUMBER = 'number';
 
 /**
+ * A constant value for input type: tel
+ *
+ * @type String
+ */
+M.INPUT_TELEPHONE = 'tel';
+
+/**
+ * A constant value for input type: url
+ *
+ * @type String
+ */
+M.INPUT_URL = 'url';
+
+/**
+ * A constant value for input type: email
+ *
+ * @type String
+ */
+M.INPUT_EMAIL = 'email';
+
+/**
  * @class
  *
  * M.TextFieldView is the prototype of any text field input view. It can be rendered as both
@@ -103,6 +124,9 @@ M.TextFieldView = M.View.extend(
      *   - M.INPUT_TEXT --> text input (default)
      *   - M.INPUT_PASSWORD --> password
      *   - M.INPUT_NUMBER --> number
+     *   - M.INPUT_TELEPHONE --> tel
+     *   - M.INPUT_URL --> url
+     *   - M.INPUT_EMAIL --> email
      *
      * @type String
      */
