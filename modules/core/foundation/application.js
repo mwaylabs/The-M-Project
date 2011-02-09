@@ -162,6 +162,9 @@ M.Application = M.Object.extend(
                 /* bind the pagehide event to any view's pageDidHide property function */
                 $('#' + this.viewManager.viewList[i].id).bind('pagehide', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageDidHide));
 
+                /* bind the pagecreate event to any view's pageWasCreated property function */
+                $('#' + this.viewManager.viewList[i].id).bind('pagecreate', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageWasCreated));
+
                 /* set the first page as current page to be displayed */
                 if(!this.viewManager.getCurrentPage()) {
                     this.viewManager.setCurrentPage(this.viewManager.viewList[i]);
