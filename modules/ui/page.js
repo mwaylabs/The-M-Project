@@ -117,7 +117,7 @@ M.PageView = M.View.extend(
      */
     pageWillLoad: function() {
         /* if this is the first page to be loaded, check if there is a tab bar and an active tab
-           specified and switch to this tab */
+           specified and switch to this tab. also reload this page to have a stable location hash. */
         if(M.Application.isFirstLoad) {
             M.Application.isFirstLoad = NO;
             var currentPage = M.ViewManager.getCurrentPage();
@@ -125,7 +125,7 @@ M.PageView = M.View.extend(
                 var tabBarView = currentPage.tabBarView;
                 var activePage = M.ViewManager.getPage(tabBarView.activeTab.page);
                 if(activePage !== currentPage) {
-                    M.Controller.switchToPage(tabBarView.activeTab.page);
+                    M.Controller.switchToPage(tabBarView.activeTab.page, M.TRANSITION.NONE, NO, YES);
                 }
             }
         }
@@ -156,11 +156,6 @@ M.PageView = M.View.extend(
                 listItem.removeCssClass('ui-btn-active');
             }
         });
-
-        /* WORKAROUND FOR FOOTER / HEADER BUG IN JQM */
-        /* TODO: REMOVE ONCE IT IS FIXED BY JQM */
-        window.setTimeout('scroll(0, 0)', 100);
-        window.setTimeout('$.fixedToolbars.show()', 150);
 
         this.isFirstLoad = NO;
     },
