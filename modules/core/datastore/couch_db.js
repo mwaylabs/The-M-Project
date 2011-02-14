@@ -11,6 +11,11 @@
 m_require('core/datastore/data_provider.js');
 
 /**
+ * CouchDB does not accept properties starting with _
+ * Needs to be handled, e.g. with M.CREATED_AT (_createdAt)
+ */
+
+/**
  * @class
  *
  * Encapsulates access to CouchDB, a document-oriented database system with a HTTP REST interface.
@@ -57,30 +62,41 @@ M.DataProviderCouchDb = M.DataProvider.extend(
     check: function(obj) {
         console.log('check called...');
         var dbName = this.config.dbName;
-        var url = this.config.url;
+        var url = this.buildUrl('/_all_dbs');  // http://mycouchdb.com/_all_bs returns all databases of myCouchDB
 
-        this.performRequest('GET', url, null, null,
+        var that = this;
+
+        this.performRequest('GET', url, YES, null, null,
             function(dbs) { /* onSuccess */
-                /* check if db already exists by looking if dbname is part of returned array of DB names */
-                if( _.include(dbs, dbName) ) {
-                    this.isInitialized = YES;
-                    this.internalCallback(obj);
+                /* check if db already exists by looking if dbName is part of returned array of DB names */
+                if(_.include(dbs, dbName)) {
+                    that.isInitialized = YES;
+                    that.internalCallback(obj);
                 } else {
-                    this.isInitialized = NO;
-                    this.createDatabase(obj);
+                    that.isInitialized = NO;
+                    that.createDatabase(obj);
                 }
             },
             function(xhr, msg) { /* onFailure */
-                this.errorCallback(xhr, msg, obj);
+                var err = M.Error.extend({
+                    code: M.ERR_CONNECTION,
+                    msg: msg
+                });
+                that.errorCallback(obj, err);
             }
         );
     },
 
-    errorCallback: function(xhr, msg, obj) {
-        M.Logger.log('Error: ' + msg, M.ERROR);
+    errorCallback: function(obj, error) {
+        M.Logger.log('Error: ' + error.msg, M.ERROR);
         if(obj && obj.onError) {
-            obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action]);
-            obj.onError(xhr, msg);
+            if(obj.onError.target && obj.onError.action) {
+                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action]);
+                obj.onError(error);
+            } else if(typeof(obj.onError) === 'function') {
+                obj.onError(error);
+            }
+
         }
     },
 
@@ -92,17 +108,26 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             this.check(obj);
         }*/
         var that = this;
-        this.performRequest('PUT', this.buildUrl('/' + this.config.dbName), null,
-            function() { /* beforeSend */
+        this.performRequest('PUT', this.buildUrl('/' + this.config.dbName), YES, null,
+            function(xhr) { /* beforeSend */
                 xhr.setRequestHeader("X-Http-Method-Override", 'PUT');
             },
-            function(data) { /* onSuccess */
-                console.log('CouchDB database: "' + that.config.dbName + '" created.');
-                this.isInitialized = YES;
-                this.internalCallback(obj);
+            function(data) { /* onSuccess: request successful */
+                if(data.ok) {
+                    console.log('CouchDB database: "' + that.config.dbName + '" created.');
+                    that.isInitialized = YES;
+                    that.internalCallback(obj);    
+                } else if (data.error) {
+                    var err = that.buildErrorObject(data);
+                    that.errorCallback(obj, err);
+                }
             },
             function(xhr, msg) { /* onError */
-                this.errorCallback(xhr, msg, obj);
+                var err = M.Error.extend({
+                    code: M.ERR_CONNECTION,
+                    msg: msg
+                });
+                that.errorCallback(obj, err);
             }
         );
 
@@ -113,40 +138,66 @@ M.DataProviderCouchDb = M.DataProvider.extend(
         if(!this.isInitialized) {
             this.internalCallback = this.save;
             this.init(obj);
+            return;
         }
 
         var that = this;
 
         if(obj.model.state === M.STATE_NEW) { /* make create request */
+            /* create unique id as key */
             var uuid = M.UniqueId.uuid(32);
-            var dataValue =  JSON.stringify(obj.model.record);
-            console.log('dataValue: ' + dataValue);
-            this.performRequest('PUT', this.buildUrl('/' + this.config.dbName + '/' + uuid),
-                dataValue,
+            /* note: uniqued id is first assigned to model record on successful request */
 
-                function() {    /* beforeSend set HTTP header to PUT */
+            var dataValue =  JSON.stringify(obj.model.record);
+            console.log(dataValue);
+            var url = this.buildUrl('/' + this.config.dbName + '/' + uuid);
+            console.log('save URL: ' + url);
+
+            var that = this;
+
+            this.performRequest('PUT', url, YES, dataValue,
+
+                function(xhr) {    /* beforeSend set HTTP header to PUT */
                     xhr.setRequestHeader("X-Http-Method-Override", 'PUT');
                 },
-
+                    
                 function(data) { /* onSuccess */
                     /*if(obj && obj.onSuccess) {
                         if(obj.onSuccess.target && obj.onSuccess.action) {
-                            obj.onSuccess = this.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
+                            obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
                             obj.onSuccess(data);
                         } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
                             obj.onSuccess(data);
                         }
                     }*/
                     console.log(data);
+                    /* assign returned uuid to model record */
+                    if(data.ok) {
+                        console.log('set record ID from response');
+                        obj.model.set('ID', data.id);
+                        obj.model.set('rev', data.rev);
+                    } else {// success callback is called when request finished successful, but this doesn't guarantee that CouchDB saved the model correctly
+
+                        if(data.error) {
+                            var err = that.buildErrorObject(data);
+                            that.errorCallback(obj, err);
+                        }
+
+                    }
                 },
 
                 function(xhr, msg) { /* onError */
-                    console.log(msg);
-                    //this.errorCallback(xhr, msg, obj);
+                    console.log('Error: ' + msg);
+                    
+                    var err = M.Error.extend({
+                        code: M.ERR_CONNECTION,
+                        msg: msg
+                    });
+                    that.errorCallback(obj, err);
                 }
             )
         } else { /* update request */
-
+                
         }
     },
 
@@ -154,42 +205,128 @@ M.DataProviderCouchDb = M.DataProvider.extend(
         if(!this.isInitialized) {
             this.internalCallback = this.find;
             this.init(obj);
+            return;
+        }
+
+        if(!obj.ID) {   // 
+            this.findAllDocuments(obj);
+            return;
         }
     },
 
-    findAllDocuments: function(obj) {
+    findAllDocuments: function(obj, second) {
         if(!this.isInitialized) {
-            this.internalCallback = this.findAllDocumentss;
+            this.internalCallback = this.findAllDocuments;
             this.init(obj);
+            return;
         }
+
+        if(!second) {
+            var url = this.buildUrl('/' + this.config.dbName + '/_all_docs');
+            var that = this;
+            this.performRequest('GET', url, YES, null, null,
+                function() {  // onSuccess callback
+                    that.findAllDocuments(obj)
+                },
+                function(xhr, msg) { // onError callback
+                    var err = M.Error.extend({
+                        code: M.ERR_CONNECTION,
+                        msg: msg
+                    });
+                    that.errorCallback(obj, err);
+                }
+            );
+            return;
+        }
+
+
     },
 
     findByView: function(obj) {
 
     },
 
-    del: function() {
+    del: function(obj) {
         if(!this.isInitialized) {
             this.internalCallback = this.del;
             this.init(obj);
+            return;
         }
+
+        var url = this.buildUrl('/' + this.config.dbName + '/' + obj.model.get('ID') + '?rev=' + obj.model.get('rev'));
+
+        var that = this;
+        this.performRequest('DELETE', url, YES, null,
+            function(xhr) { /* beforeSend */
+                xhr.setRequestHeader("X-Http-Method-Override", 'DELETED');
+            },
+            function(data) { /* onSuccess */
+                if(data.ok) {
+                    console.log('Document with ID: "' + obj.model.get('ID') + '" deleted.');
+                    that.internalCallback(obj);/* onSuccess */
+                    /*if(obj && obj.onSuccess) {
+                        if(obj.onSuccess.target && obj.onSuccess.action) {
+                            obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
+                            obj.onSuccess(data);
+                        } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                            obj.onSuccess(data);
+                        }
+                    }*/
+                    console.log(data);
+                } else if (data.error) {
+                    var err = that.buildErrorObject(data);
+                    that.errorCallback(obj, err);
+                }
+
+            },
+            function(xhr, msg) { /* onError */
+                var err = M.Error.extend({
+                    code: M.ERR_CONNECTION,
+                    msg: msg
+                });
+                that.errorCallback(obj, err);
+            }
+        );
     },
 
-    performRequest: function(method, url, data, beforeSend, onSuccess, onError) {
+    performRequest: function(method, url, isJson, data, beforeSend, onSuccess, onError) {
         var req = M.Request.init({
-            url: url,
             method: method,
-            beforeSend: beforeSend,
+            url: url,
+            isJSON: isJson,
             onSuccess: onSuccess,
+            data: data,
+            beforeSend: beforeSend,
             onError: onError
         });
         req.send();
     },
 
+    buildErrorObject: function(resp) {
+        var err = M.Error.extend({
+            msg: data.reason
+        });
+
+        switch(resp.error) {    // switch through possible errors returned by CouchDB and add related error to error obj
+            case 'conflict':
+                err.code = M.ERR_COUCHDB_CONFLICT
+                break;
+            case 'not_found':
+                err.code = M.ERR_COUCHDB_DBNOTFOUND
+                break;
+            case 'file_exists':
+                err.code = M.ERR_COUCHDB_DBEXISTS
+            default:
+                err.code = M.ERR_UNDEFINED
+                break;
+        }
+        return err;
+    },
+
     buildUrl: function(url2) {
         return this.config.url + url2; // should return sth. like http://themproject.couchone.com/contactsdb
     },
-
+    
     sanitizeUrl: function(url) {
         var origUrl = url;
         url = url.replace(/\/$/, "");
