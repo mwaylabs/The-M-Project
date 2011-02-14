@@ -94,6 +94,8 @@ M.Model = M.Object.extend(
     state: M.STATE_UNDEFINED,
 
 
+    state_remote: M.STATE_UNDEFINED,
+
     /**
      * determines whether model shall be validated before saving to storage or not.
      * @type Boolean
@@ -194,11 +196,18 @@ M.Model = M.Object.extend(
             isRequired:YES
         });
 
+        /* CouchDB documents have a rev property for managing versions*/
+        if(model.dataProvider.type === 'M.DataProviderCouchDb') {
+            model.__meta['rev'] = this.attr('String', {
+                isRequired:NO
+            });     
+        }
+
         model.recordManager = M.RecordManager.extend({records:[]});
 
         /* if dataprovider is WebSqlProvider, create table for this model and add ID ModelAttribute Object to __meta */
         if(model.dataProvider.type === 'M.DataProviderWebSql') {
-            model.dataProvider.init({model: model, onError:function(err){console.log(err);}}, function() {});
+            model.dataProvider.init({model: model, onError:function(err){M.Logger.log(err, M.ERROR);}}, function() {});
             model.dataProvider.isInitialized = YES;
         }
 
