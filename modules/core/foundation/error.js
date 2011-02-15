@@ -36,6 +36,7 @@ m_require('core/utility/logger.js');
  * M.ERR_COUCHDB_CONFLICT       31      A conflict occured while saving a document in CouchDB, propably caused by duplicate IDs
  * M.ERR_COUCHDB_DBNOTFOUND     32      The provided database could not be found.
  * M.ERR_COUCHDB_DBEXISTS       33      The db already exists and therefor cannot be created.
+ * M.ERR_COUCHDB_DOCNOTFOUND    34      No document was found for the provided ID in the database.
  *
  * @extends M.Object
 */
@@ -75,6 +76,13 @@ M.ERR_COUCHDB_DBNOTFOUND = 32;
  * @type Number
  */
 M.ERR_COUCHDB_DBEXISTS = 33;
+
+/**
+ * A constant value for an error occuring if a document could not be found
+ *
+ * @type Number
+ */
+M.ERR_COUCHDB_DOCNOTFOUND = 34;
 
 M.Error = M.Object.extend({
     code: M.ERROR_NAME,
