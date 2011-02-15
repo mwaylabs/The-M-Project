@@ -134,7 +134,14 @@ M.Model = M.Object.extend(
         }
 
         for(var i in rec.record) {
+
             if(i === 'ID' || i === M.META_CREATED_AT || i === M.META_UPDATED_AT) {
+                continue;
+            }
+
+            /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
+            if(!rec.__meta.hasOwnProperty(i)) {
+                delete rec.record[i];
                 continue;
             }
 
@@ -146,11 +153,6 @@ M.Model = M.Object.extend(
             
             if(rec.__meta[i]) {
                 rec.__meta[i].isUpdated = NO;    
-            }
-
-            /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
-            if(!rec.__meta.hasOwnProperty(i)) {
-                delete rec.record[i];
             }
         }
 
