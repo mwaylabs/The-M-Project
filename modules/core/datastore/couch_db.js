@@ -153,8 +153,6 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             var url = this.buildUrl('/' + this.config.dbName + '/' + uuid);
             console.log('save URL: ' + url);
 
-            var that = this;
-
             this.performRequest('PUT', url, YES, dataValue,
 
                 function(xhr) {    /* beforeSend set HTTP header to PUT */
@@ -177,18 +175,14 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                         obj.model.set('ID', data.id);
                         obj.model.set('rev', data.rev);
                     } else {// success callback is called when request finished successful, but this doesn't guarantee that CouchDB saved the model correctly
-
                         if(data.error) {
                             var err = that.buildErrorObject(data);
                             that.errorCallback(obj, err);
                         }
-
                     }
                 },
 
                 function(xhr, msg) { /* onError */
-                    console.log('Error: ' + msg);
-                    
                     var err = M.Error.extend({
                         code: M.ERR_CONNECTION,
                         msg: msg
@@ -197,7 +191,35 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                 }
             )
         } else { /* update request */
-                
+
+            var dataValue =  JSON.stringify(obj.model.record);
+            console.log(dataValue);
+            var url = this.buildUrl('/' + this.config.dbName + '/' + obj.model.get('ID') + '?rev=' + obj.model.get('rev'));
+            console.log('save URL: ' + url);
+
+            this.performRequest('PUT', url, YES, dataValue,
+                function() {    /* beforeSend */
+                    xhr.setRequestHeader("X-Http-Method-Override", 'PUT');
+                },
+                function(data) {    /* onSuccess */
+                    if(data.ok) {
+                         obj.model.set('rev', data.rev);
+                    } else {
+                        if(data.error) {
+                            var err = that.buildErrorObject(data);
+                            that.errorCallback(obj, err);
+                        }
+                    }
+                },
+                function(xhr, msg) {    /* onError */
+                    var err = M.Error.extend({
+                        code: M.ERR_CONNECTION,
+                        msg: msg
+                    });
+                    that.errorCallback(obj, err);
+                }
+            );
+            
         }
     },
 
@@ -208,25 +230,70 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             return;
         }
 
-        if(!obj.ID) {   // 
-            this.findAllDocuments(obj);
+        var that = this;
+
+        /* if no ID is provided, it's propably meant to be a findAll call */
+        if(!obj.ID) {
+            this.findAllDocuments(obj, YES);
             return;
+        } else {
+            var url = this.buildUrl('/' + this.config.dbName + '/' + obj.ID);
+            this.performRequest('GET', url, YES, null, null,    /* method, url, isJSON, data, beforeSend */
+                function(data) { /* onSuccess */
+                    if(!data.error) {
+                        var result = that.createRecOfDoc(data);
+                        if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
+                            obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], result);
+                            obj.onSuccess();
+                        } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                            obj.onSuccess(result);
+                        }
+                        return YES;
+                    } else {
+                        var err = that.buildErrorObject(data);
+                        that.errorCallback(obj, err);
+                    }
+                },
+                function(xhr, msg) { /* onError */
+                    var err = M.Error.extend({
+                        code: M.ERR_CONNECTION,
+                        msg: msg
+                    });
+                    that.errorCallback(obj, err);
+                }
+            );
         }
     },
 
-    findAllDocuments: function(obj, second) {
+    /**
+     *
+     * @param {Object} obj
+     * @param {Boolean} first
+     * @param {Array} docList
+     * @param {Array} result
+     * @param {Number} callsLeft
+     */
+    findAllDocuments: function(obj, isFirst, docList, result, callsLeft) {
         if(!this.isInitialized) {
             this.internalCallback = this.findAllDocuments;
             this.init(obj);
             return;
         }
 
-        if(!second) {
+        var that = this;
+
+        if(isFirst) {
             var url = this.buildUrl('/' + this.config.dbName + '/_all_docs');
-            var that = this;
             this.performRequest('GET', url, YES, null, null,
-                function() {  // onSuccess callback
-                    that.findAllDocuments(obj)
+                function(data) {  // onSuccess callback
+                    /*
+                    * result:
+                    * {"total_rows":10,"offset":0,"rows":[
+                        {"id":"123456","key":"123456","value":{"rev":"1-014e3877e6395dea9415867442d41d4d"}},
+                        ...
+                      ]}
+                    **/
+                    that.findAllDocuments(obj, NO, data.rows, [], data.total_rows);
                 },
                 function(xhr, msg) { // onError callback
                     var err = M.Error.extend({
@@ -237,15 +304,77 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                 }
             );
             return;
+        } else { /* if second, get all documents one by one and return them */
+            // if request fails for one, it fails completely and therefor reset records array in recordmanager completely
+            // TODO: is this the desired behaviour?
+            
+            var url = this.buildUrl('/' + this.config.dbName + '/' + docList[callsLeft].id);
+
+            if(callsLeft > 0) {
+
+                this.performRequest('GET', url, YES, null, null,
+                    function(data) { /* onSuccess */
+                        if(!data.error) {
+                            result.push(that.createRecOfDoc(data));
+                            callsLeft = callsLeft - 1;
+                            this.findAllDocuments(obj, NO, data.rows, result, callsLeft);
+                        } else {
+                            var err = that.buildErrorObject(data);
+                            that.errorCallback(obj, err);
+                        }
+
+                    },
+                    function(xhr, msg) { /* onError */
+                        var err = M.Error.extend({
+                            code: M.ERR_CONNECTION,
+                            msg: msg
+                        });
+                        that.errorCallback(obj, err);        
+                    }
+                );
+
+            } else {
+                if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
+                    /* [result] is a workaround for bindToCaller: bindToCaller uses call() instead of apply() if an array is given.
+                     * result is an array, but what call is doing with it is wrong in this case. call maps each array element to one method
+                     * parameter of the function called. Our callback only has one parameter so it would just pass the first value of our result set to the
+                     * callback. therefor we now put result into an array (so we have an array inside an array) and result as a whole is now passed as the first
+                     * value to the callback.
+                     *  */
+                    obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], [result]);
+                    obj.onSuccess();
+                } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                    obj.onSuccess(result);
+                }
+                // make onSuccessCallback
+                return result;
+            }
         }
-
-
     },
 
     findByView: function(obj) {
 
     },
 
+    createRecOfDoc: function(obj, data) {
+        var rec = JSON.parse(data);
+        rec['ID'] = rec['_id'];
+        rec['rev'] = rec['_rev'];
+
+        var myRec = obj.model.createRecord($.extend(rec, {state: M.STATE_VALID}));
+
+        /* create M.Date objects for all date properties */
+        for(var j in myRec.__meta) {
+            /* here we can work with setter and getter because myRec already is a model record */
+            if(myRec.__meta[j].dataType === 'Date' && typeof(myRec.get(j)) === 'string') {
+                myRec.set(j, M.Date.create(myRec.get(j)));
+            }
+        }
+        return myRec;
+    },
+
+    /* If you want to update or delete a document, CouchDB expects you to include the _rev field of the revision you wish to change. */
+    /* whoever saves a change to a document first, wins */
     del: function(obj) {
         if(!this.isInitialized) {
             this.internalCallback = this.del;
@@ -304,18 +433,23 @@ M.DataProviderCouchDb = M.DataProvider.extend(
 
     buildErrorObject: function(resp) {
         var err = M.Error.extend({
-            msg: data.reason
+            msg: resp.reason
         });
 
         switch(resp.error) {    // switch through possible errors returned by CouchDB and add related error to error obj
             case 'conflict':
-                err.code = M.ERR_COUCHDB_CONFLICT
+                err.code = M.ERR_COUCHDB_CONFLICT;
                 break;
             case 'not_found':
-                err.code = M.ERR_COUCHDB_DBNOTFOUND
+                if(resp.reason === 'missing') {
+                    err.code = M.ERR_COUCHDB_DOCNOTFOUND;
+                } else if (resp.reason === 'no_db_file') {
+                    err.code = M.ERR_COUCHDB_DBNOTFOUND;
+                }
                 break;
             case 'file_exists':
-                err.code = M.ERR_COUCHDB_DBEXISTS
+                err.code = M.ERR_COUCHDB_DBEXISTS;
+                break;
             default:
                 err.code = M.ERR_UNDEFINED
                 break;
