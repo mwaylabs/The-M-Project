@@ -241,7 +241,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             this.performRequest('GET', url, YES, null, null,    /* method, url, isJSON, data, beforeSend */
                 function(data) { /* onSuccess */
                     if(!data.error) {
-                        var result = that.createRecOfDoc(data);
+                        var result = that.createRecOfDoc(obj, data);
                         if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
                             obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], result);
                             obj.onSuccess();
@@ -274,6 +274,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
      * @param {Number} callsLeft
      */
     findAllDocuments: function(obj, isFirst, docList, result, callsLeft) {
+        console.log('findAllDocuments called...');
         if(!this.isInitialized) {
             this.internalCallback = this.findAllDocuments;
             this.init(obj);
@@ -291,7 +292,8 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                     * {"total_rows":10,"offset":0,"rows":[
                         {"id":"123456","key":"123456","value":{"rev":"1-014e3877e6395dea9415867442d41d4d"}},
                         ...
-                      ]}
+                        ]
+                      }
                     **/
                     that.findAllDocuments(obj, NO, data.rows, [], data.total_rows);
                 },
@@ -307,17 +309,15 @@ M.DataProviderCouchDb = M.DataProvider.extend(
         } else { /* if second, get all documents one by one and return them */
             // if request fails for one, it fails completely and therefor reset records array in recordmanager completely
             // TODO: is this the desired behaviour?
-            
-            var url = this.buildUrl('/' + this.config.dbName + '/' + docList[callsLeft].id);
-
             if(callsLeft > 0) {
+                var url = this.buildUrl('/' + this.config.dbName + '/' + docList[callsLeft - 1].id); // -1 because we use length as index, which is one bigger than index
 
                 this.performRequest('GET', url, YES, null, null,
                     function(data) { /* onSuccess */
                         if(!data.error) {
-                            result.push(that.createRecOfDoc(data));
+                            result.push(that.createRecOfDoc(obj, data));
                             callsLeft = callsLeft - 1;
-                            this.findAllDocuments(obj, NO, data.rows, result, callsLeft);
+                            that.findAllDocuments(obj, NO, docList, result, callsLeft);
                         } else {
                             var err = that.buildErrorObject(data);
                             that.errorCallback(obj, err);
@@ -325,11 +325,13 @@ M.DataProviderCouchDb = M.DataProvider.extend(
 
                     },
                     function(xhr, msg) { /* onError */
+                        obj.model.recordManager.removeAll();
                         var err = M.Error.extend({
                             code: M.ERR_CONNECTION,
                             msg: msg
                         });
-                        that.errorCallback(obj, err);        
+                        that.errorCallback(obj, err);
+                        return;
                     }
                 );
 
@@ -357,7 +359,10 @@ M.DataProviderCouchDb = M.DataProvider.extend(
     },
 
     createRecOfDoc: function(obj, data) {
-        var rec = JSON.parse(data);
+        console.log('createRecOfDoc -  data:');
+        console.log(data);
+        //var rec = JSON.parse(data);
+        var rec = data;
         rec['ID'] = rec['_id'];
         rec['rev'] = rec['_rev'];
 
