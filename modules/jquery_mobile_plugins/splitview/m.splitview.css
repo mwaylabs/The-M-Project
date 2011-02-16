@@ -1,0 +1,41 @@
+.ui-splitview-menu {
+    position:absolute;
+}
+
+.ui-splitview-content {
+    position:absolute;
+}
+
+.landscape .ui-page {
+    min-height:707px;
+}
+
+.landscape .ui-splitview-menu {
+    top:41px;
+    bottom:0px;
+    width:290px;
+    margin-bottom:-30px;
+}
+
+.landscape .ui-splitview-content {
+    top:41px;
+    bottom:0px;
+    left:320px;
+    width:674px;
+}
+
+.portrait .ui-page {
+    min-height:963px;
+}
+
+.portrait .ui-splitview-menu {
+    display:none
+}
+
+.portrait .ui-splitview-content {
+    top:41px;
+    bottom:41px;
+    left:0px;
+    width:738px;
+    margin-bottom:-30px;
+}
