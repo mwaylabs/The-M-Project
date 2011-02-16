@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: ï¿½2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      28.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -30,7 +30,7 @@ M.Request = M.Object.extend(
 
     /**
      * Initializes a request. Sets the parameter of this request object with the passed values.
-     * 
+     *
      * @param {Object} obj The parameter object. Includes:
      * * method: the http method to use, e.g. 'POST'
      * * url: the request url, e.g. 'twitter.com/search.json' (needs a proxy to be set because of Same-Origin-Policy)
@@ -43,16 +43,18 @@ M.Request = M.Object.extend(
      * * onSuccess: callback that is called when request was successful
      */
     init: function(obj){
-        this.method = obj['method'] ? obj['method'] : this.method;
-        this.url = obj['url'] ? obj['url'] : this.url;
-        this.isAsync = obj['isAsync'] ? obj['isAsync'] : this.isAsync;
-        this.isJSON = obj['isJSON'] ? obj['isJSON'] : this.isJSON;
-        this.timeout = obj['timeout'] ? obj['timeout'] : this.timeout;
-        this.data = obj['data'] ? obj['data'] : this.data;
-        this.beforeSend = obj['beforeSend'] ? obj['beforeSend'] : this.beforeSend;
-        this.onError = obj['onError'] ? obj['onError'] : this.onError;
-        this.onSuccess = obj['onSuccess'] ? obj['onSuccess'] : this.onSuccess;
-        return this;
+        obj = obj ? obj : {};
+        return this.extend({
+            method: obj['method'] ? obj['method'] : this.method,
+            url: obj['url'] ? obj['url'] : this.url,
+            isAsync: obj['isAsync'] ? obj['isAsync'] : this.isAsync,
+            isJSON: obj['isJSON'] ? obj['isJSON'] : this.isJSON,
+            timeout: obj['timeout'] ? obj['timeout'] : this.timeout,
+            data: obj['data'] ? obj['data'] : this.data,
+            beforeSend: obj['beforeSend'] ? obj['beforeSend'] : this.beforeSend,
+            onError: obj['onError'] ? obj['onError'] : this.onError,
+            onSuccess: obj['onSuccess'] ? obj['onSuccess'] : this.onSuccess
+        });
     },
 
     /**
@@ -73,7 +75,7 @@ M.Request = M.Object.extend(
 
     /**
      * Sends the request asynchronously instead of blocking the browser.
-     * You should almost always make requests asynchronous. ÊYou can change this
+     * You should almost always make requests asynchronous. ï¿½You can change this
      * options with the async() helper option (or simply set it directly).
      *
      * Defaults to YES.
@@ -102,9 +104,16 @@ M.Request = M.Object.extend(
     /**
      * The data body of the request.
      *
-     * @property {String, Object} 
+     * @type String, Object
      */
     data: null,
+
+    /**
+     * Holds the jQuery request object
+     *
+     * @type Object
+     */
+    request: null,
 
     /**
      * A pre-callback that is called right before the request is sent.
@@ -129,13 +138,12 @@ M.Request = M.Object.extend(
      */
     onSuccess: function(data, msg, request){},
 
-
     /**
      * Sends an Ajax request by using jQuery's $.ajax().
      * Needs init first!
      */
     send: function(){
-        $.ajax({
+        this.request = $.ajax({
             type: this.method,
             url: this.url,
             async: this.isAsync,
@@ -147,7 +155,19 @@ M.Request = M.Object.extend(
             success: this.onSuccess,
             error: this.onError
         });
+    },
+
+    /**
+     * Aborts this request. Delegate to jQuery
+     *
+     * @return Boolean Indicating whether request exists and is aborted or not
+     */
+    abort: function() {
+        if(this.request) {
+            this.request.abort();
+            return YES;
+        }
+        return NO;
     }
 
 });
-
