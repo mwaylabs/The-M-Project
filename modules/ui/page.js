@@ -83,6 +83,14 @@ M.PageView = M.View.extend(
      */
     tabBarView: null,
 
+    lastPageWillLoad: null,
+
+    lastPageDidLoad: null,
+
+    lastPageWillHide: null,
+
+    lastPageDidHide: null,
+
     /**
      * Renders in three steps:
      * 1. Rendering Opening div tag with corresponding data-role
@@ -116,6 +124,10 @@ M.PageView = M.View.extend(
      * for the page, it is now called.
      */
     pageWillLoad: function() {
+        if(this.lastPageWillLoad && this.lastPageWillLoad.timeBetween(M.Date.now()) < 1000) {
+            return;
+        }
+        this.lastPageWillLoad = M.Date.now();
         /* if this is the first page to be loaded, check if there is a tab bar and an active tab
            specified and switch to this tab. also reload this page to have a stable location hash. */
         if(M.Application.isFirstLoad) {
@@ -145,6 +157,10 @@ M.PageView = M.View.extend(
      * for the page, it is now called.
      */
     pageDidLoad: function() {
+        if(this.lastPageDidLoad && this.lastPageDidLoad.timeBetween(M.Date.now()) < 1000) {
+            return;
+        }
+        this.lastPageDidLoad = M.Date.now();
         if(this.onLoad) {
             this.onLoad.target[this.onLoad.action](this.isFirstLoad);            
         }
@@ -165,6 +181,10 @@ M.PageView = M.View.extend(
      * for the page, it is now called.
      */
     pageWillHide: function() {
+        if(this.lastPageWillHide && this.lastPageWillHide.timeBetween(M.Date.now()) < 1000) {
+            return;
+        }
+        this.lastPageWillHide = M.Date.now();
         if(this.beforeHide) {
             this.beforeHide.target[this.beforeHide.action]();
         }
@@ -175,6 +195,10 @@ M.PageView = M.View.extend(
      * for the page, it is now called.
      */
     pageDidHide: function() {
+        if(this.lastPageDidHide && this.lastPageDidHide.timeBetween(M.Date.now()) < 1000) {
+            return;
+        }
+        this.lastPageDidHide = M.Date.now();
         if(this.onHide) {
             this.onHide.target[this.onHide.action]();
         }

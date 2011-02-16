@@ -265,7 +265,7 @@ M.ListView = M.View.extend(
             if(item.type === 'M.Model') {
                 obj.modelId = item.m_id;
             /* Otherwise, if there is an id property, save this automatically to have a reference */
-            } else if(item.id) {
+            } else if(item.id || !isNaN(item.id)) {
                 obj.modelId = item.id;
             }
 
