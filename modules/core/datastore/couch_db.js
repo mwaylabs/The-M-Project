@@ -70,14 +70,17 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             function(dbs) { /* onSuccess */
                 /* check if db already exists by looking if dbName is part of returned array of DB names */
                 if(_.include(dbs, dbName)) {
+                    console.log('DB: ' + dbName + ' exists');
                     that.isInitialized = YES;
                     that.internalCallback(obj);
                 } else {
+                    console.log('DB not existant, must be created first...');
                     that.isInitialized = NO;
                     that.createDatabase(obj);
                 }
             },
             function(xhr, msg) { /* onFailure */
+                console.log('Connection error...');
                 var err = M.Error.extend({
                     code: M.ERR_CONNECTION,
                     msg: msg
@@ -91,8 +94,8 @@ M.DataProviderCouchDb = M.DataProvider.extend(
         M.Logger.log('Error: ' + error.msg, M.ERROR);
         if(obj && obj.onError) {
             if(obj.onError.target && obj.onError.action) {
-                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action]);
-                obj.onError(error);
+                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], obj, error);
+                obj.onError();
             } else if(typeof(obj.onError) === 'function') {
                 obj.onError(error);
             }
@@ -118,6 +121,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                     that.isInitialized = YES;
                     that.internalCallback(obj);    
                 } else if (data.error) {
+                    console.log('CouchDB database "' + that.config.dbName + '" could not be created.');
                     var err = that.buildErrorObject(data);
                     that.errorCallback(obj, err);
                 }
@@ -193,9 +197,9 @@ M.DataProviderCouchDb = M.DataProvider.extend(
         } else { /* update request */
 
             var dataValue =  JSON.stringify(obj.model.record);
-            console.log(dataValue);
+            //console.log(dataValue);
             var url = this.buildUrl('/' + this.config.dbName + '/' + obj.model.get('ID') + '?rev=' + obj.model.get('rev'));
-            console.log('save URL: ' + url);
+            //console.log('save URL: ' + url);
 
             this.performRequest('PUT', url, YES, dataValue,
                 function() {    /* beforeSend */
@@ -224,6 +228,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
     },
 
     find: function(obj) {
+        console.log('find called...');
         if(!this.isInitialized) {
             this.internalCallback = this.find;
             this.init(obj);
@@ -232,8 +237,13 @@ M.DataProviderCouchDb = M.DataProvider.extend(
 
         var that = this;
 
+        if(obj.view) {
+            this.findByView(obj);
+        }
+
         /* if no ID is provided, it's propably meant to be a findAll call */
         if(!obj.ID) {
+            console.log('!obj.ID => CALL FINDALL...');
             this.findAllDocuments(obj, YES);
             return;
         } else {
@@ -276,6 +286,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
     findAllDocuments: function(obj, isFirst, docList, result, callsLeft) {
         console.log('findAllDocuments called...');
         if(!this.isInitialized) {
+            console.log('not initialized in findAllDocuments...');
             this.internalCallback = this.findAllDocuments;
             this.init(obj);
             return;
@@ -284,6 +295,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
         var that = this;
 
         if(isFirst) {
+            console.log('findAllDocuments: isFirst');
             var url = this.buildUrl('/' + this.config.dbName + '/_all_docs');
             this.performRequest('GET', url, YES, null, null,
                 function(data) {  // onSuccess callback
@@ -359,8 +371,6 @@ M.DataProviderCouchDb = M.DataProvider.extend(
     },
 
     createRecOfDoc: function(obj, data) {
-        console.log('createRecOfDoc -  data:');
-        console.log(data);
         //var rec = JSON.parse(data);
         var rec = data;
         rec['ID'] = rec['_id'];
@@ -376,6 +386,43 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             }
         }
         return myRec;
+    },
+
+    getAllIdentifiers: function(obj) {
+        var url = this.buildUrl('/' + this.config.dbName + '/_all_docs');
+
+        var that = this;
+
+        this.performRequest('GET', url, YES, null, null,
+            function(data) {  // onSuccess callback
+                if(!data.error) {
+                    var rows = data.rows;
+                    var result = [];
+                    _.each(rows, function(r){
+                        result.push(r.id);
+                    });
+
+                    if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
+                        obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], [result]);
+                        obj.onSuccess();
+                    } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                        obj.onSuccess(result);
+                    }
+                } else {
+                    if (data.error) {
+                        var err = that.buildErrorObject(data);
+                        that.errorCallback(obj, err);
+                    }
+                }
+            },
+            function(xhr, msg) { // onError callback
+                var err = M.Error.extend({
+                    code: M.ERR_CONNECTION,
+                    msg: msg
+                });
+                that.errorCallback(obj, err);
+            }
+        );
     },
 
     /* If you want to update or delete a document, CouchDB expects you to include the _rev field of the revision you wish to change. */
@@ -396,17 +443,13 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             },
             function(data) { /* onSuccess */
                 if(data.ok) {
-                    console.log('Document with ID: "' + obj.model.get('ID') + '" deleted.');
-                    that.internalCallback(obj);/* onSuccess */
-                    /*if(obj && obj.onSuccess) {
-                        if(obj.onSuccess.target && obj.onSuccess.action) {
-                            obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
-                            obj.onSuccess(data);
-                        } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
-                            obj.onSuccess(data);
-                        }
-                    }*/
-                    console.log(data);
+                    if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
+                        obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
+                        obj.onSuccess();
+                    } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                        obj.onSuccess();
+                    }
+                    return YES;
                 } else if (data.error) {
                     var err = that.buildErrorObject(data);
                     that.errorCallback(obj, err);
