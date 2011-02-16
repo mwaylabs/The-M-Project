@@ -103,7 +103,7 @@ M.EventDispatcher = M.Object.create(
                 if(view && view.internalTarget && view.internalAction) {
                     view.internalTarget[view.internalAction](id, view.modelId);
                 }
-                if(view && view.target && view.action && view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView') {
+                if(view && view.target && view.action && view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView' && view.type !== 'M.DatePickerView') {
                     view.target[view.action](id, view.modelId);
                 }
                 if(obj && obj.type === 'M.MapMarkerView') {
@@ -134,11 +134,11 @@ M.EventDispatcher = M.Object.create(
                 view.setValueFromDOM(type);
                 break;
             case 'keyup':
-                if(keyCode === 13 && view.triggerActionOnEnter && (view.type === 'M.TextFieldView' || view.type === 'M.SearchBarView')) {
+                if(keyCode === 13 && view.triggerActionOnEnter && (view.type === 'M.TextFieldView' || view.type === 'M.SearchBarView' || view.type === 'M.DatePickerView')) {
                     if(view && view.target && view.action) {
                         view.target[view.action](id);
                     }
-                } else if(view.type === 'M.TextFieldView' || view.type === 'M.SearchBarView') {
+                } else if(view.type === 'M.TextFieldView' || view.type === 'M.SearchBarView' || view.type === 'M.DatePickerView') {
                     view.setValueFromDOM(type);
                 }
                 break;
