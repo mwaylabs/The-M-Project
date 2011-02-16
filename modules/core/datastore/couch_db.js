@@ -39,7 +39,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
     internalCallback: null,
 
     configure: function(obj) {
-        console.log('configure called...');
+        //console.log('configure called...');
         var dp = this.extend({
             config:obj
         });
@@ -52,7 +52,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
     },
 
     init: function(obj, callback) {
-        console.log('init called...');
+        //console.log('init called...');
         if(!this.internalCallback) {
             this.internalCallback = callback;
         }
@@ -60,7 +60,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
     },
 
     check: function(obj) {
-        console.log('check called...');
+        //console.log('check called...');
         var dbName = this.config.dbName;
         var url = this.buildUrl('/_all_dbs');  // http://mycouchdb.com/_all_bs returns all databases of myCouchDB
 
@@ -117,11 +117,11 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             },
             function(data) { /* onSuccess: request successful */
                 if(data.ok) {
-                    console.log('CouchDB database: "' + that.config.dbName + '" created.');
+                    //console.log('CouchDB database: "' + that.config.dbName + '" created.');
                     that.isInitialized = YES;
                     that.internalCallback(obj);    
                 } else if (data.error) {
-                    console.log('CouchDB database "' + that.config.dbName + '" could not be created.');
+                    //console.log('CouchDB database "' + that.config.dbName + '" could not be created.');
                     var err = that.buildErrorObject(data);
                     that.errorCallback(obj, err);
                 }
@@ -138,7 +138,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
     },
 
     save: function(obj) {
-        console.log('save called...');
+        //console.log('save called...');
         if(!this.isInitialized) {
             this.internalCallback = this.save;
             this.init(obj);
@@ -153,9 +153,9 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             /* note: uniqued id is first assigned to model record on successful request */
 
             var dataValue =  JSON.stringify(obj.model.record);
-            console.log(dataValue);
+            //console.log(dataValue);
             var url = this.buildUrl('/' + this.config.dbName + '/' + uuid);
-            console.log('save URL: ' + url);
+            //console.log('save URL: ' + url);
 
             this.performRequest('PUT', url, YES, dataValue,
 
@@ -164,20 +164,18 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                 },
                     
                 function(data) { /* onSuccess */
-                    /*if(obj && obj.onSuccess) {
-                        if(obj.onSuccess.target && obj.onSuccess.action) {
-                            obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
-                            obj.onSuccess(data);
-                        } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
-                            obj.onSuccess(data);
-                        }
-                    }*/
-                    console.log(data);
                     /* assign returned uuid to model record */
                     if(data.ok) {
-                        console.log('set record ID from response');
+                        //console.log('set record ID from response');
                         obj.model.set('ID', data.id);
                         obj.model.set('rev', data.rev);
+                        if(obj.onSuccess.target && obj.onSuccess.action) {
+                            // returns obj.model
+                            obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], obj.model);
+                            obj.onSuccess();
+                        } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                            obj.onSuccess(obj.model);
+                        }
                     } else {// success callback is called when request finished successful, but this doesn't guarantee that CouchDB saved the model correctly
                         if(data.error) {
                             var err = that.buildErrorObject(data);
@@ -208,6 +206,13 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                 function(data) {    /* onSuccess */
                     if(data.ok) {
                          obj.model.set('rev', data.rev);
+                        if(obj.onSuccess.target && obj.onSuccess.action) {
+                            /* returns saved model. */
+                            obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], obj.model);
+                            obj.onSuccess();
+                        } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                            obj.onSuccess(obj.model);
+                        }
                     } else {
                         if(data.error) {
                             var err = that.buildErrorObject(data);
@@ -243,7 +248,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
 
         /* if no ID is provided, it's propably meant to be a findAll call */
         if(!obj.ID) {
-            console.log('!obj.ID => CALL FINDALL...');
+            //console.log('!obj.ID => CALL FINDALL...');
             this.findAllDocuments(obj, YES);
             return;
         } else {
@@ -285,17 +290,17 @@ M.DataProviderCouchDb = M.DataProvider.extend(
      */
     findAllDocuments: function(obj, isFirst, docList, result, callsLeft) {
         console.log('findAllDocuments called...');
-        if(!this.isInitialized) {
+        /*if(!this.isInitialized) {
             console.log('not initialized in findAllDocuments...');
             this.internalCallback = this.findAllDocuments;
             this.init(obj);
             return;
-        }
+        }*/
 
         var that = this;
 
         if(isFirst) {
-            console.log('findAllDocuments: isFirst');
+            //console.log('findAllDocuments: isFirst');
             var url = this.buildUrl('/' + this.config.dbName + '/_all_docs');
             this.performRequest('GET', url, YES, null, null,
                 function(data) {  // onSuccess callback
@@ -307,6 +312,8 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                         ]
                       }
                     **/
+                    console.log('data.rows: ');
+                    console.log(data.rows);
                     that.findAllDocuments(obj, NO, data.rows, [], data.total_rows);
                 },
                 function(xhr, msg) { // onError callback
@@ -467,6 +474,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
     },
 
     performRequest: function(method, url, isJson, data, beforeSend, onSuccess, onError) {
+        //console.log('performRequest.... to: ' + url);
         var req = M.Request.init({
             method: method,
             url: url,
