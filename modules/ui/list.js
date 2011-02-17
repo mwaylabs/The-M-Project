@@ -362,14 +362,20 @@ M.ListView = M.View.extend(
      * This method activates a list item by applying the default 'isActive' css style to its
      * DOM representation.
      *
-     * @param {String} listItemId The id of the list item to be set active.
+     * @param {String} id The DOM id of the list item to be set active.
+     * @param {String} itemId The internal id of the list item. This can either be m_id of a record or a manually set id.
      */
-    setActiveListItem: function(listItemId) {
+    setActiveListItem: function(id, itemId) {
         $('#' + this.id).find('li').each(function() {
             var listItem = M.ViewManager.getViewById($(this).attr('id'));
             listItem.removeCssClass('ui-btn-active');
         });
-        M.ViewManager.getViewById(listItemId).addCssClass('ui-btn-active')
+        M.ViewManager.getViewById(id).addCssClass('ui-btn-active');
+
+        /* call listItemSelected of the parent view if we are inside a M.SplitView.*/
+        if(this.parentView && this.parentView.parentView && this.parentView.parentView.type === 'M.SplitView') {
+            this.parentView.parentView.listItemSelected(itemId);
+        }
     },
 
     /**
