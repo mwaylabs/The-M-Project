@@ -34,8 +34,7 @@
 
 .portrait .ui-splitview-content {
     top:41px;
-    bottom:41px;
+    bottom:0px;
     left:0px;
     width:738px;
-    margin-bottom:-30px;
 }
