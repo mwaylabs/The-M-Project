@@ -110,6 +110,15 @@ M.ToolbarView = M.View.extend(
     },
 
     /**
+     * This method can be used to update the centered value of an M.ToolbarView. 
+     *
+     * @private
+     */
+    renderUpdate: function() {
+        $('#' + this.id + ' h1').html(this.value);
+    },
+
+    /**
      * Triggers render() on all children or simply display the value as a label,
      * if it is set.
      */
