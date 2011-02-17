@@ -167,7 +167,7 @@ M.PageView = M.View.extend(
 
         /* if there is a list on the page, reset it: deactivate possible active list items */
         $('#' + this.id).find('.ui-btn-active').each(function() {
-            if(M.ViewManager.getViewById($(this).attr('id')) && M.ViewManager.getViewById($(this).attr('id')).type === 'M.ListItemView') {
+            if(M.ViewManager.getViewById($(this).attr('id')) && !(M.ViewManager.getViewById($(this).attr('id')).listView && M.ViewManager.getViewById($(this).attr('id')).listView.parentView && M.ViewManager.getViewById($(this).attr('id')).listView.parentView.parentView && M.ViewManager.getViewById($(this).attr('id')).listView.parentView.parentView.type === 'M.SplitView') && M.ViewManager.getViewById($(this).attr('id')).type === 'M.ListItemView') {
                 var listItem = M.ViewManager.getViewById($(this).attr('id'));
                 listItem.removeCssClass('ui-btn-active');
             }
