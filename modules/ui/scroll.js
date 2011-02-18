@@ -46,14 +46,6 @@ M.ScrollView = M.View.extend(
     },
 
     /**
-     * @private
-     * @returns {String} The scroll view's html representation.
-     */
-    renderUpdate: function() {
-        return this.html;
-    },
-
-    /**
      * Triggers the rendering engine, jQuery mobile, to style the scroll view and call the
      * theme() of its child views.
      *
