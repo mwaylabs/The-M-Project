@@ -84,12 +84,12 @@ M.EventDispatcher = M.Object.create(
      * @param {Object} obj The object that triggered the event (can be passed instead of an id).
      */
     delegateEvent: function(type, id, keyCode, obj) {
-        var view = M.Application.viewManager.getViewById(id);       
+        var view = M.Application.viewManager.getViewById(id);
 
-        if(!((view && type !== 'orientationchange') || (obj && typeof(obj) === 'object'))) {
+        if(!(((view && type !== 'orientationchange') || (!view && type === 'orientationchange')) || (obj && typeof(obj) === 'object'))) {
             return;
         }
-
+        
         switch(type) {
             case 'click':
                 if(view && view.internalTarget && view.internalAction) {
