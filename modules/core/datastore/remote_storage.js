@@ -88,10 +88,10 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
                 /* create model  record from result by first map with given mapper function before passing
                  * to createRecord
                  */
-                result.push(obj.model.createRecord($.extend(config.read.map(res[config.identifier]), {state: M.STATE_VALID})));
+                result.push(obj.model.createRecord($.extend(config.read.map(res), {state: M.STATE_VALID})));
             }
         } else if(typeof(data) === 'object') {
-            result.push(obj.model.createRecord($.extend(config.read.map(data[config.identifier]), {state: M.STATE_VALID})));
+            result.push(obj.model.createRecord($.extend(config.read.map(data), {state: M.STATE_VALID})));
         }
         callback(result);
     },
@@ -146,12 +146,18 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
                 }
             },
             onError: function(xhr, msg) {
+
+                var err = M.Error.extend({
+                    code: M.ERR_CONNECTION,
+                    msg: msg
+                });
+
                 if(obj.onError && typeof(obj.onError) === 'function') {
-                    obj.onError(msg);
+                    obj.onError(err);
                 }
                 if(obj.onError && obj.onError.target && obj.onError.action) {
-                    obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], msg);
-                    obj.onError(msg);
+                    obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
+                    obj.onError();
                 } else if (typeof(obj.onError) !== 'function') {
                     M.Logger.log('No error callback given.', M.WARN);
                 }
