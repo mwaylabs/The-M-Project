@@ -211,6 +211,11 @@ M.PageView = M.View.extend(
         if(this.onOrientationChange) {
             this.onOrientationChange.target[this.onOrientationChange.action](M.Environment.getOrientation());
         }
+
+        /* scroll all split views to top */
+        $('.ui-splitview-content').each(function() {
+            $(this).scrollview('scrollTo', 0, 0);
+        });
     },
 
     /**
