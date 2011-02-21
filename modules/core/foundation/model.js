@@ -343,7 +343,7 @@ M.Model = M.Object.extend(
             this.record[propName] = val;
             this.__meta[propName].isUpdated = YES;
             /* mark record as updated with new timestamp*/
-            this.record['_updatedAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+            this.record[M.META_UPDATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
         }        
     },
 
