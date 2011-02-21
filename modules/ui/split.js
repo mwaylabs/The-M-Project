@@ -30,6 +30,8 @@ M.SplitView = M.View.extend(
 
     content: null,
 
+    isInitialized: NO,
+
     /**
      * Renders a split view.
      *
@@ -52,28 +54,26 @@ M.SplitView = M.View.extend(
      * @private
      */
     renderChildViews: function() {
-        if(this.childViews) {
+        if(this.childViews || this.contentBinding) {
             var childViews = $.trim(this.childViews).split(' ');
-            if(childViews.length === 2) {
-                for(var i in childViews) {
-                    if(this[childViews[i]] && this[childViews[i]].type === 'M.ScrollView') {
-                        if(parseInt(i) === 0) {
-                            this.menu = this[childViews[i]];
-                            this[childViews[i]].cssClass = this[childViews[i]].cssClass ? this[childViews[i]].cssClass + ' ui-splitview-menu' : 'ui-splitview-menu'
-                        } else {
-                            this.content = this[childViews[i]];
-                            this[childViews[i]].cssClass = this[childViews[i]].cssClass ? this[childViews[i]].cssClass + ' ui-splitview-content' : 'ui-splitview-content'
-                        }
-                        this.html += this[childViews[i]].render();
-                    } else if(this[childViews[i]] && this[childViews[i]].type) {
-                        M.Logger.log('The child view \'' + childViews[i] + '\' of M.SplitView is of type ' + this[childViews[i]].type + ' but needs to be of type M.ScrollView.', M.ERROR);
-                    } else {
-                        M.Logger.log('The child view \'' + childViews[i] + '\' of M.SplitView needs to be of type M.ScrollView.', M.ERROR);
-                    }
-                }
+            if(childViews.length > 0 || this.contentBinding) {
+                this.menu = M.ScrollView.design({
+                    childViews: 'menu',
+                    menu: M.ListView.design({})
+                });
+                this.menu.parentView = this;
+                this.menu.menu.parentView = this.menu;
+                this.menu.cssClass = this.menu.cssClass ? this.menu.cssClass + ' ui-splitview-menu' : 'ui-splitview-menu';
+                this.html += this.menu.render();
+
+                this.content = M.ScrollView.design({});
+                this.content.parentView = this;
+                this.content.cssClass = this.content.cssClass ? this.content.cssClass + ' ui-splitview-content' : 'ui-splitview-content';
+                this.html += this.content.render();
+
                 return this.html;
             } else {
-                M.Logger.log('You need to provide two child views for M.SplitView.', M.ERROR);
+                M.Logger.log('You need to provide at least one child view for M.SplitView of the type M.SplitItemView.', M.ERROR);
             }
         }
     },
@@ -84,7 +84,59 @@ M.SplitView = M.View.extend(
      * @private
      */
     renderUpdate: function() {
-        // ...
+        var content = null;
+        
+        if(this.contentBinding) {
+            content = eval(this.contentBinding);
+        } else if(this.childViews) {
+            var childViews = $.trim(this.childViews).split(' ');
+            content = [];
+            for(var i = 0; i < childViews.length; i++) {
+                content.push(this[childViews[i]]);
+            }
+        }
+        
+        if(content) {
+            if(content.length > 0) {
+
+                /* reset menu list before filling it up again */
+                this.menu.menu.removeAllItems();
+
+                var entryItem = null;
+                var currentItem = 0;
+                for(var i in content) {
+                    if(content[i] && content[i].type === 'M.SplitItemView') {
+                        /* add item to list */
+                        var item = M.ListItemView.design({
+                            childViews: 'label',
+                            listView: this.menu.menu,
+                            splitViewItem: content[i],
+                            label: M.LabelView.design({
+                                value: content[i].value
+                            })
+                        });
+                        this.menu.menu.addItem(item.render());
+
+                        /* save id of the current item if it is either the first item or isActive is set */
+                        if(currentItem === 0 || content[i].isActive) {
+                            entryItem = item.id;
+                        }
+
+                        currentItem++;
+                    } else {
+                        M.Logger.log('Invalid child view passed! The child views of M.SplitView need to be of type M.ListView.', M.ERROR);
+                    }
+                }
+
+                /* theme the list */
+                this.menu.menu.themeUpdate();
+
+                /* now set the active list item / content */
+                this.menu.menu.setActiveListItem(entryItem);
+            } else {
+                M.Logger.log('You need to provide at least one child view for M.SplitView of the type M.SplitItemView.', M.ERROR);
+            }
+        }
     },
 
     /**
@@ -93,7 +145,42 @@ M.SplitView = M.View.extend(
      * @private
      */
     theme: function() {
-        // ...
+        this.renderUpdate();
+    },
+
+    listItemSelected: function(id) {
+        if(!this.isInitialized) {
+            var contentView = M.ViewManager.getViewById(id).splitViewItem.view;
+            $('#' + this.content.id).html(contentView.html ? contentView.html : contentView.render());
+            contentView.theme();
+            this.isInitialized = YES;
+        } else {
+            var contentView = M.ViewManager.getViewById(id).splitViewItem.view;
+            $('#' + this.content.id + ' div:first').html(contentView.html ? contentView.html : contentView.render());
+            contentView.theme();
+            $('#' + this.content.id).scrollview('scrollTo', 0, 0);
+        }
+
+        /* check if there is a split toolbar view on the page and update its label to show the value of the selected item */
+        var page = null;
+        if(M.ViewManager.getCurrentPage()) {
+            page = M.ViewManager.getCurrentPage();
+        } else if(true) {
+            page = M.ViewManager.getPage(M.Application.entryPage);
+        }
+
+        if(page) {
+            $('#' + page.id + ' .ui-splitview-content-toolbar').each(function() {
+                var toolbar = M.ViewManager.getViewById($(this).attr('id'));
+                if(toolbar.parentView && toolbar.parentView.showSelectedItemInMainHeader) {
+                    toolbar.value = M.ViewManager.getViewById(id).splitViewItem.value;
+                    toolbar.renderUpdate();
+                }
+            });
+            if($('#' + page.id + ' .ui-footer').length === 0) {
+                page.addCssClass('ui-splitview-no-footer');
+            }
+        }
     }
 
 });
