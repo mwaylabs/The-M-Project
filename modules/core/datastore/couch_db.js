@@ -66,21 +66,35 @@ M.DataProviderCouchDb = M.DataProvider.extend(
 
         var that = this;
 
+        if(obj.showLoader) {
+            M.LoaderView.show();
+        }
+
         this.performRequest('GET', url, YES, null, null,
             function(dbs) { /* onSuccess */
+
+                if(obj.showLoader) {
+                    M.LoaderView.hide();
+                }
+
                 /* check if db already exists by looking if dbName is part of returned array of DB names */
                 if(_.include(dbs, dbName)) {
-                    console.log('DB: ' + dbName + ' exists');
+                    M.Logger.log('DB: ' + dbName + ' exists', M.INFO);
                     that.isInitialized = YES;
                     that.internalCallback(obj);
                 } else {
-                    console.log('DB not existant, must be created first...');
+                    M.Logger.log('DB not existant, must be created first...', M.INFO);
                     that.isInitialized = NO;
                     that.createDatabase(obj);
                 }
             },
             function(xhr, msg) { /* onFailure */
-                console.log('Connection error...');
+
+                if(obj.showLoader) {
+                    M.LoaderView.hide();
+                }
+
+                M.Logger.log('Connection error...', M.ERROR)
                 var err = M.Error.extend({
                     code: M.ERR_CONNECTION,
                     msg: msg
@@ -105,32 +119,49 @@ M.DataProviderCouchDb = M.DataProvider.extend(
 
     /* CRUD OPERATIONS */
     createDatabase: function(obj) {
-        console.log('createDatabase called...');
+        M.Logger.log('createDatabase called...', M.INFO);
         /*if(!this.isInitialized) {
             this.internalCallback = this.createDatabase;
             this.check(obj);
         }*/
+
+        if(obj.showLoader){
+            M.LoaderView.show();
+        }
+
         var that = this;
         this.performRequest('PUT', this.buildUrl('/' + this.config.dbName), YES, null,
             function(xhr) { /* beforeSend */
                 xhr.setRequestHeader("X-Http-Method-Override", 'PUT');
             },
             function(data) { /* onSuccess: request successful */
+
+                if(obj.showLoader) {
+                    M.LoaderView.hide();
+                }
+                
                 if(data.ok) {
                     //console.log('CouchDB database: "' + that.config.dbName + '" created.');
                     that.isInitialized = YES;
-                    that.internalCallback(obj);    
-                } else if (data.error) {
-                    //console.log('CouchDB database "' + that.config.dbName + '" could not be created.');
-                    var err = that.buildErrorObject(data);
-                    that.errorCallback(obj, err);
+                    that.internalCallback(obj);
                 }
             },
             function(xhr, msg) { /* onError */
-                var err = M.Error.extend({
-                    code: M.ERR_CONNECTION,
-                    msg: msg
-                });
+
+                var data = JSON.parse(xhr.responseText);
+
+                if(obj.showLoader) {
+                    M.LoaderView.hide();
+                }
+                var err = {};
+                if (data.error) {
+                    err = that.buildErrorObject(data);
+                } else {
+                    err = M.Error.extend({
+                        code: M.ERR_CONNECTION,
+                        msg: msg
+                    });
+                }
                 that.errorCallback(obj, err);
             }
         );
@@ -153,17 +184,26 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             /* note: uniqued id is first assigned to model record on successful request */
 
             var dataValue =  JSON.stringify(obj.model.record);
-            //console.log(dataValue);
+            //M.Logger.log(dataValue, M.INFO);
             var url = this.buildUrl('/' + this.config.dbName + '/' + uuid);
             //console.log('save URL: ' + url);
+
+            if(obj.showLoader) {
+                    M.LoaderView.hide();
+            }
 
             this.performRequest('PUT', url, YES, dataValue,
 
                 function(xhr) {    /* beforeSend set HTTP header to PUT */
                     xhr.setRequestHeader("X-Http-Method-Override", 'PUT');
                 },
-                    
+
                 function(data) { /* onSuccess */
+
+                    if(obj.showLoader) {
+                        M.LoaderView.hide();
+                    }
+
                     /* assign returned uuid to model record */
                     if(data.ok) {
                         //console.log('set record ID from response');
@@ -176,34 +216,51 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                         } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
                             obj.onSuccess(obj.model);
                         }
-                    } else {// success callback is called when request finished successful, but this doesn't guarantee that CouchDB saved the model correctly
-                        if(data.error) {
-                            var err = that.buildErrorObject(data);
-                            that.errorCallback(obj, err);
-                        }
                     }
                 },
 
                 function(xhr, msg) { /* onError */
-                    var err = M.Error.extend({
-                        code: M.ERR_CONNECTION,
-                        msg: msg
-                    });
+
+                    if(obj.showLoader) {
+                        M.LoaderView.hide();
+                    }
+
+                    var data = JSON.parse(xhr.responseText);
+
+                    var err = {};
+
+                    if(data.error) {
+                        err = that.buildErrorObject(data);
+                    } else {
+                        err = M.Error.extend({
+                            code: M.ERR_CONNECTION,
+                            msg: msg
+                        });
+                    }
                     that.errorCallback(obj, err);
                 }
             )
         } else { /* update request */
 
             var dataValue =  JSON.stringify(obj.model.record);
-            //console.log(dataValue);
+            //M.Logger.log(dataValue, M.INFO);
             var url = this.buildUrl('/' + this.config.dbName + '/' + obj.model.get('ID') + '?rev=' + obj.model.get('rev'));
             //console.log('save URL: ' + url);
+
+            if(obj.showLoader) {
+                M.LoaderView.show();
+            }
 
             this.performRequest('PUT', url, YES, dataValue,
                 function() {    /* beforeSend */
                     xhr.setRequestHeader("X-Http-Method-Override", 'PUT');
                 },
                 function(data) {    /* onSuccess */
+
+                    if(obj.showLoader) {
+                        M.LoaderView.hide();
+                    }
+
                     if(data.ok) {
                          obj.model.set('rev', data.rev);
                         if(obj.onSuccess.target && obj.onSuccess.action) {
@@ -213,27 +270,35 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                         } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
                             obj.onSuccess(obj.model);
                         }
-                    } else {
-                        if(data.error) {
-                            var err = that.buildErrorObject(data);
-                            that.errorCallback(obj, err);
-                        }
                     }
                 },
                 function(xhr, msg) {    /* onError */
-                    var err = M.Error.extend({
-                        code: M.ERR_CONNECTION,
-                        msg: msg
-                    });
+
+                    if(obj.showLoader) {
+                        M.LoaderView.hide();
+                    }
+
+                    var data = JSON.parse(xhr.responseText);
+
+                    var err = {};
+
+                    if(data.error) {
+                        err = that.buildErrorObject(data);
+                    } else {
+                        err = M.Error.extend({
+                            code: M.ERR_CONNECTION,
+                            msg: msg
+                        });
+                    }
                     that.errorCallback(obj, err);
                 }
             );
-            
+
         }
     },
 
     find: function(obj) {
-        console.log('find called...');
+        M.Logger.log('find called...', M.INFO);
         if(!this.isInitialized) {
             this.internalCallback = this.find;
             this.init(obj);
@@ -253,8 +318,18 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             return;
         } else {
             var url = this.buildUrl('/' + this.config.dbName + '/' + obj.ID);
+
+            if(obj.showLoader) {
+                M.LoaderView.show();
+            }
+
             this.performRequest('GET', url, YES, null, null,    /* method, url, isJSON, data, beforeSend */
                 function(data) { /* onSuccess */
+
+                    if(obj.showLoader) {
+                        M.LoaderView.hide();
+                    }
+
                     if(!data.error) {
                         var result = that.createRecOfDoc(obj, data);
                         if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
@@ -265,15 +340,27 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                         }
                         return YES;
                     } else {
-                        var err = that.buildErrorObject(data);
-                        that.errorCallback(obj, err);
+
                     }
                 },
                 function(xhr, msg) { /* onError */
-                    var err = M.Error.extend({
-                        code: M.ERR_CONNECTION,
-                        msg: msg
-                    });
+
+                    if(obj.showLoader) {
+                        M.LoaderView.hide();
+                    }
+
+                    var data = JSON.parse(xhr.responseText);
+
+                    var err = {};
+
+                    if(data.error) {
+                        err = that.buildErrorObject(data);
+                    } else {
+                        err = M.Error.extend({
+                            code: M.ERR_CONNECTION,
+                            msg: msg
+                        });
+                    }
                     that.errorCallback(obj, err);
                 }
             );
@@ -289,7 +376,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
      * @param {Number} callsLeft
      */
     findAllDocuments: function(obj, isFirst, docList, result, callsLeft) {
-        console.log('findAllDocuments called...');
+        //M.Logger.log('findAllDocuments called...', M.INFO);
         /*if(!this.isInitialized) {
             console.log('not initialized in findAllDocuments...');
             this.internalCallback = this.findAllDocuments;
@@ -302,8 +389,18 @@ M.DataProviderCouchDb = M.DataProvider.extend(
         if(isFirst) {
             //console.log('findAllDocuments: isFirst');
             var url = this.buildUrl('/' + this.config.dbName + '/_all_docs');
+
+            if(obj.showLoader) {
+                M.LoaderView.show();
+            }
+
             this.performRequest('GET', url, YES, null, null,
                 function(data) {  // onSuccess callback
+
+                    if(obj.showLoader) {
+                        M.LoaderView.hide();
+                    }
+
                     /*
                     * result:
                     * {"total_rows":10,"offset":0,"rows":[
@@ -312,11 +409,14 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                         ]
                       }
                     **/
-                    console.log('data.rows: ');
-                    console.log(data.rows);
                     that.findAllDocuments(obj, NO, data.rows, [], data.total_rows);
                 },
                 function(xhr, msg) { // onError callback
+
+                    if(obj.showLoader) {
+                        M.LoaderView.hide();
+                    }
+
                     var err = M.Error.extend({
                         code: M.ERR_CONNECTION,
                         msg: msg
@@ -331,24 +431,40 @@ M.DataProviderCouchDb = M.DataProvider.extend(
             if(callsLeft > 0) {
                 var url = this.buildUrl('/' + this.config.dbName + '/' + docList[callsLeft - 1].id); // -1 because we use length as index, which is one bigger than index
 
+                if(obj.showLoader) {
+                    M.LoaderView.show();
+                }
+
                 this.performRequest('GET', url, YES, null, null,
                     function(data) { /* onSuccess */
+
+                        if(obj.showLoader) {
+                            M.LoaderView.hide();
+                        }
+
                         if(!data.error) {
                             result.push(that.createRecOfDoc(obj, data));
                             callsLeft = callsLeft - 1;
                             that.findAllDocuments(obj, NO, docList, result, callsLeft);
-                        } else {
-                            var err = that.buildErrorObject(data);
-                            that.errorCallback(obj, err);
                         }
-
                     },
                     function(xhr, msg) { /* onError */
+
+                        if(obj.showLoader) {
+                            M.LoaderView.hide();
+                        }
+
+                        var data = JSON.parse(xhr.responseText);
+                        var err = {};
+                        if(data.error) {
+                            err = that.buildErrorObject(data);
+                        } else {
+                            err = M.Error.extend({
+                                code: M.ERR_CONNECTION,
+                                msg: msg
+                            });
+                        }
                         obj.model.recordManager.removeAll();
-                        var err = M.Error.extend({
-                            code: M.ERR_CONNECTION,
-                            msg: msg
-                        });
                         that.errorCallback(obj, err);
                         return;
                     }
@@ -400,8 +516,17 @@ M.DataProviderCouchDb = M.DataProvider.extend(
 
         var that = this;
 
+        if(obj.showLoader) {
+            M.LoaderView.show();
+        }
+
         this.performRequest('GET', url, YES, null, null,
             function(data) {  // onSuccess callback
+
+                if(obj.showLoader) {
+                    M.LoaderView.hide();
+                }
+
                 if(!data.error) {
                     var rows = data.rows;
                     var result = [];
@@ -415,18 +540,25 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                     } else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
                         obj.onSuccess(result);
                     }
-                } else {
-                    if (data.error) {
-                        var err = that.buildErrorObject(data);
-                        that.errorCallback(obj, err);
-                    }
                 }
             },
             function(xhr, msg) { // onError callback
-                var err = M.Error.extend({
-                    code: M.ERR_CONNECTION,
-                    msg: msg
-                });
+
+                if(obj.showLoader) {
+                    M.LoaderView.hide();
+                }
+
+                var data = JSON.parse(xhr.responsText);
+                var err = {};
+
+                if (data.error) {
+                    err = that.buildErrorObject(data);
+                } else {
+                    err = M.Error.extend({
+                        code: M.ERR_CONNECTION,
+                        msg: msg
+                    });
+                }
                 that.errorCallback(obj, err);
             }
         );
@@ -444,11 +576,21 @@ M.DataProviderCouchDb = M.DataProvider.extend(
         var url = this.buildUrl('/' + this.config.dbName + '/' + obj.model.get('ID') + '?rev=' + obj.model.get('rev'));
 
         var that = this;
+
+        if(obj.showLoader) {
+            M.LoaderView.show();
+        }
+
         this.performRequest('DELETE', url, YES, null,
             function(xhr) { /* beforeSend */
                 xhr.setRequestHeader("X-Http-Method-Override", 'DELETED');
             },
             function(data) { /* onSuccess */
+
+                if(obj.showLoader) {
+                    M.LoaderView.hide();
+                }
+
                 if(data.ok) {
                     if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
                         obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
@@ -457,17 +599,26 @@ M.DataProviderCouchDb = M.DataProvider.extend(
                         obj.onSuccess();
                     }
                     return YES;
-                } else if (data.error) {
-                    var err = that.buildErrorObject(data);
-                    that.errorCallback(obj, err);
                 }
 
             },
             function(xhr, msg) { /* onError */
-                var err = M.Error.extend({
-                    code: M.ERR_CONNECTION,
-                    msg: msg
-                });
+
+                if(obj.showLoader) {
+                    M.LoaderView.hide();
+                }
+
+                var data = JSON.parse(xhr.responseText);
+                var err = {};
+
+                if (data.error) {
+                    err = that.buildErrorObject(data);
+                } else {
+                    err = M.Error.extend({
+                        code: M.ERR_CONNECTION,
+                        msg: msg
+                    });
+                }
                 that.errorCallback(obj, err);
             }
         );
@@ -516,7 +667,7 @@ M.DataProviderCouchDb = M.DataProvider.extend(
     buildUrl: function(url2) {
         return this.config.url + url2; // should return sth. like http://themproject.couchone.com/contactsdb
     },
-    
+
     sanitizeUrl: function(url) {
         var origUrl = url;
         url = url.replace(/\/$/, "");
