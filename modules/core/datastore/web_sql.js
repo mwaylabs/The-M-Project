@@ -16,18 +16,6 @@ m_require('core/datastore/data_provider.js');
  * Encapsulates access to WebSQL (in-browser sqlite storage). All CRUD operations are asynchronous. That means that onSuccess
  * and onError callbacks have to be passed to the function calls to have the result returned when operation finished.
  *
- * WebSQL Error Codes (see e.g. http://www.w3.org/TR/webdatabase/):
- *
- * Constant         Code    Situation
- * --------         ----    ---------
- * UNKNOWN_ERR      0       The transaction failed for reasons unrelated to the database itself and not covered by any other error code.
- * DATABASE_ERR     1       The statement failed for database reasons not covered by any other error code.
- * VERSION_ERR      2       The operation failed because the actual database version was not what it should be. For example, a statement found that the actual database version no longer matched the expected version of the Database or DatabaseSync object, or the Database.changeVersion() or DatabaseSync.changeVersion() methods were passed a version that doesn't match the actual database version.
- * TOO_LARGE_ERR    3       The statement failed because the data returned from the database was too large. The SQL "LIMIT" modifier might be useful to reduce the size of the result set.
- * QUOTA_ERR        4       The statement failed because there was not enough remaining storage space, or the storage quota was reached and the user declined to give more space to the database.
- * SYNTAX_ERR       5       The statement failed because of a syntax error, or the number of arguments did not match the number of ? placeholders in the statement, or the statement tried to use a statement that is not allowed, such as BEGIN, COMMIT, or ROLLBACK, or the statement tried to use a verb that could modify the database but the transaction was read-only.
- * CONSTRAINT_ERR   6       An INSERT, UPDATE, or REPLACE statement failed due to a constraint failure. For example, because a row was being inserted and the value given for the primary key column duplicated the value of an existing row.
- * TIMEOUT_ERR      7       A lock for the transaction could not be obtained in a reasonable time.
  *
  * @extends M.DataProvider
  */
@@ -86,6 +74,12 @@ M.DataProviderWebSql = M.DataProvider.extend(
      * @type Function
      */
     internalCallback: null,
+
+    /**
+     * Indicates whether one of multiple transactions failed
+     * @type Boolean
+     */
+    bulkTransactionFailed: NO,
 
     /**
      * Used internally. External callback for success case. 
@@ -152,6 +146,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
             for(var prop in obj.model.record) {
                 sql += prop + ', ';
             }
+            //sql += _.keys(obj.model.record).join(', ');
 
             /* now name m_id column */
             sql += M.META_M_ID + ') ';
@@ -163,8 +158,9 @@ M.DataProviderWebSql = M.DataProvider.extend(
 
             for(var prop2 in obj.model.record) {
                 //console.log(obj.model.record[prop2]);
+                var propDataType = obj.model.__meta[prop2].dataType;
                 /* if property is string or text write value in quotes */
-                pre_suffix = obj.model.__meta[prop2].dataType === 'String' || obj.model.__meta[prop2].dataType === 'Text' || obj.model.__meta[prop2].dataType === 'Date' ? '"' : '';
+                pre_suffix = propDataType === 'String' || propDataType === 'Text' || propDataType === 'Date' ? '"' : '';
                 /* if property is date object, convert to string by calling toJSON */
                 recordPropValue = (obj.model.record[prop2].type === 'M.Date') ? obj.model.record[prop2].toJSON() : obj.model.record[prop2];
                 sql += pre_suffix + recordPropValue + pre_suffix + ', ';
@@ -238,12 +234,15 @@ M.DataProviderWebSql = M.DataProvider.extend(
             });
         },
         function(sqlError) { // errorCallback
+
+            var err = this.buildErrorObject(sqlError);
+            
             /* bind error callback */
             if (obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
+                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
                 obj.onError();
             } else if(obj.onError && typeof(obj.onError) === 'function') {
-                obj.onError(sqlError);
+                obj.onError(err);
             }
         },
 
@@ -398,11 +397,16 @@ M.DataProviderWebSql = M.DataProvider.extend(
 
             }, function(){M.Logger.log('Incorrect statement: ' + sql, M.ERROR)}) // callbacks: SQLStatementErrorCallback
         }, function(sqlError){ // errorCallback
+
+            var err = this.buildErrorObject(sqlError);
+
             /* bind error callback */
             if(obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
+                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
                 obj.onError();
-            } else if (typeof(obj.onError) !== 'function') {
+            } else if(obj.onError && typeof(obj.onError) === 'function') {
+                obj.onError(err);
+            } else {
                 M.Logger.log('Target and action in onError not defined.', M.ERROR);
             }
         }, function() { // voidCallback (success)
@@ -463,6 +467,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
         }
         
     },
+             
 
 
     /**
@@ -493,12 +498,15 @@ M.DataProviderWebSql = M.DataProvider.extend(
                 this.dbHandler.transaction(function(t) {
                     t.executeSql(sql);
                 }, function(sqlError){ // errorCallback
+
+                    var err = this.buildErrorObject(sqlError);
+
                     /* bind error callback */
                     if(obj.onError && obj.onError.target && obj.onError.action) {
-                        obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], sqlError);
+                        obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
                         obj.onError();
                     } else if (typeof(obj.onError) === 'function') {
-                        obj.onError(sqlError);
+                        obj.onError(err);
                     } else {M.Logger.log('Target and action in onError not defined.', M.ERROR); }}, that.bindToCaller(that, that.handleDbReturn, [obj, callback])); // success callback
             } catch(e) {
                 M.Logger.log('Error code: ' + e.code + ' msg: ' + e.message, M.ERROR);
@@ -508,6 +516,102 @@ M.DataProviderWebSql = M.DataProvider.extend(
             M.Logger.log('dbHandler does not exist.', M.ERROR);
         }
     },
+
+    /**
+     *
+     * @param {obj} obj
+     * @param {Array} records
+     * @param {Number} transactionSize
+     */
+    bulkSave: function(obj, records, transactionSize) {
+        
+        if(!transactionSize || typeof(transactionSize) !== 'number') {
+            transactionSize = records.length;
+        }
+
+        var transactionInserts = [];
+        
+        var sqlTemplate = ' INSERT OR REPLACE INTO ' + obj.model.name + ' (';
+
+        for(var prop in obj.model.record) {
+            sqlTemplate += prop + ', ';
+        }
+
+        /* now name m_id column */
+        sqlTemplate += M.META_M_ID + ') ';
+
+        sqlTemplate += 'VALUES (';
+
+        var sql = ''; // the actual sql insert string with values
+        var values = '';
+        var curRec = null;
+
+        for (var i = 1; i <= records.length; i++) {
+            curRec = records[i - 1];
+            for(var prop2 in curRec.record) {
+                var propDataType = curRec.__meta[prop2].dataType;
+                /* if property is string or text write value in quotes */
+                var pre_suffix = propDataType === 'String' || propDataType === 'Text' || propDataType === 'Date' ? '"' : '';
+                /* if property is date object, convert to string by calling toJSON */
+                var recordPropValue = (curRec.record[prop2].type === 'M.Date') ? curRec.record[prop2].toJSON() : curRec.record[prop2];
+                values += pre_suffix + recordPropValue + pre_suffix + ', ';
+            }
+            sql += sqlTemplate + values + curRec.m_id + ');';
+            values = '';
+            
+            if (i % transactionSize === 0 || i === records.length) {
+                transactionInserts.push(sql);
+                sql = '';
+            }
+        }
+
+        var that = this;
+        var sqlInsertSet = '';
+        for(var i; i < transactionInserts.length;i++) {
+            sqlInsertSet = transactionInserts[i];
+            if(!this.bulkTransactionFailed) {
+                if(this.dbHandler) {
+                    /* transaction has 3 parameters: the transaction callback, the error callback and the success callback */
+                    this.dbHandler.transaction(function(t) {
+                        t.executeSql(sqlInsertSet);
+                    }, function(sqlError) { // errorCallback
+                        that.bulkTransactionFailed = YES;
+                        var err = this.buildErrorObject(sqlError);
+                        /* bind error callback */
+                        if (obj.onError && obj.onError.target && obj.onError.action) {
+                            obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
+                            obj.onError();
+                        } else if (typeof(obj.onError) === 'function') {
+                            obj.onError(err);
+                        } else {
+                            M.Logger.log('Target and action in onError not defined.', M.ERROR);
+                        }
+                    },
+                    function() {    // success callback
+                        that.handleBulkSuccessCallback(obj, (i + 1), transactionInserts.length);    
+                    });
+                    return;
+                } else {
+                    M.Logger.log('dbHandler does not exist.', M.ERROR);
+                }
+            } else {
+                return NO;
+            }
+
+        };
+    },
+
+    handleBulkSuccessCallback: function(obj, iteration, total) {
+        if(iteration === total) {
+             if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
+                obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
+                obj.onSuccess();
+            }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                obj.onSuccess();
+            }
+        }
+    },
+
 
     /**
      * Creates a new data provider instance with the passed configuration parameters
@@ -573,6 +677,18 @@ M.DataProviderWebSql = M.DataProvider.extend(
      */
     setDbIdOfModel: function(model, id) {
         model.record.ID = id;
+    },
+
+    /**
+     * @private
+     * Builds a M.Error object on basis of SQLError sqlErr. Maps error codes to M.Error error codes.
+     * @param {Object} sqlErr SQLError object returned by WebSQL
+     */
+    buildErrorObject: function(sqlErr) {
+        return M.Error.extend({
+            code: sqlErr + 200,     // 200 is offset of WebSQL errors in M.ERROR
+            msg: sqlErr.message
+        });
     }
 
 });

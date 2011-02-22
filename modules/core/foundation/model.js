@@ -94,6 +94,8 @@ M.Model = M.Object.extend(
     state: M.STATE_UNDEFINED,
 
 
+    state_remote: M.STATE_UNDEFINED,
+
     /**
      * determines whether model shall be validated before saving to storage or not.
      * @type Boolean
@@ -132,7 +134,14 @@ M.Model = M.Object.extend(
         }
 
         for(var i in rec.record) {
+
             if(i === 'ID' || i === M.META_CREATED_AT || i === M.META_UPDATED_AT) {
+                continue;
+            }
+
+            /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
+            if(!rec.__meta.hasOwnProperty(i)) {
+                delete rec.record[i];
                 continue;
             }
 
@@ -144,11 +153,6 @@ M.Model = M.Object.extend(
             
             if(rec.__meta[i]) {
                 rec.__meta[i].isUpdated = NO;    
-            }
-
-            /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
-            if(!rec.__meta.hasOwnProperty(i)) {
-                delete rec.record[i];
             }
         }
 
@@ -194,11 +198,18 @@ M.Model = M.Object.extend(
             isRequired:YES
         });
 
+        /* CouchDB documents have a rev property for managing versions*/
+        if(model.dataProvider.type === 'M.DataProviderCouchDb') {
+            model.__meta['rev'] = this.attr('String', {
+                isRequired:NO
+            });     
+        }
+
         model.recordManager = M.RecordManager.extend({records:[]});
 
         /* if dataprovider is WebSqlProvider, create table for this model and add ID ModelAttribute Object to __meta */
         if(model.dataProvider.type === 'M.DataProviderWebSql') {
-            model.dataProvider.init({model: model, onError:function(err){console.log(err);}}, function() {});
+            model.dataProvider.init({model: model, onError:function(err){M.Logger.log(err, M.ERROR);}}, function() {});
             model.dataProvider.isInitialized = YES;
         }
 
@@ -332,7 +343,7 @@ M.Model = M.Object.extend(
             this.record[propName] = val;
             this.__meta[propName].isUpdated = YES;
             /* mark record as updated with new timestamp*/
-            this.record['_updatedAt'] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+            this.record[M.META_UPDATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
         }        
     },
 

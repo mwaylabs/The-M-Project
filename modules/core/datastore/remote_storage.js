@@ -44,25 +44,25 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
 
             dataResult = config.create.map(obj.model.record);
 
-            this.remoteQuery('create', config.location + config.create.url(obj.model.get('ID')), config.create.httpMethod, dataResult, obj, null);
-            
+            this.remoteQuery('create', config.url + config.create.url(obj.model.get('ID')), config.create.httpMethod, dataResult, obj, null);
+
         } else { // make an update request
 
             dataResult = config.update.map(obj.model.record);
 
-            var updateUrl = config.location + config.update.url(obj.model.get('ID'));
+            var updateUrl = config.url + config.update.url(obj.model.get('ID'));
 
             this.remoteQuery('update', updateUrl, config.update.httpMethod, dataResult, obj, function(xhr) {
                   xhr.setRequestHeader("X-Http-Method-Override", config.update.httpMethod);
             });
         }
-        
+
     },
 
     del: function(obj) {
         var config = this.config[obj.model.name];
         var delUrl = config.del.url(obj.model.get('ID'));
-        delUrl = config.location + delUrl;
+        delUrl = config.url + delUrl;
 
         this.remoteQuery('delete', delUrl, config.del.httpMethod, null, obj,  function(xhr) {
             xhr.setRequestHeader("X-Http-Method-Override", config.del.httpMethod);
@@ -73,7 +73,7 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
         var config = this.config[obj.model.name];
 
         var readUrl = obj.ID ? config.read.url.one(obj.ID) : config.read.url.all();
-        readUrl = config.location + readUrl;
+        readUrl = config.url + readUrl;
 
         this.remoteQuery('read', readUrl, config.read.httpMethod, null, obj);
 
@@ -88,10 +88,10 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
                 /* create model  record from result by first map with given mapper function before passing
                  * to createRecord
                  */
-                result.push(obj.model.createRecord($.extend(config.read.map(res[config.objIdentifier]), {state: M.STATE_VALID})));
+                result.push(obj.model.createRecord($.extend(config.read.map(res), {state: M.STATE_VALID})));
             }
         } else if(typeof(data) === 'object') {
-            result.push(obj.model.createRecord($.extend(config.read.map(data[config.objIdentifier]), {state: M.STATE_VALID})));
+            result.push(obj.model.createRecord($.extend(config.read.map(data), {state: M.STATE_VALID})));
         }
         callback(result);
     },
@@ -99,7 +99,7 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
     remoteQuery: function(opType, url, type, data, obj, beforeSend) {
         var that = this;
         var config = this.config[obj.model.name];
-        
+
         M.Request.init({
             url: url,
             method: type,
@@ -127,32 +127,43 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
                 }
 
                 /*
-                * call callback 
+                * call callback
                 */
-                if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
-                    obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], [data]);
-                    if(opType === 'read') {
+                if(obj.onSuccess) {
+                    if(obj.onSuccess.target && obj.onSuccess.action) {
+                        obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], [data]);
+                        if(opType === 'read') {
+                            that.createModelsFromResult(data, obj.onSuccess, obj);
+                        } else {
+                            obj.onSuccess();
+                        }
+                    } else if(typeof(obj.onSuccess) === 'function') {
                         that.createModelsFromResult(data, obj.onSuccess, obj);
-                    } else {
-                        obj.onSuccess();
                     }
+
                 }else {
                     M.Logger.log('No success callback given.', M.WARN);
                 }
             },
             onError: function(xhr, msg) {
+
+                var err = M.Error.extend({
+                    code: M.ERR_CONNECTION,
+                    msg: msg
+                });
+
                 if(obj.onError && typeof(obj.onError) === 'function') {
-                    obj.onError(msg);
+                    obj.onError(err);
                 }
                 if(obj.onError && obj.onError.target && obj.onError.action) {
-                    obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], msg);
-                    obj.onError(msg);
+                    obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
+                    obj.onError();
                 } else if (typeof(obj.onError) !== 'function') {
                     M.Logger.log('No error callback given.', M.WARN);
                 }
             },
             beforeSend: beforeSend ? beforeSend : null
-        }).send();    
+        }).send();
     },
 
     /**
