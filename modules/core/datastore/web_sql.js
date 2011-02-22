@@ -76,6 +76,12 @@ M.DataProviderWebSql = M.DataProvider.extend(
     internalCallback: null,
 
     /**
+     * Indicates whether one of multiple transactions failed
+     * @type Boolean
+     */
+    bulkTransactionFailed: NO,
+
+    /**
      * Used internally. External callback for success case. 
      * @private
      */
@@ -140,6 +146,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
             for(var prop in obj.model.record) {
                 sql += prop + ', ';
             }
+            //sql += _.keys(obj.model.record).join(', ');
 
             /* now name m_id column */
             sql += M.META_M_ID + ') ';
@@ -151,8 +158,9 @@ M.DataProviderWebSql = M.DataProvider.extend(
 
             for(var prop2 in obj.model.record) {
                 //console.log(obj.model.record[prop2]);
+                var propDataType = obj.model.__meta[prop2].dataType;
                 /* if property is string or text write value in quotes */
-                pre_suffix = obj.model.__meta[prop2].dataType === 'String' || obj.model.__meta[prop2].dataType === 'Text' || obj.model.__meta[prop2].dataType === 'Date' ? '"' : '';
+                pre_suffix = propDataType === 'String' || propDataType === 'Text' || propDataType === 'Date' ? '"' : '';
                 /* if property is date object, convert to string by calling toJSON */
                 recordPropValue = (obj.model.record[prop2].type === 'M.Date') ? obj.model.record[prop2].toJSON() : obj.model.record[prop2];
                 sql += pre_suffix + recordPropValue + pre_suffix + ', ';
@@ -459,6 +467,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
         }
         
     },
+             
 
 
     /**
@@ -507,6 +516,102 @@ M.DataProviderWebSql = M.DataProvider.extend(
             M.Logger.log('dbHandler does not exist.', M.ERROR);
         }
     },
+
+    /**
+     *
+     * @param {obj} obj
+     * @param {Array} records
+     * @param {Number} transactionSize
+     */
+    bulkSave: function(obj, records, transactionSize) {
+        
+        if(!transactionSize || typeof(transactionSize) !== 'number') {
+            transactionSize = records.length;
+        }
+
+        var transactionInserts = [];
+        
+        var sqlTemplate = ' INSERT OR REPLACE INTO ' + obj.model.name + ' (';
+
+        for(var prop in obj.model.record) {
+            sqlTemplate += prop + ', ';
+        }
+
+        /* now name m_id column */
+        sqlTemplate += M.META_M_ID + ') ';
+
+        sqlTemplate += 'VALUES (';
+
+        var sql = ''; // the actual sql insert string with values
+        var values = '';
+        var curRec = null;
+
+        for (var i = 1; i <= records.length; i++) {
+            curRec = records[i - 1];
+            for(var prop2 in curRec.record) {
+                var propDataType = curRec.__meta[prop2].dataType;
+                /* if property is string or text write value in quotes */
+                var pre_suffix = propDataType === 'String' || propDataType === 'Text' || propDataType === 'Date' ? '"' : '';
+                /* if property is date object, convert to string by calling toJSON */
+                var recordPropValue = (curRec.record[prop2].type === 'M.Date') ? curRec.record[prop2].toJSON() : curRec.record[prop2];
+                values += pre_suffix + recordPropValue + pre_suffix + ', ';
+            }
+            sql += sqlTemplate + values + curRec.m_id + ');';
+            values = '';
+            
+            if (i % transactionSize === 0 || i === records.length) {
+                transactionInserts.push(sql);
+                sql = '';
+            }
+        }
+
+        var that = this;
+        var sqlInsertSet = '';
+        for(var i; i < transactionInserts.length;i++) {
+            sqlInsertSet = transactionInserts[i];
+            if(!this.bulkTransactionFailed) {
+                if(this.dbHandler) {
+                    /* transaction has 3 parameters: the transaction callback, the error callback and the success callback */
+                    this.dbHandler.transaction(function(t) {
+                        t.executeSql(sqlInsertSet);
+                    }, function(sqlError) { // errorCallback
+                        that.bulkTransactionFailed = YES;
+                        var err = this.buildErrorObject(sqlError);
+                        /* bind error callback */
+                        if (obj.onError && obj.onError.target && obj.onError.action) {
+                            obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
+                            obj.onError();
+                        } else if (typeof(obj.onError) === 'function') {
+                            obj.onError(err);
+                        } else {
+                            M.Logger.log('Target and action in onError not defined.', M.ERROR);
+                        }
+                    },
+                    function() {    // success callback
+                        that.handleBulkSuccessCallback(obj, (i + 1), transactionInserts.length);    
+                    });
+                    return;
+                } else {
+                    M.Logger.log('dbHandler does not exist.', M.ERROR);
+                }
+            } else {
+                return NO;
+            }
+
+        };
+    },
+
+    handleBulkSuccessCallback: function(obj, iteration, total) {
+        if(iteration === total) {
+             if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
+                obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
+                obj.onSuccess();
+            }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
+                obj.onSuccess();
+            }
+        }
+    },
+
 
     /**
      * Creates a new data provider instance with the passed configuration parameters
