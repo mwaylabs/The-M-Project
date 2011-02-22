@@ -36,7 +36,7 @@ M.ScrollView = M.View.extend(
      * @returns {String} The scroll view's html representation.
      */
     render: function() {
-        this.html += '<div id="' + this.id + '" data-role="content">';
+        this.html += '<div id="' + this.id + '" data-role="content"' + this.style() + '>';
 
         this.renderChildViews();
 
@@ -54,6 +54,20 @@ M.ScrollView = M.View.extend(
     theme: function() {
         //$('#' + this.id).page();
         this.themeChildViews();
+    },
+
+    /**
+     * Applies some style-attributes to the scroll view.
+     *
+     * @private
+     * @returns {String} The button's styling as html representation.
+     */
+    style: function() {
+        var html = '';
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
+        }
+        return html;
     }
 
 });

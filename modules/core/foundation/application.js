@@ -161,23 +161,18 @@ M.Application = M.Object.extend(
 
                 /* bind the pagehide event to any view's pageDidHide property function */
                 $('#' + this.viewManager.viewList[i].id).bind('pagehide', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageDidHide));
-
-                /* set the first page as current page to be displayed */
-                if(!this.viewManager.getCurrentPage()) {
-                    this.viewManager.setCurrentPage(this.viewManager.viewList[i]);
-                }
             }
         }
+    },
 
-        /* set entry page for the application */
-        if(this.entryPage && this.viewManager.getPage(this.entryPage)) {
-            this.viewManager.setCurrentPage(this.viewManager.getPage(this.entryPage));
-            var that = this;
-            window.setTimeout(function() {
-                M.Controller.switchToPage(that.entryPage, M.TRANSITION.NONE, NO, YES)
-            }, 0);
+    showEntryPage: function() {
+        var entryPage = M.ViewManager.getPage(M.Application.entryPage);
+        document.location.hash = '#' + entryPage.id;
+        if(window.history && typeof(window.history.pushState) === 'function') {
+            window.history.pushState(null, 'entryPage', 'index.html#' + entryPage.id);
         }
-
+        M.ViewManager.setCurrentPage(M.ViewManager.getPage(M.Application.entryPage));
+        $.mobile.initializePage();
     }
 
 });

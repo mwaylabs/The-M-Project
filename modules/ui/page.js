@@ -83,6 +83,14 @@ M.PageView = M.View.extend(
      */
     tabBarView: null,
 
+    lastPageWillLoad: null,
+
+    lastPageDidLoad: null,
+
+    lastPageWillHide: null,
+
+    lastPageDidHide: null,
+
     /**
      * Renders in three steps:
      * 1. Rendering Opening div tag with corresponding data-role
@@ -116,8 +124,12 @@ M.PageView = M.View.extend(
      * for the page, it is now called.
      */
     pageWillLoad: function() {
+        if(this.lastPageWillLoad && this.lastPageWillLoad.timeBetween(M.Date.now()) < 1000) {
+            return;
+        }
+        this.lastPageWillLoad = M.Date.now();
         /* if this is the first page to be loaded, check if there is a tab bar and an active tab
-           specified and switch to this tab */
+           specified and switch to this tab. also reload this page to have a stable location hash. */
         if(M.Application.isFirstLoad) {
             M.Application.isFirstLoad = NO;
             var currentPage = M.ViewManager.getCurrentPage();
@@ -125,7 +137,7 @@ M.PageView = M.View.extend(
                 var tabBarView = currentPage.tabBarView;
                 var activePage = M.ViewManager.getPage(tabBarView.activeTab.page);
                 if(activePage !== currentPage) {
-                    M.Controller.switchToPage(tabBarView.activeTab.page);
+                    M.Controller.switchToPage(tabBarView.activeTab.page, M.TRANSITION.NONE, NO, YES);
                 }
             }
         }
@@ -145,6 +157,10 @@ M.PageView = M.View.extend(
      * for the page, it is now called.
      */
     pageDidLoad: function() {
+        if(this.lastPageDidLoad && this.lastPageDidLoad.timeBetween(M.Date.now()) < 1000) {
+            return;
+        }
+        this.lastPageDidLoad = M.Date.now();
         if(this.onLoad) {
             this.onLoad.target[this.onLoad.action](this.isFirstLoad);            
         }
@@ -157,11 +173,6 @@ M.PageView = M.View.extend(
             }
         });
 
-        /* WORKAROUND FOR FOOTER / HEADER BUG IN JQM */
-        /* TODO: REMOVE ONCE IT IS FIXED BY JQM */
-        window.setTimeout('scroll(0, 0)', 100);
-        window.setTimeout('$.fixedToolbars.show()', 150);
-
         this.isFirstLoad = NO;
     },
 
@@ -170,6 +181,10 @@ M.PageView = M.View.extend(
      * for the page, it is now called.
      */
     pageWillHide: function() {
+        if(this.lastPageWillHide && this.lastPageWillHide.timeBetween(M.Date.now()) < 1000) {
+            return;
+        }
+        this.lastPageWillHide = M.Date.now();
         if(this.beforeHide) {
             this.beforeHide.target[this.beforeHide.action]();
         }
@@ -180,6 +195,10 @@ M.PageView = M.View.extend(
      * for the page, it is now called.
      */
     pageDidHide: function() {
+        if(this.lastPageDidHide && this.lastPageDidHide.timeBetween(M.Date.now()) < 1000) {
+            return;
+        }
+        this.lastPageDidHide = M.Date.now();
         if(this.onHide) {
             this.onHide.target[this.onHide.action]();
         }
