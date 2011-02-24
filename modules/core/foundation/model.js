@@ -28,15 +28,15 @@ m_require('core/foundation/model_registry.js');
 
 /**
  * @class
- * 
+ *
  * M.Model is the prototype for every model and for every model record (a model itself is the blueprint for a model record).
  * Models hold the business data of an application respectively the application's state. It's usually the part of an application that is persisted to storage.
  * M.Model acts as the gatekeeper to storage. It uses data provider for persistence and validators to validate its records.
- * 
+ *
  * @extends M.Object
  */
 M.Model = M.Object.extend(
-/** @scope M.Model.prototype */ { 
+/** @scope M.Model.prototype */ {
     /**
      * The type of this object.
      *
@@ -118,7 +118,7 @@ M.Model = M.Object.extend(
      * from storage then state is M.STATE_NEW or 'state_new', if fetched from database then it is M.STATE_VALID or 'state_valid'
      */
     createRecord: function(obj) {
-        
+
         var rec = this.extend({
             m_id: obj.m_id ? obj.m_id : M.Application.modelRegistry.getNextId(this.name),
             record: obj /* properties that are added to record here, but are not part of __meta, are deleted later (see below) */
@@ -150,9 +150,9 @@ M.Model = M.Object.extend(
                 // call set of model
                 rec.set(i, rec.record[i]);
             }
-            
+
             if(rec.__meta[i]) {
-                rec.__meta[i].isUpdated = NO;    
+                rec.__meta[i].isUpdated = NO;
             }
         }
 
@@ -160,11 +160,11 @@ M.Model = M.Object.extend(
         return rec;
     },
 
-    /** 
+    /**
      * Create defines a new model blueprint. It is passed an object with the model's attributes and the model's business logic
      * and after it the type of data provider to use.
      *
-     * @param {Object} obj An object defining the model's  
+     * @param {Object} obj An object defining the model's
      * @param {Object} dp The data provider to use, e. g. M.LocalStorageProvider
      * @returns {Object} The model blueprint: acts as blueprint to all records created with @link M.Model#createRecord
      */
@@ -183,7 +183,7 @@ M.Model = M.Object.extend(
             if(typeof(obj[prop]) === 'function') {
                 model[prop] = obj[prop];
             } else if(obj[prop].type === 'M.ModelAttribute') {
-                model.__meta[prop] = obj[prop];    
+                model.__meta[prop] = obj[prop];
             }
         }
 
@@ -202,7 +202,7 @@ M.Model = M.Object.extend(
         if(model.dataProvider.type === 'M.DataProviderCouchDb') {
             model.__meta['rev'] = this.attr('String', {
                 isRequired:NO
-            });     
+            });
         }
 
         model.recordManager = M.RecordManager.extend({records:[]});
@@ -264,7 +264,7 @@ M.Model = M.Object.extend(
      * @returns {Object} An M.ModelAttribute object configured with the type and options passed to the function.
      */
     attr: function(type, opts) {
-        return M.ModelAttribute.attr(type, opts); 
+        return M.ModelAttribute.attr(type, opts);
     },
 
     /*
@@ -330,7 +330,7 @@ M.Model = M.Object.extend(
         /* TODO: implement hasMany... */
         /* TODO: evaluate whether to save m_id in record and entity reference in __meta or other way round */
         if(this.__meta[propName].dataType === 'Reference' && val.type && val.type === 'M.Model') {    // reference set
-            /* first check if new value is passed */ 
+            /* first check if new value is passed */
             if(this.record[propName] !== val.m_id) {
                 /* set m_id of reference in record */
                 this.record[propName] = val.m_id;
@@ -344,7 +344,7 @@ M.Model = M.Object.extend(
             this.__meta[propName].isUpdated = YES;
             /* mark record as updated with new timestamp*/
             this.record[M.META_UPDATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
-        }        
+        }
     },
 
     /**
@@ -394,7 +394,7 @@ M.Model = M.Object.extend(
         /*if(!isValid) {
             this.state = M.STATE_INVALID;
         } else {
-            this.state = M.STATE_VALID;   
+            this.state = M.STATE_VALID;
         }*/
         return isValid;
     },
@@ -433,7 +433,7 @@ M.Model = M.Object.extend(
      * @param {Object} obj The param object with query, cascade flag and callbacks.
      * @returns {Boolean} The result of the data provider function call. Is a boolean. With LocalStorage used, it indicates if the save operation was successful.
      * When WebSQL is used, the result of the save operation returns asynchronously. The result then is just the standard result returned by the web sql provider's save method
-     * which does not necessarily indicate whether the operation was successful, because the operation is asynchronous, means the operation's end is not predictable. 
+     * which does not necessarily indicate whether the operation was successful, because the operation is asynchronous, means the operation's result is not predictable.
      */
     save: function(obj) {
         if(!this.dataProvider) {
@@ -462,6 +462,31 @@ M.Model = M.Object.extend(
         }
     },
 
+
+    bulkImport: function(obj){
+        if(!this.dataProvider) {
+            M.Logger.log('No data provider given.', M.ERROR);
+        }
+        if(this.dataProvider.type !== 'M.DataProviderWebSql') {
+            var err = M.Error.extend({
+
+            });
+
+            if (obj.onError && obj.onError.target && obj.onError.action) {
+                obj.onError = that.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
+                obj.onError();
+            } else if (typeof(obj.onError) === 'function') {
+                obj.onError(err);
+            } else {
+                M.Logger.log('Target and action in onError not defined.', M.ERROR);
+            }
+            return NO;
+        }
+        obj = obj ? obj : {};
+        /* extends the given obj with self as model property in obj */
+        return this.dataProvider.bulkImport( $.extend(obj, {model: this}) );
+    },
+
     /**
      * Delete a record in storage.
      * @returns {Boolean} Indicating whether deletion was successful or not (only with synchronous data providers, e.g. LocalStorage). When asynchronous data providers
@@ -481,7 +506,7 @@ M.Model = M.Object.extend(
             this.state = M.STATE_DELETED;
             return YES
         }
-        
+
     },
 
     /**
@@ -552,7 +577,7 @@ M.Model = M.Object.extend(
                 break;
 
             default:
-                    
+
                 break;
         }
     },

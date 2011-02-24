@@ -36,13 +36,13 @@ M.DataProviderWebSql = M.DataProvider.extend(
 
     /**
      * Indicates whether data provider operates asynchronously or not.
-     * 
+     *
      * @type Boolean
      */
     isAsync: YES,
 
     /**
-     * Is set to YES when initialization ran successfully, means when {@link M.WebSqlProvider#init} was called, db and table created. 
+     * Is set to YES when initialization ran successfully, means when {@link M.WebSqlProvider#init} was called, db and table created.
      * @type Boolean
      */
     isInitialized: NO,
@@ -70,7 +70,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
 
     /**
      * Saves the internal callback function. Is needed when provider/db is not initialized and init() must be executed first to have the return point again after
-     * initialization. 
+     * initialization.
      * @type Function
      */
     internalCallback: null,
@@ -82,7 +82,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
     bulkTransactionFailed: NO,
 
     /**
-     * Used internally. External callback for success case. 
+     * Used internally. External callback for success case.
      * @private
      */
     onSuccess: null,
@@ -95,7 +95,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
 
     /**
      * Opens a database and creates the appropriate table for the model record.
-     * 
+     *
      * @param {Object} obj The param obj, includes model. Not used here, just passed through.
      * @param {Function} callback The function that called init as callback bind to this.
      * @private
@@ -146,12 +146,9 @@ M.DataProviderWebSql = M.DataProvider.extend(
             for(var prop in obj.model.record) {
                 sql += prop + ', ';
             }
-            //sql += _.keys(obj.model.record).join(', ');
 
             /* now name m_id column */
             sql += M.META_M_ID + ') ';
-
-            //sql = sql.substring(0, sql.lastIndexOf(',')) + ') ';
 
             /* VALUES(12, 'Test', ... ) */
             sql += 'VALUES (';
@@ -168,10 +165,6 @@ M.DataProviderWebSql = M.DataProvider.extend(
 
             sql += obj.model.m_id + ')';
 
-            //sql = sql.substring(0, sql.lastIndexOf(',')) + '); ';
-
-            //console.log(sql);
-
             this.performOp(sql, obj, 'INSERT');
 
         } else { // perform an UPDATE with id of model
@@ -181,12 +174,12 @@ M.DataProviderWebSql = M.DataProvider.extend(
             var nrOfUpdates = 0;
 
             for(var p in obj.model.record) {
-                
+
                 if(p === 'ID' || !obj.model.__meta[p].isUpdated) { /* if property has not been updated, then exclude from update call */
                     continue;
                 }
                 nrOfUpdates = nrOfUpdates + 1;
-                
+
                 pre_suffix = obj.model.__meta[p].dataType === 'String' || obj.model.__meta[p].dataType === 'Text' || obj.model.__meta[p].dataType === 'Date' ? '"' : '';
 
                 /* if property is date object, convert to string by calling toJSON */
@@ -196,8 +189,6 @@ M.DataProviderWebSql = M.DataProvider.extend(
             }
             sql = sql.substring(0, sql.lastIndexOf(','));
             sql += ' WHERE ' + 'ID=' + obj.model.record.ID + ';';
-
-            //console.log(sql);
 
             /* if no properties updated, do nothing, just return by calling onSuccess callback */
             if(nrOfUpdates === 0) {
@@ -236,14 +227,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
         function(sqlError) { // errorCallback
 
             var err = this.buildErrorObject(sqlError);
-            
-            /* bind error callback */
-            if (obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
-                obj.onError();
-            } else if(obj.onError && typeof(obj.onError) === 'function') {
-                obj.onError(err);
-            }
+            this.handleErrorCallback(obj, err);
         },
 
         function() {    // voidCallback (success)
@@ -280,8 +264,6 @@ M.DataProviderWebSql = M.DataProvider.extend(
 
         var sql = 'DELETE FROM ' + obj.model.name + ' WHERE ID=' + obj.model.record.ID + ';';
 
-        //console.log(sql);
-
         this.performOp(sql, obj, 'DELETE');
     },
 
@@ -301,7 +283,6 @@ M.DataProviderWebSql = M.DataProvider.extend(
      * * limit: Number defining the number of max. result items
      */
     find: function(obj) {
-        //console.log('find() called.');
 
         this.onSuccess = obj.onSuccess;
         this.onError = obj.onError;
@@ -311,7 +292,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
             this.init(obj, this.bindToCaller(this, this.find));
             return;
         }
-        
+
         var sql = 'SELECT ';
 
         if(obj.columns) {
@@ -367,8 +348,6 @@ M.DataProviderWebSql = M.DataProvider.extend(
             sql += ' LIMIT ' + obj.limit
         }
 
-        //console.log(sql);
-
         var result = [];
         var that = this;
         this.dbHandler.readTransaction(function(t) {
@@ -390,25 +369,14 @@ M.DataProviderWebSql = M.DataProvider.extend(
                             myRec.set(j, M.Date.create(myRec.get(j)));
                         }
                     }
-                    
                     /* add to result array */
                     result.push(myRec);
                 }
 
             }, function(){M.Logger.log('Incorrect statement: ' + sql, M.ERROR)}) // callbacks: SQLStatementErrorCallback
         }, function(sqlError){ // errorCallback
-
             var err = this.buildErrorObject(sqlError);
-
-            /* bind error callback */
-            if(obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
-                obj.onError();
-            } else if(obj.onError && typeof(obj.onError) === 'function') {
-                obj.onError(err);
-            } else {
-                M.Logger.log('Target and action in onError not defined.', M.ERROR);
-            }
+            this.handleErrorCallback(obj, err);
         }, function() { // voidCallback (success)
             /* bind success callback */
             if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
@@ -431,7 +399,6 @@ M.DataProviderWebSql = M.DataProvider.extend(
      * @private
      */
     openDb: function() {
-        //console.log('openDb() called.');
         /* openDatabase(db_name, version, description, estimated_size, callback) */
         try {
             if (!window.openDatabase) {
@@ -448,7 +415,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
 
             }
         } catch(e) {
-            
+
             if (e == 2) {
                 // Version number mismatch.
                 //M.Logger.log('Invalid database version.', M.ERROR);
@@ -465,9 +432,9 @@ M.DataProviderWebSql = M.DataProvider.extend(
             }
             return;
         }
-        
+
     },
-             
+
 
 
     /**
@@ -475,8 +442,6 @@ M.DataProviderWebSql = M.DataProvider.extend(
      * @private
      */
     createTable: function(obj, callback) {
-        //console.log('createTable() called.');
-        //console.log(obj);
         var sql = 'CREATE TABLE IF NOT EXISTS '  + obj.model.name
                     + ' (ID INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE';
 
@@ -489,8 +454,6 @@ M.DataProviderWebSql = M.DataProvider.extend(
 
         sql += ', ' + M.META_M_ID + ' INTEGER NOT NULL);';
 
-        //console.log(sql);
-
         if(this.dbHandler) {
             var that = this;
             try {
@@ -498,21 +461,19 @@ M.DataProviderWebSql = M.DataProvider.extend(
                 this.dbHandler.transaction(function(t) {
                     t.executeSql(sql);
                 }, function(sqlError){ // errorCallback
-
                     var err = this.buildErrorObject(sqlError);
-
-                    /* bind error callback */
-                    if(obj.onError && obj.onError.target && obj.onError.action) {
-                        obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
-                        obj.onError();
-                    } else if (typeof(obj.onError) === 'function') {
-                        obj.onError(err);
-                    } else {M.Logger.log('Target and action in onError not defined.', M.ERROR); }}, that.bindToCaller(that, that.handleDbReturn, [obj, callback])); // success callback
+                    this.handleErrorCallback(obj, err);
+                });
             } catch(e) {
-                M.Logger.log('Error code: ' + e.code + ' msg: ' + e.message, M.ERROR);
-                return;
+                var err = this.buildErrorObject(e);
+                this.handleErrorCallback(obj, err);
             }
         } else {
+            var err = this.buildErrorObject({
+                code: 8,
+                message: 'dbHandler does not exist.'
+            });
+            this.handleErrorCallback(obj, err);
             M.Logger.log('dbHandler does not exist.', M.ERROR);
         }
     },
@@ -523,29 +484,45 @@ M.DataProviderWebSql = M.DataProvider.extend(
      * @param {Array} records
      * @param {Number} transactionSize
      */
-    bulkSave: function(obj, records, transactionSize) {
-        
-        if(!transactionSize || typeof(transactionSize) !== 'number') {
-            transactionSize = records.length;
+    bulkImport: function(obj) {
+
+        if(!this.isInitialized) {
+            this.internalCallback = this.bulkImport;
+            this.init(obj);
+            return;
         }
 
-        var transactionInserts = [];
-        
-        var sqlTemplate = ' INSERT OR REPLACE INTO ' + obj.model.name + ' (';
+        /* reset flag */
+        this.bulkTransactionFailed = NO;
 
+        var records = obj.records;
+        /* if no records were passed execute error callback and pass it an error object */
+        if(!records || !_.isArray(records)) {
+            var err = this.buildErrorObject({
+                code: 10,
+                message: 'No Records array passed.'
+            });
+            this.handleErrorCallback(obj, err);
+        }
+        /* if no transactionSize was passed, make one transaction for all */
+        var transactionSize = !obj.transactionSize || typeof(transactionSize) !== 'number' ? records.length : obj.transactionSize;
+
+        var transactions = [];
+
+        var sqlTemplate = ' INSERT OR REPLACE INTO ' + obj.model.name + ' (';
+        /* append columns */
         for(var prop in obj.model.record) {
             sqlTemplate += prop + ', ';
         }
 
-        /* now name m_id column */
+        /* append m_id column */
         sqlTemplate += M.META_M_ID + ') ';
-
+        /* now append values */
         sqlTemplate += 'VALUES (';
 
         var sql = ''; // the actual sql insert string with values
         var values = '';
         var curRec = null;
-
         for (var i = 1; i <= records.length; i++) {
             curRec = records[i - 1];
             for(var prop2 in curRec.record) {
@@ -558,48 +535,49 @@ M.DataProviderWebSql = M.DataProvider.extend(
             }
             sql += sqlTemplate + values + curRec.m_id + ');';
             values = '';
-            
+
+            /* save sql string as one transaction pack */
             if (i % transactionSize === 0 || i === records.length) {
-                transactionInserts.push(sql);
+                transactions.push(sql);
                 sql = '';
             }
         }
 
-        var that = this;
-        var sqlInsertSet = '';
-        for(var i; i < transactionInserts.length;i++) {
-            sqlInsertSet = transactionInserts[i];
-            if(!this.bulkTransactionFailed) {
-                if(this.dbHandler) {
-                    /* transaction has 3 parameters: the transaction callback, the error callback and the success callback */
-                    this.dbHandler.transaction(function(t) {
-                        t.executeSql(sqlInsertSet);
-                    }, function(sqlError) { // errorCallback
-                        that.bulkTransactionFailed = YES;
-                        var err = this.buildErrorObject(sqlError);
-                        /* bind error callback */
-                        if (obj.onError && obj.onError.target && obj.onError.action) {
-                            obj.onError = this.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
-                            obj.onError();
-                        } else if (typeof(obj.onError) === 'function') {
-                            obj.onError(err);
-                        } else {
-                            M.Logger.log('Target and action in onError not defined.', M.ERROR);
-                        }
-                    },
-                    function() {    // success callback
-                        that.handleBulkSuccessCallback(obj, (i + 1), transactionInserts.length);    
-                    });
-                    return;
-                } else {
-                    M.Logger.log('dbHandler does not exist.', M.ERROR);
-                }
-            } else {
-                return NO;
-            }
+        for(var i = 0; i < transactions.length;i++) {
+            this.makeBulkTransaction(obj, transactions[i], i, transactions.length);
+        }
 
-        };
     },
+
+    makeBulkTransaction: function(obj, transaction, transactionNr, numberOfTransactions) {
+        var that = this;
+        var sqlInsertSet = transaction.split(';');
+        if(!this.bulkTransactionFailed) {
+            if(this.dbHandler) {
+                /* transaction has 3 parameters: the transaction callback, the error callback and the success callback */
+                this.dbHandler.transaction(function(t) {
+                    for(var j = 0; j < sqlInsertSet.length; j++) {
+                        if(sqlInsertSet[j] !== '') {
+                            console.log(sqlInsertSet[j]);
+                            t.executeSql(sqlInsertSet[j]);
+                        }
+                    }
+                }, function(sqlError) { // errorCallback
+                    that.bulkTransactionFailed = YES;
+                    var err = that.buildErrorObject(sqlError);
+                    this.handleErrorCallback(obj, sqlError);
+                },
+                function() {
+                    that.handleBulkSuccessCallback(obj, (transactionNr + 1), numberOfTransactions);
+                });
+            } else {
+                M.Logger.log('dbHandler does not exist.', M.ERROR);
+            }
+        } else {
+            return NO;
+        }
+    },
+
 
     handleBulkSuccessCallback: function(obj, iteration, total) {
         if(iteration === total) {
@@ -610,6 +588,17 @@ M.DataProviderWebSql = M.DataProvider.extend(
                 obj.onSuccess();
             }
         }
+    },
+
+    handleErrorCallback: function(obj, err) {
+        if (obj.onError && obj.onError.target && obj.onError.action) {
+                obj.onError = that.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
+                obj.onError();
+            } else if (typeof(obj.onError) === 'function') {
+                obj.onError(err);
+            } else {
+                M.Logger.log('Target and action in onError not defined.', M.ERROR);
+            }
     },
 
 
@@ -666,7 +655,6 @@ M.DataProviderWebSql = M.DataProvider.extend(
      * Then calls the internal callback => the function that called init().
      */
     handleDbReturn: function(obj, callback) {
-        //console.log('handleDbReturn() called.');
         this.isInitialized = YES;
         this.internalCallback(obj, callback);
     },
@@ -682,11 +670,11 @@ M.DataProviderWebSql = M.DataProvider.extend(
     /**
      * @private
      * Builds a M.Error object on basis of SQLError sqlErr. Maps error codes to M.Error error codes.
-     * @param {Object} sqlErr SQLError object returned by WebSQL
+     * @param {Object} err err object returned by WebSQL or manually created error obj
      */
-    buildErrorObject: function(sqlErr) {
+    buildErrorObject: function(err) {
         return M.Error.extend({
-            code: sqlErr + 200,     // 200 is offset of WebSQL errors in M.ERROR
+            code: sqlErr.code + 200,     // 200 is offset of WebSQL errors in M.ERROR
             msg: sqlErr.message
         });
     }
