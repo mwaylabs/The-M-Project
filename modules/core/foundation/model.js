@@ -433,7 +433,7 @@ M.Model = M.Object.extend(
      * @param {Object} obj The param object with query, cascade flag and callbacks.
      * @returns {Boolean} The result of the data provider function call. Is a boolean. With LocalStorage used, it indicates if the save operation was successful.
      * When WebSQL is used, the result of the save operation returns asynchronously. The result then is just the standard result returned by the web sql provider's save method
-     * which does not necessarily indicate whether the operation was successful, because the operation is asynchronous, means the operation's end is not predictable. 
+     * which does not necessarily indicate whether the operation was successful, because the operation is asynchronous, means the operation's result is not predictable. 
      */
     save: function(obj) {
         if(!this.dataProvider) {
@@ -460,6 +460,31 @@ M.Model = M.Object.extend(
         if(isValid) {
             return this.dataProvider.save($.extend(obj, {model: this}));
         }
+    },
+
+    
+    bulkImport: function(obj){
+        if(!this.dataProvider) {
+            M.Logger.log('No data provider given.', M.ERROR);
+        }
+        if(this.dataProvider.type !== 'M.DataProviderWebSql') {
+            var err = M.Error.extend({
+
+            });
+
+            if (obj.onError && obj.onError.target && obj.onError.action) {
+                obj.onError = that.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
+                obj.onError();
+            } else if (typeof(obj.onError) === 'function') {
+                obj.onError(err);
+            } else {
+                M.Logger.log('Target and action in onError not defined.', M.ERROR);
+            }
+            return NO;
+        }
+        obj = obj ? obj : {};
+        /* extends the given obj with self as model property in obj */
+        return this.dataProvider.bulkImport( $.extend(obj, {model: this}) );
     },
 
     /**
