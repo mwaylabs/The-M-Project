@@ -136,6 +136,7 @@ M.DatePickerView = M.View.extend(
             'mouseup',
             function() {
                 $('.hasDatepicker').hide();
+                that.removeCssClass('ui-btn-active');
             }
         );
     },
