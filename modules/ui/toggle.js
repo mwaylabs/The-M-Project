@@ -46,6 +46,13 @@ M.ToggleView = M.View.extend(
     toggleOnClick: NO,
 
     /**
+     * Contains a reference to the currently displayed view.
+     *
+     * @type M.View
+     */
+    currentView: null,
+
+    /**
      * Renders a ToggleView and its child views.
      *
      * @private
@@ -75,6 +82,7 @@ M.ToggleView = M.View.extend(
                     this[childViews[childViewIndex]].internalTarget = this;
                     this[childViews[childViewIndex]].internalAction = 'toggleView';
                 }
+                this.currentView = this[childViews[childViewIndex]];
                 this.html += this[childViews[childViewIndex]].render();
             } else {
                 M.Logger.log('Please make sure that there are two child views defined for the toggle view!', M.WARN);
@@ -98,6 +106,7 @@ M.ToggleView = M.View.extend(
                     this[childViews[childViewIndex]].internalAction = 'toggleView';
                 }
                 this[childViews[childViewIndex]].clearHtml();
+                this.currentView = this[childViews[childViewIndex]];
                 return this[childViews[childViewIndex]].render();
             } else {
                 M.Logger.log('Please make sure that there are two child views defined for the toggle view!', M.WARN);
@@ -114,6 +123,11 @@ M.ToggleView = M.View.extend(
         $('#' + this.id).empty();
         $('#' + this.id).html(this.renderUpdateChildViews());
         this.theme();
+
+        /* if view is a M.ScrollView, we need to use the 'page' method of JQM for correct styling */
+        if(this.currentView && this.currentView.type === 'M.ScrollView') {
+            $('#' + this.currentView.id).page();
+        }
     },
 
     /**
