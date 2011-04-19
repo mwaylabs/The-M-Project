@@ -1,3 +1,11 @@
+** Version 0.4 - Date 19.04.2011 **
+
+  * Updated jQuery to 1.5.2
+  * Updated jQuery Mobile to 1.0a4.1
+  * Updated M.DatePickerView to work with latest version of JQM
+  * Updated M.SelectionListView to work with latest version of JQM
+  * Fixed a bug in M.ToggleView
+
 ** Version 0.3 - Date 22.02.2011 **
 
   * Added M.DatePickerView.
