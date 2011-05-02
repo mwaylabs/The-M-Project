@@ -138,6 +138,8 @@ M.I18N = M.Object.extend(
                 return language.toLowerCase();
             } else if(M.Application.defaultLanguage) {
                 return M.Application.defaultLanguage.toLowerCase();
+            } else {
+                return this.defaultLanguage;
             }
         } else {
             return this.defaultLanguage;
