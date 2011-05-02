@@ -1,3 +1,7 @@
+** Version 0.5pre - Date 02.05.2011 **
+
+  * Fixed a bug in M.I18N
+
 ** Version 0.4 - Date 19.04.2011 **
 
   * Updated jQuery to 1.5.2
