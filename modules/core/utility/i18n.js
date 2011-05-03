@@ -54,7 +54,7 @@ M.I18N = M.Object.extend(
      * the current language.
      *
      * @param {String} key The key to the localized string.
-     * @returns {String} The localizes string based on the current application language.
+     * @returns {String} The localized string based on the current application language.
      */
     l: function(key) {
         return this.localize(key);
@@ -67,7 +67,7 @@ M.I18N = M.Object.extend(
      *
      * @private
      * @param {String} key The key to the localized string.
-     * @returns {String} The localizes string based on the current application language.
+     * @returns {String} The localized string based on the current application language.
      */
     localize: function(key) {
         if(!M.Application.currentLanguage) {
