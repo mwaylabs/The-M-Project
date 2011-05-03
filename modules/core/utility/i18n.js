@@ -13,7 +13,7 @@ m_require('core/foundation/object.js');
 /**
  * @class
  *
- * M.I18N defines a prototype for for internationalisation and localisation within
+ * M.I18N defines a prototype for internationalisation and localisation within
  * The M-Project. It is used to set and get the application's language and to
  * localize any string within an application.
  *
