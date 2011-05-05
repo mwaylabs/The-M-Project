@@ -1,7 +1,8 @@
-** Version 0.5pre - Date 02.05.2011 **
+** Version 0.5pre - Date 05.05.2011 **
 
   * Fixed a bug in M.I18N
   * Added setValue() to M.LabelView
+  * Added autogrow-mechanism to M.TextFieldView in combination with content binding
 
 ** Version 0.4 - Date 19.04.2011 **
 
