@@ -171,12 +171,9 @@ M.Application = M.Object.extend(
     },
 
     showEntryPage: function() {
-        //var entryPage = M.ViewManager.getPage(M.Application.entryPage);
-        document.location.hash = '#m_entryPage';
-        /*if(window.history && typeof(window.history.pushState) === 'function') {
-            window.history.pushState(null, 'entryPage', 'index.html#' + entryPage.id);
-        }*/
-        M.ViewManager.setCurrentPage(M.ViewManager.getViewById('m_entryPage'));
+        var entryPage = M.ViewManager.getPage(M.Application.entryPage);
+        document.location.hash = '#' + entryPage.id;
+        M.ViewManager.setCurrentPage(M.ViewManager.getPage(M.Application.entryPage));
         $.mobile.initializePage();
     }
 
