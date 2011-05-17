@@ -210,7 +210,7 @@ M.Date = M.Object.extend(
             M.Logger.log('Invalid date!', M.WARN);   
         }
 
-        var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g;
+        var	token = /d{1,4}|D{1}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g;
         var	timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g;
         var	timezoneClip = /[^-+\dA-Z]/g;
         var	pad = function (val, len) {
@@ -240,6 +240,7 @@ M.Date = M.Object.extend(
             dd:   pad(d),
             ddd:  M.DAY_NAMES[D],
             dddd: M.DAY_NAMES[D + 7],
+            D:    D,
             m:    m + 1,
             mm:   pad(m + 1),
             mmm:  M.MONTH_NAMES[m],
@@ -454,6 +455,59 @@ M.Date = M.Object.extend(
      */
     toJSON: function() {
         return String(this.date);
+    },
+
+    /**
+     * This method returns an array containing all dates within one calendar week.
+     *
+     * @param {Object} calendarWeek The calendar week.
+     * @param {Boolean} startWeekOnMonday Determines whether a week starts on monday or sunday (optional, default is NO).
+     * @param {Number} year The year (optional, default is current year).
+     *
+     * @returns {Array} An array containing all dates within the specified calendar week.
+     */
+    getDatesOfCalendarWeek: function(calendarWeek, startWeekOnMonday, year) {
+        year = year && !isNaN(year) ? year : M.Date.now().format('yyyy');
+        var newYear = M.Date.create('01/01/' + year);
+        var newYearWeekDay = newYear.format('D');
+
+        var firstWeek = null;
+        if(startWeekOnMonday) {
+            firstWeek = newYearWeekDay == 1 ? newYear : newYear.daysFromDate(8 - (newYearWeekDay == 0 ? 7 : newYearWeekDay));
+        } else {
+            firstWeek = newYearWeekDay == 0 ? newYear : newYear.daysFromDate(7 - newYearWeekDay);
+        }
+
+        var requiredWeek = firstWeek.daysFromDate((calendarWeek - 1) * 7);
+
+        var dates = [];
+        for(var i = 0; i < 7; i++) {
+            dates.push(requiredWeek.daysFromDate(i));
+        }
+
+        return dates;
+    },
+
+    /**
+     * This method returns a date for a given calendar week and day of this week.
+     *
+     * @param {Number} calendarWeek The calendar week.
+     * @param {Number} dayOfWeek The day of the week (0 = sunday, ..., 7 = saturday).
+     * @param {Number} year The year (optional, default is current year).
+     *
+     * @returns {Array} An array containing all dates within the specified calendar week.
+     */
+    getDateByWeekdayAndCalendarWeek: function(calendarWeek, dayOfWeek, year) {
+        if(calendarWeek && !isNaN(calendarWeek) && dayOfWeek && !isNaN(dayOfWeek)) {
+            var dates = M.Date.getDatesOfCalendarWeek(calendarWeek, NO, year);
+            if(dates && dates.length > 0 && dates[dayOfWeek]) {
+                return dates[dayOfWeek];
+            } else {
+                M.Logger.log('Day ' + dayOfWeek + ' of calendar week ' + calendarWeek + ' could not be found!', M.ERROR);
+            }
+        } else {
+            M.Logger.log('Please pass a valid calendarWeek and a valid day of the week!', M.ERROR);
+        }
     }
 
 });

@@ -261,6 +261,7 @@ M.TextFieldView = M.View.extend(
         } else {
             $('#' + this.id).removeAttr('disabled');
         }
+        $('#'  + this.id).keyup();
     },
 
     /**

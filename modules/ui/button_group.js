@@ -177,7 +177,7 @@ M.ButtonGroupView = M.View.extend(
             /* this is a wrapper for the multiple button groups.
                if it is not inset, assign css class 'ui-listview' for clearing the padding of the surrounding element */
             this.html += '<div id="' + this.id + '"';
-            this.html += this.isInset ? '' : ' class="ui-listview"';
+            this.html += this.style();
             this.html += '>';
 
             /* create a button group for every line */
@@ -209,7 +209,7 @@ M.ButtonGroupView = M.View.extend(
             }
             this.html += '</div>';
         } else {
-            this.html += '<div data-role="controlgroup" href="#" id="' + this.id + '" data-type="' + this.direction + '">';
+            this.html += '<div data-role="controlgroup" href="#" id="' + this.id + '" data-type="' + this.direction + '"' + this.style() + '>';
 
             this.renderChildViews();
 
@@ -397,6 +397,24 @@ M.ButtonGroupView = M.View.extend(
                 this.activeButton = button;
             }
         }
+    },
+
+    /**
+     * Applies some style-attributes to the button group.
+     *
+     * @private
+     * @returns {String} The button group's styling as html representation.
+     */
+    style: function() {
+        var html = '';
+        if(this.numberOfLines && this.isInset) {
+            html += ' class="ui-listview';
+        }
+        if(this.cssClass) {
+            html += html !== '' ? ' ' + this.cssClass : ' class="' + this.cssClass;
+        }
+        html += '"';
+        return html;
     }
 
 });

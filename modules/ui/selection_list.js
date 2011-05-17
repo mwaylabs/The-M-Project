@@ -316,7 +316,13 @@ M.SelectionListView = M.View.extend(
         if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
             $('#' + this.id).selectmenu();
             if(this.initialText) {
-                $('#' + this.id + '-button').find('span.ui-btn-text').html(this.initialText);
+                var parent = $('#' + this.id).parent()
+                if(parent) {
+                    var label = parent.find('span.ui-btn-text');
+                    if(label) {
+                        label.html(this.initialText);
+                    }
+                }
             }
         } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
             $('#' + this.id).controlgroup();

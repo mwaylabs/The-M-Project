@@ -147,6 +147,16 @@ M.PageView = M.View.extend(
             M.LoaderView.initialize();
         }
 
+        /* if this is the first load of the entry page, add it to the history stack */
+        if(this.isFirstLoad) {
+            var entryPage = M.ViewManager.getPage(M.Application.entryPage);
+            if(entryPage && entryPage.id === this.id) {
+                if(window.history && typeof(window.history.pushState) === 'function') {
+                    window.history.pushState(null, 'entryPage', 'index.html#' + entryPage.id);
+                }
+            }
+        }
+
         if(this.beforeLoad) {
             this.beforeLoad.target[this.beforeLoad.action](this.isFirstLoad);
         }

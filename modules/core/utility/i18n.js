@@ -13,7 +13,7 @@ m_require('core/foundation/object.js');
 /**
  * @class
  *
- * M.I18N defines a prototype for for internationalisation and localisation within
+ * M.I18N defines a prototype for internationalisation and localisation within
  * The M-Project. It is used to set and get the application's language and to
  * localize any string within an application.
  *
@@ -54,7 +54,7 @@ M.I18N = M.Object.extend(
      * the current language.
      *
      * @param {String} key The key to the localized string.
-     * @returns {String} The localizes string based on the current application language.
+     * @returns {String} The localized string based on the current application language.
      */
     l: function(key) {
         return this.localize(key);
@@ -67,7 +67,7 @@ M.I18N = M.Object.extend(
      *
      * @private
      * @param {String} key The key to the localized string.
-     * @returns {String} The localizes string based on the current application language.
+     * @returns {String} The localized string based on the current application language.
      */
     localize: function(key) {
         if(!M.Application.currentLanguage) {
@@ -138,6 +138,8 @@ M.I18N = M.Object.extend(
                 return language.toLowerCase();
             } else if(M.Application.defaultLanguage) {
                 return M.Application.defaultLanguage.toLowerCase();
+            } else {
+                return this.defaultLanguage;
             }
         } else {
             return this.defaultLanguage;

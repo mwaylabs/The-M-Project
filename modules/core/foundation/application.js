@@ -149,6 +149,11 @@ M.Application = M.Object.extend(
         var html = '';
         for(var i in this.viewManager.viewList) {
             if(this.viewManager.viewList[i].type === 'M.PageView') {
+                /* reset the page's id if it is entryPage */
+                if(this.viewManager.viewList[i] === M.ViewManager.getPage(M.Application.entryPage)) {
+                    this.viewManager.viewList[i].id = 'm_entryPage';
+                }
+
                 html += this.viewManager.viewList[i].render();
                 /* bind the pageshow event to any view's pageDidLoad property function */
                 $('#' + this.viewManager.viewList[i].id).bind('pagebeforeshow', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageWillLoad));
