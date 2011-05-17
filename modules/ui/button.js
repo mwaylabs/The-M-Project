@@ -68,6 +68,7 @@ M.ButtonView = M.View.extend(
      * @returns {String} The button view's html representation.
      */
     render: function() {
+        this.computeValue();
         this.html += '<a data-role="button" id="' + this.id + '"' + this.style() + ' ';
 
         if(this.hyperlinkTarget && this.hyperlinkType) {
@@ -97,8 +98,12 @@ M.ButtonView = M.View.extend(
      * @private
      */
     renderUpdate: function() {
-        $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
-        this.theme();
+        if(this.applyTheme){
+            this.theme();
+            $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
+        }else{
+            $('#' + this.id).find('.ui-btn-text').text(this.value);
+        }
     },
 
     /**
@@ -118,6 +123,9 @@ M.ButtonView = M.View.extend(
      */
     theme: function() {
         $('#' + this.id).button();
+
+        /* REGISTER CLICK EVENT FOR ANY BUTTON */
+        M.EventDispatcher.registerEvents(this.id, 'click');
     },
 
     /**

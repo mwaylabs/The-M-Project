@@ -143,11 +143,13 @@ M.EventDispatcher = M.Object.create(
                 }
                 break;
             case 'focusin':
-                view.gotFocus(type);
-                break;
+                case 'focus':
+                    view.gotFocus(type);
+                    break;
             case 'focusout':
-                view.lostFocus(type);
-                break;
+                case 'blur':
+                    view.lostFocus(type);
+                    break;
             case 'orientationchange':
                 M.Application.viewManager.getCurrentPage().orientationDidChange();
                 break;

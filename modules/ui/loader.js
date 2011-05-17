@@ -35,6 +35,15 @@ M.LoaderView = M.View.extend(
     isInitialized: NO,
 
     /**
+     * This property counts the loader calls to show
+     *
+     * @type Number
+     */
+    refCount: 0,
+
+    defaultTitle: 'loading',
+
+    /**
      * This method initializes the loader by loading it once.
      *
      * @private 
@@ -43,6 +52,7 @@ M.LoaderView = M.View.extend(
         if(!this.isInitialized) {
             this.show();
             this.hide();
+            this.refCount = 0;
         }
     },
 
@@ -53,17 +63,29 @@ M.LoaderView = M.View.extend(
      * @param {String} title The title for this loader.
      */
     show: function(title) {
+        this.refCount++;
         if(title && typeof(title) === 'string') {
             $('.ui-loader h1').text(title);
+        } else {
+            $('.ui-loader h1').text(this.defaultTitle);
         }
-        $.mobile.pageLoading();
+        if(this.refCount == 1){
+            $.mobile.pageLoading();
+        }
     },
 
     /**
      * This method hides the loader.
      */
-    hide: function() {
-        $.mobile.pageLoading(YES);
+    hide: function(force) {
+        if(force || this.refCount <= 0){
+            this.refCount = 0;
+        }else{
+            this.refCount--;
+        }
+        if(this.refCount == 0){
+            $.mobile.pageLoading(YES);
+        }
     }
     
 });

@@ -352,9 +352,12 @@ M.ButtonGroupView = M.View.extend(
             for(var i in childViews) {
                 if(this[childViews[i]] && this[childViews[i]].type === 'M.ButtonView') {
                     var button = this[childViews[i]];
+
+                    /* REGISTER CLICK EVENT FOR ANY BUTTON */
+                    M.EventDispatcher.registerEvents(button.id, 'click');
+
                     if(button.isActive) {
                         this.setActiveButton(button.id);
-                        break;
                     }
                 }
             }

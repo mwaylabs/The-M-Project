@@ -151,6 +151,13 @@ M.ListView = M.View.extend(
     onSearchStringDidChange: null,
 
     /**
+     * An optional String defining the id property that is passed in view as record id
+     *
+     * @type String
+     */
+    idName: null,
+
+    /**
      * This method renders the empty list view either as an ordered or as an unordered list. It also applies
      * some styling, if the corresponding properties where set.
      *
@@ -260,13 +267,14 @@ M.ListView = M.View.extend(
 
             /* Create a new object for the current template view */
             var obj = templateView.design({});
-
             /* If item is a model, assign the model's id to the view's modelId property */
             if(item.type === 'M.Model') {
                 obj.modelId = item.m_id;
             /* Otherwise, if there is an id property, save this automatically to have a reference */
             } else if(item.id || !isNaN(item.id)) {
                 obj.modelId = item.id;
+            } else if(item[that.idName] || item[that.idName] === "") {
+                obj.modelId = item[that.idName];
             }
 
             /* Get the child views as an array of strings */
@@ -283,9 +291,9 @@ M.ListView = M.View.extend(
                 var regexResult = null;
                 if(obj[childViewsArray[i]].computedValue) {
                     /* This regex looks for a variable inside the template view (<%= ... %>) ... */
-                    regexResult = /^<%=\s+([.|_|-|$|ค|a-zA-Z]+[0-9]*[.|_|-|$|ค|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
+                    regexResult = /^<%=\s+([.|_|-|$|ยง|a-zA-Z]+[0-9]*[.|_|-|$|ยง|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
                 } else {
-                    regexResult = /^<%=\s+([.|_|-|$|ค|a-zA-Z]+[0-9]*[.|_|-|$|ค|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
+                    regexResult = /^<%=\s+([.|_|-|$|ยง|a-zA-Z]+[0-9]*[.|_|-|$|ยง|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
                 }
 
                 /* ... if a match was found, the variable is replaced by the corresponding value inside the record */

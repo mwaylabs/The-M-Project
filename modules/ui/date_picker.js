@@ -52,7 +52,7 @@ M.DatePickerView = M.View.extend(
      */
     render: function() {
         this.html += '<input type="hidden" id="' + this.id + '_hidden" />';
-        this.html += '<a data-role="button" data-type="date" href="#" id="' + this.id + '"' + this.style() + '>-</a>';
+        this.html += '<a data-role="button" style="display:none;" data-type="date" href="#" id="' + this.id + '"' + this.style() + '>-</a>';
 
         if(this.isDateTimePicker) {
             this.html += '<div id="' + this.id + '_time" class="ui-grid-a">';
@@ -75,7 +75,6 @@ M.DatePickerView = M.View.extend(
 
         this.internalTarget = this;
         this.internalAction = 'showDatePicker';
-
         return this.html;
     },
 
@@ -116,6 +115,9 @@ M.DatePickerView = M.View.extend(
         minutes = (isNaN(minutes) || minutes < 0 || minutes > 59) ? 0 : minutes;
 
         this.value = date.hoursFromDate(hours).minutesFromDate(minutes);
+
+        //TODO: build generic 
+        this.bindToCaller(this.target, this.target[this.action], this.value)();
     },
 
     /**

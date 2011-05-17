@@ -38,6 +38,27 @@ M.ImageView = M.View.extend(
         return this.html;
     },
 
+
+    /**
+     * Updates the value of the label with DOM access by jQuery.
+     *
+     * @private
+     */
+    renderUpdate: function() {
+        //this.computeValue();
+        $('#' + this.id).src = this.value;
+    },
+
+    /**
+     * Triggers the rendering engine, jQuery mobile, to style the image.
+     *
+     * @private
+     */
+    theme: function() {
+        /* REGISTER CLICK EVENT FOR ANY IMAGE */
+        M.EventDispatcher.registerEvents(this.id, 'click');
+    },
+    
     /**
      * Applies some style-attributes to the image view.
      *

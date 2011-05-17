@@ -287,7 +287,8 @@ M.SelectionListView = M.View.extend(
                     obj = M.SelectionListItemView.design({
                         value: item.value ? item.value : item,
                         label: item.label ? item.label : (item.value ? item.value : item),
-                        parentView: this
+                        parentView: this,
+                        isSelected: item.isSelected
                     });
                 } else {
                     obj = M.SelectionListItemView.design({

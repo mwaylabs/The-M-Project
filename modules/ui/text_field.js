@@ -242,6 +242,9 @@ M.TextFieldView = M.View.extend(
         if(this.initialText && !this.value && this.cssClassOnInit) {
             this.addCssClass(this.cssClassOnInit);
         }
+
+        /* REGISTER CLICK EVENT FOR ANY BUTTON */
+        M.EventDispatcher.registerEvents(this.id, 'keyup focus blur');
     },
 
     /**

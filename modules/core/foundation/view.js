@@ -303,6 +303,15 @@ M.View = M.Object.extend(
             this.delegateValueUpdate();
         } else if(bindingPath && bindingPath.length === 3) {
             return;
+        } else if(bindingPath && bindingPath.length === 4 && !(this.hasFocus && this.type === 'M.TextFieldView')) {
+            // TODO: build recursively so that also level 5,6,7... are workable
+            if(this.contentBinding) {
+                this.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]][bindingPath[3]];
+            } else {
+                this.computedValue.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]][bindingPath[3]];
+            }
+            this.renderUpdate();
+            this.delegateValueUpdate();
         } else {
             var bindingPathString = bindingPath.join('.');
             M.Logger.log('bindingPath \'' + bindingPathString + '\' not valid', M.Error);
@@ -317,14 +326,15 @@ M.View = M.Object.extend(
      */
     attachToObservable: function(contentBinding) {
         var bindingPath = contentBinding.split('.');
-        if(bindingPath && bindingPath.length === 3 && eval(bindingPath[0]) && eval(bindingPath[0])[bindingPath[1]]) {
+        if(bindingPath && bindingPath.length >= 3 && eval(bindingPath[0]) && eval(bindingPath[0])[bindingPath[1]]) {
             var controller = eval(bindingPath[0])[bindingPath[1]];
             if(!controller.observable) {
                 controller.observable = M.Observable.extend({});
             }
             controller.observable.attach(this, bindingPath[2]);
             this.isObserver = YES;
-        } else {
+        }
+        else {
             var bindingPathString = bindingPath.join('.');
             M.Logger.log('bindingPath \'' + bindingPathString + '\' not valid', M.Error);
         }
