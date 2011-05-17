@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: ï¿½2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -136,10 +136,10 @@ M.Application = M.Object.extend(
         var that = this;
 
         /* live is jQuery fn that binds an event to all elements matching a certain selector now and in the future */
-        var eventList = 'click change keyup focus blur orientationchange tap taphold swipe swipeleft swiperight scrollstart scrollstop';
+        /*var eventList = 'click keyup focus blur orientationchange';//swipe swipeleft swiperight tap taphold scrollstart scrollstop;
         $('*[id]').live(eventList, function(evt) {
             that.eventDispatcher.eventDidHappen(evt);
-        });
+        });*/
 
         /* also bind the orientationchange event to the body of the application */
         $('body').bind('orientationchange', function(evt) {
@@ -168,9 +168,6 @@ M.Application = M.Object.extend(
     showEntryPage: function() {
         var entryPage = M.ViewManager.getPage(M.Application.entryPage);
         document.location.hash = '#' + entryPage.id;
-        if(window.history && typeof(window.history.pushState) === 'function') {
-            window.history.pushState(null, 'entryPage', 'index.html#' + entryPage.id);
-        }
         M.ViewManager.setCurrentPage(M.ViewManager.getPage(M.Application.entryPage));
         $.mobile.initializePage();
     }
