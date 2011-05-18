@@ -8,44 +8,80 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-// Used to build strings
-
 m_require('core/foundation/object.js');
 
+/**
+ * @class
+ *
+ * The string builder is a utility object to join multiple strings to one single string.
+ *
+ * @extends M.Object
+ */
+M.StringBuilder = M.Object.extend(
+/** @scope M.StringBuilder.prototype */ {
 
+    /**
+     * The type of this object.
+     *
+     * @type String
+     */
+    type: 'M.StringBuilder',
 
-M.StringBuilder = M.Object.extend({
+    /**
+     * An array containing all strings used within this string builder.
+     *
+     * @type Array
+     */
+    strings: null,
 
-    _StringBuilder: function(value) {
-
-        this.strings = [];
-
-         // Appends the given value for count times to the end of this instance.
-        this.append = function (value, count) {
-             count = typeof(count) === 'number' ? count : 1;
-             if (value) {
-                 for(var i=1; i<=count; i++) {
-                     this.strings.push(value);
-                 }
-                 return YES;
-             }
+    /**
+     * This method appends the given string, 'value', to its internal list of strings. With
+     * an additional parameter 'count', you can force this method to add the string multiple
+     * times.
+     *
+     * @param {String} value The value of the string to be added.
+     * @param {Number} count The number to specify how many times the string will be added.
+     * @returns {Boolean} The result of this operation: success/YES, error/NO.
+     */
+    append: function (value, count) {
+        count = typeof(count) === 'number' ? count : 1;
+        if (value) {
+            for(var i = 1; i <= count; i++) {
+                this.strings.push(value);
+            }
+            return YES;
         }
-
-         // Clears the string buffer
-        this.clear = function () {
-             this.strings.length = 0;
-        }
-
-         // Converts this instance to a String.
-        this.toString = function () {
-            return this.strings.join("");
-        }
-
-        this.append(value);
     },
 
-    create: function(str) {
-        return new this._StringBuilder(str);
-    }
-});
+    /**
+     * This method clears the string builders internal string list.
+     */
+    clear: function () {
+        this.strings.length = 0;
+    },
 
+    /**
+     * This method returns a single string, consisting of all previously appended strings. They
+     * are concatenated in the order they were appended to the string builder.
+     *
+     * @returns {String} The concatenated string of all appended strings.
+     */
+    toString: function () {
+        return this.strings.join("");
+    },
+
+    /**
+     * This method creates a new string builder instance.
+     *
+     * @param {String} str The initial string for this string builder.
+     */
+    create: function(str) {
+        var stringBuilder = this.extend({
+            strings: []
+        });
+        stringBuilder.append(str);
+        
+        return stringBuilder;
+    }
+    
+});
