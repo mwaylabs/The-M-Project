@@ -17,7 +17,7 @@ m_require('core/utility/logger.js');
  *
  * @extends M.Object
  */
-M.EventDispatcher = M.Object.create(
+M.EventDispatcher = M.Object.extend(
 /** @scope M.EventDispatcher.prototype */ {
 
     /**
@@ -157,15 +157,93 @@ M.EventDispatcher = M.Object.create(
     },
 
     /**
-     * Registers events given from eventList to a view defined by an id. Can be used to register events after application load.
-     * @param {String} id The View Id, e.g. m_123
-     * @param {String} eventList The Events one after another in a string divided by whitespace.
+     * This method is used to register events and link them to a corresponding action.
+     * 
+     * @param {String, Object} eventSource The view's id or a DOM object.
+     * @param {Object} events The events to be registered for the given view or DOM object.
      */
-    registerEvents: function(id, eventList) {
-        var that = this;
-        $('#' + id).bind(eventList, function(evt) {
-            that.eventDidHappen(evt);
+    registerEvents: function(eventSource, events, recommendedEvents, sourceType) {
+        if(!events || typeof(events) !== 'object') {
+            M.Logger.log('No events passed!', M.WARN);
+            return;
+        }
+
+        if(typeof(eventSource) === 'string') {
+            eventSource = $('#' + eventSource + ':first');
+        } else {
+            eventSource = $(eventSource);
+        }
+
+        if(!eventSource) {
+            M.Logger.log('The event source is invalid!', M.WARN);
+            return;
+        }
+
+        _.each(events, function(handler, type) {
+            M.EventDispatcher.registerEvent(type, eventSource, handler, recommendedEvents, sourceType, YES);
         });
+    },
+
+    /**
+     * This method is used to register a certain event for a certain view or DOM object
+     * and link them to a corresponding action.
+     *
+     * @param {String} type The type of the event.
+     * @param {String, Object} eventSource The view's id, the view object or a DOM object.
+     * @param {Object} handler The handler for the event.
+     * @param {Object} recommendedEvents The recommended events for this event source.
+     * @param {Object} sourceType The type of the event source.
+     * @param {Boolean} isInternalCall The flag to determine whether this is an internal call or not.
+     */
+    registerEvent: function(type, eventSource, handler, recommendedEvents, sourceType, isInternalCall) {
+        if(!isInternalCall) {
+            if(!handler || typeof(handler) !== 'object') {
+                M.Logger.log('No event passed!', M.WARN);
+                return;
+            }
+
+            if(typeof(eventSource) === 'string') {
+                eventSource = $('#' + eventSource + ':first');
+            } else {
+                eventSource = $(eventSource);
+            }
+
+            if(!eventSource) {
+                M.Logger.log('The event source is invalid!', M.WARN);
+                return;
+            }
+        }
+
+        if(!(recommendedEvents && _.indexOf(recommendedEvents, type) > -1)) {
+            if(sourceType && typeof(sourceType) === 'string') {
+                M.Logger.log('Event type \'' + type + '\' not recommended for ' + sourceType + '!', M.WARN);
+            } else {
+                M.Logger.log('Event type \'' + type + '\' not recommended!', M.WARN);
+            }
+        }
+
+        if(typeof(handler.action) === 'string') {
+            if(handler.target) {
+                if(handler.target[handler.action] && typeof(handler.target[handler.action]) === 'function') {
+                    handler.action = handler.target[handler.action];
+                } else {
+                    M.Logger.log('No action \'' + handler.action + '\' found for given target and the event type \'' + type + '\'!', M.WARN);
+                    return;
+                }
+            } else {
+                M.Logger.log('No valid target passed for action \'' + handler.action + '\' and the event type \'' + type + '\'!', M.WARN);
+                return;
+            }
+        } else if(typeof(handler.action) !== 'function') {
+            M.Logger.log('No valid action passed for the event type \'' + type + '\'!', M.WARN);
+            return;
+        }
+
+        var that = this;
+        eventSource.bind(type, function(evt) {
+            that.bindToCaller(handler.target, handler.action, [evt.currentTarget.id ? evt.currentTarget.id : evt.currentTarget, evt])();
+        });
+
     }
 
 });
