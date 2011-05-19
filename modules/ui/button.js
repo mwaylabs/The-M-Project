@@ -62,6 +62,13 @@ M.ButtonView = M.View.extend(
     hyperlinkTarget: null,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['click'],
+
+    /**
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
      *
      * @private
@@ -123,9 +130,6 @@ M.ButtonView = M.View.extend(
      */
     theme: function() {
         $('#' + this.id).button();
-
-        /* REGISTER CLICK EVENT FOR ANY BUTTON */
-        M.EventDispatcher.registerEvents(this.id, 'click');
     },
 
     /**
