@@ -176,6 +176,28 @@ M.View = M.Object.extend(
     triggerActionOnEnter: NO,
 
     /**
+     * This property is used to specify a view's events and their corresponding actions.
+     *
+     * @type Object
+     */
+    events: null,
+
+    /**
+     * This property is used to specify a view's internal events and their corresponding actions.
+     *
+     * @private
+     * @type Object
+     */
+    internalEvents: null,
+
+    /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: null,
+
+    /**
      * This method encapsulates the 'extend' method of M.Object for better reading of code syntax.
      * It triggers the content binding for this view,
      * gets an ID from and registers itself at the ViewManager.
@@ -272,6 +294,34 @@ M.View = M.Object.extend(
      */
     theme: function() {
         this.themeChildViews();
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     */
+    registerEvents: function() {
+        if(this.internalEvents && this.events) {
+            for(var event in this.events) {
+                if(this.internalEvents[event]) {
+                    this.internalEvents[event].nextEvent = this.events[event];
+                    delete this.events[event];
+                }
+            }
+            M.EventDispatcher.registerEvents(this.id, this.internalEvents, this.recommendedEvents, this.type);
+        } else if(this.internalEvents) {
+            M.EventDispatcher.registerEvents(this.id, this.internalEvents, this.recommendedEvents, this.type);
+        } else if(this.events) {
+            M.EventDispatcher.registerEvents(this.id, this.events, this.recommendedEvents, this.type);
+        }
+        
+        if(this.childViews) {
+            var childViews = $.trim(this.childViews).split(' ');
+            for(var i in childViews) {
+                this[childViews[i]].registerEvents();
+            }
+        }
     },
 
     /**
