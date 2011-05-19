@@ -1,6 +1,8 @@
 $(document).bind("mobileinit", function(){
-    $.mobile.autoInitialize = false;
+    /* do something on mobile init or configure jqm */
+    document.location.hash = '';
+    //history.pushState(null, null, '#m_entryPage');
 });
 $(document).ready(function(){
-    M.Application.showEntryPage();
+    /* do something on dom ready */
 });
