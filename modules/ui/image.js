@@ -55,8 +55,6 @@ M.ImageView = M.View.extend(
      * @private
      */
     theme: function() {
-        /* REGISTER CLICK EVENT FOR ANY IMAGE */
-        M.EventDispatcher.registerEvents(this.id, 'click');
     },
     
     /**
