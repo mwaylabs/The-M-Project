@@ -147,14 +147,14 @@ M.Application = M.Object.extend(
         entryPage.render();
         this.viewManager.setCurrentPage(entryPage);
 
-        /* finally add entry page back to pagelist and view list, but with new key 'm_entryPage' */
-        this.viewManager.viewList['m_entryPage'] = entryPage;
-        this.viewManager.pageList['m_entryPage'] = entryPage;
-
         /* now lets render all other pages */
         _.each(this.viewManager.pageList, function(page) {
             page.render();
         });
+
+        /* finally add entry page back to pagelist and view list, but with new key 'm_entryPage' */
+        this.viewManager.viewList['m_entryPage'] = entryPage;
+        this.viewManager.pageList['m_entryPage'] = entryPage;
     }
 
 });
