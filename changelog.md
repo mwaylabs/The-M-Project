@@ -3,6 +3,7 @@
   * Fixed a bug in M.I18N
   * Added setValue() to M.LabelView
   * Added autogrow-mechanism to M.TextFieldView in combination with content binding
+  * Refactored eventhandling (all over!)
 
 ** Version 0.4 - Date 19.04.2011 **
 
