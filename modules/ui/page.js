@@ -83,13 +83,20 @@ M.PageView = M.View.extend(
      */
     tabBarView: null,
 
-    lastPageWillLoad: null,
+    /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['pagebeforeshow', 'pageshow', 'pagebeforehide', 'pagehide'],
 
-    lastPageDidLoad: null,
-
-    lastPageWillHide: null,
-
-    lastPageDidHide: null,
+    /**
+     * This property is used to specify a view's internal events and their corresponding actions. If
+     * there are external handlers specified for the same event, the internal handler is called first.
+     *
+     * @type Object
+     */
+    internalEvents: null,
 
     /**
      * Renders in three steps:
@@ -109,6 +116,37 @@ M.PageView = M.View.extend(
 
         this.writeToDOM();
         this.theme();
+        this.registerEvents();
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for page views and its
+     * internal events.
+     */
+    registerEvents: function() {
+        this.internalEvents = {
+            pagebeforeshow: {
+                target: this,
+                action: 'pageWillLoad'
+            },
+            pageshow: {
+                target: this,
+                action: 'pageDidLoad'
+            },
+            pagebeforehide: {
+                target: this,
+                action: 'pageWillHide'
+            },
+            pagehide: {
+                target: this,
+                action: 'pageDidHide'
+            }
+        }
+        this.bindToCaller(this, M.View.registerEvents)();
     },
 
     /**
@@ -123,13 +161,10 @@ M.PageView = M.View.extend(
      * This method is called right before the page is loaded. If a beforeLoad-action is defined
      * for the page, it is now called.
      */
-    pageWillLoad: function() {
-        if(this.lastPageWillLoad && this.lastPageWillLoad.timeBetween(M.Date.now()) < 1000) {
-            return;
-        }
-        this.lastPageWillLoad = M.Date.now();
+    pageWillLoad: function(id, event, nextEvent) {
         /* if this is the first page to be loaded, check if there is a tab bar and an active tab
            specified and switch to this tab. also reload this page to have a stable location hash. */
+        // TODO: check if realy needed! if so: improve! otherwise: kill!
         if(M.Application.isFirstLoad) {
             M.Application.isFirstLoad = NO;
             var currentPage = M.ViewManager.getCurrentPage();
@@ -146,19 +181,10 @@ M.PageView = M.View.extend(
         if(M.LoaderView) {
             M.LoaderView.initialize();
         }
-
-        /* if this is the first load of the entry page, add it to the history stack */
-        if(this.isFirstLoad) {
-            var entryPage = M.ViewManager.getPage(M.Application.entryPage);
-            if(entryPage && entryPage.id === this.id) {
-                if(window.history && typeof(window.history.pushState) === 'function') {
-                    window.history.pushState(null, 'entryPage', 'index.html#' + entryPage.id);
-                }
-            }
-        }
-
-        if(this.beforeLoad) {
-            this.beforeLoad.target[this.beforeLoad.action](this.isFirstLoad);
+        
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);
         }
     },
 
@@ -166,22 +192,20 @@ M.PageView = M.View.extend(
      * This method is called right after the page was loaded. If a onLoad-action is defined
      * for the page, it is now called.
      */
-    pageDidLoad: function() {
-        if(this.lastPageDidLoad && this.lastPageDidLoad.timeBetween(M.Date.now()) < 1000) {
-            return;
-        }
-        this.lastPageDidLoad = M.Date.now();
-        if(this.onLoad) {
-            this.onLoad.target[this.onLoad.action](this.isFirstLoad);            
-        }
-
+    pageDidLoad: function(id, event, nextEvent) {
         /* if there is a list on the page, reset it: deactivate possible active list items */
+        // TODO: check if realy needed! if so: improve! otherwise: kill!
         $('#' + this.id).find('.ui-btn-active').each(function() {
             if(M.ViewManager.getViewById($(this).attr('id')) && M.ViewManager.getViewById($(this).attr('id')).type === 'M.ListItemView') {
                 var listItem = M.ViewManager.getViewById($(this).attr('id'));
                 listItem.removeCssClass('ui-btn-active');
             }
         });
+
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);
+        }
 
         this.isFirstLoad = NO;
     },
@@ -190,13 +214,10 @@ M.PageView = M.View.extend(
      * This method is called right before the page is hidden. If a beforeHide-action is defined
      * for the page, it is now called.
      */
-    pageWillHide: function() {
-        if(this.lastPageWillHide && this.lastPageWillHide.timeBetween(M.Date.now()) < 1000) {
-            return;
-        }
-        this.lastPageWillHide = M.Date.now();
-        if(this.beforeHide) {
-            this.beforeHide.target[this.beforeHide.action]();
+    pageWillHide: function(id, event, nextEvent) {
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);
         }
     },
 
@@ -204,22 +225,10 @@ M.PageView = M.View.extend(
      * This method is called right after the page was hidden. If a onHide-action is defined
      * for the page, it is now called.
      */
-    pageDidHide: function() {
-        if(this.lastPageDidHide && this.lastPageDidHide.timeBetween(M.Date.now()) < 1000) {
-            return;
-        }
-        this.lastPageDidHide = M.Date.now();
-        if(this.onHide) {
-            this.onHide.target[this.onHide.action]();
-        }
-    },
-
-    /**
-     * This method is called if the device's orientation changed.
-     */
-    orientationDidChange: function() {
-        if(this.onOrientationChange) {
-            this.onOrientationChange.target[this.onOrientationChange.action](M.Environment.getOrientation());
+    pageDidHide: function(id, event, nextEvent) {
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);
         }
     },
 
