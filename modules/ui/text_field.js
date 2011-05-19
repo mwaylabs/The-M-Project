@@ -105,13 +105,6 @@ M.TextFieldView = M.View.extend(
     isGrouped: YES,
 
     /**
-     * Defines whether the text field is rendered as an password field or not.
-     *
-     * @type Boolean
-     */
-    isPassword: NO,
-
-    /**
      * Defines whether the text field has multiple lines respectively is a text area.
      *
      * @type Boolean
