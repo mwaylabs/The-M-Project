@@ -312,7 +312,9 @@ M.View = M.Object.extend(
             M.EventDispatcher.registerEvents(this.id, this.internalEvents, this.recommendedEvents, this.type);
         } else if(this.internalEvents) {
             M.EventDispatcher.registerEvents(this.id, this.internalEvents, this.recommendedEvents, this.type);
-        } else if(this.events) {
+        }
+
+        if(this.events) {
             M.EventDispatcher.registerEvents(this.id, this.events, this.recommendedEvents, this.type);
         }
         
