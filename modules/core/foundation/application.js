@@ -135,46 +135,26 @@ M.Application = M.Object.extend(
     main: function() {
         var that = this;
 
-        /* live is jQuery fn that binds an event to all elements matching a certain selector now and in the future */
-        /*var eventList = 'click keyup focus blur orientationchange';//swipe swipeleft swiperight tap taphold scrollstart scrollstop;
-        $('*[id]').live(eventList, function(evt) {
-            that.eventDispatcher.eventDidHappen(evt);
-        });*/
-
-        /* also bind the orientationchange event to the body of the application */
-        $('body').bind('orientationchange', function(evt) {
-            that.eventDispatcher.eventDidHappen(evt);
-        });
-
-        var html = '';
-        for(var i in this.viewManager.viewList) {
-            if(this.viewManager.viewList[i].type === 'M.PageView') {
-                /* reset the page's id if it is entryPage */
-                if(this.viewManager.viewList[i] === M.ViewManager.getPage(M.Application.entryPage)) {
-                    this.viewManager.viewList[i].id = 'm_entryPage';
-                }
-
-                html += this.viewManager.viewList[i].render();
-                /* bind the pageshow event to any view's pageDidLoad property function */
-                $('#' + this.viewManager.viewList[i].id).bind('pagebeforeshow', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageWillLoad));
-
-                /* bind the pageshow event to any view's pageWillLoad property function */
-                $('#' + this.viewManager.viewList[i].id).bind('pageshow', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageDidLoad));
-
-                /* bind the pagebeforehide event to any view's pageWillHide property function */
-                $('#' + this.viewManager.viewList[i].id).bind('pagebeforehide', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageWillHide));
-
-                /* bind the pagehide event to any view's pageDidHide property function */
-                $('#' + this.viewManager.viewList[i].id).bind('pagehide', this.bindToCaller(this.viewManager.viewList[i], this.viewManager.viewList[i].pageDidHide));
-            }
-        }
-    },
-
-    showEntryPage: function() {
+        /* first lets get the entry page and remove it from pagelist and viewlist */
         var entryPage = M.ViewManager.getPage(M.Application.entryPage);
-        document.location.hash = '#' + entryPage.id;
-        M.ViewManager.setCurrentPage(M.ViewManager.getPage(M.Application.entryPage));
-        $.mobile.initializePage();
+        delete this.viewManager.viewList[entryPage.id];
+        delete this.viewManager.pageList[entryPage.id];
+
+        /* set the default id 'm_entryPage' for entry page */
+        entryPage.id = 'm_entryPage';
+
+        /* now lets render entry page to get it into the DOM first and set it as the current page */
+        entryPage.render();
+        this.viewManager.setCurrentPage(entryPage);
+
+        /* finally add entry page back to pagelist and view list, but with new key 'm_entryPage' */
+        this.viewManager.viewList['m_entryPage'] = entryPage;
+        this.viewManager.pageList['m_entryPage'] = entryPage;
+
+        /* now lets render all other pages */
+        _.each(this.viewManager.pageList, function(page) {
+            page.render();
+        });
     }
 
 });
