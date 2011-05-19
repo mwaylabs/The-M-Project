@@ -166,7 +166,7 @@ M.ViewManager = M.Object.extend(
             for(var i in childViews) {
                 if(targetView === childViews[i]) {
                     this.foundView =  parentView[targetView];
-                    return null;
+                    return this.foundView;
                 } else {
                     this.findView(parentView[childViews[i]], targetView);
                 }
