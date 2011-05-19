@@ -33,128 +33,7 @@ M.EventDispatcher = M.Object.extend(
      *
      * @type {Object}
      */
-    lastEvent: null,
-
-    /**
-     * This method is called whenever an event is triggered within the app.
-     *
-     * @param {Object} evt The event.
-     */
-    eventDidHappen: function(evt) {
-        /* WORKAROUND FOR FOOTER / HEADER BUG IN JQM */
-        /* TODO: REMOVE ONCE IT IS FIXED BY JQM
-        if(evt.type === 'scrollstart') {
-            $.fixedToolbars.hide(YES);
-        } else {
-            window.setTimeout('$.fixedToolbars.show()', 100);
-        }*/
-
-        this.delegateEvent(evt.type, evt.currentTarget.id, evt.keyCode);
-    },
-
-    /**
-     * This method is called whenever an onClick event is triggered within the app. This is
-     * not the common way to catch events, but in some cases it might be necessary to use
-     * the onClick property. 
-     *
-     * @param {String} type The type of event that occured, e.g. 'click'.
-     * @param {String} id The id of the element that triggered the event.
-     * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
-     * @param {Object} obj The object that triggered the event (can be passed instead of an id).
-     */
-    onClickEventDidHappen: function(type, id, keyCode, obj) {
-        var evt = {
-            type: type,
-            id: id,
-            keyCode: keyCode,
-            date: M.Date.create()
-        };
-
-        /* only delegate the incoming event if there hasn't been the same event within the last 100 milliseconds */
-        if(!this.lastEvent || (this.lastEvent && this.lastEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
-            this.lastEvent = evt;
-            if(M.Application.viewManager.getViewById(id) && !M.Application.viewManager.getViewById(id).inEditMode) {
-                this.delegateEvent(type, id, keyCode);
-            } else if(obj) {
-                this.delegateEvent(type, id, keyCode, obj);
-            }
-        }
-    },
-
-    /**
-     * This method looks for a corresponding event inside the view manager and
-     * delegates the call directly to the responsible controller defined by the
-     * target and action properties of the view.
-     *
-     * @param {String} type The type of event that occured, e.g. 'click'.
-     * @param {String} id The id of the element that triggered the event.
-     * @param {Number} keyCode The keyCode property of the event, necessary for keypress event, e.g. keyCode is 13 when enter is pressed.
-     * @param {Object} obj The object that triggered the event (can be passed instead of an id).
-     */
-    delegateEvent: function(type, id, keyCode, obj) {
-        var view = M.Application.viewManager.getViewById(id);       
-
-        if(!((view && type !== 'orientationchange') || (obj && typeof(obj) === 'object'))) {
-            return;
-        }
-
-        switch(type) {
-            case 'click':
-                if(view && view.internalTarget && view.internalAction) {
-                    view.internalTarget[view.internalAction](id, view.modelId);
-                }
-                if(view && view.target && view.action && view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView' && view.type !== 'M.DatePickerView') {
-                    view.target[view.action](id, view.modelId);
-                }
-                if(obj && obj.type === 'M.MapMarkerView') {
-                    if(obj && obj.internalTarget && obj.internalAction) {
-                        obj.internalTarget[obj.internalAction]();
-                    }
-                    if(obj && obj.target && obj.action) {
-                        obj.target[obj.action](obj.map, obj);
-                    } else if(obj && obj.map && obj.map.target && obj.map.action && obj.map.type === 'M.MapView') {
-                        obj.map.target[obj.map.action](obj.map.id, obj);
-                    }
-                }
-                break;
-            case 'change':
-                /* only delegate the on change event for selection lists if there hasn't been the same event within the last 100 milliseconds */
-                var evt = {
-                    type: type,
-                    id: id,
-                    keyCode: keyCode,
-                    date: M.Date.create()
-                };
-                if(!this.lastEvent || (this.lastEvent && this.lastEvent.date.timeBetween(evt.date, M.MILLISECONDS)) > 100) {
-                    this.lastEvent = evt;
-                    if(view && view.type === 'M.SelectionListItemView' && view.internalTarget && view.internalAction) {
-                        view.internalTarget[view.internalAction]();
-                    }
-                }
-                view.setValueFromDOM(type);
-                break;
-            case 'keyup':
-                if(keyCode === 13 && view.triggerActionOnEnter && (view.type === 'M.TextFieldView' || view.type === 'M.SearchBarView' || view.type === 'M.DatePickerView')) {
-                    if(view && view.target && view.action) {
-                        view.target[view.action](id);
-                    }
-                } else if(view.type === 'M.TextFieldView' || view.type === 'M.SearchBarView' || view.type === 'M.DatePickerView') {
-                    view.setValueFromDOM(type);
-                }
-                break;
-            case 'focusin':
-                case 'focus':
-                    view.gotFocus(type);
-                    break;
-            case 'focusout':
-                case 'blur':
-                    view.lostFocus(type);
-                    break;
-            case 'orientationchange':
-                M.Application.viewManager.getCurrentPage().orientationDidChange();
-                break;
-        }
-    },
+    lastEvent: {},
 
     /**
      * This method is used to register events and link them to a corresponding action.
@@ -240,10 +119,34 @@ M.EventDispatcher = M.Object.extend(
         }
 
         var that = this;
-        eventSource.bind(type, function(evt) {
-            that.bindToCaller(handler.target, handler.action, [evt.currentTarget.id ? evt.currentTarget.id : evt.currentTarget, evt])();
+        eventSource.bind(type, function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            /* fix for jqm problem with two times firing pageshow event for the first page */
+            if(type == 'pageshow' || type == 'pagebeforeshow') {
+                if(that.lastEvent[type] && that.lastEvent[type].timeBetween(M.Date.now()) <= 100) {
+                    return;
+                } else {
+                    that.lastEvent[type] = M.Date.now();
+                }
+            }
+
+            if(handler.nextEvent) {
+                that.bindToCaller(handler.target, handler.action, [event.currentTarget.id ? event.currentTarget.id : event.currentTarget, event, handler.nextEvent])();
+            } else {
+                that.bindToCaller(handler.target, handler.action, [event.currentTarget.id ? event.currentTarget.id : event.currentTarget, event])();
+            }
         });
 
+    },
+
+    callHandler: function(handler, event, passEvent, parameters) {
+        if(!passEvent) {
+            this.bindToCaller(handler.target, handler.action, parameters)();
+        } else {
+            this.bindToCaller(handler.target, handler.action, [event.currentTarget.id ? event.currentTarget.id : event.currentTarget, event])();
+        }
     }
 
 });
