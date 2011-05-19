@@ -43,7 +43,7 @@ M.EventDispatcher = M.Object.extend(
      */
     registerEvents: function(eventSource, events, recommendedEvents, sourceType) {
         if(!events || typeof(events) !== 'object') {
-            M.Logger.log('No events passed!', M.WARN);
+            M.Logger.log('No events passed for \'' + eventSource + '\'!', M.WARN);
             return;
         }
 
@@ -118,11 +118,17 @@ M.EventDispatcher = M.Object.extend(
             return;
         }
 
+        /* switch enter event to keyup with keycode 13 */
+        if(type === 'enter') {
+            eventSource.bind('keyup', function(event) {
+                if(event.which === 13) {
+                    $(this).trigger('enter');
+                }
+            });
+        }
+
         var that = this;
         eventSource.bind(type, function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
             /* fix for jqm problem with two times firing pageshow event for the first page */
             if(type == 'pageshow' || type == 'pagebeforeshow') {
                 if(that.lastEvent[type] && that.lastEvent[type].timeBetween(M.Date.now()) <= 100) {
@@ -131,6 +137,9 @@ M.EventDispatcher = M.Object.extend(
                     that.lastEvent[type] = M.Date.now();
                 }
             }
+
+            /* event logger, uncomment for development mode */
+            //M.Logger.log('Event \'' + event.type + '\' did happen for id \'' + event.currentTarget.id + '\'', M.INFO);
 
             if(handler.nextEvent) {
                 that.bindToCaller(handler.target, handler.action, [event.currentTarget.id ? event.currentTarget.id : event.currentTarget, event, handler.nextEvent])();
