@@ -324,6 +324,9 @@ M.ListView = M.View.extend(
             /* Add the current list view item to the list view ... */
             that.addItem(obj.render());
 
+            /* register events */
+            obj.registerEvents();
+
             /* ... once it is in the DOM, make it look nice */
             for(var i in childViewsArray) {
                 obj[childViewsArray[i]].theme();

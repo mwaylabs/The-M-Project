@@ -59,22 +59,6 @@ M.ListItemView = M.View.extend(
     }),
 
     /**
-     * This property is used to specify an internal target for an automatically called action, e.g.
-     * this is used by the built-in toggleRemove() functionality.
-     *
-     * @type Object
-     */
-    internalTarget: null,
-
-    /**
-     * This property is used to specify an internal action for an automatically called action, e.g.
-     * this is used by the built-in toggleRemove() functionality.
-     *
-     * @type Object
-     */
-    internalAction: 'setActiveListItem',
-
-    /**
      * This property reffers to the list item's parent list view..
      *
      * @type M.ListView
@@ -89,6 +73,13 @@ M.ListItemView = M.View.extend(
     isDivider: NO,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['click'],
+
+    /**
      * Renders a list item as an li-tag. The rendering is initiated by the parent list view.
      *
      * @private
@@ -97,7 +88,6 @@ M.ListItemView = M.View.extend(
     render: function() {
         this.html = '<li id="' + this.id + '"' + this.style();
 
-        this.html += ' onclick="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');"';
         this.internalTarget = this.listView;
 
         if(this.isDivider) {

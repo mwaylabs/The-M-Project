@@ -128,6 +128,13 @@ M.TextFieldView = M.View.extend(
     inputType: M.INPUT_TEXT,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['focus', 'blur', 'enter', 'keyup'],
+
+    /**
      * Renders a TextFieldView
      * 
      * @private
@@ -160,6 +167,32 @@ M.TextFieldView = M.View.extend(
         this.html += '</div>';
 
         return this.html;
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for text field views and
+     * their internal events.
+     */
+    registerEvents: function() {
+        this.internalEvents = {
+            focus: {
+                target: this,
+                action: 'gotFocus'
+            },
+            blur: {
+                target: this,
+                action: 'lostFocus'
+            },
+            keyup: {
+                target: this,
+                action: 'setValueFromDOM'
+            }
+        }
+        this.bindToCaller(this, M.View.registerEvents)();
     },
 
     /**
@@ -235,9 +268,6 @@ M.TextFieldView = M.View.extend(
         if(this.initialText && !this.value && this.cssClassOnInit) {
             this.addCssClass(this.cssClassOnInit);
         }
-
-        /* REGISTER CLICK EVENT FOR ANY BUTTON */
-        M.EventDispatcher.registerEvents(this.id, 'keyup focus blur');
     },
 
     /**
@@ -272,10 +302,6 @@ M.TextFieldView = M.View.extend(
     setValueFromDOM: function(evt) {
         this.value = this.secure($('#' + this.id).val());
         this.delegateValueUpdate();
-
-        if((evt === 'change' && this.triggerActionOnChange || evt === 'keyup' && this.triggerActionOnKeyUp) && this.target && this.action) {
-            this.target[this.action](this.value);
-        }
     },
 
     /**
