@@ -54,6 +54,14 @@ M.ViewManager = M.Object.extend(
     viewList: {},
 
     /**
+     * An associative array containing all pages used in the application. The key for a page is
+     * its id.
+     *
+     * @type Object
+     */
+    pageList: {},
+
+    /**
      * A reference to the currently displayed page.
      *
      * @type Object
@@ -85,6 +93,10 @@ M.ViewManager = M.Object.extend(
      */
     register: function(view) {
         this.viewList[view.id] = view;
+
+        if(view.type === 'M.PageView') {
+            this.pageList[view.id] = view;
+        }
     },
 
     /**
