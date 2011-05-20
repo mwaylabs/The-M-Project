@@ -206,13 +206,11 @@ M.View = M.Object.extend(
      */
     design: function(obj) {
         var view = this.extend(obj);
-        if(view.contentBinding) {
-            view.attachToObservable(view.contentBinding);
-        } else if(view.computedValue && view.computedValue.contentBinding) {
-            view.attachToObservable(view.computedValue.contentBinding);
-        }
         view.id = M.Application.viewManager.getNextId();
         M.Application.viewManager.register(view);
+
+        view.attachToObservable();
+        
         return view;
     },
 
@@ -349,51 +347,55 @@ M.View = M.Object.extend(
      * on the specified content binding.
      */
     contentDidChange: function(){
-        var bindingPath = this.contentBinding ? this.contentBinding.split('.') : this.computedValue.contentBinding.split('.');
-        if(bindingPath && bindingPath.length === 3 && !(this.hasFocus && this.type === 'M.TextFieldView')) {
-            if(this.contentBinding) {
-                this.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]];
-            } else {
-                this.computedValue.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]];
-            }
-            this.renderUpdate();
-            this.delegateValueUpdate();
-        } else if(bindingPath && bindingPath.length === 3) {
+        var contentBinding = this.contentBinding ? this.contentBinding : (this.computedValue) ? this.computedValue.contentBinding : null;
+
+        if(!contentBinding) {
             return;
-        } else if(bindingPath && bindingPath.length === 4 && !(this.hasFocus && this.type === 'M.TextFieldView')) {
-            // TODO: build recursively so that also level 5,6,7... are workable
-            if(this.contentBinding) {
-                this.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]][bindingPath[3]];
-            } else {
-                this.computedValue.value = eval(bindingPath[0])[bindingPath[1]][bindingPath[2]][bindingPath[3]];
-            }
-            this.renderUpdate();
-            this.delegateValueUpdate();
-        } else {
-            var bindingPathString = bindingPath.join('.');
-            M.Logger.log('bindingPath \'' + bindingPathString + '\' not valid', M.Error);
         }
+
+        if(this.contentBinding) {
+            this.value = contentBinding.target[contentBinding.property];
+        } else if(this.computedValue.contentBinding) {
+            this.computedValue.value = contentBinding.target[contentBinding.property];
+        }
+
+        this.renderUpdate();
+        this.delegateValueUpdate();
+
+        /* TODO: ADD CONTENT BINDING FOR MORE THAN ONE LEVEL */
     },
 
     /**
      * This method attaches the view to an observable to be later notified once the observable's
      * state did change.
-     *
-     * @param {String} contentBinding The path to the observable property.
      */
-    attachToObservable: function(contentBinding) {
-        var bindingPath = contentBinding.split('.');
-        if(bindingPath && bindingPath.length >= 3 && eval(bindingPath[0]) && eval(bindingPath[0])[bindingPath[1]]) {
-            var controller = eval(bindingPath[0])[bindingPath[1]];
-            if(!controller.observable) {
-                controller.observable = M.Observable.extend({});
-            }
-            controller.observable.attach(this, bindingPath[2]);
-            this.isObserver = YES;
+    attachToObservable: function() {
+        var contentBinding = this.contentBinding ? this.contentBinding : (this.computedValue) ? this.computedValue.contentBinding : null;
+
+        if(!contentBinding) {
+            return;
         }
-        else {
-            var bindingPathString = bindingPath.join('.');
-            M.Logger.log('bindingPath \'' + bindingPathString + '\' not valid', M.Error);
+
+        if(typeof(contentBinding) === 'object') {
+            if(contentBinding.target && typeof(contentBinding.target) === 'object') {
+                if(contentBinding.property && typeof(contentBinding.property) === 'string') {
+                    if(contentBinding.target[contentBinding.property] !== undefined) {
+                        if(!contentBinding.target.observable) {
+                            contentBinding.target.observable = M.Observable.extend({});
+                        }
+                        contentBinding.target.observable.attach(this, contentBinding.property);
+                        this.isObserver = YES;
+                    } else {
+                        M.Logger.log('The specified target for contentBinding for \'' + this.type + ' (' + this.id + ')\' has no property \'' + contentBinding.property + '\'!', M.WARN);
+                    }
+                } else {
+                    M.Logger.log('The type of the value of \'action\' in contentBinding for \'' + this.type + ' (' + this.id + ')\' is \'' + typeof(contentBinding.property) + '\' but it must be of type \'string\'!', M.WARN);
+                }
+            } else {
+                M.Logger.log('No valid target specified in content binding \'' + this.type + ' (' + this.id + ')\'!', M.WARN);
+            }
+        } else {
+            M.Logger.log('No valid content binding specified for \'' + this.type + ' (' + this.id + ')\'!', M.WARN);
         }
     },
 
