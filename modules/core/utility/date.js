@@ -272,6 +272,18 @@ M.Date = M.Object.extend(
     },
 
     /**
+     * This method returns a timestamp.
+     *
+     * @returns {Number} The current date as a timestamp.
+     */
+    getTimestamp: function() {
+        if(this.date) {
+            return this.date.getTime();
+        }
+        return null
+    },
+
+    /**
      * This method returns a date in the future or past, based on 'days'. Basically it adds or
      * subtracts x times the milliseconds of a day, but also checks for clock changes and
      * automatically includes these into the calculation of the future or past date.
