@@ -302,11 +302,16 @@ M.View = M.Object.extend(
      * events.
      */
     registerEvents: function() {
-        if(this.internalEvents && this.events) {
-            for(var event in this.events) {
+        var externalEvents = {};
+        for(var event in this.events) {
+            externalEvents[event] = this.events[event];
+        }
+        
+        if(this.internalEvents && externalEvents) {
+            for(var event in externalEvents) {
                 if(this.internalEvents[event]) {
-                    this.internalEvents[event].nextEvent = this.events[event];
-                    delete this.events[event];
+                    this.internalEvents[event].nextEvent = externalEvents[event];
+                    delete externalEvents[event];
                 }
             }
             M.EventDispatcher.registerEvents(this.id, this.internalEvents, this.recommendedEvents, this.type);
@@ -314,8 +319,8 @@ M.View = M.Object.extend(
             M.EventDispatcher.registerEvents(this.id, this.internalEvents, this.recommendedEvents, this.type);
         }
 
-        if(this.events) {
-            M.EventDispatcher.registerEvents(this.id, this.events, this.recommendedEvents, this.type);
+        if(externalEvents) {
+            M.EventDispatcher.registerEvents(this.id, externalEvents, this.recommendedEvents, this.type);
         }
         
         if(this.childViews) {
