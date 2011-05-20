@@ -160,6 +160,10 @@ M.PageView = M.View.extend(
     /**
      * This method is called right before the page is loaded. If a beforeLoad-action is defined
      * for the page, it is now called.
+     *
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
      */
     pageWillLoad: function(id, event, nextEvent) {
         /* if this is the first page to be loaded, check if there is a tab bar and an active tab
@@ -191,6 +195,10 @@ M.PageView = M.View.extend(
     /**
      * This method is called right after the page was loaded. If a onLoad-action is defined
      * for the page, it is now called.
+     *
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
      */
     pageDidLoad: function(id, event, nextEvent) {
         /* if there is a list on the page, reset it: deactivate possible active list items */
@@ -213,6 +221,10 @@ M.PageView = M.View.extend(
     /**
      * This method is called right before the page is hidden. If a beforeHide-action is defined
      * for the page, it is now called.
+     *
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
      */
     pageWillHide: function(id, event, nextEvent) {
         /* delegate event to external handler, if specified */
@@ -224,6 +236,10 @@ M.PageView = M.View.extend(
     /**
      * This method is called right after the page was hidden. If a onHide-action is defined
      * for the page, it is now called.
+     *
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
      */
     pageDidHide: function(id, event, nextEvent) {
         /* delegate event to external handler, if specified */
