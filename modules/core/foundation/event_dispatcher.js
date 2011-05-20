@@ -103,7 +103,10 @@ M.EventDispatcher = M.Object.extend(
         }
 
         var that = this;
-        eventSource.bind(type, function(event) {
+        eventSource.unbind(type).bind(type, function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
             /* fix for jqm problem with two times firing pageshow event for the first page */
             if(type == 'pageshow' || type == 'pagebeforeshow') {
                 if(that.lastEvent[type] && that.lastEvent[type].timeBetween(M.Date.now()) <= 100) {
@@ -113,8 +116,17 @@ M.EventDispatcher = M.Object.extend(
                 }
             }
 
+            /* fix for jqm problem with multiple tap events */
+            if(type == 'tap') {
+                if(that.lastEvent[type] && event.clientX + '/' + event.clientY == that.lastEvent[type] ) {
+                    return;
+                } else {
+                    that.lastEvent[type] = event.clientX + '/' + event.clientY;
+                }
+            }
+
             /* event logger, uncomment for development mode */
-            //M.Logger.log('Event \'' + event.type + '\' did happen for id \'' + event.currentTarget.id + '\'', M.INFO);
+            M.Logger.log('Event \'' + event.type + '\' did happen for id \'' + event.currentTarget.id + '\'', M.INFO);
 
             if(handler.nextEvent) {
                 that.bindToCaller(handler.target, handler.action, [event.currentTarget.id ? event.currentTarget.id : event.currentTarget, event, handler.nextEvent])();
