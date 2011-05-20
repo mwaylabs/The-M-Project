@@ -126,7 +126,7 @@ M.EventDispatcher = M.Object.extend(
             }
 
             /* event logger, uncomment for development mode */
-            M.Logger.log('Event \'' + event.type + '\' did happen for id \'' + event.currentTarget.id + '\'', M.INFO);
+            //M.Logger.log('Event \'' + event.type + '\' did happen for id \'' + event.currentTarget.id + '\'', M.INFO);
 
             if(handler.nextEvent) {
                 that.bindToCaller(handler.target, handler.action, [event.currentTarget.id ? event.currentTarget.id : event.currentTarget, event, handler.nextEvent])();
