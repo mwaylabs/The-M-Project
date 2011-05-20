@@ -66,7 +66,7 @@ M.ButtonView = M.View.extend(
      *
      * @type Array
      */
-    recommendedEvents: ['click'],
+    recommendedEvents: ['click', 'tap'],
 
     /**
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
