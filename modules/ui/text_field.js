@@ -196,6 +196,32 @@ M.TextFieldView = M.View.extend(
     },
 
     /**
+     * The contentDidChange method is automatically called by the observable when the
+     * observable's state did change. It then updates the view's value property based
+     * on the specified content binding.
+     *
+     * This is a special implementation for M.TextFieldView.
+     */
+    contentDidChange: function(){
+        var contentBinding = this.contentBinding ? this.contentBinding : (this.computedValue) ? this.computedValue.contentBinding : null;
+
+        if(!contentBinding || (this.hasFocus)) {
+            return;
+        }
+
+        if(this.contentBinding) {
+            this.value = contentBinding.target[contentBinding.property];
+        } else if(this.computedValue.contentBinding) {
+            this.computedValue.value = contentBinding.target[contentBinding.property];
+        }
+
+        this.renderUpdate();
+        this.delegateValueUpdate();
+
+        /* TODO: ADD CONTENT BINDING FOR MORE THAN ONE LEVEL */
+    },
+
+    /**
      * Updates a TextFieldView with DOM access by jQuery.
      *
      * @private
