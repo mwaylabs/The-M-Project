@@ -172,6 +172,12 @@ M.ListView = M.View.extend(
      * @returns {String} The list view's styling as html representation.
      */
     render: function() {
+        /* add the list view to its surrounding page */
+        if(!M.ViewManager.currentlyRenderedPage.listList) {
+            M.ViewManager.currentlyRenderedPage.listList = [];
+        }
+        M.ViewManager.currentlyRenderedPage.listList.push(this);
+
         if(this.hasSearchBar && !this.usesDefaultSearchBehaviour) {
             this.searchBar.isListViewSearchBar = YES;
             this.searchBar.listView = this;
@@ -392,6 +398,18 @@ M.ListView = M.View.extend(
         /* delegate event to external handler, if specified */
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, YES);
+        }
+    },
+
+    /**
+     * This method resets the list by applying the default css style to its currently activated
+     * list item.
+     *
+     * @param {String} listItemId The id of the list item to be set active.
+     */
+    resetActiveListItem: function() {
+        if(this.selectedItem) {
+            this.selectedItem.removeCssClass('ui-btn-active');
         }
     },
 

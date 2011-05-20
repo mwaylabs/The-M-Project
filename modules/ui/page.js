@@ -99,6 +99,15 @@ M.PageView = M.View.extend(
     internalEvents: null,
 
     /**
+     * An associative array containing all list views used in this page. The key for a list view is
+     * its id. We do this to have direct access to a list view, so we can reset its selected item
+     * once the page was hidden.
+     *
+     * @type Object
+     */
+    listList: null,
+
+    /**
      * Renders in three steps:
      * 1. Rendering Opening div tag with corresponding data-role
      * 2. Triggering render process of child views
@@ -108,6 +117,9 @@ M.PageView = M.View.extend(
      * @returns {String} The page view's html representation.
      */
     render: function() {
+        /* store the currently rendered page as a reference for use in child views */
+        M.ViewManager.currentlyRenderedPage = this;
+        
         this.html += '<div id="' + this.id + '" data-role="page"' + this.style() + '>';
 
         this.renderChildViews();
@@ -201,15 +213,6 @@ M.PageView = M.View.extend(
      * @param {Object} nextEvent The next event (external event), if specified.
      */
     pageDidLoad: function(id, event, nextEvent) {
-        /* if there is a list on the page, reset it: deactivate possible active list items */
-        // TODO: check if realy needed! if so: improve! otherwise: kill!
-        $('#' + this.id).find('.ui-btn-active').each(function() {
-            if(M.ViewManager.getViewById($(this).attr('id')) && M.ViewManager.getViewById($(this).attr('id')).type === 'M.ListItemView') {
-                var listItem = M.ViewManager.getViewById($(this).attr('id'));
-                listItem.removeCssClass('ui-btn-active');
-            }
-        });
-
         /* delegate event to external handler, if specified */
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);
@@ -242,6 +245,13 @@ M.PageView = M.View.extend(
      * @param {Object} nextEvent The next event (external event), if specified.
      */
     pageDidHide: function(id, event, nextEvent) {
+        /* if there is a list on the page, reset it: deactivate possible active list items */
+        if(this.listList) {
+            _.each(this.listList, function(list) {
+                list.resetActiveListItem();
+            });
+        }
+
         /* delegate event to external handler, if specified */
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);

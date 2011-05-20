@@ -69,6 +69,13 @@ M.ViewManager = M.Object.extend(
     currentPage: null,
 
     /**
+     * A reference to the currently rendered page.
+     *
+     * @type Object
+     */
+    currentlyRenderedPage: null,
+
+    /**
      * A reference to the latest found view which is necessary for the findView() method.
      *
      * @type Object
