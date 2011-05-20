@@ -27,6 +27,13 @@ M.ImageView = M.View.extend(
     type: 'M.ImageView',
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['click'],
+
+    /**
      * Renders an image view based on the specified layout.
      *
      * @private
