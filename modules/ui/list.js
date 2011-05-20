@@ -158,6 +158,13 @@ M.ListView = M.View.extend(
     idName: null,
 
     /**
+     * Contains a reference to the currently selected list item.
+     *
+     * @type Object
+     */
+    selectedItem: null,
+
+    /**
      * This method renders the empty list view either as an ordered or as an unordered list. It also applies
      * some styling, if the corresponding properties where set.
      *
@@ -291,9 +298,9 @@ M.ListView = M.View.extend(
                 var regexResult = null;
                 if(obj[childViewsArray[i]].computedValue) {
                     /* This regex looks for a variable inside the template view (<%= ... %>) ... */
-                    regexResult = /^<%=\s+([.|_|-|$|ยง|a-zA-Z]+[0-9]*[.|_|-|$|ยง|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
+                    regexResult = /^<%=\s+([.|_|-|$|ง|a-zA-Z]+[0-9]*[.|_|-|$|ง|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
                 } else {
-                    regexResult = /^<%=\s+([.|_|-|$|ยง|a-zA-Z]+[0-9]*[.|_|-|$|ยง|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
+                    regexResult = /^<%=\s+([.|_|-|$|ง|a-zA-Z]+[0-9]*[.|_|-|$|ง|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
                 }
 
                 /* ... if a match was found, the variable is replaced by the corresponding value inside the record */
@@ -375,12 +382,17 @@ M.ListView = M.View.extend(
      *
      * @param {String} listItemId The id of the list item to be set active.
      */
-    setActiveListItem: function(listItemId) {
-        $('#' + this.id).find('li').each(function() {
-            var listItem = M.ViewManager.getViewById($(this).attr('id'));
-            listItem.removeCssClass('ui-btn-active');
-        });
-        M.ViewManager.getViewById(listItemId).addCssClass('ui-btn-active')
+    setActiveListItem: function(listItemId, event, nextEvent) {
+        if(this.selectedItem) {
+            this.selectedItem.removeCssClass('ui-btn-active');
+        }
+        this.selectedItem = M.ViewManager.getViewById(listItemId);
+        this.selectedItem.addCssClass('ui-btn-active');
+
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
+        }
     },
 
     /**
