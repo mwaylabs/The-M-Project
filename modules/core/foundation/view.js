@@ -46,11 +46,20 @@ M.View = M.Object.extend(
     value: null,
 
     /**
-     * The path to a content that is bind to the view's value.
+     * The path to a content that is bound to the view's value. If this content
+     * changes, the view will automatically be updated.
      *
      * @property {String}
      */
     contentBinding: null,
+
+    /**
+     * The path to a content that is bound to the view's value (reverse). If this
+     * the view's value changes, the bound content will automatically be updated.
+     *
+     * @property {String}
+     */
+    contentBindingReverse: null,
 
     /**
      * An array specifying the view's children.
@@ -414,12 +423,12 @@ M.View = M.Object.extend(
      * property is specified.
      */
     delegateValueUpdate: function() {
-        /* delegate value updates to a binded controller,
-           but only if the view currently is the master */
+        /**
+         * delegate value updates to a bound controller, but only if the view currently is
+         * the master
+         */
         if(this.contentBindingReverse && this.hasFocus) {
-            var params = this.contentBindingReverse.split('.');
-            var controller = eval(params[0]);
-            controller[params[1]].set(params[2], this.value);
+            this.contentBindingReverse.target.set(this.contentBindingReverse.property, this.value);
         }
     },
 
