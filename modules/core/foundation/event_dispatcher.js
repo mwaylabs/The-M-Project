@@ -47,14 +47,8 @@ M.EventDispatcher = M.Object.extend(
             return;
         }
 
-        if(typeof(eventSource) === 'string') {
-            eventSource = $('#' + eventSource + ':first');
-        } else {
-            eventSource = $(eventSource);
-        }
-
-        if(!eventSource) {
-            M.Logger.log('The event source is invalid!', M.WARN);
+        eventSource = this.getEventSource(eventSource);
+        if(!this.checkEventSource(eventSource)) {
             return;
         }
 
@@ -81,14 +75,8 @@ M.EventDispatcher = M.Object.extend(
                 return;
             }
 
-            if(typeof(eventSource) === 'string') {
-                eventSource = $('#' + eventSource + ':first');
-            } else {
-                eventSource = $(eventSource);
-            }
-
-            if(!eventSource) {
-                M.Logger.log('The event source is invalid!', M.WARN);
+            eventSource = this.getEventSource(eventSource);
+            if(!this.checkEventSource(eventSource)) {
                 return;
             }
         }
@@ -101,20 +89,7 @@ M.EventDispatcher = M.Object.extend(
             }
         }
 
-        if(typeof(handler.action) === 'string') {
-            if(handler.target) {
-                if(handler.target[handler.action] && typeof(handler.target[handler.action]) === 'function') {
-                    handler.action = handler.target[handler.action];
-                } else {
-                    M.Logger.log('No action \'' + handler.action + '\' found for given target and the event type \'' + type + '\'!', M.WARN);
-                    return;
-                }
-            } else {
-                M.Logger.log('No valid target passed for action \'' + handler.action + '\' and the event type \'' + type + '\'!', M.WARN);
-                return;
-            }
-        } else if(typeof(handler.action) !== 'function') {
-            M.Logger.log('No valid action passed for the event type \'' + type + '\'!', M.WARN);
+        if(!this.checkHandler(handler)) {
             return;
         }
 
@@ -150,12 +125,86 @@ M.EventDispatcher = M.Object.extend(
 
     },
 
+    /**
+     * This method is used to explicitly call an event handler. We mainly use this for
+     * combining internal and external events.
+     *
+     * @param {Object} handler The handler for the event.
+     * @param {Object} event The original DOM event.
+     * @param {Boolean} passEvent Determines whether or not to pass the event and its target as the first parameters for the handler call.
+     * @param {Array} parameters The (additional) parameters for the handler call.
+     */
     callHandler: function(handler, event, passEvent, parameters) {
+        if(!this.checkHandler(handler)) {
+            return;
+        }
+
         if(!passEvent) {
             this.bindToCaller(handler.target, handler.action, parameters)();
         } else {
             this.bindToCaller(handler.target, handler.action, [event.currentTarget.id ? event.currentTarget.id : event.currentTarget, event])();
         }
+    },
+
+    /**
+     * This method is used to check the handler. It tests if target and action are
+     * specified correctly.
+     *
+     * @param {Object} handler The handler for the event.
+     * @return {Boolean} Specifies whether or not the check was successful.
+     */
+    checkHandler: function(handler) {
+        if(typeof(handler.action) === 'string') {
+            if(handler.target) {
+                if(handler.target[handler.action] && typeof(handler.target[handler.action]) === 'function') {
+                    handler.action = handler.target[handler.action];
+                    return YES;
+                } else {
+                    M.Logger.log('No action \'' + handler.action + '\' found for given target and the event type \'' + type + '\'!', M.WARN);
+                    return NO;
+                }
+            } else {
+                M.Logger.log('No valid target passed for action \'' + handler.action + '\' and the event type \'' + type + '\'!', M.WARN);
+                return NO;
+            }
+        } else if(typeof(handler.action) !== 'function') {
+            M.Logger.log('No valid action passed for the event type \'' + type + '\'!', M.WARN);
+            return NO;
+        }
+
+        return YES;
+    },
+
+    /**
+     * This method is used to get the event source as a DOM object.
+     *
+     * @param {Object, String} eventSource The event source.
+     * @return {Object} The event source as dom object.
+     */
+    getEventSource: function(eventSource) {
+        if(typeof(eventSource) === 'string') {
+            eventSource = $('#' + eventSource + ':first');
+        } else {
+            eventSource = $(eventSource);
+        }
+        
+        return eventSource;
+    },
+
+    /**
+     * This method is used to check the event source. It tests if it is correctly
+     * specified.
+     *
+     * @param {Object} eventSource The event source.
+     * @return {Boolean} Specifies whether or not the check was successful.
+     */
+    checkEventSource: function(eventSource) {
+        if(!eventSource) {
+            M.Logger.log('The event source is invalid!', M.WARN);
+            return NO;
+        }
+        
+        return YES;
     }
 
 });
