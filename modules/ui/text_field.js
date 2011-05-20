@@ -209,8 +209,12 @@ M.TextFieldView = M.View.extend(
      * This method is called whenever the view gets the focus.
      * If there is a initial text specified and the value of this text field
      * still equals this initial text, the value is emptied.
+     *
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
      */
-    gotFocus: function() {
+    gotFocus: function(id, event, nextEvent) {
         if(this.initialText && (!this.value || this.initialText === this.value)) {
             this.setValue('');
             if(this.cssClassOnInit) {
@@ -218,14 +222,22 @@ M.TextFieldView = M.View.extend(
             }
         }
         this.hasFocus = YES;
+
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
+        }
     },
 
     /**
      * This method is called whenever the view lost the focus.
      * If there is a initial text specified and the value of this text field
      * is empty, the value is set to the initial text.
+     *
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
      */
-    lostFocus: function() {
+    lostFocus: function(id, event, nextEvent) {
         if(this.initialText && !this.value) {
             this.setValue(this.initialText, NO);
             this.value = '';
@@ -234,6 +246,10 @@ M.TextFieldView = M.View.extend(
             }
         }
         this.hasFocus = NO;
+
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
+        }
     },
 
     /**
@@ -297,11 +313,17 @@ M.TextFieldView = M.View.extend(
      *
      * Additionally call target / action if set.
      *
-     * @param {Object} evt The event triggered this method.
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
      */
-    setValueFromDOM: function(evt) {
+    setValueFromDOM: function(id, event, nextEvent) {
         this.value = this.secure($('#' + this.id).val());
         this.delegateValueUpdate();
+
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
+        }
     },
 
     /**
