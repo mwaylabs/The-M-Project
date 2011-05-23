@@ -378,8 +378,10 @@ M.MapView = M.View.extend(
             }
 
             if(this.setMarkerAtInitialLocation) {
+                var that = this;
                 this.addMarker(M.MapMarkerView.init({
-                    location: this.initialLocation
+                    location: this.initialLocation,
+                    map: that.map
                 }));
             }
             
@@ -424,10 +426,11 @@ M.MapView = M.View.extend(
      */
     addMarker: function(marker) {
         if(marker && typeof(marker) === 'object' && marker.type === 'M.MapMarkerView') {
+            var that = this;
             marker.marker = new google.maps.Marker({
-                map: this.map,
+                map: that.map,
                 draggable: NO,
-                animation: google.maps.Animation[marker.markerAnimationType ? marker.markerAnimationType : this.markerAnimationType],
+                animation: google.maps.Animation[marker.markerAnimationType ? marker.markerAnimationType : that.markerAnimationType],
                 position: new google.maps.LatLng(marker.location.latitude, marker.location.longitude)
             });
             marker.registerEvents();

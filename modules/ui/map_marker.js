@@ -165,7 +165,6 @@ M.MapMarkerView = M.View.extend(
      */
     init: function(options) {
         var marker = this.extend(options);
-        marker.internalTarget = marker;
 
         if(marker.annotation || marker.message) {
             var content = marker.title ? '<h1 class="ui-annotation-header">' + marker.title + '</h1>' : '';
