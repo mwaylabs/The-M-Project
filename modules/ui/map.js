@@ -199,6 +199,13 @@ M.MapView = M.View.extend(
     removeMarkersOnUpdate: YES,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['click', 'tap'],
+
+    /**
      * Renders a map view, respectively a map view container.
      *
      * @private
@@ -225,10 +232,17 @@ M.MapView = M.View.extend(
      * you pass M.Location objects.
      */
     renderUpdate: function() {
-        /* get the marker / location objects from content binding */
-        var content = eval(this.contentBinding);
-        var markers = [];
+        /* check if content binding is valid */
+        var content = null;
+        if(!(this.contentBinding && this.contentBinding.target && typeof(this.contentBinding.target) === 'object' && this.contentBinding.property && typeof(this.contentBinding.property) === 'string' && this.contentBinding.target[this.contentBinding.property])) {
+            M.Logger.log('No valid content binding specified for M.MapView (' + this.id + ')!', M.WARN);
+            return;
+        }
 
+        /* get the marker / location objects from content binding */
+        var content = this.contentBinding.target[this.contentBinding.property];
+        var markers = [];
+        
         /* save a reference to the map */
         var that = this;
 
@@ -258,6 +272,18 @@ M.MapView = M.View.extend(
         _.each(markers, function(marker) {
             that.addMarker(marker);
         })
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * We use this to disable event registration for M.MapView, since we only use the 'events' property
+     * for determining the handler for possible map markers of this map.
+     */
+    registerEvents: function() {
+
     },
 
     /**
@@ -404,9 +430,7 @@ M.MapView = M.View.extend(
                 animation: google.maps.Animation[marker.markerAnimationType ? marker.markerAnimationType : this.markerAnimationType],
                 position: new google.maps.LatLng(marker.location.latitude, marker.location.longitude)
             });
-            google.maps.event.addListener(marker.marker, 'click', function() {
-                M.EventDispatcher.onClickEventDidHappen('click', null, null, marker);
-            });
+            marker.registerEvents();
             this.markers.push(
                 marker
             );
