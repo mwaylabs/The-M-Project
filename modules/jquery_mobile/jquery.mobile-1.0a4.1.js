@@ -1,5 +1,5 @@
 /*!
- * jQuery Mobile v Git Buildn * Git Info SHA1: 68142beba70e543fb62b39a2815e1fefa6611201 Date: Mon May 16 08:53:27 2011 -0700
+ * jQuery Mobile v Git Buildn * Git Info SHA1: a562cb1199541033518adbffad7cae31cc348f48 Date: Wed May 18 08:47:23 2011 -0700
  * http://jquerymobile.com/
  *
  * Copyright 2010, jQuery Project
@@ -1854,11 +1854,6 @@ $.widget( "mobile.page", $.mobile.widget, {
 
 		//error response message - appears when an Ajax page request fails
 		pageLoadErrorMessage: "Error Loading Page",
-
-		//configure meta viewport tag's content attr:
-		//note: this feature is deprecated in A4 in favor of adding
-		//the meta viewport element directly in the markup
-		metaViewportContent: "width=device-width, minimum-scale=1, maximum-scale=1",
 
 		//support conditions that must be met in order to proceed
 		//default enhanced qualifications are media query support OR IE 7+
@@ -4884,7 +4879,7 @@ $.widget( "mobile.listview", $.mobile.widget, {
 				theme = list.jqmData( "theme" ) || o.theme,
 				countTheme = list.jqmData( "counttheme" ) || parentList.jqmData( "counttheme" ) || o.countTheme,
 				newPage = list.detach()
-							.wrap( "<div " + dns + "role='page'" +  dns + "url='" + id + "' " + dns + "theme='" + theme + "' " + dns + "count-theme='" + countTheme + "'><div " + dns + "role='content'></div></div>" )
+							.wrap( "<div " + dns + "role='page' " +  dns + "url='" + id + "' " + dns + "theme='" + theme + "' " + dns + "count-theme='" + countTheme + "'><div " + dns + "role='content'></div></div>" )
 							.parent()
 								.before( "<div " + dns + "role='header' " + dns + "theme='" + o.headerTheme + "'><div class='ui-title'>" + title + "</div></div>" )
 								.after( persistentFooterID ? $( "<div " + dns + "role='footer' " + dns + "id='"+ persistentFooterID +"'>") : "" )
@@ -5182,11 +5177,6 @@ $.fn.grid = function(options){
 
 	//add mobile, initial load "rendering" classes to docEl
 	$html.addClass( "ui-mobile ui-mobile-rendering" );
-
-	//define & prepend meta viewport tag, if content is defined
-	//NOTE: this is now deprecated. We recommend placing the meta viewport element in
-	//the markup from the start.
-	$.mobile.metaViewportContent && !$head.find( "meta[name='viewport']" ).length ? $( "<meta>", { name: "viewport", content: $.mobile.metaViewportContent}).prependTo( $head ) : undefined;
 
 	//loading div which appears during Ajax requests
 	//will not appear if $.mobile.loadingMessage is false
