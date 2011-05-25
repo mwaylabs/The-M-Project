@@ -89,7 +89,7 @@ M.EventDispatcher = M.Object.extend(
             }
         }
 
-        if(!this.checkHandler(handler)) {
+        if(!this.checkHandler(handler, type)) {
             return;
         }
 
@@ -147,7 +147,7 @@ M.EventDispatcher = M.Object.extend(
      * @param {Array} parameters The (additional) parameters for the handler call.
      */
     callHandler: function(handler, event, passEvent, parameters) {
-        if(!this.checkHandler(handler)) {
+        if(!this.checkHandler(handler, (event && event.type ? event.type : 'undefined'))) {
             return;
         }
 
@@ -163,9 +163,10 @@ M.EventDispatcher = M.Object.extend(
      * specified correctly.
      *
      * @param {Object} handler The handler for the event.
+     * @param {String} type The type of the event.
      * @return {Boolean} Specifies whether or not the check was successful.
      */
-    checkHandler: function(handler) {
+    checkHandler: function(handler, type) {
         if(typeof(handler.action) === 'string') {
             if(handler.target) {
                 if(handler.target[handler.action] && typeof(handler.target[handler.action]) === 'function') {
