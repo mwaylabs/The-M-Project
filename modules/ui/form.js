@@ -56,7 +56,7 @@ M.FormView = M.View.extend(
         M.Validator.clearErrorBuffer();
         var isValid = YES;
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 var childView = this[childViews[i]];
                 if(childView && childView.validators) {
@@ -105,7 +105,7 @@ M.FormView = M.View.extend(
      */
     clearForm: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 var childView = this[childViews[i]];
                 childView.clearValue();

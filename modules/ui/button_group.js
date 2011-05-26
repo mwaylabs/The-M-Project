@@ -155,7 +155,7 @@ M.ButtonGroupView = M.View.extend(
     render: function() {
         /* check if multiple lines are necessary before rendering */
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             if(this.buttonsPerLine && this.buttonsPerLine < childViews.length) {
                 var numberOfButtons = 0;
                 for(var i in childViews) {
@@ -226,7 +226,7 @@ M.ButtonGroupView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             var currentButtonIndex = 0;
 
             for(var i in childViews) {
@@ -284,7 +284,7 @@ M.ButtonGroupView = M.View.extend(
 
                 /* style the current line */
                 $('#' + this.lines[line]).controlgroup();
-                var childViews = $.trim(this.childViews).split(' ');
+                var childViews = this.getChildViewsAsArray();
                 var currentButtonIndex = 0;
                 
                 /* if isCompact, iterate through all buttons */
@@ -348,7 +348,7 @@ M.ButtonGroupView = M.View.extend(
 
         /* iterate through all buttons and activate on of them, according to the button's isActive property */
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 if(this[childViews[i]] && this[childViews[i]].type === 'M.ButtonView') {
                     var button = this[childViews[i]];

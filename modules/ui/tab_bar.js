@@ -92,7 +92,7 @@ M.TabBarView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
 
             /* pre-process the child views to define which tab is selected */
             var hasActiveTab = NO;

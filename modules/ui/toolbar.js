@@ -117,7 +117,7 @@ M.ToolbarView = M.View.extend(
         if(this.value) {
             this.html += '<h1>' + this.value + '</h1>';
         } else if (this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
 
             /* A ToolbarView accepts only 3 childViews, one for each location: left, center, right */
             if(childViews.length > 3) {

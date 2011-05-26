@@ -74,7 +74,7 @@ M.ToggleView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             var childViewIndex = this.isInFirstState ? 0 : 1;
 
             if(this[childViews[childViewIndex]]) {
@@ -97,7 +97,7 @@ M.ToggleView = M.View.extend(
      */
     renderUpdateChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             var childViewIndex = this.isInFirstState ? 0 : 1;
 
             if(this[childViews[childViewIndex]]) {
