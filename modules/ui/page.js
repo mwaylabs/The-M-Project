@@ -178,17 +178,20 @@ M.PageView = M.View.extend(
      * @param {Object} nextEvent The next event (external event), if specified.
      */
     pageWillLoad: function(id, event, nextEvent) {
-        /* if this is the first page to be loaded, check if there is a tab bar and an active tab
-           specified and switch to this tab. also reload this page to have a stable location hash. */
-        // TODO: check if realy needed! if so: improve! otherwise: kill!
+        /* initialize the tabbar */
         if(M.Application.isFirstLoad) {
             M.Application.isFirstLoad = NO;
             var currentPage = M.ViewManager.getCurrentPage();
             if(currentPage && currentPage.hasTabBarView) {
                 var tabBarView = currentPage.tabBarView;
-                var activePage = M.ViewManager.getPage(tabBarView.activeTab.page);
-                if(activePage !== currentPage) {
-                    M.Controller.switchToPage(tabBarView.activeTab.page, M.TRANSITION.NONE, NO, YES);
+
+                if(tabBarView.childViews) {
+                    var childViews = $.trim(tabBarView.childViews).split(' ');
+                    for(var i in childViews) {
+                        if(M.ViewManager.getPage(tabBarView[childViews[i]].page).id === currentPage.id) {
+                            tabBarView.setActiveTab(tabBarView[childViews[i]]);
+                        }
+                    }
                 }
             }
         }
