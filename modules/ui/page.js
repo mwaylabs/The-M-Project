@@ -197,7 +197,10 @@ M.PageView = M.View.extend(
         if(M.LoaderView) {
             M.LoaderView.initialize();
         }
-        
+
+        /* reset the page's title */
+        document.title = M.Application.applicationTitle;
+
         /* delegate event to external handler, if specified */
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);
