@@ -70,7 +70,7 @@ M.LoaderView = M.View.extend(
             $('.ui-loader h1').text(this.defaultTitle);
         }
         if(this.refCount == 1){
-            $.mobile.pageLoading();
+            $.mobile.showPageLoadingMsg();
         }
     },
 
@@ -84,7 +84,7 @@ M.LoaderView = M.View.extend(
             this.refCount--;
         }
         if(this.refCount == 0){
-            $.mobile.pageLoading(YES);
+            $.mobile.hidePageLoadingMsg(YES);
         }
     }
     
