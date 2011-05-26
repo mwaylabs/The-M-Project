@@ -34,20 +34,11 @@ M.TabBarItemView = M.View.extend(
     isActive: NO,
 
     /**
-     * This property is used to specify an internal target for an automatically called action. This
-     * is used to trigger the switchPage() by clicking on a tab bar item.
+     * This property specifies the recommended events for this type of view.
      *
-     * @type Object
+     * @type Array
      */
-    internalTarget: null,
-
-    /**
-     * This property is used to specify an internal action for an automatically called action. This
-     * is used to trigger the switchPage() by clicking on a tab bar item.
-     *
-     * @type Object
-     */
-    internalAction: 'switchPage',
+    recommendedEvents: ['click', 'tap'],
 
     /**
      * Renders a tab bar item as a li-element inside of a parent tab bar view.
@@ -56,11 +47,35 @@ M.TabBarItemView = M.View.extend(
      * @returns {String} The button view's html representation.
      */
     render: function() {
-        this.html += '<li><a id="' + this.id + '"' + this.style() + ' href="#">' + this.value + '</a></li>';
+        this.html = '';
+        if(this.id.lastIndexOf('_') == 1) {
+            this.id = this.id + '_' + this.parentView.usageCounter;
+        } else {
+            this.id = this.id.substring(0, this.id.lastIndexOf('_')) + '_' + this.parentView.usageCounter;
+        }
+        M.ViewManager.register(this);
 
-        this.internalTarget = this;
+        this.html += '<li><a id="' + this.id + '"' + this.style() + ' href="#">' + this.value + '</a></li>';
         
         return this.html;
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for tab bar item views and
+     * their internal events.
+     */
+    registerEvents: function() {
+        this.internalEvents = {
+            tap: {
+                target: this,
+                action: 'switchPage'
+            }
+        }
+        this.bindToCaller(this, M.View.registerEvents)();
     },
 
     /**
