@@ -253,7 +253,7 @@ M.View = M.Object.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 if(this.type === 'M.PageView' && this[childViews[i]].type === 'M.TabBarView') {
                     this.hasTabBarView = YES;
@@ -270,13 +270,22 @@ M.View = M.Object.extend(
     },
 
     /**
+     * This method transforms the child views property (string) into an array.
+     *
+     * @returns {Array} The child views as an array.
+     */
+    getChildViewsAsArray: function() {
+        return $.trim(this.childViews.replace(/\s+/g, ' ')).split(' ');
+    },
+
+    /**
      * Clears the html property of a view and triggers the same method on all of its
      * child views.
      */
     clearHtml: function() {
         this.html = '';
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 this[childViews[i]].clearHtml();
             }
@@ -331,7 +340,7 @@ M.View = M.Object.extend(
         }
         
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 this[childViews[i]].registerEvents();
             }
@@ -343,7 +352,7 @@ M.View = M.Object.extend(
      */
     themeChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 this[childViews[i]].theme();
             }
