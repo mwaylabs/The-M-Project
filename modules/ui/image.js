@@ -31,7 +31,7 @@ M.ImageView = M.View.extend(
      *
      * @type Array
      */
-    recommendedEvents: ['click'],
+    recommendedEvents: ['click', 'tap'],
 
     /**
      * Renders an image view based on the specified layout.
