@@ -141,7 +141,7 @@ M.TabBarView = M.View.extend(
         /* deactivate current active tav */
         this.activeTab.isActive = NO;
         var activeTabMainID = this.activeTab.id.substring(0, this.activeTab.id.lastIndexOf('_'));
-        $('[id^=' + activeTabMainID + ']').each(function() {
+        $('[id^=' + activeTabMainID + '_]').each(function() {
             $(this).removeClass('ui-btn-active');
         });
 
@@ -149,7 +149,7 @@ M.TabBarView = M.View.extend(
         tab.isActive = YES;
         this.activeTab = tab;
         var tabMainID = tab.id.substring(0, tab.id.lastIndexOf('_'));
-        $('[id^=' + tabMainID + ']').each(function() {
+        $('[id^=' + tabMainID + '_]').each(function() {
             $(this).addClass('ui-btn-active');
         });
 
