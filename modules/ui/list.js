@@ -369,19 +369,32 @@ M.ListView = M.View.extend(
                 obj.inEditMode = that.inEditMode;
                 obj.deleteButton = obj.deleteButton.design({
                     modelId: obj.modelId,
-                    target: that.editOptions.target,
-                    action: that.editOptions.action
+                    events: {
+                        tap: {
+                            target: that.editOptions.target,
+                            action: that.editOptions.action
+                        }
+                    },
+                    internalEvents: {
+                        tap: {
+                            target: that,
+                            action: 'removeListItem'
+                        }
+                    }
                 });
             }
 
             /* set the list view as 'parent' for the current list item view */
-            obj.listView = that;
+            obj.parentView = that;
 
             /* Add the current list view item to the list view ... */
             that.addItem(obj.render());
 
             /* register events */
             obj.registerEvents();
+            if(obj.deleteButton) {
+                obj.deleteButton.registerEvents();
+            }
 
             /* ... once it is in the DOM, make it look nice */
             for(var i in childViewsArray) {
@@ -429,7 +442,7 @@ M.ListView = M.View.extend(
      * @param {Object} options The options for the remove button.
      */
     toggleRemove: function(options) {
-        if(eval(this.contentBinding)) {
+        if(this.contentBinding && typeof(this.contentBinding.target) === 'object' && typeof(this.contentBinding.property) === 'string' && this.contentBinding.target[this.contentBinding.property]) {
             this.inEditMode = !this.inEditMode;
             this.editOptions = options;
             this.renderUpdate();
@@ -491,6 +504,15 @@ M.ListView = M.View.extend(
             html += ' data-filter="true" data-filter-placeholder="' + this.searchBarInitialText + '"';
         }
         return html;
+    },
+
+    removeListItem: function(id, event, nextEvent) {
+        var modelId = M.ViewManager.getViewById(id).modelId;
+
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, NO, [id, modelId]);
+        }
     }
 
 });
