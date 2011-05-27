@@ -146,6 +146,13 @@ M.ButtonGroupView = M.View.extend(
     isSelectable: YES,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['change'],
+
+    /**
      * Renders a button group as a div container and calls the renderChildViews
      * method to render the included buttons.
      *
@@ -240,16 +247,23 @@ M.ButtonGroupView = M.View.extend(
                         button.html = '';
 
                         button.parentView = this;
-                        button.internalTarget = this;
-                        button.internalAction = 'setActiveButton';
-
-                        /* check if button has own target / action, otherwise use target / action from button group */
-                        if(!button.target) {
-                            if(this.target && this.action) {
-                                button.target = this.target;
-                                button.action = this.action;
+                        button.internalEvents = {
+                            tap: {
+                                target: this,
+                                action: 'setActiveButton'
                             }
                         }
+
+                        /* check if button has own event, otherwise use target / action from button group */
+                        /*if(!(button.events && button.events.tap)) {
+                            if(this.events && this.events.tap) {
+                                button.events = button.events ? button.events : {};
+                                button.events.tap = {
+                                    target: this.events.tap.target,
+                                    action: this.events.tap.action
+                                }
+                            }
+                        }*/
 
                         /* if the buttons are horizontally aligned, compute their width depending on the number of buttons
                            and set the right margin to '-2px' since the jQuery mobile default would cause an ugly gap to
@@ -375,14 +389,12 @@ M.ButtonGroupView = M.View.extend(
      *
      * @param {M.ButtonView, String} id The button to be set active or its id.
      */
-    setActiveButton: function(id) {
+    setActiveButton: function(id, event, nextEvent) {
         if(this.isSelectable) {
-            this.activeButton = null;
-            $('#' + this.id).find('a').each(function() {
-                var button = M.ViewManager.getViewById($(this).attr('id'));
-                button.removeCssClass('ui-btn-active');
-                button.isActive = NO;
-            });
+            if(this.activeButton) {
+                this.activeButton.removeCssClass('ui-btn-active');
+                this.activeButton.isActive = NO;
+            }
 
             var button = M.ViewManager.getViewById(id);
             if(!button) {
@@ -395,6 +407,14 @@ M.ButtonGroupView = M.View.extend(
                 button.isActive = YES;
                 this.activeButton = button;
             }
+        }
+
+        /* trigger change event for the button group */
+        $('#' + this.id).trigger('change');
+
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);
         }
     },
 
