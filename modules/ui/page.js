@@ -186,7 +186,7 @@ M.PageView = M.View.extend(
                 var tabBarView = currentPage.tabBarView;
 
                 if(tabBarView.childViews) {
-                    var childViews = this.getChildViewsAsArray();
+                    var childViews = tabBarView.getChildViewsAsArray();
                     for(var i in childViews) {
                         if(M.ViewManager.getPage(tabBarView[childViews[i]].page).id === currentPage.id) {
                             tabBarView.setActiveTab(tabBarView[childViews[i]]);
