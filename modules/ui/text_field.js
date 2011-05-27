@@ -132,7 +132,7 @@ M.TextFieldView = M.View.extend(
      *
      * @type Array
      */
-    recommendedEvents: ['focus', 'blur', 'enter', 'keyup', 'tap'],
+    recommendedEvents: ['focus', 'blur', 'enter', 'keyup'],
 
     /**
      * Renders a TextFieldView
