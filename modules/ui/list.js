@@ -144,6 +144,15 @@ M.ListView = M.View.extend(
     usesDefaultSearchBehaviour: YES,
 
     /**
+     * If the hasSearchBar property is set to YES and the usesDefaultSearchBehaviour is set to YES, this
+     * property can be used to specify the inital text for the search bar. This text will be shown as long
+     * as nothing else is entered into the search bar text field.
+     *
+     * @type String
+     */
+    searchBarInitialText: 'Search...',
+
+    /**
      * An object containing target and action to be triggered if the search string changes.
      *
      * @type Object
@@ -187,8 +196,37 @@ M.ListView = M.View.extend(
 
         var listTagName = this.isNumberedList ? 'ol' : 'ul';
         this.html += '<' + listTagName + ' id="' + this.id + '" data-role="listview"' + this.style() + '></' + listTagName + '>';
-        
+
         return this.html;
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for list views and their
+     * internal events.
+     */
+    registerEvents: function() {
+        /*this.internalEvents = {
+            focus: {
+                target: this,
+                action: 'gotFocus'
+            },
+            blur: {
+                target: this,
+                action: 'lostFocus'
+            },
+            keyup: {
+                target: this,
+                action: 'setValueFromDOM'
+            }
+        }*/
+        this.bindToCaller(this, M.View.registerEvents)();
+        if(this.hasSearchBar && !this.usesDefaultSearchBehaviour) {
+            this.searchBar.registerEvents();
+        }
     },
 
     /**
@@ -228,7 +266,12 @@ M.ListView = M.View.extend(
         var that = this;
 
         /* Get the list view's content as an object from the assigned content binding */
-        var content = eval(this.contentBinding);
+        if(this.contentBinding && typeof(this.contentBinding.target) === 'object' && typeof(this.contentBinding.property) === 'string' && this.contentBinding.target[this.contentBinding.property]) {
+            var content = this.contentBinding.target[this.contentBinding.property];
+        } else {
+            M.Logger.log('The specified content binding for the list view (' + this.id + ') is invalid!', M.WARN);
+            return;
+        }
 
         /* Get the list view's template view for each list item */
         var templateView = this.listItemTemplateView;
@@ -291,7 +334,7 @@ M.ListView = M.View.extend(
             }
 
             /* Get the child views as an array of strings */
-            var childViewsArray = obj.childViews.split(' ');
+            var childViewsArray = obj.getChildViewsAsArray();
 
             /* If the item is a model, read the values from the 'record' property instead */
             var record = item.type === 'M.Model' ? item.record : item;
@@ -355,6 +398,17 @@ M.ListView = M.View.extend(
     theme: function() {
         $('#' + this.id).listview();
         if(this.searchBar) {
+            /* JQM-hack: remove multiple search bars */
+            if($('#' + this.id) && $('#' + this.id).parent()) {
+                var searchBarsFound = 0;
+                $('#' + this.id).parent().find('form.ui-listview-filter').each(function() {
+                    searchBarsFound += 1;
+                    if(searchBarsFound == 1) {
+                        return;
+                    }
+                    $(this).remove();
+                });
+            }
             this.searchBar.theme();
         }
     },
@@ -434,7 +488,7 @@ M.ListView = M.View.extend(
             html += ' data-splittheme="' + this.cssClassForSplitView + '"';
         }
         if(this.hasSearchBar && this.usesDefaultSearchBehaviour) {
-            html += ' data-filter="true"';
+            html += ' data-filter="true" data-filter-placeholder="' + this.searchBarInitialText + '"';
         }
         return html;
     }
