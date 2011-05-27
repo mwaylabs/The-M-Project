@@ -138,6 +138,9 @@ M.ToggleView = M.View.extend(
             $('#' + this.currentView.id).page();
         }
 
+        /* call jqm to fix header/footer */
+        $.fixedToolbars.show();
+
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, YES);
         }
