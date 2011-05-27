@@ -140,7 +140,7 @@ M.ViewManager = M.Object.extend(
      */
     getView: function(parentView, targetView) {
         if(typeof(parentView) !== 'object') {
-            parentView = M.Application.pages[parentView] ? M.Application.pages[parentView] : null;
+            parentView = M.Application.pages[parentView] ? M.Application.pages[parentView] : (M.ViewManager.getViewById(parentView) ? M.ViewManager.getViewById(parentView) : null);
         }
         var view = null;
 
