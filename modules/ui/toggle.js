@@ -79,8 +79,12 @@ M.ToggleView = M.View.extend(
 
             if(this[childViews[childViewIndex]]) {
                 if(this.toggleOnClick) {
-                    this[childViews[childViewIndex]].internalTarget = this;
-                    this[childViews[childViewIndex]].internalAction = 'toggleView';
+                    this[childViews[childViewIndex]].internalEvents = {
+                        tap: {
+                            target: this,
+                            action: 'toggleView'
+                        }
+                    }
                 }
                 this.currentView = this[childViews[childViewIndex]];
                 this.html += this[childViews[childViewIndex]].render();
@@ -102,8 +106,12 @@ M.ToggleView = M.View.extend(
 
             if(this[childViews[childViewIndex]]) {
                 if(this.toggleOnClick) {
-                    this[childViews[childViewIndex]].internalTarget = this;
-                    this[childViews[childViewIndex]].internalAction = 'toggleView';
+                    this[childViews[childViewIndex]].internalEvents = {
+                        tap: {
+                            target: this,
+                            action: 'toggleView'
+                        }
+                    }
                 }
                 this[childViews[childViewIndex]].clearHtml();
                 this.currentView = this[childViews[childViewIndex]];
@@ -118,15 +126,20 @@ M.ToggleView = M.View.extend(
      * This method toggles the child views by first emptying the toggle view's content
      * and then rendering the next child view by calling renderUpdateChildViews().
      */
-    toggleView: function() {
+    toggleView: function(id, event, nextEvent) {
         this.isInFirstState = !this.isInFirstState;
         $('#' + this.id).empty();
         $('#' + this.id).html(this.renderUpdateChildViews());
+        this.currentView.registerEvents();
         this.theme();
 
         /* if view is a M.ScrollView, we need to use the 'page' method of JQM for correct styling */
         if(this.currentView && this.currentView.type === 'M.ScrollView') {
             $('#' + this.currentView.id).page();
+        }
+
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
         }
     },
 
