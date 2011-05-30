@@ -107,7 +107,7 @@ M.AlertDialogView = M.DialogView.extend(
     hide: function() {
         var dialog = $('#' + this.id);
         dialog.addClass('pop out');
-		//        $('.tmp-dialog-background').remove();
+		$('.tmp-dialog-background').remove();
         this.destroy();
     }
 
