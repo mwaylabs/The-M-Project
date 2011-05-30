@@ -280,6 +280,24 @@ M.View = M.Object.extend(
     },
 
     /**
+     * This method is used internally for removing a view's child views both from DOM and the
+     * view manager.
+     *
+     * @private
+     */
+    removeChildViews: function() {
+        var childViews = this.getChildViewsAsArray();
+        for(var i in childViews) {
+            if(this[childViews[i]].childViews) {
+                this[childViews[i]].removeChildViews();
+            }
+            this[childViews[i]].destroy();
+            M.ViewManager.remove(this[childViews[i]]);
+        }
+        $('#' + this.id).empty();
+    },
+
+    /**
      * This method transforms the child views property (string) into an array.
      *
      * @returns {Array} The child views as an array.

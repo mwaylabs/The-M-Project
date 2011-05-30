@@ -107,6 +107,15 @@ M.ViewManager = M.Object.extend(
     },
 
     /**
+     * Removes the view from the viewlist array.
+     *
+     * @param {Object} view The view to be removed from the viewlist.
+     */
+    remove: function(view) {
+        delete this.viewList[view.id];
+    },
+
+    /**
      * Returns the view object from the view list array identified
      * by the value of its id attribute.
      *
