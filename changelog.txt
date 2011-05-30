@@ -7,7 +7,8 @@
   * Refactored childViews property (it's way more robust now)
   * Updated jQuery to 1.6.1
   * Updated jQuery Mobile to 1.0b1
-  * Refactored content binding: It now uses target/property (same as events)
+  * Refactored content binding (1): It now uses target/property (same as events)
+  * Refactored content binding (2): Added recursion, so now something like 'person.address.street' is possible
 
 ** Version 0.4 - Date 19.04.2011 **
 
