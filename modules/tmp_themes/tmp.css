@@ -86,11 +86,3 @@
 .tmp-actionsheet-destructive-button:active {
     background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.05, rgb(235, 104, 87)), color-stop(1.0, rgb(245, 46, 19)));
 }
-
-.hidden {
-    display: none;
-}
-
-.show {
-    display: block;
-}
