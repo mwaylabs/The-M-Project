@@ -112,7 +112,7 @@ M.GridView = M.View.extend(
                     }
                 }
             } else {
-                M.Logger.log('No layout specified for GridView', M.ERROR);
+                M.Logger.log('No layout specified for GridView (' + this.id + ')!', M.WARN);
             }
         }
     },
