@@ -312,6 +312,11 @@ M.TextFieldView = M.View.extend(
         if(this.initialText && !this.value && this.cssClassOnInit) {
             this.addCssClass(this.cssClassOnInit);
         }
+
+        /* trigger keyup event to make the text field autogrow */
+        if(this.value) {
+            $('#'  + this.id).trigger('keyup');
+        }
     },
 
     /**
@@ -331,7 +336,11 @@ M.TextFieldView = M.View.extend(
         } else {
             $('#' + this.id).removeAttr('disabled');
         }
-        $('#'  + this.id).keyup();
+
+        /* trigger keyup event to make the text field autogrow */
+        if(this.value) {
+            $('#'  + this.id).trigger('keyup');
+        }
     },
 
     /**
@@ -393,6 +402,9 @@ M.TextFieldView = M.View.extend(
      */
     clearValue: function() {
         this.setValue('');
+
+        /* call lostFocus() to get the initial text displayed */
+        this.lostFocus();
     }
 
 });
