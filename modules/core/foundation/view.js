@@ -271,7 +271,8 @@ M.View = M.Object.extend(
                 if(this[childViews[i]]) {
                     this.html += this[childViews[i]].render();
                 } else {
-                    M.Logger.log(childViews[i] + ' is undefinded. Can\' call render() of an undefinded object', M.ERROR);
+                    this.childViews = this.childViews.replace(childViews[i], ' ');
+                    M.Logger.log('There is no child view \'' + childViews[i] + '\' available for ' + this.type + ' (' + this.id + ')! It will be excluded from the child views and won\'t be rendered.', M.WARN);
                 }
             }
             return this.html;
