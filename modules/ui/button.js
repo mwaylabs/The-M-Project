@@ -60,6 +60,15 @@ M.ButtonView = M.View.extend(
     hyperlinkTarget: null,
 
     /**
+     * This property can be used to specify a tag, that is independent from the button's
+     * value. This allows you to identify a button, without having to worry about changes
+     * to its value.
+     *
+     * @type String
+     */
+    tag: null,
+
+    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array
