@@ -43,13 +43,6 @@ M.AlertDialogView = M.DialogView.extend(
     message: '',
 
     /**
-     * The default transition of an alert dialog.
-     *
-     * @type String
-     */
-    transition: M.TRANSITION.POP,
-
-    /**
      * Determines whether the alert dialog gets a default ok button.
      *
      * @type Boolean
@@ -57,32 +50,75 @@ M.AlertDialogView = M.DialogView.extend(
     hasOkButton: YES,
 
     /**
-     * Renders an alert dialog as a pop-up page.
+     * Determines the value of the button, means the text label on it.
+     *
+     * @type String
+     */
+    confirmButtonValue: 'Ok',
+
+    /**
+     * Renders an alert dialog as a pop up
      *
      * @private
      * @returns {String} The alert dialog view's html representation.
      */
     render: function() {
-        this.html = '<div data-role="dialog" id="' + this.id + '">';
-        this.html += '<div data-role="header" data-position="fixed"><h1>' + this.title + '</h1></div>';
-        this.html += '<div data-role="content">' + this.message;
-
+        this.html = '<div class="tmp-dialog-background"></div>';
+        this.html += '<div id="' + this.id + '" class="tmp-dialog">';
+        this.html += '<div class="tmp-dialog-header">';
+        this.html += this.title ? this.title : '';
+        this.html +='</div>';
+        this.html += '<div class="tmp-dialog-content">';
+        this.html += this.message;
+        this.html +='</div>';
+        var button;
         if(this.hasOkButton) {
-            var button = M.ButtonView.design({
-                value: 'OK',
-                cssClass: 'b',
-                target: this,
-                action: 'dialogWillClose',
-                role: 'onOk'
+            this.html += '<div class="tmp-dialog-footer">';
+            var that = this;
+            button = M.ButtonView.design({
+                value: this.confirmButtonValue,
+                cssClass: 'b tmp-dialog-smallerbtn',
+                events: {
+                    tap: {
+                        target: that,
+                        action: 'hide'
+                    }
+                }
             });
-            this.buttonIds.push(button.id);
             this.html += button.render();
+            this.html += '</div>';
         }
-
-        this.html += '</div>';        
         this.html += '</div>';
 
         $('body').append(this.html);
+        if(button.type) {
+            button.registerEvents();
+            button.theme();
+        }
+    },
+
+    show: function() {
+        /* call the dialog's render() */
+        this.render();
+
+        var dialog = $('#' + this.id);
+        //if(dialog.hasClass('hidden')) {
+		//	dialog.removeClass('hidden');
+            dialog.addClass('pop in');
+		//}
+    },
+
+    hide: function() {
+        var dialog = $('#' + this.id);
+        //if(dialog.hasClass('show')) {
+			//dialog.removeClass('show');
+			dialog.addClass('pop out');
+		//}
+        $('.tmp-dialog-background').remove();
+        this.destroy();
     }
+
+
+
 
 });
