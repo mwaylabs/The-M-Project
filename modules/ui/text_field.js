@@ -104,7 +104,7 @@ M.TextFieldView = M.View.extend(
      *
      * @type Boolean
      */
-    isGrouped: YES,
+    isGrouped: NO,
 
     /**
      * Defines whether the text field has multiple lines respectively is a text area.
