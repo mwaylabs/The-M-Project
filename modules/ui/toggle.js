@@ -128,7 +128,7 @@ M.ToggleView = M.View.extend(
      */
     toggleView: function(id, event, nextEvent) {
         this.isInFirstState = !this.isInFirstState;
-        $('#' + this.id).empty();
+        this.removeChildViews();
         $('#' + this.id).html(this.renderUpdateChildViews());
         this.currentView.registerEvents();
         this.theme();
