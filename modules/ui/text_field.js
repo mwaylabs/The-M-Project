@@ -100,6 +100,8 @@ M.TextFieldView = M.View.extend(
      * If set to YES, the textfield and its label are wrapped in a container and styled as a unit 'out of
      * the box'. If set to NO, custom styling could be necessary.
      *
+     * If there is no label specified, this property is ignored by default.
+     *
      * @type Boolean
      */
     isGrouped: YES,
@@ -143,7 +145,7 @@ M.TextFieldView = M.View.extend(
     render: function() {
         this.html += '<div';
 
-        if(this.isGrouped) {
+        if(this.label && this.isGrouped) {
             this.html += ' data-role="fieldcontain"';
         }
 
