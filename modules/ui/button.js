@@ -8,8 +8,6 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('ui/label.js');
-
 /**
  * @class
  *
@@ -62,14 +60,6 @@ M.ButtonView = M.View.extend(
     hyperlinkTarget: null,
 
     /**
-     * This property can be used to give a button a certain label. If this is specified,
-     * this is what will be rendered into the DOM instead of the value property. So you
-     * give a button a simple value, e.g. 'german', and specify its label with I18N, e.g.
-     * M.I18N('german') --> german, deutsch, allemande
-     */
-    label: null,
-
-    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array
@@ -102,7 +92,7 @@ M.ButtonView = M.View.extend(
             this.html += 'href="#"';
         }
 
-        this.html += '>' + (this.label ? this.label : this.value) + '</a>';
+        this.html += '>' + this.value + '</a>';
 
         return this.html;
     },
@@ -113,10 +103,11 @@ M.ButtonView = M.View.extend(
      * @private
      */
     renderUpdate: function() {
-        if(this.applyTheme){
+        this.computeValue();
+        if(this.applyTheme) {
             this.theme();
             $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
-        }else{
+        } else {
             $('#' + this.id).find('.ui-btn-text').text(this.value);
         }
     },
