@@ -100,9 +100,11 @@ M.TextFieldView = M.View.extend(
      * If set to YES, the textfield and its label are wrapped in a container and styled as a unit 'out of
      * the box'. If set to NO, custom styling could be necessary.
      *
+     * If there is no label specified, this property is ignored by default.
+     *
      * @type Boolean
      */
-    isGrouped: YES,
+    isGrouped: NO,
 
     /**
      * Defines whether the text field has multiple lines respectively is a text area.
@@ -143,7 +145,7 @@ M.TextFieldView = M.View.extend(
     render: function() {
         this.html += '<div';
 
-        if(this.isGrouped) {
+        if(this.label && this.isGrouped) {
             this.html += ' data-role="fieldcontain"';
         }
 
@@ -310,6 +312,11 @@ M.TextFieldView = M.View.extend(
         if(this.initialText && !this.value && this.cssClassOnInit) {
             this.addCssClass(this.cssClassOnInit);
         }
+
+        /* trigger keyup event to make the text field autogrow */
+        if(this.value) {
+            $('#'  + this.id).trigger('keyup');
+        }
     },
 
     /**
@@ -329,7 +336,11 @@ M.TextFieldView = M.View.extend(
         } else {
             $('#' + this.id).removeAttr('disabled');
         }
-        $('#'  + this.id).keyup();
+
+        /* trigger keyup event to make the text field autogrow */
+        if(this.value) {
+            $('#'  + this.id).trigger('keyup');
+        }
     },
 
     /**
@@ -391,6 +402,9 @@ M.TextFieldView = M.View.extend(
      */
     clearValue: function() {
         this.setValue('');
+
+        /* call lostFocus() to get the initial text displayed */
+        this.lostFocus();
     }
 
 });
