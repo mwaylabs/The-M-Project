@@ -101,14 +101,13 @@ M.FormView = M.View.extend(
     },
 
     /**
-     * This method clears the form by clearing all input's values.
+     * This method clears the form by recursively clearing all input view's values.
      */
     clearForm: function() {
         if(this.childViews) {
             var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
-                var childView = this[childViews[i]];
-                childView.clearValue();
+                this[childViews[i]].clearValue();
             }
         }
     }

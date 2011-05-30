@@ -562,13 +562,19 @@ M.View = M.Object.extend(
     },
 
     /**
-     * @interface
-     *
-     * This method defines an interface method for clearing a view's value. This should be
-     * implemented with a specific behaviour for any input view.
+     * This method defines a basic functionality for clearing a view's value. This should be
+     * overwritten with a specific behaviour for most input view. What we do here is nothing
+     * but to call the cleaValue method for any child view.
      */
     clearValue: function() {
-        
+        if(this.childViews) {
+            var childViews = this.getChildViewsAsArray();
+            for(var i in childViews) {
+                if(this[childViews[i]]) {
+                    this[childViews[i]].clearValue();
+                }
+            }
+        }
     },
 
     /**
