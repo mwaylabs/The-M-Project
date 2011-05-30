@@ -47,7 +47,7 @@ M.AlertDialogView = M.DialogView.extend(
      *
      * @type Boolean
      */
-    hasOkButton: YES,
+    hasConfirmButton: YES,
 
     /**
      * Determines the value of the button, means the text label on it.
@@ -72,7 +72,7 @@ M.AlertDialogView = M.DialogView.extend(
         this.html += this.message;
         this.html +='</div>';
         var button;
-        if(this.hasOkButton) {
+        if(this.hasConfirmButton) {
             this.html += '<div class="tmp-dialog-footer">';
             var that = this;
             button = M.ButtonView.design({
@@ -81,7 +81,7 @@ M.AlertDialogView = M.DialogView.extend(
                 events: {
                     tap: {
                         target: that,
-                        action: 'hide'
+                        action: 'handleCallback'
                     }
                 }
             });
@@ -100,25 +100,24 @@ M.AlertDialogView = M.DialogView.extend(
     show: function() {
         /* call the dialog's render() */
         this.render();
-
         var dialog = $('#' + this.id);
-        //if(dialog.hasClass('hidden')) {
-		//	dialog.removeClass('hidden');
-            dialog.addClass('pop in');
-		//}
+        dialog.addClass('pop in');
     },
 
     hide: function() {
         var dialog = $('#' + this.id);
-        //if(dialog.hasClass('show')) {
-			//dialog.removeClass('show');
-			dialog.addClass('pop out');
-		//}
+        dialog.addClass('pop out');
         $('.tmp-dialog-background').remove();
         this.destroy();
+    },
+
+    handleCallback: function() {
+        this.hide();
+        if(this.callbacks) {
+            if(!this.callbacks.confirm) {
+                M.Logger.log('There must be a sub object named "confirm" with target (type object) and action (type string) in callback object of alert dialog.', M.ERR);
+            }
+            this.bindToCaller(this.callbacks.confirm.target, this.callbacks.confirm.target[this.callbacks.confirm.action])();
+        }
     }
-
-
-
-
 });
