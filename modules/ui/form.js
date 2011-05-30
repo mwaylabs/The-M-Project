@@ -101,15 +101,17 @@ M.FormView = M.View.extend(
     },
 
     /**
-     * This method clears the form by recursively clearing all input view's values.
+     * This method is a wrapper of M.View's clearValues() method.
      */
     clearForm: function() {
-        if(this.childViews) {
-            var childViews = this.getChildViewsAsArray();
-            for(var i in childViews) {
-                this[childViews[i]].clearValue();
-            }
-        }
+        this.clearValues();
+    },
+
+    /**
+     * This method is a wrapper of M.View's getValues() method.
+     */
+    getFormValues: function() {
+        return this.getValues();
     }
 
 });
