@@ -118,6 +118,9 @@ M.Controller = M.Object.extend(
      */
     set: function(key, value) {
         this[key] = value;
+        if(!this.observable) {
+            return;
+        }
         this.observable.notifyObservers(key);
     }
 
