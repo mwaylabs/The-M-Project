@@ -100,21 +100,14 @@ M.AlertDialogView = M.DialogView.extend(
     show: function() {
         /* call the dialog's render() */
         this.render();
-
         var dialog = $('#' + this.id);
-        //if(dialog.hasClass('hidden')) {
-		//	dialog.removeClass('hidden');
-            dialog.addClass('pop in');
-		//}
+        dialog.addClass('pop in');
     },
 
     hide: function() {
         var dialog = $('#' + this.id);
-        //if(dialog.hasClass('show')) {
-			//dialog.removeClass('show');
-			dialog.addClass('pop out');
-		//}
-        $('.tmp-dialog-background').remove();
+        dialog.addClass('pop out');
+		//        $('.tmp-dialog-background').remove();
         this.destroy();
     }
 
