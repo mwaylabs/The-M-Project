@@ -90,19 +90,20 @@ M.SelectionListView = M.View.extend(
     selectionMode: M.SINGLE_SELECTION,
 
     /**
-     * This property is used to define a method that is executed onSelect of an
-     * item of this selection list.
-     *
-     * @type Object
-     */
-    onSelect: null,
-
-    /**
      * The selected item(s) of this list.
      *
      * @type String, Array
      */
     selection: null,
+
+    /**
+     * This property defines the tab bar's name. This is used internally to identify
+     * the selection list inside the DOM.
+     *
+     * @type String
+     */
+    internalName: null,
+
     
     /**
      * This property is used to specify an initial value for the selection list if
@@ -139,6 +140,13 @@ M.SelectionListView = M.View.extend(
     isGrouped: NO,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['change'],
+
+    /**
      * Renders a selection list.
      *
      * @private
@@ -154,7 +162,7 @@ M.SelectionListView = M.View.extend(
 
         if(this.cssClass) {
             this.html += ' class="';
-            var cssClasses = $.trim(this.cssClass).split(' ');
+            var cssClasses = $.trim(this.cssClass).split(' ');            
             for(var i in cssClasses) {
                 this.html += (i > 0 ? ' ' : '') + cssClasses[i] + '_container';
             }
@@ -169,34 +177,16 @@ M.SelectionListView = M.View.extend(
                 this.html += '<label for="' + this.id + '">' + this.label + '</label>';
             }
 
-            this.html += '<select ';
-
-            if(!this.applyTheme) {
-                this.html += 'data-role="none" ';
-
-            }
-
-            this.html += 'name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');">';
-            //this.html += 'name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>';
+            this.html += '<select name="' + (this.internalName ? this.internalName : this.id) + '" id="' + this.id + '"' + this.style() + '>';
+            //this.html += '<select data-native-menu="' + !this.applyTheme + '" name="' + (this.internalName ? this.internalName : this.id) + '" id="' + this.id + '"' + this.style() + '>';
 
             this.renderChildViews();
 
             this.html += '</select>';
 
-            /* set internal action for select-menu to get informed if the selected item did change */
-            this.internalTarget = this;
-            this.internalAction = 'itemSelected';
-
         } else {
 
-            this.html += '<fieldset ';
-
-            if(!this.applyTheme) {
-                this.html += 'data-role="none" ';
-            } else {
-                this.html += 'data-role="controlgroup" ';
-            }
-            this.html += 'id="' + this.id + '">';
+            this.html += '<fieldset data-role="controlgroup" data-native-menu="' + !this.applyTheme + '" id="' + this.id + '">';
 
             if(this.label) {
                 this.html += '<legend>' + this.label + '</legend>';
@@ -221,14 +211,13 @@ M.SelectionListView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = this.getChildViewsAsArray();
+            var childViews = $.trim(this.childViews).split(' ');
 
             for(var i in childViews) {
                 var view = this[childViews[i]];
                 if(view.type === 'M.SelectionListItemView') {
                     view.parentView = this;
-                    view.internalTarget = this;
-                    view.internalAction = 'itemSelected';
+                    view.name = childViews[i];
                     this.html += view.render();
                 } else {
                     M.Logger.log('Invalid child views specified for SelectionListView. Only SelectionListItemViews accepted.', M.WARN);
@@ -237,6 +226,24 @@ M.SelectionListView = M.View.extend(
         } else if(!this.contentBinding) {
             M.Logger.log('No SelectionListItemViews specified.', M.WARN);
         }
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for text field views and
+     * their internal events.
+     */
+    registerEvents: function() {
+        this.internalEvents = {
+            change: {
+                target: this,
+                action: 'itemSelected'
+            }
+        }
+        this.bindToCaller(this, M.View.registerEvents)();
     },
 
     /**
@@ -294,11 +301,9 @@ M.SelectionListView = M.View.extend(
                     obj = M.SelectionListItemView.design({
                         value: item.value,
                         label: item.label,
-                        name: item.name,
+                        internalName: item.internalName,
                         isSelected: item.isSelected,
-                        parentView: this,
-                        internalTarget: this,
-                        internalAction: 'itemSelected'
+                        parentView: this
                     });
                 }
 
@@ -366,37 +371,41 @@ M.SelectionListView = M.View.extend(
      *
      * @param {String} id The id of the selected item.
      */
-    itemSelected: function(id) {
+    itemSelected: function(id, event, nextEvent) {
         var item = null;
-
+        
         if(this.selectionMode === M.SINGLE_SELECTION) {
-            item = M.ViewManager.getViewById($('input[name=' + (this.name ? this.name : this.id) + ']:checked').attr('id'));
-        } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
-            item = M.ViewManager.getViewById($('#' + this.id + ' :selected').attr('id'));
-        }
-
-        if(item === this.getSelection()) {
-            return;
-        }
-
-        if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
-            if(!_.isEqual(item, this.selection)) {
+            item = M.ViewManager.getViewById($('input[name=' + (this.internalName ? this.internalName : this.id) + ']:checked').attr('id'));
+            
+            if(item !== this.selection) {
                 this.selection = item;
-                if(this.onSelect && this.onSelect.target && this.onSelect.action) {
-                    this.onSelect.target[this.onSelect.action]();
+
+                if(nextEvent) {
+                    M.EventDispatcher.callHandler(nextEvent, event, NO, [this.selection.value, this.selection]);
                 }
             }
-        } else {        
-            this.selection = [];
+        } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+            item = M.ViewManager.getViewById($('#' + this.id + ' :selected').attr('id'));
+
+            if(item !== this.selection) {
+                this.selection = item;
+
+                $('#' + this.id + '_container').find('.ui-btn-text').html(item.label ? item.label : item.value);
+
+                if(nextEvent) {
+                    M.EventDispatcher.callHandler(nextEvent, event, NO, [this.selection.value, this.selection]);
+                }
+            }
+        } else if(this.selectionMode === M.MULTIPLE_SELECTION) {
+            /*$('#' + id).find('input:checked').each(function() {
+                $(this).attr('checked', YES).checkboxradio('refresh');
+            });*/
+            /*this.selection = [];
 
             var that = this;
-            _.each($('input[name=' + (that.name ? that.name : that.id) + ']:checked'), function(item) {
+            _.each($('input[name=' + (that.internalName ? that.internalName : that.id) + ']:checked'), function(item) {
                 that.selection.push(M.ViewManager.getViewById(item.id));
-            })
-
-            if(this.onSelect && this.onSelect.target && this.onSelect.action) {
-                this.onSelect.target[this.onSelect.action]();
-            }
+            });*/
         }
     },
 
@@ -528,7 +537,7 @@ M.SelectionListView = M.View.extend(
             type = 'checkbox';
         }
         
-        if(type !== 'select'){
+        if(type !== 'select') {
             $('#' + this.id).find('input').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 item.isSelected = NO;
@@ -539,7 +548,7 @@ M.SelectionListView = M.View.extend(
                     $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').removeClass('ui-icon-' + type + '-on');
                 }
             });
-        } else if(type === 'select') {
+        } else {
             $('#' + this.id).find('option').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 item.isSelected = NO;
