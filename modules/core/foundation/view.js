@@ -46,6 +46,15 @@ M.View = M.Object.extend(
     value: null,
 
     /**
+     * This property contains the relevant information about the view's computed value. In
+     * particular it is used to specify the pre-value, the content binding and the just-
+     * in-time performed operation, that computes the view's value.
+     *
+     * @property {Object}
+     */
+    computedValue: null,
+
+    /**
      * The path to a content that is bound to the view's value. If this content
      * changes, the view will automatically be updated.
      *
@@ -371,16 +380,27 @@ M.View = M.Object.extend(
             return;
         }
 
+        var value = contentBinding.target;
+        var propertyChain = contentBinding.property.split('.');
+        _.each(propertyChain, function(level) {
+            if(value) {
+                value = value[level];
+            }
+        });
+
+        if(!value) {
+            M.Logger.log('The value assigned by content binding (\'' + contentBinding.property + '\') for ' + this.type + ' (\'' + this.id + '\') is invalid!', M.WARN);
+            return;
+        }
+
         if(this.contentBinding) {
-            this.value = contentBinding.target[contentBinding.property];
+            this.value = value;
         } else if(this.computedValue.contentBinding) {
-            this.computedValue.value = contentBinding.target[contentBinding.property];
+            this.computedValue.value = value;
         }
 
         this.renderUpdate();
         this.delegateValueUpdate();
-
-        /* TODO: ADD CONTENT BINDING FOR MORE THAN ONE LEVEL */
     },
 
     /**
@@ -397,7 +417,8 @@ M.View = M.Object.extend(
         if(typeof(contentBinding) === 'object') {
             if(contentBinding.target && typeof(contentBinding.target) === 'object') {
                 if(contentBinding.property && typeof(contentBinding.property) === 'string') {
-                    if(contentBinding.target[contentBinding.property] !== undefined) {
+                    var propertyChain = contentBinding.property.split('.');
+                    if(contentBinding.target[propertyChain[0]] !== undefined) {
                         if(!contentBinding.target.observable) {
                             contentBinding.target.observable = M.Observable.extend({});
                         }
