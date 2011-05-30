@@ -1,9 +1,14 @@
-** Version 0.5pre - Date 05.05.2011 **
+** Version 0.5pre - Date 27.05.2011 **
 
   * Fixed a bug in M.I18N
   * Added setValue() to M.LabelView
   * Added autogrow-mechanism to M.TextFieldView in combination with content binding
-  * Refactored eventhandling (all over!)
+  * Refactored event handling (all over and over all)
+  * Refactored childViews property (it's way more robust now)
+  * Updated jQuery to 1.6.1
+  * Updated jQuery Mobile to 1.0b1
+  * Refactored content binding (1): It now uses target/property (same as events)
+  * Refactored content binding (2): Added recursion, so now something like 'person.address.street' is possible
 
 ** Version 0.4 - Date 19.04.2011 **
 

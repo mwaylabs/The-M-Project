@@ -154,7 +154,7 @@ M.SelectionListView = M.View.extend(
 
         if(this.cssClass) {
             this.html += ' class="';
-            var cssClasses = $.trim(this.cssClass).split(' ');            
+            var cssClasses = $.trim(this.cssClass).split(' ');
             for(var i in cssClasses) {
                 this.html += (i > 0 ? ' ' : '') + cssClasses[i] + '_container';
             }
@@ -221,7 +221,7 @@ M.SelectionListView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
 
             for(var i in childViews) {
                 var view = this[childViews[i]];

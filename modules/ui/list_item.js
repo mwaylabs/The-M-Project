@@ -53,17 +53,8 @@ M.ListItemView = M.View.extend(
      */
     deleteButton: M.ButtonView.design({
         icon: 'delete',
-        target: null,
-        action: '',
         value: ''
     }),
-
-    /**
-     * This property reffers to the list item's parent list view..
-     *
-     * @type M.ListView
-     */
-    listView: null,
 
     /**
      * This property determines whether the list item is a divider or not.
@@ -77,7 +68,7 @@ M.ListItemView = M.View.extend(
      *
      * @type Array
      */
-    recommendedEvents: ['click'],
+    recommendedEvents: ['tap'],
 
     /**
      * Renders a list item as an li-tag. The rendering is initiated by the parent list view.
@@ -87,8 +78,6 @@ M.ListItemView = M.View.extend(
      */
     render: function() {
         this.html = '<li id="' + this.id + '"' + this.style();
-
-        this.internalTarget = this.listView;
 
         if(this.isDivider) {
             this.html += ' data-role="list-divider"';
@@ -127,8 +116,8 @@ M.ListItemView = M.View.extend(
      */
     registerEvents: function() {
         this.internalEvents = {
-            click: {
-                target: this.listView,
+            tap: {
+                target: this.parentView,
                 action: 'setActiveListItem'
             }
         }

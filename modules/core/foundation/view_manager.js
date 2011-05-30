@@ -107,6 +107,15 @@ M.ViewManager = M.Object.extend(
     },
 
     /**
+     * Removes the view from the viewlist array.
+     *
+     * @param {Object} view The view to be removed from the viewlist.
+     */
+    remove: function(view) {
+        delete this.viewList[view.id];
+    },
+
+    /**
      * Returns the view object from the view list array identified
      * by the value of its id attribute.
      *
@@ -140,7 +149,7 @@ M.ViewManager = M.Object.extend(
      */
     getView: function(parentView, targetView) {
         if(typeof(parentView) !== 'object') {
-            parentView = M.Application.pages[parentView] ? M.Application.pages[parentView] : null;
+            parentView = M.Application.pages[parentView] ? M.Application.pages[parentView] : (M.ViewManager.getViewById(parentView) ? M.ViewManager.getViewById(parentView) : null);
         }
         var view = null;
 
@@ -169,7 +178,7 @@ M.ViewManager = M.Object.extend(
      */
     findView: function(parentView, targetView) {
         if(parentView.childViews) {
-            var childViews = $.trim(parentView.childViews).split(' ');
+            var childViews = parentView.getChildViewsAsArray();
             for(var i in childViews) {
                 if(targetView === childViews[i]) {
                     this.foundView =  parentView[targetView];

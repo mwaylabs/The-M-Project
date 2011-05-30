@@ -41,8 +41,27 @@ M.LoaderView = M.View.extend(
      */
     refCount: 0,
 
+    /**
+     * This property can be used to specify the default title of a loader.
+     *
+     * @type String
+     */
     defaultTitle: 'loading',
 
+    /**
+     * Renders a loader view.
+     *
+     * @private
+     * @returns {String} The loader view's html representation.
+     */
+    render: function() {
+        this.html = '<div id="' + this.id + '" class="ui-loader ui-body-a ui-corner-all"><span class="ui-icon ui-icon-loading spin"></span><h1>' + this.defaultTitle + '</h1></div>';
+
+        $('body').append($(this.html).css({
+            top: $.support.scrollTop && $(window).scrollTop() + $(window).height() / 2
+        }));
+    },
+            
     /**
      * This method initializes the loader by loading it once.
      *
@@ -50,7 +69,9 @@ M.LoaderView = M.View.extend(
      */
     initialize: function() {
         if(!this.isInitialized) {
-            this.show();
+            this.id = M.ViewManager.getNextId();
+            M.ViewManager.register(this);
+            this.render();
             this.hide();
             this.refCount = 0;
         }
@@ -64,13 +85,10 @@ M.LoaderView = M.View.extend(
      */
     show: function(title) {
         this.refCount++;
-        if(title && typeof(title) === 'string') {
-            $('.ui-loader h1').text(title);
-        } else {
-            $('.ui-loader h1').text(this.defaultTitle);
-        }
+        var title = title && typeof(title) === 'string' ? title : this.defaultTitle;
+        $('.ui-loader h1').text(title);
         if(this.refCount == 1){
-            $.mobile.pageLoading();
+            $('#' + this.id).show();
         }
     },
 
@@ -78,13 +96,13 @@ M.LoaderView = M.View.extend(
      * This method hides the loader.
      */
     hide: function(force) {
-        if(force || this.refCount <= 0){
+        if(force || this.refCount <= 0) {
             this.refCount = 0;
-        }else{
+        } else {
             this.refCount--;
         }
         if(this.refCount == 0){
-            $.mobile.pageLoading(YES);
+            $('#' + this.id).hide();
         }
     }
     

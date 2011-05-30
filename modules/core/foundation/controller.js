@@ -72,7 +72,7 @@ M.Controller = M.Object.extend(
                 this.switchToPage(newPage, null, YES, NO);
             }
         } else {
-            this.switchToPage(newPage, newPage.tabBarView.transition ? newPage.tabBarView.transition : M.TRANSITION.NONE, NO, NO);
+            this.switchToPage(newPage, M.TRANSITION.NONE, NO, YES);
         }
     },
 
@@ -96,9 +96,11 @@ M.Controller = M.Object.extend(
             /* Now do the page change by using a jquery mobile method and pass the properties */
             if(page.type === 'M.PageView') {
                 //console.log('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + changeLoc + ');');
-                $.mobile.changePage(page.id, M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, YES);//!isBack ? changeLoc : NO);
-            } else if(page.type === 'M.AlertDialogView' || page.type === 'M.ConfirmDialogView' || page.type === 'M.ActionSheetDialogView') {
-                $.mobile.changePage($('#' + page.id), M.Application.useTransitions ? transition : M.TRANSITION.NONE, M.Application.useTransitions ? isBack : NO, YES);
+                $.mobile.changePage(page.id, {
+                    transition: M.Application.useTransitions ? transition : M.TRANSITION.NONE,
+                    reverse: M.Application.useTransitions ? isBack : NO,
+                    changeHash: YES
+                });
             }
 
             /* Save the current page in the view manager */
@@ -116,6 +118,9 @@ M.Controller = M.Object.extend(
      */
     set: function(key, value) {
         this[key] = value;
+        if(!this.observable) {
+            return;
+        }
         this.observable.notifyObservers(key);
     }
 

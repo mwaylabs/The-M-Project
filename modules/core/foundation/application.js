@@ -105,6 +105,13 @@ M.Application = M.Object.extend(
     entryPage: null,
 
     /**
+     * This property is used to store the application's title.
+     *
+     * @type String
+     */
+    applicationTitle: '',
+
+    /**
      * This method encapsulates the 'include' method of M.Object for better reading of code syntax.
      * Basically it integrates the defined pages within the application into M.Application and sets
      * some basic configuration properties, e.g. the default language.
@@ -134,6 +141,9 @@ M.Application = M.Object.extend(
      */
     main: function() {
         var that = this;
+
+        /* get the application's title */
+        this.applicationTitle = document.title;
 
         /* first lets get the entry page and remove it from pagelist and viewlist */
         var entryPage = M.ViewManager.getPage(M.Application.entryPage);

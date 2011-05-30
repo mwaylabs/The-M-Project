@@ -81,6 +81,13 @@ M.LabelView = M.View.extend(
     hyperlinkTarget: null,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['tap'],
+
+    /**
      * Renders a label view as a div tag with corresponding data-role attribute and inner
      * text defined by value.
      *

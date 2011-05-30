@@ -46,6 +46,15 @@ M.View = M.Object.extend(
     value: null,
 
     /**
+     * This property contains the relevant information about the view's computed value. In
+     * particular it is used to specify the pre-value, the content binding and the just-
+     * in-time performed operation, that computes the view's value.
+     *
+     * @property {Object}
+     */
+    computedValue: null,
+
+    /**
      * The path to a content that is bound to the view's value. If this content
      * changes, the view will automatically be updated.
      *
@@ -215,7 +224,7 @@ M.View = M.Object.extend(
      */
     design: function(obj) {
         var view = this.extend(obj);
-        view.id = M.Application.viewManager.getNextId();
+        view.id = !view.id ? M.Application.viewManager.getNextId() : view.id;
         M.Application.viewManager.register(view);
 
         view.attachToObservable();
@@ -253,7 +262,7 @@ M.View = M.Object.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 if(this.type === 'M.PageView' && this[childViews[i]].type === 'M.TabBarView') {
                     this.hasTabBarView = YES;
@@ -262,11 +271,39 @@ M.View = M.Object.extend(
                 if(this[childViews[i]]) {
                     this.html += this[childViews[i]].render();
                 } else {
-                    M.Logger.log(childViews[i] + ' is undefinded. Can\' call render() of an undefinded object', M.ERROR);
+                    this.childViews = this.childViews.replace(childViews[i], ' ');
+                    M.Logger.log('There is no child view \'' + childViews[i] + '\' available for ' + this.type + ' (' + this.id + ')! It will be excluded from the child views and won\'t be rendered.', M.WARN);
                 }
             }
             return this.html;
         }
+    },
+
+    /**
+     * This method is used internally for removing a view's child views both from DOM and the
+     * view manager.
+     *
+     * @private
+     */
+    removeChildViews: function() {
+        var childViews = this.getChildViewsAsArray();
+        for(var i in childViews) {
+            if(this[childViews[i]].childViews) {
+                this[childViews[i]].removeChildViews();
+            }
+            this[childViews[i]].destroy();
+            M.ViewManager.remove(this[childViews[i]]);
+        }
+        $('#' + this.id).empty();
+    },
+
+    /**
+     * This method transforms the child views property (string) into an array.
+     *
+     * @returns {Array} The child views as an array.
+     */
+    getChildViewsAsArray: function() {
+        return $.trim(this.childViews.replace(/\s+/g, ' ')).split(' ');
     },
 
     /**
@@ -276,7 +313,7 @@ M.View = M.Object.extend(
     clearHtml: function() {
         this.html = '';
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 this[childViews[i]].clearHtml();
             }
@@ -331,7 +368,7 @@ M.View = M.Object.extend(
         }
         
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 this[childViews[i]].registerEvents();
             }
@@ -343,7 +380,7 @@ M.View = M.Object.extend(
      */
     themeChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 this[childViews[i]].theme();
             }
@@ -362,16 +399,27 @@ M.View = M.Object.extend(
             return;
         }
 
+        var value = contentBinding.target;
+        var propertyChain = contentBinding.property.split('.');
+        _.each(propertyChain, function(level) {
+            if(value) {
+                value = value[level];
+            }
+        });
+
+        if(!value) {
+            M.Logger.log('The value assigned by content binding (\'' + contentBinding.property + '\') for ' + this.type + ' (\'' + this.id + '\') is invalid!', M.WARN);
+            return;
+        }
+
         if(this.contentBinding) {
-            this.value = contentBinding.target[contentBinding.property];
+            this.value = value;
         } else if(this.computedValue.contentBinding) {
-            this.computedValue.value = contentBinding.target[contentBinding.property];
+            this.computedValue.value = value;
         }
 
         this.renderUpdate();
         this.delegateValueUpdate();
-
-        /* TODO: ADD CONTENT BINDING FOR MORE THAN ONE LEVEL */
     },
 
     /**
@@ -388,7 +436,8 @@ M.View = M.Object.extend(
         if(typeof(contentBinding) === 'object') {
             if(contentBinding.target && typeof(contentBinding.target) === 'object') {
                 if(contentBinding.property && typeof(contentBinding.property) === 'string') {
-                    if(contentBinding.target[contentBinding.property] !== undefined) {
+                    var propertyChain = contentBinding.property.split('.');
+                    if(contentBinding.target[propertyChain[0]] !== undefined) {
                         if(!contentBinding.target.observable) {
                             contentBinding.target.observable = M.Observable.extend({});
                         }

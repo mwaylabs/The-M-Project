@@ -146,6 +146,13 @@ M.ButtonGroupView = M.View.extend(
     isSelectable: YES,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['change'],
+
+    /**
      * Renders a button group as a div container and calls the renderChildViews
      * method to render the included buttons.
      *
@@ -155,7 +162,7 @@ M.ButtonGroupView = M.View.extend(
     render: function() {
         /* check if multiple lines are necessary before rendering */
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             if(this.buttonsPerLine && this.buttonsPerLine < childViews.length) {
                 var numberOfButtons = 0;
                 for(var i in childViews) {
@@ -226,7 +233,7 @@ M.ButtonGroupView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             var currentButtonIndex = 0;
 
             for(var i in childViews) {
@@ -240,14 +247,10 @@ M.ButtonGroupView = M.View.extend(
                         button.html = '';
 
                         button.parentView = this;
-                        button.internalTarget = this;
-                        button.internalAction = 'setActiveButton';
-
-                        /* check if button has own target / action, otherwise use target / action from button group */
-                        if(!button.target) {
-                            if(this.target && this.action) {
-                                button.target = this.target;
-                                button.action = this.action;
+                        button.internalEvents = {
+                            tap: {
+                                target: this,
+                                action: 'setActiveButton'
                             }
                         }
 
@@ -284,7 +287,7 @@ M.ButtonGroupView = M.View.extend(
 
                 /* style the current line */
                 $('#' + this.lines[line]).controlgroup();
-                var childViews = $.trim(this.childViews).split(' ');
+                var childViews = this.getChildViewsAsArray();
                 var currentButtonIndex = 0;
                 
                 /* if isCompact, iterate through all buttons */
@@ -348,7 +351,7 @@ M.ButtonGroupView = M.View.extend(
 
         /* iterate through all buttons and activate on of them, according to the button's isActive property */
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 if(this[childViews[i]] && this[childViews[i]].type === 'M.ButtonView') {
                     var button = this[childViews[i]];
@@ -375,14 +378,12 @@ M.ButtonGroupView = M.View.extend(
      *
      * @param {M.ButtonView, String} id The button to be set active or its id.
      */
-    setActiveButton: function(id) {
+    setActiveButton: function(id, event, nextEvent) {
         if(this.isSelectable) {
-            this.activeButton = null;
-            $('#' + this.id).find('a').each(function() {
-                var button = M.ViewManager.getViewById($(this).attr('id'));
-                button.removeCssClass('ui-btn-active');
-                button.isActive = NO;
-            });
+            if(this.activeButton) {
+                this.activeButton.removeCssClass('ui-btn-active');
+                this.activeButton.isActive = NO;
+            }
 
             var button = M.ViewManager.getViewById(id);
             if(!button) {
@@ -395,6 +396,14 @@ M.ButtonGroupView = M.View.extend(
                 button.isActive = YES;
                 this.activeButton = button;
             }
+        }
+
+        /* trigger change event for the button group */
+        $('#' + this.id).trigger('change');
+
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
         }
     },
 
