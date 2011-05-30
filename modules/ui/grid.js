@@ -106,6 +106,7 @@ M.GridView = M.View.extend(
                     if(this[arr[i]]) {
                         this.html += '<div class="' + this.layout.columns[i] + '">';
 
+                        this[arr[i]].name = arr[i];
                         this.html += this[arr[i]].render();
 
                         this.html += '</div>';

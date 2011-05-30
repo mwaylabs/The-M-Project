@@ -87,6 +87,7 @@ M.ToggleView = M.View.extend(
                     }
                 }
                 this.currentView = this[childViews[childViewIndex]];
+                this[childViews[childViewIndex]].name = childViews[childViewIndex];
                 this.html += this[childViews[childViewIndex]].render();
             } else {
                 M.Logger.log('Please make sure that there are two child views defined for the toggle view!', M.WARN);

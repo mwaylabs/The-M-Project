@@ -261,6 +261,9 @@ M.ButtonGroupView = M.View.extend(
                             button.cssStyle = 'margin-right:-2px;width:' + 100 / (this.numberOfLines ? this.buttonsPerLine : childViews.length) + '%';
                         }
 
+                        /* set the button's name property */
+                        this[childViews[i]].name = childViews[i];
+
                         /* finally render the button and add it to the button groups html */
                         this.html += this[childViews[i]].render();
                     }
