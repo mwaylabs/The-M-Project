@@ -254,17 +254,6 @@ M.ButtonGroupView = M.View.extend(
                             }
                         }
 
-                        /* check if button has own event, otherwise use target / action from button group */
-                        /*if(!(button.events && button.events.tap)) {
-                            if(this.events && this.events.tap) {
-                                button.events = button.events ? button.events : {};
-                                button.events.tap = {
-                                    target: this.events.tap.target,
-                                    action: this.events.tap.action
-                                }
-                            }
-                        }*/
-
                         /* if the buttons are horizontally aligned, compute their width depending on the number of buttons
                            and set the right margin to '-2px' since the jQuery mobile default would cause an ugly gap to
                            the right of the button group */
@@ -414,7 +403,7 @@ M.ButtonGroupView = M.View.extend(
 
         /* delegate event to external handler, if specified */
         if(nextEvent) {
-            M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
         }
     },
 
