@@ -120,11 +120,8 @@ M.AlertDialogView = M.DialogView.extend(
 
     handleCallback: function() {
         this.hide();
-        if(this.callbacks) {
-            if(!this.callbacks.confirm) {
-                M.Logger.log('There must be a sub object named "confirm" with target (type object) and action (type string) in callback object of alert dialog.', M.ERR);
-            }
-            this.bindToCaller(this.callbacks.confirm.target, this.callbacks.confirm.target[this.callbacks.confirm.action])();
+        if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks.confirm)){
+            this.bindToCaller(this.callbacks.confirm.target, this.callbacks.confirm.action)();
         }
     }
 
