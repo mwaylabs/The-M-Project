@@ -77,7 +77,7 @@ M.TextFieldView = M.View.extend(
     *
     * @type String
     */
-    internalName: null,
+    name: null,
 
     /**
      * The label proeprty defines a text that is shown above or next to the textfield as a 'title'
@@ -164,14 +164,14 @@ M.TextFieldView = M.View.extend(
         this.html += '>';
 
         if(this.label) {
-            this.html += '<label for="' + (this.internalName ? this.internalName : this.id) + '">' + this.label + '</label>';
+            this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label + '</label>';
         }
 
         if(this.hasMultipleLines) {
-            this.html += '<textarea cols="40" rows="8" name="' + (this.internalName ? this.internalName : this.id) + '" id="' + this.id + '"' + this.style() + '>' + (this.value ? this.value : this.initialText) + '</textarea>';
+            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>' + (this.value ? this.value : this.initialText) + '</textarea>';
             
         } else {
-            this.html += '<input type="' + this.inputType + '" name="' + (this.internalName ? this.internalName : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
+            this.html += '<input type="' + this.inputType + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
         }
 
         this.html += '</div>';

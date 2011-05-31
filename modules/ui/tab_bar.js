@@ -44,7 +44,7 @@ M.TabBarView = M.View.extend(
      *
      * @type String
      */
-    internalName: 'tab_bar',
+    name: 'tab_bar',
 
     /**
      * This property holds a reference to the currently active tab.
@@ -69,9 +69,9 @@ M.TabBarView = M.View.extend(
         this.usageCounter += 1;
 
         if(this.anchorLocation) {
-            this.html += '<div id="' + this.id + '" data-id="' + this.internalName + '" data-role="' + this.anchorLocation + '" data-position="fixed"><div data-role="navbar"><ul>';
+            this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed"><div data-role="navbar"><ul>';
         } else {
-            this.html += '<div data-role="navbar" id="' + this.id + '" data-id="' + this.internalName + '"><ul>';
+            this.html += '<div data-role="navbar" id="' + this.id + '" data-id="' + this.name + '"><ul>';
         }
 
         this.renderChildViews();
@@ -121,7 +121,7 @@ M.TabBarView = M.View.extend(
                     }
 
                     view.parentView = this;
-                    view.name = childViews[i];
+                    view._name = childViews[i];
                     this.html += view.render();
                 } else {
                     M.Logger.log('Invalid child views specified for TabBarView. Only TabBarItemViews accepted.', M.WARN);

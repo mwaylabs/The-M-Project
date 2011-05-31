@@ -127,7 +127,7 @@ M.ToolbarView = M.View.extend(
 
             for(var i in childViews) {
                 var view = this[childViews[i]];
-                view.name = childViews[i];
+                view._name = childViews[i];
                 switch (view.anchorLocation) {
                     case M.LEFT:
                         this.html += '<div class="ui-btn-left">';
