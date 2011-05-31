@@ -282,7 +282,7 @@ M.View = M.Object.extend(
                     this.html += this[childViews[i]].render();
                 } else {
                     this.childViews = this.childViews.replace(childViews[i], ' ');
-                    M.Logger.log('There is no child view \'' + childViews[i] + '\' available for ' + this.type + ' (' + this.id + ')! It will be excluded from the child views and won\'t be rendered.', M.WARN);
+                    M.Logger.log('There is no child view \'' + childViews[i] + '\' available for ' + this.type + ' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')! It will be excluded from the child views and won\'t be rendered.', M.WARN);
                 }
             }
             return this.html;
@@ -447,7 +447,7 @@ M.View = M.Object.extend(
         });
 
         if(!value) {
-            M.Logger.log('The value assigned by content binding (\'' + contentBinding.property + '\') for ' + this.type + ' (\'' + this.id + '\') is invalid!', M.WARN);
+            M.Logger.log('The value assigned by content binding (property: \'' + contentBinding.property + '\') for ' + this.type + ' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ') is invalid!', M.WARN);
             return;
         }
 
@@ -483,16 +483,16 @@ M.View = M.Object.extend(
                         contentBinding.target.observable.attach(this, contentBinding.property);
                         this.isObserver = YES;
                     } else {
-                        M.Logger.log('The specified target for contentBinding for \'' + this.type + ' (' + this.id + ')\' has no property \'' + contentBinding.property + '\'!', M.WARN);
+                        M.Logger.log('The specified target for contentBinding for \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')\' has no property \'' + contentBinding.property + '!', M.WARN);
                     }
                 } else {
-                    M.Logger.log('The type of the value of \'action\' in contentBinding for \'' + this.type + ' (' + this.id + ')\' is \'' + typeof(contentBinding.property) + '\' but it must be of type \'string\'!', M.WARN);
+                    M.Logger.log('The type of the value of \'action\' in contentBinding for \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')\' is \'' + typeof(contentBinding.property) + ' but it must be of type \'string\'!', M.WARN);
                 }
             } else {
-                M.Logger.log('No valid target specified in content binding \'' + this.type + ' (' + this.id + ')\'!', M.WARN);
+                M.Logger.log('No valid target specified in content binding \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')!', M.WARN);
             }
         } else {
-            M.Logger.log('No valid content binding specified for \'' + this.type + ' (' + this.id + ')\'!', M.WARN);
+            M.Logger.log('No valid content binding specified for \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')!', M.WARN);
         }
     },
 
