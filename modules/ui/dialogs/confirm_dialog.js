@@ -57,6 +57,13 @@ M.ConfirmDialogView = M.DialogView.extend(
     cancelButtonValue: 'Cancel',
 
     /**
+     * If set, contains the dialog's callbacks in  sub objects named 'confirm' and 'cancel' or as  functions named confirm and cancel.
+     *
+     * @type Object
+     */
+    callbacks: null,
+
+    /**
      * Renders a confirm dialog as a pop-up.
      *
      * @private

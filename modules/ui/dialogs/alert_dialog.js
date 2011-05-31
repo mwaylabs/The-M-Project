@@ -57,6 +57,13 @@ M.AlertDialogView = M.DialogView.extend(
     confirmButtonValue: 'Ok',
 
     /**
+     * If set, contains the dialog's callback in a sub object named 'confirm' or as a function named confirm.
+     *
+     * @type Object
+     */
+    callbacks: null,
+
+    /**
      * Renders an alert dialog as a pop up
      *
      * @private
@@ -120,4 +127,5 @@ M.AlertDialogView = M.DialogView.extend(
             this.bindToCaller(this.callbacks.confirm.target, this.callbacks.confirm.target[this.callbacks.confirm.action])();
         }
     }
+
 });
