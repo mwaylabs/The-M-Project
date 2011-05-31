@@ -15,6 +15,7 @@
     margin-top: -100px; /*half of the element height is removed from the top margin to center it*/
     left: 50%;
     margin-left: -125px;
+    z-index: 1000 !important;
 }
 
 .tmp-dialog-header {
@@ -35,7 +36,6 @@
     text-align: center;
     padding: 10px;
     text-align: center;
-
     color: #fff;
     font-size: 0.9em;
 }
@@ -55,7 +55,8 @@
     bottom: 0;
     /*height:100%;
          padding-top:15%;*/
-    background: rgba(0, 0, 0, 0.5); /*z-index: 100000;*/
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000 !important;
 }
 
 .tmp-dialog-smallerbtn {
@@ -77,6 +78,7 @@
     background-color: rgba(0, 0, 0, 0.4);
     position: absolute;
     bottom: 0;
+    z-index: 1000 !important;
 }
 
 .tmp-actionsheet-destructive-button {
