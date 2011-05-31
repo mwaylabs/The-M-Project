@@ -278,7 +278,7 @@ M.View = M.Object.extend(
                     this.tabBarView = this[childViews[i]];
                 }
                 if(this[childViews[i]]) {
-                    this[childViews[i]].name = childViews[i];
+                    this[childViews[i]]._name = childViews[i];
                     this.html += this[childViews[i]].render();
                 } else {
                     this.childViews = this.childViews.replace(childViews[i], ' ');

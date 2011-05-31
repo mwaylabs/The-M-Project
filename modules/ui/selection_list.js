@@ -102,7 +102,7 @@ M.SelectionListView = M.View.extend(
      *
      * @type String
      */
-    internalName: null,
+    name: null,
 
     
     /**
@@ -177,8 +177,8 @@ M.SelectionListView = M.View.extend(
                 this.html += '<label for="' + this.id + '">' + this.label + '</label>';
             }
 
-            this.html += '<select name="' + (this.internalName ? this.internalName : this.id) + '" id="' + this.id + '"' + this.style() + '>';
-            //this.html += '<select data-native-menu="' + !this.applyTheme + '" name="' + (this.internalName ? this.internalName : this.id) + '" id="' + this.id + '"' + this.style() + '>';
+            this.html += '<select name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>';
+            //this.html += '<select data-native-menu="' + !this.applyTheme + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>';
 
             this.renderChildViews();
 
@@ -217,7 +217,7 @@ M.SelectionListView = M.View.extend(
                 var view = this[childViews[i]];
                 if(view.type === 'M.SelectionListItemView') {
                     view.parentView = this;
-                    view.name = childViews[i];
+                    view._name = childViews[i];
                     this.html += view.render();
                 } else {
                     M.Logger.log('Invalid child views specified for SelectionListView. Only SelectionListItemViews accepted.', M.WARN);
@@ -301,7 +301,7 @@ M.SelectionListView = M.View.extend(
                     obj = M.SelectionListItemView.design({
                         value: item.value,
                         label: item.label,
-                        internalName: item.internalName,
+                        name: item.name,
                         isSelected: item.isSelected,
                         parentView: this
                     });
@@ -375,7 +375,7 @@ M.SelectionListView = M.View.extend(
         var item = null;
         
         if(this.selectionMode === M.SINGLE_SELECTION) {
-            item = M.ViewManager.getViewById($('input[name=' + (this.internalName ? this.internalName : this.id) + ']:checked').attr('id'));
+            item = M.ViewManager.getViewById($('input[name=' + (this.name ? this.name : this.id) + ']:checked').attr('id'));
             
             if(item !== this.selection) {
                 this.selection = item;
@@ -403,7 +403,7 @@ M.SelectionListView = M.View.extend(
             /*this.selection = [];
 
             var that = this;
-            _.each($('input[name=' + (that.internalName ? that.internalName : that.id) + ']:checked'), function(item) {
+            _.each($('input[name=' + (that.name ? that.name : that.id) + ']:checked'), function(item) {
                 that.selection.push(M.ViewManager.getViewById(item.id));
             });*/
         }
