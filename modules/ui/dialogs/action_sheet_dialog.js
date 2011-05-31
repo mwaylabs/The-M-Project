@@ -69,6 +69,13 @@ M.ActionSheetDialogView = M.DialogView.extend(
     deletionDelay: 1000,
 
     /**
+     * If set, contains the dialog's callbacks in sub objects named 'destruction', 'cancel' and 'other' or as  functions named confirm, cancel and other.
+     *
+     * @type Object
+     */
+    callbacks: null,
+
+    /**
      * Renders an action sheet dialog as a slide-up.
      *
      * @private
