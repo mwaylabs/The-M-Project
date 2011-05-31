@@ -192,10 +192,11 @@ M.ActionSheetDialogView = M.DialogView.extend(
 
     handleCallback: function(viewId, event) {
         this.hide();
-        var btn = M.ViewManager.getViewById(viewId);
-        
-        if(this.callbacks && btn.tag && M.EventDispatcher.checkHandler(this.callbacks[btn.tag])){
-            this.bindToCaller(this.callbacks[btn.tag].target, this.callbacks[btn.tag].action, btn.tag)();
+        var button = M.ViewManager.getViewById(viewId);
+        var buttonType = (button.tag === 'destruction' || button.tag === 'cancel') ? button.tag : 'other';
+
+        if(this.callbacks && buttonType && M.EventDispatcher.checkHandler(this.callbacks[buttonType])){
+            this.bindToCaller(this.callbacks[buttonType].target, this.callbacks[buttonType].action, button.tag)();
         }
     }
 
