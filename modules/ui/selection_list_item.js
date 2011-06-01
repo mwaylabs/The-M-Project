@@ -56,7 +56,7 @@ M.SelectionListItemView = M.View.extend(
         if(this.parentView && this.parentView.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             this.html += '<option id="' + this.id + '" value="' + this.value + '"';
 
-            if((!this.parentView.initialText && this.isSelected && typeof(this.isSelected) === 'boolean') || (this.isSelected === String(YES))) {
+            if((this.isSelected && typeof(this.isSelected) === 'boolean') || (this.isSelected === String(YES))) {
                 if(!this.parentView.selection) {
                     this.html += ' selected="selected"';
                     this.parentView.selection = this;
@@ -106,8 +106,10 @@ M.SelectionListItemView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.parentView && !this.parentView.isInsideFormView && this.applyTheme && this.parentView.applyTheme) {
-            $('#' + this.id).checkboxradio();
+        if(this.parentView && this.applyTheme && this.parentView.applyTheme) {
+            if(this.parentView.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
+                $('#' + this.id).checkboxradio();
+            }
         }
     }
 

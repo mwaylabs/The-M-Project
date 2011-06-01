@@ -286,7 +286,13 @@ M.SelectionListView = M.View.extend(
         }
         
         if(this.contentBinding) {
-            var items = eval(this.contentBinding);
+            var items = null;
+            if(this.contentBinding && typeof(this.contentBinding.target) === 'object' && typeof(this.contentBinding.property) === 'string' && this.contentBinding.target[this.contentBinding.property]) {
+                items = this.contentBinding.target[this.contentBinding.property];
+            } else {
+                M.Logger.log('The specified content binding for the selection list view (' + this.id + ') is invalid!', M.WARN);
+                return;
+            }
             for(var i in items) {
                 var item  = items[i];
                 var obj = null;
@@ -308,6 +314,7 @@ M.SelectionListView = M.View.extend(
                 }
 
                 this.addItem(obj.render());
+                obj.theme();
             }
             this.themeUpdate();
         }
@@ -321,14 +328,8 @@ M.SelectionListView = M.View.extend(
     theme: function() {
         if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
             $('#' + this.id).selectmenu();
-            if(this.initialText) {
-                var parent = $('#' + this.id).parent()
-                if(parent) {
-                    var label = parent.find('span.ui-btn-text');
-                    if(label) {
-                        label.html(this.initialText);
-                    }
-                }
+            if(this.initialText && !this.selection) {
+                $('#' + this.id + '_container').find('.ui-btn-text').html(this.initialText);
             }
         } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
             $('#' + this.id).controlgroup();
@@ -343,8 +344,8 @@ M.SelectionListView = M.View.extend(
     themeUpdate: function() {
         if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
             $('#' + this.id).selectmenu('refresh');
-            if(this.initialText) {
-                $('#' + this.id + '-button').find('span.ui-btn-text').html(this.initialText);
+            if(this.initialText && !this.selection) {
+                $('#' + this.id + '_container').find('.ui-btn-text').html(this.initialText);
             }
         } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
             $('#' + this.id).controlgroup();
@@ -442,6 +443,7 @@ M.SelectionListView = M.View.extend(
                 });
                 return selection;
             }
+            return [];
         }
     },
 
