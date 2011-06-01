@@ -211,7 +211,7 @@ M.SelectionListView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
 
             for(var i in childViews) {
                 var view = this[childViews[i]];
