@@ -418,7 +418,7 @@ M.ButtonGroupView = M.View.extend(
      */
     style: function() {
         var html = '';
-        if(this.numberOfLines && this.isInset) {
+        if(this.numberOfLines && !this.isInset) {
             html += ' class="ui-listview';
         }
         if(this.cssClass) {
