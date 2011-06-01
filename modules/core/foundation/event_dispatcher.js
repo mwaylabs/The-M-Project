@@ -107,24 +107,6 @@ M.EventDispatcher = M.Object.extend(
             event.preventDefault();
             event.stopPropagation();
 
-            /* fix for jqm problem with two times firing pageshow event for the first page */
-            if(type == 'pageshow' || type == 'pagebeforeshow') {
-                if(that.lastEvent[type] && that.lastEvent[type].timeBetween(M.Date.now()) <= 100) {
-                    return;
-                } else {
-                    that.lastEvent[type] = M.Date.now();
-                }
-            }
-
-            /* fix for jqm problem with multiple tap events */
-            if(type == 'tap') {
-                if(that.lastEvent[type] && event.clientX + '/' + event.clientY == that.lastEvent[type] ) {
-                    return;
-                } else {
-                    that.lastEvent[type] = event.clientX + '/' + event.clientY;
-                }
-            }
-
             /* event logger, uncomment for development mode */
             //M.Logger.log('Event \'' + event.type + '\' did happen for id \'' + event.currentTarget.id + '\'', M.INFO);
 
