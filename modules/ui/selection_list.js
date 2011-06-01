@@ -397,15 +397,20 @@ M.SelectionListView = M.View.extend(
                 }
             }
         } else if(this.selectionMode === M.MULTIPLE_SELECTION) {
-            /*$('#' + id).find('input:checked').each(function() {
-                $(this).attr('checked', YES).checkboxradio('refresh');
-            });*/
-            /*this.selection = [];
-
             var that = this;
-            _.each($('input[name=' + (that.name ? that.name : that.id) + ']:checked'), function(item) {
-                that.selection.push(M.ViewManager.getViewById(item.id));
-            });*/
+            this.selection = [];
+            $('#' + id).find('input:checked').each(function() {
+                that.selection.push(M.ViewManager.getViewById($(this).attr('id')));
+            });
+
+            var selectionValues = [];
+            for(var i in this.selection) {
+                selectionValues.push(this.selection[i].value);
+            }
+
+            if(nextEvent) {
+                M.EventDispatcher.callHandler(nextEvent, event, NO, [selectionValues, this.selection]);
+            }
         }
     },
 

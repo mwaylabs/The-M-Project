@@ -69,7 +69,13 @@ M.SelectionListItemView = M.View.extend(
 
             this.html += '</option>';
         } else {
-            this.html += '<input type="' + this.parentView.selectionMode + '" data-native-menu="' + !this.applyTheme + '" name="' + (this.parentView.name ? this.parentView.name : this.parentView.id) + '" id="' + this.id + '"';
+            this.html += '<input type="' + this.parentView.selectionMode + '" data-native-menu="' + !this.applyTheme + '" id="' + this.id + '"';
+
+            if(this.parentView.selectionMode === M.SINGLE_SELECTION) {
+                this.html += ' name="' + (this.parentView.name ? this.parentView.name : this.parentView.id) + '"';
+            } else if(this.parentView.selectionMode === M.MULTIPLE_SELECTION) {
+                this.html += ' name="' + (this.name ? this.name : this.id) + '"';
+            }
 
             if((this.isSelected && typeof(this.isSelected) === 'boolean') || (this.isSelected === String(YES))) {
                 if(this.parentView.selectionMode === M.SINGLE_SELECTION) {
