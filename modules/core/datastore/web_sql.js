@@ -674,7 +674,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
      */
     buildErrorObject: function(err) {
         return M.Error.extend({
-            code: err.code + 200,     // 200 is offset of WebSQL errors in M.ERROR
+            code: err.code + 200,     // 200 is offset of WebSQL errors in M.Error
             msg: err.message
         });
     }

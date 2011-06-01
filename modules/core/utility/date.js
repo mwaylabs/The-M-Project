@@ -540,10 +540,10 @@ M.Date = M.Object.extend(
             if(dates && dates.length > 0 && dates[dayOfWeek]) {
                 return dates[dayOfWeek];
             } else {
-                M.Logger.log('Day ' + dayOfWeek + ' of calendar week ' + calendarWeek + ' could not be found!', M.ERROR);
+                M.Logger.log('Day ' + dayOfWeek + ' of calendar week ' + calendarWeek + ' could not be found!', M.ERR);
             }
         } else {
-            M.Logger.log('Please pass a valid calendarWeek and a valid day of the week!', M.ERROR);
+            M.Logger.log('Please pass a valid calendarWeek and a valid day of the week!', M.ERR);
         }
     },
 

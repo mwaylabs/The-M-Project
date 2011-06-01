@@ -57,7 +57,7 @@ M.DeviceSwitch = M.Object.extend(
      */
     specialize: function(key) {
         if(!this.device) {
-            M.Logger.log('No device specified!', M.ERROR);
+            M.Logger.log('No device specified!', M.ERR);
             return null;
         }
 

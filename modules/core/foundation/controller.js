@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: ï¿½2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      27.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -106,7 +106,7 @@ M.Controller = M.Object.extend(
             /* Save the current page in the view manager */
             M.Application.viewManager.setCurrentPage(page);
         } else {
-            M.Logger.log('Page "' + page + '" not found', M.ERROR);
+            M.Logger.log('Page "' + page + '" not found', M.ERR);
         }
     },
 
