@@ -139,12 +139,16 @@ M.ConfirmDialogView = M.DialogView.extend(
 
     confirmed: function() {
         this.hide();
-        this.bindToCaller(this.callbacks.confirm.target, this.callbacks.confirm.target[this.callbacks.confirm.action])();
+        if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks.confirm)){
+            this.bindToCaller(this.callbacks.confirm.target, this.callbacks.confirm.action)();
+        }
     },
 
     canceled: function() {
         this.hide();
-        this.bindToCaller(this.callbacks.cancel.target, this.callbacks.cancel.target[this.callbacks.cancel.action])();
+        if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks.cancel)){
+            this.bindToCaller(this.callbacks.cancel.target, this.callbacks.cancel.action)();
+        }
     }
 
 });
