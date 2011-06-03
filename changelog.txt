@@ -9,7 +9,7 @@
   * Updated jQuery Mobile to 1.0b1
   * Refactored content binding (1): It now uses target/property (same as events)
   * Refactored content binding (2): Added recursion, so now something like 'person.address.street' is possible
-  * Added method to remove a view's child views(e.g. used in toggle view)
+  * Added method to remove a view's child views (e.g. used in toggle view)
   * Refactored dialogs: no more rendered as page but as an overlay animated with CSS3 
 
 ** Version 0.4 - Date 19.04.2011 **
