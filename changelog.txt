@@ -1,4 +1,4 @@
-** Version 0.5pre - Date 27.05.2011 **
+** Version 0.5pre - Date 03.06.2011 **
 
   * Fixed a bug in M.I18N
   * Added setValue() to M.LabelView
@@ -10,7 +10,8 @@
   * Refactored content binding (1): It now uses target/property (same as events)
   * Refactored content binding (2): Added recursion, so now something like 'person.address.street' is possible
   * Added method to remove a view's child views (e.g. used in toggle view)
-  * Refactored dialogs: no more rendered as page but as an overlay animated with CSS3 
+  * Refactored dialogs: no more rendered as page but as an overlay animated with CSS3
+  * Refactored toggle view: do show/hide instead of add/remove
 
 ** Version 0.4 - Date 19.04.2011 **
 
