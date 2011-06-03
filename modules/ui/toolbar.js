@@ -79,6 +79,12 @@ M.ToolbarView = M.View.extend(
     showBackButton: NO,
 
     /**
+     * If the showBackButton property is set to yes, this property will be used to
+     * save a reference to the M.ButtonView.
+     */
+    backButton: null,
+
+    /**
      * This property determines whether to fix the toolbar to the top / bottom of a
      * page. By default this is set to YES.
      *
@@ -94,7 +100,7 @@ M.ToolbarView = M.View.extend(
      * @returns {String} The toolbar view's html representation.
      */
     render: function() {
-        this.html += '<div id="' + this.id + '" data-add-back-btn="' + this.showBackButton + '" data-role="' + this.anchorLocation + '"' + this.style();
+        this.html += '<div id="' + this.id + '" data-role="' + this.anchorLocation + '"' + this.style();
 
         if(this.isFixed) {
             this.html += ' data-position="fixed"';
@@ -114,7 +120,28 @@ M.ToolbarView = M.View.extend(
      * if it is set.
      */
     renderChildViews: function() {
-        if(this.value) {
+        if(this.value && this.showBackButton) {
+            /* create the toolbar's back button */
+            this.backButton = M.ButtonView.design({
+                value: 'Back',
+                icon: 'arrow-l',
+                internalEvents: {
+                    tap: {
+                        action: function() {
+                            history.back(-1);
+                        }
+                    }
+                }
+            });
+
+            /* render the back button and add it to the toolbar's html*/
+            this.html += '<div class="ui-btn-left">';
+            this.html += this.backButton.render();
+            this.html += '</div>';
+
+            /* render the centered value */
+            this.html += '<h1>' + this.value + '</h1>';
+        } else if(this.value) {
             this.html += '<h1>' + this.value + '</h1>';
         } else if (this.childViews) {
             var childViews = this.getChildViewsAsArray();
@@ -156,6 +183,21 @@ M.ToolbarView = M.View.extend(
      */
     theme: function() {
         this.themeChildViews();
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for list views and their
+     * internal events.
+     */
+    registerEvents: function() {
+        if(this.backButton) {
+            this.backButton.registerEvents();
+        }
+        this.bindToCaller(this, M.View.registerEvents)();
     },
 
     /**
