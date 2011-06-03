@@ -346,6 +346,36 @@ M.View = M.Object.extend(
     },
 
     /**
+     * This method creates and returns an associative array of all child views and
+     * their ids.
+     *
+     * The key of an array item is the name of the view specified in the view
+     * definition. The value of an array item is the id of the corresponding
+     * view.
+     *
+     * @returns {Array} The child view's ids as an array.
+     */
+    getIds: function() {
+        var ids = {};
+        if(this.childViews) {
+            var childViews = this.getChildViewsAsArray();
+            for(var i in childViews) {
+                if(this[childViews[i]].id) {
+                    ids[childViews[i]] = this[childViews[i]].id;
+                }
+                if(this[childViews[i]].childViews) {
+                    var newIds = this[childViews[i]].getIds();
+                    for(var id in newIds) {
+                        ids[id] = newIds[id];
+                    }
+                }
+            }
+        }
+        return ids;
+    },
+
+
+    /**
      * Clears the html property of a view and triggers the same method on all of its
      * child views.
      */
