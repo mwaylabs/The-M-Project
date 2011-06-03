@@ -207,7 +207,7 @@ M.Date = M.Object.extend(
      */
     format: function(format, utc) {
         if(isNaN(this.date)) {
-            M.Logger.log('Invalid date!', M.WARN);   
+            M.Logger.log('Invalid date!', M.WARN);
         }
 
         var	token = /d{1,4}|D{1}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g;
@@ -265,10 +265,22 @@ M.Date = M.Object.extend(
             o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
             S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
         };
-        
+
 		return format.replace(token, function ($0) {
 			return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
 		});
+    },
+
+    /**
+     * This method returns a timestamp.
+     *
+     * @returns {Number} The current date as a timestamp.
+     */
+    getTimestamp: function() {
+        if(this.date) {
+            return this.date.getTime();
+        }
+        return null
     },
 
     /**
@@ -394,7 +406,7 @@ M.Date = M.Object.extend(
      */
     millisecondsFromDate: function(milliseconds) {
         if(!this.date) {
-            M.Logger.log('no date specified!', M.ERROR);
+            M.Logger.log('no date specified!', M.ERR);
         }
 
         var outputDate = new Date(Date.parse(this.date) + milliseconds);
@@ -441,20 +453,45 @@ M.Date = M.Object.extend(
                     break;
             }
         } else if(firstDateInMilliseconds) {
-            M.Logger.log('invalid date passed.', M.ERROR);
+            M.Logger.log('invalid date passed.', M.ERR);
         } else {
-            M.Logger.log('invalid date.', M.ERROR);
+            M.Logger.log('invalid date.', M.ERR);
         }
     },
 
+
     /**
-     * This method is used for stringify an M.Date object, e.g. when persisting it into locale storage.
-     *
-     * @private
-     * @returns {String} The date as a string.
-     */
-    toJSON: function() {
-        return String(this.date);
+    * returns the Weeknumber of the given Date Jan => 0 ... Dec => 11
+    * if no parameters are given the Weeknumber of the current date gets returned
+    *
+    * @param {Number} year The year part of the date, e.g. 2011, must be your digits.
+    * @param {Number} month The month part of the date, e.g. 0 (is for January). Must be one digit.
+    * @param {Number} day The day part of the date, e.g. 00. Must be two digits
+    *
+    * @returns {Number} The Weeknumber as a number, e.g. 11.
+    */
+    getWeeknum:function(year, month, day){
+        if(!year){
+            year    = parseInt(this.format('yyyy'));
+            month   = parseInt(this.format('m'));
+            day     = parseInt(this.format('d'));
+        }else{
+            month += 1; //use 1-12
+        }
+
+        var a = Math.floor((14-(month))/12);
+        var y = year+4800-a;
+        var m = (month)+(12*a)-3;
+        var jd = day + Math.floor(((153*m)+2)/5) +
+                    (365*y) + Math.floor(y/4) - Math.floor(y/100) +
+                    Math.floor(y/400) - 32045;  // (gregorian calendar)
+
+        var d4 = (jd+31741-(jd%7))%146097%36524%1461;
+        var L = Math.floor(d4/1460);
+        var d1 = ((d4-L)%365)+L;
+        var NumberOfWeek = Math.floor(d1/7) + 1;
+
+        return NumberOfWeek;
     },
 
     /**
@@ -503,11 +540,21 @@ M.Date = M.Object.extend(
             if(dates && dates.length > 0 && dates[dayOfWeek]) {
                 return dates[dayOfWeek];
             } else {
-                M.Logger.log('Day ' + dayOfWeek + ' of calendar week ' + calendarWeek + ' could not be found!', M.ERROR);
+                M.Logger.log('Day ' + dayOfWeek + ' of calendar week ' + calendarWeek + ' could not be found!', M.ERR);
             }
         } else {
-            M.Logger.log('Please pass a valid calendarWeek and a valid day of the week!', M.ERROR);
+            M.Logger.log('Please pass a valid calendarWeek and a valid day of the week!', M.ERR);
         }
+    },
+
+    /**
+     * This method is used for stringify an M.Date object, e.g. when persisting it into locale storage.
+     *
+     * @private
+     * @returns {String} The date as a string.
+     */
+    toJSON: function() {
+        return String(this.date);
     }
 
 });

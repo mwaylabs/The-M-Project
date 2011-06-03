@@ -43,46 +43,86 @@ M.AlertDialogView = M.DialogView.extend(
     message: '',
 
     /**
-     * The default transition of an alert dialog.
-     *
-     * @type String
-     */
-    transition: M.TRANSITION.POP,
-
-    /**
      * Determines whether the alert dialog gets a default ok button.
      *
      * @type Boolean
      */
-    hasOkButton: YES,
+    hasConfirmButton: YES,
 
     /**
-     * Renders an alert dialog as a pop-up page.
+     * Determines the value of the button, means the text label on it.
+     *
+     * @type String
+     */
+    confirmButtonValue: 'Ok',
+
+    /**
+     * If set, contains the dialog's callback in a sub object named 'confirm' or as a function named confirm.
+     *
+     * @type Object
+     */
+    callbacks: null,
+
+    /**
+     * Renders an alert dialog as a pop up
      *
      * @private
      * @returns {String} The alert dialog view's html representation.
      */
     render: function() {
-        this.html = '<div data-role="dialog" id="' + this.id + '">';
-        this.html += '<div data-role="header" data-position="fixed"><h1>' + this.title + '</h1></div>';
-        this.html += '<div data-role="content">' + this.message;
-
-        if(this.hasOkButton) {
-            var button = M.ButtonView.design({
-                value: 'OK',
-                cssClass: 'b',
-                target: this,
-                action: 'dialogWillClose',
-                role: 'onOk'
+        this.html = '<div class="tmp-dialog-background"></div>';
+        this.html += '<div id="' + this.id + '" class="tmp-dialog">';
+        this.html += '<div class="tmp-dialog-header">';
+        this.html += this.title ? this.title : '';
+        this.html +='</div>';
+        this.html += '<div class="tmp-dialog-content">';
+        this.html += this.message;
+        this.html +='</div>';
+        var button;
+        if(this.hasConfirmButton) {
+            this.html += '<div class="tmp-dialog-footer">';
+            var that = this;
+            button = M.ButtonView.design({
+                value: this.confirmButtonValue,
+                cssClass: 'b tmp-dialog-smallerbtn',
+                events: {
+                    tap: {
+                        target: that,
+                        action: 'handleCallback'
+                    }
+                }
             });
-            this.buttonIds.push(button.id);
             this.html += button.render();
+            this.html += '</div>';
         }
-
-        this.html += '</div>';        
         this.html += '</div>';
 
         $('body').append(this.html);
+        if(button.type) {
+            button.registerEvents();
+            button.theme();
+        }
+    },
+
+    show: function() {
+        /* call the dialog's render() */
+        this.render();
+        var dialog = $('#' + this.id);
+        dialog.addClass('pop in');
+    },
+
+    hide: function() {
+        var dialog = $('#' + this.id);
+        dialog.addClass('pop out');
+        $('.tmp-dialog-background').remove();
+        this.destroy();
+    },
+
+    handleCallback: function() {
+        this.hide();
+        if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks.confirm)){
+            this.bindToCaller(this.callbacks.confirm.target, this.callbacks.confirm.action)();
+        }
     }
 
 });

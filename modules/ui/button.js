@@ -8,8 +8,6 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-m_require('ui/label.js');
-
 /**
  * @class
  *
@@ -62,12 +60,29 @@ M.ButtonView = M.View.extend(
     hyperlinkTarget: null,
 
     /**
+     * This property can be used to specify a tag, that is independent from the button's
+     * value. This allows you to identify a button, without having to worry about changes
+     * to its value.
+     *
+     * @type String
+     */
+    tag: null,
+
+    /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['click', 'tap'],
+
+    /**
      * Renders a button as an input tag. Input is automatically converted by jQuery mobile.
      *
      * @private
      * @returns {String} The button view's html representation.
      */
     render: function() {
+        this.computeValue();
         this.html += '<a data-role="button" id="' + this.id + '"' + this.style() + ' ';
 
         if(this.hyperlinkTarget && this.hyperlinkType) {
@@ -97,8 +112,13 @@ M.ButtonView = M.View.extend(
      * @private
      */
     renderUpdate: function() {
-        $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
-        this.theme();
+        this.computeValue();
+        if(this.applyTheme) {
+            this.theme();
+            $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
+        } else {
+            $('#' + this.id).find('.ui-btn-text').text(this.value);
+        }
     },
 
     /**

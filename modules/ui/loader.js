@@ -35,14 +35,45 @@ M.LoaderView = M.View.extend(
     isInitialized: NO,
 
     /**
+     * This property counts the loader calls to show
+     *
+     * @type Number
+     */
+    refCount: 0,
+
+    /**
+     * This property can be used to specify the default title of a loader.
+     *
+     * @type String
+     */
+    defaultTitle: 'loading',
+
+    /**
+     * Renders a loader view.
+     *
+     * @private
+     * @returns {String} The loader view's html representation.
+     */
+    render: function() {
+        this.html = '<div id="' + this.id + '" class="ui-loader ui-body-a ui-corner-all"><span class="ui-icon ui-icon-loading spin"></span><h1>' + this.defaultTitle + '</h1></div>';
+
+        $('body').append($(this.html).css({
+            top: $.support.scrollTop && $(window).scrollTop() + $(window).height() / 2
+        }));
+    },
+            
+    /**
      * This method initializes the loader by loading it once.
      *
      * @private 
      */
     initialize: function() {
         if(!this.isInitialized) {
-            this.show();
+            this.id = M.ViewManager.getNextId();
+            M.ViewManager.register(this);
+            this.render();
             this.hide();
+            this.refCount = 0;
         }
     },
 
@@ -53,17 +84,26 @@ M.LoaderView = M.View.extend(
      * @param {String} title The title for this loader.
      */
     show: function(title) {
-        if(title && typeof(title) === 'string') {
-            $('.ui-loader h1').text(title);
+        this.refCount++;
+        var title = title && typeof(title) === 'string' ? title : this.defaultTitle;
+        $('.ui-loader h1').text(title);
+        if(this.refCount == 1){
+            $('#' + this.id).show();
         }
-        $.mobile.pageLoading();
     },
 
     /**
      * This method hides the loader.
      */
-    hide: function() {
-        $.mobile.pageLoading(YES);
+    hide: function(force) {
+        if(force || this.refCount <= 0) {
+            this.refCount = 0;
+        } else {
+            this.refCount--;
+        }
+        if(this.refCount == 0){
+            $('#' + this.id).hide();
+        }
     }
     
 });

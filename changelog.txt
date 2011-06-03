@@ -1,31 +1,3 @@
-The-M-Project - Mobile HTML5 Application Framework
-======================================
-
-The-M-Project is an HTML5 Javascript framework for writing cross-platform mobile apps
-
-## Acknowledgements
-
-The-M-Project includes code from a number of different open source projects
-including:
-
-* [jQuery](http://www.jquery.com/)
-* [jQuery Mobile](http://www.http://jquerymobile.com/)
-* [underscore](http://documentcloud.github.com/underscore/)
-
-
-The-M-Project contains concepts of different open source projects
-including:
-
-* [SproutCore](http://www.sproutcore.com/)
-* [persistencejs](https://github.com/zefhemel/persistencejs/)
-
-
-Thanks for sharing!
-
-
-
-## CHANGELOG
-
 ** Version 0.5 - Date 03.06.2011 **
 
   * Fixed a bug in M.I18N

@@ -28,6 +28,22 @@ M.DateValidator = M.Validator.extend(
     type: 'M.DateValidator',
 
     /**
+     * A RegEx describing a US date.
+     * Used for validation.
+     *
+     * @type Function (actually a RegEx)
+     */
+    patternDateUS:  /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})(\s+([0-9]{2})\:([0-9]{2})(\:([0-9]{2}))?)?$/,
+
+    /**
+     * A RegEx describing a german date.
+     * Used for validation.
+     *
+     * @type Function (actually a RegEx)
+     */
+    patternDateDE:  /^([0-9]{2})\.([0-9]{2})\.([0-9]{4})(\s+([0-9]{2})\:([0-9]{2})(\:([0-9]{2}))?)?$/,
+
+    /**
      * Validation method. First checks if value is not null, undefined or an empty string and then tries to create a {@link M.Date} with it.
      * Pushes different validation errors depending on where the validator is used: in the view or in the model.
      *
@@ -36,35 +52,40 @@ M.DateValidator = M.Validator.extend(
      */
     validate: function(obj, key) {
         /* validate the date to be a valid german or us date: dd.mm.yyyy or mm/dd/yyyy */
-        var patternDateUS =  /^([0-9]{2})\/([0-9]{2})\/([0-9]{4})(\s+([0-9]{2})\:([0-9]{2})(\:([0-9]{2}))?)?$/;
-        var patternDateDE =  /^([0-9]{2})\.([0-9]{2})\.([0-9]{4})(\s+([0-9]{2})\:([0-9]{2})(\:([0-9]{2}))?)?$/;
-
         if(obj.isView) {
-            if(obj.value === null || obj.value === undefined || obj.value === '' || !(patternDateUS.test(obj.value) || patternDateDE.test(obj.value)) || !M.Date.create(obj.value)) {
-                this.validationErrors.push({
+            if(obj.value === null || obj.value === undefined || obj.value === '' || !(this.patternDateUS.test(obj.value) || this.patternDateDE.test(obj.value)) || !M.Date.create(obj.value)) {
+                var err = M.Error.extend({
                     msg: this.msg ? this.msg : key + ' is not a valid date.',
-                    viewId: obj.id,
-                    validator: 'DATE',
-                    onSuccess: obj.onSuccess,
-                    onError: obj.onError
-                });
-                return NO;
+                    code: M.ERR_VALIDATION_DATE,
+                    errObj: {
+                        msg: this.msg ? this.msg : key + ' is not a valid date.',
+                        viewId: obj.id,
+                        validator: 'DATE',
+                        onSuccess: obj.onSuccess,
+                        onError: obj.onError
+                    }
+               });
+               this.validationErrors.push(err);
+               return NO;
             }
             return YES;
         } else {
             if(obj.value.type && obj.value.type !== 'M.Date' && (obj.value === null || obj.value === undefined || obj.value === '' || !M.Date.create(obj.value))) {
-                this.validationErrors.push({
+                var err = M.Error.extend({
                     msg: this.msg ? this.msg : obj.property + ' is not a valid date.',
-                    modelId: obj.modelId,
-                    property: obj.property,
-                    validator: 'DATE',
-                    onSuccess: obj.onSuccess,
-                    onError: obj.onError
+                    code: M.ERR_VALIDATION_DATE,
+                    errObj: {
+                        msg: this.msg ? this.msg : obj.property + ' is not a valid date.',
+                        modelId: obj.modelId,
+                        validator: 'DATE',
+                        onSuccess: obj.onSuccess,
+                        onError: obj.onError
+                    }
                 });
+                this.validationErrors.push(err);
                 return NO;
             }
             return YES;
         }
     }
-
 });

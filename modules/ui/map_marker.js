@@ -77,10 +77,6 @@ M.MapMarkerView = M.View.extend(
      */
     map: null,
 
-    internalTarget: null,
-
-    internalAction: 'showAnnotation',
-
     /**
      * This property specifies the title of a map marker view. It can be used in
      * an annotation.
@@ -157,12 +153,18 @@ M.MapMarkerView = M.View.extend(
     markerAnimationType: null,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['click', 'tap'],
+
+    /**
      * This method initializes an M.MapMarkerView. It pushes a map marker directly onto
      * the parent map view and returns the created M.MapMarkerView object.
      */
     init: function(options) {
         var marker = this.extend(options);
-        marker.internalTarget = marker;
 
         if(marker.annotation || marker.message) {
             var content = marker.title ? '<h1 class="ui-annotation-header">' + marker.title + '</h1>' : '';
@@ -178,15 +180,47 @@ M.MapMarkerView = M.View.extend(
     },
 
     /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for list item views and
+     * their internal events.
+     */
+    registerEvents: function() {
+        this.internalEvents = {
+            tap: {
+                target: this,
+                action: 'showAnnotation'
+            }
+        }
+
+        var that = this;
+        google.maps.event.addListener(this.marker, 'click', function() {
+            M.EventDispatcher.callHandler(that.internalEvents.tap, event, YES);
+        });
+    },
+
+    /**
      * This method can be used to remove a map marker from a map view.
      */
     remove: function() {
         this.map.removeMarker(this);
     },
 
-    showAnnotation: function() {
+    showAnnotation: function(id, event, nextEvent) {
         if(this.annotation) {
             this.annotation.open(this.map.map, this.marker);
+        }
+
+        /* delegate event to external handler, if specified */
+        if(this.events || this.map.events) {
+            var events = this.events ? this.events : this.map.events;
+            for(var e in events) {
+                if(e === (event.type === 'click' ? 'tap' : event.type)) {
+                    M.EventDispatcher.callHandler(events[e], event, NO, [this]);
+                }
+            }
         }
     }
 

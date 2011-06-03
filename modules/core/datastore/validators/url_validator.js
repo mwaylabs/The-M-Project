@@ -33,7 +33,7 @@ M.UrlValidator = M.Validator.extend(
     pattern: /^(http[s]\:\/\/)?[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?$/,
 
     /**
-     * Validation method. Executes urk regex pattern to string. 
+     * Validation method. Executes url regex pattern to string.
      *
      * @param {Object} obj Parameter object. Contains the value to be validated, the {@link M.ModelAttribute} object of the property and the model record's id.
      * @returns {Boolean} Indicating whether validation passed (YES|true) or not (NO|false).
@@ -46,15 +46,21 @@ M.UrlValidator = M.Validator.extend(
         if (this.pattern.exec(obj.value)) {
             return YES;
         }
-        this.validationErrors.push({
-            msg: obj.value + ' is not a valid url.',
-            modelId: obj.modelId,
-            property: obj.property,
-            viewId: obj.viewId,
-            validator: 'PHONE',
-            onSuccess: obj.onSuccess,
-            onError: obj.onError
+        
+        var err = M.Error.extend({
+            msg: this.msg ? this.msg : obj.value + ' is not a valid url.',
+            code: M.ERR_VALIDATION_URL,
+            errObj: {
+                msg: obj.value + ' is not a valid url.',
+                modelId: obj.modelId,
+                property: obj.property,
+                viewId: obj.viewId,
+                validator: 'PHONE',
+                onSuccess: obj.onSuccess,
+                onError: obj.onError
+            }
         });
+        this.validationErrors.push(err);
         return NO;
     }
     

@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -9,7 +9,6 @@
 // ==========================================================================
 
 m_require('core/foundation/view.js');
-
 
 /**
  * @class
@@ -47,11 +46,20 @@ M.ViewManager = M.Object.extend(
     idPrefix: 'm_',
 
     /**
-     * Array containing all views used in the application.
+     * An associative array containing all views used in the application. The key for a view is
+     * its id.
      *
      * @type Object
      */
-    viewList: [],
+    viewList: {},
+
+    /**
+     * An associative array containing all pages used in the application. The key for a page is
+     * its id.
+     *
+     * @type Object
+     */
+    pageList: {},
 
     /**
      * A reference to the currently displayed page.
@@ -59,6 +67,13 @@ M.ViewManager = M.Object.extend(
      * @type Object
      */
     currentPage: null,
+
+    /**
+     * A reference to the currently rendered page.
+     *
+     * @type Object
+     */
+    currentlyRenderedPage: null,
 
     /**
      * A reference to the latest found view which is necessary for the findView() method.
@@ -70,6 +85,7 @@ M.ViewManager = M.Object.extend(
     /**
      * Returns the next Id build from nextId property incremented by 1 and the prefix.
      * The id is used as the value for the HTML attribute id.
+     * 
      * @returns {String} The next id for a view, e.g. 'm_123' (if last id was 'm_122').
      */
     getNextId: function() {
@@ -83,27 +99,37 @@ M.ViewManager = M.Object.extend(
      * @param {Object} view The view to be registered in the viewlist.
      */
     register: function(view) {
-        this.viewList.push(view);
+        this.viewList[view.id] = view;
+
+        if(view.type === 'M.PageView') {
+            this.pageList[view.id] = view;
+        }
+    },
+
+    /**
+     * Removes the view from the viewlist array.
+     *
+     * @param {Object} view The view to be removed from the viewlist.
+     */
+    remove: function(view) {
+        delete this.viewList[view.id];
     },
 
     /**
      * Returns the view object from the view list array identified
      * by the value of its id attribute.
      *
-     * @param {String} id
+     * @param {String} id The DOM id of the corresponding view object.
      * @returns {Object} The view object from the view list identified by id.
      */
     getViewById: function(id) {
-        var view = _.detect(this.viewList, function(v) {
-            return v.id === id;
-        });
-        return view;
+        return this.viewList[id];
     },
 
     /**
      * Returns the id for a given view.
      *
-     * @param {Object} view. The view for which the id value is wanted.
+     * @param {Object} view The view for which the id value is wanted.
      * @returns {String} The id of a view object.
      */
     getIdByView: function(view) {
@@ -117,13 +143,13 @@ M.ViewManager = M.Object.extend(
      *
      * Note: Try to use unique names for your views within the same surrounding view!
      *
-     * @param {String, Object} parentView. The name of the parent view (if it is a page), its id or the parent view itself.
-     * @param {String} targetView. The name of the view to be returned.
+     * @param {String, Object} parentView The name of the parent view (if it is a page) or the parent view itself.
+     * @param {String} targetView The name of the view to be returned.
      * @returns {Object} The view object from the view list identified by the view's name and the page where it's on.
      */
     getView: function(parentView, targetView) {
         if(typeof(parentView) !== 'object') {
-            parentView = M.Application.pages[parentView] ? M.Application.pages[parentView] : (this.getViewById(parentView) ? this.getViewById(parentView) : null);  
+            parentView = M.Application.pages[parentView] ? M.Application.pages[parentView] : (M.ViewManager.getViewById(parentView) ? M.ViewManager.getViewById(parentView) : null);
         }
         var view = null;
 
@@ -134,7 +160,7 @@ M.ViewManager = M.Object.extend(
         }
 
         if(!view) {
-            M.Logger.log('view \'' + targetView + '\' not found on page \'' + targetView + '\'', M.WARN);
+            M.Logger.log('view \'' + targetView + '\' not found.', M.WARN);
         }
         return view;
     },
@@ -146,16 +172,17 @@ M.ViewManager = M.Object.extend(
      *
      * This method is mainly used by the getView() method to find a view within a page.
      *
-     * @param {Object} parentView. The parent view to search in.
-     * @param {String} targetView. The name of the view to be returned.
+     * @param {Object} parentView The parent view to search in.
+     * @param {String} targetView The name of the view to be returned.
      * @returns {Object} The last found view.
      */
     findView: function(parentView, targetView) {
         if(parentView.childViews) {
-            var childViews = $.trim(parentView.childViews).split(' ');
+            var childViews = parentView.getChildViewsAsArray();
             for(var i in childViews) {
                 if(targetView === childViews[i]) {
                     this.foundView =  parentView[targetView];
+                    return this.foundView;
                 } else {
                     this.findView(parentView[childViews[i]], targetView);
                 }
@@ -170,14 +197,14 @@ M.ViewManager = M.Object.extend(
      *
      * Note: Try to use unique names for your pages!
      *
-     * @param {String} pageName. The name of the page to be returned.
+     * @param {String} pageName The name of the page to be returned.
      * @returns {Object} M.Page object identified by its name.
      */
     getPage: function(pageName) {
         var page = M.Application.pages[pageName];
 
         if(!page) {
-            M.Logger.log('page \'' + pageName + '\' not found', M.WARN);
+            M.Logger.log('page \'' + pageName + '\' not found.', M.WARN);
         }
         return page;
     },

@@ -22,7 +22,7 @@ M.DEBUG = 0;
  *
  * @type Number
  */
-M.ERROR = 1;
+M.ERR = 1;
 
 /**
  * A constant value for logging level: warning.
@@ -81,7 +81,7 @@ M.Logger = M.Object.extend(
             case M.DEBUG:
                 this.debug(msg);
                 break;
-            case M.ERROR:
+            case M.ERR:
                 this.error(msg);
                 break;
             case M.WARN:

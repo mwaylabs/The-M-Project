@@ -53,33 +53,8 @@ M.ListItemView = M.View.extend(
      */
     deleteButton: M.ButtonView.design({
         icon: 'delete',
-        target: null,
-        action: '',
         value: ''
     }),
-
-    /**
-     * This property is used to specify an internal target for an automatically called action, e.g.
-     * this is used by the built-in toggleRemove() functionality.
-     *
-     * @type Object
-     */
-    internalTarget: null,
-
-    /**
-     * This property is used to specify an internal action for an automatically called action, e.g.
-     * this is used by the built-in toggleRemove() functionality.
-     *
-     * @type Object
-     */
-    internalAction: 'setActiveListItem',
-
-    /**
-     * This property reffers to the list item's parent list view..
-     *
-     * @type M.ListView
-     */
-    listView: null,
 
     /**
      * This property determines whether the list item is a divider or not.
@@ -89,6 +64,13 @@ M.ListItemView = M.View.extend(
     isDivider: NO,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['tap'],
+
+    /**
      * Renders a list item as an li-tag. The rendering is initiated by the parent list view.
      *
      * @private
@@ -96,9 +78,6 @@ M.ListItemView = M.View.extend(
      */
     render: function() {
         this.html = '<li id="' + this.id + '"' + this.style();
-
-        this.html += ' onclick="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');"';
-        this.internalTarget = this.listView;
 
         if(this.isDivider) {
             this.html += ' data-role="list-divider"';
@@ -125,6 +104,24 @@ M.ListItemView = M.View.extend(
         this.html += '</li>';
         
         return this.html;
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for list item views and
+     * their internal events.
+     */
+    registerEvents: function() {
+        this.internalEvents = {
+            tap: {
+                target: this.parentView,
+                action: 'setActiveListItem'
+            }
+        }
+        this.bindToCaller(this, M.View.registerEvents)();
     },
 
     /**

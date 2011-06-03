@@ -103,16 +103,11 @@ M.TextFieldView = M.View.extend(
      * If set to YES, the textfield and its label are wrapped in a container and styled as a unit 'out of
      * the box'. If set to NO, custom styling could be necessary.
      *
-     * @type Boolean
-     */
-    isGrouped: YES,
-
-    /**
-     * Defines whether the text field is rendered as an password field or not.
+     * If there is no label specified, this property is ignored by default.
      *
      * @type Boolean
      */
-    isPassword: NO,
+    isGrouped: NO,
 
     /**
      * Defines whether the text field has multiple lines respectively is a text area.
@@ -120,6 +115,14 @@ M.TextFieldView = M.View.extend(
      * @type Boolean
      */
     hasMultipleLines: NO,
+
+    /**
+     * A boolean value to determine whether a view has a value or not. A text field view does have
+     * a value, so it is set to YES.
+     *
+     * @type Boolean
+     */
+    hasValue: YES,
 
     /**
      * This property specifies the input type of this input field. Possible values are:
@@ -138,6 +141,13 @@ M.TextFieldView = M.View.extend(
     inputType: M.INPUT_TEXT,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['focus', 'blur', 'enter', 'keyup'],
+
+    /**
      * Renders a TextFieldView
      * 
      * @private
@@ -146,7 +156,7 @@ M.TextFieldView = M.View.extend(
     render: function() {
         this.html += '<div';
 
-        if(this.isGrouped) {
+        if(this.label && this.isGrouped) {
             this.html += ' data-role="fieldcontain"';
         }
 
@@ -173,6 +183,58 @@ M.TextFieldView = M.View.extend(
     },
 
     /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for text field views and
+     * their internal events.
+     */
+    registerEvents: function() {
+        this.internalEvents = {
+            focus: {
+                target: this,
+                action: 'gotFocus'
+            },
+            blur: {
+                target: this,
+                action: 'lostFocus'
+            },
+            keyup: {
+                target: this,
+                action: 'setValueFromDOM'
+            }
+        }
+        this.bindToCaller(this, M.View.registerEvents)();
+    },
+
+    /**
+     * The contentDidChange method is automatically called by the observable when the
+     * observable's state did change. It then updates the view's value property based
+     * on the specified content binding.
+     *
+     * This is a special implementation for M.TextFieldView.
+     */
+    contentDidChange: function(){
+        var contentBinding = this.contentBinding ? this.contentBinding : (this.computedValue) ? this.computedValue.contentBinding : null;
+
+        if(!contentBinding || (this.hasFocus)) {
+            return;
+        }
+
+        if(this.contentBinding) {
+            this.value = contentBinding.target[contentBinding.property];
+        } else if(this.computedValue.contentBinding) {
+            this.computedValue.value = contentBinding.target[contentBinding.property];
+        }
+
+        this.renderUpdate();
+        this.delegateValueUpdate();
+
+        /* TODO: ADD CONTENT BINDING FOR MORE THAN ONE LEVEL */
+    },
+
+    /**
      * Updates a TextFieldView with DOM access by jQuery.
      *
      * @private
@@ -186,8 +248,12 @@ M.TextFieldView = M.View.extend(
      * This method is called whenever the view gets the focus.
      * If there is a initial text specified and the value of this text field
      * still equals this initial text, the value is emptied.
+     *
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
      */
-    gotFocus: function() {
+    gotFocus: function(id, event, nextEvent) {
         if(this.initialText && (!this.value || this.initialText === this.value)) {
             this.setValue('');
             if(this.cssClassOnInit) {
@@ -195,14 +261,22 @@ M.TextFieldView = M.View.extend(
             }
         }
         this.hasFocus = YES;
+
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
+        }
     },
 
     /**
      * This method is called whenever the view lost the focus.
      * If there is a initial text specified and the value of this text field
      * is empty, the value is set to the initial text.
+     *
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
      */
-    lostFocus: function() {
+    lostFocus: function(id, event, nextEvent) {
         if(this.initialText && !this.value) {
             this.setValue(this.initialText, NO);
             this.value = '';
@@ -211,6 +285,10 @@ M.TextFieldView = M.View.extend(
             }
         }
         this.hasFocus = NO;
+
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
+        }
     },
 
     /**
@@ -245,6 +323,11 @@ M.TextFieldView = M.View.extend(
         if(this.initialText && !this.value && this.cssClassOnInit) {
             this.addCssClass(this.cssClassOnInit);
         }
+
+        /* trigger keyup event to make the text field autogrow */
+        if(this.value) {
+            $('#'  + this.id).trigger('keyup');
+        }
     },
 
     /**
@@ -264,6 +347,11 @@ M.TextFieldView = M.View.extend(
         } else {
             $('#' + this.id).removeAttr('disabled');
         }
+
+        /* trigger keyup event to make the text field autogrow */
+        if(this.value) {
+            $('#'  + this.id).trigger('keyup');
+        }
     },
 
     /**
@@ -273,14 +361,16 @@ M.TextFieldView = M.View.extend(
      *
      * Additionally call target / action if set.
      *
-     * @param {Object} evt The event triggered this method.
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
      */
-    setValueFromDOM: function(evt) {
+    setValueFromDOM: function(id, event, nextEvent) {
         this.value = this.secure($('#' + this.id).val());
         this.delegateValueUpdate();
 
-        if((evt === 'change' && this.triggerActionOnChange || evt === 'keyup' && this.triggerActionOnKeyUp) && this.target && this.action) {
-            this.target[this.action](this.value);
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
         }
     },
 
@@ -323,6 +413,9 @@ M.TextFieldView = M.View.extend(
      */
     clearValue: function() {
         this.setValue('');
+
+        /* call lostFocus() to get the initial text displayed */
+        this.lostFocus();
     }
 
 });

@@ -36,59 +36,170 @@ M.ActionSheetDialogView = M.DialogView.extend(
     title: 'ActionSheet',
 
     /**
-     * The default transition of an action sheet dialog.
+     * Defines the value of the destructive button (the one button that is showed in red)
      *
      * @type String
      */
-    transition: M.TRANSITION.SLIDEUP,
+    destructiveButtonValue: null,
 
     /**
-     * Determines whether the action sheet dialog gets a default cancel button.
+     * Defines the value of the cancel button
      *
-     * @type Boolean
+     * @type String
      */
-    hasCancelButton: YES,
+    cancelButtonValue: null,
 
     /**
-     * Renders an action sheet dialog as a slide-up page.
+     * Contains the values of all other buttons as strings
+     *
+     * @type Array
+     */
+    otherButtonValues: null,
+
+    /**
+     * Contains the tags of all other buttons as strings
+     *
+     * @type Array
+     */
+    otherButtonTags: null,
+
+    /**
+     * Delay between action sheet slide out animation finished and deleting it from DOM and deleting the object
+     */
+    deletionDelay: 1000,
+
+    /**
+     * If set, contains the dialog's callbacks in sub objects named 'destruction', 'cancel' and 'other' or as  functions named confirm, cancel and other.
+     *
+     * @type Object
+     */
+    callbacks: null,
+
+    /**
+     * Renders an action sheet dialog as a slide-up.
      *
      * @private
      * @returns {String} The action sheet dialog view's html representation.
      */
+
     render: function() {
-        this.html = '<div data-role="dialog" id="' + this.id + '">';
-        this.html += '<div data-role="content"><h2>' + this.title + '</h2>';
-        this.html += this.message ? this.message : '';
+        /* render half transparent grey background */
+        this.html = '<div class="tmp-dialog-background"></div>';
 
-        if(this.buttons) {
-            for(var buttonName in this.buttons) {
-                var button = M.ButtonView.design({
-                    value: this.buttons[buttonName].title,
-                    target: this,
-                    action: 'dialogWillClose',
-                    role: buttonName,
-                    cssClass: this.buttons[buttonName].cssClass ? this.buttons[buttonName].cssClass : (buttonName === 'cancel' ? 'c' : 'b')
-                });
-                this.buttonIds.push(button.id);
-                this.html += button.render();
+        /* render title */
+        this.html += '<div id="' + this.id + '" class="tmp-actionsheet">';
+        this.html += '<div class="tmp-dialog-header">';
+        this.html += this.title ? this.title : '';
+        this.html +='</div>';
+
+        /* render footer that contains all buttons */
+        this.html += '<div class="tmp-dialog-footer">';
+
+        var that = this;
+
+        var buttons = [];
+        if(this.destructiveButtonValue) {
+            buttons.push(M.ButtonView.design({
+                value: this.destructiveButtonValue,
+                tag: 'destruction',
+                cssClass: 'a tmp-actionsheet-destructive-button',
+                events: {
+                    tap: {
+                        target: that,
+                        action: 'handleCallback'
+                    }
+                }
+            }));
+        }
+        if(this.otherButtonValues) {
+            if(this.otherButtonTags && !(_.isArray(this.otherButtonTags)) && !(_.isArray(this.otherButtonValues))) {
+                M.Logger.log('Error in Action Sheet: Values and (optional) tags must be passed as string in an array! Rendering will not proceed.', M.WARN);
+                return '';
             }
-        }
+            /* First check if passed number of values matches number of labels passed */
+            /* If not, do not use values, but use incremented buttonNr as value */
+            if(this.otherButtonTags && this.otherButtonTags.length !== this.otherButtonValues.length) {
+                M.Logger.log('Mismatch in Action Sheet: Number of other button\'s tags doesn\'t match number of values. Will not use given values, but use generated numbers as values.', M.WARN);
+                this.otherButtonTags = null;
+            }
 
-        if(this.hasCancelButton) {
-            var button = M.ButtonView.design({
-                value: 'Cancel',
-                cssClass: 'c',
-                target: this,
-                action: 'dialogWillClose',
-                role: 'onCancel'
+            var buttonNr = 0;
+
+            _.each(this.otherButtonValues, function(btn) {
+                buttons.push(M.ButtonView.design({
+                    value: btn,
+                    tag: that.otherButtonTags ? that.otherButtonTags[buttonNr++] : buttonNr++,
+                    events: {
+                        tap: {
+                            target: that,
+                            action: 'handleCallback'
+                        }
+                    }
+                }));
             });
-            this.buttonIds.push(button.id);
-            this.html += button.render();
+        }
+        
+        if(this.cancelButtonValue) {
+            buttons.push(M.ButtonView.design({
+                value: this.cancelButtonValue,
+                tag: 'cancel',
+                cssClass: 'a',
+                events: {
+                    tap: {
+                        target: that,
+                        action: 'handleCallback'
+                    }
+                }
+            }));
         }
 
+
+        /* render each button saved in the buttons array */
+        for(var i in buttons) {
+            this.html += buttons[i].render();
+        };
+
+        this.html += '</div>';
         this.html += '</div>';
 
         $('body').append(this.html);
+
+        /* register events for each designed and rendered button and theme it afterwards
+         * must be performed AFTER button has been inserted to DOM
+         */
+        for(var i in buttons) {
+            buttons[i].registerEvents();
+            buttons[i].theme();
+        };
+    },
+
+    show: function() {
+        this.render();
+        var dialog = $('#' + this.id);
+        dialog.removeClass('slideup out reverse');
+        dialog.addClass('slideup in');
+    },
+
+    hide: function() {
+        var dialog = $('#' + this.id);
+        dialog.removeClass('slideup in');
+        dialog.addClass('slideup out reverse');
+        $('.tmp-dialog-background').remove();
+        /* destroying the view object and its DOM representation must be performed after the slide animation is finished. */
+        var that = this;
+        window.setTimeout(that.bindToCaller(that, that.destroy), this.deletionDelay);
+    },
+
+    handleCallback: function(viewId, event) {
+        this.hide();
+        var button = M.ViewManager.getViewById(viewId);
+        var buttonType = (button.tag === 'destruction' || button.tag === 'cancel') ? button.tag : 'other';
+
+        if(this.callbacks && buttonType && M.EventDispatcher.checkHandler(this.callbacks[buttonType])){
+            this.bindToCaller(this.callbacks[buttonType].target, this.callbacks[buttonType].action, button.tag)();
+        }
     }
+
+
 
 });

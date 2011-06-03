@@ -146,6 +146,13 @@ M.ButtonGroupView = M.View.extend(
     isSelectable: YES,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['change'],
+
+    /**
      * Renders a button group as a div container and calls the renderChildViews
      * method to render the included buttons.
      *
@@ -155,7 +162,7 @@ M.ButtonGroupView = M.View.extend(
     render: function() {
         /* check if multiple lines are necessary before rendering */
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             if(this.buttonsPerLine && this.buttonsPerLine < childViews.length) {
                 var numberOfButtons = 0;
                 for(var i in childViews) {
@@ -177,7 +184,7 @@ M.ButtonGroupView = M.View.extend(
             /* this is a wrapper for the multiple button groups.
                if it is not inset, assign css class 'ui-listview' for clearing the padding of the surrounding element */
             this.html += '<div id="' + this.id + '"';
-            this.html += this.isInset ? '' : ' class="ui-listview"';
+            this.html += this.style();
             this.html += '>';
 
             /* create a button group for every line */
@@ -209,7 +216,7 @@ M.ButtonGroupView = M.View.extend(
             }
             this.html += '</div>';
         } else {
-            this.html += '<div data-role="controlgroup" href="#" id="' + this.id + '" data-type="' + this.direction + '">';
+            this.html += '<div data-role="controlgroup" href="#" id="' + this.id + '" data-type="' + this.direction + '"' + this.style() + '>';
 
             this.renderChildViews();
 
@@ -226,7 +233,7 @@ M.ButtonGroupView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             var currentButtonIndex = 0;
 
             for(var i in childViews) {
@@ -240,14 +247,10 @@ M.ButtonGroupView = M.View.extend(
                         button.html = '';
 
                         button.parentView = this;
-                        button.internalTarget = this;
-                        button.internalAction = 'setActiveButton';
-
-                        /* check if button has own target / action, otherwise use target / action from button group */
-                        if(!button.target) {
-                            if(this.target && this.action) {
-                                button.target = this.target;
-                                button.action = this.action;
+                        button.internalEvents = {
+                            tap: {
+                                target: this,
+                                action: 'setActiveButton'
                             }
                         }
 
@@ -257,6 +260,9 @@ M.ButtonGroupView = M.View.extend(
                         if(this.direction === M.HORIZONTAL) {
                             button.cssStyle = 'margin-right:-2px;width:' + 100 / (this.numberOfLines ? this.buttonsPerLine : childViews.length) + '%';
                         }
+
+                        /* set the button's _name property */
+                        this[childViews[i]]._name = childViews[i];
 
                         /* finally render the button and add it to the button groups html */
                         this.html += this[childViews[i]].render();
@@ -284,7 +290,7 @@ M.ButtonGroupView = M.View.extend(
 
                 /* style the current line */
                 $('#' + this.lines[line]).controlgroup();
-                var childViews = $.trim(this.childViews).split(' ');
+                var childViews = this.getChildViewsAsArray();
                 var currentButtonIndex = 0;
                 
                 /* if isCompact, iterate through all buttons */
@@ -348,13 +354,12 @@ M.ButtonGroupView = M.View.extend(
 
         /* iterate through all buttons and activate on of them, according to the button's isActive property */
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
                 if(this[childViews[i]] && this[childViews[i]].type === 'M.ButtonView') {
                     var button = this[childViews[i]];
                     if(button.isActive) {
                         this.setActiveButton(button.id);
-                        break;
                     }
                 }
             }
@@ -376,14 +381,12 @@ M.ButtonGroupView = M.View.extend(
      *
      * @param {M.ButtonView, String} id The button to be set active or its id.
      */
-    setActiveButton: function(id) {
+    setActiveButton: function(id, event, nextEvent) {
         if(this.isSelectable) {
-            this.activeButton = null;
-            $('#' + this.id).find('a').each(function() {
-                var button = M.ViewManager.getViewById($(this).attr('id'));
-                button.removeCssClass('ui-btn-active');
-                button.isActive = NO;
-            });
+            if(this.activeButton) {
+                this.activeButton.removeCssClass('ui-btn-active');
+                this.activeButton.isActive = NO;
+            }
 
             var button = M.ViewManager.getViewById(id);
             if(!button) {
@@ -397,6 +400,32 @@ M.ButtonGroupView = M.View.extend(
                 this.activeButton = button;
             }
         }
+
+        /* trigger change event for the button group */
+        $('#' + this.id).trigger('change');
+
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
+        }
+    },
+
+    /**
+     * Applies some style-attributes to the button group.
+     *
+     * @private
+     * @returns {String} The button group's styling as html representation.
+     */
+    style: function() {
+        var html = '';
+        if(this.numberOfLines && !this.isInset) {
+            html += ' class="ui-listview';
+        }
+        if(this.cssClass) {
+            html += html !== '' ? ' ' + this.cssClass : ' class="' + this.cssClass;
+        }
+        html += '"';
+        return html;
     }
 
 });

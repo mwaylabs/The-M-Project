@@ -54,29 +54,34 @@ M.TabBarView = M.View.extend(
     activeTab: null,
 
     /**
+     * This property is used internally to count the number of usages of a tab bar.
+     */
+    usageCounter: 0,
+
+    /**
      * Renders a tab bar as an unordered list.
      *
      * @private
      * @returns {String} The tab bar view's html representation.
      */
     render: function() {
-        if(!this.html) {
-            this.html = '';
+        this.html = '';
+        this.usageCounter += 1;
 
-            if(this.anchorLocation) {
-                this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed"><div data-role="navbar"><ul>';
-            } else {
-                this.html += '<div data-role="navbar" id="' + this.id + '" data-id="' + this.name + '"><ul>';
-            }
-
-            this.renderChildViews();
-
-            this.html += '</ul></div>';
-
-            if(this.anchorLocation) {
-                this.html += '</div>';
-            }
+        if(this.anchorLocation) {
+            this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed"><div data-role="navbar"><ul>';
+        } else {
+            this.html += '<div data-role="navbar" id="' + this.id + '" data-id="' + this.name + '"><ul>';
         }
+
+        this.renderChildViews();
+
+        this.html += '</ul></div>';
+
+        if(this.anchorLocation) {
+            this.html += '</div>';
+        }
+
         return this.html;
     },
 
@@ -87,7 +92,7 @@ M.TabBarView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
 
             /* pre-process the child views to define which tab is selected */
             var hasActiveTab = NO;
@@ -116,6 +121,7 @@ M.TabBarView = M.View.extend(
                     }
 
                     view.parentView = this;
+                    view._name = childViews[i];
                     this.html += view.render();
                 } else {
                     M.Logger.log('Invalid child views specified for TabBarView. Only TabBarItemViews accepted.', M.WARN);
@@ -135,19 +141,19 @@ M.TabBarView = M.View.extend(
     setActiveTab: function(tab) {
         /* deactivate current active tav */
         this.activeTab.isActive = NO;
-        var that = this;
-        $('[data-id="' + this.name + '"]').each(function() {
-            $(this).find('#' + that.activeTab.id).removeClass('ui-btn-active');
+        var activeTabMainID = this.activeTab.id.substring(0, this.activeTab.id.lastIndexOf('_'));
+        $('[id^=' + activeTabMainID + '_]').each(function() {
+            $(this).removeClass('ui-btn-active');
         });
 
         /* activate new tab */
         tab.isActive = YES;
-        $('[data-id="' + this.name + '"]').each(function() {
-            $(this).find('#' + tab.id).addClass('ui-btn-active');
+        this.activeTab = tab;
+        var tabMainID = tab.id.substring(0, tab.id.lastIndexOf('_'));
+        $('[id^=' + tabMainID + '_]').each(function() {
+            $(this).addClass('ui-btn-active');
         });
 
-        /* store active tab in tab bar */
-        this.activeTab = tab;
     }
 
 });

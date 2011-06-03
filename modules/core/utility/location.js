@@ -163,7 +163,7 @@ M.Location = M.Object.extend(
                 M.Logger.log('No caller specified for update() of M.Location.', M.WARN);
             }
         } else {
-            M.Logger.log('An internal error occured while retrieving the position.', M.ERROR);
+            M.Logger.log('An internal error occured while retrieving the position.', M.ERR);
         }
     },
 

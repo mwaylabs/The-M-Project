@@ -46,15 +46,22 @@ M.EmailValidator = M.Validator.extend(
         if (this.pattern.exec(obj.value)) {
             return YES;
         }
-        this.validationErrors.push({
-            msg: obj.value + ' is not a valid email adress.',
-            modelId: obj.modelId,
-            property: obj.property,
-            viewId: obj.viewId,
-            validator: 'EMAIL',
-            onSuccess: obj.onSuccess,
-            onError: obj.onError
+
+        var err = M.Error.extend({
+            msg: this.msg ? this.msg : obj.value + ' is not a valid email adress.',
+            code: M.ERR_VALIDATION_EMAIL,
+            errObj: {
+                msg: obj.value + ' is not a valid email adress.',
+                modelId: obj.modelId,
+                property: obj.property,
+                viewId: obj.viewId,
+                validator: 'EMAIL',
+                onSuccess: obj.onSuccess,
+                onError: obj.onError
+            }
         });
+        this.validationErrors.push(err);
+        
         return NO;
     }
     

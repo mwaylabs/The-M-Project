@@ -33,9 +33,11 @@ M.ContainerView = M.View.extend(
      * @returns {String} The container view's html representation.
      */
     render: function() {
-        this.html += '<div id="' + this.id + '"' + this.style() + '></div>';
+        this.html += '<div id="' + this.id + '"' + this.style() + '>';
 
         this.renderChildViews();
+
+        this.html += '</div>';
 
         return this.html;
     },

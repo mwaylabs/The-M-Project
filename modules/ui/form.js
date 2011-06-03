@@ -47,29 +47,35 @@ M.FormView = M.View.extend(
      alertTitle: 'Validation Error(s)',
 
     /**
-     * This method triggers the validate() on all child views, respectively
-     * on their validators.
+     * This method triggers the validate() on all child views, respectively on their validators. If
+     * a validation error occurs, the showErrors() will be called.
      *
      * @returns {Boolean} The result of the validation process: valid or not.
      */
     validate: function() {
-        M.Validator.clearErrorBuffer();
-        var isValid = YES;
-        if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
-            for(var i in childViews) {
-                var childView = this[childViews[i]];
-                if(childView && childView.validators) {
-                    _.each(childView.validators, function(validator) {
-                        if(!validator.validate(childView, childViews[i])) {
-                            isValid = NO;
-                        }
-                    });
-                }
-                if(childView && childView.cssClassOnError) {
-                    childView.removeCssClass(childView.cssClassOnError);
-                }
+        var ids = this.getIds();
+        for(var name in ids) {
+            if(!!!(M.ViewManager.getViewById(ids[name]).validators)) {
+                delete ids[name];
             }
+        }
+
+        var isValid = YES;
+        M.Validator.clearErrorBuffer();
+
+        for(var name in ids) {
+            var view = M.ViewManager.getViewById(ids[name]);
+            if(view && view.validators) {
+                _.each(view.validators, function(validator) {
+                    if(!validator.validate(view, name)) {
+                        isValid = NO;
+                    }
+                });
+            }
+        }
+
+        if(!isValid) {
+            this.showErrors();
         }
 
         return isValid;
@@ -101,16 +107,17 @@ M.FormView = M.View.extend(
     },
 
     /**
-     * This method clears the form by clearing all input's values.
+     * This method is a wrapper of M.View's clearValues() method.
      */
     clearForm: function() {
-        if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
-            for(var i in childViews) {
-                var childView = this[childViews[i]];
-                childView.clearValue();
-            }
-        }
+        this.clearValues();
+    },
+
+    /**
+     * This method is a wrapper of M.View's getValues() method.
+     */
+    getFormValues: function() {
+        return this.getValues();
     }
 
 });

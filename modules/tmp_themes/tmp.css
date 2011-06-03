@@ -1,0 +1,90 @@
+.tmp-dialog {
+    margin: auto;
+    width: 250px;
+    height: 200px;
+    border-radius: 8px;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(47, 74, 117, 0.9)), color-stop(0.5, rgba(47, 76, 117, 0.9)), color-stop(0.5, rgba(47, 76, 117, 0.9)), color-stop(1, rgba(134, 140, 158, 0.9)));
+    -webkit-box-shadow: 0 0 8px 4px #555;
+    box-shadow: 0 0 8px 4px #555;
+    border: 2px solid #fff;
+    color: #fff;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    z-index: 100001;
+    position: absolute; /*the element is removed from the natural flux of the page and positioned in a absolute way*/
+    top: 50%; /*the top border of the element is positioned at half of the available height of the parent element*/
+    margin-top: -100px; /*half of the element height is removed from the top margin to center it*/
+    left: 50%;
+    margin-left: -125px;
+    z-index: 1000 !important;
+}
+
+.tmp-dialog-header {
+    height: 20%;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+
+    text-align: center;
+    padding: 5px;
+    color: #fff; /*text-shadow: 1px 1px black;*/
+/*text-shadow: rgba(0,0,0,0.5) -1px 0, rgba(0,0,0,0.3) 0 -1px, rgba(255,255,255,0.5) 0 1px, rgba(0,0,0,0.3) -1px -2px;*/
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.tmp-dialog-content {
+    height: 40%;
+    text-align: center;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+    font-size: 0.9em;
+}
+
+.tmp-dialog-footer {
+    height: 20%;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    text-align: center;
+}
+
+.tmp-dialog-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /*height:100%;
+         padding-top:15%;*/
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000 !important;
+}
+
+.tmp-dialog-smallerbtn {
+    margin: 0 auto;
+    width: 50%;
+}
+
+.tmp-dialog-smallerbtn-confirm {
+    margin: 0 auto;
+    width: 90%;
+}
+
+/* Action sheet dialog */
+.tmp-actionsheet {
+    color: #fff;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    z-index: 100001;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: absolute;
+    bottom: 0;
+    z-index: 1000 !important;
+}
+
+.tmp-actionsheet-destructive-button {
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.05, rgb(245, 46, 19)), color-stop(1, rgb(235, 104, 87)));
+}
+
+.tmp-actionsheet-destructive-button:active {
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.05, rgb(235, 104, 87)), color-stop(1.0, rgb(245, 46, 19)));
+}

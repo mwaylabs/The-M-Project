@@ -26,7 +26,7 @@ M.PresenceValidator = M.Validator.extend(
      * @type String
      */
     type: 'M.PresenceValidator',
-
+    
     /**
      * Validation method. First checks if value is not null, undefined or an empty string and then tries to create a {@link M.Date} with it.
      * Pushes different validation errors depending on where the validator is used: in the view or in the model.
@@ -38,22 +38,34 @@ M.PresenceValidator = M.Validator.extend(
     validate: function(obj, key) {
         if(obj.value === null || obj.value === undefined || obj.value === '') {
             if(obj.isView) {
-                this.validationErrors.push({
+
+                var err = M.Error.extend({
                     msg: this.msg ? this.msg : key + ' is required and is not set.',
-                    viewId: obj.id,
-                    validator: 'PRESENCE',
-                    onSuccess: obj.onSuccess,
-                    onError: obj.onError
+                    code: M.ERR_VALIDATION_PRESENCE,
+                    errObj: {
+                        msg: this.msg ? this.msg : key + ' is required and is not set.',
+                        viewId: obj.id,
+                        validator: 'PRESENCE',
+                        onSuccess: obj.onSuccess,
+                        onError: obj.onError
+                    }
                 });
+                this.validationErrors.push(err);
+                
             } else {
-                this.validationErrors.push({
-                    msg: this.msg ? this.msg : obj.property + ' is required and is not set.',
-                    modelId: obj.modelId,
-                    property: obj.property,
-                    validator: 'PRESENCE',
-                    onSuccess: obj.onSuccess,
-                    onError: obj.onError
+                var err = M.Error.extend({
+                    msg: this.msg ? this.msg : obj.property + 'is required and is not set.',
+                    code: M.ERR_VALIDATION_PRESENCE,
+                    errObj: {
+                        msg: this.msg ? this.msg : obj.property + ' is required and is not set.',
+                        modelId: obj.modelId,
+                        property: obj.property,
+                        validator: 'PRESENCE',
+                        onSuccess: obj.onSuccess,
+                        onError: obj.onError
+                    }
                 });
+                this.validationErrors.push(err);
             }
             return NO;
         }

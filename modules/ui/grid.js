@@ -106,13 +106,14 @@ M.GridView = M.View.extend(
                     if(this[arr[i]]) {
                         this.html += '<div class="' + this.layout.columns[i] + '">';
 
+                        this[arr[i]]._name = arr[i];
                         this.html += this[arr[i]].render();
 
                         this.html += '</div>';
                     }
                 }
             } else {
-                M.Logger.log('No layout specified for GridView', M.ERROR);
+                M.Logger.log('No layout specified for GridView (' + this.id + ')!', M.WARN);
             }
         }
     },

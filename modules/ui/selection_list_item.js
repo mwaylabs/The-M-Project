@@ -56,7 +56,7 @@ M.SelectionListItemView = M.View.extend(
         if(this.parentView && this.parentView.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             this.html += '<option id="' + this.id + '" value="' + this.value + '"';
 
-            if((!this.parentView.initialText && this.isSelected && typeof(this.isSelected) === 'boolean') || (this.isSelected === String(YES))) {
+            if((this.isSelected && typeof(this.isSelected) === 'boolean') || (this.isSelected === String(YES))) {
                 if(!this.parentView.selection) {
                     this.html += ' selected="selected"';
                     this.parentView.selection = this;
@@ -69,15 +69,13 @@ M.SelectionListItemView = M.View.extend(
 
             this.html += '</option>';
         } else {
-            this.html += '<input type="' + this.parentView.selectionMode + '" ';
+            this.html += '<input type="' + this.parentView.selectionMode + '" data-native-menu="' + !this.applyTheme + '" id="' + this.id + '"';
 
-            if(!this.applyTheme || !this.parentView.applyTheme) {
-                this.html += 'data-role="none" ';
-            }            
-
-            this.html +=  'name="' + (this.parentView.name ? this.parentView.name : this.parentView.id);
-
-            this.html += '" id="' + this.id + '"';
+            if(this.parentView.selectionMode === M.SINGLE_SELECTION) {
+                this.html += ' name="' + (this.parentView.name ? this.parentView.name : this.parentView.id) + '"';
+            } else if(this.parentView.selectionMode === M.MULTIPLE_SELECTION) {
+                this.html += ' name="' + (this.name ? this.name : this.id) + '"';
+            }
 
             if((this.isSelected && typeof(this.isSelected) === 'boolean') || (this.isSelected === String(YES))) {
                 if(this.parentView.selectionMode === M.SINGLE_SELECTION) {
@@ -108,8 +106,10 @@ M.SelectionListItemView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.parentView && !this.parentView.isInsideFormView && this.applyTheme && this.parentView.applyTheme) {
-            $('#' + this.id).checkboxradio();
+        if(this.parentView && this.applyTheme && this.parentView.applyTheme) {
+            if(this.parentView.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
+                $('#' + this.id).checkboxradio();
+            }
         }
     }
 

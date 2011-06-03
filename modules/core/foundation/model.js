@@ -209,7 +209,7 @@ M.Model = M.Object.extend(
 
         /* if dataprovider is WebSqlProvider, create table for this model and add ID ModelAttribute Object to __meta */
         if(model.dataProvider.type === 'M.DataProviderWebSql') {
-            model.dataProvider.init({model: model, onError:function(err){M.Logger.log(err, M.ERROR);}}, function() {});
+            model.dataProvider.init({model: model, onError:function(err){M.Logger.log(err, M.ERR);}}, function() {});
             model.dataProvider.isInitialized = YES;
         }
 
@@ -409,7 +409,7 @@ M.Model = M.Object.extend(
      */
     find: function(obj){
         if(!this.dataProvider) {
-            M.Logger.log('No data provider given.', M.ERROR);
+            M.Logger.log('No data provider given.', M.ERR);
         }
         obj = obj ? obj : {};
         /* check if the record list shall be cleared (default) before new found model records are appended to the record list */
@@ -419,7 +419,7 @@ M.Model = M.Object.extend(
             this.recordManager.removeAll();
         }
         if(!this.dataProvider) {
-            M.Logger.log('No data provider given.', M.ERROR);
+            M.Logger.log('No data provider given.', M.ERR);
         }
 
         /* extends the given obj with self as model property in obj */
@@ -437,7 +437,7 @@ M.Model = M.Object.extend(
      */
     save: function(obj) {
         if(!this.dataProvider) {
-            M.Logger.log('No data provider given.', M.ERROR);
+            M.Logger.log('No data provider given.', M.ERR);
         }
         obj = obj ? obj: {};
         if(!this.m_id) {
@@ -465,7 +465,7 @@ M.Model = M.Object.extend(
     
     bulkImport: function(obj){
         if(!this.dataProvider) {
-            M.Logger.log('No data provider given.', M.ERROR);
+            M.Logger.log('No data provider given.', M.ERR);
         }
         if(this.dataProvider.type !== 'M.DataProviderWebSql') {
             var err = M.Error.extend({
@@ -478,7 +478,7 @@ M.Model = M.Object.extend(
             } else if (typeof(obj.onError) === 'function') {
                 obj.onError(err);
             } else {
-                M.Logger.log('Target and action in onError not defined.', M.ERROR);
+                M.Logger.log('Target and action in onError not defined.', M.ERR);
             }
             return NO;
         }
@@ -494,7 +494,7 @@ M.Model = M.Object.extend(
      */
     del: function(obj) {
         if(!this.dataProvider) {
-            M.Logger.log('No data provider given.', M.ERROR);
+            M.Logger.log('No data provider given.', M.ERR);
         }
         obj = obj ? obj : {};
         if(!this.m_id) {
@@ -559,7 +559,7 @@ M.Model = M.Object.extend(
                         that.setReference(result, that, curRec.prop, cb);
                     },
                     onError: function(err) {
-                        M.Logger.log('Error: ' + err, M.ERROR);
+                        M.Logger.log('Error: ' + err, M.ERR);
                     }
                 });
 

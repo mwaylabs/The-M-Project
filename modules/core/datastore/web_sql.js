@@ -20,7 +20,7 @@ m_require('core/datastore/data_provider.js');
  * @extends M.DataProvider
  */
 M.DataProviderWebSql = M.DataProvider.extend(
-/** @scope M.WebSqlProvider.prototype */ {
+/** @scope M.DataProviderWebSql.prototype */ {
 
     /**
      * The type of this object.
@@ -115,7 +115,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
     /**
      * Saves a model in the database. Constructs the sql query from the model record. Prepares an INSERT or UPDATE depending on the state
      * of the model. If M.STATE_NEW then prepares an INSERT, if M.STATE_VALID then prepares an UPDATE. The operation itself
-     * is done by {@link M.WebSqlProvider#performOp} that is called
+     * is done by {@link M.DataProviderWebSql#performOp} that is called
      *
      * @param {Object} obj The param obj, includes:
      * * onSuccess callback
@@ -193,7 +193,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
             /* if no properties updated, do nothing, just return by calling onSuccess callback */
             if(nrOfUpdates === 0) {
                 if (obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
-                    obj.onSuccess = this.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
+                    obj.onSuccess = this.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], null, obj, this);
                     obj.onSuccess();
                 }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
                     obj.onSuccess(result);
@@ -221,7 +221,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
                     that.queryDbForId(obj.model);
                 }
             }, function() { // error callback for SQLStatementTransaction
-                M.Logger.log('Incorrect statement: ' + sql, M.ERROR);
+                M.Logger.log('Incorrect statement: ' + sql, M.ERR);
             });
         },
         function(sqlError) { // errorCallback
@@ -237,10 +237,10 @@ M.DataProviderWebSql = M.DataProvider.extend(
             }
             /* bind success callback */
             if (obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
-                obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
+                obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], null, obj, this);
                 obj.onSuccess();
             }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
-                obj.onSuccess(result);
+                obj.onSuccess(null, this);
             }
         });
     },
@@ -326,7 +326,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
                     sql += obj.constraint.statement;
                     stmtParameters = obj.constraint.parameters;
                 } else {
-                    M.Logger.log('Not enough parameters provided for statement: given: ' + obj.constraint.parameters.length + ' needed: ' + n, M.ERROR);
+                    M.Logger.log('Not enough parameters provided for statement: given: ' + obj.constraint.parameters.length + ' needed: ' + n, M.ERR);
                     return NO;
                 }
            /* if no ? are in statement, we handle it as a non-prepared statement
@@ -352,7 +352,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
         var that = this;
         this.dbHandler.readTransaction(function(t) {
             t.executeSql(sql, stmtParameters, function (tx, res) {
-                var len = res.rows.length, i;
+                var len = res.rows.length;//, i;
                 for (var i = 0; i < len; i++) {
                     var rec = JSON.parse(JSON.stringify(res.rows.item(i))); /* obj returned form WebSQL is non-writable, therefore needs to be converted */
                     /* set m_id property of record to m_id got from db, then delete m_id property named after db column (M.META_M_ID) */
@@ -373,7 +373,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
                     result.push(myRec);
                 }
 
-            }, function(){M.Logger.log('Incorrect statement: ' + sql, M.ERROR)}) // callbacks: SQLStatementErrorCallback
+            }, function(){M.Logger.log('Incorrect statement: ' + sql, M.ERR)}) // callbacks: SQLStatementErrorCallback
         }, function(sqlError){ // errorCallback
             var err = this.buildErrorObject(sqlError);
             this.handleErrorCallback(obj, err);
@@ -386,10 +386,10 @@ M.DataProviderWebSql = M.DataProvider.extend(
                  * callback. therefor we now put result into an array (so we have an array inside an array) and result as a whole is now passed as the first
                  * value to the callback.
                  *  */
-                obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], [result]);
+                obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], [result], obj, this);
                 obj.onSuccess();
             }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
-                obj.onSuccess(result);
+                obj.onSuccess(result, obj, this);
             }
         });
     },
@@ -418,13 +418,13 @@ M.DataProviderWebSql = M.DataProvider.extend(
 
             if (e == 2) {
                 // Version number mismatch.
-                //M.Logger.log('Invalid database version.', M.ERROR);
+                //M.Logger.log('Invalid database version.', M.ERR);
                 M.DialogView.alert({
                     message: 'Database version 1.0 not supported.',
                     title: 'Invalid database version.'
                 });
             } else {
-                //M.Logger.log('Unknown error ' + e + '.', M.ERROR);
+                //M.Logger.log('Unknown error ' + e + '.', M.ERR);
                 M.DialogView.alert({
                     message: e,
                     title: 'Unknown error.'
@@ -474,7 +474,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
                 message: 'dbHandler does not exist.'
             });
             this.handleErrorCallback(obj, err);
-            M.Logger.log('dbHandler does not exist.', M.ERROR);
+            M.Logger.log('dbHandler does not exist.', M.ERR);
         }
     },
 
@@ -571,7 +571,7 @@ M.DataProviderWebSql = M.DataProvider.extend(
                     that.handleBulkSuccessCallback(obj, (transactionNr + 1), numberOfTransactions);
                 });
             } else {
-                M.Logger.log('dbHandler does not exist.', M.ERROR);
+                M.Logger.log('dbHandler does not exist.', M.ERR);
             }
         } else {
             return NO;
@@ -582,22 +582,22 @@ M.DataProviderWebSql = M.DataProvider.extend(
     handleBulkSuccessCallback: function(obj, iteration, total) {
         if(iteration === total) {
              if(obj.onSuccess && obj.onSuccess.target && obj.onSuccess.action) {
-                obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action]);
+                obj.onSuccess = that.bindToCaller(obj.onSuccess.target, obj.onSuccess.target[obj.onSuccess.action], null, obj, this);
                 obj.onSuccess();
             }else if(obj.onSuccess && typeof(obj.onSuccess) === 'function') {
-                obj.onSuccess();
+                obj.onSuccess(null, obj, this);
             }
         }
     },
 
     handleErrorCallback: function(obj, err) {
         if (obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = that.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
+                obj.onError = that.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err, obj, this);
                 obj.onError();
             } else if (typeof(obj.onError) === 'function') {
-                obj.onError(err);
+                obj.onError(err, obj, this);
             } else {
-                M.Logger.log('Target and action in onError not defined.', M.ERROR);
+                M.Logger.log('Target and action in onError not defined.', M.ERR);
             }
     },
 
@@ -674,8 +674,8 @@ M.DataProviderWebSql = M.DataProvider.extend(
      */
     buildErrorObject: function(err) {
         return M.Error.extend({
-            code: sqlErr.code + 200,     // 200 is offset of WebSQL errors in M.ERROR
-            msg: sqlErr.message
+            code: err.code + 200,     // 200 is offset of WebSQL errors in M.Error
+            msg: err.message
         });
     }
 
