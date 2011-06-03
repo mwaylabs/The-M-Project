@@ -292,6 +292,9 @@ M.ListView = M.View.extend(
 
         /* Finally let the whole list look nice */
         this.themeUpdate();
+
+        /* At last fix the toolbar */
+        $.fixedToolbars.show();
     },
 
     /**
