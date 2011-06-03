@@ -467,7 +467,7 @@ M.ListView = M.View.extend(
 
         /* delegate event to external handler, if specified */
         if(nextEvent) {
-            M.EventDispatcher.callHandler(nextEvent, event, YES);
+            M.EventDispatcher.callHandler(nextEvent, event, NO, [listItemId, this.selectedItem.modelId]);
         }
     },
 
