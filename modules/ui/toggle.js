@@ -75,50 +75,28 @@ M.ToggleView = M.View.extend(
     renderChildViews: function() {
         if(this.childViews) {
             var childViews = this.getChildViewsAsArray();
-            var childViewIndex = this.isInFirstState ? 0 : 1;
 
-            if(this[childViews[childViewIndex]]) {
-                if(this.toggleOnClick) {
-                    this[childViews[childViewIndex]].internalEvents = {
-                        tap: {
-                            target: this,
-                            action: 'toggleView'
+            if(childViews.length !== 2) {
+                M.Logger.log('M.ToggleView requires exactly 2 child views, but ' + childViews.length + ' are given (' + (this.name ? this.name + ', ' : '') + this.id + ')!', M.WARN);
+            } else {
+                for(var i in childViews) {
+                    if(this[childViews[i]]) {
+                        if(this.toggleOnClick) {
+                            this[childViews[i]].internalEvents = {
+                                tap: {
+                                    target: this,
+                                    action: 'toggleView'
+                                }
+                            }
                         }
+                        this.currentView = this[childViews[i]];
+                        this[childViews[i]]._name = childViews[i];
+                        
+                        this.html += '<div id="' + this.id + '_' + i + '">';
+                        this.html += this[childViews[i]].render();
+                        this.html += '</div>';
                     }
                 }
-                this.currentView = this[childViews[childViewIndex]];
-                this[childViews[childViewIndex]]._name = childViews[childViewIndex];
-                this.html += this[childViews[childViewIndex]].render();
-            } else {
-                M.Logger.log('Please make sure that there are two child views defined for the toggle view!', M.WARN);
-            }
-        }
-    },
-
-    /**
-     * This method is called out of the toggleView method. It basically empties the html
-     * representation of the toggle view and then renders the proper child view based on
-     * the isInFirstState property: YES = first child view, NO = second child view.
-     */
-    renderUpdateChildViews: function() {
-        if(this.childViews) {
-            var childViews = this.getChildViewsAsArray();
-            var childViewIndex = this.isInFirstState ? 0 : 1;
-
-            if(this[childViews[childViewIndex]]) {
-                if(this.toggleOnClick) {
-                    this[childViews[childViewIndex]].internalEvents = {
-                        tap: {
-                            target: this,
-                            action: 'toggleView'
-                        }
-                    }
-                }
-                this[childViews[childViewIndex]].clearHtml();
-                this.currentView = this[childViews[childViewIndex]];
-                return this[childViews[childViewIndex]].render();
-            } else {
-                M.Logger.log('Please make sure that there are two child views defined for the toggle view!', M.WARN);
             }
         }
     },
@@ -129,14 +107,14 @@ M.ToggleView = M.View.extend(
      */
     toggleView: function(id, event, nextEvent) {
         this.isInFirstState = !this.isInFirstState;
-        this.removeChildViews();
-        $('#' + this.id).html(this.renderUpdateChildViews());
-        this.currentView.registerEvents();
-        this.theme();
+        var currentViewIndex = this.isInFirstState ? 0 : 1;
+        $('#' + this.id + '_' + currentViewIndex).show();
+        $('#' + this.id + '_' + (currentViewIndex > 0 ? 0 : 1)).hide();
 
-        /* if view is a M.ScrollView, we need to use the 'page' method of JQM for correct styling */
-        if(this.currentView && this.currentView.type === 'M.ScrollView') {
-            $('#' + this.currentView.id).page();
+        /* set current view */
+        var childViews = this.getChildViewsAsArray();
+        if(this[childViews[currentViewIndex]]) {
+            this.currentView = this[childViews[currentViewIndex]];
         }
 
         /* call jqm to fix header/footer */
@@ -154,7 +132,12 @@ M.ToggleView = M.View.extend(
      * @private
      */
     theme: function() {
-        this.themeChildViews();
+        if(this.currentView) {
+            this.themeChildViews();
+            var currentViewIndex = this.isInFirstState ? 0 : 1;
+
+            $('#' + this.id + '_' + (currentViewIndex > 0 ? 0 : 1)).hide();
+        }
     }
 
 });
