@@ -117,10 +117,23 @@ M.Controller = M.Object.extend(
      * @param {Object, String} value The value to be set.
      */
     set: function(key, value) {
-        this[key] = value;
+        var keyPath = key.split('.');
+
+        if(keyPath.length === 1) {
+            this[key] = value;
+        } else {
+            var t = (this[keyPath[0]] = this[keyPath[0]] ? this[keyPath[0]] : {});
+            for(var i = 1; i < keyPath.length - 1; i++) {
+                t = (t[keyPath[i]] = t[keyPath[i]] ? t[keyPath[i]] : {});
+            }
+
+            t[keyPath[keyPath.length - 1]] = value;
+        }
+
         if(!this.observable) {
             return;
         }
+
         this.observable.notifyObservers(key);
     }
 
