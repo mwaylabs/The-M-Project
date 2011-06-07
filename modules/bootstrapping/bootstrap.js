@@ -9,5 +9,8 @@ $(document).bind("mobileinit", function(){
     $.mobile.loadingMessage = '';
 });
 $(document).ready(function(){
-    /* do something on dom ready */
+    /* register orientationchange event for window and delegate to page */
+    $(window).bind('orientationchange', function(event){
+        $('#' + M.ViewManager.currentPage.id).trigger('orientationchange');
+    });
 });

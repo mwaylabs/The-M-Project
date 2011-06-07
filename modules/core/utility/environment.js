@@ -29,7 +29,14 @@ M.ONLINE = 'online';
  *
  * @type String
  */
-M.PORTRAIT = 0;
+M.PORTRAIT_TOP = 0;
+
+/**
+ * A constant value for inverse portrait orientation mode.
+ *
+ * @type String
+ */
+M.PORTRAIT_BOTTOM = 180;
 
 /**
  * A constant value for landscape right orientation mode.
@@ -175,11 +182,13 @@ M.Environment = M.Object.extend(
      */
     getOrientation: function() {
         switch(window.orientation) {
-            case M.PORTRAIT:
-                return M.PORTRAIT;
-            case M.LANDSCAPE_LEFT:
+            case 0:
+                return M.PORTRAIT_TOP;
+            case false:
+                return M.PORTRAIT_BOTTOM;
+            case 90:
                 return M.LANDSCAPE_LEFT;
-            case M.LANDSCAPE_RIGHT:
+            case -90:
                 return M.LANDSCAPE_RIGHT;
             default:
                 M.Logger.log('This device does not support orientation detection.', M.WARN);
