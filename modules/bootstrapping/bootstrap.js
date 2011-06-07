@@ -1,7 +1,7 @@
 $(document).bind("mobileinit", function(){
     /* redirect app, if there is already a location hash */
     if(document.location.hash) {
-        document.location = document.location.origin + document.location.pathname;
+        document.location = document.location.protocol + '//' + document.location.host + document.location.pathname;
     }
     //history.pushState(null, null, '#m_entryPage');
 
