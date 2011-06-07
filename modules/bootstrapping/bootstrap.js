@@ -1,7 +1,7 @@
 $(document).bind("mobileinit", function(){
     /* redirect app, if there is already a location hash */
     if(document.location.hash) {
-        document.location = document.location.origin + document.location.pathname;
+        document.location = document.location.protocol + '//' + document.location.host + document.location.pathname;
     }
     //history.pushState(null, null, '#m_entryPage');
 
@@ -9,8 +9,5 @@ $(document).bind("mobileinit", function(){
     $.mobile.loadingMessage = '';
 });
 $(document).ready(function(){
-    /* register orientationchange event for window and delegate to page */
-    $(window).bind('orientationchange', function(event){
-        $('#' + M.ViewManager.currentPage.id).trigger('orientationchange');
-    });
+    /* do something on dom ready */
 });
