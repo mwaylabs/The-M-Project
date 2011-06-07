@@ -74,9 +74,9 @@ M.Observable = M.Object.extend(
      */
     notifyObservers: function(key) {
         _.each(this.bindingList, function(entry){
-            if(key === entry.observable) {
+            if(key === entry.observable || (entry.observable.indexOf('.') > 0 && entry.observable.indexOf(key) > -1)) {
                 entry.observer.contentDidChange();
-            } else if(entry.observable.indexOf(key.substring(0, key.lastIndexOf('.'))) === 0) {//entry.observable.indexOf(key + '.') === 0 ||
+            } else if(key.indexOf('.') > 0 && entry.observable.indexOf(key.substring(0, key.lastIndexOf('.'))) === 0) {
                 entry.observer.contentDidChange();
             }
         });
