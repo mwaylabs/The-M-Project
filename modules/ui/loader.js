@@ -74,6 +74,7 @@ M.LoaderView = M.View.extend(
             this.render();
             this.hide();
             this.refCount = 0;
+	    this.isInitialized = YES;
         }
     },
 
