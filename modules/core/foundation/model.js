@@ -121,7 +121,7 @@ M.Model = M.Object.extend(
     createRecord: function(obj) {
 
         var rec = this.extend({
-            m_id: obj.m_id ? obj.m_id : M.Application.modelRegistry.getNextId(this.name),
+            m_id: obj.m_id ? obj.m_id : M.ModelRegistry.getNextId(this.name),
             record: obj /* properties that are added to record here, but are not part of __meta, are deleted later (see below) */
         });
         delete obj.m_id;
@@ -214,7 +214,7 @@ M.Model = M.Object.extend(
             model.dataProvider.isInitialized = YES;
         }
 
-        M.Application.modelRegistry.register(model.name);
+        M.ModelRegistry.register(model.name);
 
         /* save model in modelList with model name as key */
         this.modelList[model.name] = model;
@@ -223,7 +223,7 @@ M.Model = M.Object.extend(
         /* Model Registry stores the current id of a model type into localStorage */
         var m_id = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + model.name);
         if(m_id) {
-            M.Application.modelRegistry.setId(model.name, parseInt(m_id));
+            M.ModelRegistry.setId(model.name, parseInt(m_id));
         }
         return model;
     },

@@ -87,7 +87,7 @@ M.Controller = M.Object.extend(
      */
     switchToPage: function(page, transition, isBack, changeLoc) {
         var timeStart = M.Date.now();
-        page = page && typeof(page) === 'object' ? page : M.Application.viewManager.getPage(page);
+        page = page && typeof(page) === 'object' ? page : M.ViewManager.getPage(page);
 
         if(page) {
             transition = transition ? transition : M.TRANSITION.SLIDE;
@@ -105,7 +105,7 @@ M.Controller = M.Object.extend(
             }
 
             /* Save the current page in the view manager */
-            M.Application.viewManager.setCurrentPage(page);
+            M.ViewManager.setCurrentPage(page);
         } else {
             M.Logger.log('Page "' + page + '" not found', M.ERR);
         }

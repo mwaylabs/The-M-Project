@@ -36,34 +36,6 @@ M.Application = M.Object.extend(
     name: null,
 
     /**
-     * The application's view manager.
-     *
-     * @type Object
-     */
-    viewManager: M.ViewManager,
-
-    /**
-     * The application's model registry.
-     *
-     * @type Object
-     */
-    modelRegistry: M.ModelRegistry,
-
-    /**
-     * The application's event dispatcher.
-     *
-     * @type Object
-     */
-    eventDispatcher: M.EventDispatcher,
-
-    /**
-     * The application's cypher object, used for encoding and decoding.
-     *
-     * @type Object
-     */
-    cypher: M.Cypher,
-
-    /**
      * The application's current language.
      *
      * @type String
@@ -106,13 +78,6 @@ M.Application = M.Object.extend(
     entryPage: null,
 
     /**
-     * This property is used to store the application's title.
-     *
-     * @type String
-     */
-    applicationTitle: '',
-
-    /**
      * This property is specify whether the app is in production or development mode. This affects the
      * logger, since we do not write to the console in production mode.
      *
@@ -152,9 +117,6 @@ M.Application = M.Object.extend(
      */
     main: function() {
         var that = this;
-
-        /* get the application's title */
-        this.applicationTitle = document.title;
 
         /* first lets get the entry page and remove it from pagelist and viewlist */
         var entryPage = M.ViewManager.getPage(M.Application.entryPage);

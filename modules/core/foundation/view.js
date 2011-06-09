@@ -227,8 +227,8 @@ M.View = M.Object.extend(
      */
     design: function(obj) {
         var view = this.extend(obj);
-        view.id = M.Application.viewManager.getNextId();
-        M.Application.viewManager.register(view);
+        view.id = M.ViewManager.getNextId();
+        M.ViewManager.register(view);
 
         view.attachToObservable();
         
