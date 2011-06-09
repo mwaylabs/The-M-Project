@@ -72,6 +72,11 @@ M.Logger = M.Object.extend(
     log: function(msg, level) {
         level = level || M.DEBUG;
 
+        /* are we in production mode, then to not throw any logs */
+        if(M.Application.isInProduction) {
+            return;
+        }
+
         /* Prevent a console.log from blowing things up if we are on a browser that doesn't support this. */
         if (typeof console === 'undefined') {
             window.console = {} ;

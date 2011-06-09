@@ -113,6 +113,16 @@ M.Application = M.Object.extend(
     applicationTitle: '',
 
     /**
+     * This property is specify whether the app is in production or development mode. This affects the
+     * logger, since we do not write to the console in production mode.
+     *
+     * Note: JavaScript errors, that are not catched by the framework might write to the console anyway!
+     *
+     * @type Boolean
+     */
+    isInProduction: NO,
+
+    /**
      * This method encapsulates the 'include' method of M.Object for better reading of code syntax.
      * Basically it integrates the defined pages within the application into M.Application and sets
      * some basic configuration properties, e.g. the default language.
