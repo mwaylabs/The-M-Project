@@ -214,22 +214,16 @@ M.TextFieldView = M.View.extend(
      * This is a special implementation for M.TextFieldView.
      */
     contentDidChange: function(){
-        var contentBinding = this.contentBinding ? this.contentBinding : (this.computedValue) ? this.computedValue.contentBinding : null;
-
-        if(!contentBinding || (this.hasFocus)) {
+        /* if the text field has the focus, we do not apply the content binding */
+        if(this.hasFocus) {
             return;
         }
 
-        if(this.contentBinding) {
-            this.value = contentBinding.target[contentBinding.property];
-        } else if(this.computedValue.contentBinding) {
-            this.computedValue.value = contentBinding.target[contentBinding.property];
-        }
+        /* let M.View do the real job */
+        this.bindToCaller(this, M.View.contentDidChange)();
 
         this.renderUpdate();
         this.delegateValueUpdate();
-
-        /* TODO: ADD CONTENT BINDING FOR MORE THAN ONE LEVEL */
     },
 
     /**
