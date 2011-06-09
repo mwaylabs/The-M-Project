@@ -120,24 +120,24 @@ M.Application = M.Object.extend(
 
         /* first lets get the entry page and remove it from pagelist and viewlist */
         var entryPage = M.ViewManager.getPage(M.Application.entryPage);
-        delete this.viewManager.viewList[entryPage.id];
-        delete this.viewManager.pageList[entryPage.id];
+        delete M.ViewManager.viewList[entryPage.id];
+        delete M.ViewManager.pageList[entryPage.id];
 
         /* set the default id 'm_entryPage' for entry page */
         entryPage.id = 'm_entryPage';
 
         /* now lets render entry page to get it into the DOM first and set it as the current page */
         entryPage.render();
-        this.viewManager.setCurrentPage(entryPage);
+        M.ViewManager.setCurrentPage(entryPage);
 
         /* now lets render all other pages */
-        _.each(this.viewManager.pageList, function(page) {
+        _.each(M.ViewManager.pageList, function(page) {
             page.render();
         });
 
         /* finally add entry page back to pagelist and view list, but with new key 'm_entryPage' */
-        this.viewManager.viewList['m_entryPage'] = entryPage;
-        this.viewManager.pageList['m_entryPage'] = entryPage;
+        M.ViewManager.viewList['m_entryPage'] = entryPage;
+        M.ViewManager.pageList['m_entryPage'] = entryPage;
     }
 
 });
