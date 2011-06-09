@@ -116,9 +116,6 @@ M.SelectionListView = M.View.extend(
      * list will return nothing. Once a 'real' option is selected, this value is
      * removed from the selection list.
      *
-     * Note: This property currently doesn't support non-themed selection lists (see the
-     * applyTheme property).
-     *
      * @type String
      */
     initialText: null,
@@ -179,7 +176,6 @@ M.SelectionListView = M.View.extend(
             }
 
             this.html += '<select name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>';
-            //this.html += '<select data-native-menu="' + !this.applyTheme + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>';
 
             this.renderChildViews();
 
@@ -187,7 +183,7 @@ M.SelectionListView = M.View.extend(
 
         } else {
 
-            this.html += '<fieldset data-role="controlgroup" data-native-menu="' + !this.applyTheme + '" id="' + this.id + '">';
+            this.html += '<fieldset data-role="controlgroup" data-native-menu="false" id="' + this.id + '">';
 
             if(this.label) {
                 this.html += '<legend>' + this.label + '</legend>';
@@ -327,12 +323,12 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             $('#' + this.id).selectmenu();
             if(this.initialText && !this.selection) {
                 $('#' + this.id + '_container').find('.ui-btn-text').html(this.initialText);
             }
-        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
+        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
             $('#' + this.id).controlgroup();
         }
     },
@@ -343,7 +339,7 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     themeUpdate: function() {
-        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             $('#' + this.id).selectmenu('refresh');
             if(this.initialText && !this.selection) {
                 $('#' + this.id + '_container').find('.ui-btn-text').html(this.initialText);
@@ -464,42 +460,26 @@ M.SelectionListView = M.View.extend(
                     item.isSelected = YES;
                     that.selection = item;
                     $(this).attr('checked', 'checked');
-                    if(that.applyTheme) {
-                        $(this).siblings('label:first').addClass('ui-btn-active');
-                        $(this).siblings('label:first').find('span .ui-icon-radio-off').addClass('ui-icon-radio-on');
-                        $(this).siblings('label:first').find('span .ui-icon-radio-off').removeClass('ui-icon-radio-off');
-                    }
+                    $(this).siblings('label:first').addClass('ui-btn-active');
+                    $(this).siblings('label:first').find('span .ui-icon-radio-off').addClass('ui-icon-radio-on');
+                    $(this).siblings('label:first').find('span .ui-icon-radio-off').removeClass('ui-icon-radio-off');
                 }
             });
         } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && typeof(selection) === 'string') {
-            if(this.applyTheme) {
-                $('#' + this.id).find('option').each(function() {
-                    var item = M.ViewManager.getViewById($(this).attr('id'));
-                    if(item.value === selection) {
-                        that.removeSelection();
-                        item.isSelected = YES;
-                        that.selection = item;
-                        $('#' + that.id).val(item.value);
-                        if(that.initialText && $('#' + that.id + '-button').find('span.ui-btn-text').html() === that.initialText) {
-                            $('#' + that.id + '-button').find('span.ui-btn-text').html(item.label ? item.label : item.value);
-                        }
+            $('#' + this.id).find('option').each(function() {
+                var item = M.ViewManager.getViewById($(this).attr('id'));
+                if(item.value === selection) {
+                    that.removeSelection();
+                    item.isSelected = YES;
+                    that.selection = item;
+                    $('#' + that.id).val(item.value);
+                    if(that.initialText && $('#' + that.id + '-button').find('span.ui-btn-text').html() === that.initialText) {
+                        $('#' + that.id + '-button').find('span.ui-btn-text').html(item.label ? item.label : item.value);
                     }
-                });
-                this.initialText = null;
-                $('#' + this.id).selectmenu('refresh');
-            } else {
-                $('#' + this.id).find('option').each(function() {
-                    var item = M.ViewManager.getViewById($(this).attr('id'));
-                    if(item.value === selection) {
-                        item.isSelected = YES;
-                        that.selection = item;
-                        $(this).attr('selected', 'selected');
-                    } else {
-                        item.isSelected = NO;
-                        $(this).attr('selected', '');
-                    }
-                });
-            }
+                }
+            });
+            this.initialText = null;
+            $('#' + this.id).selectmenu('refresh');
         } else if(typeof(selection) === 'object') {
             var removedItems = NO;
             $('#' + this.id).find('input').each(function() {
@@ -514,11 +494,9 @@ M.SelectionListView = M.View.extend(
                         item.isSelected = YES;
                         that.selection.push(item);
                         $(this).attr('checked', 'checked');
-                        if(that.applyTheme) {
-                            $(this).siblings('label:first').addClass('ui-btn-active');
-                            $(this).siblings('label:first').find('span .ui-icon-checkbox-off').addClass('ui-icon-checkbox-on');
-                            $(this).siblings('label:first').find('span .ui-icon-checkbox-off').removeClass('ui-icon-checkbox-off');
-                        }
+                        $(this).siblings('label:first').addClass('ui-btn-active');
+                        $(this).siblings('label:first').find('span .ui-icon-checkbox-off').addClass('ui-icon-checkbox-on');
+                        $(this).siblings('label:first').find('span .ui-icon-checkbox-off').removeClass('ui-icon-checkbox-off');
                     }
                 }
             });
@@ -550,11 +528,9 @@ M.SelectionListView = M.View.extend(
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 item.isSelected = NO;
                 $(this).removeAttr('checked');
-                if(that.applyTheme) {
-                    $(this).siblings('label:first').removeClass('ui-btn-active');
-                    $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').addClass('ui-icon-' + type + '-off');
-                    $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').removeClass('ui-icon-' + type + '-on');
-                }
+                $(this).siblings('label:first').removeClass('ui-btn-active');
+                $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').addClass('ui-icon-' + type + '-off');
+                $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').removeClass('ui-icon-' + type + '-on');
             });
         } else {
             $('#' + this.id).find('option').each(function() {

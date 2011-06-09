@@ -70,7 +70,7 @@ M.SelectionListItemView = M.View.extend(
 
             this.html += '</option>';
         } else {
-            this.html += '<input type="' + this.parentView.selectionMode + '" data-native-menu="' + !this.applyTheme + '" id="' + this.id + '"';
+            this.html += '<input type="' + this.parentView.selectionMode + '" data-native-menu="false" id="' + this.id + '"';
 
             if(this.parentView.selectionMode === M.SINGLE_SELECTION) {
                 this.html += ' name="' + (this.parentView.name ? this.parentView.name : this.parentView.id) + '"';
@@ -107,7 +107,7 @@ M.SelectionListItemView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.parentView && this.applyTheme && this.parentView.applyTheme) {
+        if(this.parentView) {
             if(this.parentView.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
                 $('#' + this.id).checkboxradio();
             }
