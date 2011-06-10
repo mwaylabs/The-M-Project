@@ -368,6 +368,8 @@ M.SelectionListView = M.View.extend(
      * changed, the defined onSelect action is triggered.
      *
      * @param {String} id The id of the selected item.
+     * @param {Object} event The event.
+     * @param {Object} nextEvent The application-side event handler.
      */
     itemSelected: function(id, event, nextEvent) {
         var item = null;
