@@ -293,21 +293,14 @@ M.SelectionListView = M.View.extend(
             for(var i in items) {
                 var item  = items[i];
                 var obj = null;
-                if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
-                    obj = M.SelectionListItemView.design({
-                        value: item.value ? item.value : item,
-                        label: item.label ? item.label : (item.value ? item.value : item),
-                        parentView: this,
-                        isSelected: item.isSelected
-                    });
-                } else {
-                    obj = M.SelectionListItemView.design({
-                        value: item.value,
-                        label: item.label,
-                        name: item.name,
-                        isSelected: item.isSelected,
-                        parentView: this
-                    });
+                obj = M.SelectionListItemView.design({
+                    value: item.value ? item.value : '',
+                    label: item.label ? item.label : (item.value ? item.value : ''),
+                    parentView: this,
+                    isSelected: item.isSelected
+                });
+                if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
+                    obj.name = item.name ? item.name : (item.label ? item.label : (item.value ? item.value : ''));
                 }
 
                 this.addItem(obj.render());
