@@ -96,6 +96,8 @@ M.LoaderView = M.View.extend(
 
     /**
      * This method hides the loader.
+     *
+     * @param {Boolean} force Determines whether to force the hide of the loader.
      */
     hide: function(force) {
         if(force || this.refCount <= 0) {
