@@ -1,8 +1,10 @@
-** Version 0.6pre - Date 06.06.2011 **
+** Version 0.6pre - Date 10.06.2011 **
 
   * Refactored content binding (3): set() now can set single values of a chain like 'person.address.street'
   * Added 'orientationchange' event to M.PageView
   * Fixed M.LoaderView
+  * Removed useless properties of M.Application (viewManager, modelRegistry, ...)
+  * Added 'isInProduction' property to M.Application which disables M.Logger if set to YES
 
 ** Version 0.5 - Date 03.06.2011 **
 
