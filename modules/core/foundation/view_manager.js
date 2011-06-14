@@ -108,11 +108,11 @@ M.ViewManager = M.Object.extend(
     },
 
     /**
-     * Removes the view from the viewlist array.
+     * Unregisters the view from the viewlist array.
      *
-     * @param {Object} view The view to be removed from the viewlist.
+     * @param {Object} view The view to be unregistered from the viewlist.
      */
-    remove: function(view) {
+    unregister: function(view) {
         delete this.viewList[view.id];
     },
 
