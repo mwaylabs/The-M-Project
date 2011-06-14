@@ -109,6 +109,8 @@ M.Object =
      */
     destroy: function() {
         if(this.id && $('#' + this.id)) {
+            M.EventDispatcher.unregisterEvents(this);
+            M.ViewManager.unregister(this);
             $('#' + this.id).remove();
         }
         delete this;
