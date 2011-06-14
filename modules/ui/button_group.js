@@ -412,6 +412,10 @@ M.ButtonGroupView = M.View.extend(
      * @param {Object} nextEvent The application-side event handler.
      */
     buttonSelected: function(id, event, nextEvent) {
+        if(this.activeButton && this.activeButton === M.ViewManager.getViewById(id)) {
+            return;
+        }
+
         if(this.isSelectable) {
             if(this.activeButton) {
                 this.activeButton.removeCssClass('ui-btn-active');
