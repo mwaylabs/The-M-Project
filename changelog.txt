@@ -1,10 +1,15 @@
-** Version 0.6pre - Date 10.06.2011 **
+** Version 0.6pre - Date 14.06.2011 **
 
   * Refactored content binding (3): set() now can set single values of a chain like 'person.address.street'
   * Added 'orientationchange' event to M.PageView
   * Fixed M.LoaderView
   * Removed useless properties of M.Application (viewManager, modelRegistry, ...)
   * Added 'isInProduction' property to M.Application which disables M.Logger if set to YES
+  * Refactored M.MapView: Load google maps api only if connection available (this fixes a bug with the cache manifest)
+  * Added unregisterEvents() to M.EventDispatcher
+  * Renamed remove() to unregister() in M.ViewManager
+  * Refactored destroy() in M.Application: Additionally unregister a view from both the event dispatcher and the view manager
+  * Added setActiveButtonAtIndex() to M.ButtonGroupView
 
 ** Version 0.5 - Date 03.06.2011 **
 
