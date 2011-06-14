@@ -90,7 +90,6 @@ M.ToggleView = M.View.extend(
                                 }
                             }
                         }
-                        this.currentView = this[childViews[i]];
                         this[childViews[i]]._name = childViews[i];
                         
                         this.html += '<div id="' + this.id + '_' + i + '">';
@@ -98,6 +97,7 @@ M.ToggleView = M.View.extend(
                         this.html += '</div>';
                     }
                 }
+                this.currentView = this[childViews[0]];
             }
         }
     },
