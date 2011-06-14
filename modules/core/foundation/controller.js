@@ -80,7 +80,7 @@ M.Controller = M.Object.extend(
     /**
      * Switch the active page in the application.
      *
-     * @param {Object, String} page The page to be displayed or its name.
+     * @param {Object|String} page The page to be displayed or its name.
      * @param {String} transition The transition that should be used. Default: horizontal slide
      * @param {Boolean} isBack YES will cause a reverse-direction transition. Default: NO
      * @param {Boolean} changeLoc Update the browser history. Default: YES
@@ -115,7 +115,7 @@ M.Controller = M.Object.extend(
      * Returns the class property behind the given key and informs its observers.
      *
      * @param {String} key The key of the property to be changed.
-     * @param {Object, String} value The value to be set.
+     * @param {Object|String} value The value to be set.
      */
     set: function(key, value) {
         var keyPath = key.split('.');

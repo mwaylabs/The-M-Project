@@ -133,7 +133,7 @@ M.Request = M.Object.extend(
 
     /**
      * The callback to be called if the request succeeded.
-     * @param {String, Object} data The data returned from the server.
+     * @param {String|Object} data The data returned from the server.
      * @param {String} msg A String describing the status.
      * @param {Object} request The XMLHttpRequest object.
      */

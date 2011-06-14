@@ -144,7 +144,7 @@ M.ViewManager = M.Object.extend(
      *
      * Note: Try to use unique names for your views within the same surrounding view!
      *
-     * @param {String, Object} parentView The name of the parent view (if it is a page) or the parent view itself.
+     * @param {String|Object} parentView The name of the parent view (if it is a page) or the parent view itself.
      * @param {String} targetView The name of the view to be returned.
      * @returns {Object} The view object from the view list identified by the view's name and the page where it's on.
      */

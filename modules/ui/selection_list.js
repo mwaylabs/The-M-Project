@@ -412,7 +412,7 @@ M.SelectionListView = M.View.extend(
      * or as an Array (M.MULTIPLE_SELECTION).
      *
      * @param {Boolean} returnObject Determines whether to return the selected item(s) as object or not.
-     * @returns {String, Object, Array} The selected item's value(s).
+     * @returns {String|Object|Array} The selected item's value(s).
      */
     getSelection: function(returnObject) {
         if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
@@ -443,7 +443,7 @@ M.SelectionListView = M.View.extend(
      * This method can be used to select items programmatically. The given parameter can either
      * be a String (M.SINGLE_SELECTION) or an Array (M.MULTIPLE_SELECTION).
      *
-     * @param {String, Array} selection The selection that should be applied to the selection list.
+     * @param {String|Array} selection The selection that should be applied to the selection list.
      */
     setSelection: function(selection) {
         var that = this;

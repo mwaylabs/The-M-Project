@@ -39,7 +39,7 @@ M.EventDispatcher = M.Object.extend(
     /**
      * This method is used to register events and link them to a corresponding action.
      * 
-     * @param {String, Object} eventSource The view's id or a DOM object.
+     * @param {String|Object} eventSource The view's id or a DOM object.
      * @param {Object} events The events to be registered for the given view or DOM object.
      */
     registerEvents: function(eventSource, events, recommendedEvents, sourceType) {
@@ -63,7 +63,7 @@ M.EventDispatcher = M.Object.extend(
      * and link them to a corresponding action.
      *
      * @param {String} type The type of the event.
-     * @param {String, Object} eventSource The view's id, the view object or a DOM object.
+     * @param {String|Object} eventSource The view's id, the view object or a DOM object.
      * @param {Object} handler The handler for the event.
      * @param {Object} recommendedEvents The recommended events for this event source.
      * @param {Object} sourceType The type of the event source.
@@ -174,7 +174,7 @@ M.EventDispatcher = M.Object.extend(
     /**
      * This method is used to get the event source as a DOM object.
      *
-     * @param {Object, String} eventSource The event source.
+     * @param {Object|String} eventSource The event source.
      * @return {Object} The event source as dom object.
      */
     getEventSource: function(eventSource) {

@@ -98,7 +98,7 @@ M.Object =
      * Returns the class property behind the given key.
      *
      * @param {String} key The key of the property to be changed.
-     * @param {Object, String} value The value to be set.
+     * @param {Object|String} value The value to be set.
      */
     set: function(key, value) {
         this[key] = value;

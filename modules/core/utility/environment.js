@@ -179,7 +179,7 @@ M.Environment = M.Object.extend(
      *   - M.LANDSCAPE_LEFT
      *   - M.LANDSCAPE_RIGHT
      *
-     * @return {Number, Boolean} The orientation type as a constant value. (If the orientation can not be detected: NO.)
+     * @return {Number|Boolean} The orientation type as a constant value. (If the orientation can not be detected: NO.)
      */
     getOrientation: function() {
         switch(window.orientation) {
