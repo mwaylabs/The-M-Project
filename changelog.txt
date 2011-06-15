@@ -11,6 +11,7 @@
   * Refactored destroy() in M.Application: Additionally unregister a view from both the event dispatcher and the view manager
   * Added setActiveButtonAtIndex() to M.ButtonGroupView
   * Removed applyTheme property
+  * Fixed a bug in renderUpdate() of M.ButtonView
 
 ** Version 0.5 - Date 03.06.2011 **
 
