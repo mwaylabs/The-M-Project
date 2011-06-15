@@ -533,6 +533,25 @@ M.SelectionListView = M.View.extend(
                 item.isSelected = NO;
             });
         }
+    },
+
+    /**
+     * This method can be used to reset the selection list. This basically discards
+     * all changes made to the selection by the user or any application-sided calls
+     * and applies the original state.
+     *
+     * The 'original state' can either be the bound content or the state, specified
+     * by the originally assigned child views.
+     *
+     * Note: So far this only works for selection list views using content binding!
+     */
+    resetSelection: function() {
+        if(this.contentBinding) {
+            this.removeSelection();
+            this.renderUpdate();
+        } else {
+            // TODO: add functionality for selection list views that do not use content binding!
+        }
     }
 
 });
