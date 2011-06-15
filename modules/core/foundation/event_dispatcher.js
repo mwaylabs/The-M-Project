@@ -117,7 +117,19 @@ M.EventDispatcher = M.Object.extend(
                 that.bindToCaller(handler.target, handler.action, [event.currentTarget.id ? event.currentTarget.id : event.currentTarget, event])();
             }
         });
+    },
 
+    /**
+     * This method can be used to unregister events.
+     *
+     * @param {String|Object} eventSource The view's id, the view object or a DOM object.
+     */
+    unregisterEvents: function(eventSource) {
+        eventSource = this.getEventSource(eventSource);
+        if(!this.checkEventSource(eventSource)) {
+            return;
+        }
+        eventSource.unbind();
     },
 
     /**

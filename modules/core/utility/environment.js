@@ -53,7 +53,6 @@ M.LANDSCAPE_RIGHT = -90;
  */
 M.LANDSCAPE_LEFT = 90;
 
-
 /**
  * @class
  *
@@ -68,28 +67,50 @@ M.Environment = M.Object.extend(
 /** @scope M.Environment.prototype */ {
 
     /**
+     * The type of this object.
+     *
+     * @type String
+     */
+    type: 'M.Environment',
+
+    /**
      * Checks the connection status by sending an ajax request
      * and waiting for the response to decide whether online or offline.
      *
      * The callback is called when the request returns successful or times out. The parameter to callback is a
      * string saying either offline or online.
      *
-     * @param {function} callback The function to be called when request returns.
-     * @param {String} url Optional. The request url. When not given, a request is made to google.com. (Note: Add a proxy: /google)
-     * @param {Number} timeout Optional. Time in milliseconds until request is considered to be timed out. Defaults to 5 seconds.
+     * @param {Object} callback The object, consisting of target and action, defining the callback.
+     * @param {String} url Optional. The request url. When not given, a request is made to http://www.google.de/images/logos/ps_logo2.png.
      */
-    getConnectionStatus: function(callback, url, timeout){
-        M.Request.init({
-            url: url ? url : '/google',
-            isJSON: NO,
-            timeout: timeout ? timeout : 5000,
-            onSuccess: function(data){
-                callback(M.ONLINE);
-            },
-            onError: function(data){
-                callback(M.OFFLINE);
+    getConnectionStatus: function(callback, url){
+        url = url ? url : 'http://www.google.de/images/logos/ps_logo2.png';
+        var that = this;
+        var image = M.ImageView.design({
+            value: url,
+            events: {
+                load: {
+                    action: function(id) {
+                        var image = M.ViewManager.getViewById(id);
+                        image.destroy();
+                        if(callback && M.EventDispatcher.checkHandler(callback, 'online')){
+                            that.bindToCaller(callback.target, callback.action, M.ONLINE)();
+                        }
+                    }
+                },
+                error: {
+                    action: function(id) {
+                        var image = M.ViewManager.getViewById(id);
+                        image.destroy();
+                        if(callback && M.EventDispatcher.checkHandler(callback, 'offline')){
+                            that.bindToCaller(callback.target, callback.action, M.OFFLINE)();
+                        }
+                    }
+                }
             }
-        }).send();
+        });
+        $('body').append(image.render());
+        image.registerEvents();
     },
 
     /**

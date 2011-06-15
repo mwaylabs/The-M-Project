@@ -296,7 +296,7 @@ M.View = M.Object.extend(
                 this[childViews[i]].removeChildViews();
             }
             this[childViews[i]].destroy();
-            M.ViewManager.remove(this[childViews[i]]);
+            M.ViewManager.unregister(this[childViews[i]]);
         }
         $('#' + this.id).empty();
     },
