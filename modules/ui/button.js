@@ -114,7 +114,11 @@ M.ButtonView = M.View.extend(
      */
     renderUpdate: function() {
         this.computeValue();
-        $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
+        if(this.parentView && this.parentView.type === 'M.ButtonGroupView') {
+            $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
+        } else {
+            $('#' + this.id).find('.ui-btn-text').text(this.value);
+        }
     },
 
     /**
