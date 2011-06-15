@@ -114,7 +114,6 @@ M.ButtonView = M.View.extend(
      */
     renderUpdate: function() {
         this.computeValue();
-        this.theme();
         $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
     },
 
