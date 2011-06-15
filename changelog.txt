@@ -10,6 +10,7 @@
   * Renamed remove() to unregister() in M.ViewManager
   * Refactored destroy() in M.Application: Additionally unregister a view from both the event dispatcher and the view manager
   * Added setActiveButtonAtIndex() to M.ButtonGroupView
+  * Removed applyTheme property
 
 ** Version 0.5 - Date 03.06.2011 **
 
