@@ -138,6 +138,19 @@ M.SelectionListView = M.View.extend(
     isGrouped: NO,
 
     /**
+     * This property is used internally to store the selection list's initial state. This is used to be able
+     * to reset the selection list later on using the resetSelection method.
+     *
+     * Note: This property is only used if the selection list's child views are specified directly (without
+     * content binding). Otherwise the state is stored within the content binding and does not need to be
+     * stored with this selection list.
+     *
+     * @private
+     * @type Object
+     */
+    initialState: null,
+
+    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array
@@ -151,6 +164,9 @@ M.SelectionListView = M.View.extend(
      * @returns {String} The selection list view's html representation.
      */
     render: function() {
+
+        /* initialize the initialState property as new array */
+        this.initialState = [];
 
         this.html += '<div id="' + this.id + '_container"';
 
@@ -216,6 +232,13 @@ M.SelectionListView = M.View.extend(
                     view.parentView = this;
                     view._name = childViews[i];
                     this.html += view.render();
+
+                    /* store list item in initialState property */
+                    this.initialState.push({
+                        value: view.value,
+                        label: view.label,
+                        isSelected: view.isSelected
+                    });
                 } else {
                     M.Logger.log('Invalid child views specified for SelectionListView. Only SelectionListItemViews accepted.', M.WARN);
                 }
@@ -542,15 +565,18 @@ M.SelectionListView = M.View.extend(
      *
      * The 'original state' can either be the bound content or the state, specified
      * by the originally assigned child views.
-     *
-     * Note: So far this only works for selection list views using content binding!
      */
     resetSelection: function() {
         if(this.contentBinding) {
             this.removeSelection();
             this.renderUpdate();
         } else {
-            // TODO: add functionality for selection list views that do not use content binding!
+            this.contentBinding = {};
+            this.contentBinding.target = this;
+            this.contentBinding.property = 'initialState';
+            this.removeSelection();
+            this.renderUpdate();
+            this.contentBinding = null;
         }
     }
 
