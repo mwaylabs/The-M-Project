@@ -427,31 +427,29 @@ M.ButtonGroupView = M.View.extend(
      * @param {Object} nextEvent The application-side event handler.
      */
     buttonSelected: function(id, event, nextEvent) {
-        if(this.activeButton && this.activeButton === M.ViewManager.getViewById(id)) {
-            return;
-        }
+        if(!(this.activeButton && this.activeButton === M.ViewManager.getViewById(id))) {
+            if(this.isSelectable) {
+                if(this.activeButton) {
+                    this.activeButton.removeCssClass('ui-btn-active');
+                    this.activeButton.isActive = NO;
+                }
 
-        if(this.isSelectable) {
-            if(this.activeButton) {
-                this.activeButton.removeCssClass('ui-btn-active');
-                this.activeButton.isActive = NO;
-            }
-
-            var button = M.ViewManager.getViewById(id);
-            if(!button) {
-                if(id && typeof(id) === 'object' && id.type === 'M.ButtonView') {
-                    button = id;
+                var button = M.ViewManager.getViewById(id);
+                if(!button) {
+                    if(id && typeof(id) === 'object' && id.type === 'M.ButtonView') {
+                        button = id;
+                    }
+                }
+                if(button) {
+                    button.addCssClass('ui-btn-active');
+                    button.isActive = YES;
+                    this.activeButton = button;
                 }
             }
-            if(button) {
-                button.addCssClass('ui-btn-active');
-                button.isActive = YES;
-                this.activeButton = button;
-            }
-        }
 
-        /* trigger change event for the button group */
-        $('#' + this.id).trigger('change');
+            /* trigger change event for the button group */
+            $('#' + this.id).trigger('change');
+        }
 
         /* delegate event to external handler, if specified */
         if(nextEvent) {
