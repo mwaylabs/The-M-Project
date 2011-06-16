@@ -12,6 +12,7 @@
   * Added setActiveButtonAtIndex() to M.ButtonGroupView
   * Removed applyTheme property
   * Fixed a bug in renderUpdate() of M.ButtonView
+  * Added resetSelection() to M.SelectionListView
 
 ** Version 0.5 - Date 03.06.2011 **
 
