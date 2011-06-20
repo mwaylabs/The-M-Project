@@ -115,14 +115,6 @@ M.TextFieldView = M.View.extend(
     hasMultipleLines: NO,
 
     /**
-     * A boolean value to determine whether a view has a value or not. A text field view does have
-     * a value, so it is set to YES.
-     *
-     * @type Boolean
-     */
-    hasValue: YES,
-
-    /**
      * This property specifies the input type of this input field. Possible values are:
      *
      *   - M.INPUT_TEXT --> text input (default)
