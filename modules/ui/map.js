@@ -107,7 +107,7 @@ M.MapView = M.View.extend(
      *   - M.MAP_ROADMAP --> This map type displays a normal street map.
      *   - M.MAP_HYBRID --> This map type displays a transparent layer of major streets on satellite images.
      *   - M.MAP_SATELLITE --> This map type displays satellite images.
-     *   - M.MAP_TERRAIN --> This map type displays maps with physical features such as terrain and vegetation.     *
+     *   - M.MAP_TERRAIN --> This map type displays maps with physical features such as terrain and vegetation.
      *
      * For further information see the google maps API specification:
      *
