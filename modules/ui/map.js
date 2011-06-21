@@ -228,7 +228,7 @@ M.MapView = M.View.extend(
      *
      * @type Array
      */
-    recommendedEvents: ['click', 'tap', 'connectionerror'],
+    recommendedEvents: ['click', 'tap'],
 
     /**
      * Renders a map view, respectively a map view container.
