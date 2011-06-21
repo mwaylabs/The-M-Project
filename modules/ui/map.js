@@ -100,13 +100,21 @@ M.MapView = M.View.extend(
     zoomLevel: 15,
 
     /**
-     * This property specifies the zoom level for this map view. It is directly
-     * mapped to the zoom property of a google map view. For further information
-     * see the google maps API specification:
+     * This property specifies the map type for this map view. It is directly
+     * mapped to the 'mapTypeId' property of a google map view. Possible values
+     * for this property are:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   - M.MAP_ROADMAP --> This map type displays a normal street map.
+     *   - M.MAP_HYBRID --> This map type displays a transparent layer of major streets on satellite images.
+     *   - M.MAP_SATELLITE --> This map type displays satellite images.
+     *   - M.MAP_TERRAIN --> This map type displays maps with physical features such as terrain and vegetation.
      *
-     * @type Number
+     *
+     * For further information see the google maps API specification:
+     *
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+     *
+     * @type String
      */
     mapType: M.MAP_ROADMAP,
 
@@ -115,7 +123,7 @@ M.MapView = M.View.extend(
      * inside of this map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
      *
      * @type Boolean
      */
@@ -126,7 +134,7 @@ M.MapView = M.View.extend(
      * inside of this map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
      *
      * @type Boolean
      */
@@ -137,7 +145,7 @@ M.MapView = M.View.extend(
      * inside of this map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
      *
      * @type Boolean
      */
@@ -148,7 +156,7 @@ M.MapView = M.View.extend(
      * a user won't be able to move the map, respectively the visible sector. For
      * further information see the google maps API specification:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
      *
      * @type Boolean
      */
@@ -160,7 +168,7 @@ M.MapView = M.View.extend(
      * property of a google map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
      *
      * @type M.Location
      */
