@@ -134,23 +134,13 @@ M.Environment = M.Object.extend(
     },
 
     /**
-     * Returns the browser version as received from navigator object.
-     * E.g. "5.0 (Macintosh; U; Intel Mac OS X 10_6_5; en-US) AppleWebKit/534.7 (KHTML, like Gecko) Chrome/7.0.517.44 Safari/534.7"
-     *
-     * @returns {String} The user's browser.
-     */
-    getBrowserName: function() {
-        return navigator.appName;
-    },
-
-    /**
      * Returns the currently available width and height of the browser window
      * as an array:
      *
      * 0 -> width
      * 1 -> height
      *
-     * @returns {Array} The widht and height of the user's browser window.
+     * @returns {Array} The width and height of the user's browser window.
      */
     getSize: function() {
         var viewportWidth;
