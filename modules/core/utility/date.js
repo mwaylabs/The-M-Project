@@ -179,6 +179,7 @@ M.Date = M.Object.extend(
      * dd 	    Day of the month as digits; leading zero for single-digit days.
      * ddd 	    Day of the week as a three-letter abbreviation.
      * dddd 	Day of the week as its full name.
+     * D 	    Day of the week as number.
      * m 	    Month as digits; no leading zero for single-digit months.
      * mm 	    Month as digits; leading zero for single-digit months.
      * mmm 	    Month as a three-letter abbreviation.
