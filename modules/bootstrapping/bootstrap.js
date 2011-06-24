@@ -14,10 +14,6 @@ $(document).bind("mobileinit", function(){
     if(document.location.hash) {
         document.location = document.location.protocol + '//' + document.location.host + document.location.pathname;
     }
-    //history.pushState(null, null, '#m_entryPage');
-
-    /* disable default loader of jqm */
-    $.mobile.loadingMessage = '';
 });
 $(document).ready(function(){
     /* do something on dom ready */

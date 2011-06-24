@@ -48,20 +48,6 @@ M.LoaderView = M.View.extend(
      * @type String
      */
     defaultTitle: 'loading',
-
-    /**
-     * Renders a loader view.
-     *
-     * @private
-     * @returns {String} The loader view's html representation.
-     */
-    render: function() {
-        this.html = '<div id="' + this.id + '" class="ui-loader ui-body-a ui-corner-all"><span class="ui-icon ui-icon-loading spin"></span><h1>' + this.defaultTitle + '</h1></div>';
-
-        $('body').append($(this.html).css({
-            top: $.support.scrollTop && $(window).scrollTop() + $(window).height() / 2
-        }));
-    },
             
     /**
      * This method initializes the loader by loading it once.
@@ -70,10 +56,6 @@ M.LoaderView = M.View.extend(
      */
     initialize: function() {
         if(!this.isInitialized) {
-            this.id = M.ViewManager.getNextId();
-            M.ViewManager.register(this);
-            this.render();
-            this.hide();
             this.refCount = 0;
             this.isInitialized = YES;
         }
@@ -90,7 +72,7 @@ M.LoaderView = M.View.extend(
         var title = title && typeof(title) === 'string' ? title : this.defaultTitle;
         $('.ui-loader h1').text(title);
         if(this.refCount == 1){
-            $('#' + this.id).show();
+            $.mobile.pageLoading();
         }
     },
 
@@ -106,7 +88,7 @@ M.LoaderView = M.View.extend(
             this.refCount--;
         }
         if(this.refCount == 0){
-            $('#' + this.id).hide();
+            $.mobile.pageLoading(true);
         }
     }
     
