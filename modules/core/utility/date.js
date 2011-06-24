@@ -411,9 +411,8 @@ M.Date = M.Object.extend(
             M.Logger.log('no date specified!', M.ERR);
         }
 
-        var outputDate = new Date(Date.parse(this.date) + milliseconds);
         return this.extend({
-            date: new Date(Date.parse(outputDate) + (outputDate.getTimezoneOffset() - this.date.getTimezoneOffset()) * (60 * 1000))
+            date: new Date(this.getTimestamp() + milliseconds)
         });
     },
 
@@ -432,8 +431,8 @@ M.Date = M.Object.extend(
      * @returns {Number} The time between the two dates, computed as what is specified by the 'returnType' parameter.
      */
     timeBetween: function(date, returnType) {
-        var firstDateInMilliseconds = this.date ? this.date.valueOf() : null;
-        var secondDateInMilliseconds = date.date ? date.date.valueOf() : null;
+        var firstDateInMilliseconds = this.date ? this.getTimestamp() : null;
+        var secondDateInMilliseconds = date.date ? date.getTimestamp() : null;
         
         if(firstDateInMilliseconds && secondDateInMilliseconds) {
             switch (returnType) {
