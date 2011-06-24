@@ -504,7 +504,7 @@ M.Date = M.Object.extend(
      * @returns {Array} An array containing all dates within the specified calendar week.
      */
     getDatesOfCalendarWeek: function(calendarWeek, startWeekOnMonday, year) {
-        year = year && !isNaN(year) ? year : M.Date.now().format('yyyy');
+        year = year && !isNaN(year) ? year : (this.date ? this.format('yyyy') : M.Date.now().format('yyyy'));
         var newYear = M.Date.create('01/01/' + year);
         var newYearWeekDay = newYear.format('D');
 
@@ -521,7 +521,9 @@ M.Date = M.Object.extend(
 
         var dates = [];
         for(var i = 0; i < 7; i++) {
-            dates.push(requiredWeek.daysFromDate(i));
+            var date = requiredWeek.daysFromDate(i);
+            date = M.Date.create(date.format('mm') + '/' + date.format('dd') + '/' + date.format('yyyy'));
+            dates.push(date);
         }
 
         return dates;
