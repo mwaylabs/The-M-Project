@@ -267,16 +267,17 @@ M.View = M.Object.extend(
         if(this.childViews) {
             var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
-                if(this.type === 'M.PageView' && this[childViews[i]].type === 'M.TabBarView') {
-                    this.hasTabBarView = YES;
-                    this.tabBarView = this[childViews[i]];
-                }
                 if(this[childViews[i]]) {
                     this[childViews[i]]._name = childViews[i];
                     this.html += this[childViews[i]].render();
                 } else {
                     this.childViews = this.childViews.replace(childViews[i], ' ');
                     M.Logger.log('There is no child view \'' + childViews[i] + '\' available for ' + this.type + ' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')! It will be excluded from the child views and won\'t be rendered.', M.WARN);
+                }
+
+                if(this.type === 'M.PageView' && this[childViews[i]].type === 'M.TabBarView') {
+                    this.hasTabBarView = YES;
+                    this.tabBarView = this[childViews[i]];
                 }
             }
             return this.html;
