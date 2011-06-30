@@ -104,7 +104,7 @@ M.Controller = M.Object.extend(
     },
 
     /**
-     * Returns the class property behind the given key and informs its observers.
+     * This method initializes the notification of all observers, that observe the property behind 'key'.
      *
      * @param {String} key The key of the property to be changed.
      * @param {Object|String} value The value to be set.
