@@ -46,15 +46,6 @@ M.Controller = M.Object.extend(
     observable: null,
 
     /**
-     * Helper function to build the location href for the view to be displayed.
-     *
-     * @param {String} id The id of the new target.
-     */
-    buildLocationHref: function(id) {
-        return location.pathname + '#' + id;
-    },
-
-    /**
      * Switch the active tab in the application. This includes both activating this tab
      * visually and switching the page.
      *
