@@ -74,20 +74,20 @@ M.Controller = M.Object.extend(
      * @param {Object|String} page The page to be displayed or its name.
      * @param {String} transition The transition that should be used. Default: horizontal slide
      * @param {Boolean} isBack YES will cause a reverse-direction transition. Default: NO
-     * @param {Boolean} changeLoc Update the browser history. Default: YES
+     * @param {Boolean} updateHistory Update the browser history. Default: YES
      */
-    switchToPage: function(page, transition, isBack, changeLoc) {
+    switchToPage: function(page, transition, isBack, updateHistory) {
         var timeStart = M.Date.now();
         page = page && typeof(page) === 'object' ? page : M.ViewManager.getPage(page);
 
         if(page) {
             transition = transition ? transition : M.TRANSITION.SLIDE;
             isBack = isBack !== undefined ? isBack : NO;
-            changeLoc = changeLoc !== undefined ? changeLoc : YES;
+            updateHistory = updateHistory !== undefined ? updateHistory : YES;
 
             /* Now do the page change by using a jquery mobile method and pass the properties */
             if(page.type === 'M.PageView') {
-                //console.log('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + changeLoc + ');');
+                //console.log('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + updateHistory + ');');
                 $.mobile.changePage($('#' + page.id), {
                     transition: M.Application.useTransitions ? transition : M.TRANSITION.NONE,
                     reverse: M.Application.useTransitions ? isBack : NO,
