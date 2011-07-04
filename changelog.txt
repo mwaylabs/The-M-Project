@@ -14,6 +14,7 @@
   * Fixed a bug in renderUpdate() of M.ButtonView
   * Added resetSelection() to M.SelectionListView
   * Updated jQuery Mobile to 1.0b1 (and adjusted some parts of TMP to work with this new version properly)
+  * Updated underscore.js to 1.1.6
 
 ** Version 0.5 - Date 03.06.2011 **
 
