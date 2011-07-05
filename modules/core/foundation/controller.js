@@ -46,15 +46,6 @@ M.Controller = M.Object.extend(
     observable: null,
 
     /**
-     * Helper function to build the location href for the view to be displayed.
-     *
-     * @param {String} id The id of the new target.
-     */
-    buildLocationHref: function(id) {
-        return location.pathname + '#' + id;
-    },
-
-    /**
      * Switch the active tab in the application. This includes both activating this tab
      * visually and switching the page.
      *
@@ -83,20 +74,20 @@ M.Controller = M.Object.extend(
      * @param {Object|String} page The page to be displayed or its name.
      * @param {String} transition The transition that should be used. Default: horizontal slide
      * @param {Boolean} isBack YES will cause a reverse-direction transition. Default: NO
-     * @param {Boolean} changeLoc Update the browser history. Default: YES
+     * @param {Boolean} updateHistory Update the browser history. Default: YES
      */
-    switchToPage: function(page, transition, isBack, changeLoc) {
+    switchToPage: function(page, transition, isBack, updateHistory) {
         var timeStart = M.Date.now();
         page = page && typeof(page) === 'object' ? page : M.ViewManager.getPage(page);
 
         if(page) {
             transition = transition ? transition : M.TRANSITION.SLIDE;
             isBack = isBack !== undefined ? isBack : NO;
-            changeLoc = changeLoc !== undefined ? changeLoc : YES;
+            updateHistory = updateHistory !== undefined ? updateHistory : YES;
 
             /* Now do the page change by using a jquery mobile method and pass the properties */
             if(page.type === 'M.PageView') {
-                //console.log('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + changeLoc + ');');
+                //console.log('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + updateHistory + ');');
                 $.mobile.changePage($('#' + page.id), {
                     transition: M.Application.useTransitions ? transition : M.TRANSITION.NONE,
                     reverse: M.Application.useTransitions ? isBack : NO,
@@ -113,7 +104,7 @@ M.Controller = M.Object.extend(
     },
 
     /**
-     * Returns the class property behind the given key and informs its observers.
+     * This method initializes the notification of all observers, that observe the property behind 'key'.
      *
      * @param {String} key The key of the property to be changed.
      * @param {Object|String} value The value to be set.
