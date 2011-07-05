@@ -12,18 +12,18 @@
 m_require('core/foundation/request.js');
 
 /**
+ * A constant value for logging level: info.
+ *
+ * @type Number
+ */
+M.INFO = 0;
+
+/**
  * A constant value for logging level: debug.
  *
  * @type Number
  */
-M.DEBUG = 0;
-
-/**
- * A constant value for logging level: error.
- *
- * @type Number
- */
-M.ERR = 1;
+M.DEBUG = 1;
 
 /**
  * A constant value for logging level: warning.
@@ -33,11 +33,11 @@ M.ERR = 1;
 M.WARN = 2;
 
 /**
- * A constant value for logging level: info.
+ * A constant value for logging level: error.
  *
  * @type Number
  */
-M.INFO = 3;
+M.ERR = 3;
 
 /**
  * @class
@@ -72,7 +72,7 @@ M.Logger = M.Object.extend(
     log: function(msg, level) {
         level = level || M.DEBUG;
 
-        /* are we in production mode, then to not throw any logs */
+        /* are we in production mode, then do not throw any logs */
         if(M.Application.isInProduction) {
             return;
         }
