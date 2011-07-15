@@ -1,7 +1,6 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
-//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      23.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -109,13 +108,19 @@ M.AlertDialogView = M.DialogView.extend(
         /* call the dialog's render() */
         this.render();
         var dialog = $('#' + this.id);
+        var background = $('.tmp-dialog-background')    ;
+
+        this.positionDialog(dialog);
+        this.positionBackground(background);
+
         dialog.addClass('pop in');
     },
 
     hide: function() {
         var dialog = $('#' + this.id);
+        var background = $('.tmp-dialog-background');
         dialog.addClass('pop out');
-        $('.tmp-dialog-background').remove();
+        background.remove();
         this.destroy();
     },
 
@@ -124,6 +129,30 @@ M.AlertDialogView = M.DialogView.extend(
         if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks.confirm)){
             this.bindToCaller(this.callbacks.confirm.target, this.callbacks.confirm.action)();
         }
+    },
+
+    positionDialog: function(dialog) {
+        /* position alert in the center of the possibly scrolled viewport */
+        var screenSize = M.Environment.getSize();
+        var scrollYOffset = window.pageYOffset;
+        var scrollXOffset = window.pageXOffset;
+        var dialogHeight = dialog.outerHeight();
+        var dialogWidth = dialog.outerWidth();
+
+        var xPos = scrollXOffset + (screenSize[0]/2);
+        var yPos = scrollYOffset + (screenSize[1]/2);
+
+        dialog.css('position', 'absolute');
+        dialog.css('top', yPos + 'px');
+        dialog.css('left', xPos + 'px');
+        dialog.css('z-index', 10000);
+        dialog.css('margin-top', '-' + (dialogHeight/2) + 'px');
+        dialog.css('margin-left', '-' + (dialogWidth/2) + 'px');
+    },
+
+    positionBackground: function(background) {
+        background.css('height', $(document).height() + 'px');
+        background.css('width', $(document).width() + 'px');
     }
 
 });
