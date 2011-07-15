@@ -17,7 +17,8 @@
   * Updated underscore.js to 1.1.6
   * Removed the VERSION file, since we maintain the version in m.js -> M.version
   * Refactored alert and confirm dialog to have position dynamically calculated => always in center of the screen, even if page is scrolled. Semi-transparent background now has full page size.
-  * added getTotalSize, getTotalHeight and getTotalWidth to M.Environment to get total size of document.
+  * Added getTotalSize, getTotalHeight and getTotalWidth to M.Environment to get total size of document
+  * Auto-center M.Loader view when show() is called and the loader was hidden before
 
 ** Version 0.5 - Date 03.06.2011 **
 
