@@ -73,6 +73,16 @@ M.LoaderView = M.View.extend(
         $('.ui-loader h1').text(title);
         if(this.refCount == 1){
             $.mobile.pageLoading();
+
+            /* position alert in the center of the possibly scrolled viewport */
+            var loader = $('.ui-loader');
+            var screenSize = M.Environment.getSize();
+            var scrollYOffset = window.pageYOffset;
+            var loaderHeight = loader.outerHeight();
+
+            var yPos = scrollYOffset + (screenSize[1]/2);
+            loader.css('top', yPos + 'px');
+            loader.css('margin-top', '-' + (loaderHeight/2) + 'px');
         }
     },
 
