@@ -179,6 +179,38 @@ M.Environment = M.Object.extend(
     },
 
     /**
+     * Returns the total size of the page/document, means not only the area of the browser window.
+     *
+     * 0 -> width
+     * 1 -> height
+     *
+     * @returns {Array} The width and height of the document.
+     */
+    getTotalSize: function() {
+        return [this.getTotalWidth(), this.getTotalHeight()];
+    },
+
+    /**
+     * Returns the total width of the page/document, means not only the area of the browser window.
+     * Uses jQuery.
+     *
+     * @returns {Number} The total width of the document.
+     */
+    getTotalWidth: function() {
+        return $(document).width();
+    },
+
+    /**
+     * Returns the total height of the page/document, means not only the area of the browser window.
+     * Uses jQuery.
+     *
+     * @returns {Number} The total height of the document.
+     */
+    getTotalHeight: function() {
+        return $(document).height();
+    },
+
+    /**
      * This method returns the device's current orientation, depending on whether
      * or not the device is capable of detecting the current orientation. If the
      * device is unable to detect the current orientation, this method will return
