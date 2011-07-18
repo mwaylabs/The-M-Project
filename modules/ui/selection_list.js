@@ -478,7 +478,8 @@ M.SelectionListView = M.View.extend(
                     item.isSelected = YES;
                     that.selection = item;
                     $(this).attr('checked', 'checked');
-                    $(this).siblings('label:first').addClass('ui-btn-active');
+                    $(this).siblings('label:first').addClass('ui-radio-on');
+                    $(this).siblings('label:first').removeClass('ui-radio-off');
                     $(this).siblings('label:first').find('span .ui-icon-radio-off').addClass('ui-icon-radio-on');
                     $(this).siblings('label:first').find('span .ui-icon-radio-off').removeClass('ui-icon-radio-off');
                 }
@@ -512,7 +513,8 @@ M.SelectionListView = M.View.extend(
                         item.isSelected = YES;
                         that.selection.push(item);
                         $(this).attr('checked', 'checked');
-                        $(this).siblings('label:first').addClass('ui-btn-active');
+                        $(this).siblings('label:first').removeClass('ui-checkbox-off');
+                        $(this).siblings('label:first').addClass('ui-checkbox-on');
                         $(this).siblings('label:first').find('span .ui-icon-checkbox-off').addClass('ui-icon-checkbox-on');
                         $(this).siblings('label:first').find('span .ui-icon-checkbox-off').removeClass('ui-icon-checkbox-off');
                     }
@@ -546,7 +548,8 @@ M.SelectionListView = M.View.extend(
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 item.isSelected = NO;
                 $(this).removeAttr('checked');
-                $(this).siblings('label:first').removeClass('ui-btn-active');
+                $(this).siblings('label:first').addClass('ui-' + type + '-off');
+                $(this).siblings('label:first').removeClass('ui-' + type + '-on');
                 $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').addClass('ui-icon-' + type + '-off');
                 $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').removeClass('ui-icon-' + type + '-on');
             });
