@@ -70,7 +70,7 @@ M.LoaderView = M.View.extend(
     show: function(title) {
         this.refCount++;
         var title = title && typeof(title) === 'string' ? title : this.defaultTitle;
-        $('.ui-loader h1').text(title);
+        $.mobile.loadingMessage = title;
         if(this.refCount == 1){
             $.mobile.pageLoading();
 
