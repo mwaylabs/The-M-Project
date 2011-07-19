@@ -92,7 +92,7 @@ M.FormView = M.View.extend(
     showErrors: function() {
         var errors = '';
         _.each(M.Validator.validationErrors, function(error) {
-            var view = M.ViewManager.getViewById(error.viewId);
+            var view = M.ViewManager.getViewById(error.errObj.viewId);
             if(view && view.cssClassOnError) {
                 view.addCssClass(view.cssClassOnError);
             }
