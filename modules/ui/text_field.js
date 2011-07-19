@@ -144,6 +144,7 @@ M.TextFieldView = M.View.extend(
      * @returns {String} The text field view's html representation.
      */
     render: function() {
+        this.computeValue();
         this.html += '<div';
 
         if(this.label && this.isGrouped) {
@@ -224,6 +225,7 @@ M.TextFieldView = M.View.extend(
      * @private
      */
     renderUpdate: function() {
+        this.computeValue();
         $('#' + this.id).val(this.value);
         this.styleUpdate();
     },
