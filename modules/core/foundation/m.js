@@ -20,7 +20,7 @@ var M = M || {};
 /**
  * The version of The-M-Project
  */
-M.version = '0.6pre';
+M.Version = '0.6';
 
 /**
  * These command is used by the build tool to control the load order.

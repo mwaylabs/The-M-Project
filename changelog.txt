@@ -1,4 +1,4 @@
-** Version 0.6pre - Date 19.07.2011 **
+** Version 0.6 - Date 20.06.2011 **
 
   * Refactored content binding (3): set() now can set single values of a chain like 'person.address.street'
   * Added 'orientationchange' event to M.PageView
