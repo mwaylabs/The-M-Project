@@ -88,6 +88,19 @@ M.Application = M.Object.extend(
     isInProduction: NO,
 
     /**
+     * This property contains the application-specific configurations. It is automatically set by Espresso
+     * during the build process. To access these properties within the application, use the getConfig()
+     * method of M.Application.
+     */
+    config: {
+        keyPrefix: "#m#",
+        keySuffix: "_",
+        timeStampCreated: "created_at",
+        timeStampUpdated: "updated_at",
+        m_id: "m_id"
+    },
+
+    /**
      * This method encapsulates the 'include' method of M.Object for better reading of code syntax.
      * Basically it integrates the defined pages within the application into M.Application and sets
      * some basic configuration properties, e.g. the default language.
@@ -138,6 +151,18 @@ M.Application = M.Object.extend(
         /* finally add entry page back to pagelist and view list, but with new key 'm_entryPage' */
         M.ViewManager.viewList['m_entryPage'] = entryPage;
         M.ViewManager.pageList['m_entryPage'] = entryPage;
+    },
+
+    /**
+     *
+     * @param {String} key The key of the configuration value to want to retrieve.
+     * @returns {String} The value in the application's config object with the key 'key'.
+     */
+    getConfig: function(key) {
+        if(this.config[key]) {
+            return this.config[key];
+        }
+        return null;
     }
 
 });
