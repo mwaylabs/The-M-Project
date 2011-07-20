@@ -89,16 +89,10 @@ M.Application = M.Object.extend(
 
     /**
      * This property contains the application-specific configurations. It is automatically set by Espresso
-     * during the build process. To access these properties within the application, use the getConfig()
-     * method of M.Application.
+     * during the init process of an application. To access these properties within the application, use the
+     * getConfig() method of M.Application.
      */
-    config: {
-        keyPrefix: "#m#",
-        keySuffix: "_",
-        timeStampCreated: "created_at",
-        timeStampUpdated: "updated_at",
-        m_id: "m_id"
-    },
+    config: {},
 
     /**
      * This method encapsulates the 'include' method of M.Object for better reading of code syntax.
