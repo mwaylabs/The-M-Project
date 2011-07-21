@@ -73,7 +73,7 @@ M.Logger = M.Object.extend(
         level = level || M.DEBUG;
 
         /* are we in production mode, then do not throw any logs */
-        if(M.Application.isInProduction) {
+        if(M.Application.getConfig('debugMode') === 'false') {
             return;
         }
 

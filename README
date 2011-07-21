@@ -32,7 +32,6 @@ Thanks for sharing!
   * Added 'orientationchange' event to M.PageView
   * Fixed M.LoaderView
   * Removed useless properties of M.Application (viewManager, modelRegistry, ...)
-  * Added 'isInProduction' property to M.Application which disables M.Logger if set to YES
   * Refactored M.MapView: Load google maps api only if connection available (this fixes a bug with the cache manifest)
   * Added unregisterEvents() to M.EventDispatcher
   * Renamed remove() to unregister() in M.ViewManager
@@ -52,6 +51,7 @@ Thanks for sharing!
   * Added config property and getConfig() to M.Application to access properties of config.json within an application
   * Added isSelectable property to M.ListItemView
   * Added setView() to M.ToggleView
+  * Use debugMode property of config.json to only log if we are not in production mode
 
 ** Version 0.5 - Date 03.06.2011 **
 

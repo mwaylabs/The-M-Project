@@ -78,16 +78,6 @@ M.Application = M.Object.extend(
     entryPage: null,
 
     /**
-     * This property is specify whether the app is in production or development mode. This affects the
-     * logger, since we do not write to the console in production mode.
-     *
-     * Note: JavaScript errors, that are not catched by the framework might write to the console anyway!
-     *
-     * @type Boolean
-     */
-    isInProduction: NO,
-
-    /**
      * This property contains the application-specific configurations. It is automatically set by Espresso
      * during the init process of an application. To access these properties within the application, use the
      * getConfig() method of M.Application.
