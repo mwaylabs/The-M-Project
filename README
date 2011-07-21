@@ -51,6 +51,7 @@ Thanks for sharing!
   * Added Dynamic Value Computing to M.TextFieldView
   * Added config property and getConfig() to M.Application to access properties of config.json within an application
   * Added isSelectable property to M.ListItemView
+  * Added setView() to M.ToggleView
 
 ** Version 0.5 - Date 03.06.2011 **
 
