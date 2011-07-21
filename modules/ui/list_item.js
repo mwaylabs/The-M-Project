@@ -72,6 +72,12 @@ M.ListItemView = M.View.extend(
     recommendedEvents: ['tap'],
 
     /**
+     * This property can be used to specify whether a selection list item can be selected or not. Note, that this
+     * only affects styling stuff. If set to NO, you still can apply e.g. tap events.
+     */
+    isSelectable: YES,
+
+    /**
      * Renders a list item as an li-tag. The rendering is initiated by the parent list view.
      *
      * @private
@@ -94,9 +100,13 @@ M.ListItemView = M.View.extend(
 
                 this.html += this.deleteButton.render();
             } else {
-                this.html += '<a href="#">';
-                this.renderChildViews();
-                this.html += '</a>';
+                if(this.isSelectable) {
+                    this.html += '<a href="#">';
+                    this.renderChildViews();
+                    this.html += '</a>';
+                } else {
+                    this.renderChildViews();
+                }
             }
         } else if(this.value) {
             this.html += this.value;

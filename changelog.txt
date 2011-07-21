@@ -1,4 +1,4 @@
-** Version 0.6 - Date 20.06.2011 **
+** Version 0.6 - Date 21.07.2011 **
 
   * Refactored content binding (3): set() now can set single values of a chain like 'person.address.street'
   * Added 'orientationchange' event to M.PageView
@@ -22,6 +22,7 @@
   * Fixed a bug in M.FormView's showErrors()
   * Added Dynamic Value Computing to M.TextFieldView
   * Added config property and getConfig() to M.Application to access properties of config.json within an application
+  * Added isSelectable property to M.ListItemView
 
 ** Version 0.5 - Date 03.06.2011 **
 
