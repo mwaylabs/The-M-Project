@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      26.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -19,7 +20,7 @@ var M = M || {};
 /**
  * The version of The-M-Project
  */
-M.version = '0.1';
+M.Version = '0.6';
 
 /**
  * These command is used by the build tool to control the load order.

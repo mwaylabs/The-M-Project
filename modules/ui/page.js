@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -35,41 +36,6 @@ M.PageView = M.View.extend(
     isFirstLoad: YES,
 
     /**
-     * This property can be used to set the page's beforeLoad action.
-     *
-     * @type Object
-     */
-    beforeLoad: null,
-
-    /**
-     * This property can be used to set the page's onLoad action.
-     *
-     * @type Object
-     */
-    onLoad: null,
-
-    /**
-     * This property can be used to set the page's beforeHide action.
-     *
-     * @type Object
-     */
-    beforeHide: null,
-
-    /**
-     * This property can be used to set the page's onHide action.
-     *
-     * @type Object
-     */
-    onHide: null,
-
-    /**
-     * This property can be used to set the page's onOrientationChange action.
-     *
-     * @type Object
-     */
-    onOrientationChange: null,
-
-    /**
      * Indicates whether the page has a tab bar or not.
      *
      * @type Boolean
@@ -88,7 +54,7 @@ M.PageView = M.View.extend(
      *
      * @type Array
      */
-    recommendedEvents: ['pagebeforeshow', 'pageshow', 'pagebeforehide', 'pagehide'],
+    recommendedEvents: ['pagebeforeshow', 'pageshow', 'pagebeforehide', 'pagehide', 'orientationchange'],
 
     /**
      * This property is used to specify a view's internal events and their corresponding actions. If
@@ -106,6 +72,14 @@ M.PageView = M.View.extend(
      * @type Object
      */
     listList: null,
+
+    /**
+     * This property contains the page's current orientation. This property is only used internally!
+     *
+     * @private
+     * @type Number
+     */
+    orientation: null,
 
     /**
      * Renders in three steps:
@@ -156,6 +130,10 @@ M.PageView = M.View.extend(
             pagehide: {
                 target: this,
                 action: 'pageDidHide'
+            },
+            orientationchange: {
+                target: this,
+                action: 'orientationDidChange'
             }
         }
         this.bindToCaller(this, M.View.registerEvents)();
@@ -202,7 +180,7 @@ M.PageView = M.View.extend(
         }
 
         /* reset the page's title */
-        document.title = M.Application.applicationTitle;
+        document.title = M.Application.name;
 
         /* delegate event to external handler, if specified */
         if(nextEvent) {
@@ -264,6 +242,32 @@ M.PageView = M.View.extend(
         /* delegate event to external handler, if specified */
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);
+        }
+    },
+
+    /**
+     * This method is called right after the device's orientation did change. If a action for
+     * orientationchange is defined for the page, it is now called.
+     *
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
+     */
+    orientationDidChange: function(id, event, nextEvent) {
+        /* get the orientation */
+        var orientation = M.Environment.getOrientation();
+        
+        /* filter event duplicates (can happen due to event delegation in bootstraping.js) */
+        if(orientation === this.orientation) {
+            return;
+        }
+
+        /* set the current orientation */
+        this.orientation = orientation;
+
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, NO, [M.Environment.getOrientation()]);
         }
     },
 

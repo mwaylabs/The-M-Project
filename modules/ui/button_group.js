@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      02.12.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -250,7 +251,7 @@ M.ButtonGroupView = M.View.extend(
                         button.internalEvents = {
                             tap: {
                                 target: this,
-                                action: 'setActiveButton'
+                                action: 'buttonSelected'
                             }
                         }
 
@@ -379,30 +380,76 @@ M.ButtonGroupView = M.View.extend(
     /**
      * This method activates one button within the button group.
      *
-     * @param {M.ButtonView, String} id The button to be set active or its id.
+     * @param {M.ButtonView, String} button The button to be set active or its id.
      */
-    setActiveButton: function(id, event, nextEvent) {
+    setActiveButton: function(button) {
         if(this.isSelectable) {
             if(this.activeButton) {
                 this.activeButton.removeCssClass('ui-btn-active');
                 this.activeButton.isActive = NO;
             }
 
-            var button = M.ViewManager.getViewById(id);
-            if(!button) {
-                if(id && typeof(id) === 'object' && id.type === 'M.ButtonView') {
-                    button = id;
+            var obj = M.ViewManager.getViewById(button);
+            if(!obj) {
+                if(button && typeof(button) === 'object' && button.type === 'M.ButtonView') {
+                    obj = button;
                 }
             }
-            if(button) {
-                button.addCssClass('ui-btn-active');
-                button.isActive = YES;
-                this.activeButton = button;
+            if(obj) {
+                obj.addCssClass('ui-btn-active');
+                obj.isActive = YES;
+                this.activeButton = obj;
             }
         }
+    },
 
-        /* trigger change event for the button group */
-        $('#' + this.id).trigger('change');
+    /**
+     * This method activates one button within the button group at the given index.
+     *
+     * @param {Number} index The index of the button to be set active.
+     */
+    setActiveButtonAtIndex: function(index) {
+        if(this.childViews) {
+            var childViews = this.getChildViewsAsArray();
+            var button = this[childViews[index]];
+            if(button && button.type === 'M.ButtonView') {
+                this.setActiveButton(button);
+            }
+        }
+    },
+
+    /**
+     * This method is called everytime a button is activated / clicked.
+     *
+     * @private
+     * @param {String} id The id of the selected item.
+     * @param {Object} event The event.
+     * @param {Object} nextEvent The application-side event handler.
+     */
+    buttonSelected: function(id, event, nextEvent) {
+        if(!(this.activeButton && this.activeButton === M.ViewManager.getViewById(id))) {
+            if(this.isSelectable) {
+                if(this.activeButton) {
+                    this.activeButton.removeCssClass('ui-btn-active');
+                    this.activeButton.isActive = NO;
+                }
+
+                var button = M.ViewManager.getViewById(id);
+                if(!button) {
+                    if(id && typeof(id) === 'object' && id.type === 'M.ButtonView') {
+                        button = id;
+                    }
+                }
+                if(button) {
+                    button.addCssClass('ui-btn-active');
+                    button.isActive = YES;
+                    this.activeButton = button;
+                }
+            }
+
+            /* trigger change event for the button group */
+            $('#' + this.id).trigger('change');
+        }
 
         /* delegate event to external handler, if specified */
         if(nextEvent) {

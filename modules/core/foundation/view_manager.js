@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -107,11 +108,11 @@ M.ViewManager = M.Object.extend(
     },
 
     /**
-     * Removes the view from the viewlist array.
+     * Unregisters the view from the viewlist array.
      *
-     * @param {Object} view The view to be removed from the viewlist.
+     * @param {Object} view The view to be unregistered from the viewlist.
      */
-    remove: function(view) {
+    unregister: function(view) {
         delete this.viewList[view.id];
     },
 
@@ -143,7 +144,7 @@ M.ViewManager = M.Object.extend(
      *
      * Note: Try to use unique names for your views within the same surrounding view!
      *
-     * @param {String, Object} parentView The name of the parent view (if it is a page) or the parent view itself.
+     * @param {String|Object} parentView The name of the parent view (if it is a page) or the parent view itself.
      * @param {String} targetView The name of the view to be returned.
      * @returns {Object} The view object from the view list identified by the view's name and the page where it's on.
      */

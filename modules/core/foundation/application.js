@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: �2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -33,34 +34,6 @@ M.Application = M.Object.extend(
      * @type String
      */
     name: null,
-
-    /**
-     * The application's view manager.
-     *
-     * @type Object
-     */
-    viewManager: M.ViewManager,
-
-    /**
-     * The application's model registry.
-     *
-     * @type Object
-     */
-    modelRegistry: M.ModelRegistry,
-
-    /**
-     * The application's event dispatcher.
-     *
-     * @type Object
-     */
-    eventDispatcher: M.EventDispatcher,
-
-    /**
-     * The application's cypher object, used for encoding and decoding.
-     *
-     * @type Object
-     */
-    cypher: M.Cypher,
 
     /**
      * The application's current language.
@@ -105,11 +78,11 @@ M.Application = M.Object.extend(
     entryPage: null,
 
     /**
-     * This property is used to store the application's title.
-     *
-     * @type String
+     * This property contains the application-specific configurations. It is automatically set by Espresso
+     * during the init process of an application. To access these properties within the application, use the
+     * getConfig() method of M.Application.
      */
-    applicationTitle: '',
+    config: {},
 
     /**
      * This method encapsulates the 'include' method of M.Object for better reading of code syntax.
@@ -142,29 +115,38 @@ M.Application = M.Object.extend(
     main: function() {
         var that = this;
 
-        /* get the application's title */
-        this.applicationTitle = document.title;
-
         /* first lets get the entry page and remove it from pagelist and viewlist */
         var entryPage = M.ViewManager.getPage(M.Application.entryPage);
-        delete this.viewManager.viewList[entryPage.id];
-        delete this.viewManager.pageList[entryPage.id];
+        delete M.ViewManager.viewList[entryPage.id];
+        delete M.ViewManager.pageList[entryPage.id];
 
         /* set the default id 'm_entryPage' for entry page */
         entryPage.id = 'm_entryPage';
 
         /* now lets render entry page to get it into the DOM first and set it as the current page */
         entryPage.render();
-        this.viewManager.setCurrentPage(entryPage);
+        M.ViewManager.setCurrentPage(entryPage);
 
         /* now lets render all other pages */
-        _.each(this.viewManager.pageList, function(page) {
+        _.each(M.ViewManager.pageList, function(page) {
             page.render();
         });
 
         /* finally add entry page back to pagelist and view list, but with new key 'm_entryPage' */
-        this.viewManager.viewList['m_entryPage'] = entryPage;
-        this.viewManager.pageList['m_entryPage'] = entryPage;
+        M.ViewManager.viewList['m_entryPage'] = entryPage;
+        M.ViewManager.pageList['m_entryPage'] = entryPage;
+    },
+
+    /**
+     *
+     * @param {String} key The key of the configuration value to want to retrieve.
+     * @returns {String} The value in the application's config object with the key 'key'.
+     */
+    getConfig: function(key) {
+        if(this.config[key]) {
+            return this.config[key];
+        }
+        return null;
     }
 
 });

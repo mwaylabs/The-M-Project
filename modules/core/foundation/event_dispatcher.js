@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: (c) M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      27.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -38,7 +39,7 @@ M.EventDispatcher = M.Object.extend(
     /**
      * This method is used to register events and link them to a corresponding action.
      * 
-     * @param {String, Object} eventSource The view's id or a DOM object.
+     * @param {String|Object} eventSource The view's id or a DOM object.
      * @param {Object} events The events to be registered for the given view or DOM object.
      */
     registerEvents: function(eventSource, events, recommendedEvents, sourceType) {
@@ -62,7 +63,7 @@ M.EventDispatcher = M.Object.extend(
      * and link them to a corresponding action.
      *
      * @param {String} type The type of the event.
-     * @param {String, Object} eventSource The view's id, the view object or a DOM object.
+     * @param {String|Object} eventSource The view's id, the view object or a DOM object.
      * @param {Object} handler The handler for the event.
      * @param {Object} recommendedEvents The recommended events for this event source.
      * @param {Object} sourceType The type of the event source.
@@ -116,7 +117,19 @@ M.EventDispatcher = M.Object.extend(
                 that.bindToCaller(handler.target, handler.action, [event.currentTarget.id ? event.currentTarget.id : event.currentTarget, event])();
             }
         });
+    },
 
+    /**
+     * This method can be used to unregister events.
+     *
+     * @param {String|Object} eventSource The view's id, the view object or a DOM object.
+     */
+    unregisterEvents: function(eventSource) {
+        eventSource = this.getEventSource(eventSource);
+        if(!this.checkEventSource(eventSource)) {
+            return;
+        }
+        eventSource.unbind();
     },
 
     /**
@@ -173,7 +186,7 @@ M.EventDispatcher = M.Object.extend(
     /**
      * This method is used to get the event source as a DOM object.
      *
-     * @param {Object, String} eventSource The event source.
+     * @param {Object|String} eventSource The event source.
      * @return {Object} The event source as dom object.
      */
     getEventSource: function(eventSource) {

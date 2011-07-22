@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      03.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -350,9 +351,9 @@ M.ListView = M.View.extend(
                 var regexResult = null;
                 if(obj[childViewsArray[i]].computedValue) {
                     /* This regex looks for a variable inside the template view (<%= ... %>) ... */
-                    regexResult = /^<%=\s+([.|_|-|$|§|a-zA-Z]+[0-9]*[.|_|-|$|§|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
+                    regexResult = /^<%=\s+([.|_|-|$|ï¿½|a-zA-Z]+[0-9]*[.|_|-|$|ï¿½|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
                 } else {
-                    regexResult = /^<%=\s+([.|_|-|$|§|a-zA-Z]+[0-9]*[.|_|-|$|§|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
+                    regexResult = /^<%=\s+([.|_|-|$|ï¿½|a-zA-Z]+[0-9]*[.|_|-|$|ï¿½|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
                 }
 
                 /* ... if a match was found, the variable is replaced by the corresponding value inside the record */
@@ -463,7 +464,11 @@ M.ListView = M.View.extend(
             this.selectedItem.removeCssClass('ui-btn-active');
         }
         this.selectedItem = M.ViewManager.getViewById(listItemId);
-        this.selectedItem.addCssClass('ui-btn-active');
+
+        /* is the selection list items are selectable, activate the right one */
+        if(this.listItemTemplateView && this.listItemTemplateView.isSelectable) {
+            this.selectedItem.addCssClass('ui-btn-active');
+        }
 
         /* delegate event to external handler, if specified */
         if(nextEvent) {

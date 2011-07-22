@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      11.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -178,6 +179,7 @@ M.Date = M.Object.extend(
      * dd 	    Day of the month as digits; leading zero for single-digit days.
      * ddd 	    Day of the week as a three-letter abbreviation.
      * dddd 	Day of the week as its full name.
+     * D 	    Day of the week as number.
      * m 	    Month as digits; no leading zero for single-digit months.
      * mm 	    Month as digits; leading zero for single-digit months.
      * mmm 	    Month as a three-letter abbreviation.
@@ -409,9 +411,8 @@ M.Date = M.Object.extend(
             M.Logger.log('no date specified!', M.ERR);
         }
 
-        var outputDate = new Date(Date.parse(this.date) + milliseconds);
         return this.extend({
-            date: new Date(Date.parse(outputDate) + (outputDate.getTimezoneOffset() - this.date.getTimezoneOffset()) * (60 * 1000))
+            date: new Date(this.getTimestamp() + milliseconds)
         });
     },
 
@@ -430,8 +431,8 @@ M.Date = M.Object.extend(
      * @returns {Number} The time between the two dates, computed as what is specified by the 'returnType' parameter.
      */
     timeBetween: function(date, returnType) {
-        var firstDateInMilliseconds = this.date ? this.date.valueOf() : null;
-        var secondDateInMilliseconds = date.date ? date.date.valueOf() : null;
+        var firstDateInMilliseconds = this.date ? this.getTimestamp() : null;
+        var secondDateInMilliseconds = date.date ? date.getTimestamp() : null;
         
         if(firstDateInMilliseconds && secondDateInMilliseconds) {
             switch (returnType) {
@@ -461,50 +462,49 @@ M.Date = M.Object.extend(
 
 
     /**
-    * returns the Weeknumber of the given Date Jan => 0 ... Dec => 11
-    * if no parameters are given the Weeknumber of the current date gets returned
-    *
-    * @param {Number} year The year part of the date, e.g. 2011, must be your digits.
-    * @param {Number} month The month part of the date, e.g. 0 (is for January). Must be one digit.
-    * @param {Number} day The day part of the date, e.g. 00. Must be two digits
-    *
-    * @returns {Number} The Weeknumber as a number, e.g. 11.
-    */
-    getWeeknum:function(year, month, day){
-        if(!year){
-            year    = parseInt(this.format('yyyy'));
-            month   = parseInt(this.format('m'));
-            day     = parseInt(this.format('d'));
-        }else{
-            month += 1; //use 1-12
+     * This method computes the calendar week of a date. It can either be executed on a M.Date object,
+     * to get the calendar week of that date, or you can pass parameters to get the calendar week
+     * for the specified date.
+     *
+     * @param {Number} year The year part of the date, e.g. 2011. Must be four digits.
+     * @param {Number} month The month part of the date: 0-11. Must be one/two digit.
+     * @param {Number} day The day part of the date: 1-31. Must be one/two digits.
+     *
+     * @returns {Number} The calendar week: 1-52.
+     */
+    getCalendarWeek: function(year, month, day){
+        if(!year) {
+            year = parseInt(this.format('yyyy'));
+            month = parseInt(this.format('m'));
+            day = parseInt(this.format('d'));
+        } else {
+            month += 1;
         }
 
-        var a = Math.floor((14-(month))/12);
-        var y = year+4800-a;
-        var m = (month)+(12*a)-3;
-        var jd = day + Math.floor(((153*m)+2)/5) +
-                    (365*y) + Math.floor(y/4) - Math.floor(y/100) +
-                    Math.floor(y/400) - 32045;  // (gregorian calendar)
+        var a = Math.floor((14 - (month)) / 12);
+        var y = year + 4800 - a;
+        var m = (month) + (12 * a) - 3;
+        var jd = day + Math.floor(((153 * m) + 2) / 5) + (365 * y) + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+        var d4 = (jd + 31741 - (jd % 7)) % 146097 % 36524 % 1461;
+        var L = Math.floor(d4 / 1460);
+        var d1 = ((d4 - L) % 365) + L;
+        var calendarWeek = Math.floor(d1 / 7) + 1;
 
-        var d4 = (jd+31741-(jd%7))%146097%36524%1461;
-        var L = Math.floor(d4/1460);
-        var d1 = ((d4-L)%365)+L;
-        var NumberOfWeek = Math.floor(d1/7) + 1;
-
-        return NumberOfWeek;
+        return calendarWeek;
     },
 
     /**
-     * This method returns an array containing all dates within one calendar week.
+     * This method returns an array containing all dates within one calendar week. If no parameters are given,
+     * the calendar week of the current date is taken.
      *
-     * @param {Object} calendarWeek The calendar week.
+     * @param {Number} calendarWeek The calendar week. Note: Pass 'null' if you use this method on an existing M.Date object.
      * @param {Boolean} startWeekOnMonday Determines whether a week starts on monday or sunday (optional, default is NO).
      * @param {Number} year The year (optional, default is current year).
      *
      * @returns {Array} An array containing all dates within the specified calendar week.
      */
     getDatesOfCalendarWeek: function(calendarWeek, startWeekOnMonday, year) {
-        year = year && !isNaN(year) ? year : M.Date.now().format('yyyy');
+        year = year && !isNaN(year) ? year : (this.date ? this.format('yyyy') : M.Date.now().format('yyyy'));
         var newYear = M.Date.create('01/01/' + year);
         var newYearWeekDay = newYear.format('D');
 
@@ -515,11 +515,15 @@ M.Date = M.Object.extend(
             firstWeek = newYearWeekDay == 0 ? newYear : newYear.daysFromDate(7 - newYearWeekDay);
         }
 
+        calendarWeek = calendarWeek ? calendarWeek : this.getCalendarWeek();
+
         var requiredWeek = firstWeek.daysFromDate((calendarWeek - 1) * 7);
 
         var dates = [];
         for(var i = 0; i < 7; i++) {
-            dates.push(requiredWeek.daysFromDate(i));
+            var date = requiredWeek.daysFromDate(i);
+            date = M.Date.create(date.format('mm') + '/' + date.format('dd') + '/' + date.format('yyyy'));
+            dates.push(date);
         }
 
         return dates;
@@ -532,10 +536,10 @@ M.Date = M.Object.extend(
      * @param {Number} dayOfWeek The day of the week (0 = sunday, ..., 7 = saturday).
      * @param {Number} year The year (optional, default is current year).
      *
-     * @returns {Array} An array containing all dates within the specified calendar week.
+     * @returns {M.Date} The date.
      */
     getDateByWeekdayAndCalendarWeek: function(calendarWeek, dayOfWeek, year) {
-        if(calendarWeek && !isNaN(calendarWeek) && dayOfWeek && !isNaN(dayOfWeek)) {
+        if(calendarWeek && !isNaN(calendarWeek) && ((dayOfWeek && !isNaN(dayOfWeek)) || dayOfWeek === 0)) {
             var dates = M.Date.getDatesOfCalendarWeek(calendarWeek, NO, year);
             if(dates && dates.length > 0 && dates[dayOfWeek]) {
                 return dates[dayOfWeek];

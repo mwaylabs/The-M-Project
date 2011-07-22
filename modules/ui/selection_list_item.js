@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      30.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -69,7 +70,7 @@ M.SelectionListItemView = M.View.extend(
 
             this.html += '</option>';
         } else {
-            this.html += '<input type="' + this.parentView.selectionMode + '" data-native-menu="' + !this.applyTheme + '" id="' + this.id + '"';
+            this.html += '<input type="' + this.parentView.selectionMode + '" data-native-menu="false" id="' + this.id + '"';
 
             if(this.parentView.selectionMode === M.SINGLE_SELECTION) {
                 this.html += ' name="' + (this.parentView.name ? this.parentView.name : this.parentView.id) + '"';
@@ -106,7 +107,7 @@ M.SelectionListItemView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.parentView && this.applyTheme && this.parentView.applyTheme) {
+        if(this.parentView) {
             if(this.parentView.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
                 $('#' + this.id).checkboxradio();
             }

@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      26.01.2011
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -35,6 +36,14 @@ M.MAP_SATELLITE = 'SATELLITE';
  * @type String
  */
 M.MAP_TERRAIN = 'TERRAIN';
+
+/**
+ * A global reference to the first instances of M.MapView. We use this to have a accessible hook
+ * to the map we can pass to google as a callback object.
+ *
+ * @type Object
+ */
+M.INITIAL_MAP = null;
 
 /**
  * @class
@@ -91,13 +100,20 @@ M.MapView = M.View.extend(
     zoomLevel: 15,
 
     /**
-     * This property specifies the zoom level for this map view. It is directly
-     * mapped to the zoom property of a google map view. For further information
-     * see the google maps API specification:
+     * This property specifies the map type for this map view. It is directly
+     * mapped to the 'mapTypeId' property of a google map view. Possible values
+     * for this property are:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   - M.MAP_ROADMAP --> This map type displays a normal street map.
+     *   - M.MAP_HYBRID --> This map type displays a transparent layer of major streets on satellite images.
+     *   - M.MAP_SATELLITE --> This map type displays satellite images.
+     *   - M.MAP_TERRAIN --> This map type displays maps with physical features such as terrain and vegetation.
      *
-     * @type Number
+     * For further information see the google maps API specification:
+     *
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+     *
+     * @type String
      */
     mapType: M.MAP_ROADMAP,
 
@@ -106,7 +122,7 @@ M.MapView = M.View.extend(
      * inside of this map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
      *
      * @type Boolean
      */
@@ -117,7 +133,7 @@ M.MapView = M.View.extend(
      * inside of this map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
      *
      * @type Boolean
      */
@@ -128,7 +144,7 @@ M.MapView = M.View.extend(
      * inside of this map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
      *
      * @type Boolean
      */
@@ -139,7 +155,7 @@ M.MapView = M.View.extend(
      * a user won't be able to move the map, respectively the visible sector. For
      * further information see the google maps API specification:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
      *
      * @type Boolean
      */
@@ -151,7 +167,7 @@ M.MapView = M.View.extend(
      * property of a google map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
      *
      * @type M.Location
      */
@@ -199,6 +215,15 @@ M.MapView = M.View.extend(
     removeMarkersOnUpdate: YES,
 
     /**
+     * If set, contains the map view's callback in sub a object named 'error',
+     * which will be called if no connection is available and the map service
+     * (google maps api) can not be loaded.
+     *
+     * @type Object
+     */
+    callbacks: null,
+
+    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array
@@ -242,7 +267,7 @@ M.MapView = M.View.extend(
         /* get the marker / location objects from content binding */
         var content = this.contentBinding.target[this.contentBinding.property];
         var markers = [];
-        
+
         /* save a reference to the map */
         var that = this;
 
@@ -320,75 +345,123 @@ M.MapView = M.View.extend(
      * or a constant value, the location must be a valid M.Location object.
      *
      * @param {Object} options The options for the map view.
+     * @param {Boolean} isUpdate Indicates whether this is an update call or not.
      */
     initMap: function(options, isUpdate) {
         if(!this.isInitialized || isUpdate) {
             if(!isUpdate) {
                 this.markers = [];
             }
-            for(var i in options) {
-                 switch (i) {
-                     case 'zoomLevel':
-                        this[i] = (typeof(options[i]) === 'number' && options[i] > 0) ? (options[i] > 22 ? 22 : options[i]) : this[i];
-                        break;
-                     case 'mapType':
-                        this[i] = (options[i] === M.MAP_ROADMAP || options[i] === M.MAP_HYBRID || options[i] === M.MAP_SATELLITE || options[i] === M.MAP_TERRAIN) ? options[i] : this[i];
-                        break;
-                     case 'markerAnimationType':
-                        this[i] = (options[i] === M.MAP_MARKER_ANIMATION_BOUNCE || options[i] === M.MAP_MARKER_ANIMATION_DROP) ? options[i] : this[i];
-                        break;
-                     case 'showMapTypeControl':
-                     case 'showNavigationControl':
-                     case 'showStreetViewControl':
-                     case 'isDraggable':
-                     case 'setMarkerAtInitialLocation':
-                     case 'removeMarkersOnUpdate':
-                        this[i] = typeof(options[i]) === 'boolean' ? options[i] : this[i];
-                        break;
-                     case 'initialLocation':
-                        this[i] = (typeof(options[i]) === 'object' && options[i].type === 'M.Location') ? options[i] : this[i];
-                        break;
-                     default:
-                        break;
-                 }
-            };
-            if(isUpdate) {
-                if(this.removeMarkersOnUpdate) {
-                    this.removeAllMarkers();
-                }
-                this.map.setOptions({
-                    zoom: this.zoomLevel,
-                    center: new google.maps.LatLng(this.initialLocation.latitude, this.initialLocation.longitude),
-                    mapTypeId: google.maps.MapTypeId[this.mapType],
-                    mapTypeControl: this.showMapTypeControl,
-                    navigationControl: this.showNavigationControl,
-                    streetViewControl: this.showStreetViewControl,
-                    draggable: this.isDraggable
+
+            if(typeof(google) === 'undefined') {
+                /* store the passed params and this map globally for further use */
+                M.INITIAL_MAP = {
+                    map: this,
+                    options: options,
+                    isUpdate: isUpdate
+                };
+
+                /* check the connection status */
+                M.Environment.getConnectionStatus({
+                    target: this,
+                    action: 'didRetrieveConnectionStatus'
                 });
             } else {
-                this.map = new google.maps.Map($('#' + this.id + '_map')[0], {
-                    zoom: this.zoomLevel,
-                    center: new google.maps.LatLng(this.initialLocation.latitude, this.initialLocation.longitude),
-                    mapTypeId: google.maps.MapTypeId[this.mapType],
-                    mapTypeControl: this.showMapTypeControl,
-                    navigationControl: this.showNavigationControl,
-                    streetViewControl: this.showStreetViewControl,
-                    draggable: this.isDraggable
-                });
+                this.googleDidLoad(options, isUpdate, true);
             }
-
-            if(this.setMarkerAtInitialLocation) {
-                var that = this;
-                this.addMarker(M.MapMarkerView.init({
-                    location: this.initialLocation,
-                    map: that.map
-                }));
-            }
-            
-            this.isInitialized = YES;
         } else {
             M.Logger.log('The M.MapView has already been initialized', M.WARN);
         }
+    },
+
+    /**
+     * This method is used internally to retrieve the connection status. If there is a connection
+     * available, we will include the google maps api.
+     *
+     * @private
+     */
+    didRetrieveConnectionStatus: function(connectionStatus) {
+        if(connectionStatus === M.ONLINE) {
+            $('body').append('<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&callback=M.INITIAL_MAP.map.googleDidLoad"></script>');
+        } else {
+            if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks.error, 'offline')){
+                this.bindToCaller(this.callbacks.error.target, this.callbacks.error.action)();
+            }
+        }
+    },
+
+    /**
+     * This method is used internally to initialite the map if the google api hasn't been loaded
+     * before. If so, we use this method as callback for google.
+     *
+     * @private
+     */
+    googleDidLoad: function(options, isUpdate, isInternalCall) {
+        if(!isInternalCall) {
+            options = M.INITIAL_MAP.options;
+            isUpdate = M.INITIAL_MAP.isUpdate;
+        }
+
+        for(var i in options) {
+             switch (i) {
+                 case 'zoomLevel':
+                    this[i] = (typeof(options[i]) === 'number' && options[i] > 0) ? (options[i] > 22 ? 22 : options[i]) : this[i];
+                    break;
+                 case 'mapType':
+                    this[i] = (options[i] === M.MAP_ROADMAP || options[i] === M.MAP_HYBRID || options[i] === M.MAP_SATELLITE || options[i] === M.MAP_TERRAIN) ? options[i] : this[i];
+                    break;
+                 case 'markerAnimationType':
+                    this[i] = (options[i] === M.MAP_MARKER_ANIMATION_BOUNCE || options[i] === M.MAP_MARKER_ANIMATION_DROP) ? options[i] : this[i];
+                    break;
+                 case 'showMapTypeControl':
+                 case 'showNavigationControl':
+                 case 'showStreetViewControl':
+                 case 'isDraggable':
+                 case 'setMarkerAtInitialLocation':
+                 case 'removeMarkersOnUpdate':
+                    this[i] = typeof(options[i]) === 'boolean' ? options[i] : this[i];
+                    break;
+                 case 'initialLocation':
+                    this[i] = (typeof(options[i]) === 'object' && options[i].type === 'M.Location') ? options[i] : this[i];
+                    break;
+                 default:
+                    break;
+             }
+        };
+        if(isUpdate) {
+            if(this.removeMarkersOnUpdate) {
+                this.removeAllMarkers();
+            }
+            this.map.setOptions({
+                zoom: this.zoomLevel,
+                center: new google.maps.LatLng(this.initialLocation.latitude, this.initialLocation.longitude),
+                mapTypeId: google.maps.MapTypeId[this.mapType],
+                mapTypeControl: this.showMapTypeControl,
+                navigationControl: this.showNavigationControl,
+                streetViewControl: this.showStreetViewControl,
+                draggable: this.isDraggable
+            });
+        } else {
+            this.map = new google.maps.Map($('#' + this.id + '_map')[0], {
+                zoom: this.zoomLevel,
+                center: new google.maps.LatLng(this.initialLocation.latitude, this.initialLocation.longitude),
+                mapTypeId: google.maps.MapTypeId[this.mapType],
+                mapTypeControl: this.showMapTypeControl,
+                navigationControl: this.showNavigationControl,
+                streetViewControl: this.showStreetViewControl,
+                draggable: this.isDraggable
+            });
+        }
+
+        if(this.setMarkerAtInitialLocation) {
+            var that = this;
+            this.addMarker(M.MapMarkerView.init({
+                location: this.initialLocation,
+                map: that.map
+            }));
+        }
+
+        this.isInitialized = YES;
     },
 
     /**

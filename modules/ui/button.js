@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      02.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -113,11 +114,10 @@ M.ButtonView = M.View.extend(
      */
     renderUpdate: function() {
         this.computeValue();
-        if(this.applyTheme) {
-            this.theme();
-            $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
-        } else {
+        if(this.parentView && this.parentView.type === 'M.ButtonGroupView') {
             $('#' + this.id).find('.ui-btn-text').text(this.value);
+        } else {
+            $('#' + this.id).parent().find('.ui-btn-text').text(this.value);
         }
     },
 

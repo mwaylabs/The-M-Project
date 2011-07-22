@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      04.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -117,14 +118,6 @@ M.TextFieldView = M.View.extend(
     hasMultipleLines: NO,
 
     /**
-     * A boolean value to determine whether a view has a value or not. A text field view does have
-     * a value, so it is set to YES.
-     *
-     * @type Boolean
-     */
-    hasValue: YES,
-
-    /**
      * This property specifies the input type of this input field. Possible values are:
      *
      *   - M.INPUT_TEXT --> text input (default)
@@ -154,6 +147,7 @@ M.TextFieldView = M.View.extend(
      * @returns {String} The text field view's html representation.
      */
     render: function() {
+        this.computeValue();
         this.html += '<div';
 
         if(this.label && this.isGrouped) {
@@ -216,22 +210,16 @@ M.TextFieldView = M.View.extend(
      * This is a special implementation for M.TextFieldView.
      */
     contentDidChange: function(){
-        var contentBinding = this.contentBinding ? this.contentBinding : (this.computedValue) ? this.computedValue.contentBinding : null;
-
-        if(!contentBinding || (this.hasFocus)) {
+        /* if the text field has the focus, we do not apply the content binding */
+        if(this.hasFocus) {
             return;
         }
 
-        if(this.contentBinding) {
-            this.value = contentBinding.target[contentBinding.property];
-        } else if(this.computedValue.contentBinding) {
-            this.computedValue.value = contentBinding.target[contentBinding.property];
-        }
+        /* let M.View do the real job */
+        this.bindToCaller(this, M.View.contentDidChange)();
 
         this.renderUpdate();
         this.delegateValueUpdate();
-
-        /* TODO: ADD CONTENT BINDING FOR MORE THAN ONE LEVEL */
     },
 
     /**
@@ -240,6 +228,7 @@ M.TextFieldView = M.View.extend(
      * @private
      */
     renderUpdate: function() {
+        this.computeValue();
         $('#' + this.id).val(this.value);
         this.styleUpdate();
     },

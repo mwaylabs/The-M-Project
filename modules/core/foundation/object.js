@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: ©2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      26.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -97,7 +98,7 @@ M.Object =
      * Returns the class property behind the given key.
      *
      * @param {String} key The key of the property to be changed.
-     * @param {Object, String} value The value to be set.
+     * @param {Object|String} value The value to be set.
      */
     set: function(key, value) {
         this[key] = value;
@@ -108,6 +109,8 @@ M.Object =
      */
     destroy: function() {
         if(this.id && $('#' + this.id)) {
+            M.EventDispatcher.unregisterEvents(this);
+            M.ViewManager.unregister(this);
             $('#' + this.id).remove();
         }
         delete this;

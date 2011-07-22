@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: �2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      27.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -45,15 +46,6 @@ M.Controller = M.Object.extend(
     observable: null,
 
     /**
-     * Helper function to build the location href for the view to be displayed.
-     *
-     * @param {String} id The id of the new target.
-     */
-    buildLocationHref: function(id) {
-        return location.pathname + '#' + id;
-    },
-
-    /**
      * Switch the active tab in the application. This includes both activating this tab
      * visually and switching the page.
      *
@@ -79,48 +71,62 @@ M.Controller = M.Object.extend(
     /**
      * Switch the active page in the application.
      *
-     * @param {Object, String} page The page to be displayed or its name.
+     * @param {Object|String} page The page to be displayed or its name.
      * @param {String} transition The transition that should be used. Default: horizontal slide
      * @param {Boolean} isBack YES will cause a reverse-direction transition. Default: NO
-     * @param {Boolean} changeLoc Update the browser history. Default: YES
+     * @param {Boolean} updateHistory Update the browser history. Default: YES
      */
-    switchToPage: function(page, transition, isBack, changeLoc) {
+    switchToPage: function(page, transition, isBack, updateHistory) {
         var timeStart = M.Date.now();
-        page = page && typeof(page) === 'object' ? page : M.Application.viewManager.getPage(page);
+        page = page && typeof(page) === 'object' ? page : M.ViewManager.getPage(page);
 
         if(page) {
             transition = transition ? transition : M.TRANSITION.SLIDE;
             isBack = isBack !== undefined ? isBack : NO;
-            changeLoc = changeLoc !== undefined ? changeLoc : YES;
+            updateHistory = updateHistory !== undefined ? updateHistory : YES;
 
             /* Now do the page change by using a jquery mobile method and pass the properties */
             if(page.type === 'M.PageView') {
-                //console.log('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + changeLoc + ');');
-                $.mobile.changePage(page.id, {
+                //console.log('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + updateHistory + ');');
+                $.mobile.changePage($('#' + page.id), {
                     transition: M.Application.useTransitions ? transition : M.TRANSITION.NONE,
                     reverse: M.Application.useTransitions ? isBack : NO,
-                    changeHash: YES
+                    changeHash: YES,
+                    showLoadMsg: NO
                 });
             }
 
             /* Save the current page in the view manager */
-            M.Application.viewManager.setCurrentPage(page);
+            M.ViewManager.setCurrentPage(page);
         } else {
             M.Logger.log('Page "' + page + '" not found', M.ERR);
         }
     },
 
     /**
-     * Returns the class property behind the given key and informs its observers.
+     * This method initializes the notification of all observers, that observe the property behind 'key'.
      *
      * @param {String} key The key of the property to be changed.
-     * @param {Object, String} value The value to be set.
+     * @param {Object|String} value The value to be set.
      */
     set: function(key, value) {
-        this[key] = value;
+        var keyPath = key.split('.');
+
+        if(keyPath.length === 1) {
+            this[key] = value;
+        } else {
+            var t = (this[keyPath[0]] = this[keyPath[0]] ? this[keyPath[0]] : {});
+            for(var i = 1; i < keyPath.length - 1; i++) {
+                t = (t[keyPath[i]] = t[keyPath[i]] ? t[keyPath[i]] : {});
+            }
+
+            t[keyPath[keyPath.length - 1]] = value;
+        }
+
         if(!this.observable) {
             return;
         }
+
         this.observable.notifyObservers(key);
     }
 

@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      02.12.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -47,20 +48,6 @@ M.LoaderView = M.View.extend(
      * @type String
      */
     defaultTitle: 'loading',
-
-    /**
-     * Renders a loader view.
-     *
-     * @private
-     * @returns {String} The loader view's html representation.
-     */
-    render: function() {
-        this.html = '<div id="' + this.id + '" class="ui-loader ui-body-a ui-corner-all"><span class="ui-icon ui-icon-loading spin"></span><h1>' + this.defaultTitle + '</h1></div>';
-
-        $('body').append($(this.html).css({
-            top: $.support.scrollTop && $(window).scrollTop() + $(window).height() / 2
-        }));
-    },
             
     /**
      * This method initializes the loader by loading it once.
@@ -69,11 +56,8 @@ M.LoaderView = M.View.extend(
      */
     initialize: function() {
         if(!this.isInitialized) {
-            this.id = M.ViewManager.getNextId();
-            M.ViewManager.register(this);
-            this.render();
-            this.hide();
             this.refCount = 0;
+            this.isInitialized = YES;
         }
     },
 
@@ -86,14 +70,26 @@ M.LoaderView = M.View.extend(
     show: function(title) {
         this.refCount++;
         var title = title && typeof(title) === 'string' ? title : this.defaultTitle;
-        $('.ui-loader h1').text(title);
+        $.mobile.loadingMessage = title;
         if(this.refCount == 1){
-            $('#' + this.id).show();
+            $.mobile.pageLoading();
+
+            /* position alert in the center of the possibly scrolled viewport */
+            var loader = $('.ui-loader');
+            var screenSize = M.Environment.getSize();
+            var scrollYOffset = window.pageYOffset;
+            var loaderHeight = loader.outerHeight();
+
+            var yPos = scrollYOffset + (screenSize[1]/2);
+            loader.css('top', yPos + 'px');
+            loader.css('margin-top', '-' + (loaderHeight/2) + 'px');
         }
     },
 
     /**
      * This method hides the loader.
+     *
+     * @param {Boolean} force Determines whether to force the hide of the loader.
      */
     hide: function(force) {
         if(force || this.refCount <= 0) {
@@ -102,7 +98,7 @@ M.LoaderView = M.View.extend(
             this.refCount--;
         }
         if(this.refCount == 0){
-            $('#' + this.id).hide();
+            $.mobile.pageLoading(true);
         }
     }
     

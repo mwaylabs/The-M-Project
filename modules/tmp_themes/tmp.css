@@ -10,12 +10,7 @@
     color: #fff;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     z-index: 100001;
-    position: absolute; /*the element is removed from the natural flux of the page and positioned in a absolute way*/
-    top: 50%; /*the top border of the element is positioned at half of the available height of the parent element*/
-    margin-top: -100px; /*half of the element height is removed from the top margin to center it*/
-    left: 50%;
-    margin-left: -125px;
-    z-index: 1000 !important;
+
 }
 
 .tmp-dialog-header {
@@ -53,8 +48,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    /*height:100%;
-         padding-top:15%;*/
+    height:100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000 !important;
 }

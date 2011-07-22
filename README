@@ -26,6 +26,33 @@ Thanks for sharing!
 
 ## CHANGELOG
 
+** Version 0.6 - Date 21.07.2011 **
+
+  * Refactored content binding (3): set() now can set single values of a chain like 'person.address.street'
+  * Added 'orientationchange' event to M.PageView
+  * Fixed M.LoaderView
+  * Removed useless properties of M.Application (viewManager, modelRegistry, ...)
+  * Refactored M.MapView: Load google maps api only if connection available (this fixes a bug with the cache manifest)
+  * Added unregisterEvents() to M.EventDispatcher
+  * Renamed remove() to unregister() in M.ViewManager
+  * Refactored destroy() in M.Application: Additionally unregister a view from both the event dispatcher and the view manager
+  * Added setActiveButtonAtIndex() to M.ButtonGroupView
+  * Removed applyTheme property
+  * Fixed a bug in renderUpdate() of M.ButtonView
+  * Added resetSelection() to M.SelectionListView
+  * Updated jQuery Mobile to 1.0b1 (and adjusted some parts of TMP to work with this new version properly)
+  * Updated underscore.js to 1.1.6
+  * Removed the VERSION file, since we maintain the version in m.js -> M.version
+  * Refactored alert and confirm dialog to have position dynamically calculated => always in center of the screen, even if page is scrolled. Semi-transparent background now has full page size.
+  * Added getTotalSize, getTotalHeight and getTotalWidth to M.Environment to get total size of document
+  * Auto-center M.Loader view when show() is called and the loader was hidden before
+  * Fixed a bug in M.FormView's showErrors()
+  * Added Dynamic Value Computing to M.TextFieldView
+  * Added config property and getConfig() to M.Application to access properties of config.json within an application
+  * Added isSelectable property to M.ListItemView
+  * Added setView() to M.ToggleView
+  * Use debugMode property of config.json to only log if we are not in production mode
+
 ** Version 0.5 - Date 03.06.2011 **
 
   * Fixed a bug in M.I18N

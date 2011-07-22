@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      26.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -109,13 +110,6 @@ M.View = M.Object.extend(
      * Indicates whether the view is currently enabled or disabled.
      */
     isEnabled: YES,
-
-    /**
-     * This property determines whether to apply a theme to a view or not.
-     *
-     * @type Boolean
-     */
-    applyTheme: YES,
 
     /**
      * This property can be used to save a reference to the view's parent view.
@@ -233,8 +227,8 @@ M.View = M.Object.extend(
      */
     design: function(obj) {
         var view = this.extend(obj);
-        view.id = M.Application.viewManager.getNextId();
-        M.Application.viewManager.register(view);
+        view.id = M.ViewManager.getNextId();
+        M.ViewManager.register(view);
 
         view.attachToObservable();
         
@@ -273,16 +267,17 @@ M.View = M.Object.extend(
         if(this.childViews) {
             var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
-                if(this.type === 'M.PageView' && this[childViews[i]].type === 'M.TabBarView') {
-                    this.hasTabBarView = YES;
-                    this.tabBarView = this[childViews[i]];
-                }
                 if(this[childViews[i]]) {
                     this[childViews[i]]._name = childViews[i];
                     this.html += this[childViews[i]].render();
                 } else {
                     this.childViews = this.childViews.replace(childViews[i], ' ');
                     M.Logger.log('There is no child view \'' + childViews[i] + '\' available for ' + this.type + ' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')! It will be excluded from the child views and won\'t be rendered.', M.WARN);
+                }
+
+                if(this.type === 'M.PageView' && this[childViews[i]].type === 'M.TabBarView') {
+                    this.hasTabBarView = YES;
+                    this.tabBarView = this[childViews[i]];
                 }
             }
             return this.html;
@@ -302,7 +297,7 @@ M.View = M.Object.extend(
                 this[childViews[i]].removeChildViews();
             }
             this[childViews[i]].destroy();
-            M.ViewManager.remove(this[childViews[i]]);
+            M.ViewManager.unregister(this[childViews[i]]);
         }
         $('#' + this.id).empty();
     },

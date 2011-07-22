@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: �2010 M-Way Solutions GmbH. All rights reserved.
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      28.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -132,7 +133,7 @@ M.Request = M.Object.extend(
 
     /**
      * The callback to be called if the request succeeded.
-     * @param {String, Object} data The data returned from the server.
+     * @param {String|Object} data The data returned from the server.
      * @param {String} msg A String describing the status.
      * @param {Object} request The XMLHttpRequest object.
      */
