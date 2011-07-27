@@ -14,7 +14,7 @@ m_require('core/utility/logger.js');
 
 /**
  * @class
- * 
+ *
  * The root object for Error objects
  *
  * M.Error encapsulates errors in The-M-Project.
@@ -216,7 +216,7 @@ M.ERR_WEBSQL_TIMEOUT = 207;
 /**
  * A constant value for an error occuring when dbHandler does not exist in
  * data provider. Reason: Initialization did not take place or failed.
- * 
+ *
  * @type Number
  */
 M.ERR_WEBSQL_PROVIDER_NO_DBHANDLER = 208;
