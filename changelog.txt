@@ -1,3 +1,7 @@
+** Version 0.7pre - Date 28.07.2011 **
+
+  * Added D8 as the next generation date object in JavaScript (M.Date remains, but will no longer be maintained)
+
 ** Version 0.6 - Date 21.07.2011 **
 
   * Refactored content binding (3): set() now can set single values of a chain like 'person.address.street'
