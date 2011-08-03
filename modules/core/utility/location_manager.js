@@ -222,12 +222,12 @@ M.LocationManager = M.Object.extend(
         options.enableHighAccuracy = options.enableHighAccuracy ? options.enableHighAccuracy : NO;
         options.maximumAge = options.maximumAge ? options.maximumAge : 0;
         options.timeout = options.timeout ? options.timeout : 3000;
-        options.accuracy = options.accuracy ? options.accuracy : 50;
 
         if(navigator && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
-                    if(position.coords.accuracy <= options.accuracy) {
+                    that.isGettingLocation = NO;
+                    if(!options.accuracy || (options.accuracy && position.coords.accuracy <= options.accuracy)) {
                         var location = M.Location.extend({
                             latitude: position.coords.latitude,
                             longitude: position.coords.longitude,
@@ -242,9 +242,9 @@ M.LocationManager = M.Object.extend(
                         options.timeout = options.timeout - that.lastLocationUpdate.timeBetween(now);
                         that.getLocation(caller, onSuccess, onError, options);
                     }
-                    that.isGettingLocation = NO;
                 },
                 function(error) {
+                    that.isGettingLocation = NO;
                     switch (error.code) {
                         case 1:
                             that.bindToCaller(caller, onError, M.LOCATION_PERMISSION_DENIED)();
@@ -259,7 +259,6 @@ M.LocationManager = M.Object.extend(
                             that.bindToCaller(caller, onError, M.LOCATION_UNKNOWN_ERROR)();
                             break;
                     }
-                    that.isGettingLocation = NO;
                 },
                 options
             );
