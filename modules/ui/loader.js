@@ -70,7 +70,7 @@ M.LoaderView = M.View.extend(
     show: function(title) {
         this.refCount++;
         var title = title && typeof(title) === 'string' ? title : this.defaultTitle;
-        $.mobile.loadingMessage = title;
+        this.changeTitle(title);
         if(this.refCount == 1){
             $.mobile.pageLoading();
 
@@ -84,6 +84,16 @@ M.LoaderView = M.View.extend(
             loader.css('top', yPos + 'px');
             loader.css('margin-top', '-' + (loaderHeight/2) + 'px');
         }
+    },
+
+    /**
+     * This method changes the current title.
+     *
+     * @param {String} title The title for this loader.
+     */
+
+    changeTitle: function(title){
+        $('.ui-loader h1').html(title);
     },
 
     /**
