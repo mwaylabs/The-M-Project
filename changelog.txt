@@ -1,7 +1,8 @@
-** Version 0.7pre - Date 03.08.2011 **
+** Version 0.7pre - Date 08.08.2011 **
 
   * Added D8 as the next generation date object in JavaScript (M.Date remains, but will no longer be maintained)
   * Fixed a bug in M.LocationManager
+  * Updated JQM to 1.0b2
 
 ** Version 0.6 - Date 21.07.2011 **
 
