@@ -104,7 +104,11 @@ M.EventDispatcher = M.Object.extend(
         }
 
         var that = this;
-        eventSource.unbind(type).bind(type, function(event) {
+        var view = M.ViewManager.getViewById(eventSource.attr('id'));
+        if(!view || view.type !== 'M.TextFieldView') {
+            eventSource.unbind(type);
+        }
+        eventSource.bind(type, function(event) {
             event.preventDefault();
             event.stopPropagation();
 
