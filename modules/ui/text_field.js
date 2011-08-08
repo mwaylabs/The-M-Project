@@ -323,6 +323,12 @@ M.TextFieldView = M.View.extend(
      * @private
      */
     styleUpdate: function() {
+        /* trigger keyup event to make the text field autogrow (enable fist, if necessary) */
+        if(this.value) {
+            $('#' + this.id).removeAttr('disabled');
+            $('#'  + this.id).trigger('keyup');
+        }
+
         if(this.isInline) {
             $('#' + this.id).attr('display', 'inline');
         } else {
@@ -333,11 +339,6 @@ M.TextFieldView = M.View.extend(
             $('#' + this.id).attr('disabled', 'disabled');
         } else {
             $('#' + this.id).removeAttr('disabled');
-        }
-
-        /* trigger keyup event to make the text field autogrow */
-        if(this.value) {
-            $('#'  + this.id).trigger('keyup');
         }
     },
 
