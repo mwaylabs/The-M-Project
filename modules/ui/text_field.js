@@ -288,10 +288,11 @@ M.TextFieldView = M.View.extend(
         if(this.isInline) {
             html += 'display:inline;';
         }
-        if(!this.isEnabled) {
-            html += 'disabled:disabled;';
-        }
         html += '"';
+
+        if(!this.isEnabled) {
+            html += ' disabled="disabled"';
+        }
         
         if(this.cssClass) {
             html += ' class="' + this.cssClass + '"';
