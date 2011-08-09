@@ -8,6 +8,7 @@
   * Fixed a bug in styleUpdate(), since disabled-property lead to problems with autogrow mechanism
   * Fixed a bug in M.EventDispatcher (no unbind of jqm-based events)
   * ContentDidChange Event for values which are an empty string
+  * Refactored M.SelectionListView to use this.value in renderUpdate() since it was automatically set by contentDidChange() of M.View
 
 ** Version 0.6 - Date 21.07.2011 **
 
