@@ -7,6 +7,7 @@
   * Fixed a bug in style() with the disabled-property
   * Fixed a bug in styleUpdate(), since disabled-property lead to problems with autogrow mechanism
   * Fixed a bug in M.EventDispatcher (no unbind of jqm-based events)
+  * ContentDidChange Event for values which are an empty string
 
 ** Version 0.6 - Date 21.07.2011 **
 
