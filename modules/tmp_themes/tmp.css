@@ -98,6 +98,10 @@
     float: left;
 }
 
+.tmp-dashboard-item img {
+    max-width: 100%;
+}
+
 .tmp-dashboard-item, .tmp-dashboard-item-label {
     text-align: center;
 }
