@@ -306,13 +306,8 @@ M.SelectionListView = M.View.extend(
         }
         
         if(this.contentBinding) {
-            var items = null;
-            if(this.contentBinding && typeof(this.contentBinding.target) === 'object' && typeof(this.contentBinding.property) === 'string' && this.contentBinding.target[this.contentBinding.property]) {
-                items = this.contentBinding.target[this.contentBinding.property];
-            } else {
-                M.Logger.log('The specified content binding for the selection list view (' + this.id + ') is invalid!', M.WARN);
-                return;
-            }
+            /* assign the value property to 'items' since this was automatically set by contentDidChange of M.View */
+            var items = this.value;
             for(var i in items) {
                 var item  = items[i];
                 var obj = null;
