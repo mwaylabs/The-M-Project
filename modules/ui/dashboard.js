@@ -53,10 +53,19 @@ M.DashboardView = M.View.extend(
     items: [],
 
     /**
+     * This property can be used to specify whether or not the dashboard can be re-arranged
+     * by a user.
+     *
+     * @type Boolean
+     */
+    isEditable: NO,
+
+    /**
      * This property is used internally to indicate whether the dashboard is currently in
      * edit mode or not.
      *
      * @private
+     * @type Boolean
      */
     isInEditMode: NO,
 
@@ -66,6 +75,7 @@ M.DashboardView = M.View.extend(
      * next tap will now end the edit mode.
      *
      * @private
+     * @type Boolean
      */
     captureNextTap: NO,
 
@@ -228,6 +238,10 @@ M.DashboardView = M.View.extend(
      * of the dashboard's
      */
     editDashboard: function(id, event, nextEvent) {
+        if(!this.isEditable) {
+            return;
+        }
+        
         if(this.isInEditMode && event) {
             this.stopEditMode();
         } else if((!this.isInEditMode && event) || (this.isInEditMode && !event)) {
