@@ -108,6 +108,30 @@ M.ButtonView = M.View.extend(
     },
 
     /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for list views and their
+     * internal events.
+     */
+    registerEvents: function() {
+        if(!this.internalEvents) {
+            this.internalEvents = {
+                tap: {
+                    target: this,
+                    action: 'dispatchEvent'
+                },
+                click: {
+                    target: this,
+                    action: 'dispatchEvent'
+                }
+            }
+        }
+        this.bindToCaller(this, M.View.registerEvents)();
+    },
+
+    /**
      * Updates the value of the button with DOM access by jQuery.
      *
      * @private
@@ -164,6 +188,44 @@ M.ButtonView = M.View.extend(
             html += 'style="' + this.cssStyle + '"';
         }
         return html;
+    },
+
+    /**
+     * This method is called right before the page is loaded. If a beforeLoad-action is defined
+     * for the page, it is now called.
+     *
+     * @param {String} id The DOM id of the event target.
+     * @param {Object} event The DOM event.
+     * @param {Object} nextEvent The next event (external event), if specified.
+     */
+    dispatchEvent: function(id, event, nextEvent) {
+        if(this.isEnabled && nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
+        }
+    },
+
+    /**
+     * This method can be used to disable the button. This leads to a visual 'disabled' look and
+     * disabled the buttons tap/click events.
+     */
+    disable: function() {
+        if(this.isEnabled) {
+            var html = $('#' + this.id).html();
+            html = '<div data-theme="c" class="ui-shadow ui-disabled" aria-disabled="true">' + html + '</div>';
+            $('#' + this.id).html(html);
+            this.isEnabled = NO;
+        }
+    },
+
+    /**
+     * This method can be used to enable a disabled button and make it usable again.
+     */
+    enable: function() {
+        if(!this.isEnabled) {
+            var html = $('#' + this.id + ' div').html();
+            $('#' + this.id).html(html);
+            this.isEnabled = YES;
+        }
     }
 
 });

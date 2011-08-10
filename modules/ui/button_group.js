@@ -427,6 +427,11 @@ M.ButtonGroupView = M.View.extend(
      * @param {Object} nextEvent The application-side event handler.
      */
     buttonSelected: function(id, event, nextEvent) {
+        /* if selected button is disabled, do nothing */
+        if(M.ViewManager.getViewById(id) && M.ViewManager.getViewById(id).type === 'M.ButtonView' && !M.ViewManager.getViewById(id).isEnabled) {
+            return;
+        }
+
         if(!(this.activeButton && this.activeButton === M.ViewManager.getViewById(id))) {
             if(this.isSelectable) {
                 if(this.activeButton) {
