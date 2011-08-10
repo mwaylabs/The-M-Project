@@ -10,6 +10,7 @@
   * ContentDidChange Event for values which are an empty string
   * Refactored M.SelectionListView to use this.value in renderUpdate() since it was automatically set by contentDidChange() of M.View
   * Added M.DashboardView / M.DashboardItemView
+  * Added disable() / enable() to M.ButtonView (also usable within a button group)
 
 ** Version 0.6 - Date 21.07.2011 **
 

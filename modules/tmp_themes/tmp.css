@@ -100,6 +100,7 @@
 
 .tmp-dashboard-item img {
     max-width: 100%;
+    -webkit-touch-callout: none;
 }
 
 .tmp-dashboard-item, .tmp-dashboard-item-label {
@@ -112,10 +113,31 @@
 	width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
-    margin-left: 2%;
-    margin-right: 2%;
 }
 
 .tmp-dashboard-line-clear {
     clear: left;
+}
+
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    25% {
+        -webkit-transform: rotate(20deg);
+    }
+    50% {
+        -webkit-transform: rotate(0deg);
+    }
+    75% {
+        -webkit-transform: rotate(-20deg);
+    }
+    100% {
+        -webkit-transform: rotate(0deg);
+    }
+}
+
+.rotating {
+    -webkit-animation:
+        rotate 0.5s linear infinite
 }
