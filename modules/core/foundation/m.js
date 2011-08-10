@@ -60,7 +60,7 @@ M.META_M_ID = '_m_id';
  * @param {String} param One character string. If it is 'f' (means 'force'), the existing clear() is used to clear the whole storage
  * if param is undefined or another letter, the custom clear is used.
  */
-localStorage.__proto__.clear = function(param) {
+Object.getPrototypeOf(localStorage).clear = function(param) {
     /* Call localStorage.clear() with parameter 'f' to use system wide localStorage.clear() */
     var l = this.length;
     if(param === 'f') {
