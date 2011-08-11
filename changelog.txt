@@ -1,4 +1,4 @@
-** Version 0.7pre - Date 08.08.2011 **
+** Version 0.7pre - Date 11.08.2011 **
 
   * Added D8 as the next generation date object in JavaScript (M.Date remains, but will no longer be maintained)
   * Fixed a bug in M.LocationManager
@@ -11,6 +11,7 @@
   * Refactored M.SelectionListView to use this.value in renderUpdate() since it was automatically set by contentDidChange() of M.View
   * Added M.DashboardView / M.DashboardItemView
   * Added disable() / enable() to M.ButtonView (also usable within a button group)
+  * Extended dashboard's editable support for dektop browser
 
 ** Version 0.6 - Date 21.07.2011 **
 

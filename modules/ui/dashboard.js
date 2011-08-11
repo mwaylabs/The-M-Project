@@ -70,16 +70,6 @@ M.DashboardView = M.View.extend(
     isInEditMode: NO,
 
     /**
-     * This property is used internally to capture the tap event following the taphold event
-     * that initializes the edit mode. Once the 'ghosttap' is done, we set this to YES. The
-     * next tap will now end the edit mode.
-     *
-     * @private
-     * @type Boolean
-     */
-    captureNextTap: NO,
-
-    /**
      * This property defines the dashboard's name. This is used internally to identify
      * the dashboard inside the DOM.
      *
@@ -91,6 +81,20 @@ M.DashboardView = M.View.extend(
     name: 'dashboard',
 
     /**
+     * This property is used internally to track the position of touch events.
+     *
+     * @private
+     */
+    touchPositions: null,
+
+    /**
+     * This property is used internally to know of what type the latest touch events was.
+     *
+     * @private
+     */
+    latestTouchEventType: null,
+
+    /**
      * Renders a dashboard.
      *
      * @private
@@ -100,6 +104,12 @@ M.DashboardView = M.View.extend(
         this.html += '<div id="' + this.id + '" class="tmp-dashboard">';
         this.renderChildViews();
         this.html += '</div>';
+
+        /* clear floating */
+        this.html += '<div class="tmp-dashboard-line-clear"></div>';
+
+        /* init the touchPositions property */
+        this.touchPositions = {};
 
         return this.html;
     },
@@ -179,7 +189,7 @@ M.DashboardView = M.View.extend(
 
             /* is new line starting? */
             if(itemIndex % this.itemsPerLine === 0) {
-                html += '<div class="tmp-dashboard-line">';
+                //html += '<div class="tmp-dashboard-line">';
             }
 
             /* assign the desired width */
@@ -190,7 +200,7 @@ M.DashboardView = M.View.extend(
 
             /* is a line finished? */
             if(itemIndex % this.itemsPerLine === this.itemsPerLine - 1) {
-                html += '</div><div class="tmp-dashboard-line-clear"></div>';
+                //html += '</div><div class="tmp-dashboard-line-clear"></div>';
             }
 
             /* return the html */
@@ -211,26 +221,18 @@ M.DashboardView = M.View.extend(
      * @private
      */
     dispatchTapEvent: function(id, event, nextEvent) {
-        /* delegate event to external handler, if specified */
-        if(!this.isInEditMode && !this.captureNextTap) {
-            /* now first call special handler for this item */
-            if(nextEvent) {
-                M.EventDispatcher.callHandler(nextEvent, event, YES);
-            }
-
-            /* now call global tap-event handler (if set) */
-            if(this.events && this.events.tap) {
-                M.EventDispatcher.callHandler(this.events.tap, event, YES);
-            }
-        } else if(!this.isInEditMode && this.captureNextTap) {
-            this.captureNextTap = NO;
-            this.registerEvents();
-            _.each(this.items, function(item) {
-                item.registerEvents();
-            });
-        } else if(this.isInEditMode && this.captureNextTap) {
-            this.captureNextTap = NO;
+        /* now first call special handler for this item */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
         }
+
+        /* now call global tap-event handler (if set) */
+        if(this.events && this.events.tap) {
+            M.EventDispatcher.callHandler(this.events.tap, event, YES);
+        }
+
+        /* now store timestamp for last tap event to kill a possible false taphold event */
+        this.latestTapEventTimestamp = +new Date();
     },
 
     /**
@@ -238,36 +240,67 @@ M.DashboardView = M.View.extend(
      * of the dashboard's
      */
     editDashboard: function(id, event, nextEvent) {
-        if(!this.isEditable) {
+        this.touchPositions.touchstart = {};
+        if(!this.isEditable || this.latestTapEventTimestamp > +new Date() - 500) {
             return;
         }
-        
+
         if(this.isInEditMode && event) {
             this.stopEditMode();
         } else if((!this.isInEditMode && event) || (this.isInEditMode && !event)) {
             M.EventDispatcher.unregisterEvents(this.id);
             this.isInEditMode = YES;
-            this.captureNextTap = YES;
             _.each(this.items, function(item) {
                 item.addCssClass('rotating');
                 M.EventDispatcher.unregisterEvents(item.id);
-                M.EventDispatcher.registerEvent(
-                    'taphold',
-                    item.id,
-                    {
-                        target: item.parentView,
-                        action: 'stopEditMode'
-                    }
-                );
-                $('#' + item.id).touch({
-                    animate: true,
-                    sticky: true,
-                    dragx: true,
-                    dragy: true,
-                    rotate: false,
-                    resort: true,
-                    scale: false
-                });
+                if($.support.touch) {
+                    M.EventDispatcher.registerEvent(
+                        'touchstart',
+                        item.id,
+                        {
+                            target: item.parentView,
+                            action: 'editTouchStart'
+                        },
+                        item.recommendedEvents
+                    );
+                    M.EventDispatcher.registerEvent(
+                        'touchend',
+                        item.id,
+                        {
+                            target: item.parentView,
+                            action: 'editTouchEnd'
+                        },
+                        item.recommendedEvents
+                    );
+                    M.EventDispatcher.registerEvent(
+                        'touchmove',
+                        item.id,
+                        {
+                            target: item.parentView,
+                            action: 'editTouchMove'
+                        },
+                        item.recommendedEvents
+                    );
+                } else {
+                    M.EventDispatcher.registerEvent(
+                        'mousedown',
+                        item.id,
+                        {
+                            target: item.parentView,
+                            action: 'editMouseDown'
+                        },
+                        item.recommendedEvents
+                    );
+                    M.EventDispatcher.registerEvent(
+                        'mouseup',
+                        item.id,
+                        {
+                            target: item.parentView,
+                            action: 'editMouseUp'
+                        },
+                        item.recommendedEvents
+                    );
+                }
             });
         }
     },
@@ -276,17 +309,9 @@ M.DashboardView = M.View.extend(
         this.isInEditMode = NO;
         _.each(this.items, function(item) {
             item.removeCssClass('rotating');
-            $('#' + item.id).touch({
-                animate: false,
-                sticky: false,
-                dragx: false,
-                dragy: false,
-                rotate: false,
-                resort: false,
-                scale: false
-            });
+            M.EventDispatcher.unregisterEvents(item.id);
+            item.registerEvents();
         });
-        this.captureNextTap = NO;
     },
 
     setValue: function(items) {
@@ -310,6 +335,186 @@ M.DashboardView = M.View.extend(
             });
         });
         return itemsSorted;
+    },
+
+    editTouchStart: function(id, event) {
+        this.latestTouchEventType = 'touchstart';
+        var latest = event.originalEvent ? (event.originalEvent.changedTouches ? event.originalEvent.changedTouches[0] : null) : null;
+        
+        this.touchPositions.touchstart = {
+            x: latest.clientX,
+            y: latest.clientY,
+            date: +new Date()
+        };
+
+        var that = this;
+        window.setTimeout(function() {
+            if(that.latestTouchEventType === 'touchstart') {
+                that.stopEditMode();
+            }
+        }, 750);
+    },
+
+    editTouchMove: function(id, event) {
+        this.latestTouchEventType = 'touchmove';
+        var latest = event.originalEvent ? (event.originalEvent.changedTouches ? event.originalEvent.changedTouches[0] : null) : null;
+
+        if(latest) {
+            var left = latest.pageX - parseInt($('#' + id).css('width')) / 2;
+            var top = latest.pageY - parseInt($('#' + id).css('height')) / 2;
+            $('#' + id).css('position', 'absolute');
+            $('#' + id).css('left', left + 'px');
+            $('#' + id).css('top', top + 'px');
+
+            /* if end event is within certain radius of start event and it took a certain time, and editing */
+            /*if(this.touchPositions.touchstart) {
+                if(this.touchPositions.touchstart.date < +new Date() - 1500) {
+                    if(Math.abs(this.touchPositions.touchstart.x - latest.clientX) < 30 && Math.abs(this.touchPositions.touchstart.y - latest.clientY) < 30) {
+                        this.stopEditMode();
+                        this.editTouchEnd(id, event);
+                    }
+                }
+            }*/
+        }
+    },
+
+    editTouchEnd: function(id, event) {
+        this.latestTouchEventType = 'touchend';
+        var latest = event.originalEvent ? (event.originalEvent.changedTouches ? event.originalEvent.changedTouches[0] : null) : null;
+        
+        if(event.currentTarget.id) {
+            var items = [];
+            _.each(this.items, function(item) {
+                items.push({
+                    id: item.id,
+                    x: $('#' + item.id).position().left,
+                    y: $('#' + item.id).position().top,
+                    item: item
+                });
+                items.sort(function(a, b) {
+                    /* assume they are in one row */
+                    if(Math.abs(a.y - b.y) < 30) {
+                        if(a.x < b.x) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    /* otherwise */
+                    } else {
+                        if(a.y < b.y) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    }
+                });
+            });
+            var objs = [];
+            _.each(items, function(item) {
+                objs.push(item.item);
+            });
+            this.setValue(objs);
+            this.renderUpdate();
+
+            if(this.isInEditMode) {
+                this.editDashboard();
+            }
+        }
+    },
+
+    editMouseDown: function(id, event) {
+        this.latestTouchEventType = 'mousedown';
+
+        this.touchPositions.touchstart = {
+            x: event.clientX,
+            y: event.clientY,
+            date: +new Date()
+        };
+
+        /* enable mouse move for selected item */
+        M.EventDispatcher.registerEvent(
+            'mousemove',
+            id,
+            {
+                target: this,
+                action: 'editMouseMove'
+            },
+            M.ViewManager.getViewById(id).recommendedEvents
+        );
+
+        var that = this;
+        window.setTimeout(function() {
+            if(that.latestTouchEventType === 'mousedown') {
+                that.stopEditMode();
+            }
+        }, 750);
+    },
+
+    editMouseMove: function(id, event) {
+        this.latestTouchEventType = 'mousemove';
+
+        var left = event.pageX - parseInt($('#' + id).css('width')) / 2;
+        var top = event.pageY - parseInt($('#' + id).css('height')) / 2;
+        $('#' + id).css('position', 'absolute');
+        $('#' + id).css('left', left + 'px');
+        $('#' + id).css('top', top + 'px');
+
+        /* if end event is within certain radius of start event and it took a certain time, and editing */
+        /*if(this.touchPositions.touchstart) {
+            if(this.touchPositions.touchstart.date < +new Date() - 1500) {
+                if(Math.abs(this.touchPositions.touchstart.x - latest.clientX) < 30 && Math.abs(this.touchPositions.touchstart.y - latest.clientY) < 30) {
+                    this.stopEditMode();
+                    this.editTouchEnd(id, event);
+                }
+            }
+        }*/
+    },
+
+    editMouseUp: function(id, event) {
+        this.latestTouchEventType = 'mouseup';
+
+        if(event.currentTarget.id) {
+            var items = [];
+            _.each(this.items, function(item) {
+
+                /* disable mouse move for all item */
+                M.EventDispatcher.unregisterEvent('mousemove', item.id);
+
+                items.push({
+                    id: item.id,
+                    x: $('#' + item.id).position().left,
+                    y: $('#' + item.id).position().top,
+                    item: item
+                });
+                items.sort(function(a, b) {
+                    /* assume they are in one row */
+                    if(Math.abs(a.y - b.y) < 30) {
+                        if(a.x < b.x) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    /* otherwise */
+                    } else {
+                        if(a.y < b.y) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    }
+                });
+            });
+            var objs = [];
+            _.each(items, function(item) {
+                objs.push(item.item);
+            });
+            this.setValue(objs);
+            this.renderUpdate();
+
+            if(this.isInEditMode) {
+                this.editDashboard();
+            }
+        }
     }
 
 });
