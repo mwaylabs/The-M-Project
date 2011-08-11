@@ -251,7 +251,7 @@ M.DashboardView = M.View.extend(
             M.EventDispatcher.unregisterEvents(this.id);
             this.isInEditMode = YES;
             _.each(this.items, function(item) {
-                item.addCssClass('rotating');
+                item.addCssClass('rotate' + M.Math.random(1, 2));
                 M.EventDispatcher.unregisterEvents(item.id);
                 if($.support.touch) {
                     M.EventDispatcher.registerEvent(
@@ -308,7 +308,8 @@ M.DashboardView = M.View.extend(
     stopEditMode: function() {
         this.isInEditMode = NO;
         _.each(this.items, function(item) {
-            item.removeCssClass('rotating');
+            item.removeCssClass('rotate1');
+            item.removeCssClass('rotate2');
             M.EventDispatcher.unregisterEvents(item.id);
             item.registerEvents();
         });

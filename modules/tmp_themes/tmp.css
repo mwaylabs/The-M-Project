@@ -124,20 +124,25 @@
         -webkit-transform: rotate(0deg);
     }
     25% {
-        -webkit-transform: rotate(20deg);
+        -webkit-transform: rotate(5deg);
     }
     50% {
         -webkit-transform: rotate(0deg);
     }
     75% {
-        -webkit-transform: rotate(-20deg);
+        -webkit-transform: rotate(-5deg);
     }
     100% {
         -webkit-transform: rotate(0deg);
     }
 }
 
-.rotating {
+.rotate1 {
     -webkit-animation:
-        rotate 0.5s linear infinite
+        rotate 0.3s linear infinite
+}
+
+.rotate2 {
+    -webkit-animation:
+        rotate 0.4s linear infinite
 }
