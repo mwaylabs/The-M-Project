@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      11.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -178,6 +179,7 @@ M.Date = M.Object.extend(
      * dd 	    Day of the month as digits; leading zero for single-digit days.
      * ddd 	    Day of the week as a three-letter abbreviation.
      * dddd 	Day of the week as its full name.
+     * D 	    Day of the week as number.
      * m 	    Month as digits; no leading zero for single-digit months.
      * mm 	    Month as digits; leading zero for single-digit months.
      * mmm 	    Month as a three-letter abbreviation.
@@ -207,10 +209,10 @@ M.Date = M.Object.extend(
      */
     format: function(format, utc) {
         if(isNaN(this.date)) {
-            M.Logger.log('Invalid date!', M.WARN);   
+            M.Logger.log('Invalid date!', M.WARN);
         }
 
-        var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g;
+        var	token = /d{1,4}|D{1}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g;
         var	timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g;
         var	timezoneClip = /[^-+\dA-Z]/g;
         var	pad = function (val, len) {
@@ -240,6 +242,7 @@ M.Date = M.Object.extend(
             dd:   pad(d),
             ddd:  M.DAY_NAMES[D],
             dddd: M.DAY_NAMES[D + 7],
+            D:    D,
             m:    m + 1,
             mm:   pad(m + 1),
             mmm:  M.MONTH_NAMES[m],
@@ -264,10 +267,22 @@ M.Date = M.Object.extend(
             o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
             S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
         };
-        
+
 		return format.replace(token, function ($0) {
 			return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
 		});
+    },
+
+    /**
+     * This method returns a timestamp.
+     *
+     * @returns {Number} The current date as a timestamp.
+     */
+    getTimestamp: function() {
+        if(this.date) {
+            return this.date.getTime();
+        }
+        return null
     },
 
     /**
@@ -393,12 +408,11 @@ M.Date = M.Object.extend(
      */
     millisecondsFromDate: function(milliseconds) {
         if(!this.date) {
-            M.Logger.log('no date specified!', M.ERROR);
+            M.Logger.log('no date specified!', M.ERR);
         }
 
-        var outputDate = new Date(Date.parse(this.date) + milliseconds);
         return this.extend({
-            date: new Date(Date.parse(outputDate) + (outputDate.getTimezoneOffset() - this.date.getTimezoneOffset()) * (60 * 1000))
+            date: new Date(this.getTimestamp() + milliseconds)
         });
     },
 
@@ -417,8 +431,8 @@ M.Date = M.Object.extend(
      * @returns {Number} The time between the two dates, computed as what is specified by the 'returnType' parameter.
      */
     timeBetween: function(date, returnType) {
-        var firstDateInMilliseconds = this.date ? this.date.valueOf() : null;
-        var secondDateInMilliseconds = date.date ? date.date.valueOf() : null;
+        var firstDateInMilliseconds = this.date ? this.getTimestamp() : null;
+        var secondDateInMilliseconds = date.date ? date.getTimestamp() : null;
         
         if(firstDateInMilliseconds && secondDateInMilliseconds) {
             switch (returnType) {
@@ -440,9 +454,100 @@ M.Date = M.Object.extend(
                     break;
             }
         } else if(firstDateInMilliseconds) {
-            M.Logger.log('invalid date passed.', M.ERROR);
+            M.Logger.log('invalid date passed.', M.ERR);
         } else {
-            M.Logger.log('invalid date.', M.ERROR);
+            M.Logger.log('invalid date.', M.ERR);
+        }
+    },
+
+
+    /**
+     * This method computes the calendar week of a date. It can either be executed on a M.Date object,
+     * to get the calendar week of that date, or you can pass parameters to get the calendar week
+     * for the specified date.
+     *
+     * @param {Number} year The year part of the date, e.g. 2011. Must be four digits.
+     * @param {Number} month The month part of the date: 0-11. Must be one/two digit.
+     * @param {Number} day The day part of the date: 1-31. Must be one/two digits.
+     *
+     * @returns {Number} The calendar week: 1-52.
+     */
+    getCalendarWeek: function(year, month, day){
+        if(!year) {
+            year = parseInt(this.format('yyyy'));
+            month = parseInt(this.format('m'));
+            day = parseInt(this.format('d'));
+        } else {
+            month += 1;
+        }
+
+        var a = Math.floor((14 - (month)) / 12);
+        var y = year + 4800 - a;
+        var m = (month) + (12 * a) - 3;
+        var jd = day + Math.floor(((153 * m) + 2) / 5) + (365 * y) + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
+        var d4 = (jd + 31741 - (jd % 7)) % 146097 % 36524 % 1461;
+        var L = Math.floor(d4 / 1460);
+        var d1 = ((d4 - L) % 365) + L;
+        var calendarWeek = Math.floor(d1 / 7) + 1;
+
+        return calendarWeek;
+    },
+
+    /**
+     * This method returns an array containing all dates within one calendar week. If no parameters are given,
+     * the calendar week of the current date is taken.
+     *
+     * @param {Number} calendarWeek The calendar week. Note: Pass 'null' if you use this method on an existing M.Date object.
+     * @param {Boolean} startWeekOnMonday Determines whether a week starts on monday or sunday (optional, default is NO).
+     * @param {Number} year The year (optional, default is current year).
+     *
+     * @returns {Array} An array containing all dates within the specified calendar week.
+     */
+    getDatesOfCalendarWeek: function(calendarWeek, startWeekOnMonday, year) {
+        year = year && !isNaN(year) ? year : (this.date ? this.format('yyyy') : M.Date.now().format('yyyy'));
+        var newYear = M.Date.create('01/01/' + year);
+        var newYearWeekDay = newYear.format('D');
+
+        var firstWeek = null;
+        if(startWeekOnMonday) {
+            firstWeek = newYearWeekDay == 1 ? newYear : newYear.daysFromDate(8 - (newYearWeekDay == 0 ? 7 : newYearWeekDay));
+        } else {
+            firstWeek = newYearWeekDay == 0 ? newYear : newYear.daysFromDate(7 - newYearWeekDay);
+        }
+
+        calendarWeek = calendarWeek ? calendarWeek : this.getCalendarWeek();
+
+        var requiredWeek = firstWeek.daysFromDate((calendarWeek - 1) * 7);
+
+        var dates = [];
+        for(var i = 0; i < 7; i++) {
+            var date = requiredWeek.daysFromDate(i);
+            date = M.Date.create(date.format('mm') + '/' + date.format('dd') + '/' + date.format('yyyy'));
+            dates.push(date);
+        }
+
+        return dates;
+    },
+
+    /**
+     * This method returns a date for a given calendar week and day of this week.
+     *
+     * @param {Number} calendarWeek The calendar week.
+     * @param {Number} dayOfWeek The day of the week (0 = sunday, ..., 7 = saturday).
+     * @param {Number} year The year (optional, default is current year).
+     *
+     * @returns {M.Date} The date.
+     */
+    getDateByWeekdayAndCalendarWeek: function(calendarWeek, dayOfWeek, year) {
+        if(calendarWeek && !isNaN(calendarWeek) && ((dayOfWeek && !isNaN(dayOfWeek)) || dayOfWeek === 0)) {
+            var dates = M.Date.getDatesOfCalendarWeek(calendarWeek, NO, year);
+            if(dates && dates.length > 0 && dates[dayOfWeek]) {
+                return dates[dayOfWeek];
+            } else {
+                M.Logger.log('Day ' + dayOfWeek + ' of calendar week ' + calendarWeek + ' could not be found!', M.ERR);
+            }
+        } else {
+            M.Logger.log('Please pass a valid calendarWeek and a valid day of the week!', M.ERR);
         }
     },
 

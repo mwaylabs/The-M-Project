@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      03.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -144,11 +145,34 @@ M.ListView = M.View.extend(
     usesDefaultSearchBehaviour: YES,
 
     /**
+     * If the hasSearchBar property is set to YES and the usesDefaultSearchBehaviour is set to YES, this
+     * property can be used to specify the inital text for the search bar. This text will be shown as long
+     * as nothing else is entered into the search bar text field.
+     *
+     * @type String
+     */
+    searchBarInitialText: 'Search...',
+
+    /**
      * An object containing target and action to be triggered if the search string changes.
      *
      * @type Object
      */
     onSearchStringDidChange: null,
+
+    /**
+     * An optional String defining the id property that is passed in view as record id
+     *
+     * @type String
+     */
+    idName: null,
+
+    /**
+     * Contains a reference to the currently selected list item.
+     *
+     * @type Object
+     */
+    selectedItem: null,
 
     /**
      * This method renders the empty list view either as an ordered or as an unordered list. It also applies
@@ -158,6 +182,12 @@ M.ListView = M.View.extend(
      * @returns {String} The list view's styling as html representation.
      */
     render: function() {
+        /* add the list view to its surrounding page */
+        if(!M.ViewManager.currentlyRenderedPage.listList) {
+            M.ViewManager.currentlyRenderedPage.listList = [];
+        }
+        M.ViewManager.currentlyRenderedPage.listList.push(this);
+
         if(this.hasSearchBar && !this.usesDefaultSearchBehaviour) {
             this.searchBar.isListViewSearchBar = YES;
             this.searchBar.listView = this;
@@ -167,8 +197,37 @@ M.ListView = M.View.extend(
 
         var listTagName = this.isNumberedList ? 'ol' : 'ul';
         this.html += '<' + listTagName + ' id="' + this.id + '" data-role="listview"' + this.style() + '></' + listTagName + '>';
-        
+
         return this.html;
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for list views and their
+     * internal events.
+     */
+    registerEvents: function() {
+        /*this.internalEvents = {
+            focus: {
+                target: this,
+                action: 'gotFocus'
+            },
+            blur: {
+                target: this,
+                action: 'lostFocus'
+            },
+            keyup: {
+                target: this,
+                action: 'setValueFromDOM'
+            }
+        }*/
+        this.bindToCaller(this, M.View.registerEvents)();
+        if(this.hasSearchBar && !this.usesDefaultSearchBehaviour) {
+            this.searchBar.registerEvents();
+        }
     },
 
     /**
@@ -208,7 +267,12 @@ M.ListView = M.View.extend(
         var that = this;
 
         /* Get the list view's content as an object from the assigned content binding */
-        var content = eval(this.contentBinding);
+        if(this.contentBinding && typeof(this.contentBinding.target) === 'object' && typeof(this.contentBinding.property) === 'string' && this.contentBinding.target[this.contentBinding.property]) {
+            var content = this.contentBinding.target[this.contentBinding.property];
+        } else {
+            M.Logger.log('The specified content binding for the list view (' + this.id + ') is invalid!', M.WARN);
+            return;
+        }
 
         /* Get the list view's template view for each list item */
         var templateView = this.listItemTemplateView;
@@ -229,6 +293,9 @@ M.ListView = M.View.extend(
 
         /* Finally let the whole list look nice */
         this.themeUpdate();
+
+        /* At last fix the toolbar */
+        $.fixedToolbars.show();
     },
 
     /**
@@ -260,17 +327,18 @@ M.ListView = M.View.extend(
 
             /* Create a new object for the current template view */
             var obj = templateView.design({});
-
             /* If item is a model, assign the model's id to the view's modelId property */
             if(item.type === 'M.Model') {
                 obj.modelId = item.m_id;
             /* Otherwise, if there is an id property, save this automatically to have a reference */
             } else if(item.id || !isNaN(item.id)) {
                 obj.modelId = item.id;
+            } else if(item[that.idName] || item[that.idName] === "") {
+                obj.modelId = item[that.idName];
             }
 
             /* Get the child views as an array of strings */
-            var childViewsArray = obj.childViews.split(' ');
+            var childViewsArray = obj.getChildViewsAsArray();
 
             /* If the item is a model, read the values from the 'record' property instead */
             var record = item.type === 'M.Model' ? item.record : item;
@@ -283,9 +351,9 @@ M.ListView = M.View.extend(
                 var regexResult = null;
                 if(obj[childViewsArray[i]].computedValue) {
                     /* This regex looks for a variable inside the template view (<%= ... %>) ... */
-                    regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
+                    regexResult = /^<%=\s+([.|_|-|$|ï¿½|a-zA-Z]+[0-9]*[.|_|-|$|ï¿½|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
                 } else {
-                    regexResult = /^<%=\s+([.|_|-|$|¤|a-zA-Z]+[0-9]*[.|_|-|$|¤|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
+                    regexResult = /^<%=\s+([.|_|-|$|ï¿½|a-zA-Z]+[0-9]*[.|_|-|$|ï¿½|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
                 }
 
                 /* ... if a match was found, the variable is replaced by the corresponding value inside the record */
@@ -305,16 +373,32 @@ M.ListView = M.View.extend(
                 obj.inEditMode = that.inEditMode;
                 obj.deleteButton = obj.deleteButton.design({
                     modelId: obj.modelId,
-                    target: that.editOptions.target,
-                    action: that.editOptions.action
+                    events: {
+                        tap: {
+                            target: that.editOptions.target,
+                            action: that.editOptions.action
+                        }
+                    },
+                    internalEvents: {
+                        tap: {
+                            target: that,
+                            action: 'removeListItem'
+                        }
+                    }
                 });
             }
 
             /* set the list view as 'parent' for the current list item view */
-            obj.listView = that;
+            obj.parentView = that;
 
             /* Add the current list view item to the list view ... */
             that.addItem(obj.render());
+
+            /* register events */
+            obj.registerEvents();
+            if(obj.deleteButton) {
+                obj.deleteButton.registerEvents();
+            }
 
             /* ... once it is in the DOM, make it look nice */
             for(var i in childViewsArray) {
@@ -331,6 +415,17 @@ M.ListView = M.View.extend(
     theme: function() {
         $('#' + this.id).listview();
         if(this.searchBar) {
+            /* JQM-hack: remove multiple search bars */
+            if($('#' + this.id) && $('#' + this.id).parent()) {
+                var searchBarsFound = 0;
+                $('#' + this.id).parent().find('form.ui-listview-filter').each(function() {
+                    searchBarsFound += 1;
+                    if(searchBarsFound == 1) {
+                        return;
+                    }
+                    $(this).remove();
+                });
+            }
             this.searchBar.theme();
         }
     },
@@ -351,7 +446,7 @@ M.ListView = M.View.extend(
      * @param {Object} options The options for the remove button.
      */
     toggleRemove: function(options) {
-        if(eval(this.contentBinding)) {
+        if(this.contentBinding && typeof(this.contentBinding.target) === 'object' && typeof(this.contentBinding.property) === 'string' && this.contentBinding.target[this.contentBinding.property]) {
             this.inEditMode = !this.inEditMode;
             this.editOptions = options;
             this.renderUpdate();
@@ -362,18 +457,34 @@ M.ListView = M.View.extend(
      * This method activates a list item by applying the default 'isActive' css style to its
      * DOM representation.
      *
-     * @param {String} id The DOM id of the list item to be set active.
+     * @param {String} listItemId The id of the list item to be set active.
      */
-    setActiveListItem: function(id) {
-        $('#' + this.id).find('li').each(function() {
-            var listItem = M.ViewManager.getViewById($(this).attr('id'));
-            listItem.removeCssClass('ui-btn-active');
-        });
-        M.ViewManager.getViewById(id).addCssClass('ui-btn-active');
+    setActiveListItem: function(listItemId, event, nextEvent) {
+        if(this.selectedItem) {
+            this.selectedItem.removeCssClass('ui-btn-active');
+        }
+        this.selectedItem = M.ViewManager.getViewById(listItemId);
 
-        /* call listItemSelected of the parent view if we are inside a M.SplitView.*/
-        if(this.parentView && this.parentView.parentView && this.parentView.parentView.type === 'M.SplitView') {
-            this.parentView.parentView.listItemSelected(id);
+        /* is the selection list items are selectable, activate the right one */
+        if(this.listItemTemplateView && this.listItemTemplateView.isSelectable) {
+            this.selectedItem.addCssClass('ui-btn-active');
+        }
+
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, NO, [listItemId, this.selectedItem.modelId]);
+        }
+    },
+
+    /**
+     * This method resets the list by applying the default css style to its currently activated
+     * list item.
+     *
+     * @param {String} listItemId The id of the list item to be set active.
+     */
+    resetActiveListItem: function() {
+        if(this.selectedItem) {
+            this.selectedItem.removeCssClass('ui-btn-active');
         }
     },
 
@@ -398,9 +509,18 @@ M.ListView = M.View.extend(
             html += ' data-splittheme="' + this.cssClassForSplitView + '"';
         }
         if(this.hasSearchBar && this.usesDefaultSearchBehaviour) {
-            html += ' data-filter="true"';
+            html += ' data-filter="true" data-filter-placeholder="' + this.searchBarInitialText + '"';
         }
         return html;
+    },
+
+    removeListItem: function(id, event, nextEvent) {
+        var modelId = M.ViewManager.getViewById(id).modelId;
+
+        /* delegate event to external handler, if specified */
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, NO, [id, modelId]);
+        }
     }
 
 });

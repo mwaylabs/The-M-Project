@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      03.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -53,33 +54,8 @@ M.ListItemView = M.View.extend(
      */
     deleteButton: M.ButtonView.design({
         icon: 'delete',
-        target: null,
-        action: '',
         value: ''
     }),
-
-    /**
-     * This property is used to specify an internal target for an automatically called action, e.g.
-     * this is used by the built-in toggleRemove() functionality.
-     *
-     * @type Object
-     */
-    internalTarget: null,
-
-    /**
-     * This property is used to specify an internal action for an automatically called action, e.g.
-     * this is used by the built-in toggleRemove() functionality.
-     *
-     * @type Object
-     */
-    internalAction: 'setActiveListItem',
-
-    /**
-     * This property reffers to the list item's parent list view..
-     *
-     * @type M.ListView
-     */
-    listView: null,
 
     /**
      * This property determines whether the list item is a divider or not.
@@ -89,6 +65,19 @@ M.ListItemView = M.View.extend(
     isDivider: NO,
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['tap'],
+
+    /**
+     * This property can be used to specify whether a selection list item can be selected or not. Note, that this
+     * only affects styling stuff. If set to NO, you still can apply e.g. tap events.
+     */
+    isSelectable: YES,
+
+    /**
      * Renders a list item as an li-tag. The rendering is initiated by the parent list view.
      *
      * @private
@@ -96,9 +85,6 @@ M.ListItemView = M.View.extend(
      */
     render: function() {
         this.html = '<li id="' + this.id + '"' + this.style();
-
-        this.html += ' onclick="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');"';
-        this.internalTarget = this.listView;
 
         if(this.isDivider) {
             this.html += ' data-role="list-divider"';
@@ -114,9 +100,13 @@ M.ListItemView = M.View.extend(
 
                 this.html += this.deleteButton.render();
             } else {
-                this.html += '<a href="#">';
-                this.renderChildViews();
-                this.html += '</a>';
+                if(this.isSelectable) {
+                    this.html += '<a href="#">';
+                    this.renderChildViews();
+                    this.html += '</a>';
+                } else {
+                    this.renderChildViews();
+                }
             }
         } else if(this.value) {
             this.html += this.value;
@@ -125,6 +115,24 @@ M.ListItemView = M.View.extend(
         this.html += '</li>';
         
         return this.html;
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for list item views and
+     * their internal events.
+     */
+    registerEvents: function() {
+        this.internalEvents = {
+            tap: {
+                target: this.parentView,
+                action: 'setActiveListItem'
+            }
+        }
+        this.bindToCaller(this, M.View.registerEvents)();
     },
 
     /**

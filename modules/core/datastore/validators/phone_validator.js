@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      22.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -47,15 +48,23 @@ M.PhoneValidator = M.Validator.extend(
         if (this.pattern.exec(obj.value)) {
             return YES;
         }
-        this.validationErrors.push({
-            msg: obj.value + ' is not a phone number.',
-            modelId: obj.modelId,
-            property: obj.property,
-            viewId: obj.viewId,
-            validator: 'PHONE',
-            onSuccess: obj.onSuccess,
-            onError: obj.onError
+
+
+        var err = M.Error.extend({
+            msg: this.msg ? this.msg : obj.value + ' is not a phone number.',
+            code: M.ERR_VALIDATION_PHONE,
+            errObj: {
+                msg: obj.value + ' is not a phone number.',
+                modelId: obj.modelId,
+                property: obj.property,
+                viewId: obj.viewId,
+                validator: 'PHONE',
+                onSuccess: obj.onSuccess,
+                onError: obj.onError
+            }
         });
+
+        this.validationErrors.push(err);
         return NO;
     }
     

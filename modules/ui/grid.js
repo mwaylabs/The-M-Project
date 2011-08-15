@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      04.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -106,13 +107,14 @@ M.GridView = M.View.extend(
                     if(this[arr[i]]) {
                         this.html += '<div class="' + this.layout.columns[i] + '">';
 
+                        this[arr[i]]._name = arr[i];
                         this.html += this[arr[i]].render();
 
                         this.html += '</div>';
                     }
                 }
             } else {
-                M.Logger.log('No layout specified for GridView', M.ERROR);
+                M.Logger.log('No layout specified for GridView (' + this.id + ')!', M.WARN);
             }
         }
     },

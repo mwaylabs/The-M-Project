@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      30.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -90,19 +91,20 @@ M.SelectionListView = M.View.extend(
     selectionMode: M.SINGLE_SELECTION,
 
     /**
-     * This property is used to define a method that is executed onSelect of an
-     * item of this selection list.
-     *
-     * @type Object
-     */
-    onSelect: null,
-
-    /**
      * The selected item(s) of this list.
      *
      * @type String, Array
      */
     selection: null,
+
+    /**
+     * This property defines the tab bar's name. This is used internally to identify
+     * the selection list inside the DOM.
+     *
+     * @type String
+     */
+    name: null,
+
     
     /**
      * This property is used to specify an initial value for the selection list if
@@ -113,9 +115,6 @@ M.SelectionListView = M.View.extend(
      * As long as this initial value is 'selected', the getSelection() of this selection
      * list will return nothing. Once a 'real' option is selected, this value is
      * removed from the selection list.
-     *
-     * Note: This property currently doesn't support non-themed selection lists (see the
-     * applyTheme property).
      *
      * @type String
      */
@@ -139,12 +138,35 @@ M.SelectionListView = M.View.extend(
     isGrouped: NO,
 
     /**
+     * This property is used internally to store the selection list's initial state. This is used to be able
+     * to reset the selection list later on using the resetSelection method.
+     *
+     * Note: This property is only used if the selection list's child views are specified directly (without
+     * content binding). Otherwise the state is stored within the content binding and does not need to be
+     * stored with this selection list.
+     *
+     * @private
+     * @type Object
+     */
+    initialState: null,
+
+    /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['change'],
+
+    /**
      * Renders a selection list.
      *
      * @private
      * @returns {String} The selection list view's html representation.
      */
     render: function() {
+
+        /* initialize the initialState property as new array */
+        this.initialState = [];
 
         this.html += '<div id="' + this.id + '_container"';
 
@@ -169,34 +191,15 @@ M.SelectionListView = M.View.extend(
                 this.html += '<label for="' + this.id + '">' + this.label + '</label>';
             }
 
-            this.html += '<select ';
-
-            if(!this.applyTheme) {
-                this.html += 'data-role="none" ';
-
-            }
-
-            this.html += 'name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');">';
-            //this.html += 'name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>';
+            this.html += '<select name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>';
 
             this.renderChildViews();
 
             this.html += '</select>';
 
-            /* set internal action for select-menu to get informed if the selected item did change */
-            this.internalTarget = this;
-            this.internalAction = 'itemSelected';
-
         } else {
 
-            this.html += '<fieldset ';
-
-            if(!this.applyTheme) {
-                this.html += 'data-role="none" ';
-            } else {
-                this.html += 'data-role="controlgroup" ';
-            }
-            this.html += 'id="' + this.id + '">';
+            this.html += '<fieldset data-role="controlgroup" data-native-menu="false" id="' + this.id + '">';
 
             if(this.label) {
                 this.html += '<legend>' + this.label + '</legend>';
@@ -221,15 +224,21 @@ M.SelectionListView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
 
             for(var i in childViews) {
                 var view = this[childViews[i]];
                 if(view.type === 'M.SelectionListItemView') {
                     view.parentView = this;
-                    view.internalTarget = this;
-                    view.internalAction = 'itemSelected';
+                    view._name = childViews[i];
                     this.html += view.render();
+
+                    /* store list item in initialState property */
+                    this.initialState.push({
+                        value: view.value,
+                        label: view.label,
+                        isSelected: view.isSelected
+                    });
                 } else {
                     M.Logger.log('Invalid child views specified for SelectionListView. Only SelectionListItemViews accepted.', M.WARN);
                 }
@@ -237,6 +246,24 @@ M.SelectionListView = M.View.extend(
         } else if(!this.contentBinding) {
             M.Logger.log('No SelectionListItemViews specified.', M.WARN);
         }
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for text field views and
+     * their internal events.
+     */
+    registerEvents: function() {
+        this.internalEvents = {
+            change: {
+                target: this,
+                action: 'itemSelected'
+            }
+        }
+        this.bindToCaller(this, M.View.registerEvents)();
     },
 
     /**
@@ -279,29 +306,23 @@ M.SelectionListView = M.View.extend(
         }
         
         if(this.contentBinding) {
-            var items = eval(this.contentBinding);
+            /* assign the value property to 'items' since this was automatically set by contentDidChange of M.View */
+            var items = this.value;
             for(var i in items) {
                 var item  = items[i];
                 var obj = null;
-                if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
-                    obj = M.SelectionListItemView.design({
-                        value: item.value ? item.value : item,
-                        label: item.label ? item.label : (item.value ? item.value : item),
-                        parentView: this
-                    });
-                } else {
-                    obj = M.SelectionListItemView.design({
-                        value: item.value,
-                        label: item.label,
-                        name: item.name,
-                        isSelected: item.isSelected,
-                        parentView: this,
-                        internalTarget: this,
-                        internalAction: 'itemSelected'
-                    });
+                obj = M.SelectionListItemView.design({
+                    value: item.value ? item.value : '',
+                    label: item.label ? item.label : (item.value ? item.value : ''),
+                    parentView: this,
+                    isSelected: item.isSelected
+                });
+                if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
+                    obj.name = item.name ? item.name : (item.label ? item.label : (item.value ? item.value : ''));
                 }
 
                 this.addItem(obj.render());
+                obj.theme();
             }
             this.themeUpdate();
         }
@@ -313,12 +334,12 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             $('#' + this.id).selectmenu();
-            if(this.initialText) {
-                $('#' + this.id + '-button').find('span.ui-btn-text').html(this.initialText);
+            if(this.initialText && !this.selection) {
+                $('#' + this.id + '_container').find('.ui-btn-text').html(this.initialText);
             }
-        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
+        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
             $('#' + this.id).controlgroup();
         }
     },
@@ -329,10 +350,10 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     themeUpdate: function() {
-        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && this.applyTheme) {
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             $('#' + this.id).selectmenu('refresh');
-            if(this.initialText) {
-                $('#' + this.id + '-button').find('span.ui-btn-text').html(this.initialText);
+            if(this.initialText && !this.selection) {
+                $('#' + this.id + '_container').find('.ui-btn-text').html(this.initialText);
             }
         } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
             $('#' + this.id).controlgroup();
@@ -358,37 +379,48 @@ M.SelectionListView = M.View.extend(
      * changed, the defined onSelect action is triggered.
      *
      * @param {String} id The id of the selected item.
+     * @param {Object} event The event.
+     * @param {Object} nextEvent The application-side event handler.
      */
-    itemSelected: function(id) {
+    itemSelected: function(id, event, nextEvent) {
         var item = null;
-
+        
         if(this.selectionMode === M.SINGLE_SELECTION) {
             item = M.ViewManager.getViewById($('input[name=' + (this.name ? this.name : this.id) + ']:checked').attr('id'));
-        } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
-            item = M.ViewManager.getViewById($('#' + this.id + ' :selected').attr('id'));
-        }
-
-        if(item === this.getSelection()) {
-            return;
-        }
-
-        if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
-            if(!_.isEqual(item, this.selection)) {
+            
+            if(item !== this.selection) {
                 this.selection = item;
-                if(this.onSelect && this.onSelect.target && this.onSelect.action) {
-                    this.onSelect.target[this.onSelect.action]();
+
+                if(nextEvent) {
+                    M.EventDispatcher.callHandler(nextEvent, event, NO, [this.selection.value, this.selection]);
                 }
             }
-        } else {        
-            this.selection = [];
+        } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+            item = M.ViewManager.getViewById($('#' + this.id + ' :selected').attr('id'));
 
+            if(item !== this.selection) {
+                this.selection = item;
+
+                $('#' + this.id + '_container').find('.ui-btn-text').html(item.label ? item.label : item.value);
+
+                if(nextEvent) {
+                    M.EventDispatcher.callHandler(nextEvent, event, NO, [this.selection.value, this.selection]);
+                }
+            }
+        } else if(this.selectionMode === M.MULTIPLE_SELECTION) {
             var that = this;
-            _.each($('input[name=' + (that.name ? that.name : that.id) + ']:checked'), function(item) {
-                that.selection.push(M.ViewManager.getViewById(item.id));
-            })
+            this.selection = [];
+            $('#' + id).find('input:checked').each(function() {
+                that.selection.push(M.ViewManager.getViewById($(this).attr('id')));
+            });
 
-            if(this.onSelect && this.onSelect.target && this.onSelect.action) {
-                this.onSelect.target[this.onSelect.action]();
+            var selectionValues = [];
+            for(var i in this.selection) {
+                selectionValues.push(this.selection[i].value);
+            }
+
+            if(nextEvent) {
+                M.EventDispatcher.callHandler(nextEvent, event, NO, [selectionValues, this.selection]);
             }
         }
     },
@@ -398,7 +430,7 @@ M.SelectionListView = M.View.extend(
      * or as an Array (M.MULTIPLE_SELECTION).
      *
      * @param {Boolean} returnObject Determines whether to return the selected item(s) as object or not.
-     * @returns {String, Object, Array} The selected item's value(s).
+     * @returns {String|Object|Array} The selected item's value(s).
      */
     getSelection: function(returnObject) {
         if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
@@ -421,6 +453,7 @@ M.SelectionListView = M.View.extend(
                 });
                 return selection;
             }
+            return [];
         }
     },
 
@@ -428,7 +461,7 @@ M.SelectionListView = M.View.extend(
      * This method can be used to select items programmatically. The given parameter can either
      * be a String (M.SINGLE_SELECTION) or an Array (M.MULTIPLE_SELECTION).
      *
-     * @param {String, Array} selection The selection that should be applied to the selection list.
+     * @param {String|Array} selection The selection that should be applied to the selection list.
      */
     setSelection: function(selection) {
         var that = this;
@@ -440,42 +473,27 @@ M.SelectionListView = M.View.extend(
                     item.isSelected = YES;
                     that.selection = item;
                     $(this).attr('checked', 'checked');
-                    if(that.applyTheme) {
-                        $(this).siblings('label:first').addClass('ui-btn-active');
-                        $(this).siblings('label:first').find('span .ui-icon-radio-off').addClass('ui-icon-radio-on');
-                        $(this).siblings('label:first').find('span .ui-icon-radio-off').removeClass('ui-icon-radio-off');
-                    }
+                    $(this).siblings('label:first').addClass('ui-radio-on');
+                    $(this).siblings('label:first').removeClass('ui-radio-off');
+                    $(this).siblings('label:first').find('span .ui-icon-radio-off').addClass('ui-icon-radio-on');
+                    $(this).siblings('label:first').find('span .ui-icon-radio-off').removeClass('ui-icon-radio-off');
                 }
             });
         } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && typeof(selection) === 'string') {
-            if(this.applyTheme) {
-                $('#' + this.id).find('option').each(function() {
-                    var item = M.ViewManager.getViewById($(this).attr('id'));
-                    if(item.value === selection) {
-                        that.removeSelection();
-                        item.isSelected = YES;
-                        that.selection = item;
-                        $('#' + that.id).val(item.value);
-                        if(that.initialText && $('#' + that.id + '-button').find('span.ui-btn-text').html() === that.initialText) {
-                            $('#' + that.id + '-button').find('span.ui-btn-text').html(item.label ? item.label : item.value);
-                        }
+            $('#' + this.id).find('option').each(function() {
+                var item = M.ViewManager.getViewById($(this).attr('id'));
+                if(item.value === selection) {
+                    that.removeSelection();
+                    item.isSelected = YES;
+                    that.selection = item;
+                    $('#' + that.id).val(item.value);
+                    if(that.initialText && $('#' + that.id + '-button').find('span.ui-btn-text').html() === that.initialText) {
+                        $('#' + that.id + '-button').find('span.ui-btn-text').html(item.label ? item.label : item.value);
                     }
-                });
-                this.initialText = null;
-                $('#' + this.id).selectmenu('refresh');
-            } else {
-                $('#' + this.id).find('option').each(function() {
-                    var item = M.ViewManager.getViewById($(this).attr('id'));
-                    if(item.value === selection) {
-                        item.isSelected = YES;
-                        that.selection = item;
-                        $(this).attr('selected', 'selected');
-                    } else {
-                        item.isSelected = NO;
-                        $(this).attr('selected', '');
-                    }
-                });
-            }
+                }
+            });
+            this.initialText = null;
+            $('#' + this.id).selectmenu('refresh');
         } else if(typeof(selection) === 'object') {
             var removedItems = NO;
             $('#' + this.id).find('input').each(function() {
@@ -490,11 +508,10 @@ M.SelectionListView = M.View.extend(
                         item.isSelected = YES;
                         that.selection.push(item);
                         $(this).attr('checked', 'checked');
-                        if(that.applyTheme) {
-                            $(this).siblings('label:first').addClass('ui-btn-active');
-                            $(this).siblings('label:first').find('span .ui-icon-checkbox-off').addClass('ui-icon-checkbox-on');
-                            $(this).siblings('label:first').find('span .ui-icon-checkbox-off').removeClass('ui-icon-checkbox-off');
-                        }
+                        $(this).siblings('label:first').removeClass('ui-checkbox-off');
+                        $(this).siblings('label:first').addClass('ui-checkbox-on');
+                        $(this).siblings('label:first').find('span .ui-icon-checkbox-off').addClass('ui-icon-checkbox-on');
+                        $(this).siblings('label:first').find('span .ui-icon-checkbox-off').removeClass('ui-icon-checkbox-off');
                     }
                 }
             });
@@ -521,22 +538,43 @@ M.SelectionListView = M.View.extend(
             type = 'checkbox';
         }
         
-        if(type !== 'select'){
+        if(type !== 'select') {
             $('#' + this.id).find('input').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 item.isSelected = NO;
                 $(this).removeAttr('checked');
-                if(that.applyTheme) {
-                    $(this).siblings('label:first').removeClass('ui-btn-active');
-                    $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').addClass('ui-icon-' + type + '-off');
-                    $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').removeClass('ui-icon-' + type + '-on');
-                }
+                $(this).siblings('label:first').addClass('ui-' + type + '-off');
+                $(this).siblings('label:first').removeClass('ui-' + type + '-on');
+                $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').addClass('ui-icon-' + type + '-off');
+                $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').removeClass('ui-icon-' + type + '-on');
             });
-        } else if(type === 'select') {
+        } else {
             $('#' + this.id).find('option').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 item.isSelected = NO;
             });
+        }
+    },
+
+    /**
+     * This method can be used to reset the selection list. This basically discards
+     * all changes made to the selection by the user or any application-sided calls
+     * and applies the original state.
+     *
+     * The 'original state' can either be the bound content or the state, specified
+     * by the originally assigned child views.
+     */
+    resetSelection: function() {
+        if(this.contentBinding) {
+            this.removeSelection();
+            this.renderUpdate();
+        } else {
+            this.contentBinding = {};
+            this.contentBinding.target = this;
+            this.contentBinding.property = 'initialState';
+            this.removeSelection();
+            this.renderUpdate();
+            this.contentBinding = null;
         }
     }
 

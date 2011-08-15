@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      26.10.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -11,18 +12,18 @@
 m_require('core/foundation/request.js');
 
 /**
+ * A constant value for logging level: info.
+ *
+ * @type Number
+ */
+M.INFO = 0;
+
+/**
  * A constant value for logging level: debug.
  *
  * @type Number
  */
-M.DEBUG = 0;
-
-/**
- * A constant value for logging level: error.
- *
- * @type Number
- */
-M.ERROR = 1;
+M.DEBUG = 1;
 
 /**
  * A constant value for logging level: warning.
@@ -32,11 +33,11 @@ M.ERROR = 1;
 M.WARN = 2;
 
 /**
- * A constant value for logging level: info.
+ * A constant value for logging level: error.
  *
  * @type Number
  */
-M.INFO = 3;
+M.ERR = 3;
 
 /**
  * @class
@@ -71,6 +72,11 @@ M.Logger = M.Object.extend(
     log: function(msg, level) {
         level = level || M.DEBUG;
 
+        /* are we in production mode, then do not throw any logs */
+        if(M.Application.getConfig('debugMode') === 'false') {
+            return;
+        }
+
         /* Prevent a console.log from blowing things up if we are on a browser that doesn't support this. */
         if (typeof console === 'undefined') {
             window.console = {} ;
@@ -81,7 +87,7 @@ M.Logger = M.Object.extend(
             case M.DEBUG:
                 this.debug(msg);
                 break;
-            case M.ERROR:
+            case M.ERR:
                 this.error(msg);
                 break;
             case M.WARN:

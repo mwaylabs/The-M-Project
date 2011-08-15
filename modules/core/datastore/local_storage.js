@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      15.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -23,7 +24,7 @@ m_require('core/datastore/data_provider.js');
  * @extends M.DataProvider
  */
 M.DataProviderLocalStorage = M.DataProvider.extend(
-/** @scope M.LocalStorageProvider.prototype */ {
+/** @scope M.DataProviderLocalStorage.prototype */ {
 
     /**
      * The type of this object.
@@ -101,7 +102,7 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
             var reg = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_([0-9]+)').exec(obj.key);
             var m_id = reg && reg[1] ? reg[1] : null;
             if (!m_id) {
-                M.Logger.log('retrieved model has no valid key: ' + obj.key, M.ERROR);
+                M.Logger.log('retrieved model has no valid key: ' + obj.key, M.ERR);
                 return NO;
             }
             var m = obj.model.createRecord($.extend(record, {m_id: parseInt(m_id), state: M.STATE_VALID}));
@@ -219,7 +220,7 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
                 var reg = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_([0-9]+)').exec(k);
                 var m_id = reg && reg[1] ? reg[1] : null;
                 if (!m_id) {
-                    M.Logger.log('Model Record m_id not correct: ' + m_id, M.ERROR);
+                    M.Logger.log('Model Record m_id not correct: ' + m_id, M.ERR);
                     continue; // if m_id does not exist, continue with next record element
                 }
                 var m = obj.model.createRecord($.extend(record, {m_id: parseInt(m_id), state: M.STATE_VALID}));

@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      02.12.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -35,14 +36,28 @@ M.LoaderView = M.View.extend(
     isInitialized: NO,
 
     /**
+     * This property counts the loader calls to show
+     *
+     * @type Number
+     */
+    refCount: 0,
+
+    /**
+     * This property can be used to specify the default title of a loader.
+     *
+     * @type String
+     */
+    defaultTitle: 'loading',
+            
+    /**
      * This method initializes the loader by loading it once.
      *
      * @private 
      */
     initialize: function() {
         if(!this.isInitialized) {
-            this.show();
-            this.hide();
+            this.refCount = 0;
+            this.isInitialized = YES;
         }
     },
 
@@ -53,17 +68,48 @@ M.LoaderView = M.View.extend(
      * @param {String} title The title for this loader.
      */
     show: function(title) {
-        if(title && typeof(title) === 'string') {
-            $('.ui-loader h1').text(title);
+        this.refCount++;
+        var title = title && typeof(title) === 'string' ? title : this.defaultTitle;
+        this.changeTitle(title);
+        if(this.refCount == 1){
+            $.mobile.pageLoading();
+
+            /* position alert in the center of the possibly scrolled viewport */
+            var loader = $('.ui-loader');
+            var screenSize = M.Environment.getSize();
+            var scrollYOffset = window.pageYOffset;
+            var loaderHeight = loader.outerHeight();
+
+            var yPos = scrollYOffset + (screenSize[1]/2);
+            loader.css('top', yPos + 'px');
+            loader.css('margin-top', '-' + (loaderHeight/2) + 'px');
         }
-        $.mobile.pageLoading();
+    },
+
+    /**
+     * This method changes the current title.
+     *
+     * @param {String} title The title for this loader.
+     */
+
+    changeTitle: function(title){
+        $('.ui-loader h1').html(title);
     },
 
     /**
      * This method hides the loader.
+     *
+     * @param {Boolean} force Determines whether to force the hide of the loader.
      */
-    hide: function() {
-        $.mobile.pageLoading(YES);
+    hide: function(force) {
+        if(force || this.refCount <= 0) {
+            this.refCount = 0;
+        } else {
+            this.refCount--;
+        }
+        if(this.refCount == 0){
+            $.mobile.pageLoading(true);
+        }
     }
     
 });

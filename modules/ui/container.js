@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      01.12.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -33,9 +34,11 @@ M.ContainerView = M.View.extend(
      * @returns {String} The container view's html representation.
      */
     render: function() {
-        this.html += '<div id="' + this.id + '"' + this.style() + '></div>';
+        this.html += '<div id="' + this.id + '"' + this.style() + '>';
 
         this.renderChildViews();
+
+        this.html += '</div>';
 
         return this.html;
     },

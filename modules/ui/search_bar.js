@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      26.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -50,6 +51,13 @@ M.SearchBarView = M.View.extend(
     initialText: '',
 
     /**
+     * This property specifies the recommended events for this type of view.
+     *
+     * @type Array
+     */
+    recommendedEvents: ['focus', 'blur', 'enter', 'keyup'],
+
+    /**
      * Renders a search bar.
      *
      * @private
@@ -63,6 +71,32 @@ M.SearchBarView = M.View.extend(
         this.html += '</form>';
 
         return this.html;
+    },
+
+    /**
+     * This method is responsible for registering events for view elements and its child views. It
+     * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+     * events.
+     *
+     * It extend M.View's registerEvents method with some special stuff for text field views and
+     * their internal events.
+     */
+    registerEvents: function() {
+        this.internalEvents = {
+            focus: {
+                target: this,
+                action: 'gotFocus'
+            },
+            blur: {
+                target: this,
+                action: 'lostFocus'
+            },
+            keyup: {
+                target: this,
+                action: 'setValueFromDOM'
+            }
+        }
+        this.bindToCaller(this, M.View.registerEvents)();
     },
 
     /**
@@ -84,12 +118,12 @@ M.SearchBarView = M.View.extend(
      *
      * @param {Object} evt The event triggered this method.
      */
-    setValueFromDOM: function(evt) {
+    setValueFromDOM: function(id, event, nextEvent) {
         this.value = this.secure($('#' + this.id).val());
         this.delegateValueUpdate();
-        
-        if((evt === 'change' && this.triggerActionOnChange || evt === 'keyup' && this.triggerActionOnKeyUp) && this.target && this.action) {
-            this.target[this.action](this.value);
+
+        if(nextEvent) {
+            M.EventDispatcher.callHandler(nextEvent, event, YES);
         }
     },
 
@@ -155,25 +189,6 @@ M.SearchBarView = M.View.extend(
             }
         }
         this.hasFocus = NO;
-    },
-
-
-    /**
-     * This method sets its value to the value it has in its DOM representation
-     * and then delegates these changes to a controller property if the
-     * contentBindingReverse property is set.
-     *
-     * Additionally call target / action if set.
-     *
-     * @param {Object} evt The event triggered this method.
-     */
-    setValueFromDOM: function(evt) {
-        this.value = this.secure($('#' + this.id).val());
-        this.delegateValueUpdate();
-
-        if((evt === 'change' && this.triggerActionOnChange || evt === 'keyup' && this.triggerActionOnKeyUp) && this.target && this.action) {
-            this.target[this.action](this.value);
-        }
     },
 
     /**

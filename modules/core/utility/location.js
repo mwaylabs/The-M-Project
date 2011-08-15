@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Dominik
 // Date:      24.01.2011
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -163,7 +164,7 @@ M.Location = M.Object.extend(
                 M.Logger.log('No caller specified for update() of M.Location.', M.WARN);
             }
         } else {
-            M.Logger.log('An internal error occured while retrieving the position.', M.ERROR);
+            M.Logger.log('An internal error occured while retrieving the position.', M.ERR);
         }
     },
 

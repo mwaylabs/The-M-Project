@@ -1,6 +1,7 @@
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
 // Creator:   Sebastian
 // Date:      22.11.2010
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
@@ -29,7 +30,14 @@ M.ONLINE = 'online';
  *
  * @type String
  */
-M.PORTRAIT = 0;
+M.PORTRAIT_TOP = 0;
+
+/**
+ * A constant value for inverse portrait orientation mode.
+ *
+ * @type String
+ */
+M.PORTRAIT_BOTTOM = 180;
 
 /**
  * A constant value for landscape right orientation mode.
@@ -45,7 +53,6 @@ M.LANDSCAPE_RIGHT = -90;
  */
 M.LANDSCAPE_LEFT = 90;
 
-
 /**
  * @class
  *
@@ -60,28 +67,50 @@ M.Environment = M.Object.extend(
 /** @scope M.Environment.prototype */ {
 
     /**
+     * The type of this object.
+     *
+     * @type String
+     */
+    type: 'M.Environment',
+
+    /**
      * Checks the connection status by sending an ajax request
      * and waiting for the response to decide whether online or offline.
      *
      * The callback is called when the request returns successful or times out. The parameter to callback is a
      * string saying either offline or online.
      *
-     * @param {function} callback The function to be called when request returns.
-     * @param {String} url Optional. The request url. When not given, a request is made to google.com. (Note: Add a proxy: /google)
-     * @param {Number} timeout Optional. Time in milliseconds until request is considered to be timed out. Defaults to 5 seconds.
+     * @param {Object} callback The object, consisting of target and action, defining the callback.
+     * @param {String} url Optional. The request url. When not given, a request is made to http://www.google.de/images/logos/ps_logo2.png.
      */
-    getConnectionStatus: function(callback, url, timeout){
-        M.Request.init({
-            url: url ? url : '/google',
-            isJSON: NO,
-            timeout: timeout ? timeout : 5000,
-            onSuccess: function(data){
-                callback(M.ONLINE);
-            },
-            onError: function(data){
-                callback(M.OFFLINE);
+    getConnectionStatus: function(callback, url){
+        url = url ? url : 'http://www.google.de/images/logos/ps_logo2.png';
+        var that = this;
+        var image = M.ImageView.design({
+            value: url,
+            events: {
+                load: {
+                    action: function(id) {
+                        var image = M.ViewManager.getViewById(id);
+                        image.destroy();
+                        if(callback && M.EventDispatcher.checkHandler(callback, 'online')){
+                            that.bindToCaller(callback.target, callback.action, M.ONLINE)();
+                        }
+                    }
+                },
+                error: {
+                    action: function(id) {
+                        var image = M.ViewManager.getViewById(id);
+                        image.destroy();
+                        if(callback && M.EventDispatcher.checkHandler(callback, 'offline')){
+                            that.bindToCaller(callback.target, callback.action, M.OFFLINE)();
+                        }
+                    }
+                }
             }
-        }).send();
+        });
+        $('body').append(image.render());
+        image.registerEvents();
     },
 
     /**
@@ -105,23 +134,13 @@ M.Environment = M.Object.extend(
     },
 
     /**
-     * Returns the browser version as received from navigator object.
-     * E.g. "5.0 (Macintosh; U; Intel Mac OS X 10_6_5; en-US) AppleWebKit/534.7 (KHTML, like Gecko) Chrome/7.0.517.44 Safari/534.7"
-     *
-     * @returns {String} The user's browser.
-     */
-    getBrowserName: function() {
-        return navigator.appName;
-    },
-
-    /**
      * Returns the currently available width and height of the browser window
      * as an array:
      *
      * 0 -> width
      * 1 -> height
      *
-     * @returns {Array} The widht and height of the user's browser window.
+     * @returns {Array} The width and height of the user's browser window.
      */
     getSize: function() {
         var viewportWidth;
@@ -160,6 +179,38 @@ M.Environment = M.Object.extend(
     },
 
     /**
+     * Returns the total size of the page/document, means not only the area of the browser window.
+     *
+     * 0 -> width
+     * 1 -> height
+     *
+     * @returns {Array} The width and height of the document.
+     */
+    getTotalSize: function() {
+        return [this.getTotalWidth(), this.getTotalHeight()];
+    },
+
+    /**
+     * Returns the total width of the page/document, means not only the area of the browser window.
+     * Uses jQuery.
+     *
+     * @returns {Number} The total width of the document.
+     */
+    getTotalWidth: function() {
+        return $(document).width();
+    },
+
+    /**
+     * Returns the total height of the page/document, means not only the area of the browser window.
+     * Uses jQuery.
+     *
+     * @returns {Number} The total height of the document.
+     */
+    getTotalHeight: function() {
+        return $(document).height();
+    },
+
+    /**
      * This method returns the device's current orientation, depending on whether
      * or not the device is capable of detecting the current orientation. If the
      * device is unable to detect the current orientation, this method will return
@@ -171,15 +222,17 @@ M.Environment = M.Object.extend(
      *   - M.LANDSCAPE_LEFT
      *   - M.LANDSCAPE_RIGHT
      *
-     * @return {Number, Boolean} The orientation type as a constant value. (If the orientation can not be detected: NO.)
+     * @return {Number|Boolean} The orientation type as a constant value. (If the orientation can not be detected: NO.)
      */
     getOrientation: function() {
         switch(window.orientation) {
-            case M.PORTRAIT:
-                return M.PORTRAIT;
-            case M.LANDSCAPE_LEFT:
+            case 0:
+                return M.PORTRAIT_TOP;
+            case false:
+                return M.PORTRAIT_BOTTOM;
+            case 90:
                 return M.LANDSCAPE_LEFT;
-            case M.LANDSCAPE_RIGHT:
+            case -90:
                 return M.LANDSCAPE_RIGHT;
             default:
                 M.Logger.log('This device does not support orientation detection.', M.WARN);
