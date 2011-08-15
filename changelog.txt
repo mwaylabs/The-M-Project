@@ -12,6 +12,7 @@
   * Added M.DashboardView / M.DashboardItemView
   * Added disable() / enable() to M.ButtonView (also usable within a button group)
   * Extended dashboard's editable support for dektop browser
+  * Refactored extend() in M.Object to correctly differenciate between object and prototype properties. 
 
 ** Version 0.6 - Date 21.07.2011 **
 
