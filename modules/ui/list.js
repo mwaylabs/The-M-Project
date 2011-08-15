@@ -466,7 +466,7 @@ M.ListView = M.View.extend(
         this.selectedItem = M.ViewManager.getViewById(listItemId);
 
         /* is the selection list items are selectable, activate the right one */
-        if(this.listItemTemplateView && this.listItemTemplateView.isSelectable) {
+        if(!this.listItemTemplateView || (this.listItemTemplateView && this.listItemTemplateView.isSelectable)) {
             this.selectedItem.addCssClass('ui-btn-active');
         }
 
