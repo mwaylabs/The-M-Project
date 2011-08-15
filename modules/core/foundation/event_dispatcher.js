@@ -69,7 +69,7 @@ M.EventDispatcher = M.Object.extend(
      * @param {Object} sourceType The type of the event source.
      * @param {Boolean} isInternalCall The flag to determine whether this is an internal call or not.
      */
-    registerEvent: function(type, eventSource, handler, recommendedEvents, sourceType, isInternalCall) {
+    registerEvent: function(type, eventSource, handler, recommendedEvents, sourceType, isInternalCall, skipUnbinding) {
         if(!isInternalCall) {
             if(!handler || typeof(handler) !== 'object') {
                 M.Logger.log('No event passed!', M.WARN);
@@ -105,7 +105,7 @@ M.EventDispatcher = M.Object.extend(
 
         var that = this;
         var view = M.ViewManager.getViewById(eventSource.attr('id'));
-        if(!view || view.type !== 'M.TextFieldView') {
+        if(skipUnbinding !== true && (!view || view.type !== 'M.TextFieldView')) {
             eventSource.unbind(type);
         }
         eventSource.bind(type, function(event) {
