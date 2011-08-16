@@ -50,10 +50,8 @@ M.Object =
         /* create new function */
         var f = function() {};
 
-        /* assign the caller (respectively its properties) as prototype */
-        for(var prop in this) {
-            f.prototype[prop] = this[prop];
-        }
+        /* assign the caller as prototype */
+        f.prototype = this;
 
         /* create the new object */
         var newObject = new f();
