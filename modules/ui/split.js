@@ -32,6 +32,8 @@ M.SplitView = M.View.extend(
 
     isInitialized: NO,
 
+    selectedItem: null,
+
     /**
      * Renders a split view.
      *
@@ -55,7 +57,7 @@ M.SplitView = M.View.extend(
      */
     renderChildViews: function() {
         if(this.childViews || this.contentBinding) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             if(childViews.length > 0 || this.contentBinding) {
                 this.menu = M.ScrollView.design({
                     childViews: 'menu',
@@ -63,12 +65,12 @@ M.SplitView = M.View.extend(
                 });
                 this.menu.parentView = this;
                 this.menu.menu.parentView = this.menu;
-                this.menu.cssClass = this.menu.cssClass ? this.menu.cssClass + ' ui-splitview-menu' : 'ui-splitview-menu';
+                this.menu.cssClass = this.menu.cssClass ? this.menu.cssClass + ' tmp-splitview-menu' : 'tmp-splitview-menu';
                 this.html += this.menu.render();
 
                 this.content = M.ScrollView.design({});
                 this.content.parentView = this;
-                this.content.cssClass = this.content.cssClass ? this.content.cssClass + ' ui-splitview-content' : 'ui-splitview-content';
+                this.content.cssClass = this.content.cssClass ? this.content.cssClass + ' tmp-splitview-content' : 'tmp-splitview-content';
                 this.html += this.content.render();
 
                 return this.html;
@@ -87,9 +89,9 @@ M.SplitView = M.View.extend(
         var content = null;
         
         if(this.contentBinding) {
-            content = eval(this.contentBinding);
+            content = this.value;
         } else if(this.childViews) {
-            var childViews = $.trim(this.childViews).split(' ');
+            var childViews = this.getChildViewsAsArray();
             content = [];
             for(var i = 0; i < childViews.length; i++) {
                 content.push(this[childViews[i]]);
@@ -109,13 +111,22 @@ M.SplitView = M.View.extend(
                         /* add item to list */
                         var item = M.ListItemView.design({
                             childViews: 'label',
-                            listView: this.menu.menu,
+                            parentView: this.menu.menu,
                             splitViewItem: content[i],
                             label: M.LabelView.design({
                                 value: content[i].value
-                            })
+                            }),
+                            events: {
+                                tap: {
+                                    target: this,
+                                    action: 'listItemSelected'
+                                }
+                            }
                         });
                         this.menu.menu.addItem(item.render());
+
+                        /* register events for item */
+                        item.registerEvents();
 
                         /* save id of the current item if it is either the first item or isActive is set */
                         if(currentItem === 0 || content[i].isActive) {
@@ -131,8 +142,11 @@ M.SplitView = M.View.extend(
                 /* theme the list */
                 this.menu.menu.themeUpdate();
 
-                /* now set the active list item / content */
+                /* now set the active list item */
                 this.menu.menu.setActiveListItem(entryItem);
+
+                /* finally show the active list item's content */
+                this.listItemSelected(entryItem);
             } else {
                 M.Logger.log('You need to provide at least one child view for M.SplitView of the type M.SplitItemView.', M.ERROR);
             }
@@ -146,41 +160,159 @@ M.SplitView = M.View.extend(
      */
     theme: function() {
         this.renderUpdate();
+        this.themeUpdate();
+    },
+
+    themeUpdate: function() {
+        var orientation = M.Environment.getOrientation();
+        var size = M.Environment.getSize();
+        var width = size[0];
+        var height = size[1];
+
+        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+        if(page) {
+            if($('#' + page.id).hasClass('tmp-splitview-no-footer')) {
+                $('#' + page.id).css('min-height', height + 'px');
+            } else {
+                $('#' + page.id).css('min-height', height - 41 + 'px');
+            }
+        }
+        if(orientation === M.LANDSCAPE_LEFT || orientation === M.LANDSCAPE_RIGHT || width > height) {
+            $('#' + this.menu.id).css('width', Math.round(width*0.3) + 30 - 1 - 30 - 1 + 'px');
+            $('#' + this.content.id).css('width', Math.round(width*0.7) - 30 - 30 + 'px');
+            $('#' + this.content.id).css('left', Math.round(width*0.3) + 30 - 1 + 'px');
+
+            $('.tmp-splitview-menu-toolbar').css('width', Math.round(width*0.3) + 30 - 1 + 'px');
+            $('.tmp-splitview-content-toolbar').css('width', Math.round(width*0.7) - 30 + 'px');
+        } else {
+            $('#' + this.content.id).css('width', width - 30 + 'px');
+            $('#' + this.content.id).css('left','0px');
+
+            $('.tmp-splitview-content-toolbar').css('width', width + 'px');
+        }
+    },
+
+    registerEvents: function() {
+        /* register for orientation change events of that page */
+        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+        M.EventDispatcher.registerEvent(
+            'orientationdidchange',
+            page.id,
+            {
+                target: this,
+                action: function() {
+                    /* trigger re-theming with a little delay to make sure, the orientation change did finish */
+                    var that = this;
+                    window.setTimeout(function() {
+                            that.orientationDidChange();
+                        }, 100);
+                }
+            },
+            ['orientationdidchange'],
+            null,
+            NO,
+            YES
+        );
     },
 
     listItemSelected: function(id) {
+        var contentView = M.ViewManager.getViewById(id) && M.ViewManager.getViewById(id).splitViewItem ? M.ViewManager.getViewById(id).splitViewItem.view : null;
+
+        if(!contentView) {
+            return;
+        }
+
+        this.selectedItem = M.ViewManager.getViewById(id).splitViewItem;
+
         if(!this.isInitialized) {
-            var contentView = M.ViewManager.getViewById(id).splitViewItem.view;
-            $('#' + this.content.id).html(contentView.html ? contentView.html : contentView.render());
-            contentView.theme();
+            if(contentView.html) {
+                $('#' + this.content.id).html(contentView.html);
+            } else {
+                $('#' + this.content.id).html(contentView.render());
+                contentView.theme();
+                contentView.registerEvents();
+            }
+            $('#' + this.content.id).scrollview({
+                direction: 'y'
+            });
+            $('#' + this.menu.id).scrollview({
+                direction: 'y'
+            });
+
             this.isInitialized = YES;
         } else {
-            var contentView = M.ViewManager.getViewById(id).splitViewItem.view;
-            $('#' + this.content.id + ' div:first').html(contentView.html ? contentView.html : contentView.render());
-            contentView.theme();
+            if(contentView.html) {
+                $('#' + this.content.id + ' div:first').html(contentView.html);
+            } else {
+                $('#' + this.content.id + ' div:first').html(contentView.render());
+                contentView.theme();
+                contentView.registerEvents();
+            }
             $('#' + this.content.id).scrollview('scrollTo', 0, 0);
         }
 
         /* check if there is a split toolbar view on the page and update its label to show the value of the selected item */
-        var page = null;
-        if(M.ViewManager.getCurrentPage()) {
-            page = M.ViewManager.getCurrentPage();
-        } else if(true) {
-            page = M.ViewManager.getPage(M.Application.entryPage);
-        }
-
+        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+        var that = this;
         if(page) {
-            $('#' + page.id + ' .ui-splitview-content-toolbar').each(function() {
+            $('#' + page.id + ' .tmp-splitview-content-toolbar').each(function() {
                 var toolbar = M.ViewManager.getViewById($(this).attr('id'));
                 if(toolbar.parentView && toolbar.parentView.showSelectedItemInMainHeader) {
                     toolbar.value = M.ViewManager.getViewById(id).splitViewItem.value;
-                    toolbar.renderUpdate();
+                    $('#' + toolbar.id + ' h1').html(toolbar.value);
+
+                    /* now link the menu with the toolbar if not yet done */
+                    if(!toolbar.parentView.splitview) {
+                        toolbar.parentView.splitview = that;
+                    }
                 }
             });
-            if($('#' + page.id + ' .ui-footer').length === 0) {
-                page.addCssClass('ui-splitview-no-footer');
+            if($('#' + page.id + ' .tmp-footer').length === 0) {
+                page.addCssClass('tmp-splitview-no-footer');
+            }
+            if($('#' + page.id + ' .tmp-splitview-content-toolbar').length === 0) {
+                page.addCssClass('tmp-splitview-no-header');
             }
         }
+    },
+
+    orientationDidChange: function() {
+        var orientation = M.Environment.getOrientation();
+
+        /* portrait */
+        if(orientation === 0 || orientation === 180) {
+
+        /* landscape */
+        } else {
+            /* hide the popover (if active) */
+            var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+            var toolbar;
+            if(page) {
+                $('#' + page.id + ' .tmp-splitview-menu-toolbar').each(function() {
+                    toolbar = M.ViewManager.getViewById($(this).attr('id'));
+                    if(toolbar && toolbar.parentView && toolbar.parentView.popover) {
+                        toolbar.parentView.popover.hide();
+                    }
+                });
+            }
+
+            /* update the menu */
+            var id;
+            var that = this;
+            $('#' + this.menu.id).find('li').each(function() {
+                if(M.ViewManager.getViewById($(this).attr('id')).splitViewItem.value === that.selectedItem.value) {
+                    id = $(this).attr('id');
+                }
+            });
+
+            /* activate item */
+            if(id) {
+                this.menu.menu.setActiveListItem(id);
+            }
+        }
+        $('#' + this.content.id).scrollview('scrollTo', 0, 0);
+
+        this.themeUpdate();
     }
 
 });

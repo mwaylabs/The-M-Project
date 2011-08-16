@@ -16,5 +16,17 @@ $(document).bind("mobileinit", function(){
     }
 });
 $(document).ready(function(){
-    /* do something on dom ready */
+    /* bind the orientationchange event globally */
+    M.EventDispatcher.registerEvent(
+        'orientationchange',
+        $(window),
+        {
+            target: M.EventDispatcher,
+            action: 'dispatchOrientationChangeEvent'
+        },
+        ['orientationchange'],
+        null,
+        NO,
+        YES
+    );
 });

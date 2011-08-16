@@ -30,6 +30,10 @@ M.SplitToolbarView = M.View.extend(
 
     showMenuButtonInPortraitMode: YES,
 
+    popover: null,
+
+    splitview: null,
+
     /**
      * Triggers render() on all children.
      *
@@ -44,19 +48,50 @@ M.SplitToolbarView = M.View.extend(
                 if(toolbar && toolbar.type === 'M.ToolbarView') {
                     toolbar.parentView = this;
                     if(currentToolbar === 0) {
-                        toolbar.cssClass = toolbar.cssClass ? toolbar.cssClass + ' ui-splitview-menu-toolbar' : 'ui-splitview-menu-toolbar'
+                        toolbar.cssClass = toolbar.cssClass ? toolbar.cssClass + ' tmp-splitview-menu-toolbar' : 'tmp-splitview-menu-toolbar'
                     } else if(currentToolbar === 1) {
-                        toolbar.cssClass = toolbar.cssClass ? toolbar.cssClass + ' ui-splitview-content-toolbar' : 'ui-splitview-content-toolbar'
+                        toolbar.cssClass = toolbar.cssClass ? toolbar.cssClass + ' tmp-splitview-content-toolbar' : 'tmp-splitview-content-toolbar'
 
                         /* check if this is a simple toolbar so we can add the menu button */
                         if(!toolbar.childViews && this.showMenuButtonInPortraitMode) {
-                            toolbar.cssClass = toolbar.cssClass ? toolbar.cssClass + ' ui-splitview-content-toolbar-show-menu-button' : 'ui-splitview-content-toolbar-show-menu-button';
+                            toolbar.cssClass = toolbar.cssClass ? toolbar.cssClass + ' tmp-splitview-content-toolbar-show-menu-button' : 'tmp-splitview-content-toolbar-show-menu-button';
                             toolbar.childViews = 'menuButton label';
                             var buttonLabel = this[childViews[0]].value;
                             toolbar.menuButton = M.ButtonView.design({
                                 value: buttonLabel,
                                 icon: 'arrow-d',
-                                anchorLocation: M.LEFT
+                                anchorLocation: M.LEFT,
+                                internalEvents: {
+                                    tap: {
+                                        target: this,
+                                        action: function() {
+                                            if(!this.popover) {
+                                                var content;
+                                                if(this.splitview.contentBinding) {
+                                                    content = this.splitview.value;
+                                                } else if(this.splitview.childViews) {
+                                                    var childViews = this.splitview.getChildViewsAsArray();
+                                                    content = [];
+                                                    for(var i = 0; i < childViews.length; i++) {
+                                                        content.push(this.splitview[childViews[i]]);
+                                                    }
+                                                }
+                                                var items = [];
+                                                for(var i in content) {
+                                                    items.push(content[i]);
+                                                }
+                                                this.popover = M.PopoverView.design({
+                                                    items: items,
+                                                    splitview: this.splitview
+                                                });
+                                                this.popover.show();
+                                            } else {
+                                                this.popover.renderUpdate();
+                                                this.popover.toggle();
+                                            }
+                                        }
+                                    }
+                                }
                             });
                             toolbar.label = M.LabelView.design({
                                 value: toolbar.value,
