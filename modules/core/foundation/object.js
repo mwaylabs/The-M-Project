@@ -47,17 +47,27 @@ M.Object =
      * super classes - see mixins.
      */
     extend: function(){
-        var f = function(){};
-        for(prop in this) {
+        /* create new function */
+        var f = function() {};
+
+        /* assign the caller (respectively its properties) as prototype */
+        for(var prop in this) {
             f.prototype[prop] = this[prop];
         }
+
+        /* create the new object */
+        var newObject = new f();
+
+        /* assign the properties passed with the arguments array */
         for(var i = 0; i < arguments.length; i++) {
-            var obj = arguments[i];
-            for(prop in obj) {
-                f.prototype[prop] = obj[prop];
+            var properties = arguments[i];
+            for(var key in properties) {
+                newObject[key] = properties[key];
             }
         }
-        return new f();
+
+        /* return the new object */
+        return newObject;
     },
 
     include: function() {

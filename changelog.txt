@@ -1,30 +1,18 @@
-The-M-Project - Mobile HTML5 Application Framework
-======================================
+** Version 0.7pre - Date 11.08.2011 **
 
-The-M-Project is an HTML5 Javascript framework for writing cross-platform mobile apps
-
-## Acknowledgements
-
-The-M-Project includes code from a number of different open source projects
-including:
-
-* [jQuery](http://www.jquery.com/)
-* [jQuery Mobile](http://www.http://jquerymobile.com/)
-* [underscore](http://documentcloud.github.com/underscore/)
-
-
-The-M-Project contains concepts of different open source projects
-including:
-
-* [SproutCore](http://www.sproutcore.com/)
-* [persistencejs](https://github.com/zefhemel/persistencejs/)
-
-
-Thanks for sharing!
-
-
-
-## CHANGELOG
+  * Added D8 as the next generation date object in JavaScript (M.Date remains, but will no longer be maintained)
+  * Fixed a bug in M.LocationManager
+  * Updated JQM to 1.0b2
+  * Added changeTitle() to M.LoaderView
+  * Fixed a bug in style() with the disabled-property
+  * Fixed a bug in styleUpdate(), since disabled-property lead to problems with autogrow mechanism
+  * Fixed a bug in M.EventDispatcher (no unbind of jqm-based events)
+  * ContentDidChange Event for values which are an empty string
+  * Refactored M.SelectionListView to use this.value in renderUpdate() since it was automatically set by contentDidChange() of M.View
+  * Added M.DashboardView / M.DashboardItemView
+  * Added disable() / enable() to M.ButtonView (also usable within a button group)
+  * Extended dashboard's editable support for dektop browser
+  * Refactored extend() in M.Object to correctly differenciate between object and prototype properties. 
 
 ** Version 0.6 - Date 21.07.2011 **
 
