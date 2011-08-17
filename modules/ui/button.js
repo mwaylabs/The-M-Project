@@ -121,10 +121,6 @@ M.ButtonView = M.View.extend(
                 tap: {
                     target: this,
                     action: 'dispatchEvent'
-                },
-                click: {
-                    target: this,
-                    action: 'dispatchEvent'
                 }
             }
         }
