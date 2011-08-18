@@ -391,6 +391,10 @@ M.DatePickerView = M.View.extend(
             minuteText: this.minutesLabel,
             monthText: this.monthLabel,
             yearText: this.yearLabel,
+            monthNames: this.monthNames,
+            monthNamesShort: this.monthNamesShort,
+            dayNames: this.dayNames,
+            dayNamesShort: this.dayNamesShort,
             cancelText: this.cancelButtonValue,
             setText: this.confirmButtonValue,
             beforeShow: function(input, scroller) {
