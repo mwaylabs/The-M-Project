@@ -342,7 +342,7 @@ M.DatePickerView = M.View.extend(
         var datepicker = M.DatePickerView.design(obj);
 
         /* check if it's worth the work at all */
-        if(!(datepicker.showDatePicker && datepicker.showTimePicker)) {
+        if(!(datepicker.showDatePicker || datepicker.showTimePicker)) {
             M.Logger.log('In order to use the M.DatepickerView, you have to set the \'showDatePicker\' or \'showTimePicker\' property to YES.', M.ERR);
             return;
         }
