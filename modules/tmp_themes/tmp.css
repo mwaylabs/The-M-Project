@@ -170,19 +170,20 @@
     border: 1px solid #555555;
 }
 
-.dw .dwbc .dwb {
-
-}
-
-.dw .dwbc .dwb:first-child {
-
-}
-
 .dw .ui-grid-a {
-    width: 80%;
+    width: 100%;
     margin: auto;
     margin-top: 15px;
     margin-bottom: 10px;
+}
+
+.dw > div.ui-btn {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.dw > div.ui-btn:last-child {
+    margin-top: 0px;
 }
 
 .tmp-datepicker-no-label .dw .dwl {

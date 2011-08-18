@@ -412,6 +412,10 @@ M.DatePickerView = M.View.extend(
             dayNamesShort: this.dayNamesShort,
             cancelText: this.cancelButtonValue,
             setText: this.confirmButtonValue,
+
+            /* now set the width of the scrollers */
+            width: (M.Environment.getWidth() - 20) / 3 - 20 > 90 ? 90 : (M.Environment.getWidth() - 20) / 3 - 20,
+
             beforeShow: function(input, scroller) {
                 that.bindToCaller(that, that.beforeShow, [input, scroller])();
             },
@@ -520,18 +524,29 @@ M.DatePickerView = M.View.extend(
                 }
             }
         });
-        var grid = M.GridView.design({
-            childViews: 'confirm cancel',
-            layout: M.TWO_COLUMNS,
-            cssClass: 'tmp-datepicker-buttongrid',
-            confirm: confirmButton,
-            cancel: cancelButton
-        });
 
-        var html = grid.render();
-        $('.dw').append(html);
-        grid.theme();
-        grid.registerEvents();
+        if(this.showDatePicker) {
+            var grid = M.GridView.design({
+                childViews: 'confirm cancel',
+                layout: M.TWO_COLUMNS,
+                cssClass: 'tmp-datepicker-buttongrid',
+                confirm: confirmButton,
+                cancel: cancelButton
+            });
+
+            var html = grid.render();
+            $('.dw').append(html);
+            grid.theme();
+            grid.registerEvents();
+        } else {
+            var html = confirmButton.render();
+            html += cancelButton.render();
+            $('.dw').append(html);
+            confirmButton.theme();
+            confirmButton.registerEvents();
+            cancelButton.theme();
+            cancelButton.registerEvents();
+        }
 
         /* hide default buttons */
         $('#dw_cancel').hide();
