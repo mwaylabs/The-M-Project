@@ -97,6 +97,17 @@ M.DatePickerView = M.View.extend(
     initialDate: null,
 
     /**
+     * This property can be used to determine whether to use the data source's value as initial date
+     * or not. If there is no source specified, this property is irrelevant.
+     *
+     * Note: If there is a source specified and this property is set to NO, the 'initialDate' property
+     * will be used anyway if there is no date value available for the source!
+     *
+     * @type Boolean
+     */
+    useSourceDateAsInitialDate: YES,
+
+    /**
      * This property can be used to specify whether to show scrollers for picking a date or not.
      *
      * Note: If both this and the 'showTimePicker' property are set to NO, no date picker will
@@ -427,7 +438,7 @@ M.DatePickerView = M.View.extend(
         var date = null;
 
         /* try to set the date picker's initial date based on its source */
-        if(this.hasSource) {
+        if(this.hasSource && this.useSourceDateAsInitialDate) {
             source = M.ViewManager.getViewById(this.source);
             if(source.value) {
                 try {
