@@ -12,7 +12,12 @@
 /**
  * @class
  *
- * This defines the prototype for a date picker view.
+ * This defines the prototype for a date picker view. A date picker is a special view, that can
+ * be called out of a controller. It is shown as a date picker popup, based on the mobiscroll
+ * library. You can either connect a date picker with an existing view and automatically pass
+ * the selected date to the source's value property, or you can simply use the date picker to
+ * select a date, return it to the controller (respectively the callback) and handle the date
+ * by yourself.
  *
  * @extends M.View
  */
@@ -27,171 +32,526 @@ M.DatePickerView = M.View.extend(
     type: 'M.DatePickerView',
 
     /**
-     * This property specifies whether a value update is currently in progress
-     * or not. This is mainly used to decide on focus event for the text field
-     * whether or not to show the date picker view.
+     * This property is used to link the date picker to a source. You can either pass the DOM id of
+     * the corresponding source or the javascript object itself. Linking the date picker directly
+     * to a source results in automatic value updates of this source.
+     *
+     * Note: Valid sources need to provide a setValue() method.
+     *
+     * If you do not pass a source, the date picker isn't linked to any view. It simply returns the
+     * selected value/date to given callbacks. So you can call the date picker out of a controller
+     * and handle the selected date all by yourself.
+     *
+     * @type String|Object
+     */
+    source: null,
+
+    /**
+     * This property can be used to specify several callbacks for the date picker view. There are
+     * three types of callbacks available:
+     *
+     *     - before
+     *         This callback gets called, right before the date picker is shown. It passes along two
+     *         parameters:
+     *             - value      -> The initial date of the date picker, formatted as a string
+     *             - date       -> The initial date of the date picker as d8 object
+     *     - confirm
+     *         This callback gets called, when a selected date was confirmed. It passes along two
+     *         parameters:
+     *             - value      -> The selected date of the date picker, formatted as a string
+     *             - date       -> The selected date of the date picker as d8 object
+     *     - cancel
+     *         This callback gets called, when the cancel button is hit. It doesn't pass any
+     *         parameters.
+     *
+     * Setting up one of those callbacks works the same as with other controls of The-M-Project. You
+     * simply have to specify an object containing a target function, e.g.:
+     *
+     * callbacks: {
+     *     confirm: {
+     *         target: this,
+     *         action: 'dateSelected'
+     *     },
+     *     cancel: {
+     *         action: function() {
+     *             // do something
+     *         }
+     *     }
+     * }
+     *
+     * @type Object
+     */
+    callbacks: null,
+
+    /**
+     * This property can be used to specify the initial date for the date picker. If you use the
+     * date picker without a source, this date is always picked as the initial date. If nothing is
+     * specified, the current date will be displayed.
+     *
+     * If you use the date picker with a valid source, the initial date is picked as long as there
+     * is no valid date available by the source. Once a date was selected and assigned to the source,
+     * this is taken as initial date the next time the date picker is opened.
+     *
+     * @type Object|String
+     */
+    initialDate: null,
+
+    /**
+     * This property can be used to specify whether to show scrollers for picking a date or not.
+     *
+     * Note: If both this and the 'showTimePicker' property are set to NO, no date picker will
+     * be shown!
      *
      * @type Boolean
      */
-    valueUpdateInProgress: NO,
+    showDatePicker: YES,
 
     /**
-     * Determines whether this date picker is also used to pick a time. If set
-     * to YES, two input fields (text fields) are rendered below the date picker
-     * to allow the user to enter a certain time (hours and minutes).
+     * This property can be used to specify whether to show scrollers for picking a time or not.
+     *
+     * Note: If both this and the 'showDatePicker' property are set to NO, no date picker will
+     * be shown!
      *
      * @type Boolean
      */
-    isDateTimePicker: YES,
+    showTimePicker: YES,
 
     /**
-     * Renders a datepicker as a button. On click, there will be a date picker
-     * visible to select a certain date.
+     * This property can be used to specify whether or not to show labels above of the scrollers.
+     * If set to YES, the labels specified with the '...Label' properties are displayed above of
+     * the corresponding scroller.
+     *
+     * @type Boolean
+     */
+    showLabels: YES,
+
+    /**
+     * This property specified the label shown above of the 'year' scroller.
+     *
+     * Note: This label is only shown if the 'showLabels' property is set to YES.
+     *
+     * @type String
+     */
+    yearLabel: 'Year',
+
+    /**
+     * This property specified the label shown above of the 'month' scroller.
+     *
+     * Note: This label is only shown if the 'showLabels' property is set to YES.
+     *
+     * @type String
+     */
+    monthLabel: 'Month',
+
+    /**
+     * This property specified the label shown above of the 'day' scroller.
+     *
+     * Note: This label is only shown if the 'showLabels' property is set to YES.
+     *
+     * @type String
+     */
+    dayLabel: 'Day',
+
+    /**
+     * This property specified the label shown above of the 'hours' scroller.
+     *
+     * Note: This label is only shown if the 'showLabels' property is set to YES.
+     *
+     * @type String
+     */
+    hoursLabel: 'Hours',
+
+    /**
+     * This property specified the label shown above of the 'minutes' scroller.
+     *
+     * Note: This label is only shown if the 'showLabels' property is set to YES.
+     *
+     * @type String
+     */
+    minutesLabel: 'Minutes',
+
+    /**
+     * You can use this property to enable or disable the AM/PM scroller. If set to NO, the
+     * date picker will use the 24h format.
+     *
+     * @type Boolean
+     */
+    showAmPm: NO,
+
+    /**
+     * This property can be used to specify the first year of the 'year' scroller. By default,
+     * this will be set to 20 years before the current year.
+     *
+     * @type Number
+     */
+    startYear: null,
+
+    /**
+     * This property can be used to specify the last year of the 'year' scroller. By default,
+     * this will be set to 20 years after the current year.
+     *
+     * @type Number
+     */
+    endYear: null,
+
+    /**
+     * This property can be used to customize the date format of the date picker. This is important
+     * if you use the date picker on a valid source since the date picker will then automatically
+     * push the selected date/datetime to the 'value' property of the source - based on this format.
+     *
+     * The possible keys:
+     *
+     *     - m      -> month (without leading zero)
+     *     - mm     -> month (two-digit)
+     *     - M      -> month name (short)
+     *     - MM     -> month name (long)
+     *     - d      -> day (without leading zero)
+     *     - d      -> day (two digit)
+     *     - D      -> day name (short)
+     *     - DD     -> day name (long)
+     *     - y      -> year (two digit)
+     *     - yy     -> year (four digit)
+     *
+     * @type String
+     */
+    dateFormat: 'mm/dd/yyyy',
+
+    /**
+     * This property can be used to customize the time format of the date picker. This is important
+     * if you use the date picker on a valid source since the date picker will then automatically
+     * push the selected time/datetime to the 'value' property of the source - based on this format.
+     *
+     * The possible keys:
+     *
+     *     - h      -> hours (without leading zero, 12h format)
+     *     - hh     -> hours (two-digit, 12h format)
+     *     - H      -> hours (without leading zero, 24h format)
+     *     - HH     -> hours (two-digit, 24h format)
+     *     - i      -> minutes (without leading zero)
+     *     - ii     -> minutes (two-digit)
+     *     - A      -> AM/PM
+     *
+     * @type String
+     */
+    timeFormat: 'HH:ii',
+
+    /**
+     * This property determines the order and formating of the date scrollers. The following keys
+     * are possible:
+     *
+     *     - m      -> month (without leading zero)
+     *     - mm     -> month (two-digit)
+     *     - M      -> month name (short)
+     *     - MM     -> month name (long)
+     *     - d      -> day (without leading zero)
+     *     - d      -> day (two digit)
+     *     - y      -> year (two digit)
+     *     - yy     -> year (four digit)
+     *
+     * By default, we use this format: mmddyyyy
+     *
+     * @type String
+     */
+    dateOrder: 'mmddyy',
+
+    /**
+     * This property specifies a list of full month names.
+     *
+     * @type Array
+     */
+    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+
+    /**
+     * This property specifies a list of short month names.
+     *
+     * @type Array
+     */
+    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+
+    /**
+     * This property specifies a list of full day names.
+     *
+     * @type Array
+     */
+    dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+
+    /**
+     * This property specifies a list of short day names.
+     *
+     * @type Array
+     */
+    dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+
+    /**
+     * This property can be used to specify the label of the date picker's cancel button. By default
+     * it shows 'Cancel'.
+     *
+     * @type String
+     */
+    cancelButtonValue: 'Cancel',
+
+    /**
+     * This property can be used to specify the label of the date picker's cancel button. By default
+     * it shows 'Ok'.
+     *
+     * @type String
+     */
+    confirmButtonValue: 'Ok',
+
+    /**
+     * This property is used internally to indicate whether the current date picker works on a valid
+     * source or was called without one. This is important for stuff like auto-updating the source's
+     * DOM representation.
      *
      * @private
-     * @returns {String} The date picker view's html representation.
      */
-    render: function() {
-        this.html += '<input type="hidden" id="' + this.id + '_hidden" />';
-        this.html += '<a data-role="button" style="display:none;" data-type="date" href="#" id="' + this.id + '"' + this.style() + '>-</a>';
-
-        if(this.isDateTimePicker) {
-            this.html += '<div id="' + this.id + '_time" class="ui-grid-a">';
-            this.html += '<div class="ui-block-a">';
-            this.html += '<input type="number" id="' + this.id + '_hours" onchange="M.ViewManager.getViewById(\'' + this.id + '\').dateSelected();" value="00" />';
-            this.html += '</div>';
-            this.html += '<div class="ui-block-b">';
-            this.html += '<input type="number" id="' + this.id + '_minutes" onchange="M.ViewManager.getViewById(\'' + this.id + '\').dateSelected();" value="00" />';
-            this.html += '</div>';
-            this.html += '</div>';
-        }
-
-        /* set the datepicker's language to the user's language (if specified) */
-        var language = M.I18N.getLanguage();
-        if($.datepicker.regional[language]) {
-            $.datepicker.setDefaults(language);
-        } else if($.datepicker.regional[language.substring(0, 2)]) {
-            $.datepicker.setDefaults($.datepicker.regional[language.substring(0, 2)]);
-        }
-
-        this.internalTarget = this;
-        this.internalAction = 'showDatePicker';
-        return this.html;
-    },
+    hasSource: YES,
 
     /**
-     * Updates a date picker view based on its newly set value.
+     * This property is used internally to state whether a value, respectively a date, was selected
+     * or not.
      *
      * @private
+     * @type Boolean
      */
-    renderUpdate: function() {
-        $('#' + this.id + '_hours').val(this.value.format('HH'));
-        $('#' + this.id + '_minutes').val(this.value.format('MM'));
-        $('#' + this.id + ' ~ div:first').datepicker('setDate', this.value.date);
-        $('#' + this.id + ' span.ui-btn-text').html($('#' + this.id + '_hidden').val());
-
-        this.computeDate();
-    },
+    isValueSelected: NO,
 
     /**
-     * Triggers the rendering engine, jQuery mobile, to style the date picker.
+     * This method is the only important method of a date picker view for 'the outside world'. From within
+     * an application, simply call this method and pass along an object, containing all the properties
+     * you want to set, different from default.
      *
-     * @private
+     * A sample call:
+     *
+     * M.DatePickerView.show({
+     *     source: M.ViewManager.getView('mainPage', 'myTextField')
+     *     initialDate: D8.create('30.04.1985 10:30'),
+     *     callbacks: {
+     *          confirm: {
+     *              target: this,
+     *              action: function(value, date) {
+     *                  // do something...
+     *              }
+     *          }
+     *     }
+     * });
+     *
+     * @param obj
      */
-    theme: function() {
-        $('.hasDatepicker').hide();
-        $('#' + this.id + ' span.ui-btn-text').html($('#' + this.id + '_hidden').val());
-        this.computeDate();
-    },
+    show: function(obj) {
+        var datepicker = M.DatePickerView.design(obj);
 
-    /**
-     * This method computes the date out of the selected date and a given time.
-     */
-    computeDate: function() {
-        var date = M.Date.create($('#' + this.id + ' ~ div:first').datepicker("getDate"));
-        var hours = parseInt($('#' + this.id + '_hours').val());
-        var minutes = parseInt($('#' + this.id + '_minutes').val());
-
-        hours = (isNaN(hours) || hours < 0 || hours > 23) ? 0 : hours;
-        minutes = (isNaN(minutes) || minutes < 0 || minutes > 59) ? 0 : minutes;
-
-        this.value = date.hoursFromDate(hours).minutesFromDate(minutes);
-
-        //TODO: build generic 
-        this.bindToCaller(this.target, this.target[this.action], this.value)();
-    },
-
-    /**
-     * This method is called whenever the button of a date picker view is clicked. 
-     * We use this event to show the actual date picker and to let the user select
-     * a date. Once the user clicks a date, the date picker gets hidden again and
-     * we update the button's label.
-     */
-    showDatePicker: function() {
-        if(this.valueUpdateInProgress) {
+        /* check if it's worth the work at all */
+        if(!(datepicker.showDatePicker && datepicker.showTimePicker)) {
+            M.Logger.log('In order to use the M.DatepickerView, you have to set the \'showDatePicker\' or \'showTimePicker\' property to YES.', M.ERR);
             return;
         }
 
-        $('.hasDatepicker').show();
+        /* check if we got a valid source */
+        if(datepicker.source) {
+            /* if we got a view, get its id */
+            datepicker.source = typeof(datepicker.source) === 'object' && datepicker.source.type ? datepicker.source.id : datepicker.source;
 
-        var that = this;
-        $('#' + this.id + ' ~ div.hasDatepicker table.ui-datepicker-calendar').live(
-            'mouseup',
-            function() {
-                $('.hasDatepicker').hide();
-                that.removeCssClass('ui-btn-active');
+            var view = M.ViewManager.getViewById(datepicker.source);
+            if(view && typeof(view.setValue) === 'function' && $('#' + datepicker.source) && $('#' + datepicker.source).length > 0) {
+                datepicker.init();
+            } else {
+                M.Logger.log('The specified source for the M.DatepickerView is invalid!', M.ERR);
             }
-        );
-    },
-
-    /**
-     * This method is event triggered and gets called automatically if a user selected
-     * a certain date. We then update the button's label and the date picker's value.
-     *
-     * @param {String} dateText The date string to be displayed as the button's label.
-     */
-    dateSelected: function(dateText) {
-        $('#' + this.id + ' span.ui-btn-text').html(dateText);
-        this.computeDate();
-    },
-
-    /**
-     * Set the value, respectively the date, of this date picker view.
-     *
-     * @param {M.Date} date The date, the date picker should be set to.
-     */
-
-    setDate: function(date) {
-        $('#' + this.id + ' ~ div:first').datepicker('setDate', date.date);
-        this.value = M.Date.create($('#' + this.id + ' ~ div:first').datepicker("getDate"));
-    },
-
-    /**
-     * Get the value, respectively the date, of this date picker view.
-     *
-     * @returns {M.Date} The date of this date picker.
-     */
-
-    getDate: function() {
-        return this.value;
-    },
-
-    /**
-     * This method sets its value to the value it has in its DOM representation
-     * and then delegates these changes to a controller property if the
-     * contentBindingReverse property is set.
-     *
-     * Additionally call target / action if set.
-     *
-     * @param {Object} evt The event triggered this method.
-     */
-    setValueFromDOM: function(evt) {
-        //this.value = M.Date.create($('#' + this.id + ' ~ div:first').datepicker("getDate"));
-        this.delegateValueUpdate();
-
-        if((evt === 'change' && this.triggerActionOnChange || evt === 'keyup' && this.triggerActionOnKeyUp) && this.target && this.action) {
-            this.target[this.action](this.value);
+        } else {
+            /* use default source (the current page) */
+            datepicker.hasSource = NO;
+            var page = M.ViewManager.getCurrentPage();
+            if(page) {
+                datepicker.source = page.id;
+                datepicker.init();
+            }
         }
+    },
+
+    /**
+     * This method is used internally to communicate with the mobiscroll library. It actually initializes
+     * the creation of the date picker and is responsible for reacting on events. If the cancel or confirm
+     * button is hit, this method dispatches the events to the corresponding callbacks.
+     *
+     * @private
+     */
+    init: function() {
+        var that = this;
+        $('#' + this.source).scroller({
+            preset: (this.showDatePicker && this.showTimePicker ? 'datetime' : (this.showDatePicker ? 'date' : (this.showTimePicker ? 'time' : null))),
+            ampm: this.showAmPm,
+            startYear: this.startYear ? this.startYear : D8.now().format('yyyy') - 20,
+            endYear: this.endYear ? this.endYear : D8.now().format('yyyy') + 20,
+            dateFormat: this.dateFormat,
+            timeFormat: this.timeFormat,
+            dateOrder: this.dateOrder,
+            dayText: this.dayLabel,
+            hourText: this.hoursLabel,
+            minuteText: this.minutesLabel,
+            monthText: this.monthLabel,
+            yearText: this.yearLabel,
+            cancelText: this.cancelButtonValue,
+            setText: this.confirmButtonValue,
+            beforeShow: function(input, scroller) {
+                that.bindToCaller(that, that.beforeShow, [input, scroller])();
+            },
+            onClose: function(value, scroller) {
+                that.bindToCaller(that, that.onClose, [value, scroller])();
+            },
+            onSelect: function(value, scroller) {
+                that.bindToCaller(that, that.onSelect, [value, scroller])();
+            }
+        });
+        $('#' + this.source).scroller('show');
+    },
+
+    /**
+     * This method is used internally to handle the 'beforeShow' event. It does some adjustments to the
+     * rendered scroller by mobiscroll and finally calls the application's 'before' callback, if it is
+     * defined.
+     *
+     * @param source
+     * @param scroller
+     */
+    beforeShow: function(source, scroller) {
+        var source = null;
+        var date = null;
+
+        /* try to set the date picker's initial date based on its source */
+        if(this.hasSource) {
+            source = M.ViewManager.getViewById(this.source);
+            if(source.value) {
+                try {
+                    date = D8.create(source.value);
+                } catch(e) {
+
+                }
+                if(date) {
+                    $('#' + this.source).scroller('setDate', date.date);
+                }
+            }
+        }
+
+        /* if there is no source or the retrieval of the date went wrong, try to set it based on the initial date property */
+        if(this.initialDate && !date) {
+            if(this.initialDate.date) {
+                date = this.initialDate;
+            } else {
+                try {
+                    date = D8.create(this.initialDate);
+                } catch(e) {
+
+                }
+            }
+            if(date) {
+                $('#' + this.source).scroller('setDate', date.date);
+            }
+        }
+
+        /* now we got the date (or use the current date as default), lets compute this as a formatted text for the callback */
+        value = scroller.formatDate(
+            this.showDatePicker ? this.dateFormat + (this.showTimePicker ? ' ' + this.timeFormat : '') : this.timeFormat,
+            scroller.getDate()
+        );
+
+        /* kill parts of the scoller */
+        $('.dwv').remove();
+
+        /* inject TMP buttons*/
+        var confirmButton = M.ButtonView.design({
+            value: this.confirmButtonValue,
+            cssClass: 'b tmp-dialog-smallerbtn-confirm',
+            events: {
+                tap: {
+                    action: function() {
+                        $('#dw_set').trigger('click');
+                    }
+                }
+            }
+        });
+        var cancelButton = M.ButtonView.design({
+            value: this.cancelButtonValue,
+            cssClass: 'd tmp-dialog-smallerbtn-confirm',
+            events: {
+                tap: {
+                    action: function() {
+                        $('#dw_cancel').trigger('click');
+                    }
+                }
+            }
+        });
+        var grid = M.GridView.design({
+            childViews: 'confirm cancel',
+            layout: M.TWO_COLUMNS,
+            cssClass: 'tmp-datepicker-buttongrid',
+            confirm: confirmButton,
+            cancel: cancelButton
+        });
+
+        var html = grid.render();
+        $('.dw').append(html);
+        grid.theme();
+        grid.registerEvents();
+
+        /* hide default buttons */
+        $('#dw_cancel').hide();
+        $('#dw_set').hide();
+
+        /* add class to body as selector for showing/hiding labels */
+        if(!this.showLabels) {
+            $('body').addClass('tmp-datepicker-no-label');
+        }
+
+        /* call callback */
+        if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['before'])) {
+            M.EventDispatcher.callHandler(this.callbacks['before'], null, NO, [value, date]);
+        }
+    },
+
+    onClose: function(value, scroller) {
+        /* set value if one was selected */
+        var source = null;
+        var date = null;
+        if(this.isValueSelected) {
+            /* first compute the date */
+            try {
+                date = D8.create(scroller.getDate());
+            } catch(e) {
+
+            }
+
+            /* now, if there is a source, auto-update its value */
+            if(this.hasSource) {
+                source = M.ViewManager.getViewById(this.source);
+                if(source) {
+                    source.setValue(value);
+                }
+            }
+        }
+
+        /* remove class from body as selector for showing/hiding labels */
+        if(!this.showLabels) {
+            $('body').removeClass('tmp-datepicker-no-label');
+        }
+
+        /* call cancel callback */
+        if(!this.isValueSelected && this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['cancel'])) {
+            M.EventDispatcher.callHandler(this.callbacks['cancel'], null, NO, []);
+        } else if(this.isValueSelected && this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['confirm'])) {
+            M.EventDispatcher.callHandler(this.callbacks['confirm'], null, NO, [value, date]);
+        }
+
+        /* kill the datepicker */
+        $('#' + this.source).scroller('destroy');
+        $('.dwo').remove();
+        $('.dw').remove();
+        this.destroy();
+    },
+
+    onSelect: function(value) {
+        /* mark the datepicker as 'valueSelected' */
+        this.isValueSelected = YES;
     }
 
 });

@@ -146,3 +146,53 @@
     -webkit-animation:
         rotate 0.4s linear infinite
 }
+
+
+
+/* datepicker */
+.dwo {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.dw {
+    border-radius: 8px;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(47, 74, 117, 0.9)), color-stop(0.5, rgba(47, 76, 117, 0.9)), color-stop(0.5, rgba(47, 76, 117, 0.9)), color-stop(1, rgba(134, 140, 158, 0.9)));
+    -webkit-box-shadow: 0 0 8px 4px #555;
+    box-shadow: 0 0 8px 4px #555;
+    border: 2px solid #fff;
+    color: #fff;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.dw .dwc .dwwc {
+    border-radius: 8px;
+    border: 1px solid #555555;
+}
+
+.dw .dwbc .dwb {
+
+}
+
+.dw .dwbc .dwb:first-child {
+
+}
+
+.dw .ui-grid-a {
+    width: 80%;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.tmp-datepicker-no-label .dw .dwl {
+    display: none;
+}
+
+.tmp-datepicker-no-label .dw .dww {
+    top: 0px;
+}
+
+.tmp-datepicker-no-label .dw .dwc {
+    padding-top: 10px;
+}
