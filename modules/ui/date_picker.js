@@ -347,6 +347,10 @@ M.DatePickerView = M.View.extend(
             return;
         }
 
+        /* calculate the default start and end years */
+        this.startYear = this.startYear ? this.startYear : D8.now().format('yyyy') - 20;
+        this.endYear = this.endYear ? this.endYear : D8.now().format('yyyy') + 20;
+
         /* check if we got a valid source */
         if(datepicker.source) {
             /* if we got a view, get its id */
@@ -381,8 +385,8 @@ M.DatePickerView = M.View.extend(
         $('#' + this.source).scroller({
             preset: (this.showDatePicker && this.showTimePicker ? 'datetime' : (this.showDatePicker ? 'date' : (this.showTimePicker ? 'time' : null))),
             ampm: this.showAmPm,
-            startYear: this.startYear ? this.startYear : D8.now().format('yyyy') - 20,
-            endYear: this.endYear ? this.endYear : D8.now().format('yyyy') + 20,
+            startYear: this.startYear,
+            endYear: this.endYear,
             dateFormat: this.dateFormat,
             timeFormat: this.timeFormat,
             dateOrder: this.dateOrder,
@@ -432,7 +436,17 @@ M.DatePickerView = M.View.extend(
 
                 }
                 if(date) {
-                    $('#' + this.source).scroller('setDate', date.date);
+                    if(date.format('yyyy') < this.startYear) {
+                        if(this.hasOwnProperty('startYear')) {
+                            M.Logger.log('The given date of the source (' + date.format('yyyy') + ') conflicts with the \'startYear\' property (' + this.startYear + ') and therefore will be ignored!', M.WARN);
+                        } else {
+                            M.Logger.log('The date picker\'s default \'startYear\' property (' + this.startYear + ') conflicts with the given date of the source (' + date.format('yyyy') + ') and therefore will be ignored!', M.WARN);
+                            $('#' + this.source).scroller('option', 'startYear', date.format('yyyy'));
+                            $('#' + this.source).scroller('setDate', date.date);
+                        }
+                    } else {
+                        $('#' + this.source).scroller('setDate', date.date);
+                    }
                 }
             }
         }
@@ -449,7 +463,17 @@ M.DatePickerView = M.View.extend(
                 }
             }
             if(date) {
-                $('#' + this.source).scroller('setDate', date.date);
+                if(date.format('yyyy') < this.startYear) {
+                    if(this.hasOwnProperty('startYear')) {
+                        M.Logger.log('The specified initial date (' + date.format('yyyy') + ') conflicts with the \'startYear\' property (' + this.startYear + ') and therefore will be ignored!', M.WARN);
+                    } else {
+                        M.Logger.log('The date picker\'s default \'startYear\' property (' + this.startYear + ') conflicts with the specified initial date (' + date.format('yyyy') + ') and therefore will be ignored!', M.WARN);
+                        $('#' + this.source).scroller('option', 'startYear', date.format('yyyy'));
+                        $('#' + this.source).scroller('setDate', date.date);
+                    }
+                } else {
+                    $('#' + this.source).scroller('setDate', date.date);
+                }
             }
         }
 
