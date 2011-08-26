@@ -583,6 +583,15 @@ M.SelectionListView = M.View.extend(
      */
     clearValue: function(){
         this.resetSelection();
+    },
+
+    /**
+     * This method returns the selection list view's value.
+     *
+     * @returns {String|Array} The selected item's value(s).
+     */
+    getValue: function() {
+        return this.getSelection();
     }
 
 });

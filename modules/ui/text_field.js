@@ -404,6 +404,15 @@ M.TextFieldView = M.View.extend(
 
         /* call lostFocus() to get the initial text displayed */
         this.lostFocus();
+    },
+
+    /**
+     * This method returns the text field view's value.
+     *
+     * @returns {String} The text field view's value.
+     */
+    getValue: function() {
+        return this.value;
     }
 
 });

@@ -39,15 +39,6 @@ M.View = M.Object.extend(
     isView: YES,
 
     /**
-     * A boolean value to determine whether a view has a value or not. For the prototype
-     * M.View, this property is set to NO. In a specific view it could be set to YES,
-     * depending on the concept of the view.
-     *
-     * @type Boolean
-     */
-    hasValue: NO,
-
-    /**
      * The value property is a generic property for all values. Even if not all views
      * really use it, e.g. the wrapper views like M.ButtonGroupView, most of it do.
      *
@@ -326,8 +317,8 @@ M.View = M.Object.extend(
         if(this.childViews) {
             var childViews = this.getChildViewsAsArray();
             for(var i in childViews) {
-                if(this[childViews[i]].hasValue) {
-                    values[childViews[i]] = this[childViews[i]].value;
+                if(Object.getPrototypeOf(this[childViews[i]]).hasOwnProperty('getValue')) {
+                    values[childViews[i]] = this[childViews[i]].getValue();
                 }
                 if(this[childViews[i]].childViews) {
                     var newValues = this[childViews[i]].getValues();
@@ -338,6 +329,16 @@ M.View = M.Object.extend(
             }
         }
         return values;
+    },
+
+    /**
+     * @interface
+     *
+     * This method defines an interface method for getting the view's value. This should
+     * be implemented for any view that offers a value and can be used within a form view.
+     */
+    getValue: function() {
+        
     },
 
     /**
