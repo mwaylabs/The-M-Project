@@ -14,6 +14,8 @@
   * Extended dashboard's editable support for dektop browser
   * Refactored extend() in M.Object to correctly differenciate between object and prototype properties.
   * Implemented the all new M.DatepickerView (based on mobiscroll)
+  * Fixed a bug in the form view's getFormValues()
+  * Added check and error message to M.ListView if there is a invalid template
 
 ** Version 0.6 - Date 21.07.2011 **
 
