@@ -650,7 +650,9 @@ M.View = M.Object.extend(
                 if(this[childViews[i]].childViews) {
                     this[childViews[i]].clearValues();
                 }
-                this[childViews[i]].clearValue();
+                if(typeof(this[childViews[i]].clearValue) === 'function'){
+                    this[childViews[i]].clearValue();
+                }
             }
         }
         this.clearValue();
