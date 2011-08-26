@@ -31,52 +31,43 @@ M.Object =
     type: 'M.Object',
 
     /**
-     * Creates an object.
-     * 
-     * @param obj
+     * Creates an object based on a passed prototype.
+     *
+     * @param {Object} proto The prototype of the new object.
      */
-    create: function(obj) {
+    create: function(proto) {
         var f = function(){};
-        f.prototype = obj;
+        f.prototype = proto;
         return new f();
+    },
+
+    /**
+     * Includes passed properties into a given object.
+     *
+     * @param {Object} properties The properties to be included into the given object.
+     */
+    include: function(properties) {
+        for(var prop in properties) {
+            this[prop] = properties[prop];
+        }
     },
 
     /**
      * Creates a new class and extends it with all functions of the defined super class
      * The function takes multiple input arguments. Each argument serves as additional
      * super classes - see mixins.
+     *
+     * @param {Object} properties The properties to be included into the given object.
      */
-    extend: function(){
-        /* create new function */
-        var f = function() {};
-
-        /* assign the caller (respectively its properties) as prototype */
-        for(var prop in this) {
-            f.prototype[prop] = this[prop];
-        }
-
+    extend: function(properties){
         /* create the new object */
-        var newObject = new f();
+        var obj = this.create(this);
 
         /* assign the properties passed with the arguments array */
-        for(var i = 0; i < arguments.length; i++) {
-            var properties = arguments[i];
-            for(var key in properties) {
-                newObject[key] = properties[key];
-            }
-        }
+        obj.include(properties);
 
         /* return the new object */
-        return newObject;
-    },
-
-    include: function() {
-        for(var i = 0; i < arguments.length; i++) {
-            var obj = arguments[i];
-            for(prop in obj) {
-                this[prop] = obj[prop];
-            }
-        }
+        return obj;
     },
 
     /**
