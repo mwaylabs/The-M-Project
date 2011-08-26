@@ -277,6 +277,12 @@ M.ListView = M.View.extend(
         /* Get the list view's template view for each list item */
         var templateView = this.listItemTemplateView;
 
+        /* if there is no template, log error and stop */
+        if(!templateView) {
+            M.Logger.log('The template view could not be loaded! Maybe you forgot to use m_require to set up the correct load order?', M.ERR);
+            return;
+        }
+
         /* If there is an items property, re-assign this to content, otherwise iterate through content itself */
         if(this.items) {
             content = content[this.items];
