@@ -61,7 +61,7 @@ M.Object =
      */
     extend: function(properties){
         /* create the new object */
-        var obj = this.create(this);
+        var obj = M.Object.create(this);
 
         /* assign the properties passed with the arguments array */
         obj.include(properties);
