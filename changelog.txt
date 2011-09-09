@@ -19,6 +19,7 @@
   * Updated JQM to 1.0b3
   * Added 'enableTouchOverflow' and 'useTransitions' properties to the config.json's application section
   * Updated jQuery to 1.6.3
+  * Added cssClass property support to M.DashboardView
 
 ** Version 0.6 - Date 21.07.2011 **
 
