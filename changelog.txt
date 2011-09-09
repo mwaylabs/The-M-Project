@@ -2,7 +2,6 @@
 
   * Added D8 as the next generation date object in JavaScript (M.Date remains, but will no longer be maintained)
   * Fixed a bug in M.LocationManager
-  * Updated JQM to 1.0b2
   * Added changeTitle() to M.LoaderView
   * Fixed a bug in style() with the disabled-property
   * Fixed a bug in styleUpdate(), since disabled-property lead to problems with autogrow mechanism
@@ -17,6 +16,7 @@
   * Fixed a bug in the form view's getFormValues()
   * Added check and error message to M.ListView if there is a invalid template
   * Updated Underscore to v1.1.7
+  * Updated JQM to 1.0b3
 
 ** Version 0.6 - Date 21.07.2011 **
 
