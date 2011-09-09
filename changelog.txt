@@ -1,4 +1,4 @@
-** Version 0.7pre - Date 11.08.2011 **
+** Version 0.7pre - Date 09.09.2011 **
 
   * Added D8 as the next generation date object in JavaScript (M.Date remains, but will no longer be maintained)
   * Fixed a bug in M.LocationManager
@@ -17,6 +17,7 @@
   * Added check and error message to M.ListView if there is a invalid template
   * Updated Underscore to v1.1.7
   * Updated JQM to 1.0b3
+  * Added 'enableTouchOverflow' and 'useTransitions' properties to the config.json's application section
 
 ** Version 0.6 - Date 21.07.2011 **
 

@@ -102,6 +102,9 @@ M.Application = M.Object.extend(
             pages: pages
         });
 
+        /* set some properties */
+        this.useTransitions = this.getConfig('useTransitions') !== undefined ? this.getConfig('useTransitions') : this.useTransitions;
+
         this.entryPage = ((obj.entryPage && typeof(obj.entryPage) === 'string') ? obj.entryPage : null);
 
         return this;
