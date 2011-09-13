@@ -101,7 +101,7 @@ M.DashboardView = M.View.extend(
      * @returns {String} The dashboard view's html representation.
      */
     render: function() {
-        this.html += '<div id="' + this.id + '" class="tmp-dashboard">';
+        this.html += '<div id="' + this.id + '"' + this.style() + '>';
         this.renderChildViews();
         this.html += '</div>';
 
@@ -516,6 +516,20 @@ M.DashboardView = M.View.extend(
                 this.editDashboard();
             }
         }
+    },
+
+    /**
+     * Applies some style-attributes to the dashboard view.
+     *
+     * @private
+     * @returns {String} The dashboard's styling as html representation.
+     */
+    style: function() {
+        var html = '';
+        if(this.cssClass) {
+            html += ' class="tmp-dashboard ' + this.cssClass + '"';
+        }
+        return html;
     }
 
 });

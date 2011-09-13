@@ -216,6 +216,15 @@ M.SearchBarView = M.View.extend(
         if(this.initialText && !this.value && this.cssClassOnInit) {
             this.addCssClass(this.cssClassOnInit);
         }
+    },
+
+    /**
+     * This method returns the search bar view's value.
+     *
+     * @returns {String} The search bar view's value.
+     */
+    getValue: function() {
+        return this.value;
     }
 
 });

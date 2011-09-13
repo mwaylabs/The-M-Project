@@ -576,6 +576,22 @@ M.SelectionListView = M.View.extend(
             this.renderUpdate();
             this.contentBinding = null;
         }
+    },
+
+    /**
+     *  We use this as alias for the form reset function view.clearValues() to reset the selection to its initial state
+     */
+    clearValue: function(){
+        this.resetSelection();
+    },
+
+    /**
+     * This method returns the selection list view's value.
+     *
+     * @returns {String|Array} The selected item's value(s).
+     */
+    getValue: function() {
+        return this.getSelection();
     }
 
 });
