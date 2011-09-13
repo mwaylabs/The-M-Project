@@ -304,7 +304,10 @@ M.SelectionListView = M.View.extend(
                 //this.addItem('<select id="' + this.id + '" onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');"></select>');
             }
         }
-        
+
+        /* remove selection before applying new content */
+        this.removeSelection();
+
         if(this.contentBinding) {
             /* assign the value property to 'items' since this was automatically set by contentDidChange of M.View */
             var items = this.value;
