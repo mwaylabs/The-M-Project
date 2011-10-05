@@ -178,15 +178,6 @@ M.ToolbarView = M.View.extend(
     },
 
     /**
-     * Triggers the rendering engine, jQuery mobile, to style the button.
-     *
-     * @private
-     */
-    theme: function() {
-        this.themeChildViews();
-    },
-
-    /**
      * This method is responsible for registering events for view elements and its child views. It
      * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
      * events.

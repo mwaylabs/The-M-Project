@@ -157,7 +157,6 @@ M.ButtonView = M.View.extend(
      * @private
      */
     theme: function() {
-        $('#' + this.id).button();
     },
 
     /**

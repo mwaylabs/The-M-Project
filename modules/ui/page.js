@@ -279,6 +279,7 @@ M.PageView = M.View.extend(
      */
     theme: function() {
         $('#' + this.id).page();
+        this.themeChildViews();
     },
 
     /**
