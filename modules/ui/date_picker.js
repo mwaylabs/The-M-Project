@@ -328,6 +328,15 @@ M.DatePickerView = M.View.extend(
     isValueSelected: NO,
 
     /**
+     * This property is used internally to state whether a the date picker is currently activated
+     * or not.
+     *
+     * @private
+     * @type Boolean
+     */
+    isActive: NO,
+
+    /**
      * This method is the only important method of a date picker view for 'the outside world'. From within
      * an application, simply call this method and pass along an object, containing all the properties
      * you want to set, different from default.
@@ -351,6 +360,14 @@ M.DatePickerView = M.View.extend(
      */
     show: function(obj) {
         var datepicker = M.DatePickerView.design(obj);
+
+        /* if a datepicker is active already, return */
+        if(Object.getPrototypeOf(datepicker).isActive) {
+            return;
+        /* otherwise go on and set the flag to active */
+        } else {
+            Object.getPrototypeOf(datepicker).isActive = YES;
+        }
 
         /* check if it's worth the work at all */
         if(!(datepicker.showDatePicker || datepicker.showTimePicker)) {
@@ -412,6 +429,8 @@ M.DatePickerView = M.View.extend(
             dayNamesShort: this.dayNamesShort,
             cancelText: this.cancelButtonValue,
             setText: this.confirmButtonValue,
+//            theme: 'android',
+//            mode: 'scroller',
 
             /* now set the width of the scrollers */
             width: (M.Environment.getWidth() - 20) / 3 - 20 > 90 ? 90 : (M.Environment.getWidth() - 20) / 3 - 20,
@@ -597,6 +616,7 @@ M.DatePickerView = M.View.extend(
         }
 
         /* kill the datepicker */
+        Object.getPrototypeOf(this).isActive = NO;
         $('#' + this.source).scroller('destroy');
         $('.dwo').remove();
         $('.dw').remove();

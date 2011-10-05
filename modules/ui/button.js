@@ -157,6 +157,10 @@ M.ButtonView = M.View.extend(
      * @private
      */
     theme: function() {
+        /* theme only if not already done */
+        if(!$('#' + this.id).hasClass('ui-btn')) {
+            $('#' + this.id).button();
+        }
     },
 
     /**
