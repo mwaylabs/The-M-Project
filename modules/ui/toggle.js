@@ -120,7 +120,7 @@ M.ToggleView = M.View.extend(
         }
 
         /* call jqm to fix header/footer */
-        $.fixedToolbars.show();
+        $.mobile.fixedToolbars.show();
 
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, YES);

@@ -301,7 +301,7 @@ M.ListView = M.View.extend(
         this.themeUpdate();
 
         /* At last fix the toolbar */
-        $.fixedToolbars.show();
+        $.mobile.fixedToolbars.show();
     },
 
     /**

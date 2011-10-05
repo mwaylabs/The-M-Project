@@ -16,6 +16,7 @@ $(document).bind("mobileinit", function(){
     }
 
     /* disable auto initialize */
+    $.mobile.touchOverflowEnabled = true;
     $.mobile.autoInitializePage = false;
 });
 $(document).ready(function(){
