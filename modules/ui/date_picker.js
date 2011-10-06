@@ -331,6 +331,13 @@ M.DatePickerView = M.View.extend(
     stepSecond: 1,
 
     /**
+     * This property can be used to activate the seconds wheel on a time/date-time picker.
+     *
+     * @type Boolean
+     */
+    seconds: NO,
+
+    /**
      * This property is used internally to indicate whether the current date picker works on a valid
      * source or was called without one. This is important for stuff like auto-updating the source's
      * DOM representation.
@@ -453,6 +460,7 @@ M.DatePickerView = M.View.extend(
             stepHour: this.stepHour,
             stepMinute: this.stepMinute,
             stepSecond: this.stepSecond,
+            seconds: this.seconds,
 
             /* now set the width of the scrollers */
             width: (M.Environment.getWidth() - 20) / 3 - 20 > 90 ? 90 : (M.Environment.getWidth() - 20) / 3 - 20,
