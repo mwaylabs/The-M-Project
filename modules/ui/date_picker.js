@@ -310,6 +310,27 @@ M.DatePickerView = M.View.extend(
     confirmButtonValue: 'Ok',
 
     /**
+     * This property can be used to specify the steps between hours in the time / date-time picker.
+     *
+     * @type Number
+     */
+    stepHour: 1,
+
+    /**
+     * This property can be used to specify the steps between minutes in the time / date-time picker.
+     *
+     * @type Number
+     */
+    stepMinute: 1,
+
+    /**
+     * This property can be used to specify the steps between seconds in the time / date-time picker.
+     *
+     * @type Number
+     */
+    stepSecond: 1,
+
+    /**
      * This property is used internally to indicate whether the current date picker works on a valid
      * source or was called without one. This is important for stuff like auto-updating the source's
      * DOM representation.
@@ -429,8 +450,9 @@ M.DatePickerView = M.View.extend(
             dayNamesShort: this.dayNamesShort,
             cancelText: this.cancelButtonValue,
             setText: this.confirmButtonValue,
-//            theme: 'android',
-//            mode: 'scroller',
+            stepHour: this.stepHour,
+            stepMinute: this.stepMinute,
+            stepSecond: this.stepSecond,
 
             /* now set the width of the scrollers */
             width: (M.Environment.getWidth() - 20) / 3 - 20 > 90 ? 90 : (M.Environment.getWidth() - 20) / 3 - 20,
