@@ -20,6 +20,7 @@
   * Added 'enableTouchOverflow' and 'useTransitions' properties to the config.json's application section
   * Updated jQuery to 1.6.4
   * Added cssClass property support to M.DashboardView
+  * Fixed a bug in email validator
 
 ** Version 0.6 - Date 21.07.2011 **
 
