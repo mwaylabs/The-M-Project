@@ -49,9 +49,13 @@ M.Controller = M.Object.extend(
      * Switch the active tab in the application. This includes both activating this tab
      * visually and switching the page.
      *
-     * @param {M.TabBarView} tab The tab to be activated.
+     * @param {M.TabBarItemView} tab The tab to be activated.
      */
     switchToTab: function(tab) {
+        if(!(tab.parentView && tab.parentView.type === 'M.TabBarView')) {
+            M.Logger.log('Please provide a valid tab bar item to the switchToTab method.', M.WARN);
+            return;
+        }
         var currentTab = tab.parentView.activeTab;
         var newPage = M.ViewManager.getPage(tab.page);
 
