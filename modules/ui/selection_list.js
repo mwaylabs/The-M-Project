@@ -468,7 +468,7 @@ M.SelectionListView = M.View.extend(
      */
     setSelection: function(selection) {
         var that = this;
-        if(this.selectionMode === M.SINGLE_SELECTION && typeof(selection) === 'string') {
+        if(this.selectionMode === M.SINGLE_SELECTION && (typeof(selection) === 'string' || typeof(selection) === 'number' || typeof(selection) === 'boolean')) {
             $('#' + this.id).find('input').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 if(item.value === selection) {
@@ -482,7 +482,7 @@ M.SelectionListView = M.View.extend(
                     $(this).siblings('label:first').find('span .ui-icon-radio-off').removeClass('ui-icon-radio-off');
                 }
             });
-        } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && typeof(selection) === 'string') {
+        } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && (typeof(selection) === 'string' || typeof(selection) === 'number' || typeof(selection) === 'boolean')) {
             $('#' + this.id).find('option').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 if(item.value === selection) {
