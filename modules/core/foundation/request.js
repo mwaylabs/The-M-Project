@@ -149,6 +149,7 @@ M.Request = M.Object.extend(
             url: this.url,
             async: this.isAsync,
             dataType: this.isJSON ? 'json' : 'text',
+            contentType: this.JSON ? 'application/JSON' : 'application/x-www-form-urlencoded',
             timeout: this.timeout,
             data: this.data ? this.data : '',
             context: this,
