@@ -315,8 +315,8 @@ M.SelectionListView = M.View.extend(
                 var item  = items[i];
                 var obj = null;
                 obj = M.SelectionListItemView.design({
-                    value: item.value ? item.value : '',
-                    label: item.label ? item.label : (item.value ? item.value : ''),
+                    value: (item.value !== undefined && item.value !== null) ? item.value : '',
+                    label: item.label ? item.label : ((item.value !== undefined && item.value !== null) ? item.value : ''),
                     parentView: this,
                     isSelected: item.isSelected
                 });
@@ -471,7 +471,7 @@ M.SelectionListView = M.View.extend(
         if(this.selectionMode === M.SINGLE_SELECTION && (typeof(selection) === 'string' || typeof(selection) === 'number' || typeof(selection) === 'boolean')) {
             $('#' + this.id).find('input').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
-                if(item.value === selection) {
+                if(item.value == selection) {
                     that.removeSelection();
                     item.isSelected = YES;
                     that.selection = item;
@@ -483,9 +483,10 @@ M.SelectionListView = M.View.extend(
                 }
             });
         } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && (typeof(selection) === 'string' || typeof(selection) === 'number' || typeof(selection) === 'boolean')) {
+            var didSetSelection = NO;
             $('#' + this.id).find('option').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
-                if(item.value === selection) {
+                if(item.value == selection) {
                     that.removeSelection();
                     item.isSelected = YES;
                     that.selection = item;
@@ -493,17 +494,20 @@ M.SelectionListView = M.View.extend(
                     if(that.initialText && $('#' + that.id + '-button').find('span.ui-btn-text').html() === that.initialText) {
                         $('#' + that.id + '-button').find('span.ui-btn-text').html(item.label ? item.label : item.value);
                     }
+                    didSetSelection = YES;
                 }
             });
-            this.initialText = null;
-            $('#' + this.id).selectmenu('refresh');
+            if(didSetSelection) {
+                this.initialText = null;
+                $('#' + this.id).selectmenu('refresh');
+            }
         } else if(typeof(selection) === 'object') {
             var removedItems = NO;
             $('#' + this.id).find('input').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 for(var i in selection) {
                     var selectionItem = selection[i];
-                    if(item.value === selectionItem) {
+                    if(item.value == selectionItem) {
                         if(!removedItems) {
                             that.removeSelection();
                             removedItems = YES;
