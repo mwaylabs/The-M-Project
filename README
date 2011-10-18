@@ -27,6 +27,32 @@ Thanks for sharing!
 
 ## CHANGELOG
 
+** Version 0.7 - Date 18.10.2011 **
+
+  * Added D8 as the next generation date object in JavaScript (M.Date remains, but will no longer be maintained)
+  * Fixed a bug in M.LocationManager
+  * Added changeTitle() to M.LoaderView
+  * Fixed a bug in style() with the disabled-property
+  * Fixed a bug in styleUpdate(), since disabled-property lead to problems with autogrow mechanism
+  * Fixed a bug in M.EventDispatcher (no unbind of jqm-based events)
+  * ContentDidChange Event for values which are an empty string
+  * Refactored M.SelectionListView to use this.value in renderUpdate() since it was automatically set by contentDidChange() of M.View
+  * Added M.DashboardView / M.DashboardItemView
+  * Added disable() / enable() to M.ButtonView (also usable within a button group)
+  * Extended dashboard's editable support for dektop browser
+  * Refactored extend() in M.Object to correctly differenciate between object and prototype properties.
+  * Implemented the all new M.DatepickerView (based on mobiscroll)
+  * Fixed a bug in the form view's getFormValues()
+  * Added check and error message to M.ListView if there is a invalid template
+  * Updated Underscore to v1.1.7
+  * Updated JQM to 1.0RC1
+  * Added 'enableTouchOverflow' and 'useTransitions' properties to the config.json's application section
+  * Updated jQuery to 1.6.4
+  * Added cssClass property support to M.DashboardView
+  * Fixed a bug in email validator
+  * Fixed some stuff in M.SelectionListView and extended support for boolean/numerical values when using content binding
+  * Finalized v0.7
+
 ** Version 0.6 - Date 21.07.2011 **
 
   * Refactored content binding (3): set() now can set single values of a chain like 'person.address.street'
