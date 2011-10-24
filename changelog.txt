@@ -1,3 +1,7 @@
+** Version 0.8pre - Date 24.10.2011 **
+
+  * Fixed a typo bug in M.Request
+
 ** Version 0.7 - Date 18.10.2011 **
 
   * Added D8 as the next generation date object in JavaScript (M.Date remains, but will no longer be maintained)
