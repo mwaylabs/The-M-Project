@@ -1,6 +1,7 @@
 ** Version 0.8pre - Date 24.10.2011 **
 
   * Fixed a typo bug in M.Request
+  * Added M.CanvasView
 
 ** Version 0.7 - Date 18.10.2011 **
 
