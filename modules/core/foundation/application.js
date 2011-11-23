@@ -50,14 +50,6 @@ M.Application = M.Object.extend(
     defaultLanguage: null,
 
     /**
-     * This property determines whether to use transitions within the application, e.g. on
-     * page switches, or not. If set to NO, there will be no framework-sided transitions.
-     *
-     * @type Boolean
-     */
-    useTransitions: YES,
-
-    /**
      * This property is set to NO once the first page within an application was loaded. So this
      * can be used as a hook to trigger some actions at the first load of any view. To do initial
      * things for a specific view, use the isFirstLoad property of M.PageView.
@@ -101,9 +93,6 @@ M.Application = M.Object.extend(
         this.include({
             pages: pages
         });
-
-        /* set some properties */
-        this.useTransitions = this.getConfig('useTransitions') !== undefined ? this.getConfig('useTransitions') : this.useTransitions;
 
         this.entryPage = ((obj.entryPage && typeof(obj.entryPage) === 'string') ? obj.entryPage : null);
 
