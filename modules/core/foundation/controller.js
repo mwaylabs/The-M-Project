@@ -94,7 +94,7 @@ M.Controller = M.Object.extend(
                 $.mobile.changePage($('#' + page.id), {
                     transition: M.Application.getConfig('useTransitions') ? transition : M.TRANSITION.NONE,
                     reverse: M.Application.getConfig('useTransitions') ? isBack : NO,
-                    changeHash: YES,
+                    changeHash: updateHistory,
                     showLoadMsg: NO
                 });
             }
