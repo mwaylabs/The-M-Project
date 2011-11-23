@@ -4,6 +4,7 @@
   * Added M.CanvasView
   * Added numberOfChars property to M.TextField (equivalent to HTML's maxlength property)
   * Fixed a UTF8 bug in M.ListView
+  * Added M.TextFieldView to supported views within a list item view.
 
 ** Version 0.7 - Date 18.10.2011 **
 

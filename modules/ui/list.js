@@ -368,6 +368,7 @@ M.ListView = M.View.extend(
                         case 'M.LabelView':
                         case 'M.ButtonView':
                         case 'M.ImageView':
+                        case 'M.TextFieldView':
                             obj[childViewsArray[i]].value = record[regexResult[1]];
                             break;
                     }
