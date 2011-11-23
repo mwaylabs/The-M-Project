@@ -1,7 +1,8 @@
-** Version 0.8pre - Date 24.10.2011 **
+** Version 0.8pre - Date 23.11.2011 **
 
   * Fixed a typo bug in M.Request
   * Added M.CanvasView
+  * Added numberOfChars property to M.TextField (equivalent to HTML's maxlength property)
 
 ** Version 0.7 - Date 18.10.2011 **
 
