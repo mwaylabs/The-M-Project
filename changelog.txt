@@ -7,6 +7,7 @@
   * Added M.TextFieldView to supported views within a list item view.
   * Removed deprecated useTransitions property of M.Application (use getConfig() instead)
   * Fixed a bug with the switchToPage() (make use of the fourth parameter: updateHistory)
+  * Added all the date-types as possible values for inputType for M.TextFieldView
 
 ** Version 0.7 - Date 18.10.2011 **
 
