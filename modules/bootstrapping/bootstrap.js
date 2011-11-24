@@ -25,4 +25,9 @@ $(document).ready(function(){
 
     /* init pages */
     $.mobile.initializePage();
+
+    /* bind orientation change event */
+    $(window).bind('orientationchange', function() {
+        $('#' + M.ViewManager.getCurrentPage().id).trigger('orientationchange');
+    });
 });
