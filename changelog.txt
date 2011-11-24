@@ -1,4 +1,4 @@
-** Version 0.8pre - Date 23.11.2011 **
+** Version 0.8pre - Date 24.11.2011 **
 
   * Fixed a typo bug in M.Request
   * Added M.CanvasView
@@ -9,6 +9,8 @@
   * Fixed a bug with the switchToPage() (make use of the fourth parameter: updateHistory)
   * Added all the date-types as possible values for inputType for M.TextFieldView
   * Added M.SliderView (based on input type range and jqm)
+  * Reposition dialogs on orientation change
+  * Added queue to dialogs to only show one at a time
 
 ** Version 0.7 - Date 18.10.2011 **
 

@@ -197,3 +197,19 @@
 .tmp-datepicker-no-label .dw .dwc {
     padding-top: 10px;
 }
+
+
+
+
+/* slider */
+.tmp-slider-container.tmp-slider-is-slider-only {
+    padding-left: 14px;
+    padding-right: 14px;
+    min-height: 30px;
+}
+
+.tmp-slider-container.tmp-slider-is-slider-only div.ui-slider {
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+}
