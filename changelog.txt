@@ -8,6 +8,7 @@
   * Removed deprecated useTransitions property of M.Application (use getConfig() instead)
   * Fixed a bug with the switchToPage() (make use of the fourth parameter: updateHistory)
   * Added all the date-types as possible values for inputType for M.TextFieldView
+  * Added M.SliderView (based on input type range and jqm)
 
 ** Version 0.7 - Date 18.10.2011 **
 
