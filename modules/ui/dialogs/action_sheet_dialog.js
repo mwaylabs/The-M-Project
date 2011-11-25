@@ -194,7 +194,7 @@ M.ActionSheetDialogView = M.DialogView.extend(
         /* now wait 100ms (plus the default delay) and then call the next in the queue */
         var that = this;
         window.setTimeout(function() {
-            that.isActive = NO;
+            M.DialogView.isActive = NO;
             that.dequeue();
         }, this.deletionDelay + 100);
     },
