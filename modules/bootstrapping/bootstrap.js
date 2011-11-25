@@ -16,8 +16,10 @@ $(document).bind("mobileinit", function(){
     }
 
     /* disable auto initialize */
-    $.mobile.touchOverflowEnabled = true;
     $.mobile.autoInitializePage = false;
+
+    /* disable touch overflow */
+    $.mobile.touchOverflowEnabled = false;
 });
 $(document).ready(function(){
     /* configure jqm */
