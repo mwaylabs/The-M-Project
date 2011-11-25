@@ -30,6 +30,13 @@ M.MULTIPLE_SELECTION = 'checkbox';
  */
 M.SINGLE_SELECTION_DIALOG = 'select';
 
+/**
+ * A constant value for multiple selection mode in a dialog / popup.
+ *
+ * @type String
+ */
+M.MULTIPLE_SELECTION_DIALOG = 'select_multiple';
+
 m_require('ui/selection_list_item.js');
 
 /**
@@ -37,7 +44,8 @@ m_require('ui/selection_list_item.js');
  *
  * This defines the prototype of any selection list view. A selection list view displays
  * a list with several items of which either only one single item (M.SINGLE_SELECTION /
- * M.SINGLE_SELECTION_DIALOG) or many items (M.MULTIPLE_SELECTION) can be selected.
+ * M.SINGLE_SELECTION_DIALOG) or many items (M.MULTIPLE_SELECTION /
+ * M.MULTIPLE_SELECTION_DIALOG) can be selected.
  *
  * @extends M.View
  */
@@ -86,6 +94,18 @@ M.SelectionListView = M.View.extend(
      *   automatic de-selected of previously selected items. This selection mode's
      *   behaviour is equivalent to the plain HTML's checkboxes.
      *
+     *
+     * - M.MULTIPLE_SELECTION_DIALOG
+     *
+     *   This selection mode will render a selection list equivalent to the plain
+     *   HTML's select menu, but with the possibility to select multiple options.
+     *   In contrast to the single selection dialog mode, it also is possible to
+     *   select no option at all. As with the multiple selecton mode, the selection
+     *   of a new item doesn't lead to automatic de-selected of previously selected
+     *   items.
+     *
+     *   Note: This mode currently only works on mobile devices!!
+     *
      * @type String
      */
     selectionMode: M.SINGLE_SELECTION,
@@ -108,13 +128,14 @@ M.SelectionListView = M.View.extend(
     
     /**
      * This property is used to specify an initial value for the selection list if
-     * it is running in 'single selection dialog' (M.SINGLE_SELECTION_DIALOG) mode.
+     * it is running in 'multiple selection dialog' (M.MULTIPLE_SELECTION_DIALOG) mode.
      * This value is then displayed at startup. You would typically use this e.g. to
      * specify something like: 'Please select...'.
      *
      * As long as this initial value is 'selected', the getSelection() of this selection
-     * list will return nothing. Once a 'real' option is selected, this value is
-     * removed from the selection list.
+     * list will return nothing. Once a 'real' option is selected, this value will visually
+     * disappear. If at some point no option will be selected again, this initial text
+     * will be shown again.
      *
      * @type String
      */
@@ -185,13 +206,13 @@ M.SelectionListView = M.View.extend(
 
         this.html += '>';
 
-        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG || this.selectionMode === M.MULTIPLE_SELECTION_DIALOG) {
             
             if(this.label) {
                 this.html += '<label for="' + this.id + '">' + this.label + '</label>';
             }
 
-            this.html += '<select name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>';
+            this.html += '<select name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + (this.selectionMode === M.MULTIPLE_SELECTION_DIALOG ? ' multiple="multiple"' : '') + '>';
 
             this.renderChildViews();
 
@@ -292,16 +313,12 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     renderUpdate: function() {
-        if(this.removeItemsOnUpdate || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+        if(this.removeItemsOnUpdate || this.selectionMode === M.SINGLE_SELECTION_DIALOG || this.selectionMode === M.MULTIPLE_SELECTION_DIALOG) {
             this.removeAllItems();
 
-            if(this.label && !(this.selectionMode === M.SINGLE_SELECTION_DIALOG)) {
+            if(this.label && !(this.selectionMode === M.SINGLE_SELECTION_DIALOG || this.selectionMode === M.MULTIPLE_SELECTION_DIALOG)) {
                 this.addItem('<legend>' + this.label + '</legend>');
-            } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
-                if(this.label) {
-                    //this.addItem('<label for="' + this.id + '">' + this.label + '</label>');
-                }
-                //this.addItem('<select id="' + this.id + '" onchange="M.EventDispatcher.onClickEventDidHappen(\'click\', \'' + this.id + '\');"></select>');
+            } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG || this.selectionMode === M.MULTIPLE_SELECTION_DIALOG) {
             }
         }
 
@@ -320,7 +337,7 @@ M.SelectionListView = M.View.extend(
                     parentView: this,
                     isSelected: item.isSelected
                 });
-                if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
+                if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG && this.selectionMode !== M.MULTIPLE_SELECTION_DIALOG) {
                     obj.name = item.name ? item.name : (item.label ? item.label : (item.value ? item.value : ''));
                 }
 
@@ -337,12 +354,12 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG || this.selectionMode === M.MULTIPLE_SELECTION_DIALOG) {
             $('#' + this.id).selectmenu();
-            if(this.initialText && !this.selection) {
+            if(this.selectionMode === M.MULTIPLE_SELECTION_DIALOG && this.initialText && this.selection && this.selection.length === 0) {
                 $('#' + this.id + '_container').find('.ui-btn-text').html(this.initialText);
             }
-        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
+        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG && this.selectionMode !== M.MULTIPLE_SELECTION_DIALOG) {
             $('#' + this.id).controlgroup();
         }
     },
@@ -353,12 +370,16 @@ M.SelectionListView = M.View.extend(
      * @private
      */
     themeUpdate: function() {
-        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+        if(this.selectionMode === M.SINGLE_SELECTION_DIALOG || this.selectionMode === M.MULTIPLE_SELECTION_DIALOG) {
             $('#' + this.id).selectmenu('refresh');
-            if(this.initialText && !this.selection) {
+            if(this.selectionMode === M.MULTIPLE_SELECTION_DIALOG && this.initialText && this.selection && this.selection.length === 0) {
                 $('#' + this.id + '_container').find('.ui-btn-text').html(this.initialText);
+            } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && !this.selection) {
+                var that = this;
+                var item = M.ViewManager.getViewById($('#' + this.id).find('option:first-child').attr('id'));
+                that.setSelection(item.value);
             }
-        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
+        } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG && this.selectionMode !== M.MULTIPLE_SELECTION_DIALOG) {
             $('#' + this.id).controlgroup();
         }
     },
@@ -387,7 +408,7 @@ M.SelectionListView = M.View.extend(
      */
     itemSelected: function(id, event, nextEvent) {
         var item = null;
-        
+
         if(this.selectionMode === M.SINGLE_SELECTION) {
             item = M.ViewManager.getViewById($('input[name=' + (this.name ? this.name : this.id) + ']:checked').attr('id'));
             
@@ -413,7 +434,7 @@ M.SelectionListView = M.View.extend(
         } else if(this.selectionMode === M.MULTIPLE_SELECTION) {
             var that = this;
             this.selection = [];
-            $('#' + id).find('input:checked').each(function() {
+            $('#' + this.id).find('input:checked').each(function() {
                 that.selection.push(M.ViewManager.getViewById($(this).attr('id')));
             });
 
@@ -425,12 +446,33 @@ M.SelectionListView = M.View.extend(
             if(nextEvent) {
                 M.EventDispatcher.callHandler(nextEvent, event, NO, [selectionValues, this.selection]);
             }
+        } else if(this.selectionMode === M.MULTIPLE_SELECTION_DIALOG) {
+            var that = this;
+            this.selection = [];
+            $('#' + this.id).find(':selected').each(function() {
+                that.selection.push(M.ViewManager.getViewById($(this).attr('id')));
+            });
+
+            var selectionValues = [];
+            for(var i in this.selection) {
+                selectionValues.push(this.selection[i].value);
+                $('#' + this.id + '_container').find('.ui-btn-text').html(this.formatSelectionLabel(this.selection.length));
+            }
+
+            /* if there is no more item selected, reset the initial text */
+            if(this.selection.length === 0) {
+                this.themeUpdate();
+            }
+
+            if(nextEvent) {
+                M.EventDispatcher.callHandler(nextEvent, event, NO, [selectionValues, this.selection]);
+            }
         }
     },
 
     /**
-     * This method returns the selected item's value(s) either as a String (M.SINGLE_SELECTION)
-     * or as an Array (M.MULTIPLE_SELECTION).
+     * This method returns the selected item's value(s) either as a String (single selection)
+     * or as an Array (multiple selection).
      *
      * @param {Boolean} returnObject Determines whether to return the selected item(s) as object or not.
      * @returns {String|Object|Array} The selected item's value(s).
@@ -462,7 +504,7 @@ M.SelectionListView = M.View.extend(
 
     /**
      * This method can be used to select items programmatically. The given parameter can either
-     * be a String (M.SINGLE_SELECTION) or an Array (M.MULTIPLE_SELECTION).
+     * be a String (single selection) or an Array (multiple selection).
      *
      * @param {String|Array} selection The selection that should be applied to the selection list.
      */
@@ -491,37 +533,55 @@ M.SelectionListView = M.View.extend(
                     item.isSelected = YES;
                     that.selection = item;
                     $('#' + that.id).val(item.value);
-                    if(that.initialText && $('#' + that.id + '-button').find('span.ui-btn-text').html() === that.initialText) {
-                        $('#' + that.id + '-button').find('span.ui-btn-text').html(item.label ? item.label : item.value);
-                    }
                     didSetSelection = YES;
                 }
             });
             if(didSetSelection) {
-                this.initialText = null;
                 $('#' + this.id).selectmenu('refresh');
             }
         } else if(typeof(selection) === 'object') {
-            var removedItems = NO;
-            $('#' + this.id).find('input').each(function() {
-                var item = M.ViewManager.getViewById($(this).attr('id'));
-                for(var i in selection) {
-                    var selectionItem = selection[i];
-                    if(item.value == selectionItem) {
-                        if(!removedItems) {
-                            that.removeSelection();
-                            removedItems = YES;
+            if(this.selectionMode === M.MULTIPLE_SELECTION) {
+                var removedItems = NO;
+                $('#' + this.id).find('input').each(function() {
+                    var item = M.ViewManager.getViewById($(this).attr('id'));
+                    for(var i in selection) {
+                        var selectionItem = selection[i];
+                        if(item.value == selectionItem) {
+                            if(!removedItems) {
+                                that.removeSelection();
+                                removedItems = YES;
+                            }
+                            item.isSelected = YES;
+                            that.selection.push(item);
+                            $(this).attr('checked', 'checked');
+                            $(this).siblings('label:first').removeClass('ui-checkbox-off');
+                            $(this).siblings('label:first').addClass('ui-checkbox-on');
+                            $(this).siblings('label:first').find('span .ui-icon-checkbox-off').addClass('ui-icon-checkbox-on');
+                            $(this).siblings('label:first').find('span .ui-icon-checkbox-off').removeClass('ui-icon-checkbox-off');
                         }
-                        item.isSelected = YES;
-                        that.selection.push(item);
-                        $(this).attr('checked', 'checked');
-                        $(this).siblings('label:first').removeClass('ui-checkbox-off');
-                        $(this).siblings('label:first').addClass('ui-checkbox-on');
-                        $(this).siblings('label:first').find('span .ui-icon-checkbox-off').addClass('ui-icon-checkbox-on');
-                        $(this).siblings('label:first').find('span .ui-icon-checkbox-off').removeClass('ui-icon-checkbox-off');
                     }
-                }
-            });
+                });
+            } else if(this.selectionMode === M.MULTIPLE_SELECTION_DIALOG) {
+                var removedItems = NO;
+                $('#' + this.id).find('option').each(function() {
+                    var item = M.ViewManager.getViewById($(this).attr('id'));
+                    for(var i in selection) {
+                        var selectionItem = selection[i];
+                        if(item.value == selectionItem) {
+                            if(!removedItems) {
+                                that.removeSelection();
+                                removedItems = YES;
+                            }
+                            item.isSelected = YES;
+                            that.selection.push(item);
+                            $(this).attr('selected', 'selected');
+                        }
+                    }
+
+                    /* set the label */
+                    $('#' + that.id + '_container').find('.ui-btn-text').html(that.formatSelectionLabel(that.selection.length));
+                });
+            }
         }
         that.theme();
     },
@@ -531,35 +591,29 @@ M.SelectionListView = M.View.extend(
      */
     removeSelection: function() {
         var that = this;
-        var type = null;
+
         if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.SINGLE_SELECTION_DIALOG) {
             this.selection = null;
-
-            if(this.selectionMode === M.SINGLE_SELECTION) {
-                type = 'radio';
-            } else {
-                type = 'select';
-            }
         } else {
             this.selection = [];
-            type = 'checkbox';
         }
         
-        if(type !== 'select') {
+        if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG && this.selectionMode !== M.MULTIPLE_SELECTION_DIALOG) {
             $('#' + this.id).find('input').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 item.isSelected = NO;
                 $(this).removeAttr('checked');
-                $(this).siblings('label:first').addClass('ui-' + type + '-off');
-                $(this).siblings('label:first').removeClass('ui-' + type + '-on');
-                $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').addClass('ui-icon-' + type + '-off');
-                $(this).siblings('label:first').find('span .ui-icon-' + type + '-on').removeClass('ui-icon-' + type + '-on');
+                $(this).siblings('label:first').addClass('ui-' + that.selectionMode + '-off');
+                $(this).siblings('label:first').removeClass('ui-' + that.selectionMode + '-on');
+                $(this).siblings('label:first').find('span .ui-icon-' + that.selectionMode + '-on').addClass('ui-icon-' + that.selectionMode + '-off');
+                $(this).siblings('label:first').find('span .ui-icon-' + that.selectionMode + '-on').removeClass('ui-icon-' + that.selectionMode + '-on');
             });
         } else {
             $('#' + this.id).find('option').each(function() {
                 var item = M.ViewManager.getViewById($(this).attr('id'));
                 item.isSelected = NO;
             });
+            $('#' + this.id).val('').removeAttr('checked').removeAttr('selected');
         }
     },
 
@@ -599,6 +653,19 @@ M.SelectionListView = M.View.extend(
      */
     getValue: function() {
         return this.getSelection();
+    },
+
+    /**
+     * This method is responsible for rendering the visual text for a selection list
+     * in the M.MULTIPLE_SELECTION_DIALOG mode. It's only parameter is a number, that
+     * specifies the number of selected options of this selection list. To customize
+     * the visual output of such a list, you will need to overwrite this method within
+     * the definition of the selection list in your application.
+     *
+     * @param {Number} v The number of selected options.
+     */
+    formatSelectionLabel: function(v) {
+        return v + ' Object(s)';
     }
 
 });

@@ -11,6 +11,7 @@
   * Added M.SliderView (based on input type range and jqm)
   * Reposition dialogs on orientation change
   * Added queue to dialogs to only show one at a time
+  * Added the M.MULTIPLE_SELECTION_DIALOG mode to M.SelectionListView
 
 ** Version 0.7 - Date 18.10.2011 **
 
