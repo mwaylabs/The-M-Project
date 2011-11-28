@@ -13,6 +13,7 @@
   * Added queue to dialogs to only show one at a time
   * Added the M.MULTIPLE_SELECTION_DIALOG mode to M.SelectionListView
   * Added 4-column layout to M.GridView
+  * Updated Underscore to v1.2.2
 
 ** Version 0.7 - Date 18.10.2011 **
 
