@@ -37,6 +37,21 @@ M.THREE_COLUMNS = {
 };
 
 /**
+ * A constant value for a four column layout of a grid view.
+ *
+ * @type String
+ */
+M.FOUR_COLUMNS = {
+    cssClass: 'ui-grid-c',
+    columns: {
+        0: 'ui-block-a',
+        1: 'ui-block-b',
+        2: 'ui-block-c',
+        3: 'ui-block-d'
+    }
+};
+
+/**
  * @class
  *
  * M.GridView defines a prototype of a grid view, that allows you to display several
@@ -60,6 +75,7 @@ M.GridView = M.View.extend(
      * 
      * - M.TWO_COLUMNS: a two column layout, width: 50% / 50%
      * - M.THREE_COLUMNS: a three column layout, width: 33% / 33% / 33%
+     * - M.FOUR_COLUMNS: a four column layout, width: 25% / 25% / 25%
      *
      * To specify your own layout, you will have to implement some css classes and
      * then define your layout like:
