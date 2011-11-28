@@ -15,6 +15,7 @@
   * Added 4-column layout to M.GridView
   * Updated Underscore to v1.2.2
   * Updated mobiscroll to v1.5.2
+  * Added a custom Modernizr configuration to M.Environment for detecting HTML5 input types
 
 ** Version 0.7 - Date 18.10.2011 **
 
