@@ -187,7 +187,7 @@ M.DatePickerView = M.View.extend(
      *
      * @type Boolean
      */
-    showAmPm: NO,
+    showAmPm: YES,
 
     /**
      * This property can be used to specify the first year of the 'year' scroller. By default,
@@ -225,7 +225,15 @@ M.DatePickerView = M.View.extend(
      *
      * @type String
      */
-    dateFormat: 'mm/dd/yyyy',
+    dateFormat: 'M dd, yy',
+
+    /**
+     * This property can be used to customize the date format of the date picker if it is associated
+     * with a text input with the type 'month'. It works the same as the dateFormat property.
+     *
+     * @type String
+     */
+    dateFormatMonthOnly: 'MM yy',
 
     /**
      * This property can be used to customize the time format of the date picker. This is important
@@ -244,7 +252,7 @@ M.DatePickerView = M.View.extend(
      *
      * @type String
      */
-    timeFormat: 'HH:ii',
+    timeFormat: 'h:ii A',
 
     /**
      * This property determines the order and formating of the date scrollers. The following keys
@@ -259,11 +267,23 @@ M.DatePickerView = M.View.extend(
      *     - y      -> year (two digit)
      *     - yy     -> year (four digit)
      *
-     * By default, we use this format: mmddyyyy
+     * By default, we use this format: Mddyy
      *
      * @type String
      */
-    dateOrder: 'mmddyy',
+    dateOrder: 'Mddyy',
+
+    /**
+     * This property determines the order and formating of the date scrollers if it is associated
+     * with an input field of type 'month'. It works the same as the dateOrder property.
+     *
+     * By default, we use this format: MMyy
+     *
+     * @type String
+     */
+    dateOrderMonthOnly: 'MMyy',
+
+
 
     /**
      * This property specifies a list of full month names.

@@ -16,6 +16,7 @@
   * Updated Underscore to v1.2.2
   * Updated mobiscroll to v1.5.2
   * Added a custom Modernizr configuration to M.Environment for detecting HTML5 input types
+  * Added M.DatePickerView as fallback to date input types for M.TextFieldView
 
 ** Version 0.7 - Date 18.10.2011 **
 
