@@ -47,6 +47,13 @@ M.LOCATION_UNKNOWN_ERROR = 'UNKNOWN_ERROR';
 M.LOCATION_NOT_SUPPORTED = 'NOT_SUPPORTED';
 
 /**
+ * A constant value for already receiving error.
+ *
+ * @type String
+ */
+M.LOCATION_ALREADY_RECEIVING = 'ALREADY_RECEIVING';
+
+/**
  * A constant value for location type: approximate.
  *
  * @type Number
@@ -203,13 +210,11 @@ M.LocationManager = M.Object.extend(
      * @param {Object} onSuccess The success callback.
      * @param {Object} onError The error callback.
      * @param {Object} options The options for retrieving a location.
-     *
-     * @return Boolean Determines whether the getLocation call was initialized successfully or not.
      */
     getLocation: function(caller, onSuccess, onError, options) {
         if(this.isGettingLocation) {
             M.Logger.log('M.LocationManager is currently already trying to retrieve a location.', M.WARN);
-            return NO;
+            this.bindToCaller(caller, onError, M.LOCATION_ALREADY_RECEIVING)();
         } else {
             this.isGettingLocation = YES; 
         }
@@ -265,8 +270,6 @@ M.LocationManager = M.Object.extend(
         } else {
             that.bindToCaller(that, onError, M.LOCATION_NOT_SUPPORTED)();
         }
-
-        return YES;
     },
 
     /**
