@@ -224,6 +224,15 @@ M.MapView = M.View.extend(
     callbacks: null,
 
     /**
+     * This flag can be used to specify whether or not to load the google places
+     * library. By default this property is set to YES. If you do not need the
+     * library, you should set this to NO in order to save some bandwidth.
+     *
+     * @type Boolean
+     */
+    loadPlacesLibrary: YES,
+
+    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array
@@ -344,6 +353,28 @@ M.MapView = M.View.extend(
      * While all properties of the options parameter can be given as Number, String
      * or a constant value, the location must be a valid M.Location object.
      *
+     * Once the google api is initialized, the success callback specified with the
+     * options parameter is called. If an error occurs (e.g. no network connection),
+     * the error callback is called instead. They can be specified like the
+     * following:
+     *
+     *   {
+     *     callbacks: {
+     *       success: {
+     *         target: this,
+     *         action: function() {
+     *           // success callback
+     *         }
+     *       },
+     *       error: {
+     *         target: this,
+     *         action: function() {
+     *           // error callback
+     *         }
+     *       }
+     *     }
+     *   }
+     *   
      * @param {Object} options The options for the map view.
      * @param {Boolean} isUpdate Indicates whether this is an update call or not.
      */
@@ -382,10 +413,13 @@ M.MapView = M.View.extend(
      */
     didRetrieveConnectionStatus: function(connectionStatus) {
         if(connectionStatus === M.ONLINE) {
-            $('body').append('<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&callback=M.INITIAL_MAP.map.googleDidLoad"></script>');
+            $.getScript(
+                'http://maps.google.com/maps/api/js?' + (this.loadPlacesLibrary ? 'libraries=places&' : '') + 'sensor=true&callback=M.INITIAL_MAP.map.googleDidLoad'
+            );
         } else {
-            if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks.error, 'offline')){
-                this.bindToCaller(this.callbacks.error.target, this.callbacks.error.action)();
+            var callback = M.INITIAL_MAP.options ? M.INITIAL_MAP.options.callbacks : null;
+            if(callback && M.EventDispatcher.checkHandler(callback.error)){
+                this.bindToCaller(callback.error.target, callback.error.action)();
             }
         }
     },
@@ -423,6 +457,9 @@ M.MapView = M.View.extend(
                     break;
                  case 'initialLocation':
                     this[i] = (typeof(options[i]) === 'object' && options[i].type === 'M.Location') ? options[i] : this[i];
+                    break;
+                 case 'callbacks':
+                    this[i] = (typeof(options[i]) === 'object') ? options[i] : this[i];
                     break;
                  default:
                     break;
@@ -462,6 +499,11 @@ M.MapView = M.View.extend(
         }
 
         this.isInitialized = YES;
+
+        /* now call callback of "the outside world" */
+        if(this.callbacks.success && M.EventDispatcher.checkHandler(this.callbacks.success)) {
+            this.bindToCaller(this.callbacks.success.target, this.callbacks.success.action)();
+        }
     },
 
     /**
