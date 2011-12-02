@@ -666,6 +666,42 @@ M.SelectionListView = M.View.extend(
      */
     formatSelectionLabel: function(v) {
         return v + ' Object(s)';
+    },
+
+    /**
+     * This method disables the selection list by setting the disabled property of its
+     * html representation to true.
+     */
+    disable: function() {
+        this.isEnabled = NO;
+        if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.MULTIPLE_SELECTION) {
+            $('#' + this.id).find('input').each(function() {
+                $(this).checkboxradio('disable');
+            });
+        } else {
+            $('#' + this.id).select('disable');
+            $('#' + this.id).each(function() {
+                $(this).attr('disabled', 'disabled');
+            });
+        }
+    },
+
+    /**
+     * This method enables the selection list by setting the disabled property of its
+     * html representation to false.
+     */
+    enable: function() {
+        this.isEnabled = YES;
+        if(this.selectionMode === M.SINGLE_SELECTION || this.selectionMode === M.MULTIPLE_SELECTION) {
+            $('#' + this.id).find('input').each(function() {
+                $(this).checkboxradio('enable');
+            });
+        } else {
+            $('#' + this.id).select('enable');
+            $('#' + this.id).each(function() {
+                $(this).removeAttr('disabled');
+            });
+        }
     }
 
 });

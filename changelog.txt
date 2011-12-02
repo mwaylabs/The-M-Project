@@ -18,6 +18,7 @@
   * Added a custom Modernizr configuration to M.Environment for detecting HTML5 input types
   * Added M.DatePickerView as fallback to date input types for M.TextFieldView
   * Added callbacks to initMap()
+  * Added disable() / enable() to M.SelectionListView
 
 ** Version 0.7 - Date 18.10.2011 **
 
