@@ -1,4 +1,4 @@
-** Version 0.8pre - Date 24.11.2011 **
+** Version 0.8 - Date 05.12.2011 **
 
   * Fixed a typo bug in M.Request
   * Added M.CanvasView
@@ -22,6 +22,7 @@
   * Added M.TableView (first, simple version)
   * Refactored M.Request to use the callbacks property
   * Added sendNoCacheHeader and sendTimestamp properties to M.Request
+  * Changed version to 0.8
 
 ** Version 0.7 - Date 18.10.2011 **
 
