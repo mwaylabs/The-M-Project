@@ -76,7 +76,7 @@ M.Request = M.Object.extend(
 
     /**
      * Sends the request asynchronously instead of blocking the browser.
-     * You should almost always make requests asynchronous. �You can change this
+     * You should almost always make requests asynchronous. You can change this
      * options with the async() helper option (or simply set it directly).
      *
      * Defaults to YES.
