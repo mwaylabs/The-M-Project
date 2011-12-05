@@ -52,6 +52,7 @@ M.Request = M.Object.extend(
             isJSON: obj['isJSON'] ? obj['isJSON'] : this.isJSON,
             timeout: obj['timeout'] ? obj['timeout'] : this.timeout,
             data: obj['data'] ? obj['data'] : this.data,
+            callbacks: obj['callbacks'],
             beforeSend: obj['beforeSend'] ? obj['beforeSend'] : this.beforeSend,
             onError: obj['onError'] ? obj['onError'] : this.onError,
             onSuccess: obj['onSuccess'] ? obj['onSuccess'] : this.onSuccess
@@ -103,6 +104,56 @@ M.Request = M.Object.extend(
     timeout: null,
 
     /**
+     * If set, contains the request's callbacks in sub objects. There are three
+     * possible callbacks that can be used:
+     *
+     *   - beforeSend
+     *   - success
+     *   - error
+     *
+     * A callback object consists of at least an action but can also specify a
+     * target object that determines the scope for that action. If a target is
+     * specified, the action can either  be a string (the name if a method within
+     * the specified scope) or a function. If there is no target specified, the
+     * action must be a function. So a success callback could e.g. look like:
+     *
+     *   callbacks: {
+     *     success: {
+     *       target: MyApp.MyController,
+     *       action: 'successCallback'
+     *     }
+     *   }
+     *
+     * Or it could look like:
+     *
+     *   callbacks: {
+     *     success: {
+     *       target: MyApp.MyController,
+     *       action: function() {
+     *         // do something...
+     *       }
+     *     }
+     *   }
+     *
+     * Depending on the type of callback, there are different parameters, that
+     * are automatically passed to the callback:
+     *
+     *   - beforeSend(request)
+     *   - success(data, msg, request)
+     *   - error(request, msg)
+     *
+     * For further information about that, take a look at the internal callbacks
+     * of M.Request:
+     *
+     *   - internalBeforeSend
+     *   - internalOnSuccess
+     *   - internalOnError
+     *
+     * @type Object
+     */
+    callbacks: null,
+
+    /**
      * The data body of the request.
      *
      * @type String, Object
@@ -119,6 +170,10 @@ M.Request = M.Object.extend(
     /**
      * A pre-callback that is called right before the request is sent.
      *
+     * Note: This method will be removed with v1.0! Use the callbacks
+     * property instead.
+     *
+     * @deprecated
      * @param {Object} request The XMLHttpRequest object.
      */
     beforeSend: function(request){},
@@ -126,6 +181,10 @@ M.Request = M.Object.extend(
     /**
      * The callback to be called if the request failed.
      *
+     * Note: This method will be removed with v1.0! Use the callbacks
+     * property instead.
+     *
+     * @deprecated
      * @param {Object} request The XMLHttpRequest object.
      * @param {String} msg The error message.
      */
@@ -133,11 +192,67 @@ M.Request = M.Object.extend(
 
     /**
      * The callback to be called if the request succeeded.
+     *
+     * Note: This method will be removed with v1.0! Use the callbacks
+     * property instead.
+     *
+     * @deprecated
      * @param {String|Object} data The data returned from the server.
      * @param {String} msg A String describing the status.
      * @param {Object} request The XMLHttpRequest object.
      */
     onSuccess: function(data, msg, request){},
+
+    /**
+     * This method is an internal callback that is called right before a
+     * request is send.
+     *
+     * @param {Object} request The XMLHttpRequest object.
+     */
+    internalBeforeSend: function(request){
+        if(!this.callbacks && this.beforeSend) {
+            this.beforeSend(request);
+        }
+
+        if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['beforeSend'])) {
+            M.EventDispatcher.callHandler(this.callbacks['beforeSend'], null, NO, [request]);
+        }
+    },
+
+    /**
+     * This method is an internal callback that is called if a request
+     * failed.
+     *
+     * @param {Object} request The XMLHttpRequest object.
+     * @param {String} msg The error message.
+     */
+    internalOnError: function(request, msg){
+        if(!this.callbacks && this.onError) {
+            this.onError(request, msg);
+        }
+
+        if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['error'])) {
+            M.EventDispatcher.callHandler(this.callbacks['error'], null, NO, [request, msg]);
+        }
+    },
+
+    /**
+     * This method is an internal callback that is called if the request
+     * succeeded.
+     *
+     * @param {String|Object} data The data returned from the server.
+     * @param {String} msg A String describing the status.
+     * @param {Object} request The XMLHttpRequest object.
+     */
+    internalOnSuccess: function(data, msg, request){
+        if(!this.callbacks && this.onSuccess) {
+            this.onSuccess(data, msg, request);
+        }
+
+        if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['success'])) {
+            M.EventDispatcher.callHandler(this.callbacks['success'], null, NO, [data, msg, request]);
+        }
+    },
 
     /**
      * Sends an Ajax request by using jQuery's $.ajax().
@@ -153,9 +268,9 @@ M.Request = M.Object.extend(
             timeout: this.timeout,
             data: this.data ? this.data : '',
             context: this,
-            beforeSend: this.beforeSend,
-            success: this.onSuccess,
-            error: this.onError
+            beforeSend: this.internalBeforeSend,
+            success: this.internalOnSuccess,
+            error: this.internalOnError
         });
     },
 
