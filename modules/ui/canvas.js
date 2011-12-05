@@ -11,7 +11,7 @@
 /**
  * @class
  *
- * The is the prototype of any canvas view. It basically renders a simple canvas
+ * This is the prototype of any canvas view. It basically renders a simple canvas
  * tag into the DOM. Additionally it offers some wrappers for canvas-based methods,
  * but mostly you will just use this view for the first rendering of the canvas
  * element and then work on the dom element itself.
@@ -36,8 +36,7 @@ M.CanvasView = M.View.extend(
     recommendedEvents: ['tap'],
 
     /**
-     * Renders a label view as a div tag with corresponding data-role attribute and inner
-     * text defined by value.
+     * This method simply renders a canvas view as a html canvas element.
      *
      * @private
      * @returns {String} The image view's styling as html representation.
