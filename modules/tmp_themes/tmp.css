@@ -265,3 +265,11 @@
 .tmp-table-tr-b td {
     background-color: rgb(235, 235, 235);
 }
+
+
+
+
+/* fixing the 100% problem of jqm */
+.ui-page {
+    min-height: 100% !important;
+}
