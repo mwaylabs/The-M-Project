@@ -227,3 +227,41 @@
     margin-top:  -15px;
     margin-bottom:  -15px;
 }
+
+
+
+
+/* table */
+.tmp-table-container {
+    width: 100%;
+}
+
+.tmp-table {
+    width: 100%;
+    table-layout:fixed;
+    border: 1px solid #121212;
+    border-spacing: 0px;
+}
+
+.tmp-table-th {
+    background-color: #121212;
+    color: #FFFFFF;
+    text-shadow: none;
+    padding: 5px;
+    text-align: left;
+}
+
+.tmp-table-td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 5px;
+}
+
+.tmp-table-tr-a td {
+    background-color: rgb(220, 220, 220);
+}
+
+.tmp-table-tr-b td {
+    background-color: rgb(235, 235, 235);
+}

@@ -19,6 +19,7 @@
   * Added M.DatePickerView as fallback to date input types for M.TextFieldView
   * Added callbacks to initMap()
   * Added disable() / enable() to M.SelectionListView
+  * Added M.TableView (first, simple version)
 
 ** Version 0.7 - Date 18.10.2011 **
 
