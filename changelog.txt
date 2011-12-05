@@ -21,6 +21,7 @@
   * Added disable() / enable() to M.SelectionListView
   * Added M.TableView (first, simple version)
   * Refactored M.Request to use the callbacks property
+  * Added sendNoCacheHeader and sendTimestamp properties to M.Request
 
 ** Version 0.7 - Date 18.10.2011 **
 

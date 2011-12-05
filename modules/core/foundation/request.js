@@ -53,6 +53,7 @@ M.Request = M.Object.extend(
             timeout: obj['timeout'] ? obj['timeout'] : this.timeout,
             data: obj['data'] ? obj['data'] : this.data,
             callbacks: obj['callbacks'],
+            sendTimestamp: obj['sendTimestamp'],
             beforeSend: obj['beforeSend'] ? obj['beforeSend'] : this.beforeSend,
             onError: obj['onError'] ? obj['onError'] : this.onError,
             onSuccess: obj['onSuccess'] ? obj['onSuccess'] : this.onSuccess
@@ -154,6 +155,30 @@ M.Request = M.Object.extend(
     callbacks: null,
 
     /**
+     * This property can be used to specify whether or not to cache the request.
+     * Setting this to YES will set the 'Cache-Control' property of the request
+     * header to 'no-cache'.
+     *
+     * @Boolean
+     */
+    sendNoCacheHeader: YES,
+
+    /**
+     * This property can be used to specify whether or not to send a timestamp
+     * along with the request in order to make every request unique. Since some
+     * browsers (e.g. Android) automatically cache identical requests, setting
+     * this property to YES will add an additional parameter to the request,
+     * containing the current timestamp.
+     *
+     * So if you have any trouble with caching of requests, try setting this to
+     * YES. But note, that it might also cause trouble on the server-side if they
+     * do not expect this additional parameter.
+     *
+     * @Boolean
+     */
+    sendTimestamp: NO,
+
+    /**
      * The data body of the request.
      *
      * @type String, Object
@@ -210,6 +235,10 @@ M.Request = M.Object.extend(
      * @param {Object} request The XMLHttpRequest object.
      */
     internalBeforeSend: function(request){
+        if(this.sendNoCacheHeader) {
+            request.setRequestHeader('Cache-Control', 'no-cache');
+        }
+
         if(!this.callbacks && this.beforeSend) {
             this.beforeSend(request);
         }
@@ -270,7 +299,8 @@ M.Request = M.Object.extend(
             context: this,
             beforeSend: this.internalBeforeSend,
             success: this.internalOnSuccess,
-            error: this.internalOnError
+            error: this.internalOnError,
+            cache: !this.sendTimestamp
         });
     },
 
