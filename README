@@ -28,6 +28,32 @@ Thanks for sharing!
 
 ## CHANGELOG
 
+** Version 0.8 - Date 05.12.2011 **
+
+  * Fixed a typo bug in M.Request
+  * Added M.CanvasView
+  * Added numberOfChars property to M.TextField (equivalent to HTML's maxlength property)
+  * Fixed a UTF8 bug in M.ListView
+  * Added M.TextFieldView to supported views within a list item view.
+  * Removed deprecated useTransitions property of M.Application (use getConfig() instead)
+  * Fixed a bug with the switchToPage() (make use of the fourth parameter: updateHistory)
+  * Added all the date-types as possible values for inputType for M.TextFieldView
+  * Added M.SliderView (based on input type range and jqm)
+  * Reposition dialogs on orientation change
+  * Added queue to dialogs to only show one at a time
+  * Added the M.MULTIPLE_SELECTION_DIALOG mode to M.SelectionListView
+  * Added 4-column layout to M.GridView
+  * Updated Underscore to v1.2.2
+  * Updated mobiscroll to v1.5.2
+  * Added a custom Modernizr configuration to M.Environment for detecting HTML5 input types
+  * Added M.DatePickerView as fallback to date input types for M.TextFieldView
+  * Added callbacks to initMap()
+  * Added disable() / enable() to M.SelectionListView
+  * Added M.TableView (first, simple version)
+  * Refactored M.Request to use the callbacks property
+  * Added sendNoCacheHeader and sendTimestamp properties to M.Request
+  * Changed version to 0.8
+
 ** Version 0.7 - Date 18.10.2011 **
 
   * Added D8 as the next generation date object in JavaScript (M.Date remains, but will no longer be maintained)
