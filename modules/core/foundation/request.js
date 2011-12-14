@@ -185,6 +185,7 @@ M.Request = M.Object.extend(
             timeout: obj['timeout'] ? obj['timeout'] : this.timeout,
             data: obj['data'] ? obj['data'] : this.data,
             callbacks: obj['callbacks'],
+            sendNoCacheHeader: obj['sendNoCacheHeader'],
             sendTimestamp: obj['sendTimestamp'],
             beforeSend: obj['beforeSend'] ? obj['beforeSend'] : this.beforeSend,
             onError: obj['onError'] ? obj['onError'] : this.onError,
