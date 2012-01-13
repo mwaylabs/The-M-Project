@@ -54,7 +54,7 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
             localStorage.setItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_' + obj.model.m_id, value);
             return YES;
         } catch(e) {
-            M.Logger.log(M.WARN, 'Error saving ' + obj.model.record + ' to localStorage with key: ' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_' + that.m_id);
+            M.Logger.log(M.WARN, 'Error saving ' + obj.model.record + ' to localStorage with key: ' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_' + this.m_id);
             return NO;
         }
 
@@ -99,13 +99,13 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
                 return NO;
             }
             /*construct new model record with the saved id*/
-            var reg = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_([0-9]+)').exec(obj.key);
+            var reg = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_([0-9a-zA-Z]+)$').exec(obj.key);
             var m_id = reg && reg[1] ? reg[1] : null;
             if (!m_id) {
                 M.Logger.log('retrieved model has no valid key: ' + obj.key, M.ERR);
                 return NO;
             }
-            var m = obj.model.createRecord($.extend(record, {m_id: parseInt(m_id), state: M.STATE_VALID}));
+            var m = obj.model.createRecord($.extend(record, {m_id: m_id, state: M.STATE_VALID}));
             return m;
         }
 
@@ -217,13 +217,13 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
                 var record = this.buildRecord(k, obj);//JSON.parse(localStorage.getItem(k));
 
                 /*construct new model record with the saved m_id*/
-                var reg = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_([0-9]+)').exec(k);
+                var reg = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_([0-9a-zA-Z]+)$').exec(k);
                 var m_id = reg && reg[1] ? reg[1] : null;
                 if (!m_id) {
                     M.Logger.log('Model Record m_id not correct: ' + m_id, M.ERR);
                     continue; // if m_id does not exist, continue with next record element
                 }
-                var m = obj.model.createRecord($.extend(record, {m_id: parseInt(m_id), state: M.STATE_VALID}));
+                var m = obj.model.createRecord($.extend(record, {m_id: m_id, state: M.STATE_VALID}));
                 
                 result.push(m);
             }

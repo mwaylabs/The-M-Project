@@ -55,10 +55,9 @@ M.Model = M.Object.extend(
     /**
      * Unique identifier for the model record.
      *
-     * Note: Unique doesn't mean that this m_id is a global unique ID, it is just unique
-     * for records of this type of model.
+     * It's as unique as it needs to be: four digits, each digits can be one of 32 chars
      *
-     * @type Number
+     * @type String
      */
     m_id: null,
 
@@ -110,6 +109,10 @@ M.Model = M.Object.extend(
      */
     dataProvider: null,
 
+    getUniqueId: function() {
+        return M.UniqueId.uuid(4);
+    },
+
     /**
      * Creates a new record of the model, means an instance of the model based on the blueprint.
      * You pass the object's specific attributes to it as an object.
@@ -121,7 +124,7 @@ M.Model = M.Object.extend(
     createRecord: function(obj) {
 
         var rec = this.extend({
-            m_id: obj.m_id ? obj.m_id : M.ModelRegistry.getNextId(this.name),
+            m_id: obj.m_id ? obj.m_id : this.getUniqueId(),
             record: obj /* properties that are added to record here, but are not part of __meta, are deleted later (see below) */
         });
         delete obj.m_id;
@@ -136,12 +139,13 @@ M.Model = M.Object.extend(
 
         for(var i in rec.record) {
 
-            if(i === 'ID' || i === M.META_CREATED_AT || i === M.META_UPDATED_AT) {
+            if(i === M.META_CREATED_AT || i === M.META_UPDATED_AT) {
                 continue;
             }
 
             /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
             if(!rec.__meta.hasOwnProperty(i)) {
+                M.Logger.log('Deleting "' + i + '" property. It\'s not part of ' + this.name + ' definition.', M.WARN);
                 delete rec.record[i];
                 continue;
             }
@@ -175,7 +179,7 @@ M.Model = M.Object.extend(
             name: obj.__name__,
             dataProvider: dp,
             recordManager: {},
-            usesValidation: obj.usesValidation === null || obj.usesValidation === undefined ? this.usesValidation : obj.usesValidation
+            usesValidation: obj.usesValidation ? obj.usesValidation : this.usesValidation
         });
         delete obj.__name__;
         delete obj.usesValidation;
@@ -189,9 +193,6 @@ M.Model = M.Object.extend(
         }
 
         /* add ID, _createdAt and _modifiedAt properties in meta for timestamps  */
-        model.__meta['ID'] = this.attr('Integer', {
-            isRequired:NO
-        });
         model.__meta[M.META_CREATED_AT] = this.attr('String', { // could be 'Date', too
             isRequired:YES
         });
@@ -199,22 +200,7 @@ M.Model = M.Object.extend(
             isRequired:YES
         });
 
-        /* CouchDB documents have a rev property for managing versions*/
-        if(model.dataProvider.type === 'M.DataProviderCouchDb') {
-            model.__meta['rev'] = this.attr('String', {
-                isRequired:NO
-            });
-        }
-
         model.recordManager = M.RecordManager.extend({records:[]});
-
-        /* if dataprovider is WebSqlProvider, create table for this model and add ID ModelAttribute Object to __meta */
-        if(model.dataProvider.type === 'M.DataProviderWebSql') {
-            model.dataProvider.init({model: model, onError:function(err){M.Logger.log(err, M.ERR);}}, function() {});
-            model.dataProvider.isInitialized = YES;
-        }
-
-        M.ModelRegistry.register(model.name);
 
         /* save model in modelList with model name as key */
         this.modelList[model.name] = model;
@@ -222,9 +208,7 @@ M.Model = M.Object.extend(
         /* Re-set the just registered model's id, if there is a value stored */
         /* Model Registry stores the current id of a model type into localStorage */
         var m_id = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + model.name);
-        if(m_id) {
-            M.ModelRegistry.setId(model.name, parseInt(m_id));
-        }
+
         return model;
     },
 
@@ -414,7 +398,6 @@ M.Model = M.Object.extend(
         }
         obj = obj ? obj : {};
         /* check if the record list shall be cleared (default) before new found model records are appended to the record list */
-        /* TODO: needs to be placed in callback */
         obj['deleteRecordList'] = obj['deleteRecordList'] ? obj.deleteRecordList : YES;
         if(obj.deleteRecordList) {
             this.recordManager.removeAll();
@@ -505,7 +488,7 @@ M.Model = M.Object.extend(
        var isDel = this.dataProvider.del($.extend(obj, {model: this}));
         if(isDel) {
             this.state = M.STATE_DELETED;
-            return YES
+            return YES;
         }
 
     },
@@ -532,7 +515,6 @@ M.Model = M.Object.extend(
         this.deepFind(records, callback);
     },
 
-    // TODO: handle onSuccess AND onError
     deepFind: function(records, callback) {
         //console.log('deepFind...');
         //console.log('### records.length: ' + records.length);
@@ -548,23 +530,6 @@ M.Model = M.Object.extend(
 
 
         switch(this.dataProvider.type) {
-
-            case 'M.DataProviderWebSql':
-                this.modelList[curRec.name].find({     // call find on to fetched model record object
-                    constraint: {
-                        statement: 'WHERE ' + M.META_M_ID + ' = ? ',
-                        parameters: [curRec.m_id] // length must match number of ? in statements
-                    },
-
-                    onSuccess: function(result) {
-                        that.setReference(result, that, curRec.prop, cb);
-                    },
-                    onError: function(err) {
-                        M.Logger.log('Error: ' + err, M.ERR);
-                    }
-                });
-
-                break;
 
             case 'M.DataProviderLocalStorage':
 
@@ -586,13 +551,6 @@ M.Model = M.Object.extend(
     setReference: function(result, that, prop, callback) {
         that.__meta[prop].refEntity = result[0];    // set reference in source model defined by that
         callback();
-    },
-
-    /**
-     * sync model with storage (only websql)
-     */
-    schemaSync: function() {
-
     }
 
 });
