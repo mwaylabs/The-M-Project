@@ -648,7 +648,7 @@ M.DatePickerView = M.View.extend(
             if(this.hasSource) {
                 source = M.ViewManager.getViewById(this.source);
                 if(source) {
-                    source.setValue(value);
+                    source.setValue(value, NO, YES);
                 }
             }
         }

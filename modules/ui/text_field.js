@@ -301,10 +301,13 @@ M.TextFieldView = M.View.extend(
     /**
      * Updates a TextFieldView with DOM access by jQuery.
      *
+     * @param {Boolean} preventValueComputing Determines whether to execute computeValue() or not.
      * @private
      */
-    renderUpdate: function() {
-        this.computeValue();
+    renderUpdate: function(preventValueComputing) {
+        if(!preventValueComputing) {
+            this.computeValue();
+        }
         $('#' + this.id).val(this.value);
         this.styleUpdate();
     },
@@ -474,10 +477,11 @@ M.TextFieldView = M.View.extend(
      *
      * @param {String} value The value to be applied to the text field view.
      * @param {Boolean} delegateUpdate Determines whether to delegate this value update to any observer or not.
+     * @param {Boolean} preventValueComputing Determines whether to execute computeValue() or not.
      */
-    setValue: function(value, delegateUpdate) {
+    setValue: function(value, delegateUpdate, preventValueComputing) {
         this.value = value;
-        this.renderUpdate();
+        this.renderUpdate(preventValueComputing);
 
         if(delegateUpdate) {
             this.delegateValueUpdate();
