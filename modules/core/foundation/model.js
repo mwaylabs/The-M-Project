@@ -130,8 +130,8 @@ M.Model = M.Object.extend(
 
         /* set timestamps if new */
         if(rec.state === M.STATE_NEW) {
-            rec.record[M.META_CREATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
-            rec.record[M.META_UPDATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+            rec.record[M.META_CREATED_AT] = +new Date();
+            rec.record[M.META_UPDATED_AT] = +new Date();
         }
 
         for(var i in rec.record) {
