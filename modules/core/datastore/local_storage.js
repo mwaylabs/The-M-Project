@@ -130,20 +130,29 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
             var ident = q.identifier;
             var op = q.operator;
             var val = q.value;
-            if (typeof(obj.model.record[ident]) != obj.model.__meta[ident].dataType) {
-                throw 'Query: "' + ident + op + val + '" tries to compare ' + typeof(obj.model.record[ident]) + ' with ' + obj.model.__meta[ident].dataType + '.';
-            }
 
             var res = this.findAll(obj);
+
+            // check if query is correct in respect of data types
+            if(res && res.length > 0) {
+                var o = res[0];
+                if (typeof(o.record[ident]) != o.__meta[ident].dataType.toLowerCase()) {
+                    throw 'Query: "' + ident + op + val + '" tries to compare ' + typeof(o.record[ident]) + ' with ' + o.__meta[ident].dataType.toLowerCase() + '.';
+                }
+            }
+
             switch (op) {
                 case '=':
+
                     res = _.select(res, function (o) {
                         return o.record[ident] === val;
                     });
                     break;
-                case '~=':
-                    if(obj.model.__meta[ident].dataType !== 'String') {
-                        throw 'Query: Operator "~=" only works on string properties. Property "' + ident + '" is of type ' + obj.model.__meta[ident].dataType + '.';
+
+                case '~=': // => includes (works only on strings)
+
+                    if(obj.model.__meta[ident].dataType.toLowerCase() !== 'string') {
+                        throw 'Query: Operator "~=" only works on string properties. Property "' + ident + '" is of type ' + obj.model.__meta[ident].dataType.toLowerCase() + '.';
                     }
                     // escape all meta regex meta characters: \, *, +, ?, |, {, [, (,), ^, $,., # and space
                     var metaChars = ['\\\\', '\\*', '\\+', '\\?', '\\|', '\\{', '\\}', '\\[', '\\]', '\\(', '\\)', '\\^', '\\$', '\\.', '\\#'];
@@ -192,7 +201,11 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
                     M.Logger.log('Query has unknown operator: ' + op, M.WARN);
                     res = [];
                     break;
+
             }
+
+            return res;
+
         } else { /* if no query is passed, all models for modelName shall be returned */
             return this.findAll(obj);
         }
