@@ -446,31 +446,6 @@ M.Model = M.Object.extend(
         }
     },
 
-
-    bulkImport: function(obj){
-        if(!this.dataProvider) {
-            M.Logger.log('No data provider given.', M.ERR);
-        }
-        if(this.dataProvider.type !== 'M.DataProviderWebSql') {
-            var err = M.Error.extend({
-
-            });
-
-            if (obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = that.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
-                obj.onError();
-            } else if (typeof(obj.onError) === 'function') {
-                obj.onError(err);
-            } else {
-                M.Logger.log('Target and action in onError not defined.', M.ERR);
-            }
-            return NO;
-        }
-        obj = obj ? obj : {};
-        /* extends the given obj with self as model property in obj */
-        return this.dataProvider.bulkImport( $.extend(obj, {model: this}) );
-    },
-
     /**
      * Delete a record in storage.
      * @returns {Boolean} Indicating whether deletion was successful or not (only with synchronous data providers, e.g. LocalStorage). When asynchronous data providers
