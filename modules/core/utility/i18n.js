@@ -96,7 +96,8 @@ M.I18N = M.Object.extend(
      */
     setLanguage: function(language) {
         if(!this.isLanguageAvailable(language)) {
-            M.Logger.log('There is no language \'' + language + '\' specified!', M.WARN);
+            M.Logger.log('There is no language \'' + language + '\' specified (using default language \'' + this.defaultLanguage + '\' instead!', M.WARN);
+            this.setLanguage(this.defaultLanguage);
             return;
         } else if(language && language === M.Application.currentLanguage) {
             M.Logger.log('Language \'' + language + '\' already selected', M.INFO);

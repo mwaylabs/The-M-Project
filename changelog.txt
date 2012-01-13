@@ -1,6 +1,8 @@
 ** Version 1.0 RC1 - Date 14.12.2011 **
 
   * Fixed a bug with sendNoCacheHeader property of M.Request
+  * I18N not sets language to default language if the desired one is not available
+  * Fixed a bug in M.Request concerning the internal callbacks
 
 ** Version 0.8 - Date 05.12.2011 **
 
