@@ -3,6 +3,7 @@
   * Fixed a bug with sendNoCacheHeader property of M.Request
   * I18N not sets language to default language if the desired one is not available
   * Fixed a bug in M.Request concerning the internal callbacks
+  * Added M.DataConsumer as a special data provider that only works as a source and in combination with the model's find()
 
 ** Version 0.8 - Date 05.12.2011 **
 
