@@ -18,15 +18,6 @@ M.STATE_VALID = 'state_valid';
 M.STATE_INVALID = 'state_invalid';
 M.STATE_DELETED = 'state_deleted';
 
-m_require('core/foundation/model_registry.js');
-
-/*
-    TODO: make model customizable regarding performance killing features. means configurable activation of certain features:
-    - validation
-    - model references
-    - maybe also: automatic date transformation
- */
-
 /**
  * @class
  *
@@ -93,14 +84,17 @@ M.Model = M.Object.extend(
      */
     state: M.STATE_UNDEFINED,
 
-
+    /**
+     *
+     * @type String
+     */
     state_remote: M.STATE_UNDEFINED,
 
     /**
      * determines whether model shall be validated before saving to storage or not.
      * @type Boolean
      */
-    usesValidation: YES,
+    usesValidation: NO,
 
     /**
      * The model's data provider. A data provider persists the model to a certain storage.
@@ -205,10 +199,6 @@ M.Model = M.Object.extend(
         /* save model in modelList with model name as key */
         this.modelList[model.name] = model;
 
-        /* Re-set the just registered model's id, if there is a value stored */
-        /* Model Registry stores the current id of a model type into localStorage */
-        var m_id = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + model.name);
-
         return model;
     },
 
@@ -289,7 +279,7 @@ M.Model = M.Object.extend(
                     }
                     return YES;
                 } else { // if force flag was not set, and object is not in memory and record manager load is not done and we return NO
-                    var r = this.recordManager.getRecordForId(recProp);
+                    var r = this.recordManager.getRecordById(recProp);
                     if(r) { /* if object is already loaded and in record manager don't access storage */
                         return r;
                     } else {
@@ -398,7 +388,7 @@ M.Model = M.Object.extend(
         }
         obj = obj ? obj : {};
         /* check if the record list shall be cleared (default) before new found model records are appended to the record list */
-        obj['deleteRecordList'] = obj['deleteRecordList'] ? obj.deleteRecordList : YES;
+        obj.deleteRecordList = obj.deleteRecordList ? obj.deleteRecordList : YES;
         if(obj.deleteRecordList) {
             this.recordManager.removeAll();
         }
@@ -465,7 +455,6 @@ M.Model = M.Object.extend(
             this.state = M.STATE_DELETED;
             return YES;
         }
-
     },
 
     /**
@@ -505,20 +494,16 @@ M.Model = M.Object.extend(
 
 
         switch(this.dataProvider.type) {
-
             case 'M.DataProviderLocalStorage':
-
                 var ref = this.modelList[curRec.name].find({
                     key: curRec.m_id
                 });
-
                 this.__meta[curRec.prop].refEntity = ref;
 
                 this.deepFind(records, callback); // recursion
                 break;
 
             default:
-
                 break;
         }
     },
