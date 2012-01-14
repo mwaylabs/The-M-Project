@@ -79,9 +79,6 @@ M.RecordManager = M.Object.extend(
             M.Logger.log('No id given.', M.WARN);
             return;
         }
-        if(typeof(m_id) === 'string') {
-            m_id = parseInt(m_id);
-        }
         rec = this.getRecordForId(m_id);
 
         if(rec) {
