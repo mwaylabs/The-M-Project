@@ -158,11 +158,11 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
                     var metaChars = ['\\\\', '\\*', '\\+', '\\?', '\\|', '\\{', '\\}', '\\[', '\\]', '\\(', '\\)', '\\^', '\\$', '\\.', '\\#'];
 
                     for(var i in metaChars) {
-                        val = val.replace(new RegExp(metaChars[i], 'g'), '\\' + metaChars[i]);
+                        val = val.replace(new RegExp(metaChars[i], 'g'), '\\' + metaChars[i].substring(1,2));
                     }
 
                     // replace whitespaces with regex equivalent
-                    val = val.replace(/\s/g, '\\s\\s');
+                    val = val.replace(/\s/g, '\\s');
 
                     var regex = new RegExp(val);
 
