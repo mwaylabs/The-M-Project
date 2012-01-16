@@ -8,6 +8,7 @@
   * Updated Underscore to v1.3
   * Updated mobiscroll to 1.5.3
   * Fixed a bug with M.ScrollView and the clear button
+  * Added disable()/enable() and clearValue() to M.SearchBarView
 
 ** Version 0.8 - Date 05.12.2011 **
 
