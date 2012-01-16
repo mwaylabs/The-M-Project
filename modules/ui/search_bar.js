@@ -66,7 +66,7 @@ M.SearchBarView = M.View.extend(
     render: function() {
         this.html += '<form role="search"' + this.style() + '>';
 
-        this.html += '<input id="' + this.id + '" data-type="search" value="' + (this.value ? this.value : this.initialText) + '" class="' + this.cssClass + '" />';
+        this.html += '<input id="' + this.id + '" type="search" value="' + (this.value ? this.value : this.initialText) + '" class="' + this.cssClass + '" />';
 
         this.html += '</form>';
 
