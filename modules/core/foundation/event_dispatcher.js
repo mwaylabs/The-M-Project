@@ -120,7 +120,16 @@ M.EventDispatcher = M.Object.extend(
             }
 
             /* no propagation (except some specials) */
-            if(!(eventSource.attr('id') && M.ViewManager.getViewById(eventSource.attr('id')).type === 'M.SearchBarView')) {
+            var killEvent = YES;
+            if(eventSource.attr('id')) {
+                var view = M.ViewManager.getViewById(eventSource.attr('id'));
+                if(view.type === 'M.SearchBarView') {
+                    killEvent = NO;
+                } else if((type === 'click' || type === 'tap') && view.type === 'M.ButtonView' && view.parentView && view.parentView.type === 'M.ToggleView' && view.parentView.toggleOnClick) {
+                    killEvent = NO;
+                }
+            }
+            if(killEvent) {
                 event.preventDefault();
                 event.stopPropagation();
             }

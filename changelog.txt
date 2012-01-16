@@ -10,6 +10,7 @@
   * Fixed a bug with M.ScrollView and the clear button
   * Added disable()/enable() and clearValue() to M.SearchBarView
   * Added cssClass property to M.ListView
+  * Added special behaviour for M.ButtonView inside of an M.ToggleView
 
 ** Version 0.8 - Date 05.12.2011 **
 
