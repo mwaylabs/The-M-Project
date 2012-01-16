@@ -105,7 +105,7 @@ M.EventDispatcher = M.Object.extend(
 
         var that = this;
         var view = M.ViewManager.getViewById(eventSource.attr('id'));
-        if(!view || view.type !== 'M.TextFieldView') {
+        if(!view || (view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView')) {
             eventSource.unbind(type);
         }
         eventSource.bind(type, function(event) {
@@ -119,9 +119,11 @@ M.EventDispatcher = M.Object.extend(
                 }
             }
 
-            /* no propagation */
-            event.preventDefault();
-            event.stopPropagation();
+            /* no propagation (except some specials) */
+            if(!(eventSource.attr('id') && M.ViewManager.getViewById(eventSource.attr('id')).type === 'M.SearchBarView')) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
 
             /* store event in lastEvent property for capturing false twice-fired events */
             if(M.ViewManager.getViewById(eventSource.attr('id'))) {

@@ -216,6 +216,12 @@ M.SearchBarView = M.View.extend(
         if(this.initialText && !this.value && this.cssClassOnInit) {
             this.addCssClass(this.cssClassOnInit);
         }
+
+        /* register tap event for delete button */
+        var that = this;
+        $('#' + this.id).siblings('a.ui-input-clear').bind('tap', function() {
+            that.setValue('', YES);
+        });
     },
 
     /**
