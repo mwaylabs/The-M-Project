@@ -6,6 +6,7 @@
   * Added M.DataConsumer as a special data provider that only works as a source and in combination with the model's find()
   * Fixed a bug with textfields (date input), computed value and the datepicker
   * Updated Underscore to v1.3
+  * Updated mobiscroll to 1.5.3
 
 ** Version 0.8 - Date 05.12.2011 **
 
