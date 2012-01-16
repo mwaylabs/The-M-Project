@@ -502,6 +502,9 @@ M.ListView = M.View.extend(
      */
     style: function() {
         var html = '';
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
+        }
         if(this.isDividedList && this.cssClassForDivider) {
             html += ' data-dividertheme="' + this.cssClassForDivider + '"';
         }
