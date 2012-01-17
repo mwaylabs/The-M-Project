@@ -301,9 +301,6 @@ M.Model = M.Object.extend(
      * @param {String|Object} val the new value
      */
     set: function(propName, val) {
-
-        /* TODO: implement hasMany... */
-        /* TODO: evaluate whether to save m_id in record and entity reference in __meta or other way round */
         if(this.__meta[propName].dataType === 'Reference' && val.type && val.type === 'M.Model') {    // reference set
             /* first check if new value is passed */
             if(this.record[propName] !== val.m_id) {
