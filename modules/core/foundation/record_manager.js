@@ -92,6 +92,15 @@ M.RecordManager = M.Object.extend(
     },
 
     /**
+    * Returns a record from the record array identified by the interal model id.
+    * @param {Number} m_id The internal model id of the model record.
+    * @deprecated
+    */
+    getRecordForId: function(m_id) {
+        return this.getRecordById(m_id);
+    },
+
+    /**
      * Returns a record from the record array identified by the interal model id.
      * @param {Number} m_id The internal model id of the model record.
      */
