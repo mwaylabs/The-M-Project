@@ -485,8 +485,6 @@ M.ListView = M.View.extend(
     /**
      * This method resets the list by applying the default css style to its currently activated
      * list item.
-     *
-     * @param {String} listItemId The id of the list item to be set active.
      */
     resetActiveListItem: function() {
         if(this.selectedItem) {
