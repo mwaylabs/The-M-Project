@@ -11,6 +11,16 @@
   * Added disable()/enable() and clearValue() to M.SearchBarView
   * Added cssClass property to M.ListView
   * Added special behaviour for M.ButtonView inside of an M.ToggleView
+  * Model: changed m_id from number to unique string (4 digits each can be one of 32 chars)
+  * Model: deleted bulkImport method
+  * Renamed getRecordForId() to getRecordById() (in M.RecordManager), the latter one is deprecated now
+  * Deleted M.ModelRegistry
+  * Deleted M.DataProviderCouchDB
+  * Deleted M.DataProviderWebSQL
+  * Method find() in DataProviderLocalStorage now takes an object for query
+  * Added "include" operator (for strings) for LS find query
+  * Changed version to 1.0RC1
+
 
 ** Version 0.8 - Date 05.12.2011 **
 
