@@ -3,6 +3,14 @@
   * Fixed a bug with sendNoCacheHeader property of M.Request
   * I18N not sets language to default language if the desired one is not available
   * Fixed a bug in M.Request concerning the internal callbacks
+  * Model: changed m_id from number to unique string (4 digits each can be one of 32 chars)
+  * Model: deleted bulkImport method
+  * renamed getRecordForId to getRecordById, the latter one is deprecated now
+  * deleted ModelRegistry
+  * deleted DataProviderCouchDB
+  * deleted DataProviderWebSQL
+  * find in DataProviderLocalStorage now takes an object
+  * added "include" operator (for strings) for LS find query
 
 ** Version 0.8 - Date 05.12.2011 **
 
