@@ -1,0 +1,276 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// Project:   The M-Project - Mobile HTML5 Application Framework</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">//            (c) 2011 panacoda GmbH. All rights reserved.</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="COMM">// Creator:   Sebastian</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="COMM">// Date:      22.11.2010</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="COMM">// License:   Dual licensed under the MIT or GPL Version 2 licenses.</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="COMM">//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="COMM">//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'> 11</span> 
+<span class='line'> 12</span> </span><span class="NAME">m_require</span><span class="PUNC">(</span><span class="STRN">'core/foundation/object.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 13</span> 
+<span class='line'> 14</span> </span><span class="COMM">/**
+<span class='line'> 15</span>  * A constant value for being offline.
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * @type String
+<span class='line'> 18</span>  */</span><span class="WHIT">
+<span class='line'> 19</span> </span><span class="NAME">M.OFFLINE</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'offline'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 20</span> 
+<span class='line'> 21</span> </span><span class="COMM">/**
+<span class='line'> 22</span>  * A constant value for being online.
+<span class='line'> 23</span>  *
+<span class='line'> 24</span>  * @type String
+<span class='line'> 25</span>  */</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="NAME">M.ONLINE</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'online'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> 
+<span class='line'> 28</span> </span><span class="COMM">/**
+<span class='line'> 29</span>  * A constant value for portrait orientation mode.
+<span class='line'> 30</span>  *
+<span class='line'> 31</span>  * @type String
+<span class='line'> 32</span>  */</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="NAME">M.PORTRAIT_TOP</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> 
+<span class='line'> 35</span> </span><span class="COMM">/**
+<span class='line'> 36</span>  * A constant value for inverse portrait orientation mode.
+<span class='line'> 37</span>  *
+<span class='line'> 38</span>  * @type String
+<span class='line'> 39</span>  */</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="NAME">M.PORTRAIT_BOTTOM</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">180</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span> </span><span class="COMM">/**
+<span class='line'> 43</span>  * A constant value for landscape right orientation mode.
+<span class='line'> 44</span>  *
+<span class='line'> 45</span>  * @type String
+<span class='line'> 46</span>  */</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="NAME">M.LANDSCAPE_RIGHT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">90</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="COMM">/**
+<span class='line'> 50</span>  * A constant value for landscape left orientation mode.
+<span class='line'> 51</span>  *
+<span class='line'> 52</span>  * @type String
+<span class='line'> 53</span>  */</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="NAME">M.LANDSCAPE_LEFT</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">90</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="COMM">/**
+<span class='line'> 57</span>  * @class
+<span class='line'> 58</span>  *
+<span class='line'> 59</span>  * M.Environment encapsulates methods to retrieve information about the
+<span class='line'> 60</span>  * environment, like browser used, platform, user agent (based on navigator
+<span class='line'> 61</span>  * object) or whether or not the device is online (determined via an ajax
+<span class='line'> 62</span>  * request).
+<span class='line'> 63</span>  *
+<span class='line'> 64</span>  * @extends M.Object
+<span class='line'> 65</span>  */</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="NAME">M.Environment</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">M.Object.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="COMM">/** @scope M.Environment.prototype */</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 70</span>      * The type of this object.
+<span class='line'> 71</span>      *
+<span class='line'> 72</span>      * @type String
+<span class='line'> 73</span>      */</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">    </span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'M.Environment'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 75</span> 
+<span class='line'> 76</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 77</span>      * This property contains a custom configuration of the awesome modernizr
+<span class='line'> 78</span>      * library We currently only use this for detecting supported input types
+<span class='line'> 79</span>      * of the browser.
+<span class='line'> 80</span>      *
+<span class='line'> 81</span>      * @private
+<span class='line'> 82</span>      * @type Object
+<span class='line'> 83</span>      */</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">    </span><span class="NAME">modernizr</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">,</span><span class="NAME">c</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="NAME">e.inputtypes</span><span class="PUNC">=</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">=</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="NAME">e</span><span class="PUNC">,</span><span class="NAME">g</span><span class="PUNC">,</span><span class="NAME">h</span><span class="PUNC">,</span><span class="NAME">i</span><span class="PUNC">=</span><span class="NAME">a.length</span><span class="PUNC">;</span><span class="NAME">d</span><span class="PUNC">&lt;</span><span class="NAME">i</span><span class="PUNC">;</span><span class="NAME">d</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="NAME">k.setAttribute</span><span class="PUNC">(</span><span class="STRN">"type"</span><span class="PUNC">,</span><span class="NAME">g</span><span class="PUNC">=</span><span class="NAME">a</span><span class="PUNC">[</span><span class="NAME">d</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">e</span><span class="PUNC">=</span><span class="NAME">k.type</span><span class="PUNC">!==</span><span class="STRN">"text"</span><span class="PUNC">,</span><span class="NAME">e</span><span class="PUNC">&&</span><span class="PUNC">(</span><span class="NAME">k.value</span><span class="PUNC">=</span><span class="NAME">l</span><span class="PUNC">,</span><span class="NAME">k.style.cssText</span><span class="PUNC">=</span><span class="STRN">"position:absolute;visibility:hidden;"</span><span class="PUNC">,</span><span class="REGX">/^range$/</span><span class="PUNC">.</span><span class="NAME">test</span><span class="PUNC">(</span><span class="NAME">g</span><span class="PUNC">)</span><span class="PUNC">&&</span><span class="NAME">k.style.WebkitAppearance</span><span class="PUNC">!==</span><span class="NAME">c</span><span class="PUNC">?</span><span class="PUNC">(</span><span class="NAME">f.appendChild</span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">h</span><span class="PUNC">=</span><span class="NAME">b.defaultView</span><span class="PUNC">,</span><span class="NAME">e</span><span class="PUNC">=</span><span class="NAME">h.getComputedStyle</span><span class="PUNC">&&</span><span class="NAME">h.getComputedStyle</span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">,</span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">WebkitAppearance</span><span class="PUNC">!==</span><span class="STRN">"textfield"</span><span class="PUNC">&&</span><span class="NAME">k.offsetHeight</span><span class="PUNC">!==</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="NAME">f.removeChild</span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">:</span><span class="REGX">/^(search|tel)$/</span><span class="PUNC">.</span><span class="NAME">test</span><span class="PUNC">(</span><span class="NAME">g</span><span class="PUNC">)</span><span class="PUNC">||</span><span class="PUNC">(</span><span class="REGX">/^(url|email)$/</span><span class="PUNC">.</span><span class="NAME">test</span><span class="PUNC">(</span><span class="NAME">g</span><span class="PUNC">)</span><span class="PUNC">?</span><span class="NAME">e</span><span class="PUNC">=</span><span class="NAME">k.checkValidity</span><span class="PUNC">&&</span><span class="NAME">k.checkValidity</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">===</span><span class="PUNC">!</span><span class="NUMB">1</span><span class="PUNC">:</span><span class="REGX">/^color$/</span><span class="PUNC">.</span><span class="NAME">test</span><span class="PUNC">(</span><span class="NAME">g</span><span class="PUNC">)</span><span class="PUNC">?</span><span class="PUNC">(</span><span class="NAME">f.appendChild</span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">f.offsetWidth</span><span class="PUNC">,</span><span class="NAME">e</span><span class="PUNC">=</span><span class="NAME">k.value</span><span class="PUNC">!=</span><span class="NAME">l</span><span class="PUNC">,</span><span class="NAME">f.removeChild</span><span class="PUNC">(</span><span class="NAME">k</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">:</span><span class="NAME">e</span><span class="PUNC">=</span><span class="NAME">k.value</span><span class="PUNC">!=</span><span class="NAME">l</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">o</span><span class="PUNC">[</span><span class="NAME">a</span><span class="PUNC">[</span><span class="NAME">d</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="PUNC">=</span><span class="PUNC">!</span><span class="PUNC">!</span><span class="NAME">e</span><span class="PUNC">;</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">o</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="STRN">"search tel url email datetime date month week time datetime-local number range color"</span><span class="PUNC">.</span><span class="NAME">split</span><span class="PUNC">(</span><span class="STRN">" "</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="KEYW">return</span><span class="PUNC">!</span><span class="PUNC">!</span><span class="PUNC">~</span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">+</span><span class="NAME">a</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">indexOf</span><span class="PUNC">(</span><span class="NAME">b</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">w</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">a</span><span class="PUNC">===</span><span class="NAME">b</span><span class="PUNC">}</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">v</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">u</span><span class="PUNC">(</span><span class="NAME">prefixes.join</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">+</span><span class="STRN">";"</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="PUNC">(</span><span class="NAME">b</span><span class="PUNC">||</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">u</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="NAME">j.cssText</span><span class="PUNC">=</span><span class="NAME">a</span><span class="PUNC">}</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">d</span><span class="PUNC">=</span><span class="STRN">"2.0.6"</span><span class="PUNC">,</span><span class="NAME">e</span><span class="PUNC">=</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="NAME">f</span><span class="PUNC">=</span><span class="NAME">b.documentElement</span><span class="PUNC">,</span><span class="NAME">g</span><span class="PUNC">=</span><span class="NAME">b.head</span><span class="PUNC">||</span><span class="NAME">b.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">"head"</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="NAME">h</span><span class="PUNC">=</span><span class="STRN">"modernizr"</span><span class="PUNC">,</span><span class="NAME">i</span><span class="PUNC">=</span><span class="NAME">b.createElement</span><span class="PUNC">(</span><span class="NAME">h</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">j</span><span class="PUNC">=</span><span class="NAME">i.style</span><span class="PUNC">,</span><span class="NAME">k</span><span class="PUNC">=</span><span class="NAME">b.createElement</span><span class="PUNC">(</span><span class="STRN">"input"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">l</span><span class="PUNC">=</span><span class="STRN">":)"</span><span class="PUNC">,</span><span class="NAME">m</span><span class="PUNC">=</span><span class="NAME">Object.prototype.toString</span><span class="PUNC">,</span><span class="NAME">n</span><span class="PUNC">=</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="NAME">o</span><span class="PUNC">=</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="NAME">p</span><span class="PUNC">=</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="NAME">q</span><span class="PUNC">=</span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="NAME">r</span><span class="PUNC">,</span><span class="NAME">s</span><span class="PUNC">=</span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">hasOwnProperty</span><span class="PUNC">,</span><span class="NAME">t</span><span class="PUNC">;</span><span class="PUNC">!</span><span class="NAME">w</span><span class="PUNC">(</span><span class="NAME">s</span><span class="PUNC">,</span><span class="NAME">c</span><span class="PUNC">)</span><span class="PUNC">&&</span><span class="PUNC">!</span><span class="NAME">w</span><span class="PUNC">(</span><span class="NAME">s.call</span><span class="PUNC">,</span><span class="NAME">c</span><span class="PUNC">)</span><span class="PUNC">?</span><span class="NAME">t</span><span class="PUNC">=</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">s.call</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">:</span><span class="NAME">t</span><span class="PUNC">=</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">b</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">a</span><span class="PUNC">&&</span><span class="NAME">w</span><span class="PUNC">(</span><span class="NAME">a.constructor.prototype</span><span class="PUNC">[</span><span class="NAME">b</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="NAME">c</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">z</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">n</span><span class="PUNC">)</span><span class="NAME">t</span><span class="PUNC">(</span><span class="NAME">n</span><span class="PUNC">,</span><span class="NAME">z</span><span class="PUNC">)</span><span class="PUNC">&&</span><span class="PUNC">(</span><span class="NAME">r</span><span class="PUNC">=</span><span class="NAME">z.toLowerCase</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">e</span><span class="PUNC">[</span><span class="NAME">r</span><span class="PUNC">]</span><span class="PUNC">=</span><span class="NAME">n</span><span class="PUNC">[</span><span class="NAME">z</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">q.push</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">[</span><span class="NAME">r</span><span class="PUNC">]</span><span class="PUNC">?</span><span class="STRN">""</span><span class="PUNC">:</span><span class="STRN">"no-"</span><span class="PUNC">)</span><span class="PUNC">+</span><span class="NAME">r</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="NAME">e.input</span><span class="PUNC">||</span><span class="NAME">y</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">u</span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">i</span><span class="PUNC">=</span><span class="NAME">k</span><span class="PUNC">=</span><span class="KEYW">null</span><span class="PUNC">,</span><span class="NAME">e._version</span><span class="PUNC">=</span><span class="NAME">d</span><span class="PUNC">;</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="NAME">this.document</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 85</span> 
+<span class='line'> 86</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 87</span>      * Checks the connection status by sending an ajax request
+<span class='line'> 88</span>      * and waiting for the response to decide whether online or offline.
+<span class='line'> 89</span>      *
+<span class='line'> 90</span>      * The callback is called when the request returns successful or times out. The parameter to callback is a
+<span class='line'> 91</span>      * string saying either offline or online.
+<span class='line'> 92</span>      *
+<span class='line'> 93</span>      * @param {Object} callback The object, consisting of target and action, defining the callback.
+<span class='line'> 94</span>      * @param {String} url Optional. The request url. When not given, a request is made to http://www.google.de/images/logos/ps_logo2.png.
+<span class='line'> 95</span>      */</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">    </span><span class="NAME">getConnectionStatus</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">        </span><span class="NAME">url</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">url</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">url</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'http://www.google.de/images/logos/ps_logo2.png'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">image</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">M.ImageView.design</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">            </span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">            </span><span class="NAME">events</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">                </span><span class="NAME">load</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">                    </span><span class="NAME">action</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">                        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">image</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">M.ViewManager.getViewById</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">                        </span><span class="NAME">image.destroy</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">                        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">M.EventDispatcher.checkHandler</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'online'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">                            </span><span class="NAME">that.bindToCaller</span><span class="PUNC">(</span><span class="NAME">callback.target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback.action</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">M.ONLINE</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">                        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">                </span><span class="NAME">error</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">                    </span><span class="NAME">action</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">                        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">image</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">M.ViewManager.getViewById</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">                        </span><span class="NAME">image.destroy</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">                        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">M.EventDispatcher.checkHandler</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'offline'</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">                            </span><span class="NAME">that.bindToCaller</span><span class="PUNC">(</span><span class="NAME">callback.target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback.action</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">M.OFFLINE</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">                        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">        </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'body'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="NAME">image.render</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">        </span><span class="NAME">image.registerEvents</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>125</span> 
+<span class='line'>126</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>127</span>      * Returns the userAgent as received from navigator object.
+<span class='line'>128</span>      * E.g. "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_5; en-US) AppleWebKit/534.7 (KHTML, like Gecko) Chrome/7.0.517.44 Safari/534.7"
+<span class='line'>129</span>      *
+<span class='line'>130</span>      * @returns {String} The user agent.
+<span class='line'>131</span>      */</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">    </span><span class="NAME">getUserAgent</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">navigator.userAgent</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>135</span> 
+<span class='line'>136</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>137</span>      * Returns the platform as received from navigator object.
+<span class='line'>138</span>      * E.g. "MacIntel"
+<span class='line'>139</span>      *
+<span class='line'>140</span>      * @returns {String} The user's platform.
+<span class='line'>141</span>      */</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">    </span><span class="NAME">getPlatform</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">navigator.platform</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>145</span> 
+<span class='line'>146</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>147</span>      * Returns the currently available width and height of the browser window
+<span class='line'>148</span>      * as an array:
+<span class='line'>149</span>      *
+<span class='line'>150</span>      * 0 -> width
+<span class='line'>151</span>      * 1 -> height
+<span class='line'>152</span>      *
+<span class='line'>153</span>      * @returns {Array} The width and height of the user's browser window.
+<span class='line'>154</span>      */</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">    </span><span class="NAME">getSize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">viewportWidth</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">viewportHeight</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> 
+<span class='line'>159</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">window.innerWidth</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">            </span><span class="NAME">viewportWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.innerWidth</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">            </span><span class="NAME">viewportHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.innerHeight</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">document.documentElement</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">document.documentElement.clientWidth</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">document.documentElement.clientWidth</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">            </span><span class="NAME">viewportWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.documentElement.clientWidth</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">            </span><span class="NAME">viewportHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.documentElement.clientHeight</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">            </span><span class="NAME">viewportWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">'body'</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">clientWidth</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">            </span><span class="NAME">viewportHeight</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">'body'</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">clientHeight</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>169</span> 
+<span class='line'>170</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">viewportWidth</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">viewportHeight</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>172</span> 
+<span class='line'>173</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>174</span>      * Returns the currently available width of the browser window.
+<span class='line'>175</span>      *
+<span class='line'>176</span>      * @returns {Number} The width of the user's browser window.
+<span class='line'>177</span>      */</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">    </span><span class="NAME">getWidth</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.getSize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>181</span> 
+<span class='line'>182</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>183</span>      * Returns the currently available height of the browser window.
+<span class='line'>184</span>      *
+<span class='line'>185</span>      * @returns {Number} The height of the user's browser window.
+<span class='line'>186</span>      */</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">    </span><span class="NAME">getHeight</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.getSize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>190</span> 
+<span class='line'>191</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>192</span>      * Returns the total size of the page/document, means not only the area of the browser window.
+<span class='line'>193</span>      *
+<span class='line'>194</span>      * 0 -> width
+<span class='line'>195</span>      * 1 -> height
+<span class='line'>196</span>      *
+<span class='line'>197</span>      * @returns {Array} The width and height of the document.
+<span class='line'>198</span>      */</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">    </span><span class="NAME">getTotalSize</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">this.getTotalWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.getTotalHeight</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>202</span> 
+<span class='line'>203</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>204</span>      * Returns the total width of the page/document, means not only the area of the browser window.
+<span class='line'>205</span>      * Uses jQuery.
+<span class='line'>206</span>      *
+<span class='line'>207</span>      * @returns {Number} The total width of the document.
+<span class='line'>208</span>      */</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">    </span><span class="NAME">getTotalWidth</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">width</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>212</span> 
+<span class='line'>213</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>214</span>      * Returns the total height of the page/document, means not only the area of the browser window.
+<span class='line'>215</span>      * Uses jQuery.
+<span class='line'>216</span>      *
+<span class='line'>217</span>      * @returns {Number} The total height of the document.
+<span class='line'>218</span>      */</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">    </span><span class="NAME">getTotalHeight</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">height</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>222</span> 
+<span class='line'>223</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>224</span>      * This method returns the device's current orientation, depending on whether
+<span class='line'>225</span>      * or not the device is capable of detecting the current orientation. If the
+<span class='line'>226</span>      * device is unable to detect the current orientation, this method will return
+<span class='line'>227</span>      * NO.
+<span class='line'>228</span>      *
+<span class='line'>229</span>      * Possible return values are:
+<span class='line'>230</span>      *
+<span class='line'>231</span>      *   - M.PORTRAIT
+<span class='line'>232</span>      *   - M.LANDSCAPE_LEFT
+<span class='line'>233</span>      *   - M.LANDSCAPE_RIGHT
+<span class='line'>234</span>      *
+<span class='line'>235</span>      * @return {Number|Boolean} The orientation type as a constant value. (If the orientation can not be detected: NO.)
+<span class='line'>236</span>      */</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">    </span><span class="NAME">getOrientation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">        </span><span class="KEYW">switch</span><span class="PUNC">(</span><span class="NAME">window.orientation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">            </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">M.PORTRAIT_TOP</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">            </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">M.PORTRAIT_BOTTOM</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">            </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NUMB">90</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">M.LANDSCAPE_LEFT</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">            </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">90</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">M.LANDSCAPE_RIGHT</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">            </span><span class="KEYW">default</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">                </span><span class="NAME">M.Logger.log</span><span class="PUNC">(</span><span class="STRN">'This device does not support orientation detection.'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">M.WARN</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>252</span> 
+<span class='line'>253</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>254</span>      * This method checks if the browser supports a certain input type specified with
+<span class='line'>255</span>      * HTML5. This check is based on Modernizr. For further information abbout the
+<span class='line'>256</span>      * input types, take a look at the W3C spec:
+<span class='line'>257</span>      * http://dev.w3.org/html5/spec/Overview.html#states-of-the-type-attribute
+<span class='line'>258</span>      *
+<span class='line'>259</span>      * @param {String} inputTye The HTML5 input type to be checked.
+<span class='line'>260</span>      * @return {Boolean} A flag telling you if the input type is supported or not.
+<span class='line'>261</span>      */</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">    </span><span class="NAME">supportsInputType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">inputType</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.modernizr.inputtypes</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.modernizr.inputtypes</span><span class="PUNC">[</span><span class="NAME">inputType</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>268</span> 
+<span class='line'>269</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

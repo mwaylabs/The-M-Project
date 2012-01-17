@@ -205,6 +205,8 @@ ul.inheritsList
 	
 	<li><a href="../symbols/M.ButtonView.html">M.ButtonView</a></li>
 	
+	<li><a href="../symbols/M.CanvasView.html">M.CanvasView</a></li>
+	
 	<li><a href="../symbols/M.ConfirmDialogView.html">M.ConfirmDialogView</a></li>
 	
 	<li><a href="../symbols/M.ContainerView.html">M.ContainerView</a></li>
@@ -213,11 +215,31 @@ ul.inheritsList
 	
 	<li><a href="../symbols/M.Cypher.html">M.Cypher</a></li>
 	
+	<li><a href="../symbols/M.DashboardItemView.html">M.DashboardItemView</a></li>
+	
+	<li><a href="../symbols/M.DashboardView.html">M.DashboardView</a></li>
+	
+	<li><a href="../symbols/M.DataConsumer.html">M.DataConsumer</a></li>
+	
 	<li><a href="../symbols/M.DataProvider.html">M.DataProvider</a></li>
+	
+	<li><a href="../symbols/M.DataProviderDummy.html">M.DataProviderDummy</a></li>
+	
+	<li><a href="../symbols/M.DataProviderHybrid.html">M.DataProviderHybrid</a></li>
+	
+	<li><a href="../symbols/M.DataProviderLocalStorage.html">M.DataProviderLocalStorage</a></li>
+	
+	<li><a href="../symbols/M.DataProviderRemoteStorage.html">M.DataProviderRemoteStorage</a></li>
 	
 	<li><a href="../symbols/M.Date.html">M.Date</a></li>
 	
+	<li><a href="../symbols/M.DatePickerView.html">M.DatePickerView</a></li>
+	
 	<li><a href="../symbols/M.DateValidator.html">M.DateValidator</a></li>
+	
+	<li><a href="../symbols/M.DeviceSwitch.html">M.DeviceSwitch</a></li>
+	
+	<li><a href="../symbols/M.DialogView.html">M.DialogView</a></li>
 	
 	<li><a href="../symbols/M.EmailValidator.html">M.EmailValidator</a></li>
 	
@@ -241,17 +263,21 @@ ul.inheritsList
 	
 	<li><a href="../symbols/M.LoaderView.html">M.LoaderView</a></li>
 	
-	<li><a href="../symbols/M.LocalStorageProvider.html">M.LocalStorageProvider</a></li>
+	<li><a href="../symbols/M.Location.html">M.Location</a></li>
+	
+	<li><a href="../symbols/M.LocationManager.html">M.LocationManager</a></li>
 	
 	<li><a href="../symbols/M.Logger.html">M.Logger</a></li>
+	
+	<li><a href="../symbols/M.MapMarkerView.html">M.MapMarkerView</a></li>
+	
+	<li><a href="../symbols/M.MapView.html">M.MapView</a></li>
 	
 	<li><a href="../symbols/M.Math.html">M.Math</a></li>
 	
 	<li><a href="../symbols/M.Model.html">M.Model</a></li>
 	
 	<li><a href="../symbols/M.ModelAttribute.html">M.ModelAttribute</a></li>
-	
-	<li><a href="../symbols/M.ModelRegistry.html">M.ModelRegistry</a></li>
 	
 	<li><a href="../symbols/M.NotMinusValidator.html">M.NotMinusValidator</a></li>
 	
@@ -269,8 +295,6 @@ ul.inheritsList
 	
 	<li><a href="../symbols/M.RecordManager.html">M.RecordManager</a></li>
 	
-	<li><a href="../symbols/M.RemoteStorageProvider.html">M.RemoteStorageProvider</a></li>
-	
 	<li><a href="../symbols/M.Request.html">M.Request</a></li>
 	
 	<li><a href="../symbols/M.ScrollView.html">M.ScrollView</a></li>
@@ -283,9 +307,15 @@ ul.inheritsList
 	
 	<li><a href="../symbols/M.SHA256.html">M.SHA256</a></li>
 	
+	<li><a href="../symbols/M.SliderView.html">M.SliderView</a></li>
+	
+	<li><a href="../symbols/M.StringBuilder.html">M.StringBuilder</a></li>
+	
 	<li><a href="../symbols/M.TabBarItemView.html">M.TabBarItemView</a></li>
 	
 	<li><a href="../symbols/M.TabBarView.html">M.TabBarView</a></li>
+	
+	<li><a href="../symbols/M.TableView.html">M.TableView</a></li>
 	
 	<li><a href="../symbols/M.TextFieldView.html">M.TextFieldView</a></li>
 	
@@ -300,8 +330,6 @@ ul.inheritsList
 	<li><a href="../symbols/M.View.html">M.View</a></li>
 	
 	<li><a href="../symbols/M.ViewManager.html">M.ViewManager</a></li>
-	
-	<li><a href="../symbols/M.WebSqlProvider.html">M.WebSqlProvider</a></li>
 	
 </ul>
 <hr />
@@ -325,7 +353,7 @@ ul.inheritsList
 				M.View defines the prototype for any view within The M-Project. It implements lots of basicproperties and methods that are used in many derived views. M.View specifies a defaultbehaviour for functionalities like rendering, theming, delegating updates etc.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/Documents_workspace_TheMProject_modules_core_foundation_view.js.html">view.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/The-M-Project_modules_core_foundation_view.js.html">view.js</a>.
 				
 			</p>
 
@@ -381,9 +409,29 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
+								<b><a href="../symbols/M.View.html#computedValue">computedValue</a></b>
+								</div>
+								<div class="description">This property contains the relevant information about the view's computed value.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
 								<b><a href="../symbols/M.View.html#contentBinding">contentBinding</a></b>
 								</div>
-								<div class="description">The path to a content that is bind to the view's value.</div>
+								<div class="description">The path to a content that is bound to the view's value.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/M.View.html#contentBindingReverse">contentBindingReverse</a></b>
+								</div>
+								<div class="description">The path to a content that is bound to the view's value (reverse).</div>
 							</td>
 						</tr>
 					
@@ -424,6 +472,16 @@ ul.inheritsList
 								<b><a href="../symbols/M.View.html#cssStyle">cssStyle</a></b>
 								</div>
 								<div class="description">This property can be used to assign a css style to the view.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/M.View.html#events">events</a></b>
+								</div>
+								<div class="description">This property is used to specify a view's events and their corresponding actions.</div>
 							</td>
 						</tr>
 					
@@ -494,6 +552,16 @@ ul.inheritsList
 								<b><a href="../symbols/M.View.html#parentView">parentView</a></b>
 								</div>
 								<div class="description">This property can be used to save a reference to the view's parent view.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/M.View.html#recommendedEvents">recommendedEvents</a></b>
+								</div>
+								<div class="description">This property specifies the recommended events for this type of view.</div>
 							</td>
 						</tr>
 					
@@ -584,7 +652,7 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/M.View.html#attachToObservable">attachToObservable</a></b>(contentBinding)
+								<div class="fixedFont"><b><a href="../symbols/M.View.html#attachToObservable">attachToObservable</a></b>()
 								</div>
 								<div class="description">This method attaches the view to an observable to be later notified once the observable'sstate did change.</div>
 							</td>
@@ -596,6 +664,24 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/M.View.html#clearHtml">clearHtml</a></b>()
 								</div>
 								<div class="description">Clears the html property of a view and triggers the same method on all of itschild views.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/M.View.html#clearValue">clearValue</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/M.View.html#clearValues">clearValues</a></b>()
+								</div>
+								<div class="description">This method defines a basic functionality for clearing a view's value.</div>
 							</td>
 						</tr>
 					
@@ -638,6 +724,42 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/M.View.html#getChildViewsAsArray">getChildViewsAsArray</a></b>()
+								</div>
+								<div class="description">This method transforms the child views property (string) into an array.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/M.View.html#getIds">getIds</a></b>()
+								</div>
+								<div class="description">This method creates and returns an associative array of all child views andtheir ids.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/M.View.html#getValue">getValue</a></b>()
+								</div>
+								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/M.View.html#getValues">getValues</a></b>()
+								</div>
+								<div class="description">This method creates and returns an associative array of all child views andtheir values.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/M.View.html#gotFocus">gotFocus</a></b>()
 								</div>
 								<div class="description">This method is called whenever the view got the focus and basically only setsthe view's hasFocus property to YES.</div>
@@ -659,6 +781,15 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/M.View.html#nl2br">nl2br</a></b>(str)
 								</div>
 								<div class="description">This method parses a given string, replaces any new line, '\n', with a line break, '<br/>',and returns the modified string.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/M.View.html#registerEvents">registerEvents</a></b>()
+								</div>
+								<div class="description">This method is responsible for registering events for view elements and its child views.</div>
 							</td>
 						</tr>
 					
@@ -722,6 +853,15 @@ ul.inheritsList
 								<div class="fixedFont"><b><a href="../symbols/M.View.html#style">style</a></b>()
 								</div>
 								<div class="description"></div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/M.View.html#tab2space">tab2space</a></b>(str)
+								</div>
+								<div class="description">This method parses a given string, replaces any tabulator, '\t', with four spaces, '&#160;',and returns the modified string.</div>
 							</td>
 						</tr>
 					
@@ -814,6 +954,28 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="computedValue"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>computedValue</b>
+					
+					</div>
+					<div class="description">
+						This property contains the relevant information about the view's computed value. Inparticular it is used to specify the pre-value, the content binding and the just-in-time performed operation, that computes the view's value.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="contentBinding"> </a>
 					<div class="fixedFont">
 					
@@ -822,7 +984,29 @@ ul.inheritsList
 					
 					</div>
 					<div class="description">
-						The path to a content that is bind to the view's value.
+						The path to a content that is bound to the view's value. If this contentchanges, the view will automatically be updated.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="contentBindingReverse"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>contentBindingReverse</b>
+					
+					</div>
+					<div class="description">
+						The path to a content that is bound to the view's value (reverse). If thisthe view's value changes, the bound content will automatically be updated.
 						
 						
 					</div>
@@ -911,6 +1095,28 @@ ul.inheritsList
 					</div>
 					<div class="description">
 						This property can be used to assign a css style to the view. This allows you tocreate your custom styles inline.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="events"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Object}</span>
+					<b>events</b>
+					
+					</div>
+					<div class="description">
+						This property is used to specify a view's events and their corresponding actions.
 						
 						
 					</div>
@@ -1065,6 +1271,28 @@ ul.inheritsList
 					</div>
 					<div class="description">
 						This property can be used to save a reference to the view's parent view.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="recommendedEvents"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Array}</span>
+					<b>recommendedEvents</b>
+					
+					</div>
+					<div class="description">
+						This property specifies the recommended events for this type of view.
 						
 						
 					</div>
@@ -1236,7 +1464,7 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>attachToObservable</b>(contentBinding)
+					<b>attachToObservable</b>()
 					
 					</div>
 					<div class="description">
@@ -1247,17 +1475,6 @@ ul.inheritsList
 					
 					
 					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>contentBinding</b>
-									
-								</dt>
-								<dd>The path to the observable property.</dd>
-							
-							</dl>
 						
 						
 						
@@ -1277,6 +1494,56 @@ ul.inheritsList
 					</div>
 					<div class="description">
 						Clears the html property of a view and triggers the same method on all of itschild views.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="clearValue"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>clearValue</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="clearValues"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>clearValues</b>()
+					
+					</div>
+					<div class="description">
+						This method defines a basic functionality for clearing a view's value. This should beoverwritten with a specific behaviour for most input view. What we do here is nothingbut to call the cleaValue method for any child view.
 						
 						
 					</div>
@@ -1404,6 +1671,127 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="getChildViewsAsArray"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Array}</span>
+					<b>getChildViewsAsArray</b>()
+					
+					</div>
+					<div class="description">
+						This method transforms the child views property (string) into an array.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> The child views as an array.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getIds"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Array}</span>
+					<b>getIds</b>()
+					
+					</div>
+					<div class="description">
+						This method creates and returns an associative array of all child views andtheir ids.The key of an array item is the name of the view specified in the viewdefinition. The value of an array item is the id of the correspondingview.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> The child view's ids as an array.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="getValue"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>getValue</b>()
+					
+					</div>
+					<div class="description">
+						
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="getValues"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Array}</span>
+					<b>getValues</b>()
+					
+					</div>
+					<div class="description">
+						This method creates and returns an associative array of all child views andtheir values.The key of an array item is the name of the view specified in the viewdefinition. The value of an array item is the value of the correspondingview.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Array}</span> The child view's values as an array.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name="gotFocus"> </a>
 					<div class="fixedFont">
 					
@@ -1491,6 +1879,31 @@ ul.inheritsList
 								<dd><span class="light fixedFont">{String}</span> The modified string.</dd>
 							
 							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name="registerEvents"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>registerEvents</b>()
+					
+					</div>
+					<div class="description">
+						This method is responsible for registering events for view elements and its child views. Itbasically passes the view's event-property to M.EventDispatcher to bind the appropriateevents.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
 						
 						
 						
@@ -1729,6 +2142,49 @@ ul.inheritsList
 
 					<hr />
 				
+					<a name="tab2space"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>tab2space</b>(str)
+					
+					</div>
+					<div class="description">
+						This method parses a given string, replaces any tabulator, '\t', with four spaces, '&#160;',and returns the modified string. This can be useful especially for input views, e.g. it isused in context with the M.TextFieldView.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>str</b>
+									
+								</dt>
+								<dd>The string to be modified.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{String}</span> The modified string.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
 					<a name="theme"> </a>
 					<div class="fixedFont">
 					
@@ -1791,7 +2247,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Dec 08 2010 15:07:35 GMT+0100 (MEZ)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Tue Jan 17 2012 22:19:41 GMT+0100 (MEZ)
 		</div>
 	</body>
 </html>
