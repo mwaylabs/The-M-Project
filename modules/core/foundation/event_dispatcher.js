@@ -105,7 +105,7 @@ M.EventDispatcher = M.Object.extend(
 
         var that = this;
         var view = M.ViewManager.getViewById(eventSource.attr('id'));
-        if(!view || view.type !== 'M.TextFieldView') {
+        if(!view || (view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView')) {
             eventSource.unbind(type);
         }
         eventSource.bind(type, function(event) {
@@ -119,9 +119,20 @@ M.EventDispatcher = M.Object.extend(
                 }
             }
 
-            /* no propagation */
-            event.preventDefault();
-            event.stopPropagation();
+            /* no propagation (except some specials) */
+            var killEvent = YES;
+            if(eventSource.attr('id')) {
+                var view = M.ViewManager.getViewById(eventSource.attr('id'));
+                if(view.type === 'M.SearchBarView') {
+                    killEvent = NO;
+                } else if((type === 'click' || type === 'tap') && view.type === 'M.ButtonView' && view.parentView && view.parentView.type === 'M.ToggleView' && view.parentView.toggleOnClick) {
+                    killEvent = NO;
+                }
+            }
+            if(killEvent) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
 
             /* store event in lastEvent property for capturing false twice-fired events */
             if(M.ViewManager.getViewById(eventSource.attr('id'))) {

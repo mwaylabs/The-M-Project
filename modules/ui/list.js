@@ -485,8 +485,6 @@ M.ListView = M.View.extend(
     /**
      * This method resets the list by applying the default css style to its currently activated
      * list item.
-     *
-     * @param {String} listItemId The id of the list item to be set active.
      */
     resetActiveListItem: function() {
         if(this.selectedItem) {
@@ -502,6 +500,9 @@ M.ListView = M.View.extend(
      */
     style: function() {
         var html = '';
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
+        }
         if(this.isDividedList && this.cssClassForDivider) {
             html += ' data-dividertheme="' + this.cssClassForDivider + '"';
         }
