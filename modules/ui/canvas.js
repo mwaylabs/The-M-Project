@@ -16,7 +16,7 @@
  * but mostly you will just use this view for the first rendering of the canvas
  * element and then work on the dom element itself.
  *
- * @extends M.CanvasView
+ * @extends M.View
  */
 M.CanvasView = M.View.extend(
 /** @scope M.CanvasView.prototype */ {

@@ -21,7 +21,7 @@ m_require('core/utility/logger.js');
  * @extends M.Object
  */
 M.DataConsumer = M.Object.extend(
-/** @scope M.DataProvider.prototype */ {
+/** @scope M.DataConsumer.prototype */ {
 
     /**
      * The type of this object.

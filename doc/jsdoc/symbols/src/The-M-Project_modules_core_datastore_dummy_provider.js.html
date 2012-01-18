@@ -1,0 +1,44 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// Project:   The M-Project - Mobile HTML5 Application Framework</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">//            (c) 2011 panacoda GmbH. All rights reserved.</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="COMM">// Creator:   Sebastian</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="COMM">// Date:      20.12.2010</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="COMM">// License:   Dual licensed under the MIT or GPL Version 2 licenses.</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="COMM">//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="COMM">//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'> 11</span> 
+<span class='line'> 12</span> </span><span class="NAME">m_require</span><span class="PUNC">(</span><span class="STRN">'core/datastore/data_provider.js'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 13</span> 
+<span class='line'> 14</span> </span><span class="COMM">/**
+<span class='line'> 15</span>  * @class
+<span class='line'> 16</span>  *
+<span class='line'> 17</span>  * To be used when no data provider needed for model.
+<span class='line'> 18</span>  * Prints warning messages when calling CRUD functions.
+<span class='line'> 19</span>  *
+<span class='line'> 20</span>  * @extends M.DataProvider
+<span class='line'> 21</span>  */</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="NAME">M.DataProviderDummy</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">M.DataProvider.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="COMM">/** @scope M.DummyProvider.prototype */</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="NAME">find</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">        </span><span class="NAME">M.Logger.log</span><span class="PUNC">(</span><span class="STRN">'DummyProvider does not support find().'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">M.WARN</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="WHIT">    </span><span class="NAME">save</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">        </span><span class="NAME">M.Logger.log</span><span class="PUNC">(</span><span class="STRN">'DummyProvider does not support save().'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">M.WARN</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span> </span><span class="WHIT">    </span><span class="NAME">del</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">        </span><span class="NAME">M.Logger.log</span><span class="PUNC">(</span><span class="STRN">'DummyProvider does not support del().'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">M.WARN</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

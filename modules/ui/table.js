@@ -16,7 +16,7 @@
  * table header, that is visible even if there is no content. It is also possible
  * to always update the header, when applying content binding, too.
  *
- * @extends M.TableView
+ * @extends M.View
  */
 M.TableView = M.View.extend(
 /** @scope M.TableView.prototype */ {
