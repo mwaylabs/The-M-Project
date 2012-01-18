@@ -18,6 +18,8 @@ M.STATE_VALID = 'state_valid';
 M.STATE_INVALID = 'state_invalid';
 M.STATE_DELETED = 'state_deleted';
 
+m_require('core/utility/logger.js');
+
 /**
  * @class
  *
