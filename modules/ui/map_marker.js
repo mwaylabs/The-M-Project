@@ -154,6 +154,14 @@ M.MapMarkerView = M.View.extend(
     markerAnimationType: null,
 
     /**
+     * This property can be used to specify a custom marker icon. Simply pass a valid
+     * path to an image and it will be shown instead of google's default marker.
+     *
+     * @type String
+     */
+    icon: null,
+
+    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array

@@ -546,7 +546,8 @@ M.MapView = M.View.extend(
                 map: that.map,
                 draggable: NO,
                 animation: google.maps.Animation[marker.markerAnimationType ? marker.markerAnimationType : that.markerAnimationType],
-                position: new google.maps.LatLng(marker.location.latitude, marker.location.longitude)
+                position: new google.maps.LatLng(marker.location.latitude, marker.location.longitude),
+                icon: marker.icon
             });
             marker.registerEvents();
             this.markers.push(
