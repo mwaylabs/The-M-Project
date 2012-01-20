@@ -501,7 +501,7 @@ M.MapView = M.View.extend(
         this.isInitialized = YES;
 
         /* now call callback of "the outside world" */
-        if(this.callbacks.success && M.EventDispatcher.checkHandler(this.callbacks.success)) {
+        if(!isUpdate && this.callbacks.success && M.EventDispatcher.checkHandler(this.callbacks.success)) {
             this.bindToCaller(this.callbacks.success.target, this.callbacks.success.action)();
         }
     },
