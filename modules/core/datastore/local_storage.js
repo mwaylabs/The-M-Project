@@ -118,7 +118,7 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
             if (!q.operator) {
                 missing.push('identifier');
             }
-            if (!q.value) {
+            if (q.value === undefined || q.value === null) {
                 missing.push('identifier');
             }
 
