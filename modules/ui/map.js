@@ -501,7 +501,7 @@ M.MapView = M.View.extend(
         this.isInitialized = YES;
 
         /* now call callback of "the outside world" */
-        if(this.callbacks.success && M.EventDispatcher.checkHandler(this.callbacks.success)) {
+        if(!isUpdate && this.callbacks.success && M.EventDispatcher.checkHandler(this.callbacks.success)) {
             this.bindToCaller(this.callbacks.success.target, this.callbacks.success.action)();
         }
     },
@@ -546,7 +546,8 @@ M.MapView = M.View.extend(
                 map: that.map,
                 draggable: NO,
                 animation: google.maps.Animation[marker.markerAnimationType ? marker.markerAnimationType : that.markerAnimationType],
-                position: new google.maps.LatLng(marker.location.latitude, marker.location.longitude)
+                position: new google.maps.LatLng(marker.location.latitude, marker.location.longitude),
+                icon: marker.icon
             });
             marker.registerEvents();
             this.markers.push(
