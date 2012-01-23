@@ -28,21 +28,21 @@ M.BOTTOM = 'footer';
  *
  * @type Number
  */
-M.LEFT = 0;
+M.LEFT = 'LEFT';
 
 /**
  * A constant value for the anchor location: center.
  *
  * @type Number
  */
-M.CENTER = 1;
+M.CENTER = 'CENTER';
 
 /**
  * A constant value for the anchor location: right.
  *
  * @type Number
  */
-M.RIGHT = 2;
+M.RIGHT = 'RIGHT';
 
 /**
  * @class
@@ -146,16 +146,17 @@ M.ToolbarView = M.View.extend(
             this.html += '<h1>' + this.value + '</h1>';
         } else if (this.childViews) {
             var childViews = this.getChildViewsAsArray();
-
-            /* A ToolbarView accepts only 3 childViews, one for each location: left, center, right */
-            if(childViews.length > 3) {
-                M.Logger.log('To many childViews defined for toolb  arView.', M.WARN);
-                return;
-            }
-
+            var viewPositions = {};
             for(var i in childViews) {
                 var view = this[childViews[i]];
                 view._name = childViews[i];
+                if( viewPositions[view.anchorLocation] ) {
+                    M.Logger.log('ToolbarView has two items positioned at M.' +
+                        view.anchorLocation + 
+                        '.  Only one item permitted in each location', M.WARN);
+                    return;
+                }
+                viewPositions[view.anchorLocation] = YES;
                 switch (view.anchorLocation) {
                     case M.LEFT:
                         this.html += '<div class="ui-btn-left">';
@@ -172,6 +173,9 @@ M.ToolbarView = M.View.extend(
                         this.html += view.render();
                         this.html += '</div>';
                         break;
+                    default:
+                        M.Logger.log('ToolbarView children must have an anchorLocation of M.LEFT, M.CENTER, or M.RIGHT', M.WARN);
+                        return;
                 }
             }
         }
