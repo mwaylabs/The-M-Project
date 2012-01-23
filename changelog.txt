@@ -1,7 +1,10 @@
-** Version 1.0 - Date 17.01.2011 **
+** Version 1.0 - Date 23.01.2011 **
 
   * Do not trigger success callback when isUpdate within M.MapView's init()
   * Added icon property to M.MapMarkerView
+  * Fixed initialText property of M.TextFieldView with input-type password (thx to amenon)
+  * Improved debugging of M.Toolbar, regarding the anchorLocation property of the child views (thx to greylurk)
+  * Fixed a bug in local storage provider (thx to amenon)
 
 ** Version 1.0 RC1 - Date 17.01.2011 **
 
