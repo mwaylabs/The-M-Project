@@ -472,7 +472,7 @@ M.View = M.Object.extend(
             }
         });
 
-        if(!value && value !== '') {
+        if(value === undefined || value === null) {
             M.Logger.log('The value assigned by content binding (property: \'' + contentBinding.property + '\') for ' + this.type + ' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ') is invalid!', M.WARN);
             return;
         }
