@@ -5,6 +5,7 @@
   * Fixed initialText property of M.TextFieldView with input-type password (thx to amenon)
   * Improved debugging of M.Toolbar, regarding the anchorLocation property of the child views (thx to greylurk)
   * Fixed a bug in local storage provider (thx to amenon)
+  * Updated Underscore to v1.3.1
 
 ** Version 1.0 RC1 - Date 17.01.2011 **
 
