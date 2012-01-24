@@ -369,6 +369,11 @@ M.TextFieldView = M.View.extend(
      * @param {Object} nextEvent The next event (external event), if specified.
      */
     lostFocus: function(id, event, nextEvent) {
+        /* if this is a native date field, get the value from dom */
+        if(_.include(this.dateInputTypes, this.inputType) && M.Environment.supportsInputType(this.inputType) && this.useNativeImplementationIfAvailable) {
+            this.setValueFromDOM();
+        }
+
         if(this.initialText && !this.value) {
             this.setValue(this.initialText, NO);
             this.value = '';
