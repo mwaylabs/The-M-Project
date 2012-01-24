@@ -6,6 +6,7 @@
   * Improved debugging of M.Toolbar, regarding the anchorLocation property of the child views (thx to greylurk)
   * Fixed a bug in local storage provider (thx to amenon)
   * Updated Underscore to v1.3.1
+  * Updated D8 library to 0.1.3
 
 ** Version 1.0 RC1 - Date 17.01.2011 **
 
