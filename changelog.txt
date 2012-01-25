@@ -10,6 +10,8 @@
   * Fixed a bug with native date picker and M.TextFieldView (update value on lostFocus event)
   * Content binding now can handle 0 as number since we now check for undefined & null
   * M.LocationManager's getAddressByLocation() now can return the address as an components object instead of fixed string
+  * Fixed the "overlapping" problem of M.ListView if used in between other views
+  * Fixed the problem of too long values in the center position of a toolbar
 
 ** Version 1.0 RC1 - Date 17.01.2011 **
 
