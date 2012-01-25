@@ -159,7 +159,7 @@ M.ButtonView = M.View.extend(
     theme: function() {
         /* theme only if not already done */
         if(!$('#' + this.id).hasClass('ui-btn')) {
-            $('#' + this.id).button();
+            $('#' + this.id).buttonMarkup();
         }
     },
 
