@@ -285,3 +285,14 @@ ul[data-role="listview"].listview-do-not-overlap-at-top {
 ul[data-role="listview"].listview-do-not-overlap-at-bottom {
     margin-bottom: 15px;
 }
+
+
+
+
+/* fixing a too long center value of header bar */
+.ui-header h1 div {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
