@@ -120,6 +120,25 @@ M.ListView = M.View.extend(
     isInset: NO,
 
     /**
+     * Determines whether to add margin at the top of the list or not. This is useful whenever
+     * the list is not the first element within a page's content area to make sure the list does
+     * not overlap preceding elements.
+     *
+     * @type Boolean
+     */
+    doNotOverlapAtTop: NO,
+
+
+    /**
+     * Determines whether to add margin at the bottom of the list or not. This is useful whenever
+     * the list is not the last element within a page's content area to make sure the list does
+     * not overlap following elements.
+     *
+     * @type Boolean
+     */
+    doNotOverlapAtBottom: NO,
+
+    /**
      * The list view's search bar.
      *
      * @type Object
@@ -500,8 +519,12 @@ M.ListView = M.View.extend(
      */
     style: function() {
         var html = '';
-        if(this.cssClass) {
-            html += ' class="' + this.cssClass + '"';
+        if(this.cssClass || this.doNotOverlapAtTop || this.doNotOverlapAtBottom) {
+            html += ' class="'
+                + (this.cssClass ? this.cssClass : '')
+                + (!this.isInset && this.doNotOverlapAtTop ? ' listview-do-not-overlap-at-top' : '')
+                + (!this.isInset && this.doNotOverlapAtBottom ? ' listview-do-not-overlap-at-bottom' : '')
+                + '"';
         }
         if(this.isDividedList && this.cssClassForDivider) {
             html += ' data-dividertheme="' + this.cssClassForDivider + '"';

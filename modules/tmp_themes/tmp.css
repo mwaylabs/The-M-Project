@@ -273,3 +273,15 @@
 .ui-page {
     min-height: 100% !important;
 }
+
+
+
+
+/* fixing overlapping list at top/bottom of a page */
+ul[data-role="listview"].listview-do-not-overlap-at-top {
+    margin-top: 15px;
+}
+
+ul[data-role="listview"].listview-do-not-overlap-at-bottom {
+    margin-bottom: 15px;
+}
