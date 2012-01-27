@@ -180,8 +180,8 @@ M.Request = M.Object.extend(
         return this.extend({
             method: obj['method'] ? obj['method'] : this.method,
             url: obj['url'] ? obj['url'] : this.url,
-            isAsync: obj['isAsync'] ? obj['isAsync'] : this.isAsync,
-            isJSON: obj['isJSON'] ? obj['isJSON'] : this.isJSON,
+            isAsync: (obj['isAsync'] !== undefined && obj['isAsync'] !== null) ? obj['isAsync'] : this.isAsync,
+            isJSON: (obj['isJSON'] !== undefined && obj['isJSON'] !== null) ? obj['isJSON'] : this.isJSON,
             timeout: obj['timeout'] ? obj['timeout'] : this.timeout,
             data: obj['data'] ? obj['data'] : this.data,
             callbacks: obj['callbacks'],
