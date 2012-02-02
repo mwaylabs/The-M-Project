@@ -1,8 +1,9 @@
-** Version 1.0.1 - Date 30.01.2012 **
+** Version 1.0.1 - Date 02.02.2012 **
 
   * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
   * Fixed isAsync and isJSON flags in M.Request
   * Fixed tap/click issue with google maps on iOS
+  * Fixed a bug with event dispatching and hyperlinks for buttons/labels
 
 ** Version 1.0 - Date 25.01.2012 **
 
