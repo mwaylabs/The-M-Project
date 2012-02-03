@@ -5,6 +5,7 @@
   * Fixed tap/click issue with google maps on iOS
   * Fixed a bug with event dispatching and hyperlinks for buttons/labels
   * Fixed themeUpdate() of M.SelectionListView and with single selection dialog mode (no more js errors with empty content binding)
+  * Fixed issue with having multiple toolbars when "outsourcing" them into a seperate file
 
 ** Version 1.0 - Date 25.01.2012 **
 
