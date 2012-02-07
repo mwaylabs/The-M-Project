@@ -127,6 +127,8 @@ M.EventDispatcher = M.Object.extend(
                     killEvent = NO;
                 } else if((type === 'click' || type === 'tap') && view.type === 'M.ButtonView' && view.parentView && view.parentView.type === 'M.ToggleView' && view.parentView.toggleOnClick) {
                     killEvent = NO;
+                } else if(view.hyperlinkTarget && view.hyperlinkType) {
+                    killEvent = NO;
                 }
             }
             if(killEvent) {
