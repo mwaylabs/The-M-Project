@@ -235,7 +235,7 @@ M.TableView = M.View.extend(
      * html in the DOM. This method is based on jQuery's remove().
      */
     removeContentRows: function() {
-        $('#' + 'm_3' + ' tr td').parent().remove();
+        $('#' + this.id + ' tr td').parent().remove();
     }
 
 });
