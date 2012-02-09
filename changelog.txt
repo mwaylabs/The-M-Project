@@ -1,4 +1,4 @@
-** Version 1.1 - Date 08.02.2012 **
+** Version 1.1 - Date 09.02.2012 **
 
   * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
   * Fixed isAsync and isJSON flags in M.Request
@@ -9,6 +9,7 @@
   * Fixed issue with hard coded view id in table view (thx to jianliao)
   * Added parentView property to any view that is rendered within renderChildViews
   * Updated D8 library to 0.1.5
+  * Clear the validation status before validate it again (thx to jianliao)
 
 ** Version 1.0 - Date 25.01.2012 **
 

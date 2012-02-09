@@ -67,6 +67,10 @@ M.FormView = M.View.extend(
         for(var name in ids) {
             var view = M.ViewManager.getViewById(ids[name]);
             if(view && view.validators) {
+                if(view.cssClassOnError) {
+                    view.removeCssClass(view.cssClassOnError);
+                }
+
                 _.each(view.validators, function(validator) {
                     if(!validator.validate(view, name)) {
                         isValid = NO;
