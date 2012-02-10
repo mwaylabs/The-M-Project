@@ -11,6 +11,7 @@
   * Updated D8 library to 0.1.5
   * Clear the validation status before validate it again (thx to jianliao)
   * Added events property to M.ListView that gets applied to all items if the template does not specify events too
+  * Added swipe button feature to M.ListView / M.ListItemView
 
 ** Version 1.0 - Date 25.01.2012 **
 

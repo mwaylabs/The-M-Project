@@ -269,6 +269,26 @@
 
 
 
+/* swipe delete button for list views */
+.tmp-swipe-button {
+    width: auto;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    margin: 0px;
+}
+
+.tmp-swipe-button span.ui-btn-inner {
+    padding-top: 0.3em;
+}
+
+.ui-btn-icon-right .tmp-swipe-button span.ui-btn-inner {
+    padding-right: 25px;
+}
+
+
+
+
 /* fixing the 100% problem of jqm */
 .ui-page {
     min-height: 100% !important;
