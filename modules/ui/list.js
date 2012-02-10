@@ -302,6 +302,9 @@ M.ListView = M.View.extend(
             return;
         }
 
+        /* check if there is an events propety specified for the template or if we should use the list's events */
+        templateView.events = templateView.events ? templateView.events : this.events;
+
         /* If there is an items property, re-assign this to content, otherwise iterate through content itself */
         if(this.items) {
             content = content[this.items];
