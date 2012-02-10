@@ -72,8 +72,10 @@ M.ListItemView = M.View.extend(
     recommendedEvents: ['tap'],
 
     /**
-     * This property can be used to specify whether a selection list item can be selected or not. Note, that this
+     * This property can be used to specify whether a list item can be selected or not. Note, that this
      * only affects styling stuff. If set to NO, you still can apply e.g. tap events.
+     *
+     * @type Boolean
      */
     isSelectable: YES,
 
