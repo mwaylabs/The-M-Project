@@ -13,6 +13,7 @@
   * Added events property to M.ListView that gets applied to all items if the template does not specify events too
   * Added swipe button feature to M.ListView / M.ListItemView
   * Added hasAsteriskOnLabel property to M.TextFieldView (thx to jianliao)
+  * Added a complex split view component to the framework (M.SplitView, M.SplitItemView, M.PopoverView, M.SplitToolbarView)
 
 ** Version 1.0 - Date 25.01.2012 **
 
