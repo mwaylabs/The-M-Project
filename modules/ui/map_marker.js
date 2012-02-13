@@ -154,6 +154,14 @@ M.MapMarkerView = M.View.extend(
     markerAnimationType: null,
 
     /**
+     * This property can be used to specify a custom marker icon. Simply pass a valid
+     * path to an image and it will be shown instead of google's default marker.
+     *
+     * @type String
+     */
+    icon: null,
+
+    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array
@@ -227,7 +235,7 @@ M.MapMarkerView = M.View.extend(
         if(this.events || this.map.events) {
             var events = this.events ? this.events : this.map.events;
             for(var e in events) {
-                if(e === (event.type === 'click' ? 'tap' : event.type)) {
+                if(e === ((event.type === 'click' || event.type === 'touchend') ? 'tap' : event.type)) {
                     M.EventDispatcher.callHandler(events[e], event, NO, [this]);
                 }
             }

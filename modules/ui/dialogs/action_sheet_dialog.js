@@ -186,9 +186,17 @@ M.ActionSheetDialogView = M.DialogView.extend(
         dialog.removeClass('slideup in');
         dialog.addClass('slideup out reverse');
         $('.tmp-dialog-background').remove();
+
         /* destroying the view object and its DOM representation must be performed after the slide animation is finished. */
         var that = this;
         window.setTimeout(that.bindToCaller(that, that.destroy), this.deletionDelay);
+
+        /* now wait 100ms (plus the default delay) and then call the next in the queue */
+        var that = this;
+        window.setTimeout(function() {
+            M.DialogView.isActive = NO;
+            that.dequeue();
+        }, this.deletionDelay + 100);
     },
 
     handleCallback: function(viewId, event) {

@@ -47,6 +47,13 @@ M.LOCATION_UNKNOWN_ERROR = 'UNKNOWN_ERROR';
 M.LOCATION_NOT_SUPPORTED = 'NOT_SUPPORTED';
 
 /**
+ * A constant value for already receiving error.
+ *
+ * @type String
+ */
+M.LOCATION_ALREADY_RECEIVING = 'ALREADY_RECEIVING';
+
+/**
  * A constant value for location type: approximate.
  *
  * @type Number
@@ -203,13 +210,11 @@ M.LocationManager = M.Object.extend(
      * @param {Object} onSuccess The success callback.
      * @param {Object} onError The error callback.
      * @param {Object} options The options for retrieving a location.
-     *
-     * @return Boolean Determines whether the getLocation call was initialized successfully or not.
      */
     getLocation: function(caller, onSuccess, onError, options) {
         if(this.isGettingLocation) {
             M.Logger.log('M.LocationManager is currently already trying to retrieve a location.', M.WARN);
-            return NO;
+            this.bindToCaller(caller, onError, M.LOCATION_ALREADY_RECEIVING)();
         } else {
             this.isGettingLocation = YES; 
         }
@@ -265,8 +270,6 @@ M.LocationManager = M.Object.extend(
         } else {
             that.bindToCaller(that, onError, M.LOCATION_NOT_SUPPORTED)();
         }
-
-        return YES;
     },
 
     /**
@@ -357,6 +360,10 @@ M.LocationManager = M.Object.extend(
      * the success callback is called with a valid address string as its only
      * parameter.
      *
+     * Note: If you set the getAddressAsComponents parameter to YES, the address
+     * will be passed to the success callback as an object containing the address'
+     * components. Use this option if you want to put the address together manually.
+     *
      * If no address could be retrieved, the error callback is called, with the
      * error message as its only parameter. Possible values for this error message
      * are the following:
@@ -377,8 +384,9 @@ M.LocationManager = M.Object.extend(
      * @param {Function} onSuccess The method to be called after retrieving the address.
      * @param {Function} onError The method to be called if retrieving the address went wrong.
      * @param {M.Location} location The location to be transformed into an address.
+     * @param {Boolean} getAddressAsComponents Return the address as an object containing the components.
      */
-    getAddressByLocation: function(caller, onSuccess, onError, location) {
+    getAddressByLocation: function(caller, onSuccess, onError, location, getAddressAsComponents) {
         if(location && typeof(location) === 'object' && location.type === 'M.Location') {
             if(!this.geoCoder) {
                 this.geoCoder = new google.maps.Geocoder();
@@ -392,7 +400,15 @@ M.LocationManager = M.Object.extend(
                 region: M.I18N.getLanguage().substr(3, 2)
             }, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
-                    if(results[0]) {
+                    if(results[0] && getAddressAsComponents) {
+                        var components = {};
+                        _.each(results[0].address_components, function(component) {
+                            _.each(component.types, function(type) {
+                                components[type] = component['long_name'] ? component['long_name'] : component['short_name']
+                            });
+                        });
+                        that.bindToCaller(caller, onSuccess, components)();
+                    } else if(results[0]) {
                         that.bindToCaller(caller, onSuccess, results[0].formatted_address)();
                     } else {
                         that.bindToCaller(caller, onError, M.LOCATION_GEOCODER_ZERO_RESULTS)();

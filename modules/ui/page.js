@@ -203,7 +203,7 @@ M.PageView = M.View.extend(
         }
 
         /* call jqm to fix header/footer */
-        $.fixedToolbars.show();
+        $.mobile.fixedToolbars.show();
 
         this.isFirstLoad = NO;
     },
@@ -261,6 +261,17 @@ M.PageView = M.View.extend(
         if(orientation === this.orientation) {
             return;
         }
+
+        /* auto-reposition opened dialogs */
+        $('.tmp-dialog').each(function() {
+            var id = $(this).attr('id');
+            var dialog = M.ViewManager.getViewById(id);
+            var dialogDOM = $(this);
+            window.setTimeout(function() {
+                dialog.positionDialog(dialogDOM);
+                dialog.positionBackground($('.tmp-dialog-background'));
+            }, 500);
+        });
 
         /* set the current orientation */
         this.orientation = orientation;

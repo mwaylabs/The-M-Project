@@ -122,6 +122,13 @@ M.AlertDialogView = M.DialogView.extend(
         dialog.addClass('pop out');
         background.remove();
         this.destroy();
+
+        /* now wait 100ms and then call the next in the queue */
+        var that = this;
+        window.setTimeout(function() {
+            M.DialogView.isActive = NO;
+            that.dequeue();
+        }, 100);
     },
 
     handleCallback: function() {

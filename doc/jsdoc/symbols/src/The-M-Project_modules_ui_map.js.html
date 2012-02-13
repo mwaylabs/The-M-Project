@@ -1,0 +1,605 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">// Project:   The M-Project - Mobile HTML5 Application Framework</span><span class="WHIT">
+<span class='line'>  3</span> </span><span class="COMM">// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.</span><span class="WHIT">
+<span class='line'>  4</span> </span><span class="COMM">//            (c) 2011 panacoda GmbH. All rights reserved.</span><span class="WHIT">
+<span class='line'>  5</span> </span><span class="COMM">// Creator:   Dominik</span><span class="WHIT">
+<span class='line'>  6</span> </span><span class="COMM">// Date:      26.01.2011</span><span class="WHIT">
+<span class='line'>  7</span> </span><span class="COMM">// License:   Dual licensed under the MIT or GPL Version 2 licenses.</span><span class="WHIT">
+<span class='line'>  8</span> </span><span class="COMM">//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE</span><span class="WHIT">
+<span class='line'>  9</span> </span><span class="COMM">//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE</span><span class="WHIT">
+<span class='line'> 10</span> </span><span class="COMM">// ==========================================================================</span><span class="WHIT">
+<span class='line'> 11</span> 
+<span class='line'> 12</span> </span><span class="COMM">/**
+<span class='line'> 13</span>  * A constant value for map type: roadmap
+<span class='line'> 14</span>  *
+<span class='line'> 15</span>  * @type String
+<span class='line'> 16</span>  */</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="NAME">M.MAP_ROADMAP</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'ROADMAP'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 18</span> 
+<span class='line'> 19</span> </span><span class="COMM">/**
+<span class='line'> 20</span>  * A constant value for map type: hybrid
+<span class='line'> 21</span>  *
+<span class='line'> 22</span>  * @type String
+<span class='line'> 23</span>  */</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="NAME">M.MAP_HYBRID</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'HYBRID'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span> </span><span class="COMM">/**
+<span class='line'> 27</span>  * A constant value for map type: satellite
+<span class='line'> 28</span>  *
+<span class='line'> 29</span>  * @type String
+<span class='line'> 30</span>  */</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="NAME">M.MAP_SATELLITE</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'SATELLITE'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span> </span><span class="COMM">/**
+<span class='line'> 34</span>  * A constant value for map type: terrain
+<span class='line'> 35</span>  *
+<span class='line'> 36</span>  * @type String
+<span class='line'> 37</span>  */</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="NAME">M.MAP_TERRAIN</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'TERRAIN'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 39</span> 
+<span class='line'> 40</span> </span><span class="COMM">/**
+<span class='line'> 41</span>  * A global reference to the first instances of M.MapView. We use this to have a accessible hook
+<span class='line'> 42</span>  * to the map we can pass to google as a callback object.
+<span class='line'> 43</span>  *
+<span class='line'> 44</span>  * @type Object
+<span class='line'> 45</span>  */</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="NAME">M.INITIAL_MAP</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> 
+<span class='line'> 48</span> </span><span class="COMM">/**
+<span class='line'> 49</span>  * @class
+<span class='line'> 50</span>  *
+<span class='line'> 51</span>  * M.MapView is the prototype of a map view. It defines a set of methods for
+<span class='line'> 52</span>  * displaying a map, setting markers and showing the current location. This
+<span class='line'> 53</span>  * map view is based on google maps, but other implementations are possible.
+<span class='line'> 54</span>  *
+<span class='line'> 55</span>  * @extends M.View
+<span class='line'> 56</span>  */</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="NAME">M.MapView</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">M.View.extend</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="COMM">/** @scope M.MapView.prototype */</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> 
+<span class='line'> 60</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 61</span>      * The type of this object.
+<span class='line'> 62</span>      *
+<span class='line'> 63</span>      * @type String
+<span class='line'> 64</span>      */</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">    </span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'M.MapView'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 66</span> 
+<span class='line'> 67</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 68</span>      * This property is used to save a reference to the actual google map. It
+<span class='line'> 69</span>      * is set automatically when the map is firstly initialized.
+<span class='line'> 70</span>      *
+<span class='line'> 71</span>      * @type Object
+<span class='line'> 72</span>      */</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">    </span><span class="NAME">map</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 74</span> 
+<span class='line'> 75</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 76</span>      * This property is used to store the map's M.MapMarkerViews. If a marker
+<span class='line'> 77</span>      * is set within the init() method or by calling the addMarker() method,
+<span class='line'> 78</span>      * it is automatically pushed into this array.
+<span class='line'> 79</span>      *
+<span class='line'> 80</span>      * @type Object
+<span class='line'> 81</span>      */</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">    </span><span class="NAME">markers</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 83</span> 
+<span class='line'> 84</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 85</span>      * Determines whether to display the map view 'inset' or at full width.
+<span class='line'> 86</span>      *
+<span class='line'> 87</span>      * @type Boolean
+<span class='line'> 88</span>      */</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">    </span><span class="NAME">isInset</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 90</span> 
+<span class='line'> 91</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'> 92</span>      * This property specifies the zoom level for this map view. It is directly
+<span class='line'> 93</span>      * mapped to the zoom property of a google map view. For further information
+<span class='line'> 94</span>      * see the google maps API specification:
+<span class='line'> 95</span>      *
+<span class='line'> 96</span>      *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+<span class='line'> 97</span>      *
+<span class='line'> 98</span>      * @type Number
+<span class='line'> 99</span>      */</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="WHIT">    </span><span class="NAME">zoomLevel</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">15</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>101</span> 
+<span class='line'>102</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>103</span>      * This property specifies the map type for this map view. It is directly
+<span class='line'>104</span>      * mapped to the 'mapTypeId' property of a google map view. Possible values
+<span class='line'>105</span>      * for this property are:
+<span class='line'>106</span>      *
+<span class='line'>107</span>      *   - M.MAP_ROADMAP --> This map type displays a normal street map.
+<span class='line'>108</span>      *   - M.MAP_HYBRID --> This map type displays a transparent layer of major streets on satellite images.
+<span class='line'>109</span>      *   - M.MAP_SATELLITE --> This map type displays satellite images.
+<span class='line'>110</span>      *   - M.MAP_TERRAIN --> This map type displays maps with physical features such as terrain and vegetation.
+<span class='line'>111</span>      *
+<span class='line'>112</span>      * For further information see the google maps API specification:
+<span class='line'>113</span>      *
+<span class='line'>114</span>      *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+<span class='line'>115</span>      *
+<span class='line'>116</span>      * @type String
+<span class='line'>117</span>      */</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">    </span><span class="NAME">mapType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">M.MAP_ROADMAP</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>119</span> 
+<span class='line'>120</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>121</span>      * This property specifies whether or not to display the map type controls
+<span class='line'>122</span>      * inside of this map view. For further information see the google maps API
+<span class='line'>123</span>      * specification:
+<span class='line'>124</span>      *
+<span class='line'>125</span>      *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+<span class='line'>126</span>      *
+<span class='line'>127</span>      * @type Boolean
+<span class='line'>128</span>      */</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">    </span><span class="NAME">showMapTypeControl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>130</span> 
+<span class='line'>131</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>132</span>      * This property specifies whether or not to display the navigation controls
+<span class='line'>133</span>      * inside of this map view. For further information see the google maps API
+<span class='line'>134</span>      * specification:
+<span class='line'>135</span>      *
+<span class='line'>136</span>      *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+<span class='line'>137</span>      *
+<span class='line'>138</span>      * @type Boolean
+<span class='line'>139</span>      */</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">    </span><span class="NAME">showNavigationControl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>141</span> 
+<span class='line'>142</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>143</span>      * This property specifies whether or not to display the street view controls
+<span class='line'>144</span>      * inside of this map view. For further information see the google maps API
+<span class='line'>145</span>      * specification:
+<span class='line'>146</span>      *
+<span class='line'>147</span>      *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+<span class='line'>148</span>      *
+<span class='line'>149</span>      * @type Boolean
+<span class='line'>150</span>      */</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">    </span><span class="NAME">showStreetViewControl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>152</span> 
+<span class='line'>153</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>154</span>      * This property specifies whether the map is draggable or not. If set to NO,
+<span class='line'>155</span>      * a user won't be able to move the map, respectively the visible sector. For
+<span class='line'>156</span>      * further information see the google maps API specification:
+<span class='line'>157</span>      *
+<span class='line'>158</span>      *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+<span class='line'>159</span>      *
+<span class='line'>160</span>      * @type Boolean
+<span class='line'>161</span>      */</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">    </span><span class="NAME">isDraggable</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>163</span> 
+<span class='line'>164</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>165</span>      * This property specifies the initial location for this map view, as an M.Location
+<span class='line'>166</span>      * object. Its latitude and longitude properties are directly mapped to the center
+<span class='line'>167</span>      * property of a google map view. For further information see the google maps API
+<span class='line'>168</span>      * specification:
+<span class='line'>169</span>      *
+<span class='line'>170</span>      *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+<span class='line'>171</span>      *
+<span class='line'>172</span>      * @type M.Location
+<span class='line'>173</span>      */</span><span class="WHIT">
+<span class='line'>174</span> 
+<span class='line'>175</span> </span><span class="WHIT">    </span><span class="NAME">initialLocation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">M.Location.extend</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">        </span><span class="NAME">latitude</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">48.813338</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">        </span><span class="NAME">longitude</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">9.178463</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>179</span> 
+<span class='line'>180</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>181</span>      * This property determines whether or not to show a marker at the map view's
+<span class='line'>182</span>      * initial location. This location can be specified by the initialLocation
+<span class='line'>183</span>      * property of this map view.
+<span class='line'>184</span>      *
+<span class='line'>185</span>      * @type Boolean
+<span class='line'>186</span>      */</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">    </span><span class="NAME">setMarkerAtInitialLocation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>188</span> 
+<span class='line'>189</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>190</span>      * This property can be used to specify the animation type for this map view's
+<span class='line'>191</span>      * markers. The following three values are possible:
+<span class='line'>192</span>      *
+<span class='line'>193</span>      *   M.MAP_MARKER_ANIMATION_NONE --> no animation
+<span class='line'>194</span>      *   M.MAP_MARKER_ANIMATION_DROP --> the marker drops onto the map
+<span class='line'>195</span>      *   M.MAP_MARKER_ANIMATION_BOUNCE --> the marker constantly bounces
+<span class='line'>196</span>      *
+<span class='line'>197</span>      * @type String
+<span class='line'>198</span>      */</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">    </span><span class="NAME">markerAnimationType</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">M.MAP_MARKER_ANIMATION_NONE</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>200</span> 
+<span class='line'>201</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>202</span>      * This property spacifies whether or not this map has already been initialized.
+<span class='line'>203</span>      *
+<span class='line'>204</span>      * @type Boolean
+<span class='line'>205</span>      */</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">    </span><span class="NAME">isInitialized</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>207</span> 
+<span class='line'>208</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>209</span>      * This property specifies whether or not to remove all existing markers on a
+<span class='line'>210</span>      * map update. A map update can either be an automatic update due to content
+<span class='line'>211</span>      * binding or a implicit call of the map view's updateMap() method.
+<span class='line'>212</span>      *
+<span class='line'>213</span>      * @type Boolean
+<span class='line'>214</span>      */</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">    </span><span class="NAME">removeMarkersOnUpdate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>216</span> 
+<span class='line'>217</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>218</span>      * If set, contains the map view's callback in sub a object named 'error',
+<span class='line'>219</span>      * which will be called if no connection is available and the map service
+<span class='line'>220</span>      * (google maps api) can not be loaded.
+<span class='line'>221</span>      *
+<span class='line'>222</span>      * @type Object
+<span class='line'>223</span>      */</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">    </span><span class="NAME">callbacks</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>225</span> 
+<span class='line'>226</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>227</span>      * This flag can be used to specify whether or not to load the google places
+<span class='line'>228</span>      * library. By default this property is set to YES. If you do not need the
+<span class='line'>229</span>      * library, you should set this to NO in order to save some bandwidth.
+<span class='line'>230</span>      *
+<span class='line'>231</span>      * @type Boolean
+<span class='line'>232</span>      */</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">    </span><span class="NAME">loadPlacesLibrary</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>234</span> 
+<span class='line'>235</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>236</span>      * This property specifies the recommended events for this type of view.
+<span class='line'>237</span>      *
+<span class='line'>238</span>      * @type Array
+<span class='line'>239</span>      */</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">    </span><span class="NAME">recommendedEvents</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">'click'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'tap'</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>241</span> 
+<span class='line'>242</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>243</span>      * Renders a map view, respectively a map view container.
+<span class='line'>244</span>      *
+<span class='line'>245</span>      * @private
+<span class='line'>246</span>      * @returns {String} The map view's html representation.
+<span class='line'>247</span>      */</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">    </span><span class="NAME">render</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">        </span><span class="NAME">this.html</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'&lt;div data-fullscreen="true" id="'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'"'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">        </span><span class="NAME">this.html</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">this.isInset</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">' class="ui-listview"'</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">        </span><span class="NAME">this.html</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'>&lt;div id="'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'_map"'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.style</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'>&lt;/div>&lt;/div>'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span> 
+<span class='line'>253</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.html</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>255</span> 
+<span class='line'>256</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>257</span>      * This method is called if the bound content changed. This content must be
+<span class='line'>258</span>      * an array of M.Location objects or M.MapMarkerView objects. This method
+<span class='line'>259</span>      * will take care of a re-rendering of the map view and all of its bound
+<span class='line'>260</span>      * markers.
+<span class='line'>261</span>      *
+<span class='line'>262</span>      * If M.Location objects are passed, the default settings for map markers
+<span class='line'>263</span>      * of this map view are assigned.
+<span class='line'>264</span>      *
+<span class='line'>265</span>      * Note that you can not use individual click events for your markers if
+<span class='line'>266</span>      * you pass M.Location objects.
+<span class='line'>267</span>      */</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">    </span><span class="NAME">renderUpdate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">        </span><span class="COMM">/* check if content binding is valid */</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">this.contentBinding</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.contentBinding.target</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">this.contentBinding.target</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.contentBinding.property</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">this.contentBinding.property</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'string'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.contentBinding.target</span><span class="PUNC">[</span><span class="NAME">this.contentBinding.property</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">            </span><span class="NAME">M.Logger.log</span><span class="PUNC">(</span><span class="STRN">'No valid content binding specified for M.MapView ('</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">')!'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">M.WARN</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>275</span> 
+<span class='line'>276</span> </span><span class="WHIT">        </span><span class="COMM">/* get the marker / location objects from content binding */</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.contentBinding.target</span><span class="PUNC">[</span><span class="NAME">this.contentBinding.property</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">markers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>279</span> 
+<span class='line'>280</span> </span><span class="WHIT">        </span><span class="COMM">/* save a reference to the map */</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span> 
+<span class='line'>283</span> </span><span class="WHIT">        </span><span class="COMM">/* if we got locations, transform to markers */</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'M.Location'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">            </span><span class="NAME">_.each</span><span class="PUNC">(</span><span class="NAME">content</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">location</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">location</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">location</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">location.type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'M.Location'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">                    </span><span class="NAME">markers.push</span><span class="PUNC">(</span><span class="NAME">M.MapMarkerView.init</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">                        </span><span class="NAME">location</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">location</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">                        </span><span class="NAME">map</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">                    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">        </span><span class="COMM">/* otherwise check and filter for map markers */</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'M.MapMarkerView'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="WHIT">            </span><span class="NAME">markers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_.select</span><span class="PUNC">(</span><span class="NAME">content</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">marker</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">marker.type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'M.MapMarkerView'</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>299</span> 
+<span class='line'>300</span> </span><span class="WHIT">        </span><span class="COMM">/* remove current markers */</span><span class="WHIT">
+<span class='line'>301</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.removeMarkersOnUpdate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">            </span><span class="NAME">this.removeAllMarkers</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>304</span> 
+<span class='line'>305</span> </span><span class="WHIT">        </span><span class="COMM">/* add all new markers */</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">        </span><span class="NAME">_.each</span><span class="PUNC">(</span><span class="NAME">markers</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">            </span><span class="NAME">that.addMarker</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>310</span> 
+<span class='line'>311</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>312</span>      * This method is responsible for registering events for view elements and its child views. It
+<span class='line'>313</span>      * basically passes the view's event-property to M.EventDispatcher to bind the appropriate
+<span class='line'>314</span>      * events.
+<span class='line'>315</span>      *
+<span class='line'>316</span>      * We use this to disable event registration for M.MapView, since we only use the 'events' property
+<span class='line'>317</span>      * for determining the handler for possible map markers of this map.
+<span class='line'>318</span>      */</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">    </span><span class="NAME">registerEvents</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>320</span> 
+<span class='line'>321</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>322</span> 
+<span class='line'>323</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>324</span>      * Applies some style-attributes to the map view.
+<span class='line'>325</span>      *
+<span class='line'>326</span>      * @private
+<span class='line'>327</span>      * @returns {String} The maps view's styling as html representation.
+<span class='line'>328</span>      */</span><span class="WHIT">
+<span class='line'>329</span> </span><span class="WHIT">    </span><span class="NAME">style</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">html</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.cssClass</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">            </span><span class="NAME">html</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">' class="'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.cssClass</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'"'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">html</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>335</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>336</span> 
+<span class='line'>337</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>338</span>      * This method is used to initialize a map view, typically out of a controller.
+<span class='line'>339</span>      * With its options parameter you can set or update almost every parameter of
+<span class='line'>340</span>      * a map view. This allows you to define a map view within your view, but then
+<span class='line'>341</span>      * update its parameters later when you want this view to display a map.
+<span class='line'>342</span>      *
+<span class='line'>343</span>      * The options parameter must be passed as a simple object, containing all of
+<span class='line'>344</span>      * the M.MapView's properties you want to be updated. Such an options object
+<span class='line'>345</span>      * could look like the following:
+<span class='line'>346</span>      *
+<span class='line'>347</span>      *   {
+<span class='line'>348</span>      *     zoomLevel: 12,
+<span class='line'>349</span>      *     mapType: M.MAP_HYBRID,
+<span class='line'>350</span>      *     initialLocation: location
+<span class='line'>351</span>      *   }
+<span class='line'>352</span>      *
+<span class='line'>353</span>      * While all properties of the options parameter can be given as Number, String
+<span class='line'>354</span>      * or a constant value, the location must be a valid M.Location object.
+<span class='line'>355</span>      *
+<span class='line'>356</span>      * Once the google api is initialized, the success callback specified with the
+<span class='line'>357</span>      * options parameter is called. If an error occurs (e.g. no network connection),
+<span class='line'>358</span>      * the error callback is called instead. They can be specified like the
+<span class='line'>359</span>      * following:
+<span class='line'>360</span>      *
+<span class='line'>361</span>      *   {
+<span class='line'>362</span>      *     callbacks: {
+<span class='line'>363</span>      *       success: {
+<span class='line'>364</span>      *         target: this,
+<span class='line'>365</span>      *         action: function() {
+<span class='line'>366</span>      *           // success callback
+<span class='line'>367</span>      *         }
+<span class='line'>368</span>      *       },
+<span class='line'>369</span>      *       error: {
+<span class='line'>370</span>      *         target: this,
+<span class='line'>371</span>      *         action: function() {
+<span class='line'>372</span>      *           // error callback
+<span class='line'>373</span>      *         }
+<span class='line'>374</span>      *       }
+<span class='line'>375</span>      *     }
+<span class='line'>376</span>      *   }
+<span class='line'>377</span>      *   
+<span class='line'>378</span>      * @param {Object} options The options for the map view.
+<span class='line'>379</span>      * @param {Boolean} isUpdate Indicates whether this is an update call or not.
+<span class='line'>380</span>      */</span><span class="WHIT">
+<span class='line'>381</span> </span><span class="WHIT">    </span><span class="NAME">initMap</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">isUpdate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>382</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.isInitialized</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">isUpdate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>383</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">isUpdate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>384</span> </span><span class="WHIT">                </span><span class="NAME">this.markers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>386</span> 
+<span class='line'>387</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">google</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'undefined'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>388</span> </span><span class="WHIT">                </span><span class="COMM">/* store the passed params and this map globally for further use */</span><span class="WHIT">
+<span class='line'>389</span> </span><span class="WHIT">                </span><span class="NAME">M.INITIAL_MAP</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="WHIT">                    </span><span class="NAME">map</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>391</span> </span><span class="WHIT">                    </span><span class="NAME">options</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>392</span> </span><span class="WHIT">                    </span><span class="NAME">isUpdate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">isUpdate</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>394</span> 
+<span class='line'>395</span> </span><span class="WHIT">                </span><span class="COMM">/* check the connection status */</span><span class="WHIT">
+<span class='line'>396</span> </span><span class="WHIT">                </span><span class="NAME">M.Environment.getConnectionStatus</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">                    </span><span class="NAME">target</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">                    </span><span class="NAME">action</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">'didRetrieveConnectionStatus'</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">                </span><span class="NAME">this.googleDidLoad</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">isUpdate</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">            </span><span class="NAME">M.Logger.log</span><span class="PUNC">(</span><span class="STRN">'The M.MapView has already been initialized'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">M.WARN</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>406</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>407</span> 
+<span class='line'>408</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>409</span>      * This method is used internally to retrieve the connection status. If there is a connection
+<span class='line'>410</span>      * available, we will include the google maps api.
+<span class='line'>411</span>      *
+<span class='line'>412</span>      * @private
+<span class='line'>413</span>      */</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">    </span><span class="NAME">didRetrieveConnectionStatus</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">connectionStatus</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">connectionStatus</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">M.ONLINE</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>416</span> </span><span class="WHIT">            </span><span class="NAME">$.getScript</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">                </span><span class="STRN">'http://maps.google.com/maps/api/js?'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.loadPlacesLibrary</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">'libraries=places&'</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'sensor=true&callback=M.INITIAL_MAP.map.googleDidLoad'</span><span class="WHIT">
+<span class='line'>418</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>419</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>420</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">M.INITIAL_MAP.options</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">M.INITIAL_MAP.options.callbacks</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>421</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">M.EventDispatcher.checkHandler</span><span class="PUNC">(</span><span class="NAME">callback.error</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>422</span> </span><span class="WHIT">                </span><span class="NAME">this.bindToCaller</span><span class="PUNC">(</span><span class="NAME">callback.error.target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">callback.error.action</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>423</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>424</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>425</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>426</span> 
+<span class='line'>427</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>428</span>      * This method is used internally to initialite the map if the google api hasn't been loaded
+<span class='line'>429</span>      * before. If so, we use this method as callback for google.
+<span class='line'>430</span>      *
+<span class='line'>431</span>      * @private
+<span class='line'>432</span>      */</span><span class="WHIT">
+<span class='line'>433</span> </span><span class="WHIT">    </span><span class="NAME">googleDidLoad</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">isUpdate</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">isInternalCall</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>434</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">isInternalCall</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>435</span> </span><span class="WHIT">            </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">M.INITIAL_MAP.options</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="WHIT">            </span><span class="NAME">isUpdate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">M.INITIAL_MAP.isUpdate</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>438</span> 
+<span class='line'>439</span> </span><span class="WHIT">        </span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>440</span> </span><span class="WHIT">             </span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>441</span> </span><span class="WHIT">                 </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'zoomLevel'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="WHIT">                    </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'number'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">22</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NUMB">22</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="WHIT">                    </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>444</span> </span><span class="WHIT">                 </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'mapType'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>445</span> </span><span class="WHIT">                    </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">M.MAP_ROADMAP</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">M.MAP_HYBRID</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">M.MAP_SATELLITE</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">M.MAP_TERRAIN</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>446</span> </span><span class="WHIT">                    </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>447</span> </span><span class="WHIT">                 </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'markerAnimationType'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">                    </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">M.MAP_MARKER_ANIMATION_BOUNCE</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">M.MAP_MARKER_ANIMATION_DROP</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>449</span> </span><span class="WHIT">                    </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>450</span> </span><span class="WHIT">                 </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'showMapTypeControl'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">                 </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'showNavigationControl'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>452</span> </span><span class="WHIT">                 </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'showStreetViewControl'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>453</span> </span><span class="WHIT">                 </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'isDraggable'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="WHIT">                 </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'setMarkerAtInitialLocation'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>455</span> </span><span class="WHIT">                 </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'removeMarkersOnUpdate'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>456</span> </span><span class="WHIT">                    </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'boolean'</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>457</span> </span><span class="WHIT">                    </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="WHIT">                 </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'initialLocation'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>459</span> </span><span class="WHIT">                    </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'M.Location'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>460</span> </span><span class="WHIT">                    </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>461</span> </span><span class="WHIT">                 </span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'callbacks'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>462</span> </span><span class="WHIT">                    </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">options</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>463</span> </span><span class="WHIT">                    </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>464</span> </span><span class="WHIT">                 </span><span class="KEYW">default</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>465</span> </span><span class="WHIT">                    </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>466</span> </span><span class="WHIT">             </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>467</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">isUpdate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>469</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.removeMarkersOnUpdate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>470</span> </span><span class="WHIT">                </span><span class="NAME">this.removeAllMarkers</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="WHIT">            </span><span class="NAME">this.map.setOptions</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="WHIT">                </span><span class="NAME">zoom</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.zoomLevel</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="WHIT">                </span><span class="NAME">center</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">google.maps.LatLng</span><span class="PUNC">(</span><span class="NAME">this.initialLocation.latitude</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.initialLocation.longitude</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>475</span> </span><span class="WHIT">                </span><span class="NAME">mapTypeId</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">google.maps.MapTypeId</span><span class="PUNC">[</span><span class="NAME">this.mapType</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>476</span> </span><span class="WHIT">                </span><span class="NAME">mapTypeControl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.showMapTypeControl</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>477</span> </span><span class="WHIT">                </span><span class="NAME">navigationControl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.showNavigationControl</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>478</span> </span><span class="WHIT">                </span><span class="NAME">streetViewControl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.showStreetViewControl</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>479</span> </span><span class="WHIT">                </span><span class="NAME">draggable</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.isDraggable</span><span class="WHIT">
+<span class='line'>480</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>481</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>482</span> </span><span class="WHIT">            </span><span class="NAME">this.map</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">google.maps.Map</span><span class="PUNC">(</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">this.id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'_map'</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="WHIT">                </span><span class="NAME">zoom</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.zoomLevel</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">                </span><span class="NAME">center</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">google.maps.LatLng</span><span class="PUNC">(</span><span class="NAME">this.initialLocation.latitude</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.initialLocation.longitude</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>485</span> </span><span class="WHIT">                </span><span class="NAME">mapTypeId</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">google.maps.MapTypeId</span><span class="PUNC">[</span><span class="NAME">this.mapType</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>486</span> </span><span class="WHIT">                </span><span class="NAME">mapTypeControl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.showMapTypeControl</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>487</span> </span><span class="WHIT">                </span><span class="NAME">navigationControl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.showNavigationControl</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>488</span> </span><span class="WHIT">                </span><span class="NAME">streetViewControl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.showStreetViewControl</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>489</span> </span><span class="WHIT">                </span><span class="NAME">draggable</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.isDraggable</span><span class="WHIT">
+<span class='line'>490</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>491</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>492</span> 
+<span class='line'>493</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">this.setMarkerAtInitialLocation</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>494</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="WHIT">            </span><span class="NAME">this.addMarker</span><span class="PUNC">(</span><span class="NAME">M.MapMarkerView.init</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>496</span> </span><span class="WHIT">                </span><span class="NAME">location</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">this.initialLocation</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>497</span> </span><span class="WHIT">                </span><span class="NAME">map</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">that.map</span><span class="WHIT">
+<span class='line'>498</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>499</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>500</span> 
+<span class='line'>501</span> </span><span class="WHIT">        </span><span class="NAME">this.isInitialized</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>502</span> 
+<span class='line'>503</span> </span><span class="WHIT">        </span><span class="COMM">/* now call callback of "the outside world" */</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">isUpdate</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.callbacks.success</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">M.EventDispatcher.checkHandler</span><span class="PUNC">(</span><span class="NAME">this.callbacks.success</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">            </span><span class="NAME">this.bindToCaller</span><span class="PUNC">(</span><span class="NAME">this.callbacks.success.target</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.callbacks.success.action</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>507</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>508</span> 
+<span class='line'>509</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>510</span>      * This method is used to update a map view, typically out of a controller.
+<span class='line'>511</span>      * With its options parameter you can update or update almost every parameter
+<span class='line'>512</span>      * of a map view. This allows you to define a map view within your view, but
+<span class='line'>513</span>      * then update its parameters later when you want this view to display a map
+<span class='line'>514</span>      * and to update those options over and over again for this map. 
+<span class='line'>515</span>      *
+<span class='line'>516</span>      * The options parameter must be passed as a simple object, containing all of
+<span class='line'>517</span>      * the M.MapView's properties you want to be updated. Such an options object
+<span class='line'>518</span>      * could look like the following:
+<span class='line'>519</span>      *
+<span class='line'>520</span>      *   {
+<span class='line'>521</span>      *     zoomLevel: 12,
+<span class='line'>522</span>      *     mapType: M.MAP_HYBRID,
+<span class='line'>523</span>      *     initialLocation: location
+<span class='line'>524</span>      *   }
+<span class='line'>525</span>      *
+<span class='line'>526</span>      * While all properties of the options parameter can be given as Number, String
+<span class='line'>527</span>      * or a constant value, the location must be a valid M.Location object.
+<span class='line'>528</span>      *
+<span class='line'>529</span>      * @param {Object} options The options for the map view.
+<span class='line'>530</span>      */</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="WHIT">    </span><span class="NAME">updateMap</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>532</span> </span><span class="WHIT">        </span><span class="NAME">this.initMap</span><span class="PUNC">(</span><span class="NAME">options</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>533</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>534</span> 
+<span class='line'>535</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>536</span>      * This method can be used to add a marker to the map view. Simply pass a
+<span class='line'>537</span>      * valid M.MapMarkerView object and a map marker is created automatically,
+<span class='line'>538</span>      * displayed on the map and added to this map view's markers property.
+<span class='line'>539</span>      *
+<span class='line'>540</span>      * @param {M.MapMarkerView} marker The marker to be added.
+<span class='line'>541</span>      */</span><span class="WHIT">
+<span class='line'>542</span> </span><span class="WHIT">    </span><span class="NAME">addMarker</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>543</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">marker.type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'M.MapMarkerView'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>544</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>545</span> </span><span class="WHIT">            </span><span class="NAME">marker.marker</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">google.maps.Marker</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>546</span> </span><span class="WHIT">                </span><span class="NAME">map</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">that.map</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>547</span> </span><span class="WHIT">                </span><span class="NAME">draggable</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>548</span> </span><span class="WHIT">                </span><span class="NAME">animation</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">google.maps.Animation</span><span class="PUNC">[</span><span class="NAME">marker.markerAnimationType</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">marker.markerAnimationType</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">that.markerAnimationType</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>549</span> </span><span class="WHIT">                </span><span class="NAME">position</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">google.maps.LatLng</span><span class="PUNC">(</span><span class="NAME">marker.location.latitude</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">marker.location.longitude</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>550</span> </span><span class="WHIT">                </span><span class="NAME">icon</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">marker.icon</span><span class="WHIT">
+<span class='line'>551</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>552</span> </span><span class="WHIT">            </span><span class="NAME">marker.registerEvents</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>553</span> </span><span class="WHIT">            </span><span class="NAME">this.markers.push</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>554</span> </span><span class="WHIT">                </span><span class="NAME">marker</span><span class="WHIT">
+<span class='line'>555</span> </span><span class="WHIT">            </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>556</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>557</span> </span><span class="WHIT">            </span><span class="NAME">M.Logger.log</span><span class="PUNC">(</span><span class="STRN">'No valid M.MapMarkerView passed for addMarker().'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">M.WARN</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>558</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>559</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>560</span> 
+<span class='line'>561</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>562</span>      * This method can be used to remove a certain marker from the map view. In
+<span class='line'>563</span>      * order to do this, you need to pass the M.MapMarkerView object that you
+<span class='line'>564</span>      * want to be removed from the map view.
+<span class='line'>565</span>      *
+<span class='line'>566</span>      * @param {M.MapMarkerView} marker The marker to be removed.
+<span class='line'>567</span>      */</span><span class="WHIT">
+<span class='line'>568</span> </span><span class="WHIT">    </span><span class="NAME">removeMarker</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>569</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">marker.type</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">'M.MapMarkerView'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>570</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">didRemoveMarker</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">NO</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>571</span> </span><span class="WHIT">            </span><span class="NAME">this.markers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_.select</span><span class="PUNC">(</span><span class="NAME">this.markers</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">m</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>572</span> </span><span class="WHIT">                </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">m</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>573</span> </span><span class="WHIT">                    </span><span class="NAME">m.marker.setMap</span><span class="PUNC">(</span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>574</span> </span><span class="WHIT">                    </span><span class="NAME">didRemoveMarker</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">YES</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>575</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>576</span> </span><span class="WHIT">                </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">m</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>577</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>578</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">didRemoveMarker</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>579</span> </span><span class="WHIT">                </span><span class="NAME">M.Logger.log</span><span class="PUNC">(</span><span class="STRN">'No marker found matching the passed marker in removeMarker().'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">M.WARN</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">    </span><span class="WHIT">
+<span class='line'>580</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>581</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>582</span> </span><span class="WHIT">            </span><span class="NAME">M.Logger.log</span><span class="PUNC">(</span><span class="STRN">'No valid M.MapMarkerView passed for removeMarker().'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">M.WARN</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>583</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>584</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>585</span> 
+<span class='line'>586</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>587</span>      * This method removes all markers from this map view. It both cleans up the
+<span class='line'>588</span>      * markers array and deletes the marker's visual representation from the map
+<span class='line'>589</span>      * view.
+<span class='line'>590</span>      */</span><span class="WHIT">
+<span class='line'>591</span> </span><span class="WHIT">    </span><span class="NAME">removeAllMarkers</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>592</span> </span><span class="WHIT">        </span><span class="NAME">_.each</span><span class="PUNC">(</span><span class="NAME">this.markers</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">marker</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>593</span> </span><span class="WHIT">            </span><span class="NAME">marker.marker.setMap</span><span class="PUNC">(</span><span class="KEYW">null</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>594</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>595</span> </span><span class="WHIT">        </span><span class="NAME">this.markers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>596</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>597</span> 
+<span class='line'>598</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

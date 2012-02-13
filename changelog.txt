@@ -1,4 +1,85 @@
-** Version 0.7pre - Date 09.09.2011 **
+** Version 1.1 - Date 13.02.2012 **
+
+  * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
+  * Fixed isAsync and isJSON flags in M.Request
+  * Fixed tap/click issue with google maps on iOS
+  * Fixed a bug with event dispatching and hyperlinks for buttons/labels
+  * Fixed themeUpdate() of M.SelectionListView and with single selection dialog mode (no more js errors with empty content binding)
+  * Fixed issue with having multiple toolbars when "outsourcing" them into a seperate file
+  * Fixed issue with hard coded view id in table view (thx to jianliao)
+  * Added parentView property to any view that is rendered within renderChildViews
+  * Updated D8 library to 0.1.5
+  * Clear the validation status before validate it again (thx to jianliao)
+  * Added events property to M.ListView that gets applied to all items if the template does not specify events too
+  * Added swipe button feature to M.ListView / M.ListItemView
+  * Added hasAsteriskOnLabel property to M.TextFieldView (thx to jianliao)
+
+** Version 1.0 - Date 25.01.2012 **
+
+  * Do not trigger success callback when isUpdate within M.MapView's init()
+  * Added icon property to M.MapMarkerView
+  * Fixed initialText property of M.TextFieldView with input-type password (thx to amenon)
+  * Improved debugging of M.Toolbar, regarding the anchorLocation property of the child views (thx to greylurk)
+  * Fixed a bug in local storage provider (thx to amenon)
+  * Updated Underscore to v1.3.1
+  * Updated D8 library to 0.1.3
+  * Fixed a bug with native date picker and M.TextFieldView (update value on lostFocus event)
+  * Content binding now can handle 0 as number since we now check for undefined & null
+  * M.LocationManager's getAddressByLocation() now can return the address as an components object instead of fixed string
+  * Fixed the "overlapping" problem of M.ListView if used in between other views
+  * Fixed the problem of too long values in the center position of a toolbar
+
+** Version 1.0 RC1 - Date 17.01.2012 **
+
+  * Fixed a bug with sendNoCacheHeader property of M.Request
+  * I18N not sets language to default language if the desired one is not available
+  * Fixed a bug in M.Request concerning the internal callbacks
+  * Added M.DataConsumer as a special data provider that only works as a source and in combination with the model's find()
+  * Fixed a bug with textfields (date input), computed value and the datepicker
+  * Updated Underscore to v1.3
+  * Updated mobiscroll to 1.5.3
+  * Fixed a bug with M.ScrollView and the clear button
+  * Added disable()/enable() and clearValue() to M.SearchBarView
+  * Added cssClass property to M.ListView
+  * Added special behaviour for M.ButtonView inside of an M.ToggleView
+  * Model: changed m_id from number to unique string (4 digits each can be one of 32 chars)
+  * Model: deleted bulkImport method
+  * Renamed getRecordForId() to getRecordById() (in M.RecordManager), the latter one is deprecated now
+  * Deleted M.ModelRegistry
+  * Deleted M.DataProviderCouchDB
+  * Deleted M.DataProviderWebSQL
+  * Method find() in DataProviderLocalStorage now takes an object for query
+  * Added "include" operator (for strings) for LS find query
+  * Changed version to 1.0RC1
+
+
+** Version 0.8 - Date 05.12.2011 **
+
+  * Fixed a typo bug in M.Request
+  * Added M.CanvasView
+  * Added numberOfChars property to M.TextField (equivalent to HTML's maxlength property)
+  * Fixed a UTF8 bug in M.ListView
+  * Added M.TextFieldView to supported views within a list item view.
+  * Removed deprecated useTransitions property of M.Application (use getConfig() instead)
+  * Fixed a bug with the switchToPage() (make use of the fourth parameter: updateHistory)
+  * Added all the date-types as possible values for inputType for M.TextFieldView
+  * Added M.SliderView (based on input type range and jqm)
+  * Reposition dialogs on orientation change
+  * Added queue to dialogs to only show one at a time
+  * Added the M.MULTIPLE_SELECTION_DIALOG mode to M.SelectionListView
+  * Added 4-column layout to M.GridView
+  * Updated Underscore to v1.2.2
+  * Updated mobiscroll to v1.5.2
+  * Added a custom Modernizr configuration to M.Environment for detecting HTML5 input types
+  * Added M.DatePickerView as fallback to date input types for M.TextFieldView
+  * Added callbacks to initMap()
+  * Added disable() / enable() to M.SelectionListView
+  * Added M.TableView (first, simple version)
+  * Refactored M.Request to use the callbacks property
+  * Added sendNoCacheHeader and sendTimestamp properties to M.Request
+  * Changed version to 0.8
+
+** Version 0.7 - Date 18.10.2011 **
 
   * Added D8 as the next generation date object in JavaScript (M.Date remains, but will no longer be maintained)
   * Fixed a bug in M.LocationManager
@@ -16,10 +97,14 @@
   * Fixed a bug in the form view's getFormValues()
   * Added check and error message to M.ListView if there is a invalid template
   * Updated Underscore to v1.1.7
-  * Updated JQM to 1.0b3
+  * Updated JQM to 1.0RC1
   * Added 'enableTouchOverflow' and 'useTransitions' properties to the config.json's application section
-  * Updated jQuery to 1.6.3
+  * Updated jQuery to 1.6.4
   * Added cssClass property support to M.DashboardView
+  * Fixed a bug in email validator
+  * Fixed some stuff in M.SelectionListView and extended support for boolean/numerical values when using content binding
+  * Finalized v0.7
+  * Refactored getLocation() to work with callbacks in all cases instead of returning boolean value
 
 ** Version 0.6 - Date 21.07.2011 **
 

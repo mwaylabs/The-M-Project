@@ -137,8 +137,9 @@ M.DashboardView = M.View.extend(
             var values = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + 'dashboard');
             values = values ? JSON.parse(values) : null;
 
+            /* get the items (if there is something in the LS and it fits the content bound values, use them) */
             this.items = [];
-            var items = values ? this.sortItemsByValues(this.value, values) : this.value;
+            var items = (values && this.value && values.length == this.value.length) ? this.sortItemsByValues(this.value, values) : this.value;
             var html = '';
 
             /* lets gather the html together */

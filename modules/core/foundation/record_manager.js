@@ -79,23 +79,32 @@ M.RecordManager = M.Object.extend(
             M.Logger.log('No id given.', M.WARN);
             return;
         }
-        if(typeof(m_id) === 'string') {
-            m_id = parseInt(m_id);
-        }
-        rec = this.getRecordForId(m_id);
+
+        var rec = this.getRecordById(m_id);
 
         if(rec) {
             this.records = _.select(this.records, function(r){
                 return r.m_id !== rec.m_id;
             });
         }
+
+        delete rec;
+    },
+
+    /**
+    * Returns a record from the record array identified by the interal model id.
+    * @param {Number} m_id The internal model id of the model record.
+    * @deprecated
+    */
+    getRecordForId: function(m_id) {
+        return this.getRecordById(m_id);
     },
 
     /**
      * Returns a record from the record array identified by the interal model id.
      * @param {Number} m_id The internal model id of the model record.
      */
-    getRecordForId: function(m_id) {
+    getRecordById: function(m_id) {
         var record = _.detect(this.records, function(r){
             return r.m_id === m_id;
         });

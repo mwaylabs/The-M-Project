@@ -18,14 +18,7 @@ M.STATE_VALID = 'state_valid';
 M.STATE_INVALID = 'state_invalid';
 M.STATE_DELETED = 'state_deleted';
 
-m_require('core/foundation/model_registry.js');
-
-/*
-    TODO: make model customizable regarding performance killing features. means configurable activation of certain features:
-    - validation
-    - model references
-    - maybe also: automatic date transformation
- */
+m_require('core/utility/logger.js');
 
 /**
  * @class
@@ -55,10 +48,9 @@ M.Model = M.Object.extend(
     /**
      * Unique identifier for the model record.
      *
-     * Note: Unique doesn't mean that this m_id is a global unique ID, it is just unique
-     * for records of this type of model.
+     * It's as unique as it needs to be: four digits, each digits can be one of 32 chars
      *
-     * @type Number
+     * @type String
      */
     m_id: null,
 
@@ -94,14 +86,17 @@ M.Model = M.Object.extend(
      */
     state: M.STATE_UNDEFINED,
 
-
+    /**
+     *
+     * @type String
+     */
     state_remote: M.STATE_UNDEFINED,
 
     /**
      * determines whether model shall be validated before saving to storage or not.
      * @type Boolean
      */
-    usesValidation: YES,
+    usesValidation: NO,
 
     /**
      * The model's data provider. A data provider persists the model to a certain storage.
@@ -109,6 +104,10 @@ M.Model = M.Object.extend(
      * @type Object
      */
     dataProvider: null,
+
+    getUniqueId: function() {
+        return M.UniqueId.uuid(4);
+    },
 
     /**
      * Creates a new record of the model, means an instance of the model based on the blueprint.
@@ -121,7 +120,7 @@ M.Model = M.Object.extend(
     createRecord: function(obj) {
 
         var rec = this.extend({
-            m_id: obj.m_id ? obj.m_id : M.ModelRegistry.getNextId(this.name),
+            m_id: obj.m_id ? obj.m_id : this.getUniqueId(),
             record: obj /* properties that are added to record here, but are not part of __meta, are deleted later (see below) */
         });
         delete obj.m_id;
@@ -130,18 +129,19 @@ M.Model = M.Object.extend(
 
         /* set timestamps if new */
         if(rec.state === M.STATE_NEW) {
-            rec.record[M.META_CREATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
-            rec.record[M.META_UPDATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+            rec.record[M.META_CREATED_AT] = +new Date();
+            rec.record[M.META_UPDATED_AT] = +new Date();
         }
 
         for(var i in rec.record) {
 
-            if(i === 'ID' || i === M.META_CREATED_AT || i === M.META_UPDATED_AT) {
+            if(i === M.META_CREATED_AT || i === M.META_UPDATED_AT) {
                 continue;
             }
 
             /* if record contains properties that are not part of __meta (means that are not defined in the model blueprint) delete them */
             if(!rec.__meta.hasOwnProperty(i)) {
+                M.Logger.log('Deleting "' + i + '" property. It\'s not part of ' + this.name + ' definition.', M.WARN);
                 delete rec.record[i];
                 continue;
             }
@@ -175,7 +175,7 @@ M.Model = M.Object.extend(
             name: obj.__name__,
             dataProvider: dp,
             recordManager: {},
-            usesValidation: obj.usesValidation === null || obj.usesValidation === undefined ? this.usesValidation : obj.usesValidation
+            usesValidation: obj.usesValidation ? obj.usesValidation : this.usesValidation
         });
         delete obj.__name__;
         delete obj.usesValidation;
@@ -189,9 +189,6 @@ M.Model = M.Object.extend(
         }
 
         /* add ID, _createdAt and _modifiedAt properties in meta for timestamps  */
-        model.__meta['ID'] = this.attr('Integer', {
-            isRequired:NO
-        });
         model.__meta[M.META_CREATED_AT] = this.attr('String', { // could be 'Date', too
             isRequired:YES
         });
@@ -199,32 +196,11 @@ M.Model = M.Object.extend(
             isRequired:YES
         });
 
-        /* CouchDB documents have a rev property for managing versions*/
-        if(model.dataProvider.type === 'M.DataProviderCouchDb') {
-            model.__meta['rev'] = this.attr('String', {
-                isRequired:NO
-            });
-        }
-
         model.recordManager = M.RecordManager.extend({records:[]});
-
-        /* if dataprovider is WebSqlProvider, create table for this model and add ID ModelAttribute Object to __meta */
-        if(model.dataProvider.type === 'M.DataProviderWebSql') {
-            model.dataProvider.init({model: model, onError:function(err){M.Logger.log(err, M.ERR);}}, function() {});
-            model.dataProvider.isInitialized = YES;
-        }
-
-        M.ModelRegistry.register(model.name);
 
         /* save model in modelList with model name as key */
         this.modelList[model.name] = model;
 
-        /* Re-set the just registered model's id, if there is a value stored */
-        /* Model Registry stores the current id of a model type into localStorage */
-        var m_id = localStorage.getItem(M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + model.name);
-        if(m_id) {
-            M.ModelRegistry.setId(model.name, parseInt(m_id));
-        }
         return model;
     },
 
@@ -305,7 +281,7 @@ M.Model = M.Object.extend(
                     }
                     return YES;
                 } else { // if force flag was not set, and object is not in memory and record manager load is not done and we return NO
-                    var r = this.recordManager.getRecordForId(recProp);
+                    var r = this.recordManager.getRecordById(recProp);
                     if(r) { /* if object is already loaded and in record manager don't access storage */
                         return r;
                     } else {
@@ -327,9 +303,6 @@ M.Model = M.Object.extend(
      * @param {String|Object} val the new value
      */
     set: function(propName, val) {
-
-        /* TODO: implement hasMany... */
-        /* TODO: evaluate whether to save m_id in record and entity reference in __meta or other way round */
         if(this.__meta[propName].dataType === 'Reference' && val.type && val.type === 'M.Model') {    // reference set
             /* first check if new value is passed */
             if(this.record[propName] !== val.m_id) {
@@ -344,7 +317,7 @@ M.Model = M.Object.extend(
             this.record[propName] = val;
             this.__meta[propName].isUpdated = YES;
             /* mark record as updated with new timestamp*/
-            this.record[M.META_UPDATED_AT] = M.Date.now().format('yyyy/mm/dd HH:MM:ss');
+            this.record[M.META_UPDATED_AT] = +new Date();
         }
     },
 
@@ -414,8 +387,7 @@ M.Model = M.Object.extend(
         }
         obj = obj ? obj : {};
         /* check if the record list shall be cleared (default) before new found model records are appended to the record list */
-        /* TODO: needs to be placed in callback */
-        obj['deleteRecordList'] = obj['deleteRecordList'] ? obj.deleteRecordList : YES;
+        obj.deleteRecordList = obj.deleteRecordList ? obj.deleteRecordList : YES;
         if(obj.deleteRecordList) {
             this.recordManager.removeAll();
         }
@@ -463,31 +435,6 @@ M.Model = M.Object.extend(
         }
     },
 
-
-    bulkImport: function(obj){
-        if(!this.dataProvider) {
-            M.Logger.log('No data provider given.', M.ERR);
-        }
-        if(this.dataProvider.type !== 'M.DataProviderWebSql') {
-            var err = M.Error.extend({
-
-            });
-
-            if (obj.onError && obj.onError.target && obj.onError.action) {
-                obj.onError = that.bindToCaller(obj.onError.target, obj.onError.target[obj.onError.action], err);
-                obj.onError();
-            } else if (typeof(obj.onError) === 'function') {
-                obj.onError(err);
-            } else {
-                M.Logger.log('Target and action in onError not defined.', M.ERR);
-            }
-            return NO;
-        }
-        obj = obj ? obj : {};
-        /* extends the given obj with self as model property in obj */
-        return this.dataProvider.bulkImport( $.extend(obj, {model: this}) );
-    },
-
     /**
      * Delete a record in storage.
      * @returns {Boolean} Indicating whether deletion was successful or not (only with synchronous data providers, e.g. LocalStorage). When asynchronous data providers
@@ -505,9 +452,8 @@ M.Model = M.Object.extend(
        var isDel = this.dataProvider.del($.extend(obj, {model: this}));
         if(isDel) {
             this.state = M.STATE_DELETED;
-            return YES
+            return YES;
         }
-
     },
 
     /**
@@ -532,7 +478,6 @@ M.Model = M.Object.extend(
         this.deepFind(records, callback);
     },
 
-    // TODO: handle onSuccess AND onError
     deepFind: function(records, callback) {
         //console.log('deepFind...');
         //console.log('### records.length: ' + records.length);
@@ -548,37 +493,16 @@ M.Model = M.Object.extend(
 
 
         switch(this.dataProvider.type) {
-
-            case 'M.DataProviderWebSql':
-                this.modelList[curRec.name].find({     // call find on to fetched model record object
-                    constraint: {
-                        statement: 'WHERE ' + M.META_M_ID + ' = ? ',
-                        parameters: [curRec.m_id] // length must match number of ? in statements
-                    },
-
-                    onSuccess: function(result) {
-                        that.setReference(result, that, curRec.prop, cb);
-                    },
-                    onError: function(err) {
-                        M.Logger.log('Error: ' + err, M.ERR);
-                    }
-                });
-
-                break;
-
             case 'M.DataProviderLocalStorage':
-
                 var ref = this.modelList[curRec.name].find({
                     key: curRec.m_id
                 });
-
                 this.__meta[curRec.prop].refEntity = ref;
 
                 this.deepFind(records, callback); // recursion
                 break;
 
             default:
-
                 break;
         }
     },
@@ -586,13 +510,6 @@ M.Model = M.Object.extend(
     setReference: function(result, that, prop, callback) {
         that.__meta[prop].refEntity = result[0];    // set reference in source model defined by that
         callback();
-    },
-
-    /**
-     * sync model with storage (only websql)
-     */
-    schemaSync: function() {
-
     }
 
 });

@@ -54,7 +54,7 @@ M.SelectionListItemView = M.View.extend(
      * @returns {String} The selection list item view's html representation.
      */
     render: function() {
-        if(this.parentView && this.parentView.selectionMode === M.SINGLE_SELECTION_DIALOG) {
+        if(this.parentView && (this.parentView.selectionMode === M.SINGLE_SELECTION_DIALOG || this.parentView.selectionMode === M.MULTIPLE_SELECTION_DIALOG)) {
             this.html += '<option id="' + this.id + '" value="' + this.value + '"';
 
             if((this.isSelected && typeof(this.isSelected) === 'boolean') || (this.isSelected === String(YES))) {
@@ -108,7 +108,7 @@ M.SelectionListItemView = M.View.extend(
      */
     theme: function() {
         if(this.parentView) {
-            if(this.parentView.selectionMode !== M.SINGLE_SELECTION_DIALOG) {
+            if(this.parentView.selectionMode !== M.SINGLE_SELECTION_DIALOG && this.parentView.selectionMode !== M.MULTIPLE_SELECTION_DIALOG) {
                 $('#' + this.id).checkboxradio();
             }
         }

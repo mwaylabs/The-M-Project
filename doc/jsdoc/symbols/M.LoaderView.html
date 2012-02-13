@@ -205,6 +205,8 @@ ul.inheritsList
 	
 	<li><a href="../symbols/M.ButtonView.html">M.ButtonView</a></li>
 	
+	<li><a href="../symbols/M.CanvasView.html">M.CanvasView</a></li>
+	
 	<li><a href="../symbols/M.ConfirmDialogView.html">M.ConfirmDialogView</a></li>
 	
 	<li><a href="../symbols/M.ContainerView.html">M.ContainerView</a></li>
@@ -213,11 +215,31 @@ ul.inheritsList
 	
 	<li><a href="../symbols/M.Cypher.html">M.Cypher</a></li>
 	
+	<li><a href="../symbols/M.DashboardItemView.html">M.DashboardItemView</a></li>
+	
+	<li><a href="../symbols/M.DashboardView.html">M.DashboardView</a></li>
+	
+	<li><a href="../symbols/M.DataConsumer.html">M.DataConsumer</a></li>
+	
 	<li><a href="../symbols/M.DataProvider.html">M.DataProvider</a></li>
+	
+	<li><a href="../symbols/M.DataProviderDummy.html">M.DataProviderDummy</a></li>
+	
+	<li><a href="../symbols/M.DataProviderHybrid.html">M.DataProviderHybrid</a></li>
+	
+	<li><a href="../symbols/M.DataProviderLocalStorage.html">M.DataProviderLocalStorage</a></li>
+	
+	<li><a href="../symbols/M.DataProviderRemoteStorage.html">M.DataProviderRemoteStorage</a></li>
 	
 	<li><a href="../symbols/M.Date.html">M.Date</a></li>
 	
+	<li><a href="../symbols/M.DatePickerView.html">M.DatePickerView</a></li>
+	
 	<li><a href="../symbols/M.DateValidator.html">M.DateValidator</a></li>
+	
+	<li><a href="../symbols/M.DeviceSwitch.html">M.DeviceSwitch</a></li>
+	
+	<li><a href="../symbols/M.DialogView.html">M.DialogView</a></li>
 	
 	<li><a href="../symbols/M.EmailValidator.html">M.EmailValidator</a></li>
 	
@@ -241,17 +263,21 @@ ul.inheritsList
 	
 	<li><a href="../symbols/M.LoaderView.html">M.LoaderView</a></li>
 	
-	<li><a href="../symbols/M.LocalStorageProvider.html">M.LocalStorageProvider</a></li>
+	<li><a href="../symbols/M.Location.html">M.Location</a></li>
+	
+	<li><a href="../symbols/M.LocationManager.html">M.LocationManager</a></li>
 	
 	<li><a href="../symbols/M.Logger.html">M.Logger</a></li>
+	
+	<li><a href="../symbols/M.MapMarkerView.html">M.MapMarkerView</a></li>
+	
+	<li><a href="../symbols/M.MapView.html">M.MapView</a></li>
 	
 	<li><a href="../symbols/M.Math.html">M.Math</a></li>
 	
 	<li><a href="../symbols/M.Model.html">M.Model</a></li>
 	
 	<li><a href="../symbols/M.ModelAttribute.html">M.ModelAttribute</a></li>
-	
-	<li><a href="../symbols/M.ModelRegistry.html">M.ModelRegistry</a></li>
 	
 	<li><a href="../symbols/M.NotMinusValidator.html">M.NotMinusValidator</a></li>
 	
@@ -269,8 +295,6 @@ ul.inheritsList
 	
 	<li><a href="../symbols/M.RecordManager.html">M.RecordManager</a></li>
 	
-	<li><a href="../symbols/M.RemoteStorageProvider.html">M.RemoteStorageProvider</a></li>
-	
 	<li><a href="../symbols/M.Request.html">M.Request</a></li>
 	
 	<li><a href="../symbols/M.ScrollView.html">M.ScrollView</a></li>
@@ -283,9 +307,15 @@ ul.inheritsList
 	
 	<li><a href="../symbols/M.SHA256.html">M.SHA256</a></li>
 	
+	<li><a href="../symbols/M.SliderView.html">M.SliderView</a></li>
+	
+	<li><a href="../symbols/M.StringBuilder.html">M.StringBuilder</a></li>
+	
 	<li><a href="../symbols/M.TabBarItemView.html">M.TabBarItemView</a></li>
 	
 	<li><a href="../symbols/M.TabBarView.html">M.TabBarView</a></li>
+	
+	<li><a href="../symbols/M.TableView.html">M.TableView</a></li>
 	
 	<li><a href="../symbols/M.TextFieldView.html">M.TextFieldView</a></li>
 	
@@ -300,8 +330,6 @@ ul.inheritsList
 	<li><a href="../symbols/M.View.html">M.View</a></li>
 	
 	<li><a href="../symbols/M.ViewManager.html">M.ViewManager</a></li>
-	
-	<li><a href="../symbols/M.WebSqlProvider.html">M.WebSqlProvider</a></li>
 	
 </ul>
 <hr />
@@ -325,7 +353,7 @@ ul.inheritsList
 				M.LoaderView is the prototype for a loader a.k.a. activity indicator. This very simpleview can be used to show the user that something is happening, e.g. while the applicationis waiting for a request to return some data.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/Documents_workspace_TheMProject_modules_ui_loader.js.html">loader.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/The-M-Project_modules_ui_loader.js.html">loader.js</a>.
 				
 			</p>
 
@@ -371,6 +399,36 @@ ul.inheritsList
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
+								<b><a href="../symbols/M.LoaderView.html#defaultTitle">defaultTitle</a></b>
+								</div>
+								<div class="description">This property can be used to specify the default title of a loader.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/M.LoaderView.html#isInitialized">isInitialized</a></b>
+								</div>
+								<div class="description">This property states whether the loader has already been initialized or not.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								<b><a href="../symbols/M.LoaderView.html#refCount">refCount</a></b>
+								</div>
+								<div class="description">This property counts the loader calls to show</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
 								<b><a href="../symbols/M.LoaderView.html#type">type</a></b>
 								</div>
 								<div class="description">The type of this object.</div>
@@ -383,7 +441,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Fields borrowed from class <a href="../symbols/M.View.html">M.View</a>: </dt><dd><a href="../symbols/M.View.html#childViews">childViews</a>, <a href="../symbols/M.View.html#contentBinding">contentBinding</a>, <a href="../symbols/M.View.html#cssClass">cssClass</a>, <a href="../symbols/M.View.html#cssClassOnError">cssClassOnError</a>, <a href="../symbols/M.View.html#cssClassOnInit">cssClassOnInit</a>, <a href="../symbols/M.View.html#cssStyle">cssStyle</a>, <a href="../symbols/M.View.html#hasFocus">hasFocus</a>, <a href="../symbols/M.View.html#html">html</a>, <a href="../symbols/M.View.html#id">id</a>, <a href="../symbols/M.View.html#isInline">isInline</a>, <a href="../symbols/M.View.html#isView">isView</a>, <a href="../symbols/M.View.html#modelId">modelId</a>, <a href="../symbols/M.View.html#parentView">parentView</a>, <a href="../symbols/M.View.html#triggerActionOnChange">triggerActionOnChange</a>, <a href="../symbols/M.View.html#triggerActionOnEnter">triggerActionOnEnter</a>, <a href="../symbols/M.View.html#triggerActionOnKeyUp">triggerActionOnKeyUp</a>, <a href="../symbols/M.View.html#value">value</a></dd>
+				<dt>Fields borrowed from class <a href="../symbols/M.View.html">M.View</a>: </dt><dd><a href="../symbols/M.View.html#childViews">childViews</a>, <a href="../symbols/M.View.html#computedValue">computedValue</a>, <a href="../symbols/M.View.html#contentBinding">contentBinding</a>, <a href="../symbols/M.View.html#contentBindingReverse">contentBindingReverse</a>, <a href="../symbols/M.View.html#cssClass">cssClass</a>, <a href="../symbols/M.View.html#cssClassOnError">cssClassOnError</a>, <a href="../symbols/M.View.html#cssClassOnInit">cssClassOnInit</a>, <a href="../symbols/M.View.html#cssStyle">cssStyle</a>, <a href="../symbols/M.View.html#events">events</a>, <a href="../symbols/M.View.html#hasFocus">hasFocus</a>, <a href="../symbols/M.View.html#html">html</a>, <a href="../symbols/M.View.html#id">id</a>, <a href="../symbols/M.View.html#isInline">isInline</a>, <a href="../symbols/M.View.html#isView">isView</a>, <a href="../symbols/M.View.html#modelId">modelId</a>, <a href="../symbols/M.View.html#parentView">parentView</a>, <a href="../symbols/M.View.html#recommendedEvents">recommendedEvents</a>, <a href="../symbols/M.View.html#triggerActionOnChange">triggerActionOnChange</a>, <a href="../symbols/M.View.html#triggerActionOnEnter">triggerActionOnEnter</a>, <a href="../symbols/M.View.html#triggerActionOnKeyUp">triggerActionOnKeyUp</a>, <a href="../symbols/M.View.html#value">value</a></dd>
 				</dl>
 				
 			
@@ -405,7 +463,16 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/M.LoaderView.html#hide">hide</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/M.LoaderView.html#changeTitle">changeTitle</a></b>(title)
+								</div>
+								<div class="description">This method changes the current title.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/M.LoaderView.html#hide">hide</a></b>(force)
 								</div>
 								<div class="description">This method hides the loader.</div>
 							</td>
@@ -414,9 +481,9 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/M.LoaderView.html#show">show</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/M.LoaderView.html#show">show</a></b>(title)
 								</div>
-								<div class="description">This method shows the loader.</div>
+								<div class="description">This method shows the default loader.</div>
 							</td>
 						</tr>
 					
@@ -426,7 +493,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/M.View.html">M.View</a>: </dt><dd><a href="../symbols/M.View.html#addCssClass">addCssClass</a>, <a href="../symbols/M.View.html#attachToObservable">attachToObservable</a>, <a href="../symbols/M.View.html#clearHtml">clearHtml</a>, <a href="../symbols/M.View.html#computeValue">computeValue</a>, <a href="../symbols/M.View.html#contentDidChange">contentDidChange</a>, <a href="../symbols/M.View.html#delegateValueUpdate">delegateValueUpdate</a>, <a href="../symbols/M.View.html#design">design</a>, <a href="../symbols/M.View.html#gotFocus">gotFocus</a>, <a href="../symbols/M.View.html#lostFocus">lostFocus</a>, <a href="../symbols/M.View.html#nl2br">nl2br</a>, <a href="../symbols/M.View.html#removeCssClass">removeCssClass</a>, <a href="../symbols/M.View.html#removeCssProperty">removeCssProperty</a>, <a href="../symbols/M.View.html#renderUpdate">renderUpdate</a>, <a href="../symbols/M.View.html#secure">secure</a>, <a href="../symbols/M.View.html#setCssProperty">setCssProperty</a>, <a href="../symbols/M.View.html#setValueFromDOM">setValueFromDOM</a>, <a href="../symbols/M.View.html#style">style</a>, <a href="../symbols/M.View.html#theme">theme</a>, <a href="../symbols/M.View.html#themeChildViews">themeChildViews</a></dd><dt>Methods borrowed from class <a href="../symbols/M.Object.html">M.Object</a>: </dt><dd><a href="../symbols/M.Object.html#bindToCaller">bindToCaller</a>, <a href="../symbols/M.Object.html#create">create</a>, <a href="../symbols/M.Object.html#destroy">destroy</a>, <a href="../symbols/M.Object.html#extend">extend</a>, <a href="../symbols/M.Object.html#get">get</a>, <a href="../symbols/M.Object.html#include">include</a>, <a href="../symbols/M.Object.html#set">set</a></dd>
+				<dt>Methods borrowed from class <a href="../symbols/M.View.html">M.View</a>: </dt><dd><a href="../symbols/M.View.html#addCssClass">addCssClass</a>, <a href="../symbols/M.View.html#attachToObservable">attachToObservable</a>, <a href="../symbols/M.View.html#clearHtml">clearHtml</a>, <a href="../symbols/M.View.html#clearValue">clearValue</a>, <a href="../symbols/M.View.html#clearValues">clearValues</a>, <a href="../symbols/M.View.html#computeValue">computeValue</a>, <a href="../symbols/M.View.html#contentDidChange">contentDidChange</a>, <a href="../symbols/M.View.html#delegateValueUpdate">delegateValueUpdate</a>, <a href="../symbols/M.View.html#design">design</a>, <a href="../symbols/M.View.html#getChildViewsAsArray">getChildViewsAsArray</a>, <a href="../symbols/M.View.html#getIds">getIds</a>, <a href="../symbols/M.View.html#getValue">getValue</a>, <a href="../symbols/M.View.html#getValues">getValues</a>, <a href="../symbols/M.View.html#gotFocus">gotFocus</a>, <a href="../symbols/M.View.html#lostFocus">lostFocus</a>, <a href="../symbols/M.View.html#nl2br">nl2br</a>, <a href="../symbols/M.View.html#registerEvents">registerEvents</a>, <a href="../symbols/M.View.html#removeCssClass">removeCssClass</a>, <a href="../symbols/M.View.html#removeCssProperty">removeCssProperty</a>, <a href="../symbols/M.View.html#renderUpdate">renderUpdate</a>, <a href="../symbols/M.View.html#secure">secure</a>, <a href="../symbols/M.View.html#setCssProperty">setCssProperty</a>, <a href="../symbols/M.View.html#setValueFromDOM">setValueFromDOM</a>, <a href="../symbols/M.View.html#style">style</a>, <a href="../symbols/M.View.html#tab2space">tab2space</a>, <a href="../symbols/M.View.html#theme">theme</a>, <a href="../symbols/M.View.html#themeChildViews">themeChildViews</a></dd><dt>Methods borrowed from class <a href="../symbols/M.Object.html">M.Object</a>: </dt><dd><a href="../symbols/M.Object.html#bindToCaller">bindToCaller</a>, <a href="../symbols/M.Object.html#create">create</a>, <a href="../symbols/M.Object.html#destroy">destroy</a>, <a href="../symbols/M.Object.html#extend">extend</a>, <a href="../symbols/M.Object.html#get">get</a>, <a href="../symbols/M.Object.html#include">include</a>, <a href="../symbols/M.Object.html#set">set</a></dd>
 				</dl>
 				
 			
@@ -469,6 +536,72 @@ ul.inheritsList
 					Field Detail
 				</div>
 				
+					<a name="defaultTitle"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{String}</span>
+					<b>defaultTitle</b>
+					
+					</div>
+					<div class="description">
+						This property can be used to specify the default title of a loader.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="isInitialized"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Boolean}</span>
+					<b>isInitialized</b>
+					
+					</div>
+					<div class="description">
+						This property states whether the loader has already been initialized or not.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="refCount"> </a>
+					<div class="fixedFont">
+					
+					<span class="light">{Number}</span>
+					<b>refCount</b>
+					
+					</div>
+					<div class="description">
+						This property counts the loader calls to show
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="type"> </a>
 					<div class="fixedFont">
 					
@@ -499,11 +632,47 @@ ul.inheritsList
 					Method Detail
 				</div>
 				
+					<a name="changeTitle"> </a>
+					<div class="fixedFont">
+					
+					
+					<b>changeTitle</b>(title)
+					
+					</div>
+					<div class="description">
+						This method changes the current title.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>title</b>
+									
+								</dt>
+								<dd>The title for this loader.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name="hide"> </a>
 					<div class="fixedFont">
 					
 					
-					<b>hide</b>()
+					<b>hide</b>(force)
 					
 					</div>
 					<div class="description">
@@ -514,6 +683,17 @@ ul.inheritsList
 					
 					
 					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Boolean}</span> <b>force</b>
+									
+								</dt>
+								<dd>Determines whether to force the hide of the loader.</dd>
+							
+							</dl>
 						
 						
 						
@@ -528,17 +708,28 @@ ul.inheritsList
 					<div class="fixedFont">
 					
 					
-					<b>show</b>()
+					<b>show</b>(title)
 					
 					</div>
 					<div class="description">
-						This method shows the loader.
+						This method shows the default loader. You can specify the displayed label with thetitle parameter.
 						
 						
 					</div>
 					
 					
 					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>title</b>
+									
+								</dt>
+								<dd>The title for this loader.</dd>
+							
+							</dl>
 						
 						
 						
@@ -561,7 +752,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Dec 08 2010 15:07:31 GMT+0100 (MEZ)
+			Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0 on Wed Jan 25 2012 20:41:10 GMT+0100 (MEZ)
 		</div>
 	</body>
 </html>

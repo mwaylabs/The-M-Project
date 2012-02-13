@@ -260,6 +260,7 @@ M.View = M.Object.extend(
             for(var i in childViews) {
                 if(this[childViews[i]]) {
                     this[childViews[i]]._name = childViews[i];
+                    this[childViews[i]].parentView = this;
                     this.html += this[childViews[i]].render();
                 } else {
                     this.childViews = this.childViews.replace(childViews[i], ' ');
@@ -488,7 +489,7 @@ M.View = M.Object.extend(
             }
         });
 
-        if(!value && value !== '') {
+        if(value === undefined || value === null) {
             M.Logger.log('The value assigned by content binding (property: \'' + contentBinding.property + '\') for ' + this.type + ' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ') is invalid!', M.WARN);
             return;
         }

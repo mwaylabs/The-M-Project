@@ -17,6 +17,9 @@ $(document).bind("mobileinit", function(){
 
     /* disable auto initialize */
     $.mobile.autoInitializePage = false;
+
+    /* disable touch overflow */
+    $.mobile.touchOverflowEnabled = false;
 });
 $(document).ready(function(){
     /* bind the orientationchange event globally */

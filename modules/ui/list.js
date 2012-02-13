@@ -120,6 +120,25 @@ M.ListView = M.View.extend(
     isInset: NO,
 
     /**
+     * Determines whether to add margin at the top of the list or not. This is useful whenever
+     * the list is not the first element within a page's content area to make sure the list does
+     * not overlap preceding elements.
+     *
+     * @type Boolean
+     */
+    doNotOverlapAtTop: NO,
+
+
+    /**
+     * Determines whether to add margin at the bottom of the list or not. This is useful whenever
+     * the list is not the last element within a page's content area to make sure the list does
+     * not overlap following elements.
+     *
+     * @type Boolean
+     */
+    doNotOverlapAtBottom: NO,
+
+    /**
      * The list view's search bar.
      *
      * @type Object
@@ -173,6 +192,14 @@ M.ListView = M.View.extend(
      * @type Object
      */
     selectedItem: null,
+
+    /**
+     * Contains a reference to the currently visible swipe delete button (if one exists).
+     *
+     * @type M.ButtonView
+     * @private
+     */
+    swipeButton: null,
 
     /**
      * This method renders the empty list view either as an ordered or as an unordered list. It also applies
@@ -283,6 +310,9 @@ M.ListView = M.View.extend(
             return;
         }
 
+        /* check if there is an events propety specified for the template or if we should use the list's events */
+        templateView.events = templateView.events ? templateView.events : this.events;
+
         /* If there is an items property, re-assign this to content, otherwise iterate through content itself */
         if(this.items) {
             content = content[this.items];
@@ -301,7 +331,7 @@ M.ListView = M.View.extend(
         this.themeUpdate();
 
         /* At last fix the toolbar */
-        $.fixedToolbars.show();
+        $.mobile.fixedToolbars.show();
     },
 
     /**
@@ -357,9 +387,9 @@ M.ListView = M.View.extend(
                 var regexResult = null;
                 if(obj[childViewsArray[i]].computedValue) {
                     /* This regex looks for a variable inside the template view (<%= ... %>) ... */
-                    regexResult = /^<%=\s+([.|_|-|$|�|a-zA-Z]+[0-9]*[.|_|-|$|�|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
+                    regexResult = /^<%=\s+([.|_|-|$|§|a-zA-Z]+[0-9]*[.|_|-|$|§|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].computedValue.valuePattern);
                 } else {
-                    regexResult = /^<%=\s+([.|_|-|$|�|a-zA-Z]+[0-9]*[.|_|-|$|�|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
+                    regexResult = /^<%=\s+([.|_|-|$|§|a-zA-Z]+[0-9]*[.|_|-|$|§|a-zA-Z]*)\s*%>$/.exec(obj[childViewsArray[i]].valuePattern);
                 }
 
                 /* ... if a match was found, the variable is replaced by the corresponding value inside the record */
@@ -368,6 +398,7 @@ M.ListView = M.View.extend(
                         case 'M.LabelView':
                         case 'M.ButtonView':
                         case 'M.ImageView':
+                        case 'M.TextFieldView':
                             obj[childViewsArray[i]].value = record[regexResult[1]];
                             break;
                     }
@@ -419,7 +450,6 @@ M.ListView = M.View.extend(
      * @private
      */
     theme: function() {
-        $('#' + this.id).listview();
         if(this.searchBar) {
             /* JQM-hack: remove multiple search bars */
             if($('#' + this.id) && $('#' + this.id).parent()) {
@@ -466,6 +496,12 @@ M.ListView = M.View.extend(
      * @param {String} listItemId The id of the list item to be set active.
      */
     setActiveListItem: function(listItemId, event, nextEvent) {
+        /* if there is a swipe button visible, do nothing but hide that button */
+        if(this.swipeButton) {
+            this.hideSwipeButton();
+            return;
+        }
+
         if(this.selectedItem) {
             this.selectedItem.removeCssClass('ui-btn-active');
         }
@@ -485,8 +521,6 @@ M.ListView = M.View.extend(
     /**
      * This method resets the list by applying the default css style to its currently activated
      * list item.
-     *
-     * @param {String} listItemId The id of the list item to be set active.
      */
     resetActiveListItem: function() {
         if(this.selectedItem) {
@@ -502,6 +536,13 @@ M.ListView = M.View.extend(
      */
     style: function() {
         var html = '';
+        if(this.cssClass || this.doNotOverlapAtTop || this.doNotOverlapAtBottom) {
+            html += ' class="'
+                + (this.cssClass ? this.cssClass : '')
+                + (!this.isInset && this.doNotOverlapAtTop ? ' listview-do-not-overlap-at-top' : '')
+                + (!this.isInset && this.doNotOverlapAtBottom ? ' listview-do-not-overlap-at-bottom' : '')
+                + '"';
+        }
         if(this.isDividedList && this.cssClassForDivider) {
             html += ' data-dividertheme="' + this.cssClassForDivider + '"';
         }
@@ -527,6 +568,61 @@ M.ListView = M.View.extend(
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, NO, [id, modelId]);
         }
+    },
+
+    showSwipeButton: function(id, event, nextEvent) {
+        var listItem = M.ViewManager.getViewById(id);
+
+        /* reset the selection for better visual effect */
+        this.resetActiveListItem();
+
+        if(!listItem.swipeButton) {
+            M.Logger.log('You need to specify a valid button with the \'swipeButton\' property of your list template!', M.WARN);
+        } else {
+            var previouslistItem = this.swipeButton ? this.swipeButton.parentView : null;
+
+            if(previouslistItem) {
+                this.hideSwipeButton();
+            }
+
+            if(!previouslistItem) {
+                this.swipeButton = M.ButtonView.design(
+                    listItem.swipeButton
+                );
+                this.swipeButton.value = this.swipeButton.value ? this.swipeButton.value : 'delete';
+                this.swipeButton.parentView = M.ViewManager.getViewById(id);
+                this.swipeButton.cssClass = this.swipeButton.cssClass ? this.swipeButton.cssClass + ' tmp-swipe-button' : 'a tmp-actionsheet-destructive-button tmp-swipe-button';
+                this.swipeButton.value = this.swipeButton.value ? this.swipeButton.value : 'delete';
+                this.swipeButton.internalEvents = {
+                    tap: {
+                        target: listItem,
+                        action: 'swipeButtonClicked'
+                    }
+                };
+
+                $('#' + id).append(this.swipeButton.render());
+                this.swipeButton.theme();
+                this.swipeButton.registerEvents();
+                $('#' + this.swipeButton.id).css('height', 0.7 * $('#' + id).outerHeight());
+                $('#' + this.swipeButton.id).css('top', Math.floor(0.15 * $('#' + id).outerHeight()));
+                $('#' + id + '>div.ui-btn-inner').css('margin-right', parseInt($('#' + this.swipeButton.id).css('width')) + parseInt($('#' + this.swipeButton.id).css('right')));
+
+                /* register tap/click for the page so we can hide the button again */
+                var that = this;
+                $('#' + M.ViewManager.getCurrentPage().id).bind('click tap', function() {
+                    that.hideSwipeButton();
+                });
+            }
+        }
+    },
+
+    hideSwipeButton: function() {
+        $('#' + this.swipeButton.id).hide();
+        $('#' + this.swipeButton.id).parent('li').find('div.ui-btn-inner').css('margin-right', 0);
+        this.swipeButton = null;
+
+        /* un-register tap/click for the page */
+        $('#' + M.ViewManager.getCurrentPage().id).unbind('click tap');
     }
 
 });

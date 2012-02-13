@@ -127,6 +127,17 @@ M.ViewManager = M.Object.extend(
         return this.viewList[id];
     },
 
+	/**
+     * another naming for getViewById - same same as getViewById
+     *
+     * @param {String} id The DOM id of the corresponding view object.
+     * @returns {Object} The view object from the view list identified by id.
+     */
+
+    findViewById: function(id) {
+        return this.getViewById(id);
+    },
+
     /**
      * Returns the id for a given view.
      *

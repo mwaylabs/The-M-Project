@@ -70,9 +70,9 @@ M.LoaderView = M.View.extend(
     show: function(title) {
         this.refCount++;
         var title = title && typeof(title) === 'string' ? title : this.defaultTitle;
-        this.changeTitle(title);
         if(this.refCount == 1){
-            $.mobile.pageLoading();
+            $.mobile.showPageLoadingMsg();
+            this.changeTitle(title);
 
             /* position alert in the center of the possibly scrolled viewport */
             var loader = $('.ui-loader');
@@ -108,7 +108,7 @@ M.LoaderView = M.View.extend(
             this.refCount--;
         }
         if(this.refCount == 0){
-            $.mobile.pageLoading(true);
+            $.mobile.hidePageLoadingMsg();
         }
     }
     

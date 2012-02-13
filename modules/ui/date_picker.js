@@ -187,7 +187,7 @@ M.DatePickerView = M.View.extend(
      *
      * @type Boolean
      */
-    showAmPm: NO,
+    showAmPm: YES,
 
     /**
      * This property can be used to specify the first year of the 'year' scroller. By default,
@@ -225,7 +225,15 @@ M.DatePickerView = M.View.extend(
      *
      * @type String
      */
-    dateFormat: 'mm/dd/yyyy',
+    dateFormat: 'M dd, yy',
+
+    /**
+     * This property can be used to customize the date format of the date picker if it is associated
+     * with a text input with the type 'month'. It works the same as the dateFormat property.
+     *
+     * @type String
+     */
+    dateFormatMonthOnly: 'MM yy',
 
     /**
      * This property can be used to customize the time format of the date picker. This is important
@@ -244,7 +252,7 @@ M.DatePickerView = M.View.extend(
      *
      * @type String
      */
-    timeFormat: 'HH:ii',
+    timeFormat: 'h:ii A',
 
     /**
      * This property determines the order and formating of the date scrollers. The following keys
@@ -259,11 +267,23 @@ M.DatePickerView = M.View.extend(
      *     - y      -> year (two digit)
      *     - yy     -> year (four digit)
      *
-     * By default, we use this format: mmddyyyy
+     * By default, we use this format: Mddyy
      *
      * @type String
      */
-    dateOrder: 'mmddyy',
+    dateOrder: 'Mddyy',
+
+    /**
+     * This property determines the order and formating of the date scrollers if it is associated
+     * with an input field of type 'month'. It works the same as the dateOrder property.
+     *
+     * By default, we use this format: MMyy
+     *
+     * @type String
+     */
+    dateOrderMonthOnly: 'MMyy',
+
+
 
     /**
      * This property specifies a list of full month names.
@@ -310,6 +330,34 @@ M.DatePickerView = M.View.extend(
     confirmButtonValue: 'Ok',
 
     /**
+     * This property can be used to specify the steps between hours in the time / date-time picker.
+     *
+     * @type Number
+     */
+    stepHour: 1,
+
+    /**
+     * This property can be used to specify the steps between minutes in the time / date-time picker.
+     *
+     * @type Number
+     */
+    stepMinute: 1,
+
+    /**
+     * This property can be used to specify the steps between seconds in the time / date-time picker.
+     *
+     * @type Number
+     */
+    stepSecond: 1,
+
+    /**
+     * This property can be used to activate the seconds wheel on a time/date-time picker.
+     *
+     * @type Boolean
+     */
+    seconds: NO,
+
+    /**
      * This property is used internally to indicate whether the current date picker works on a valid
      * source or was called without one. This is important for stuff like auto-updating the source's
      * DOM representation.
@@ -326,6 +374,15 @@ M.DatePickerView = M.View.extend(
      * @type Boolean
      */
     isValueSelected: NO,
+
+    /**
+     * This property is used internally to state whether a the date picker is currently activated
+     * or not.
+     *
+     * @private
+     * @type Boolean
+     */
+    isActive: NO,
 
     /**
      * This method is the only important method of a date picker view for 'the outside world'. From within
@@ -351,6 +408,14 @@ M.DatePickerView = M.View.extend(
      */
     show: function(obj) {
         var datepicker = M.DatePickerView.design(obj);
+
+        /* if a datepicker is active already, return */
+        if(Object.getPrototypeOf(datepicker).isActive) {
+            return;
+        /* otherwise go on and set the flag to active */
+        } else {
+            Object.getPrototypeOf(datepicker).isActive = YES;
+        }
 
         /* check if it's worth the work at all */
         if(!(datepicker.showDatePicker || datepicker.showTimePicker)) {
@@ -412,6 +477,10 @@ M.DatePickerView = M.View.extend(
             dayNamesShort: this.dayNamesShort,
             cancelText: this.cancelButtonValue,
             setText: this.confirmButtonValue,
+            stepHour: this.stepHour,
+            stepMinute: this.stepMinute,
+            stepSecond: this.stepSecond,
+            seconds: this.seconds,
 
             /* now set the width of the scrollers */
             width: (M.Environment.getWidth() - 20) / 3 - 20 > 90 ? 90 : (M.Environment.getWidth() - 20) / 3 - 20,
@@ -579,7 +648,7 @@ M.DatePickerView = M.View.extend(
             if(this.hasSource) {
                 source = M.ViewManager.getViewById(this.source);
                 if(source) {
-                    source.setValue(value);
+                    source.setValue(value, NO, YES);
                 }
             }
         }
@@ -597,6 +666,7 @@ M.DatePickerView = M.View.extend(
         }
 
         /* kill the datepicker */
+        Object.getPrototypeOf(this).isActive = NO;
         $('#' + this.source).scroller('destroy');
         $('.dwo').remove();
         $('.dw').remove();

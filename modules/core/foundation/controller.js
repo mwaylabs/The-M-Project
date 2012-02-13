@@ -49,9 +49,13 @@ M.Controller = M.Object.extend(
      * Switch the active tab in the application. This includes both activating this tab
      * visually and switching the page.
      *
-     * @param {M.TabBarView} tab The tab to be activated.
+     * @param {M.TabBarItemView} tab The tab to be activated.
      */
     switchToTab: function(tab) {
+        if(!(tab.parentView && tab.parentView.type === 'M.TabBarView')) {
+            M.Logger.log('Please provide a valid tab bar item to the switchToTab method.', M.WARN);
+            return;
+        }
         var currentTab = tab.parentView.activeTab;
         var newPage = M.ViewManager.getPage(tab.page);
 
@@ -87,11 +91,10 @@ M.Controller = M.Object.extend(
 
             /* Now do the page change by using a jquery mobile method and pass the properties */
             if(page.type === 'M.PageView') {
-                //console.log('$.mobile.changePage(' + page.id + ', ' + (M.Application.useTransitions ? transition : M.TRANSITION.NONE) + ', ' + (M.Application.useTransitions ? isBack : NO) + ', ' + updateHistory + ');');
                 $.mobile.changePage($('#' + page.id), {
-                    transition: M.Application.useTransitions ? transition : M.TRANSITION.NONE,
-                    reverse: M.Application.useTransitions ? isBack : NO,
-                    changeHash: YES,
+                    transition: M.Application.getConfig('useTransitions') ? transition : M.TRANSITION.NONE,
+                    reverse: M.Application.getConfig('useTransitions') ? isBack : NO,
+                    changeHash: updateHistory,
                     showLoadMsg: NO
                 });
             }
