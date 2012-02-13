@@ -242,14 +242,15 @@ M.TextFieldView = M.View.extend(
         this.html += '>';
 
         if(this.label) {
+            this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label;
             if(this.hasAsteriskOnLabel) {
                 if(this.cssClassForAsterisk) {
-                    this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label + '<span class="' + this.cssClassForAsterisk + '">*</span></label>';
+                    this.html += '<span class="' + this.cssClassForAsterisk + '">*</span></label>';
                 } else {
-                    this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label + '<span>*</span></label>';
+                    this.html += '<span>*</span></label>';
                 }
             } else {
-                this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label + '</label>';
+                this.html += '</label>';
             }
         }
 
