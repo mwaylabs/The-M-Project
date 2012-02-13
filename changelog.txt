@@ -1,4 +1,4 @@
-** Version 1.1 - Date 09.02.2012 **
+** Version 1.1 - Date 13.02.2012 **
 
   * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
   * Fixed isAsync and isJSON flags in M.Request
@@ -12,6 +12,7 @@
   * Clear the validation status before validate it again (thx to jianliao)
   * Added events property to M.ListView that gets applied to all items if the template does not specify events too
   * Added swipe button feature to M.ListView / M.ListItemView
+  * Added hasAsteriskOnLabel property to M.TextFieldView (thx to jianliao)
 
 ** Version 1.0 - Date 25.01.2012 **
 
