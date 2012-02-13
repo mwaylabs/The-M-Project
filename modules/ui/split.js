@@ -34,6 +34,22 @@ M.SplitView = M.View.extend(
 
     selectedItem: null,
 
+    orientation: null,
+
+    headerheight: null,
+
+    footerheight: null,
+
+    itemheight: null,
+
+    contentLoaded: NO,
+
+    scrollviewsInitialized: NO,
+
+    hasMenuScrollview: NO,
+
+    shouldHaveScrollview: YES,
+
     /**
      * Renders a split view.
      *
@@ -56,9 +72,9 @@ M.SplitView = M.View.extend(
      * @private
      */
     renderChildViews: function() {
-        if(this.childViews || this.contentBinding) {
+        if (this.childViews || this.contentBinding) {
             var childViews = this.getChildViewsAsArray();
-            if(childViews.length > 0 || this.contentBinding) {
+            if (childViews.length > 0 || this.contentBinding) {
                 this.menu = M.ScrollView.design({
                     childViews: 'menu',
                     menu: M.ListView.design({})
@@ -87,27 +103,27 @@ M.SplitView = M.View.extend(
      */
     renderUpdate: function() {
         var content = null;
-        
-        if(this.contentBinding) {
+
+        if (this.contentBinding) {
             content = this.value;
-        } else if(this.childViews) {
+        } else if (this.childViews) {
             var childViews = this.getChildViewsAsArray();
             content = [];
-            for(var i = 0; i < childViews.length; i++) {
+            for (var i = 0; i < childViews.length; i++) {
                 content.push(this[childViews[i]]);
             }
         }
-        
-        if(content) {
-            if(content.length > 0) {
+
+        if (content) {
+            if (content.length > 0) {
 
                 /* reset menu list before filling it up again */
                 this.menu.menu.removeAllItems();
 
                 var entryItem = null;
                 var currentItem = 0;
-                for(var i in content) {
-                    if(content[i] && content[i].type === 'M.SplitItemView') {
+                for (var i in content) {
+                    if (content[i] && content[i].type === 'M.SplitItemView') {
                         /* add item to list */
                         var item = M.ListItemView.design({
                             childViews: 'label',
@@ -129,10 +145,11 @@ M.SplitView = M.View.extend(
                         item.registerEvents();
 
                         /* save id of the current item if it is either the first item or isActive is set */
-                        if(currentItem === 0 || content[i].isActive) {
+                        if (currentItem === 0 || content[i].isActive) {
                             entryItem = item.id;
                         }
 
+                        /* increase item counter */
                         currentItem++;
                     } else {
                         M.Logger.log('Invalid child view passed! The child views of M.SplitView need to be of type M.ListView.', M.ERROR);
@@ -164,48 +181,109 @@ M.SplitView = M.View.extend(
     },
 
     themeUpdate: function() {
-        var orientation = M.Environment.getOrientation();
         var size = M.Environment.getSize();
         var width = size[0];
         var height = size[1];
 
-        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
-        if(page) {
-            if($('#' + page.id).hasClass('tmp-splitview-no-footer')) {
-                $('#' + page.id).css('min-height', height + 'px');
-            } else {
-                $('#' + page.id).css('min-height', height - 41 + 'px');
-            }
-        }
-        if(orientation === M.LANDSCAPE_LEFT || orientation === M.LANDSCAPE_RIGHT || width > height) {
-            $('#' + this.menu.id).css('width', Math.round(width*0.3) + 30 - 1 - 30 - 1 + 'px');
-            $('#' + this.content.id).css('width', Math.round(width*0.7) - 30 - 30 + 'px');
-            $('#' + this.content.id).css('left', Math.round(width*0.3) + 30 - 1 + 'px');
+        /* landscape mode */
+        if (M.Environment.getWidth() > M.Environment.getHeight()) {
+            $('#' + this.menu.id).css('width', Math.ceil(width * 0.3) - 2 * (parseInt($('#' + this.menu.id).css('border-right-width'))) + 'px');
+            $('#' + this.content.id).css('width', Math.floor(width * 0.7) - 2 * (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) + 'px');
+            $('#' + this.content.id).css('left', Math.ceil(width * 0.3) + (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) - parseInt($('#' + this.menu.id).css('border-right-width')) + 'px');
 
-            $('.tmp-splitview-menu-toolbar').css('width', Math.round(width*0.3) + 30 - 1 + 'px');
-            $('.tmp-splitview-content-toolbar').css('width', Math.round(width*0.7) - 30 + 'px');
+            $('.tmp-splitview-menu-toolbar').css('width', Math.ceil(width * 0.3) + (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) - parseInt($('.tmp-splitview-menu-toolbar').css('border-right-width')) + 'px');
+            $('.tmp-splitview-content-toolbar').css('width', Math.floor(width * 0.7) - (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) + 'px');
+
+            this.orientation = 'landscape';
+            /* portrait mode */
         } else {
-            $('#' + this.content.id).css('width', width - 30 + 'px');
-            $('#' + this.content.id).css('left','0px');
+            $('#' + this.content.id).css('width', width - (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) + 'px');
+            $('#' + this.content.id).css('left', '0px');
 
             $('.tmp-splitview-content-toolbar').css('width', width + 'px');
+
+            this.orientation = 'portait';
+        }
+
+        /* register for DOMContentLoaded event to initialize the split view once its in DOM */
+        if (!this.contentLoaded) {
+            var that = this;
+            $(document).bind('DOMContentLoaded', function() {
+                that.initializeVar();
+            });
+            /* if DOMContent is loaded, apply some heights/widths */
+        } else {
+            var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+
+            /* set the min height of the page based on if there's a footer or not */
+            if ($('#' + page.id).hasClass('tmp-splitview-no-footer')) {
+                $('#' + page.id).css('min-height', height + 'px');
+            } else {
+                $('#' + page.id).css('min-height', height - this.footerheight + 'px !important');
+            }
+
+            /* set the height of the menu based on header/footer */
+            if ($('#' + page.id + ' .ui-footer').length === 0) {
+                $('#' + this.menu.menu.id).css('height', M.Environment.getHeight() - this.headerheight);
+            } else {
+                $('#' + this.menu.menu.id).css('height', M.Environment.getHeight() - this.headerheight - this.footerheight);
+            }
+
+            /* initialize the scrolling stuff (if not done yet) */
+            if (!this.scrollviewsInitialized) {
+                $('#' + this.content.id).scrollview({
+                    direction: 'y'
+                });
+
+                /* check whether scrolling is required or not for the menu */
+                if (this.orientation === 'landscape') {
+                    this.itemheight = $('#' + this.menu.menu.id).find('li:first').outerHeight();
+                    var itemCount = $('#' + this.menu.menu.id).find('li').length;
+
+                    if (this.itemheight !== 0) {
+                        var menuHeight = M.Environment.getHeight();
+                        var itemListHeight = itemCount * this.itemheight;
+                        if (menuHeight < itemListHeight) {
+                            $('#' + this.menu.menu.id).scrollview({
+                                direction: 'y'
+                            });
+                            this.hasMenuScrollview = YES;
+                        } else {
+                            this.shouldHaveScrollview = NO;
+                        }
+                    }
+                    this.scrollviewsInitialized = YES;
+                }
+
+            }
         }
     },
 
+    /**
+     * Called when Dom Content Loaded event arrived, to calculate height of header and footer
+     * and set the contentLoaded, call theme update, in order to check out if a scrollview for menu is needed
+     */
+    initializeVar: function() {
+        this.headerheight = $('#' + M.ViewManager.getCurrentPage().id + ' .ui-header').height();
+        this.footerheight = $('#' + M.ViewManager.getCurrentPage().id + ' .ui-footer').height();
+        this.contentLoaded = YES;
+        this.themeUpdate();
+    },
+
     registerEvents: function() {
-        /* register for orientation change events of that page */
+        /* register for orientation change events of the current page */
         var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
         M.EventDispatcher.registerEvent(
             'orientationdidchange',
             page.id,
             {
                 target: this,
-                action: function() {
+                action:  function() {
                     /* trigger re-theming with a little delay to make sure, the orientation change did finish */
                     var that = this;
                     window.setTimeout(function() {
-                            that.orientationDidChange();
-                        }, 100);
+                        that.orientationDidChange();
+                    }, 100);
                 }
             },
             ['orientationdidchange'],
@@ -218,30 +296,23 @@ M.SplitView = M.View.extend(
     listItemSelected: function(id) {
         var contentView = M.ViewManager.getViewById(id) && M.ViewManager.getViewById(id).splitViewItem ? M.ViewManager.getViewById(id).splitViewItem.view : null;
 
-        if(!contentView) {
+        if (!contentView) {
             return;
         }
 
         this.selectedItem = M.ViewManager.getViewById(id).splitViewItem;
 
-        if(!this.isInitialized) {
-            if(contentView.html) {
+        if (!this.isInitialized) {
+            if (contentView.html) {
                 $('#' + this.content.id).html(contentView.html);
             } else {
                 $('#' + this.content.id).html(contentView.render());
                 contentView.theme();
                 contentView.registerEvents();
             }
-            $('#' + this.content.id).scrollview({
-                direction: 'y'
-            });
-            $('#' + this.menu.id).scrollview({
-                direction: 'y'
-            });
-
             this.isInitialized = YES;
         } else {
-            if(contentView.html) {
+            if (contentView.html) {
                 $('#' + this.content.id + ' div:first').html(contentView.html);
             } else {
                 $('#' + this.content.id + ' div:first').html(contentView.render());
@@ -254,23 +325,27 @@ M.SplitView = M.View.extend(
         /* check if there is a split toolbar view on the page and update its label to show the value of the selected item */
         var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
         var that = this;
-        if(page) {
+        if (page) {
             $('#' + page.id + ' .tmp-splitview-content-toolbar').each(function() {
                 var toolbar = M.ViewManager.getViewById($(this).attr('id'));
-                if(toolbar.parentView && toolbar.parentView.showSelectedItemInMainHeader) {
+                if (toolbar.parentView && toolbar.parentView.showSelectedItemInMainHeader) {
                     toolbar.value = M.ViewManager.getViewById(id).splitViewItem.value;
                     $('#' + toolbar.id + ' h1').html(toolbar.value);
 
                     /* now link the menu with the toolbar if not yet done */
-                    if(!toolbar.parentView.splitview) {
+                    if (!toolbar.parentView.splitview) {
                         toolbar.parentView.splitview = that;
                     }
                 }
             });
-            if($('#' + page.id + ' .tmp-footer').length === 0) {
+
+            /* add special css class if there is no footer */
+            if ($('#' + page.id + ' .ui-footer').length === 0) {
                 page.addCssClass('tmp-splitview-no-footer');
             }
-            if($('#' + page.id + ' .tmp-splitview-content-toolbar').length === 0) {
+
+            /* add special css class if there is no header */
+            if ($('#' + page.id + ' .tmp-splitview-content-toolbar').length === 0) {
                 page.addCssClass('tmp-splitview-no-header');
             }
         }
@@ -278,19 +353,24 @@ M.SplitView = M.View.extend(
 
     orientationDidChange: function() {
         var orientation = M.Environment.getOrientation();
+        var that = this;
+        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
 
         /* portrait */
-        if(orientation === 0 || orientation === 180) {
-
+        if (M.Environment.getHeight() > M.Environment.getWidth()) {
+            $('html').removeClass('landscape');
+            $('html').addClass('portrait');
         /* landscape */
         } else {
-            /* hide the popover (if active) */
-            var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+            $('html').removeClass('portrait');
+            $('html').addClass('landscape');
+
+            /* hide the popover */
             var toolbar;
-            if(page) {
+            if (page) {
                 $('#' + page.id + ' .tmp-splitview-menu-toolbar').each(function() {
                     toolbar = M.ViewManager.getViewById($(this).attr('id'));
-                    if(toolbar && toolbar.parentView && toolbar.parentView.popover) {
+                    if (toolbar && toolbar.parentView && toolbar.parentView.popover) {
                         toolbar.parentView.popover.hide();
                     }
                 });
@@ -298,21 +378,65 @@ M.SplitView = M.View.extend(
 
             /* update the menu */
             var id;
-            var that = this;
             $('#' + this.menu.id).find('li').each(function() {
-                if(M.ViewManager.getViewById($(this).attr('id')).splitViewItem.value === that.selectedItem.value) {
+                if (M.ViewManager.getViewById($(this).attr('id')).splitViewItem.id === that.selectedItem.id) {
                     id = $(this).attr('id');
                 }
             });
 
-            /* activate item */
-            if(id) {
+            /* activate the current item */
+            if (id) {
                 this.menu.menu.setActiveListItem(id);
             }
+
+            /* set the selected item */
+            this.selectedItem = M.ViewManager.getViewById(id).splitViewItem;
+
+            /* scroll the menu so we def. see the selected item */
+            this.scrollListToRightPosition(id);
         }
+
+        /* scroll content to top */
         $('#' + this.content.id).scrollview('scrollTo', 0, 0);
 
+        /* call theme update */
         this.themeUpdate();
+
+        /* fix the toolbars */
+        $.mobile.fixedToolbars.show();
+    },
+
+    scrollListToRightPosition: function(id) {
+        var itemHeight = $('#' + this.menu.menu.id + ' li:first-child').outerHeight();
+        var y = ($('#' + id).index() + 1) * itemHeight;
+        var menuHeight = M.Environment.getHeight() - this.headerheight - this.footerheight;
+        var middle = menuHeight / 2;
+        var distanceToListEnd = $('#' + this.menu.menu.id).find('li').length * itemHeight - y;
+        var yScroll = 0;
+
+        /* if y coordinate of item is greater than menu height, we need to scroll down */
+        if (y > menuHeight) {
+            if (distanceToListEnd < middle) {
+                yScroll = -(y - menuHeight + distanceToListEnd);
+            } else {
+                yScroll = -(y - middle);
+            }
+            /* if y coordinate of item is less than menu height, we need to scroll up */
+        } else if (y < menuHeight) {
+            if (y < middle) {
+                yScroll = 0;
+            } else {
+                yScroll = -(y - middle);
+            }
+        }
+
+        /* if there already is a scroll view, just scroll */
+        if (!this.hasMenuScrollview && this.shouldHaveScrollview) {
+            $('#' + this.menu.menu.id).scrollview({
+                direction: 'y'
+            });
+        }
+        $('#' + this.menu.menu.id).scrollview('scrollTo', 0, yScroll);
     }
 
 });

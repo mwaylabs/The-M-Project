@@ -157,32 +157,39 @@
     position:absolute;
 }
 
+
 .landscape .ui-page {
     /*min-height:707px;*/
 }
 
 .landscape .tmp-splitview-no-footer {
     /*min-height:748px;*/
+    
 }
 
 .landscape .tmp-splitview-menu {
     top:41px;
     bottom:0px;
     /*width:289px;*/
-    margin-bottom:-30px;
-    border-right:1px solid #CCC;
+    /*margin-bottom:-30px;*/
+    border-right:1px solid #ccc;
+    
+    
 }
 
 .landscape .tmp-splitview-no-footer .tmp-splitview-menu {
-    margin-bottom:0px;
+
+    /*margin-bottom:10px;*/
 }
 
 .landscape .tmp-splitview-content-toolbar {
     /*width:704px;*/
     top:0px;
+
 }
 
-.landscape .tmp-splitview-content-toolbar-show-menu-button .ui-btn-left {
+.landscape .tmp-splitview-content-toolbar-show-menu-button .ui-btn-left ,
+.landscape .tmp-splitview-content-toolbar-show-menu-button .ui-btn-right {
     display:none;
 }
 
@@ -191,6 +198,7 @@
     /*width:319px;*/
     float:left;
     border-right:1px solid #000;
+    
 }
 
 .landscape .tmp-splitview-menu-toolbar h1 {
@@ -201,6 +209,7 @@
 .landscape .tmp-splitview-content {
     top:41px;
     bottom:0px;
+    
     /*left:320px;
     width:674px;*/
 }
@@ -220,7 +229,8 @@
     /*width:738px;*/
 }
 
-.portrait .tmp-splitview-content-toolbar-show-menu-button .ui-btn-left {
+.portrait .tmp-splitview-content-toolbar-show-menu-button .ui-btn-left,
+.portrait .tmp-splitview-content-toolbar-show-menu-button .ui-btn-right {
     display:block;
 }
 
@@ -242,6 +252,11 @@
     top: 0px;
 }
 
+.labeltest{
+
+    border: 1px solid #000;
+
+}
 
 
 /* POPOVER */
@@ -282,172 +297,4 @@
     position: absolute;
     top: -40px;
     left: 10px;
-}
-
-/* datepicker */
-.dwo {
-    opacity: 1;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.dw {
-    border-radius: 8px;
-    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(47, 74, 117, 0.9)), color-stop(0.5, rgba(47, 76, 117, 0.9)), color-stop(0.5, rgba(47, 76, 117, 0.9)), color-stop(1, rgba(134, 140, 158, 0.9)));
-    -webkit-box-shadow: 0 0 8px 4px #555;
-    box-shadow: 0 0 8px 4px #555;
-    border: 2px solid #fff;
-    color: #fff;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-.dw .dwc .dwwc {
-    border-radius: 8px;
-    border: 1px solid #555555;
-}
-
-.dw .ui-grid-a {
-    width: 100%;
-    margin: auto;
-    margin-top: 15px;
-    margin-bottom: 10px;
-}
-
-.dw > div.ui-btn {
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-.dw > div.ui-btn:last-child {
-    margin-top: 0px;
-}
-
-.tmp-datepicker-no-label .dw .dwl {
-    display: none;
-}
-
-.tmp-datepicker-no-label .dw .dww {
-    top: 0px;
-}
-
-.tmp-datepicker-no-label .dw .dwc {
-    padding-top: 10px;
-}
-
-
-
-
-/* slider */
-.tmp-slider-container.tmp-slider-is-slider-only {
-    padding-left: 14px;
-    padding-right: 14px;
-    min-height: 30px;
-}
-
-.tmp-slider-container.tmp-slider-is-slider-only div.ui-slider {
-    width: 100%;
-    margin-left: 0px;
-    margin-right: 0px;
-}
-
-
-/* adjustments for touch overflow */
-.ui-mobile-touch-overflow .ui-content {
-    left: 0px;
-    right: 0px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-.ui-mobile-touch-overflow .ui-listview {
-    margin-top:  -15px;
-    margin-bottom:  -15px;
-}
-
-
-
-
-/* table */
-.tmp-table-container {
-    width: 100%;
-}
-
-.tmp-table {
-    width: 100%;
-    table-layout:fixed;
-    border: 1px solid #121212;
-    border-spacing: 0px;
-}
-
-.tmp-table-th {
-    background-color: #121212;
-    color: #FFFFFF;
-    text-shadow: none;
-    padding: 5px;
-    text-align: left;
-}
-
-.tmp-table-td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 5px;
-}
-
-.tmp-table-tr-a td {
-    background-color: rgb(220, 220, 220);
-}
-
-.tmp-table-tr-b td {
-    background-color: rgb(235, 235, 235);
-}
-
-
-
-
-/* swipe delete button for list views */
-.tmp-swipe-button {
-    width: auto;
-    position: absolute;
-    right: 10px;
-    top: 0;
-    margin: 0px;
-}
-
-.tmp-swipe-button span.ui-btn-inner {
-    padding-top: 0.3em;
-}
-
-.ui-btn-icon-right .tmp-swipe-button span.ui-btn-inner {
-    padding-right: 25px;
-}
-
-
-
-
-/* fixing the 100% problem of jqm */
-.ui-page {
-    min-height: 100% !important;
-}
-
-
-
-
-/* fixing overlapping list at top/bottom of a page */
-ul[data-role="listview"].listview-do-not-overlap-at-top {
-    margin-top: 15px;
-}
-
-ul[data-role="listview"].listview-do-not-overlap-at-bottom {
-    margin-bottom: 15px;
-}
-
-
-
-
-/* fixing a too long center value of header bar */
-.ui-header h1 div {
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }

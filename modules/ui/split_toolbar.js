@@ -40,22 +40,36 @@ M.SplitToolbarView = M.View.extend(
      * @private
      */
     renderChildViews: function() {
+
         if(this.childViews) {
             var childViews = $.trim(this.childViews).split(' ');
+
             var currentToolbar = 0;
-            for(var i in childViews) {
-                var toolbar = this[childViews[i]];
+            for(var i in childViews) { // toolbar1, toolbar 2
+                
+                var toolbar = this[childViews[i]]; //zugriff wie 
+                
                 if(toolbar && toolbar.type === 'M.ToolbarView') {
+
                     toolbar.parentView = this;
                     if(currentToolbar === 0) {
-                        toolbar.cssClass = toolbar.cssClass ? toolbar.cssClass + ' tmp-splitview-menu-toolbar' : 'tmp-splitview-menu-toolbar'
+
+
+                        toolbar.cssClass = toolbar.cssClass ? toolbar.cssClass + ' tmp-splitview-menu-toolbar' : 'tmp-splitview-menu-toolbar';
+
+
+
                     } else if(currentToolbar === 1) {
+                        //toolbar2
                         toolbar.cssClass = toolbar.cssClass ? toolbar.cssClass + ' tmp-splitview-content-toolbar' : 'tmp-splitview-content-toolbar'
 
                         /* check if this is a simple toolbar so we can add the menu button */
                         if(!toolbar.childViews && this.showMenuButtonInPortraitMode) {
                             toolbar.cssClass = toolbar.cssClass ? toolbar.cssClass + ' tmp-splitview-content-toolbar-show-menu-button' : 'tmp-splitview-content-toolbar-show-menu-button';
                             toolbar.childViews = 'menuButton label';
+
+
+
                             var buttonLabel = this[childViews[0]].value;
                             toolbar.menuButton = M.ButtonView.design({
                                 value: buttonLabel,
@@ -65,7 +79,7 @@ M.SplitToolbarView = M.View.extend(
                                     tap: {
                                         target: this,
                                         action: function() {
-                                            if(!this.popover) {
+                                           if(!this.popover) {
                                                 var content;
                                                 if(this.splitview.contentBinding) {
                                                     content = this.splitview.value;
@@ -93,10 +107,13 @@ M.SplitToolbarView = M.View.extend(
                                     }
                                 }
                             });
+
+
                             toolbar.label = M.LabelView.design({
                                 value: toolbar.value,
                                 anchorLocation: M.CENTER
                             });
+
                             toolbar.value = '';
                         }
                     } else {
