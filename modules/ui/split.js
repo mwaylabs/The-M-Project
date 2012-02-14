@@ -177,7 +177,14 @@ M.SplitView = M.View.extend(
      */
     theme: function() {
         this.renderUpdate();
-        this.themeUpdate();
+
+        /* register for DOMContentLoaded event to initialize the split view once its in DOM */
+        if (!this.contentLoaded) {
+            var that = this;
+            $(document).bind('DOMContentLoaded', function() {
+                that.initializeVar();
+            });
+        }
     },
 
     themeUpdate: function() {
@@ -187,75 +194,68 @@ M.SplitView = M.View.extend(
 
         /* landscape mode */
         if (M.Environment.getWidth() > M.Environment.getHeight()) {
+            this.orientation = 'landscape';
+            $('html').addClass(this.orientation);
+
             $('#' + this.menu.id).css('width', Math.ceil(width * 0.3) - 2 * (parseInt($('#' + this.menu.id).css('border-right-width'))) + 'px');
             $('#' + this.content.id).css('width', Math.floor(width * 0.7) - 2 * (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) + 'px');
             $('#' + this.content.id).css('left', Math.ceil(width * 0.3) + (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) - parseInt($('#' + this.menu.id).css('border-right-width')) + 'px');
 
             $('.tmp-splitview-menu-toolbar').css('width', Math.ceil(width * 0.3) + (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) - parseInt($('.tmp-splitview-menu-toolbar').css('border-right-width')) + 'px');
             $('.tmp-splitview-content-toolbar').css('width', Math.floor(width * 0.7) - (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) + 'px');
-
-            this.orientation = 'landscape';
-            /* portrait mode */
+        /* portrait mode */
         } else {
+            this.orientation = 'portrait';
+            $('html').addClass(this.orientation);
+
             $('#' + this.content.id).css('width', width - (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) + 'px');
             $('#' + this.content.id).css('left', '0px');
 
             $('.tmp-splitview-content-toolbar').css('width', width + 'px');
-
-            this.orientation = 'portait';
         }
 
-        /* register for DOMContentLoaded event to initialize the split view once its in DOM */
-        if (!this.contentLoaded) {
-            var that = this;
-            $(document).bind('DOMContentLoaded', function() {
-                that.initializeVar();
-            });
-            /* if DOMContent is loaded, apply some heights/widths */
+        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+
+        /* set the min height of the page based on if there's a footer or not */
+        if ($('#' + page.id).hasClass('tmp-splitview-no-footer')) {
+            $('#' + page.id).css('min-height', height + 'px');
         } else {
-            var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+            $('#' + page.id).css('min-height', height - this.footerheight + 'px !important');
+        }
 
-            /* set the min height of the page based on if there's a footer or not */
-            if ($('#' + page.id).hasClass('tmp-splitview-no-footer')) {
-                $('#' + page.id).css('min-height', height + 'px');
-            } else {
-                $('#' + page.id).css('min-height', height - this.footerheight + 'px !important');
-            }
+        /* set the height of the menu based on header/footer */
+        if ($('#' + page.id + ' .ui-footer').length === 0) {
+            $('#' + this.menu.menu.id).css('height', M.Environment.getHeight() - this.headerheight);
+        } else {
+            $('#' + this.menu.menu.id).css('height', M.Environment.getHeight() - this.headerheight - this.footerheight);
+        }
 
-            /* set the height of the menu based on header/footer */
-            if ($('#' + page.id + ' .ui-footer').length === 0) {
-                $('#' + this.menu.menu.id).css('height', M.Environment.getHeight() - this.headerheight);
-            } else {
-                $('#' + this.menu.menu.id).css('height', M.Environment.getHeight() - this.headerheight - this.footerheight);
-            }
+        /* initialize the scrolling stuff (if not done yet) */
+        if (!this.scrollviewsInitialized) {
+            $('#' + this.content.id).scrollview({
+                direction: 'y'
+            });
 
-            /* initialize the scrolling stuff (if not done yet) */
-            if (!this.scrollviewsInitialized) {
-                $('#' + this.content.id).scrollview({
-                    direction: 'y'
-                });
+            /* check whether scrolling is required or not for the menu */
+            if (this.orientation === 'landscape') {
+                this.itemheight = $('#' + this.menu.menu.id).find('li:first').outerHeight();
+                var itemCount = $('#' + this.menu.menu.id).find('li').length;
 
-                /* check whether scrolling is required or not for the menu */
-                if (this.orientation === 'landscape') {
-                    this.itemheight = $('#' + this.menu.menu.id).find('li:first').outerHeight();
-                    var itemCount = $('#' + this.menu.menu.id).find('li').length;
-
-                    if (this.itemheight !== 0) {
-                        var menuHeight = M.Environment.getHeight();
-                        var itemListHeight = itemCount * this.itemheight;
-                        if (menuHeight < itemListHeight) {
-                            $('#' + this.menu.menu.id).scrollview({
-                                direction: 'y'
-                            });
-                            this.hasMenuScrollview = YES;
-                        } else {
-                            this.shouldHaveScrollview = NO;
-                        }
+                if (this.itemheight !== 0) {
+                    var menuHeight = M.Environment.getHeight();
+                    var itemListHeight = itemCount * this.itemheight;
+                    if (menuHeight < itemListHeight) {
+                        $('#' + this.menu.menu.id).scrollview({
+                            direction: 'y'
+                        });
+                        this.hasMenuScrollview = YES;
+                    } else {
+                        this.shouldHaveScrollview = NO;
                     }
-                    this.scrollviewsInitialized = YES;
                 }
-
+                this.scrollviewsInitialized = YES;
             }
+
         }
     },
 
