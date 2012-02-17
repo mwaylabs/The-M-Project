@@ -15,6 +15,7 @@
   * Added hasAsteriskOnLabel property to M.TextFieldView, M.SliderView and M.SelectionListView (thx to jianliao)
   * Added a complex split view component to the framework (M.SplitView, M.SplitItemView, M.PopoverView, M.SplitToolbarView)
   * Fixed an issue with minifed modernizr and Espresso's DCE
+  * Updated D8 to v0.1.6 (thx to josher19)
 
 ** Version 1.0 - Date 25.01.2012 **
 
