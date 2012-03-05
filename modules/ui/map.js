@@ -540,7 +540,7 @@ M.MapView = M.View.extend(
      * @param {M.MapMarkerView} marker The marker to be added.
      */
     addMarker: function(marker) {
-        if(marker && typeof(marker) === 'object' && marker.type === 'M.MapMarkerView') {
+        if(marker && typeof(marker) === 'object' && marker.type === 'M.MapMarkerView' && typeof(google) !== 'undefined') {
             var that = this;
             marker.marker = new google.maps.Marker({
                 map: that.map,
