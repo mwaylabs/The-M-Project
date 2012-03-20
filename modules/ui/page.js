@@ -54,7 +54,7 @@ M.PageView = M.View.extend(
      *
      * @type Array
      */
-    recommendedEvents: ['pagebeforeshow', 'pageshow', 'pagebeforehide', 'pagehide', 'orientationchange'],
+    recommendedEvents: ['pagebeforeshow', 'pageshow', 'pagebeforehide', 'pagehide', 'orientationdidchange'],
 
     /**
      * This property is used to specify a view's internal events and their corresponding actions. If
@@ -131,7 +131,7 @@ M.PageView = M.View.extend(
                 target: this,
                 action: 'pageDidHide'
             },
-            orientationchange: {
+            orientationdidchange: {
                 target: this,
                 action: 'orientationDidChange'
             }
@@ -247,7 +247,7 @@ M.PageView = M.View.extend(
 
     /**
      * This method is called right after the device's orientation did change. If a action for
-     * orientationchange is defined for the page, it is now called.
+     * orientationdidchange is defined for the page, it is now called.
      *
      * @param {String} id The DOM id of the event target.
      * @param {Object} event The DOM event.

@@ -208,6 +208,20 @@ M.TextFieldView = M.View.extend(
     recommendedEvents: ['focus', 'blur', 'enter', 'keyup', 'tap'],
 
     /**
+     * Define whether putting an asterisk to the right of the label for this textfield.
+     *
+     * @type Boolean
+     */
+    hasAsteriskOnLabel: NO,
+
+    /**
+     * This property can be used to assign a css class to the asterisk on the right of the label.
+     *
+     * @type String
+     */
+    cssClassForAsterisk: null,
+
+    /**
      * Renders a TextFieldView
      * 
      * @private
@@ -228,7 +242,16 @@ M.TextFieldView = M.View.extend(
         this.html += '>';
 
         if(this.label) {
-            this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label + '</label>';
+            this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label;
+            if(this.hasAsteriskOnLabel) {
+                if(this.cssClassForAsterisk) {
+                    this.html += '<span class="' + this.cssClassForAsterisk + '">*</span></label>';
+                } else {
+                    this.html += '<span>*</span></label>';
+                }
+            } else {
+                this.html += '</label>';
+            }
         }
 
         if(this.hasMultipleLines) {

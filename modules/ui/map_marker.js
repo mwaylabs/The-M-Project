@@ -235,7 +235,7 @@ M.MapMarkerView = M.View.extend(
         if(this.events || this.map.events) {
             var events = this.events ? this.events : this.map.events;
             for(var e in events) {
-                if(e === (event.type === 'click' ? 'tap' : event.type)) {
+                if(e === ((event.type === 'click' || event.type === 'touchend') ? 'tap' : event.type)) {
                     M.EventDispatcher.callHandler(events[e], event, NO, [this]);
                 }
             }

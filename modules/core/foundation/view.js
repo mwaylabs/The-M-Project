@@ -260,6 +260,7 @@ M.View = M.Object.extend(
             for(var i in childViews) {
                 if(this[childViews[i]]) {
                     this[childViews[i]]._name = childViews[i];
+                    this[childViews[i]].parentView = this;
                     this.html += this[childViews[i]].render();
                 } else {
                     this.childViews = this.childViews.replace(childViews[i], ' ');
@@ -413,9 +414,25 @@ M.View = M.Object.extend(
     registerEvents: function() {
         var externalEvents = {};
         for(var event in this.events) {
+            /* map orientationchange event to orientationdidchange event */
+            if(event === 'orientationchange') {
+                event = 'orientationdidchange';
+            }
             externalEvents[event] = this.events[event];
         }
-        
+
+        if(this.internalEvents) {
+            for(var event in this.internalEvents) {
+                /* map orientationchange event to orientationdidchange event */
+                if(this.internalEvents[event]) {
+                    if(event === 'orientationchange') {
+                        this.internalEvents['orientationdidchange'] = this.internalEvents[event];
+                        delete this.internalEvents[event];
+                    }
+                }
+            }
+        }
+
         if(this.internalEvents && externalEvents) {
             for(var event in externalEvents) {
                 if(this.internalEvents[event]) {

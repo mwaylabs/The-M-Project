@@ -28,7 +28,7 @@ Thanks for sharing!
 
 ## CHANGELOG
 
-** Version 1.0 - Date 25.01.2011 **
+** Version 1.0 - Date 25.01.2012 **
 
   * Do not trigger success callback when isUpdate within M.MapView's init()
   * Added icon property to M.MapMarkerView
@@ -43,7 +43,7 @@ Thanks for sharing!
   * Fixed the "overlapping" problem of M.ListView if used in between other views
   * Fixed the problem of too long values in the center position of a toolbar
 
-** Version 1.0 RC1 - Date 17.01.2011 **
+** Version 1.0 RC1 - Date 17.01.2012 **
 
   * Fixed a bug with sendNoCacheHeader property of M.Request
   * I18N not sets language to default language if the desired one is not available

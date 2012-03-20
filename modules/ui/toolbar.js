@@ -101,7 +101,7 @@ M.ToolbarView = M.View.extend(
      * @returns {String} The toolbar view's html representation.
      */
     render: function() {
-        this.html += '<div id="' + this.id + '" data-role="' + this.anchorLocation + '"' + this.style();
+        this.html = '<div id="' + this.id + '" data-role="' + this.anchorLocation + '"' + this.style();
 
         if(this.isFixed) {
             this.html += ' data-position="fixed"';

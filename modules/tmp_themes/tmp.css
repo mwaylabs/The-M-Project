@@ -148,151 +148,153 @@
 }
 
 
-
-/* datepicker */
-.dwo {
-    opacity: 1;
-    background: rgba(0, 0, 0, 0.5);
+/* SPLITVIEW */
+.tmp-splitview-menu {
+    position:absolute;
 }
 
-.dw {
-    border-radius: 8px;
-    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(47, 74, 117, 0.9)), color-stop(0.5, rgba(47, 76, 117, 0.9)), color-stop(0.5, rgba(47, 76, 117, 0.9)), color-stop(1, rgba(134, 140, 158, 0.9)));
-    -webkit-box-shadow: 0 0 8px 4px #555;
-    box-shadow: 0 0 8px 4px #555;
-    border: 2px solid #fff;
-    color: #fff;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+.tmp-splitview-content {
+    position:absolute;
 }
 
-.dw .dwc .dwwc {
-    border-radius: 8px;
-    border: 1px solid #555555;
+
+.landscape .ui-page {
+    /*min-height:707px;*/
 }
 
-.dw .ui-grid-a {
-    width: 100%;
-    margin: auto;
-    margin-top: 15px;
-    margin-bottom: 10px;
+.landscape .tmp-splitview-no-footer {
+    /*min-height:748px;*/
+    
 }
 
-.dw > div.ui-btn {
-    margin-bottom: 10px;
-    margin-top: 10px;
+.landscape .tmp-splitview-menu {
+    top:41px;
+    bottom:0px;
+    /*width:289px;*/
+    /*margin-bottom:-30px;*/
+    border-right:1px solid #ccc;
+    
+    
 }
 
-.dw > div.ui-btn:last-child {
-    margin-top: 0px;
+.landscape .tmp-splitview-no-footer .tmp-splitview-menu {
+
+    /*margin-bottom:10px;*/
 }
 
-.tmp-datepicker-no-label .dw .dwl {
-    display: none;
+.landscape .tmp-splitview-content-toolbar {
+    /*width:704px;*/
+    top:0px;
+
 }
 
-.tmp-datepicker-no-label .dw .dww {
+.landscape .tmp-splitview-content-toolbar-show-menu-button .ui-btn-left ,
+.landscape .tmp-splitview-content-toolbar-show-menu-button .ui-btn-right {
+    display:none;
+}
+
+.landscape .tmp-splitview-menu-toolbar {
+    left:0px;
+    /*width:319px;*/
+    float:left;
+    border-right:1px solid #000;
+    
+}
+
+.landscape .tmp-splitview-menu-toolbar h1 {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.landscape .tmp-splitview-content {
+    top:41px;
+    bottom:0px;
+    
+    /*left:320px;
+    width:674px;*/
+}
+
+.portrait .ui-page {
+    /*min-height:963px;*/
+}
+
+.portrait .tmp-splitview-menu {
+    display:none
+}
+
+.portrait .tmp-splitview-content {
+    top:41px;
+    bottom:0px;
+    left:0px;
+    /*width:738px;*/
+}
+
+.portrait .tmp-splitview-content-toolbar-show-menu-button .ui-btn-left,
+.portrait .tmp-splitview-content-toolbar-show-menu-button .ui-btn-right {
+    display:block;
+}
+
+.portrait .tmp-splitview-content-toolbar {
+    /*width:768px;*/
+    top:0px;
+}
+
+.portrait .tmp-splitview-menu-toolbar {
+    display:none
+}
+
+.tmp-footer {
+    position:absolute !important;
+    bottom:-41px;
+}
+
+.tmp-splitview-no-header .tmp-splitview-content, .tmp-splitview-no-header .tmp-splitview-menu {
     top: 0px;
 }
 
-.tmp-datepicker-no-label .dw .dwc {
-    padding-top: 10px;
+.labeltest{
+
+    border: 1px solid #000;
+
 }
 
 
-
-
-/* slider */
-.tmp-slider-container.tmp-slider-is-slider-only {
-    padding-left: 14px;
-    padding-right: 14px;
-    min-height: 30px;
+/* POPOVER */
+.tmp-popover {
+    /*opacity: 0.9 !important;*/
+    position: absolute !important;
+    left: 15px !important;
+    top: 56px !important;
+    /*width: 320px !important;*/
+    min-height: 50px !important;
+    -webkit-border-radius: 5px 5px 5px 5px !important;
+    -moz-border-radius: 5px 5px 5px 5px !important;
+    border-radius: 5px 5px 5px 5px !important;
+    z-index: 100001 !important;
 }
 
-.tmp-slider-container.tmp-slider-is-slider-only div.ui-slider {
-    width: 100%;
-    margin-left: 0px;
-    margin-right: 0px;
+.tmp-popover-header {
+    -webkit-border-radius: 5px 5px 0px 0px !important;
+    -moz-border-radius: 5px 5px 0px 0px !important;
+    border-radius: 5px 5px 0px 0px !important;
+    border-top: 0px !important;
 }
 
-
-/* adjustments for touch overflow */
-.ui-mobile-touch-overflow .ui-content {
-    left: 0px;
-    right: 0px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+.tmp-popover-content {
+    border: 5px solid #111 !important;
+    border-top: 0px !important;
+    -webkit-border-radius: 0px 0px 5px 5px !important;
+    -moz-border-radius: 0px 0px 5px 5px !important;
+    border-radius: 0px 0px 5px 5px !important;
 }
 
-.ui-mobile-touch-overflow .ui-listview {
-    margin-top:  -15px;
-    margin-bottom:  -15px;
-}
-
-
-
-
-/* table */
-.tmp-table-container {
-    width: 100%;
-}
-
-.tmp-table {
-    width: 100%;
-    table-layout:fixed;
-    border: 1px solid #121212;
-    border-spacing: 0px;
-}
-
-.tmp-table-th {
-    background-color: #121212;
-    color: #FFFFFF;
-    text-shadow: none;
-    padding: 5px;
-    text-align: left;
-}
-
-.tmp-table-td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 5px;
-}
-
-.tmp-table-tr-a td {
-    background-color: rgb(220, 220, 220);
-}
-
-.tmp-table-tr-b td {
-    background-color: rgb(235, 235, 235);
-}
-
-
-
-
-/* fixing the 100% problem of jqm */
-.ui-page {
-    min-height: 100% !important;
-}
-
-
-
-
-/* fixing overlapping list at top/bottom of a page */
-ul[data-role="listview"].listview-do-not-overlap-at-top {
-    margin-top: 15px;
-}
-
-ul[data-role="listview"].listview-do-not-overlap-at-bottom {
-    margin-bottom: 15px;
-}
-
-
-
-
-/* fixing a too long center value of header bar */
-.ui-header h1 div {
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.tmp-popover-arrow {
+    border-color: transparent transparent #3C3C3C transparent;
+    border-style: solid;
+    border-width: 20px;
+    height: 0;
+    width: 0;
+    position: absolute;
+    top: -40px;
+    left: 10px;
 }

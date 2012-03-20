@@ -137,7 +137,8 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
             if(res && res.length > 0) {
                 var o = res[0];
                 if (typeof(o.record[ident]) != o.__meta[ident].dataType.toLowerCase()) {
-                    throw 'Query: "' + ident + op + val + '" tries to compare ' + typeof(o.record[ident]) + ' with ' + o.__meta[ident].dataType.toLowerCase() + '.';
+					if(!(o.__meta[ident].dataType.toLowerCase() == "reference" && typeof(o.record[ident]) == "string"))
+						throw 'Query: "' + ident + op + val + '" tries to compare ' + typeof(o.record[ident]) + ' with ' + o.__meta[ident].dataType.toLowerCase() + '.';
                 }
             }
 

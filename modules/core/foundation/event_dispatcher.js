@@ -69,7 +69,7 @@ M.EventDispatcher = M.Object.extend(
      * @param {Object} sourceType The type of the event source.
      * @param {Boolean} isInternalCall The flag to determine whether this is an internal call or not.
      */
-    registerEvent: function(type, eventSource, handler, recommendedEvents, sourceType, isInternalCall) {
+    registerEvent: function(type, eventSource, handler, recommendedEvents, sourceType, isInternalCall, skipUnbinding) {
         if(!isInternalCall) {
             if(!handler || typeof(handler) !== 'object') {
                 M.Logger.log('No event passed!', M.WARN);
@@ -109,7 +109,6 @@ M.EventDispatcher = M.Object.extend(
             eventSource.unbind(type);
         }
         eventSource.bind(type, function(event) {
-
             /* discard false twice-fired events in some special cases */
             if(eventSource.attr('id') && M.ViewManager.getViewById(eventSource.attr('id')).type === 'M.DashboardItemView') {
                 if(that.lastEvent.tap && that.lastEvent.tap.view === 'M.DashboardItemView' && that.lastEvent.tap.x === event.clientX && that.lastEvent.tap.y === event.clientY) {
@@ -126,6 +125,8 @@ M.EventDispatcher = M.Object.extend(
                 if(view.type === 'M.SearchBarView') {
                     killEvent = NO;
                 } else if((type === 'click' || type === 'tap') && view.type === 'M.ButtonView' && view.parentView && view.parentView.type === 'M.ToggleView' && view.parentView.toggleOnClick) {
+                    killEvent = NO;
+                } else if(view.hyperlinkTarget && view.hyperlinkType) {
                     killEvent = NO;
                 }
             }
@@ -263,6 +264,18 @@ M.EventDispatcher = M.Object.extend(
         }
         
         return YES;
+    },
+
+    dispatchOrientationChangeEvent: function(id, event, nextEvent) {
+        var orientation = M.Environment.getOrientation();
+        if(orientation === M.PORTRAIT_BOTTOM || orientation === M.PORTRAIT_TOP) {
+            $('html').removeClass('landscape');
+            $('html').addClass('portrait');
+        } else {
+            $('html').removeClass('portrait');
+            $('html').addClass('landscape');
+        }
+        $('#' + M.ViewManager.getCurrentPage().id).trigger('orientationdidchange');
     }
 
 });

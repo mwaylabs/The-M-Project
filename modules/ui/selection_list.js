@@ -179,6 +179,20 @@ M.SelectionListView = M.View.extend(
     recommendedEvents: ['change'],
 
     /**
+     * Define whether putting an asterisk to the right of the label for this selection list.
+     *
+     * @type Boolean
+     */
+    hasAsteriskOnLabel: NO,
+
+    /**
+     * This property can be used to assign a css class to the asterisk on the right of the label.
+     *
+     * @type String
+     */
+    cssClassForAsterisk: null,
+
+    /**
      * Renders a selection list.
      *
      * @private
@@ -209,7 +223,16 @@ M.SelectionListView = M.View.extend(
         if(this.selectionMode === M.SINGLE_SELECTION_DIALOG || this.selectionMode === M.MULTIPLE_SELECTION_DIALOG) {
             
             if(this.label) {
-                this.html += '<label for="' + this.id + '">' + this.label + '</label>';
+                this.html += '<label for="' + this.id + '">' + this.label;
+                if (this.hasAsteriskOnLabel) {
+                    if (this.cssClassForAsterisk) {
+                        this.html += '<span class="' + this.cssClassForAsterisk + '">*</span></label>';
+                    } else {
+                        this.html += '<span>*</span></label>';
+                    }
+                } else {
+                    this.html += '</label>';
+                }
             }
 
             this.html += '<select name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + (this.selectionMode === M.MULTIPLE_SELECTION_DIALOG ? ' multiple="multiple"' : '') + '>';
@@ -223,7 +246,16 @@ M.SelectionListView = M.View.extend(
             this.html += '<fieldset data-role="controlgroup" data-native-menu="false" id="' + this.id + '">';
 
             if(this.label) {
-                this.html += '<legend>' + this.label + '</legend>';
+                this.html += '<legend>' + this.label;
+                if (this.hasAsteriskOnLabel) {
+                    if (this.cssClassForAsterisk) {
+                        this.html += '<span class="' + this.cssClassForAsterisk + '">*</span></legend>';
+                    } else {
+                        this.html += '<span>*</span></legend>';
+                    }
+                } else {
+                    this.html += '</legend>';
+                }
             }
 
             this.renderChildViews();
@@ -377,7 +409,7 @@ M.SelectionListView = M.View.extend(
             } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && !this.selection) {
                 var that = this;
                 var item = M.ViewManager.getViewById($('#' + this.id).find('option:first-child').attr('id'));
-                that.setSelection(item.value);
+                item !== undefined && item !== null ? that.setSelection(item.value) : null;
             }
         } else if(this.selectionMode !== M.SINGLE_SELECTION_DIALOG && this.selectionMode !== M.MULTIPLE_SELECTION_DIALOG) {
             $('#' + this.id).controlgroup();

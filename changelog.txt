@@ -1,6 +1,22 @@
-** Version 1.0.1 - Date 25.01.2012 **
+** Version 1.1 - Date 05.03.2012 **
 
   * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
+  * Fixed isAsync and isJSON flags in M.Request
+  * Fixed tap/click issue with google maps on iOS
+  * Fixed a bug with event dispatching and hyperlinks for buttons/labels
+  * Fixed themeUpdate() of M.SelectionListView and with single selection dialog mode (no more js errors with empty content binding)
+  * Fixed issue with having multiple toolbars when "outsourcing" them into a seperate file
+  * Fixed issue with hard coded view id in table view (thx to jianliao)
+  * Added parentView property to any view that is rendered within renderChildViews
+  * Updated D8 library to 0.1.5
+  * Clear the validation status before validate it again (thx to jianliao)
+  * Added events property to M.ListView that gets applied to all items if the template does not specify events too
+  * Added swipe button feature to M.ListView / M.ListItemView
+  * Added hasAsteriskOnLabel property to M.TextFieldView, M.SliderView and M.SelectionListView (thx to jianliao)
+  * Added a complex split view component to the framework (M.SplitView, M.SplitItemView, M.PopoverView, M.SplitToolbarView)
+  * Fixed an issue with minifed modernizr and Espresso's DCE
+  * Updated D8 to v0.1.6 (thx to josher19)
+  * Fixed issue with google call to non existing variable in M.MapView
 
 ** Version 1.0 - Date 25.01.2012 **
 
