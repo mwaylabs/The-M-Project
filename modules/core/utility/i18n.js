@@ -55,10 +55,11 @@ M.I18N = M.Object.extend(
      * the current language.
      *
      * @param {String} key The key to the localized string.
+     * @param {Object} context An object containing value parts for the translated string
      * @returns {String} The localized string based on the current application language.
      */
-    l: function(key) {
-        return this.localize(key);
+    l: function(key, context) {
+        return this.localize(key, context);
     },
 
     /**
@@ -68,25 +69,34 @@ M.I18N = M.Object.extend(
      *
      * @private
      * @param {String} key The key to the localized string.
+     * @param {Object} context An object containing value parts for the translated string
      * @returns {String} The localized string based on the current application language.
      */
-    localize: function(key) {
+    localize: function(key, context) {
+        var translation;
         if(!M.Application.currentLanguage) {
             M.Application.currentLanguage = this.getLanguage();
         }
-
         if(this[M.Application.currentLanguage] && this[M.Application.currentLanguage][key]) {
-            return this[M.Application.currentLanguage][key];
+            translation = this[M.Application.currentLanguage][key];
         } else if(this[M.Application.defaultLanguage] && this[M.Application.defaultLanguage][key]) {
             M.Logger.log('Key \'' + key + '\' not defined for language \'' + M.Application.currentLanguage + '\', switched to default language \'' + M.Application.defaultLanguage + '\'', M.WARN);
-            return this[M.Application.defaultLanguage][key];
+            translation = this[M.Application.defaultLanguage][key];
         }  else if(this[this.defaultLanguage] && this[this.defaultLanguage][key]) {
             M.Logger.log('Key \'' + key + '\' not defined for language \'' + M.Application.currentLanguage + '\', switched to system\'s default language \'' + this.defaultLanguage + '\'', M.WARN);
-            return this[this.defaultLanguage][key];
+            translation = this[this.defaultLanguage][key];
         } else {
             M.Logger.log('Key \'' + key + '\' not defined for both language \'' + M.Application.currentLanguage + '\' and the system\'s default language \'' + this.defaultLanguage + '\'', M.WARN);
+            return null;
         }
-
+        if(context) {
+            try {
+                translation = _.template(translation, context);
+            } catch(e) {
+                M.Logger.log('Error in I18N: Check your context object and the translation string with key "'+ key + '". Error Message: ' + e, M.ERR);
+            }
+        }
+        return translation;
     },
 
     /**
