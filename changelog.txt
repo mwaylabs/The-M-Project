@@ -19,6 +19,7 @@
   * Fixed issue with google call to non existing variable in M.MapView
   * Updated jQuery to 1.7.1
   * Updated jQuery Mobile to 1.1.0 RC1
+  * Updated mobiscroll to 1.6
 
 ** Version 1.0 - Date 25.01.2012 **
 
