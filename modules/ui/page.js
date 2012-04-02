@@ -202,9 +202,6 @@ M.PageView = M.View.extend(
             M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);
         }
 
-        /* call jqm to fix header/footer */
-        $.mobile.fixedToolbars.show();
-
         this.isFirstLoad = NO;
     },
 
