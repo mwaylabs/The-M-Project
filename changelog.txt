@@ -1,4 +1,4 @@
-** Version 1.1 - Date 05.03.2012 **
+** Version 1.1 - Date 02.04.2012 **
 
   * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
   * Fixed isAsync and isJSON flags in M.Request
@@ -17,6 +17,8 @@
   * Fixed an issue with minifed modernizr and Espresso's DCE
   * Updated D8 to v0.1.6 (thx to josher19)
   * Fixed issue with google call to non existing variable in M.MapView
+  * Updated jQuery to 1.7.1
+  * Updated jQuery Mobile to 1.1.0 RC1
 
 ** Version 1.0 - Date 25.01.2012 **
 
