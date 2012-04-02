@@ -55,6 +55,7 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
             return YES;
         } catch (e) {
             M.Logger.log('Error saving ' + obj.model.record + ' to localStorage with key: ' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX + obj.model.name + '_' + this.m_id, M.WARN);
+            M.Logger.log('Error ' + e.code + ', ' + e.name + ': ' + e.message);
             return NO;
         }
 
