@@ -18,6 +18,7 @@
   * Updated D8 to v0.1.6 (thx to josher19)
   * Fixed issue with google call to non existing variable in M.MapView
   * Fixed an issue with possibly undefined variable in M.FormView
+  * Updated D8 library to 0.2.0
 
 ** Version 1.0 - Date 25.01.2012 **
 
