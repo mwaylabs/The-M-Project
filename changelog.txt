@@ -1,4 +1,4 @@
-** Version 1.1 - Date 10.04.2012 **
+** Version 1.1 - Date 12.04.2012 **
 
   * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
   * Fixed isAsync and isJSON flags in M.Request
@@ -20,6 +20,7 @@
   * Fixed an issue with possibly undefined variable in M.FormView
   * Updated D8 library to 0.2.0
   * Updated Underscore to v1.3.2
+  * Fixed a bug with regex check for valuePattern in M.ListView
 
 ** Version 1.0 - Date 25.01.2012 **
 
