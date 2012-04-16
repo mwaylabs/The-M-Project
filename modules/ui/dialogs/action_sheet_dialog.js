@@ -175,28 +175,32 @@ M.ActionSheetDialogView = M.DialogView.extend(
     },
 
     show: function() {
+        /* call the dialog's render() */
         this.render();
         var dialog = $('#' + this.id);
+        var background = $('.tmp-dialog-background');
+        background.hide();
+
+        /* disable scrolling to enable a "real" dialog behaviour */
+        $(document).bind('touchmove', function(e) {
+            e.preventDefault();
+        });
+
+        /* slide the dialog in */
         dialog.removeClass('slideup out reverse');
         dialog.addClass('slideup in');
-    },
 
-    hide: function() {
-        var dialog = $('#' + this.id);
-        dialog.removeClass('slideup in');
-        dialog.addClass('slideup out reverse');
-        $('.tmp-dialog-background').remove();
-
-        /* destroying the view object and its DOM representation must be performed after the slide animation is finished. */
-        var that = this;
-        window.setTimeout(that.bindToCaller(that, that.destroy), this.deletionDelay);
-
-        /* now wait 100ms (plus the default delay) and then call the next in the queue */
+        /* reposition, but wait a second */
         var that = this;
         window.setTimeout(function() {
-            M.DialogView.isActive = NO;
-            that.dequeue();
-        }, this.deletionDelay + 100);
+            background.show();
+            that.positionBackground(background);
+
+            /* click on background cancels the action sheet */
+            $('.tmp-dialog-background').bind('click tap', function() {
+                that.hide();
+            });
+        }, 1);
     },
 
     handleCallback: function(viewId, event) {
@@ -208,7 +212,4 @@ M.ActionSheetDialogView = M.DialogView.extend(
             this.bindToCaller(this.callbacks[buttonType].target, this.callbacks[buttonType].action, button.tag)();
         }
     }
-
-
-
 });
