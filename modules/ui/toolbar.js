@@ -94,6 +94,14 @@ M.ToolbarView = M.View.extend(
     isFixed: YES,
 
     /**
+     * This property determines whether to toggle the toolbar on tap on the content area
+     * or not. By default this is set to NO.
+     *
+     * @type Boolean
+     */
+    toggleOnTap: NO,
+
+    /**
      * Renders a toolbar as a div tag with corresponding data-role attribute and inner
      * h1 child tag (representing the title of the header)
      *
@@ -101,11 +109,13 @@ M.ToolbarView = M.View.extend(
      * @returns {String} The toolbar view's html representation.
      */
     render: function() {
-        this.html = '<div id="' + this.id + '" data-role="' + this.anchorLocation + '"' + this.style();
+        this.html = '<div id="' + this.id + '" data-role="' + this.anchorLocation + '" data-tap-toggle="' + this.toggleOnTap + '"' + this.style();
 
         if(this.isFixed) {
             this.html += ' data-position="fixed"';
         }
+
+        this.html += ' data-transition="' + (M.Application.getConfig('useTransitions') ? M.TRANSITION.SLIDE : M.TRANSITION.NONE) + '"';
 
         this.html += '>';
 

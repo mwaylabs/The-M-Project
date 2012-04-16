@@ -24,6 +24,10 @@
   * Updated D8 library to 0.2.0
   * Updated Underscore to v1.3.2
   * Fixed a bug with regex check for valuePattern in M.ListView
+  * Improved behaviour and stability of dialogs
+  * Adjusted look and feel of date picker to fit into jqm design
+  * Adjusted a few ui components to work with jqm 1.1
+  * Implemented real fixed toolbars/tab bars of jqm 1.1
 
 ** Version 1.0 - Date 25.01.2012 **
 

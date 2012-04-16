@@ -60,6 +60,14 @@ M.TabBarView = M.View.extend(
     usageCounter: 0,
 
     /**
+     * This property determines whether to toggle the tab bar on tap on the content area
+     * or not. By default this is set to NO.
+     *
+     * @type Boolean
+     */
+    toggleOnTap: NO,
+
+    /**
      * Renders a tab bar as an unordered list.
      *
      * @private
@@ -70,7 +78,7 @@ M.TabBarView = M.View.extend(
         this.usageCounter += 1;
 
         if(this.anchorLocation) {
-            this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed"><div data-role="navbar"><ul>';
+            this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed" data-tap-toggle="' + this.toggleOnTap + '" data-transition="' + (M.Application.getConfig('useTransitions') ? M.TRANSITION.SLIDE : M.TRANSITION.NONE) + '"><div data-role="navbar"><ul>';
         } else {
             this.html += '<div data-role="navbar" id="' + this.id + '" data-id="' + this.name + '"><ul>';
         }

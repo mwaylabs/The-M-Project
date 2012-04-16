@@ -306,3 +306,12 @@
 .dw > .ui-grid-a, .dw > [data-role="button"]:last-child {
     margin-bottom: 15px;
 }
+
+.dwo {
+    position: fixed;
+    background: none;
+}
+
+.dww li {
+    font-size: 22px;
+}

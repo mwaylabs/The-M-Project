@@ -500,6 +500,9 @@ M.SelectionListView = M.View.extend(
                 M.EventDispatcher.callHandler(nextEvent, event, NO, [selectionValues, this.selection]);
             }
         }
+
+        /* fix the toolbar(s) again */
+        $('#' + this.id).blur();
     },
 
     /**
