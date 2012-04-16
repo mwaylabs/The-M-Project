@@ -570,6 +570,16 @@ M.DatePickerView = M.View.extend(
         /* kill parts of the scoller */
         $('.dwv').remove();
 
+        /* give it some shiny jqm style */
+        window.setTimeout(function() {
+            $('.dw').addClass('ui-btn-up-a');
+        }, 1);
+
+        /* disable scrolling for the background */
+        $('.dwo').bind('touchmove', function(e) {
+            e.preventDefault();
+        });
+
         /* inject TMP buttons*/
         var confirmButton = M.ButtonView.design({
             value: this.confirmButtonValue,
