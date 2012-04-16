@@ -17,9 +17,6 @@ $(document).bind("mobileinit", function(){
 
     /* disable auto initialize */
     $.mobile.autoInitializePage = false;
-
-    /* disable touch overflow */
-    $.mobile.touchOverflowEnabled = false;
 });
 $(document).ready(function(){
     /* bind the orientationchange event globally */
@@ -35,9 +32,6 @@ $(document).ready(function(){
         NO,
         YES
     );
-
-    /* configure jqm */
-    $.mobile.touchOverflowEnabled = M.Application.getConfig('enableTouchOverflow') !== undefined ? M.Application.getConfig('enableTouchOverflow') : $.mobile.touchOverflowEnabled;
 
     /* init pages */
     $.mobile.initializePage();
