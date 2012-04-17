@@ -1,4 +1,4 @@
-** Version 1.1 - Date 16.04.2012 **
+** Version 1.1 - Date 17.04.2012 **
 
   * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
   * Fixed isAsync and isJSON flags in M.Request
@@ -28,6 +28,7 @@
   * Adjusted look and feel of date picker to fit into jqm design
   * Adjusted a few ui components to work with jqm 1.1
   * Implemented real fixed toolbars/tab bars of jqm 1.1
+  * Adjusted M.SliderView to make use of jqm's 'highlight' option
 
 ** Version 1.0 - Date 25.01.2012 **
 
