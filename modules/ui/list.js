@@ -370,32 +370,7 @@ M.ListView = M.View.extend(
                 obj.modelId = item[that.idName];
             }
 
-            /* Get the child views as an array of strings */
-            var childViewsArray = obj.getChildViewsAsArray();
-
-            /* If the item is a model, read the values from the 'record' property instead */
-            var record = item.type === 'M.Model' ? item.record : item;
-
-            /* Iterate through all views defined in the template view */
-            for(var i in childViewsArray) {
-                /* Create a new object for the current view */
-                obj[childViewsArray[i]] = obj[childViewsArray[i]].design({});
-
-                /* This regex looks for a variable inside the template view (<%= ... %>) ... */
-                var regexResult = /^<%=\s+([.|_|-|$|§|@|a-zA-Z0-9]+)\s*%>$/.exec(obj[childViewsArray[i]].computedValue ? obj[childViewsArray[i]].computedValue.valuePattern : obj[childViewsArray[i]].valuePattern);
-
-                /* ... if a match was found, the variable is replaced by the corresponding value inside the record */
-                if(regexResult) {
-                    switch (obj[childViewsArray[i]].type) {
-                        case 'M.LabelView':
-                        case 'M.ButtonView':
-                        case 'M.ImageView':
-                        case 'M.TextFieldView':
-                            obj[childViewsArray[i]].value = record[regexResult[1]];
-                            break;
-                    }
-                }
-            }
+            obj = that.cloneObject(obj, item);
 
             /* If edit mode is on, render a delete button */
             if(that.inEditMode) {
@@ -430,10 +405,52 @@ M.ListView = M.View.extend(
             }
 
             /* ... once it is in the DOM, make it look nice */
-            for(var i in childViewsArray) {
+            var childViewsArray = obj.getChildViewsAsArray();
+            for(var i in obj.getChildViewsAsArray()) {
                 obj[childViewsArray[i]].theme();
             }
         });
+    },
+
+    /**
+     * This method clones an object of the template including its sub views (recursively).
+     *
+     * @param {Object} obj The object to be cloned.
+     * @param {Object} item The current item (record/data).
+     * @private
+     */
+    cloneObject: function(obj, item) {
+        /* Get the child views as an array of strings */
+        var childViewsArray = obj.childViews ? obj.getChildViewsAsArray() : [];
+
+        /* If the item is a model, read the values from the 'record' property instead */
+        var record = item.type === 'M.Model' ? item.record : item;
+
+        /* Iterate through all views defined in the template view */
+        for(var i in childViewsArray) {
+            /* Create a new object for the current view */
+            obj[childViewsArray[i]] = obj[childViewsArray[i]].design({});
+
+            /* create childViews of the current object */
+            obj[childViewsArray[i]] = this.cloneObject(obj[childViewsArray[i]], item);
+
+            /* This regex looks for a variable inside the template view (<%= ... %>) ... */
+            var regexResult = /^<%=\s+([.|_|-|$|§|@|a-zA-Z0-9]+)\s*%>$/.exec(obj[childViewsArray[i]].computedValue ? obj[childViewsArray[i]].computedValue.valuePattern : obj[childViewsArray[i]].valuePattern);
+
+            /* ... if a match was found, the variable is replaced by the corresponding value inside the record */
+            if(regexResult) {
+                switch (obj[childViewsArray[i]].type) {
+                    case 'M.LabelView':
+                    case 'M.ButtonView':
+                    case 'M.ImageView':
+                    case 'M.TextFieldView':
+                        obj[childViewsArray[i]].value = record[regexResult[1]];
+                        break;
+                }
+            }
+        }
+
+        return obj;
     },
 
     /**
