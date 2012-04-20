@@ -1,13 +1,16 @@
 function ResizePageContentHeight(page)
 {
 	var $page = $(page);
-	var $content = $page.children(".ui-content");
-	var hh = $page.children(".ui-header").outerHeight(); hh = hh ? hh : 0;
-	var fh = $page.children(".ui-footer").outerHeight(); fh = fh ? fh : 0;
-	var pt = parseFloat($content.css("padding-top"));
-	var pb = parseFloat($content.css("padding-bottom"));
-	var wh = window.innerHeight;
-	$content.height(wh - (hh + fh) - (pt + pb));
+	var $content = $page.children(".ui-content.tmp-splitview-menu", ".ui-content.tmp-splitview-content");
+
+    if($content.length > 0) {
+        var hh = $page.children(".ui-header").outerHeight(); hh = hh ? hh : 0;
+        var fh = $page.children(".ui-footer").outerHeight(); fh = fh ? fh : 0;
+        var pt = parseFloat($content.css("padding-top"));
+        var pb = parseFloat($content.css("padding-bottom"));
+        var wh = window.innerHeight;
+        $content.height(wh - (hh + fh) - (pt + pb));
+    }
 }
 
 $("[data-role=page]").live("pageshow", function(event) {
@@ -16,7 +19,7 @@ $("[data-role=page]").live("pageshow", function(event) {
 	// For the demos that use this script, we want the content area of each
 	// page to be scrollable in the 'y' direction.
 
-	$page.find(".ui-content").attr("data-scroll", "y");
+    $page.find(".ui-content.tmp-splitview-menu", ".ui-content.tmp-splitview-content").attr("data-scroll", "y");
 
 	// This code that looks for [data-scroll] will eventually be folded
 	// into the jqm page processing code when scrollview support is "official"
