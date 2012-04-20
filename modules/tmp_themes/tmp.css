@@ -315,3 +315,11 @@
 .dww li {
     font-size: 22px;
 }
+
+
+
+
+/* CONTENT AREA */
+.ui-content {
+    -webkit-overflow-scrolling: touch;
+}

@@ -1,4 +1,4 @@
-** Version 1.1 - Date 17.04.2012 **
+** Version 1.1 - Date 20.04.2012 **
 
   * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
   * Fixed isAsync and isJSON flags in M.Request
@@ -30,6 +30,7 @@
   * Implemented real fixed toolbars/tab bars of jqm 1.1
   * Adjusted M.SliderView to make use of jqm's 'highlight' option
   * Fixed a bug with M.ListView (rendering of sub views is now possible)
+  * Fixed a bug with M.ScrollView
 
 ** Version 1.0 - Date 25.01.2012 **
 

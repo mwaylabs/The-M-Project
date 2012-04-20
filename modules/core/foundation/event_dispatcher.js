@@ -105,9 +105,6 @@ M.EventDispatcher = M.Object.extend(
 
         var that = this;
         var view = M.ViewManager.getViewById(eventSource.attr('id'));
-        if(!view || (view.type !== 'M.TextFieldView' && view.type !== 'M.SearchBarView')) {
-            eventSource.unbind(type);
-        }
         eventSource.bind(type, function(event) {
             /* discard false twice-fired events in some special cases */
             if(eventSource.attr('id') && M.ViewManager.getViewById(eventSource.attr('id')).type === 'M.DashboardItemView') {
@@ -127,6 +124,8 @@ M.EventDispatcher = M.Object.extend(
                 } else if((type === 'click' || type === 'tap') && view.type === 'M.ButtonView' && view.parentView && view.parentView.type === 'M.ToggleView' && view.parentView.toggleOnClick) {
                     killEvent = NO;
                 } else if(view.hyperlinkTarget && view.hyperlinkType) {
+                    killEvent = NO;
+                } else if(type === 'pageshow') {
                     killEvent = NO;
                 }
             }
