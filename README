@@ -53,6 +53,7 @@ Thanks for sharing!
   * Fixed an issue with possibly undefined variable in M.FormView
   * Updated D8 library to 0.2.0
   * Updated Underscore to v1.3.2
+  * Added parameterized M.I18N
   * Fixed a bug with regex check for valuePattern in M.ListView
   * Improved behaviour and stability of dialogs
   * Adjusted look and feel of date picker to fit into jqm design
