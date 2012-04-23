@@ -21,6 +21,7 @@
   * Updated D8 library to 0.2.0
   * Updated Underscore to v1.3.2
   * Fixed a bug with regex check for valuePattern in M.ListView
+  * Add parameterized M.I18N.localize
 
 ** Version 1.0 - Date 25.01.2012 **
 
