@@ -283,6 +283,12 @@ M.PageView = M.View.extend(
             }, 500);
         });
 
+        /* auto-reposition carousels */
+        $('#' + this.id + ' .tmp-carousel-wrapper').each(function() {
+            var carousel = M.ViewManager.getViewById($(this).attr('id'));
+            carousel.orientationDidChange();
+        });
+
         /* set the current orientation */
         this.orientation = orientation;
 

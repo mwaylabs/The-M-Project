@@ -35,7 +35,7 @@ M.CarouselView = M.View.extend(
     numOfThemeCalls: 0,
 
     /**
-     * This property is used inernally to store the reference width of the parent element
+     * This property is used internally to store the reference width of the parent element
      * of the carousel which is needed for theming.
      *
      * @private
@@ -73,8 +73,26 @@ M.CarouselView = M.View.extend(
      */
     numItems: 0,
 
+    /* This property contains a flag telling us whether the carousel was correctly
+     * initialized or not. Whenever there is an orientation change event, this flag
+     * needs to be reset.
+     *
+     * @private
+     * @type Boolean
+     */
+    isInitialized: NO,
+
+    /* This property can be used to specify whether or not to show a paginator with
+     * the carousel. If set to YES, there will be dots visible, indicating the total
+     * number of items and highlighting the currently visible item.
+     *
+     * @type Boolean
+     */
+    showPaginator: YES,
+
     /**
-     * Lorem Ipsum Dolor Sit Amet
+     * This method renders the basic skeleton of the carousel based on several nested
+     * div elements.
      *
      * @private
      * @returns {String} The carousel view's html representation.
@@ -84,7 +102,9 @@ M.CarouselView = M.View.extend(
         this.html += '<div class="tmp-carousel-scroller">';
         this.html += '<ul class="tmp-carousel-list">';
 
-        this.renderChildViews();
+        if(this.childViews) {
+            this.renderChildViews();
+        }
 
         this.html += '</ul>';
         this.html += '</div>';
@@ -102,13 +122,64 @@ M.CarouselView = M.View.extend(
      * internal events.
      */
     registerEvents: function() {
-        /* register for orientation change event of surrounding page */
-        $('#' + this.id).closest('[data-role="page"]').bind('orientationchange', this.bindToCaller(this, this.initThemeUpdate));
-
         /* register for page before show event of surrounding page */
         $('#' + this.id).closest('[data-role="page"]').bind('pagebeforeshow', this.bindToCaller(this, this.initThemeUpdate));
 
         this.bindToCaller(this, M.View.registerEvents)();
+    },
+
+    /**
+     * This method is called automatically once the bound content changes. It then re-renders the
+     * carousel's content.
+     *
+     * @private
+     */
+    renderUpdate: function() {
+        if(this.contentBinding && this.value) {
+            this.removeAllItems();
+
+            /* lets gather the html together */
+            var html = '';
+            for(var i in this.value) {
+                html += this.value[i].render();
+            }
+
+            /* set the num of items */
+            this.numItems = this.value.length;
+
+            /* add the items to the DOM */
+            this.addItems(html);
+
+            /* now the items are in DOM, finally register events */
+            for(var i in this.value) {
+                this.value[i].theme();
+                this.value[i].registerEvents();
+            }
+
+            /* no re-theme the carousel (async) */
+            var that = this;
+            window.setTimeout(function() {
+                that.isInitialized = NO;
+                that.initThemeUpdate(YES);
+            }, 1);
+        }
+    },
+
+    /**
+     * This method adds a given html string, containing the carousel's items, to the DOM.
+     *
+     * @param {String} item The html representation of the carousel items to be added.
+     */
+    addItems: function(items) {
+        $('#' + this.id + ' .tmp-carousel-list').append(items);
+    },
+
+    /**
+     * This method removes all of the carousel view's items by removing all of its content in the
+     * DOM. This method is based on jQuery's empty().
+     */
+    removeAllItems: function() {
+        $('#' + this.id + ' .tmp-carousel-list').empty();
     },
 
     /**
@@ -139,7 +210,9 @@ M.CarouselView = M.View.extend(
     },
 
     /**
-     * Lorem Ipsum Dolor Sit Amet.
+     * This method is responsible for theming and layouting the carousel. We mainly do
+     * some calculation based on the device's screen size to position the carousel
+     * correctly.
      *
      * @private
      */
@@ -228,10 +301,41 @@ M.CarouselView = M.View.extend(
             $('#' + this.id).animate({
                 opacity: 1
             }, 100);
+
+            /* set isInitialized flag to YES */
+            this.isInitialized = YES;
         }
     },
 
-    initThemeUpdate: function() {
+    /**
+     * This method is automatically called by the surrounding page once an orientation
+     * change event took place.
+     *
+     * @private
+     */
+    orientationDidChange: function() {
+        this.isInitialized = NO;
+        this.initThemeUpdate();
+    },
+
+    /**
+     * This method is automatically called once there was an event that might require
+     * an re-theming of the carousel such as orientation change or page show.
+     *
+     * @private
+     */
+    initThemeUpdate: function(initFromScratch) {
+        /* if this carousel already is initialized, return */
+        if(this.isInitialized) {
+            return;
+        }
+
+        /* if this is a total refresh, clean some things up */
+        if(initFromScratch) {
+            this.iScroll = null;
+            this.lastWidth = 0;
+        }
+
         /* reset theme counter */
         this.numOfThemeCalls = 0;
 
