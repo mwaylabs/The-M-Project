@@ -20,10 +20,10 @@
 
     text-align: center;
     padding: 5px;
-    color: #fff; /*text-shadow: 1px 1px black;*/
-/*text-shadow: rgba(0,0,0,0.5) -1px 0, rgba(0,0,0,0.3) 0 -1px, rgba(255,255,255,0.5) 0 1px, rgba(0,0,0,0.3) -1px -2px;*/
+    color: #fff;
     font-size: 0.9em;
     font-weight: bold;
+    text-shadow: none;
 }
 
 .tmp-dialog-content {
@@ -33,6 +33,7 @@
     text-align: center;
     color: #fff;
     font-size: 0.9em;
+    text-shadow: none;
 }
 
 .tmp-dialog-footer {
@@ -157,34 +158,17 @@
     position:absolute;
 }
 
-
-.landscape .ui-page {
-    /*min-height:707px;*/
-}
-
-.landscape .tmp-splitview-no-footer {
-    /*min-height:748px;*/
-    
-}
-
 .landscape .tmp-splitview-menu {
     top:41px;
     bottom:0px;
-    /*width:289px;*/
-    /*margin-bottom:-30px;*/
     border-right:1px solid #ccc;
     
     
 }
 
-.landscape .tmp-splitview-no-footer .tmp-splitview-menu {
-
-    /*margin-bottom:10px;*/
-}
-
 .landscape .tmp-splitview-content-toolbar {
-    /*width:704px;*/
     top:0px;
+    left: auto;
 
 }
 
@@ -195,7 +179,6 @@
 
 .landscape .tmp-splitview-menu-toolbar {
     left:0px;
-    /*width:319px;*/
     float:left;
     border-right:1px solid #000;
     
@@ -209,13 +192,6 @@
 .landscape .tmp-splitview-content {
     top:41px;
     bottom:0px;
-    
-    /*left:320px;
-    width:674px;*/
-}
-
-.portrait .ui-page {
-    /*min-height:963px;*/
 }
 
 .portrait .tmp-splitview-menu {
@@ -226,7 +202,6 @@
     top:41px;
     bottom:0px;
     left:0px;
-    /*width:738px;*/
 }
 
 .portrait .tmp-splitview-content-toolbar-show-menu-button .ui-btn-left,
@@ -235,7 +210,6 @@
 }
 
 .portrait .tmp-splitview-content-toolbar {
-    /*width:768px;*/
     top:0px;
 }
 
@@ -261,11 +235,9 @@
 
 /* POPOVER */
 .tmp-popover {
-    /*opacity: 0.9 !important;*/
     position: absolute !important;
     left: 15px !important;
     top: 56px !important;
-    /*width: 320px !important;*/
     min-height: 50px !important;
     -webkit-border-radius: 5px 5px 5px 5px !important;
     -moz-border-radius: 5px 5px 5px 5px !important;
@@ -278,6 +250,7 @@
     -moz-border-radius: 5px 5px 0px 0px !important;
     border-radius: 5px 5px 0px 0px !important;
     border-top: 0px !important;
+    position: absolute;
 }
 
 .tmp-popover-content {
@@ -300,7 +273,26 @@
 }
 
 
+
+
 /* DATEPICKER */
 .dw > .ui-grid-a, .dw > [data-role="button"]:last-child {
     margin-bottom: 15px;
+}
+
+.dwo {
+    position: fixed;
+    background: none;
+}
+
+.dww li {
+    font-size: 22px;
+}
+
+
+
+
+/* CONTENT AREA */
+.ui-content {
+    -webkit-overflow-scrolling: touch;
 }

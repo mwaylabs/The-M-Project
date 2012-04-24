@@ -401,9 +401,6 @@ M.SplitView = M.View.extend(
 
         /* call theme update */
         this.themeUpdate();
-
-        /* fix the toolbars */
-        $.mobile.fixedToolbars.show();
     },
 
     scrollListToRightPosition: function(id) {

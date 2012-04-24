@@ -28,6 +28,42 @@ Thanks for sharing!
 
 ## CHANGELOG
 
+** Version 1.1 - Date 20.04.2012 **
+
+  * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
+  * Fixed isAsync and isJSON flags in M.Request
+  * Fixed tap/click issue with google maps on iOS
+  * Fixed a bug with event dispatching and hyperlinks for buttons/labels
+  * Fixed themeUpdate() of M.SelectionListView and with single selection dialog mode (no more js errors with empty content binding)
+  * Fixed issue with having multiple toolbars when "outsourcing" them into a seperate file
+  * Fixed issue with hard coded view id in table view (thx to jianliao)
+  * Added parentView property to any view that is rendered within renderChildViews
+  * Updated D8 library to 0.1.5
+  * Clear the validation status before validate it again (thx to jianliao)
+  * Added events property to M.ListView that gets applied to all items if the template does not specify events too
+  * Added swipe button feature to M.ListView / M.ListItemView
+  * Added hasAsteriskOnLabel property to M.TextFieldView, M.SliderView and M.SelectionListView (thx to jianliao)
+  * Added a complex split view component to the framework (M.SplitView, M.SplitItemView, M.PopoverView, M.SplitToolbarView)
+  * Fixed an issue with minifed modernizr and Espresso's DCE
+  * Updated D8 to v0.1.6 (thx to josher19)
+  * Fixed issue with google call to non existing variable in M.MapView
+  * Updated jQuery to 1.7.1
+  * Updated jQuery Mobile to 1.1.0
+  * Updated mobiscroll to 1.6
+  * Fixed an issue with possibly undefined variable in M.FormView
+  * Updated D8 library to 0.2.0
+  * Updated Underscore to v1.3.2
+  * Added parameterized M.I18N
+  * Fixed a bug with regex check for valuePattern in M.ListView
+  * Improved behaviour and stability of dialogs
+  * Adjusted look and feel of date picker to fit into jqm design
+  * Adjusted a few ui components to work with jqm 1.1
+  * Implemented real fixed toolbars/tab bars of jqm 1.1
+  * Adjusted M.SliderView to make use of jqm's 'highlight' option
+  * Fixed a bug with M.ListView (rendering of sub views is now possible)
+  * Fixed a bug with M.ScrollView
+  * Upgraded split view to work with JQM 1.1
+
 ** Version 1.0 - Date 25.01.2012 **
 
   * Do not trigger success callback when isUpdate within M.MapView's init()
@@ -65,6 +101,7 @@ Thanks for sharing!
   * Method find() in DataProviderLocalStorage now takes an object for query
   * Added "include" operator (for strings) for LS find query
   * Changed version to 1.0RC1
+
 
 ** Version 0.8 - Date 05.12.2011 **
 
@@ -117,6 +154,7 @@ Thanks for sharing!
   * Fixed a bug in email validator
   * Fixed some stuff in M.SelectionListView and extended support for boolean/numerical values when using content binding
   * Finalized v0.7
+  * Refactored getLocation() to work with callbacks in all cases instead of returning boolean value
 
 ** Version 0.6 - Date 21.07.2011 **
 

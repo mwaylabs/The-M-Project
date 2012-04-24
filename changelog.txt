@@ -1,4 +1,4 @@
-** Version 1.1 - Date 12.04.2012 **
+** Version 1.1 - Date 20.04.2012 **
 
   * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
   * Fixed isAsync and isJSON flags in M.Request
@@ -17,11 +17,22 @@
   * Fixed an issue with minifed modernizr and Espresso's DCE
   * Updated D8 to v0.1.6 (thx to josher19)
   * Fixed issue with google call to non existing variable in M.MapView
+  * Updated jQuery to 1.7.1
+  * Updated jQuery Mobile to 1.1.0
+  * Updated mobiscroll to 1.6
   * Fixed an issue with possibly undefined variable in M.FormView
   * Updated D8 library to 0.2.0
   * Updated Underscore to v1.3.2
+  * Added parameterized M.I18N
   * Fixed a bug with regex check for valuePattern in M.ListView
-  * Add parameterized M.I18N.localize
+  * Improved behaviour and stability of dialogs
+  * Adjusted look and feel of date picker to fit into jqm design
+  * Adjusted a few ui components to work with jqm 1.1
+  * Implemented real fixed toolbars/tab bars of jqm 1.1
+  * Adjusted M.SliderView to make use of jqm's 'highlight' option
+  * Fixed a bug with M.ListView (rendering of sub views is now possible)
+  * Fixed a bug with M.ScrollView
+  * Upgraded split view to work with JQM 1.1
 
 ** Version 1.0 - Date 25.01.2012 **
 

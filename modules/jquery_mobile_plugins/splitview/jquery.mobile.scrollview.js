@@ -515,10 +515,10 @@ jQuery.widget( "mobile.scrollview", jQuery.mobile.widget, {
 
 		if (!this._didDrag && this.options.delayedClickEnabled && this._$clickEle.length) {
 			this._$clickEle
-				.trigger("mousedown")
+//				.trigger("mousedown")
 				//.trigger("focus")
-				.trigger("mouseup")
-				.trigger("click");
+//				.trigger("mouseup")
+				.trigger("tap");
 		}
 
 		// If a view scrolled, then we need to absorb

@@ -179,6 +179,14 @@ M.PageView = M.View.extend(
             M.LoaderView.initialize();
         }
 
+        /* call controlgroup plugin on any such element on the page */
+        $('#' + id).find('[data-role="controlgroup"]').each(function() {
+            var that = this;
+            window.setTimeout(function() {
+                $(that).controlgroup();
+            }, 1);
+        });
+
         /* reset the page's title */
         document.title = M.Application.name;
 
@@ -202,8 +210,10 @@ M.PageView = M.View.extend(
             M.EventDispatcher.callHandler(nextEvent, event, NO, [this.isFirstLoad]);
         }
 
-        /* call jqm to fix header/footer */
-        $.mobile.fixedToolbars.show();
+        /* call controlgroup plugin on any such element on the page */
+//        $('#' + id).find('[data-role="controlgroup"]').each(function() {
+//            $(this).controlgroup();
+//        });
 
         this.isFirstLoad = NO;
     },
