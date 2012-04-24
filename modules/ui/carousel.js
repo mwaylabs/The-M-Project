@@ -35,7 +35,7 @@ M.CarouselView = M.View.extend(
     numOfThemeCalls: 0,
 
     /**
-     * This property is used inernally to store the reference width of the parent element
+     * This property is used internally to store the reference width of the parent element
      * of the carousel which is needed for theming.
      *
      * @private
@@ -78,9 +78,17 @@ M.CarouselView = M.View.extend(
      * needs to be reset.
      *
      * @private
-     * @type Number
+     * @type Boolean
      */
     isInitialized: NO,
+
+    /* This property can be used to specify whether or not to show a paginator with
+     * the carousel. If set to YES, there will be dots visible, indicating the total
+     * number of items and highlighting the currently visible item.
+     *
+     * @type Boolean
+     */
+    showPaginator: YES,
 
     /**
      * This method renders the basic skeleton of the carousel based on several nested
@@ -94,7 +102,9 @@ M.CarouselView = M.View.extend(
         this.html += '<div class="tmp-carousel-scroller">';
         this.html += '<ul class="tmp-carousel-list">';
 
-        this.renderChildViews();
+        if(this.childViews) {
+            this.renderChildViews();
+        }
 
         this.html += '</ul>';
         this.html += '</div>';
@@ -116,6 +126,60 @@ M.CarouselView = M.View.extend(
         $('#' + this.id).closest('[data-role="page"]').bind('pagebeforeshow', this.bindToCaller(this, this.initThemeUpdate));
 
         this.bindToCaller(this, M.View.registerEvents)();
+    },
+
+    /**
+     * This method is called automatically once the bound content changes. It then re-renders the
+     * carousel's content.
+     *
+     * @private
+     */
+    renderUpdate: function() {
+        if(this.contentBinding && this.value) {
+            this.removeAllItems();
+
+            /* lets gather the html together */
+            var html = '';
+            for(var i in this.value) {
+                html += this.value[i].render();
+            }
+
+            /* set the num of items */
+            this.numItems = this.value.length;
+
+            /* add the items to the DOM */
+            this.addItems(html);
+
+            /* now the items are in DOM, finally register events */
+            for(var i in this.value) {
+                this.value[i].theme();
+                this.value[i].registerEvents();
+            }
+
+            /* no re-theme the carousel (async) */
+            var that = this;
+            window.setTimeout(function() {
+                that.isInitialized = NO;
+                that.initThemeUpdate(YES);
+            }, 1);
+        }
+    },
+
+    /**
+     * This method adds a given html string, containing the carousel's items, to the DOM.
+     *
+     * @param {String} item The html representation of the carousel items to be added.
+     */
+    addItems: function(items) {
+        $('#' + this.id + ' .tmp-carousel-list').append(items);
+    },
+
+    /**
+     * This method removes all of the carousel view's items by removing all of its content in the
+     * DOM. This method is based on jQuery's empty().
+     */
+    removeAllItems: function() {
+        $('#' + this.id + ' .tmp-carousel-list').empty();
     },
 
     /**
@@ -260,10 +324,16 @@ M.CarouselView = M.View.extend(
      *
      * @private
      */
-    initThemeUpdate: function() {
+    initThemeUpdate: function(initFromScratch) {
         /* if this carousel already is initialized, return */
         if(this.isInitialized) {
             return;
+        }
+
+        /* if this is a total refresh, clean some things up */
+        if(initFromScratch) {
+            this.iScroll = null;
+            this.lastWidth = 0;
         }
 
         /* reset theme counter */
