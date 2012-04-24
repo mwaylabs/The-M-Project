@@ -73,8 +73,18 @@ M.CarouselView = M.View.extend(
      */
     numItems: 0,
 
+    /* This property contains a flag telling us whether the carousel was correctly
+     * initialized or not. Whenever there is an orientation change event, this flag
+     * needs to be reset.
+     *
+     * @private
+     * @type Number
+     */
+    isInitialized: NO,
+
     /**
-     * Lorem Ipsum Dolor Sit Amet
+     * This method renders the basic skeleton of the carousel based on several nested
+     * div elements.
      *
      * @private
      * @returns {String} The carousel view's html representation.
@@ -102,9 +112,6 @@ M.CarouselView = M.View.extend(
      * internal events.
      */
     registerEvents: function() {
-        /* register for orientation change event of surrounding page */
-        $('#' + this.id).closest('[data-role="page"]').bind('orientationchange', this.bindToCaller(this, this.initThemeUpdate));
-
         /* register for page before show event of surrounding page */
         $('#' + this.id).closest('[data-role="page"]').bind('pagebeforeshow', this.bindToCaller(this, this.initThemeUpdate));
 
@@ -139,7 +146,9 @@ M.CarouselView = M.View.extend(
     },
 
     /**
-     * Lorem Ipsum Dolor Sit Amet.
+     * This method is responsible for theming and layouting the carousel. We mainly do
+     * some calculation based on the device's screen size to position the carousel
+     * correctly.
      *
      * @private
      */
@@ -228,10 +237,35 @@ M.CarouselView = M.View.extend(
             $('#' + this.id).animate({
                 opacity: 1
             }, 100);
+
+            /* set isInitialized flag to YES */
+            this.isInitialized = YES;
         }
     },
 
+    /**
+     * This method is automatically called by the surrounding page once an orientation
+     * change event took place.
+     *
+     * @private
+     */
+    orientationDidChange: function() {
+        this.isInitialized = NO;
+        this.initThemeUpdate();
+    },
+
+    /**
+     * This method is automatically called once there was an event that might require
+     * an re-theming of the carousel such as orientation change or page show.
+     *
+     * @private
+     */
     initThemeUpdate: function() {
+        /* if this carousel already is initialized, return */
+        if(this.isInitialized) {
+            return;
+        }
+
         /* reset theme counter */
         this.numOfThemeCalls = 0;
 
