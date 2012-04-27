@@ -35,7 +35,9 @@ M.CAROUSEL_SIZE_NONE = 3;
 /**
  * @class
  *
- * Lorem Ipsum Dolor Sit Amet...
+ * A carousel is a view that allows you to slide/scroll vertically or horizontally
+ * through a set of items. If required, a paginator indicates the user which item
+ * is currently visible and how many of them are there at all.
  *
  * @extends M.View
  */

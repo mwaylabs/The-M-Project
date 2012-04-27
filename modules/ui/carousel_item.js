@@ -11,7 +11,10 @@
 /**
  * @class
  *
- * Lorem Ipsum Dolor Sit Amet...
+ * A carousel item view is the one and only valid sub view of a carousel view. It basically
+ * serves as a container that allows you to put anything into such an element. Simply
+ * apply as much child views as you like and let this view (in combination with the carousel)
+ * take care of the rest.
  *
  * @extends M.View
  */
@@ -26,10 +29,20 @@ M.CarouselItemView = M.View.extend(
     type: 'M.CarouselItemView',
 
     /**
-     * Lorem Ipsum Dolor Sit Amet
+     * This property can be used to specify a tag, that is independent from the carousel
+     * item's content. This allows you to identify a carousel item e.g. within the callback
+     * of the carousel's change event.
+     *
+     * @type String
+     */
+    tag: null,
+
+    /**
+     * This method renders a carousel item and its content with an li element as the
+     * surrounding element.
      *
      * @private
-     * @returns {String} The carousel view's html representation.
+     * @returns {String} The carousel item view's html representation.
      */
     render: function() {
         this.html = '<li id="' + this.id + '" class="tmp-carousel-item">';
