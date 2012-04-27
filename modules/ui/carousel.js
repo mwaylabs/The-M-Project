@@ -64,7 +64,7 @@ M.CarouselView = M.View.extend(
      * @private
      * @type Number
      */
-    visibleItem: 0,
+    activeItem: 1,
 
     /* This property contains the number of items within the carousel.
      *
@@ -91,6 +91,18 @@ M.CarouselView = M.View.extend(
     showPaginator: YES,
 
     /**
+     * This property determines whether the carousel is vertically or horizontally
+     * scrollable.
+     *
+     * Possible values are:
+     * - M.HORIZONTAL: horizontal
+     * - M.VERTICAL: vertical
+     *
+     * @type String
+     */
+    direction: M.HORIZONTAL,
+
+    /**
      * This method renders the basic skeleton of the carousel based on several nested
      * div elements.
      *
@@ -109,6 +121,12 @@ M.CarouselView = M.View.extend(
         this.html += '</ul>';
         this.html += '</div>';
         this.html += '</div>';
+
+        if(this.showPaginator) {
+            this.html += '<div id="' + this.id + '_paginator" class="tmp-carousel-paginator tmp-carousel-paginator-' + this.direction + '"></div>';
+        }
+
+        this.html += '<div class="tmp-carousel-clear"></div>';
 
         return this.html;
     },
@@ -179,7 +197,18 @@ M.CarouselView = M.View.extend(
      * DOM. This method is based on jQuery's empty().
      */
     removeAllItems: function() {
+        /* remove all list items, kill the style and unbind events from list */
         $('#' + this.id + ' .tmp-carousel-list').empty();
+        $('#' + this.id + ' .tmp-carousel-list').attr('style', '');
+        $('#' + this.id + ' .tmp-carousel-list').unbind();
+
+        /* kill the style and unbind events from scroller */
+        $('#' + this.id + ' .tmp-carousel-scroller').attr('style', '');
+        $('#' + this.id + ' .tmp-carousel-scroller').unbind();
+
+        /* kill the style and unbind events from wrapper */
+        $('#' + this.id).attr('style', '');
+        $('#' + this.id).unbind();
     },
 
     /**
@@ -250,8 +279,8 @@ M.CarouselView = M.View.extend(
 
             $('#' + this.id).css('width', width);
             $('#' + this.id).css('height', height);
-            $('#' + this.id + ' .tmp-carousel-scroller').css('width', width * this.numItems);
-            $('#' + this.id + ' .tmp-carousel-scroller').css('height', height);
+            $('#' + this.id + ' .tmp-carousel-scroller').css('width', (this.direction === M.HORIZONTAL ? width * this.numItems : width));
+            $('#' + this.id + ' .tmp-carousel-scroller').css('height', (this.direction === M.VERTICAL ? height * this.numItems : height));
             $('#' + this.id + ' ul.tmp-carousel-list li').css('width', width);
             $('#' + this.id + ' ul.tmp-carousel-list li').css('height', height);
 
@@ -284,18 +313,52 @@ M.CarouselView = M.View.extend(
 
             if(this.iScroll) {
                 this.iScroll.refresh();
-                this.iScroll.scrollToElement('li:nth-child(' + (this.visibleItem > 1 ? this.visibleItem : 1) + ')', 100)
+                this.iScroll.scrollToElement('li:nth-child(' + (this.activeItem > 1 ? this.activeItem : 1) + ')', 100);
             } else {
                 this.iScroll = new iScroll(this.id, {
                     snap: true,
                     momentum: false,
                     hScrollbar: false,
+                    vScrollbar: false,
                     onScrollEnd: function () {
-                        var width = parseInt($('#' + that.id + ' ul.tmp-carousel-list li').css('width'));
-                        that.visibleItem = Math.abs(Math.floor(that.iScroll.x / width)) + 1;
+                        $('#' + that.id + '_paginator_' + that.activeItem).removeClass('tmp-carousel-paginator-item-active');
+
+                        if(that.direction === M.HORIZONTAL) {
+                            var width = parseInt($('#' + that.id + ' ul.tmp-carousel-list li').css('width'));
+                            that.activeItem = Math.abs(Math.floor(that.iScroll.x / width)) + 1;
+                        } else {
+                            var height = parseInt($('#' + that.id + ' ul.tmp-carousel-list li').css('height'));
+                            that.activeItem = Math.abs(Math.ceil(that.iScroll.y / height)) + 1;
+                        }
+                        $('#' + that.id + '_paginator_' + that.activeItem).addClass('tmp-carousel-paginator-item-active');
                     }
                 });
             }
+
+            /* position and calculate the paginator (async) */
+            $('#' + this.id + '_paginator').hide();
+            window.setTimeout(function() {
+                var paginatorDOM = $('#' + that.id + '_paginator');
+
+                /* render paginator items? */
+                if(!paginatorDOM.html()) {
+                    var html = '';
+                    for(var i = 1; i <= that.numItems; i++) {
+                        html += '<div id="' + that.id + '_paginator_' + i + '" class="tmp-carousel-paginator-item' + (i === that.activeItem ? ' tmp-carousel-paginator-item-active' : '') + '"></div>';
+                    }
+                    paginatorDOM.html(html);
+                }
+
+                /* css stuff */
+                if(that.direction === M.HORIZONTAL) {
+                    paginatorDOM.css('width', width);
+                    paginatorDOM.css('top', $('#' + that.id).position().top + parseInt($('#' + that.id + ' .tmp-carousel-scroller').css('height')) - parseInt($('#' + that.id + '_paginator').css('height')));
+                } else {
+                    paginatorDOM.css('top', $('#' + that.id).position().top + (parseInt($('#' + that.id).css('height')) - parseInt(paginatorDOM.height()))/2);
+                }
+                paginatorDOM.css('margin-top', margin['top']);
+                paginatorDOM.show();
+            }, 500);
 
             /* display carousel */
             $('#' + this.id).animate({
@@ -332,8 +395,8 @@ M.CarouselView = M.View.extend(
 
         /* if this is a total refresh, clean some things up */
         if(initFromScratch) {
-            this.iScroll = null;
             this.lastWidth = 0;
+            $('#' + this.id + '_paginator').html('');
         }
 
         /* reset theme counter */
@@ -347,6 +410,64 @@ M.CarouselView = M.View.extend(
         window.setTimeout(function() {
             that.theme();
         }, 100)
+    },
+
+    /**
+     * This method activates one specific item within the carousel.
+     *
+     * @param {M.CarouselItemView, String, Number} item The item to be set active or its id.
+     */
+    setActiveItem: function(item) {
+        /* get the item based on the given obj or the given id */
+        item = typeof(item) === 'string' ? M.ViewManager.getViewById(item) : item;
+        if(!(item && item.type === 'M.CarouselItemView')) {
+            M.Logger.log('No valid carousel item passed to be set active. Must be either valid id or item object of type M.CarouselItemView.', M.WARN);
+            return;
+        }
+
+        /* if item is already active, return */
+        var activeItem = M.ViewManager.getViewById($('#' + this.id + ' .tmp-carousel-list li:nth-child(' + this.activeItem + ')').attr('id'));
+        if(activeItem && activeItem.id === item.id) {
+            M.Logger.log('The given carousel item already is active, so we do nothing.', M.INFO);
+            return;
+        }
+
+        /* set given item active */
+        $('#' + this.id + '_paginator_' + this.activeItem).removeClass('tmp-carousel-paginator-item-active');
+        this.activeItem = 1;
+        var that = this;
+        $('#' + this.id + ' .tmp-carousel-list li').each(function() {
+            if($(this).attr('id') !== item.id) {
+                that.activeItem++;
+            } else {
+                return false;
+            }
+        });
+        this.iScroll.scrollToElement('li:nth-child(' + (this.activeItem > 1 ? this.activeItem : 1) + ')', 100);
+    },
+
+    /**
+     * This method activates the next item in the row.
+     */
+    next: function() {
+        var nextItem = $('#' + this.id + ' .tmp-carousel-list li:nth-child(' + this.activeItem + ')').next();
+        if(nextItem.length === 0) {
+            M.Logger.log('There is no next item available. You already reached the end of the carousel.', M.INFO);
+            return;
+        }
+        this.setActiveItem(M.ViewManager.getViewById(nextItem.attr('id')));
+    },
+
+    /**
+     * This method activates the next item in the row.
+     */
+    prev: function() {
+        var prevItem = $('#' + this.id + ' .tmp-carousel-list li:nth-child(' + this.activeItem + ')').prev();
+        if(prevItem.length === 0) {
+            M.Logger.log('There is no previous item available. You already reached the start of the carousel.', M.INFO);
+            return;
+        }
+        this.setActiveItem(M.ViewManager.getViewById(prevItem.attr('id')));
     }
 
 });
