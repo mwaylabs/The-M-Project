@@ -254,8 +254,16 @@ M.TextFieldView = M.View.extend(
             }
         }
 
+		// If the device supports placeholders use the HTML5 placeholde attribute else use javascript workarround
+        var placeholder = '';
+        if(M.Environment.modernizr.inputattributes['placeholder']) {
+            placeholder = ' placeholder="' + this.initialText + '" ';
+            console.log(this.initialText.length);
+            this.initialText = '';
+        }
+
         if(this.hasMultipleLines) {
-            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>' + (this.value ? this.value : this.initialText) + '</textarea>';
+            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + placeholder + '>' + (this.value ? this.value : this.initialText) + '</textarea>';
             
         } else {
             var type = this.inputType;
@@ -263,7 +271,7 @@ M.TextFieldView = M.View.extend(
                 type = 'text';
             }
             
-            this.html += '<input ' + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
+            this.html += '<input ' + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + placeholder + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
         }
 
         this.html += '</div>';
