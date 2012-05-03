@@ -258,7 +258,6 @@ M.TextFieldView = M.View.extend(
         var placeholder = '';
         if(M.Environment.modernizr.inputattributes['placeholder']) {
             placeholder = ' placeholder="' + this.initialText + '" ';
-            console.log(this.initialText.length);
             this.initialText = '';
         }
 
