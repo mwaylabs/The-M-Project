@@ -637,7 +637,7 @@ M.DatePickerView = M.View.extend(
         }
 
         /* call callback */
-        if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['before'])) {
+        if(this.callbacks && this.callbacks['before'] && M.EventDispatcher.checkHandler(this.callbacks['before'])) {
             M.EventDispatcher.callHandler(this.callbacks['before'], null, NO, [value, date]);
         }
     },
@@ -669,9 +669,9 @@ M.DatePickerView = M.View.extend(
         }
 
         /* call cancel callback */
-        if(!this.isValueSelected && this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['cancel'])) {
+        if(!this.isValueSelected && this.callbacks && this.callbacks['cancel'] && M.EventDispatcher.checkHandler(this.callbacks['cancel'])) {
             M.EventDispatcher.callHandler(this.callbacks['cancel'], null, NO, []);
-        } else if(this.isValueSelected && this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['confirm'])) {
+        } else if(this.isValueSelected && this.callbacks && this.callbacks['confirm'] && M.EventDispatcher.checkHandler(this.callbacks['confirm'])) {
             M.EventDispatcher.callHandler(this.callbacks['confirm'], null, NO, [value, date]);
         }
 

@@ -329,3 +329,43 @@
 .tmp-carousel-list li {
     float: left;
 }
+
+.tmp-carousel-paginator {
+    position: absolute;
+    z-index: 1000;
+    text-align: center;
+}
+
+.tmp-carousel-paginator-vertical {
+    width: 20px;
+    right: 0px;
+}
+
+.tmp-carousel-paginator-horizontal {
+    width: 100%;
+    height: 20px;
+    left: 0px;
+}
+
+.tmp-carousel-paginator-item {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #333333;
+    opacity: 0.8;
+    margin-left: 5px;
+    margin-right: 5px;
+    -webkit-border-radius: 3px 3px 3px 3px !important;
+    -moz-border-radius: 3px 3px 3px 3px !important;
+    border-radius: 3px 3px 3px 3px !important;
+}
+
+.tmp-carousel-paginator-item-active {
+    background: #FFFFFF;
+}
+
+.tmp-carousel-clear {
+    height: 0px;
+    width: 0px;
+    clear: both;
+}

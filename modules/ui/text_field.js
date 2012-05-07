@@ -254,16 +254,26 @@ M.TextFieldView = M.View.extend(
             }
         }
 
+		// If the device supports placeholders use the HTML5 placeholde attribute else use javascript workarround
+        var placeholder = '';
+        var initialText = '';
+        if(M.Environment.modernizr.inputattributes['placeholder']) {
+            placeholder = ' placeholder="' + this.initialText + '" ';
+
+        }else{
+            initialText = this.initialText;
+        }
+
         if(this.hasMultipleLines) {
-            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + '>' + (this.value ? this.value : this.initialText) + '</textarea>';
+            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + placeholder + '>' + (this.value ? this.value : initialText) + '</textarea>';
             
         } else {
             var type = this.inputType;
-            if(_.include(this.dateInputTypes, this.inputType) && !this.useNativeImplementationIfAvailable || (this.initialText && this.inputType == M.INPUT_PASSWORD)) {
+            if(_.include(this.dateInputTypes, this.inputType) && !this.useNativeImplementationIfAvailable || (initialText && this.inputType == M.INPUT_PASSWORD)) {
                 type = 'text';
             }
             
-            this.html += '<input ' + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
+            this.html += '<input ' + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + placeholder + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
         }
 
         this.html += '</div>';
