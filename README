@@ -28,6 +28,12 @@ Thanks for sharing!
 
 ## CHANGELOG
 
+** Version 1.1 - Date 16.05.2012 **
+
+  * Extended M.Model with the count function.
+  * Added count function to local and remote storage.
+  * New provider M.DataProviderRemoteStoragePaginated with a remote paginated filtered search.
+
 ** Version 1.1 - Date 20.04.2012 **
 
   * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
