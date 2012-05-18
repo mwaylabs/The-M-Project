@@ -45,13 +45,13 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
 
             dataResult = config.create.map(obj.model.record);
 
-            this.remoteQuery('create', config.url + config.create.url(obj.model.get('ID')), config.create.httpMethod, dataResult, obj, null);
+            this.remoteQuery('create', this.getConfigUrl(obj) + config.create.url(obj.model.get('ID')), config.create.httpMethod, dataResult, obj, null);
 
         } else { // make an update request
 
             dataResult = config.update.map(obj.model.record);
 
-            var updateUrl = config.url + config.update.url(obj.model.get('ID'));
+            var updateUrl = this.getConfigUrl(obj) + config.update.url(obj.model.get('ID'));
 
             this.remoteQuery('update', updateUrl, config.update.httpMethod, dataResult, obj, function(xhr) {
                   xhr.setRequestHeader("X-Http-Method-Override", config.update.httpMethod);
@@ -63,7 +63,7 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
     del: function(obj) {
         var config = this.config[obj.model.name];
         var delUrl = config.del.url(obj.model.get('ID'));
-        delUrl = config.url + delUrl;
+        delUrl = this.getConfigUrl(obj) + delUrl;
 
         this.remoteQuery('delete', delUrl, config.del.httpMethod, null, obj,  function(xhr) {
             xhr.setRequestHeader("X-Http-Method-Override", config.del.httpMethod);
@@ -74,19 +74,11 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
         var config = this.config[obj.model.name];
 
         var readUrl = obj.ID ? config.read.url.one(obj.ID) : config.read.url.all();
-        readUrl = config.url + readUrl;
+        readUrl = this.getConfigUrl(obj) + readUrl;
 
         this.remoteQuery('read', readUrl, config.read.httpMethod, null, obj);
 
     },
-    
-    count: function(obj) {
-    	var config = this.config[obj.model.name];
-
-    	var countUrl = config.url + config.count.url.all();
-        
-        this.remoteQuery('count', countUrl, config.count.httpMethod, null, obj);
-	},
 
     createModelsFromResult: function(data, callback, obj) {
         var result = [];
@@ -108,7 +100,7 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
     remoteQuery: function(opType, url, type, data, obj, beforeSend) {
         var that = this;
         var config = this.config[obj.model.name];
-
+        
         M.Request.init({
             url: url,
             method: type,
@@ -134,10 +126,6 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
                         M.Logger.log('No ID receiving operation defined.');
                     }
                 }
-                
-                if (opType === 'count') {
-                	obj.count = data;
-                }
 
                 /*
                 * call callback
@@ -151,10 +139,7 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
                             obj.onSuccess();
                         }
                     } else if(typeof(obj.onSuccess) === 'function') {
-                    	if (opType === 'count')
-                    		obj.onSuccess(data);
-                    	else
-                    		that.createModelsFromResult(data, obj.onSuccess, obj);
+                        that.createModelsFromResult(data, obj.onSuccess, obj);
                     }
 
                 }else {
@@ -192,6 +177,14 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
         return this.extend({
             config:obj
         });
-    }
+    },
+    
+    getConfigUrl: function(obj) {
+    	var config = this.config[obj.model.name];
+    	if(typeof(config.url) === 'function')
+        	return config.url();
+        else
+        	return config.url;
+	}
 
 }); 

@@ -28,6 +28,9 @@ Thanks for sharing!
 
 ## CHANGELOG
 
+** Version 1.1 - Date 18.05.2012 **
+  * The 'config.url' from remote_storage, can be a function or a String.
+
 ** Version 1.1 - Date 16.05.2012 **
 
   * Extended M.Model with the count function.

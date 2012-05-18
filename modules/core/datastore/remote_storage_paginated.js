@@ -37,7 +37,7 @@ M.DataProviderRemoteStoragePaginated = M.DataProviderRemoteStorage.extend(
         else
         	readUrl = config.read.url.all();
         
-        readUrl = config.url + readUrl;
+       	readUrl = this.getConfigUrl(obj) + readUrl;
 
         this.remoteQuery('read', readUrl, config.read.httpMethod, null, obj);
 
@@ -53,7 +53,7 @@ M.DataProviderRemoteStoragePaginated = M.DataProviderRemoteStorage.extend(
         else
         	countUrl = config.count.url.all();
         
-        countUrl = config.url + countUrl;
+        countUrl = this.getConfigUrl(obj) + countUrl;
 
         this.remoteQuery('count', countUrl, config.count.httpMethod, null, obj);
 	},
@@ -146,5 +146,6 @@ M.DataProviderRemoteStoragePaginated = M.DataProviderRemoteStorage.extend(
             beforeSend: internalBeforeSend ? internalBeforeSend : null
         }).send();
     }
+    
 
 }); 
