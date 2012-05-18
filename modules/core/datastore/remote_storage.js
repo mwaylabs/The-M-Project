@@ -79,6 +79,14 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
         this.remoteQuery('read', readUrl, config.read.httpMethod, null, obj);
 
     },
+    
+    count: function(obj) {
+    	var config = this.config[obj.model.name];
+
+    	var countUrl = this.getConfigUrl(obj) + config.count.url.all();
+        
+        this.remoteQuery('count', countUrl, config.count.httpMethod, null, obj);
+	},
 
     createModelsFromResult: function(data, callback, obj) {
         var result = [];
@@ -100,7 +108,7 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
     remoteQuery: function(opType, url, type, data, obj, beforeSend) {
         var that = this;
         var config = this.config[obj.model.name];
-        
+
         M.Request.init({
             url: url,
             method: type,
@@ -126,6 +134,10 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
                         M.Logger.log('No ID receiving operation defined.');
                     }
                 }
+                
+                if (opType === 'count') {
+                	obj.count = data;
+                }
 
                 /*
                 * call callback
@@ -139,7 +151,10 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
                             obj.onSuccess();
                         }
                     } else if(typeof(obj.onSuccess) === 'function') {
-                        that.createModelsFromResult(data, obj.onSuccess, obj);
+                    	if (opType === 'count')
+                    		obj.onSuccess(data);
+                    	else
+                    		that.createModelsFromResult(data, obj.onSuccess, obj);
                     }
 
                 }else {
