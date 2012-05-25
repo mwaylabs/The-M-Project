@@ -294,8 +294,8 @@ M.ListView = M.View.extend(
         var that = this;
 
         /* Get the list view's content as an object from the assigned content binding */
-        if(this.contentBinding && typeof(this.contentBinding.target) === 'object' && typeof(this.contentBinding.property) === 'string' && this.contentBinding.target[this.contentBinding.property]) {
-            var content = this.contentBinding.target[this.contentBinding.property];
+        if(this.contentBinding && typeof(this.contentBinding.target) === 'object' && typeof(this.contentBinding.property) === 'string' && this.value && this.value.length > 0) {
+            var content = this.value;
         } else {
             M.Logger.log('The specified content binding for the list view (' + this.id + ') is invalid!', M.WARN);
             return;
