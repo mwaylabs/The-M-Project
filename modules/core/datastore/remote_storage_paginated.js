@@ -34,6 +34,8 @@ M.DataProviderRemoteStoragePaginated = M.DataProviderRemoteStorage.extend(
         	readUrl = config.read.url.one(obj.ID);
         else if (obj.firstResult != null && obj.maxNumberResults != null)
         	readUrl = config.read.url.paginated(obj.firstResult, obj.maxNumberResults, obj.filter);
+        else if (obj.filter)
+            readUrl = config.read.url.all(obj.filter);
         else
         	readUrl = config.read.url.all();
         
