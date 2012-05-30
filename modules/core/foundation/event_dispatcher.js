@@ -10,6 +10,7 @@
 // ==========================================================================
 
 m_require('core/utility/logger.js');
+m_require('core/utility/environment.js');
 
 /**
  * @class
