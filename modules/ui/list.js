@@ -356,7 +356,7 @@ M.ListView = M.View.extend(
         /* Save this in variable that for later use within an other scope (e.g. _each()) */
         var that = this;
 
-        _.each(content, function(item) {
+        _.each(content, function(item, index) {
 
             /* Create a new object for the current template view */
             var obj = templateView.design({});
@@ -368,6 +368,10 @@ M.ListView = M.View.extend(
                 obj.modelId = item.id;
             } else if(item[that.idName] || item[that.idName] === "") {
                 obj.modelId = item[that.idName];
+            } else { // if nothing is set, use the index of the passed array (if available)
+                if(index !== undefined && index !== null) {
+                    obj.modelId = index;
+                }
             }
 
             obj = that.cloneObject(obj, item);
