@@ -5,6 +5,7 @@
   * Added check for input attributes to mondernizr property of M.Environment
   * Fixed content binding in list view to enable a path as possible property
   * Fixed TabBar issue with currentPage property on tab bar item switch (thx to kevwilde)
+  * ListItemView now has array index set for modelId property if nothing else is set
 
 ** Version 1.1 - Date 20.04.2012 **
 
