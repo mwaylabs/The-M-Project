@@ -7,6 +7,7 @@
   * Fixed TabBar issue with currentPage property on tab bar item switch (thx to kevwilde)
   * ListItemView now has array index set for modelId property if nothing else is set
   * Added support for more structured and sorted items for a divided list view
+  * Added support for more than one valuePattern within a list item sub component (thx to kevwilde)
 
 ** Version 1.1 - Date 20.04.2012 **
 
