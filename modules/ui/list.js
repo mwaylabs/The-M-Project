@@ -319,10 +319,19 @@ M.ListView = M.View.extend(
         }
 
         if(this.isDividedList) {
-            _.each(content, function(items, divider) {
-                that.renderListItemDivider(divider);
-                that.renderListItemView(items, templateView);
-            });
+            /* @deprecated implementation for old-fashioned data structure */
+            if(!_.isArray(content)) {
+                _.each(content, function(items, divider) {
+                    that.renderListItemDivider(divider);
+                    that.renderListItemView(items, templateView);
+                });
+            /* new implementation with more intelligent data structures */
+            } else {
+                _.each(content, function(item) {
+                    that.renderListItemDivider(item.label);
+                    that.renderListItemView(item.items, templateView);
+                });
+            }
         } else {
             this.renderListItemView(content, templateView);
         }
