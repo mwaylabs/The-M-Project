@@ -268,6 +268,14 @@ M.DataProviderLocalStorage = M.DataProvider.extend(
         }
         return result;
     },
+    
+    /**
+     * Very simple count function. It's necessary for the compatibility between this storage and the 'M.Model' count function. IMPROVE IT!!! 
+     */
+    count: function(obj) {
+    	var records = this.find(obj); 
+    	return records.length;
+    },
 
     /**
      * Fetches a record from LocalStorage and checks whether automatic parsing by JSON.parse set the elements right.

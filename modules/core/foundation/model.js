@@ -455,6 +455,19 @@ M.Model = M.Object.extend(
             return YES;
         }
     },
+    
+    /**
+     * Count number of records in storage.
+     * @returns {Integer} Indicatig total number of records in storage.
+     */
+    count: function(obj) {
+		if(!this.dataProvider) {
+            M.Logger.log('No data provider given.', M.ERR);
+        }
+        obj = obj ? obj : {};
+        
+        return this.dataProvider.count($.extend(obj, {model: this}));
+	},
 
     /**
      * completes the model record by loading all referenced entities.
