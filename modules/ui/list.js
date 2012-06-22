@@ -467,7 +467,8 @@ M.ListView = M.View.extend(
                 }
             }
         }
-
+        obj.item = item;
+        
         return obj;
     },
 
