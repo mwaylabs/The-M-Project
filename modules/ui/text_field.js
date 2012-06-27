@@ -577,6 +577,16 @@ M.TextFieldView = M.View.extend(
      */
     getValue: function() {
         return this.value;
+    },
+	/**
+     *
+     * Set a new label for this text field
+     * @param txt the new label value
+     */
+    setLabel: function(txt){
+        if(this.label){
+            $('label[for="' + this.id + '"]').html(txt);
+        }
     }
 
 });
