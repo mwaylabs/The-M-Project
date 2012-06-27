@@ -587,6 +587,6 @@ M.TextFieldView = M.View.extend(
         if(this.label){
             $('label[for="' + this.id + '"]').html(txt);
         }
-    },
+    }
 
 });
