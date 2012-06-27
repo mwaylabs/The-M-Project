@@ -8,7 +8,8 @@
   * ListItemView now has array index set for modelId property if nothing else is set
   * Added support for more structured and sorted items for a divided list view
   * Added support for more than one valuePattern within a list item sub component (thx to kevwilde)
-  * Added setLabel function to M.TextFieldView 
+  * Added setLabel function to M.TextFieldView
+  * Updated ListView to work properly with jQuery Mobiles changes (select/selectmenu)
 
 ** Version 1.1 - Date 20.04.2012 **
 
