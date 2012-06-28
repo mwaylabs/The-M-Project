@@ -586,6 +586,9 @@ M.ListView = M.View.extend(
         if(this.hasSearchBar && this.usesDefaultSearchBehaviour) {
             html += ' data-filter="true" data-filter-placeholder="' + this.searchBarInitialText + '"';
         }
+        if(this.cssStyle) {
+            html += ' style="' + this.cssStyle + '"';
+        }
         return html;
     },
 

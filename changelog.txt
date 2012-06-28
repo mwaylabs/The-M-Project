@@ -18,6 +18,7 @@
   * Implemented the cssClass and cssStyle properties of M.ConfirmDialogView
   * Implemented the cssStyle property of M.ImageView
   * Implemented the cssStyle property of M.LabelView
+  * Implemented the cssStyle property of M.ListView
 
 ** Version 1.1 - Date 20.04.2012 **
 
