@@ -12,6 +12,7 @@
   * Updated ListView to work properly with jQuery Mobiles changes (select/selectmenu)
   * entryPage property whitespaces are now removed before retrieving the entryPage for more robustness
   * Implemented the cssStyle property of M.ButtonGroupView
+  * Added style function to M.DialogView
 
 ** Version 1.1 - Date 20.04.2012 **
 
