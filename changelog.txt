@@ -22,6 +22,7 @@
   * Implemented the cssStyle property of M.ListItemView
   * Implemented the cssStyle property of M.SearchBarView
   * Implemented the cssStyle property of M.SelectionListView
+  * Implemented the cssClass and cssStyle properties of M.TabBarView
 
 ** Version 1.1 - Date 20.04.2012 **
 
