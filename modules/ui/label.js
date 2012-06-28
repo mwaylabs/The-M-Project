@@ -141,10 +141,14 @@ M.LabelView = M.View.extend(
      * @returns {String} The label's styling as html representation.
      */
     style: function() {
-        var html = '';
+        var html = ' style="';
         if(this.isInline) {
-            html += ' style="display:inline;"';
+            html += 'display:inline;';
         }
+        if(this.cssStyle) {
+            html += ' ' + this.cssStyle;
+        }
+        html +='"';
         if(this.cssClass) {
             html += ' class="' + this.cssClass + '"';
         }
