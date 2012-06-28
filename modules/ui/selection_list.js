@@ -243,7 +243,7 @@ M.SelectionListView = M.View.extend(
 
         } else {
 
-            this.html += '<fieldset data-role="controlgroup" data-native-menu="false" id="' + this.id + '">';
+            this.html += '<fieldset data-role="controlgroup" data-native-menu="false" id="' + this.id + '"' + this.style() + '>';
 
             if(this.label) {
                 this.html += '<legend>' + this.label;
@@ -426,6 +426,9 @@ M.SelectionListView = M.View.extend(
         var html = '';
         if(this.cssClass) {
             html += ' class="' + this.cssClass + '"';
+        }
+        if(this.cssStyle) {
+            html += ' style="' + this.cssStyle + '"';
         }
         return html;
     },
