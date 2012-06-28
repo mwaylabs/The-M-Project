@@ -13,6 +13,7 @@
   * entryPage property whitespaces are now removed before retrieving the entryPage for more robustness
   * Implemented the cssStyle property of M.ButtonGroupView
   * Added style function to M.DialogView
+  * Implemented the cssClass and cssStyle properties of M.AlertDialogView
 
 ** Version 1.1 - Date 20.04.2012 **
 

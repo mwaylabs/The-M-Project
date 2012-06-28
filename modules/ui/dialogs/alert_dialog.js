@@ -71,7 +71,7 @@ M.AlertDialogView = M.DialogView.extend(
      */
     render: function() {
         this.html = '<div class="tmp-dialog-background"></div>';
-        this.html += '<div id="' + this.id + '" class="tmp-dialog">';
+        this.html += '<div id="' + this.id + '"' + this.style('tmp-dialog') + '>';
         this.html += '<div class="tmp-dialog-header">';
         this.html += this.title ? this.title : '';
         this.html +='</div>';
@@ -110,5 +110,4 @@ M.AlertDialogView = M.DialogView.extend(
             this.bindToCaller(this.callbacks.confirm.target, this.callbacks.confirm.action)();
         }
     }
-
 });
