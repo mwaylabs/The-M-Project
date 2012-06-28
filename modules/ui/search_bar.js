@@ -64,7 +64,7 @@ M.SearchBarView = M.View.extend(
      * @returns {String} The search bar view's html representation.
      */
     render: function() {
-        this.html += '<input id="' + this.id + '" type="search" value="' + (this.value ? this.value : this.initialText) + '" class="' + this.cssClass + '" />';
+        this.html += '<input id="' + this.id + '" type="search" value="' + (this.value ? this.value : this.initialText) + '"' + this.style() + ' />';
 
         return this.html;
     },
@@ -130,9 +130,16 @@ M.SearchBarView = M.View.extend(
      * @returns {String} The search bar's styling as html representation.
      */
     style: function() {
-        var html = '';
+        var html = 'class="';
         if(this.isListViewSearchBar) {
-            html += ' class="ui-listview-filter"';
+            html += 'ui-listview-filter';
+        }
+        if(this.cssClass) {
+            html += ' ' + this.cssClass;
+        }
+        html += '"';
+        if(this.cssStyle) {
+            html += ' style="' + this.cssStyle + '"';
         }
         return html;
     },
