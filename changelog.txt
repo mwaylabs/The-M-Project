@@ -19,6 +19,7 @@
   * Implemented the cssStyle property of M.ImageView
   * Implemented the cssStyle property of M.LabelView
   * Implemented the cssStyle property of M.ListView
+  * Implemented the cssStyle property of M.ListItemView
 
 ** Version 1.1 - Date 20.04.2012 **
 

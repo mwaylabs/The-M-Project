@@ -199,6 +199,9 @@ M.ListItemView = M.View.extend(
         if(this.cssClass) {
             html += ' class="' + this.cssClass + '"';
         }
+        if(this.cssStyle) {
+            html += ' style="' + this.cssStyle + '"';
+        }
         return html;
     },
 
