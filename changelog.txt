@@ -10,6 +10,7 @@
   * Added support for more than one valuePattern within a list item sub component (thx to kevwilde)
   * Added setLabel function to M.TextFieldView
   * Updated ListView to work properly with jQuery Mobiles changes (select/selectmenu)
+  * entryPage property whitespaces are now removed before retrieving the entryPage for more robustness
 
 ** Version 1.1 - Date 20.04.2012 **
 
