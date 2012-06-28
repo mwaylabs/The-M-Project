@@ -15,6 +15,7 @@
   * Added style function to M.DialogView
   * Implemented the cssClass and cssStyle properties of M.AlertDialogView
   * Implemented the cssClass and cssStyle properties of M.ActionSheetDialogView
+  * Implemented the cssClass and cssStyle properties of M.ConfirmDialogView
 
 ** Version 1.1 - Date 20.04.2012 **
 
