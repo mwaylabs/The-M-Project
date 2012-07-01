@@ -711,6 +711,19 @@ M.View = M.Object.extend(
      */
     removeCssProperty: function(key) {
         this.setCssProperty(key, '');
+    },
+	/**
+     *
+     * returns the page on which the current view is defined
+     *
+      * @return {*} M.PageView
+     */
+    getParentPage: function(){
+        if(this.type === 'M.PageView'){
+            return this;
+        }else if(this.parentView){
+            return this.parentView.getParentPage();
+        }
     }
 
 });
