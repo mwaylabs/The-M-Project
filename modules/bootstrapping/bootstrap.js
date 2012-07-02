@@ -37,5 +37,5 @@ $(document).ready(function(){
     $.mobile.initializePage();
 
     /* dont hide the toolbar, ever */
-    $("[data-role=header]").fixedtoolbar({ hideDuringFocus: "" });
+    $("[data-role=header][data-position=fixed]").fixedtoolbar({ hideDuringFocus: "" });
 });
