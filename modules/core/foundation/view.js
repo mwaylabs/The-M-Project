@@ -723,6 +723,8 @@ M.View = M.Object.extend(
             return this;
         }else if(this.parentView){
             return this.parentView.getParentPage();
+        }else{
+            return M.ViewManager.getViewById($('#' + this.id).parent().closest('[id*=]').attr('id')).getParentPage();
         }
     }
 
