@@ -29,7 +29,7 @@ Thanks for sharing!
 
 ## CHANGELOG
 
-** Version 1.2 - Date 01.07.2012 **
+** Version 1.2 - Date 02.07.2012 **
 
   * Fixed a bug with callbacks property in the date picker view
   * Added M.CarouselView as ui widget for vertically or horizontally slidable content
@@ -43,6 +43,7 @@ Thanks for sharing!
   * Updated ListView to work properly with jQuery Mobiles changes (select/selectmenu)
   * entryPage property whitespaces are now removed before retrieving the entryPage for more robustness
   * Removed binding touchmove for dialogs to fix scrolling issues with lists that listen to tap events
+  * Adjusted selector for fixing only fixed toolbars
 
 ** Version 1.1 - Date 20.04.2012 **
 
