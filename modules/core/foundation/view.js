@@ -735,8 +735,10 @@ M.View = M.Object.extend(
             }else if(this.parentView){
                 this.parentPage = this.parentView.getParentPage();
             }else{
-                var ident = '[id*=]';
-                this.parentPage = M.ViewManager.getViewById($('#' + this.id).parent().closest(ident).attr('id')).getParentPage();
+                var parentId = $('#' + this.id).parent().closest('[id^=m_]').attr('id');
+                if(this.parentPage){
+                    this.parentPage = M.ViewManager.getViewById().getParentPage();
+                }
             }
             return this.parentPage;
         }
