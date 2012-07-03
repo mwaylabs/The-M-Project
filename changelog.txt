@@ -13,6 +13,7 @@
   * entryPage property whitespaces are now removed before retrieving the entryPage for more robustness
   * Removed binding touchmove for dialogs to fix scrolling issues with lists that listen to tap events
   * Adjusted selector for fixing only fixed toolbars
+  * Added getParentPage function to the view
 
 ** Version 1.1 - Date 20.04.2012 **
 
