@@ -182,9 +182,9 @@ M.ActionSheetDialogView = M.DialogView.extend(
         background.hide();
 
         /* disable scrolling to enable a "real" dialog behaviour */
-        $(document).bind('touchmove', function(e) {
-            e.preventDefault();
-        });
+//        $(document).bind('touchmove', function(e) {
+//            e.preventDefault();
+//        });
 
         /* slide the dialog in */
         dialog.removeClass('slideup out reverse');

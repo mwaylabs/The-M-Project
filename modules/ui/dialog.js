@@ -126,9 +126,9 @@ M.DialogView = M.View.extend(
         background.hide();
 
         /* disable scrolling to enable a "real" dialog behaviour */
-        $(document).bind('touchmove', function(e) {
-            e.preventDefault();
-        });
+//        $(document).bind('touchmove', function(e) {
+//            e.preventDefault();
+//        });
 
         /* position the dialog and fade it in */
         this.positionDialog(dialog);
@@ -150,7 +150,7 @@ M.DialogView = M.View.extend(
         this.destroy();
 
         /* enable scrolling again */
-        $(document).unbind('touchmove');
+//        $(document).unbind('touchmove');
 
         /* now wait 100ms and then call the next in the queue */
         var that = this;

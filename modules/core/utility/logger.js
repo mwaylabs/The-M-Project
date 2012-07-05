@@ -58,6 +58,15 @@ M.Logger = M.Object.extend(
     type: 'M.Logger',
 
     /**
+     *
+     *  for internal use
+     *  if the espresso call fails - don't try it again
+     *
+     * @type Boolean
+      */
+    _remoteAccess: YES,
+
+    /**
      * This method is used to log anything out of an application based on the given logging level.
      * Possible values for the logging level are:
      *
@@ -82,7 +91,7 @@ M.Logger = M.Object.extend(
             window.console = {} ;
             console.log = console.info = console.warn = console.error = function(){};
         }
-        
+
         switch (level) {
             case M.DEBUG:
                 this.debug(msg);
@@ -140,6 +149,30 @@ M.Logger = M.Object.extend(
      */
     info: function(msg) {
         console.info(msg);
+    },
+
+    /**
+     * tries to connect to espresso and prints a debug message in the espresso console
+     * @param msg the message send to espresso
+     */
+    remote: function(msg){
+        var that = this;
+        try{
+            if(that._remoteAccess){
+                var m = JSON.stringify(msg);
+                $.ajax({
+                    url: "/__espresso_debug_console__",
+                    data: m,
+                    type: 'POST'
+                }).done(function(){
+                    that._remoteAccess = YES;
+                }).fail(function(){
+                    that._remoteAccess = NO;
+                });
+            }
+        }catch(e){
+            M.Logger.error(e);
+        }
     }
 
 });
