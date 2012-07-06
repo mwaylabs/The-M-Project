@@ -1,5 +1,6 @@
-** Version 1.3 - Date 05.07.2012 **
+** Version 1.3 - Not released yet **
 
+  * add M.ToggleSwitchView 
   * Implemented the cssStyle property of M.ButtonGroupView
   * Added style function to M.DialogView
   * Implemented the cssClass and cssStyle properties of M.AlertDialogView
