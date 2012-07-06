@@ -182,6 +182,28 @@ M.DialogView = M.View.extend(
     positionBackground: function(background) {
         background.css('height', $(document).height() + 'px');
         background.css('width', $(document).width() + 'px');
-    }
+    },
 
+    /**
+     * Applies some style-attributes to the dialog.
+     *
+     * @private
+     * @param {String} classes Classes to add to the dialog.
+     * @returns {String} The web view's styling as html representation.
+     */
+    style: function(classes) {
+        if(!classes){
+            classes = '';
+        }
+
+        var html = ' class="' + classes;
+        if(this.cssClass) {
+            html += ' ' + this.cssClass;
+        }
+        html += '"';
+        if(this.cssStyle) {
+            html += ' style="' + this.cssStyle + '"';
+        }
+        return html;
+    }
 });

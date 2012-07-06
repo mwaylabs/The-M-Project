@@ -113,6 +113,9 @@ M.TabBarItemView = M.View.extend(
             html += this.icon;
             html += '" data-iconpos="top"';
         }
+        if(this.cssStyle) {
+            html += ' style="' + this.cssStyle + '"';
+        }
         return html;
     }
     

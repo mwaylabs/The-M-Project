@@ -477,6 +477,9 @@ M.ButtonGroupView = M.View.extend(
             html += html !== '' ? ' ' + this.cssClass : ' class="' + this.cssClass;
         }
         html += '"';
+        if(this.cssStyle) {
+            html += ' style="' + this.cssStyle + '"';
+        }
         return html;
     }
 

@@ -78,9 +78,9 @@ M.TabBarView = M.View.extend(
         this.usageCounter += 1;
 
         if(this.anchorLocation) {
-            this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed" data-tap-toggle="' + this.toggleOnTap + '" data-transition="' + (M.Application.getConfig('useTransitions') ? M.TRANSITION.SLIDE : M.TRANSITION.NONE) + '"><div data-role="navbar"><ul>';
+            this.html += '<div id="' + this.id + '" data-id="' + this.name + '" data-role="' + this.anchorLocation + '" data-position="fixed" data-tap-toggle="' + this.toggleOnTap + '" data-transition="' + (M.Application.getConfig('useTransitions') ? M.TRANSITION.SLIDE : M.TRANSITION.NONE) + '"' + this.style() + '><div data-role="navbar"><ul>';
         } else {
-            this.html += '<div data-role="navbar" id="' + this.id + '" data-id="' + this.name + '"><ul>';
+            this.html += '<div data-role="navbar" id="' + this.id + '" data-id="' + this.name + '"' + this.style() + '><ul>';
         }
 
         this.renderChildViews();
@@ -163,6 +163,22 @@ M.TabBarView = M.View.extend(
             $(this).addClass('ui-btn-active');
         });
 
-    }
+    },
 
+    /**
+     * Applies some style-attributes to the tab bar.
+     *
+     * @private
+     * @returns {String} The page's styling as html representation.
+     */
+    style: function() {
+        var html = '';
+        if(this.cssClass) {
+            html += ' class="' + this.cssClass + '"';
+        }
+        if(this.cssStyle) {
+            html += ' style="' + this.cssStyle + '"';
+        }
+        return html;
+    }
 });

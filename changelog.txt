@@ -1,6 +1,19 @@
 ** Version 1.3 - Not released yet **
 
   * add M.ToggleSwitchView 
+  * Implemented the cssStyle property of M.ButtonGroupView
+  * Added style function to M.DialogView
+  * Implemented the cssClass and cssStyle properties of M.AlertDialogView
+  * Implemented the cssClass and cssStyle properties of M.ActionSheetDialogView
+  * Implemented the cssClass and cssStyle properties of M.ConfirmDialogView
+  * Implemented the cssStyle property of M.ImageView
+  * Implemented the cssStyle property of M.LabelView
+  * Implemented the cssStyle property of M.ListView
+  * Implemented the cssStyle property of M.ListItemView
+  * Implemented the cssStyle property of M.SearchBarView
+  * Implemented the cssStyle property of M.SelectionListView
+  * Implemented the cssClass and cssStyle properties of M.TabBarView
+  * Implemented the cssStyle property of M.TabBarItemView
 
 ** Version 1.2 - Date 02.07.2012 **
 
