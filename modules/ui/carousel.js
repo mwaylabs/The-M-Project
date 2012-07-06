@@ -108,9 +108,7 @@ M.CarouselView = M.View.extend(
      */
     isInitialized: NO,
 
-    /* This property can be used to specify whether or not to show a paginator with
-     * the carousel. If set to YES, there will be dots visible, indicating the total
-     * number of items and highlighting the currently visible item.
+    /* TT
      *
      * @type Boolean
      */
@@ -494,7 +492,7 @@ M.CarouselView = M.View.extend(
     /**
      * This method activates one specific item within the carousel.
      *
-     * @param {M.CarouselItemView, String, Number} item The item to be set active or its id.
+     * @param {M.CarouselItemView, String} item The item to be set active or its id.
      */
     setActiveItem: function(item) {
         /* get the item based on the given obj or the given id */
@@ -538,7 +536,7 @@ M.CarouselView = M.View.extend(
     },
 
     /**
-     * This method activates the next item in the row.
+     * This method activates the previous item in the row.
      */
     prev: function() {
         var prevItem = $('#' + this.id + ' .tmp-carousel-list li:nth-child(' + this.activeItem + ')').prev();

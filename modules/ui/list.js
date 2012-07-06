@@ -459,8 +459,13 @@ M.ListView = M.View.extend(
                     case 'M.ImageView':
                     case 'M.TextFieldView':
                         while(regexResult !== null) {
-                            pattern = pattern.replace(regexResult[0], record[regexResult[1]]);
-                            regexResult = /<%=\s+([.|_|-|$|§|@|a-zA-Z0-9]+)\s*%>/.exec(pattern);
+                            if(typeof(record[regexResult[1]]) === 'object') {
+                                pattern = record[regexResult[1]];
+                                regexResult = null;
+                            } else {
+                                pattern = pattern.replace(regexResult[0], record[regexResult[1]]);
+                                regexResult = /<%=\s+([.|_|-|$|§|@|a-zA-Z0-9]+)\s*%>/.exec(pattern);
+                            }
                         }
                         obj[childViewsArray[i]].value = pattern;
                         break;

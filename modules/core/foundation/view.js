@@ -208,6 +208,14 @@ M.View = M.Object.extend(
      * @type Array
      */
     recommendedEvents: null,
+    
+    /**
+     * Cache for getParentPage function.
+     *
+     * @type M.PageView
+     */
+
+    parentPage : null,
 
     /**
      * This method encapsulates the 'extend' method of M.Object for better reading of code syntax.
@@ -719,10 +727,20 @@ M.View = M.Object.extend(
       * @return {*} M.PageView
      */
     getParentPage: function(){
-        if(this.type === 'M.PageView'){
-            return this;
-        }else if(this.parentView){
-            return this.parentView.getParentPage();
+        if(this.parentPage){
+            return this.parentPage;
+        }else{
+            if(this.type === 'M.PageView'){
+                return this;
+            }else if(this.parentView){
+                this.parentPage = this.parentView.getParentPage();
+            }else{
+                var parentId = $('#' + this.id).parent().closest('[id^=m_]').attr('id');
+                if(parentId){
+                    this.parentPage = M.ViewManager.getViewById(parentId).getParentPage();
+                }
+            }
+            return this.parentPage;
         }
     }
 

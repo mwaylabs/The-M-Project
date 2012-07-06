@@ -108,7 +108,7 @@ M.Application = M.Object.extend(
         var that = this;
 
         /* first lets get the entry page and remove it from pagelist and viewlist */
-        var entryPage = M.ViewManager.getPage(M.Application.entryPage);
+        var entryPage = M.ViewManager.getPage(M.Application.entryPage.replace(/\s+/g, ''));
         delete M.ViewManager.viewList[entryPage.id];
         delete M.ViewManager.pageList[entryPage.id];
 

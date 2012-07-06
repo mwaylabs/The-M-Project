@@ -1,4 +1,8 @@
-** Version 1.2 - Date 21.06.2012 **
+** Version 1.3 - Not released yet **
+
+  * 
+
+** Version 1.2 - Date 02.07.2012 **
 
   * Fixed a bug with callbacks property in the date picker view
   * Added M.CarouselView as ui widget for vertically or horizontally slidable content
@@ -8,6 +12,12 @@
   * ListItemView now has array index set for modelId property if nothing else is set
   * Added support for more structured and sorted items for a divided list view
   * Added support for more than one valuePattern within a list item sub component (thx to kevwilde)
+  * Added setLabel function to M.TextFieldView
+  * Updated ListView to work properly with jQuery Mobiles changes (select/selectmenu)
+  * entryPage property whitespaces are now removed before retrieving the entryPage for more robustness
+  * Removed binding touchmove for dialogs to fix scrolling issues with lists that listen to tap events
+  * Adjusted selector for fixing only fixed toolbars
+  * Added getParentPage function to the view
 
 ** Version 1.1 - Date 20.04.2012 **
 
