@@ -1,6 +1,6 @@
 ** Version 1.3 - Not released yet **
 
-  * 
+  * add M.ToggleSwitchView 
 
 ** Version 1.2 - Date 02.07.2012 **
 
