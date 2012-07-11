@@ -93,6 +93,19 @@ M.ToolbarView = M.View.extend(
      */
     isFixed: YES,
 
+
+    /**
+     * This property determines whether the toolbar is persistent or not.
+     * By default this is set to YES.
+     * If you like to customize the behavior you can simply define you own identifier. Every M.Toolbar with the same identifier is with each other persistent.
+     * If you simply set it to YES the header is persistent to each other header with the flag YES.
+     * If it is set to NO, then there is the old style page switch
+     *
+     * @type Boolean or String
+     */
+
+    isPersistent: YES,
+
     /**
      * This property determines whether to toggle the toolbar on tap on the content area
      * or not. By default this is set to NO.
@@ -113,6 +126,14 @@ M.ToolbarView = M.View.extend(
 
         if(this.isFixed) {
             this.html += ' data-position="fixed"';
+        }
+
+        if(this.isPersistent) {
+            if(typeof(this.isPersistent) === "string"){
+                this.html += ' data-id="' + this.isPersistent + '"';
+            }else{
+                this.html += ' data-id="themprojectpersistenttoolbar"';
+            }
         }
 
         this.html += ' data-transition="' + (M.Application.getConfig('useTransitions') ? M.TRANSITION.SLIDE : M.TRANSITION.NONE) + '"';
@@ -189,6 +210,16 @@ M.ToolbarView = M.View.extend(
                 }
             }
         }
+    },
+
+    /**
+     * Updates the value of the toolbar with DOM access by jQuery.
+     *
+     * @private
+     */
+    renderUpdate: function() {
+        this.computeValue();
+        $('#' + this.id + ' h1').text(this.value);
     },
 
     /**
