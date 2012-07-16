@@ -28,6 +28,11 @@ M.ContainerView = M.View.extend(
     type: 'M.ContainerView',
 
     /**
+     * Function to be executed before rendering of the View starts.
+     */
+    beforeRender: null,
+
+    /**
      * Renders a simple div container and applies css classes if specified.
      *
      * @private
@@ -51,6 +56,11 @@ M.ContainerView = M.View.extend(
      */
     style: function() {
         var html = '';
+
+        if (this.beforeRender) {
+            this.beforeRender();
+        }
+
         if(this.cssClass) {
             html += ' class="' + this.cssClass + '"';
         }

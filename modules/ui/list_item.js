@@ -65,6 +65,11 @@ M.ListItemView = M.View.extend(
     isDivider: NO,
 
     /**
+     * Function to be executed before rendering of the View starts.
+     */
+    beforeRender: null,
+
+    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array
@@ -125,6 +130,10 @@ M.ListItemView = M.View.extend(
      * @returns {String} The list item view's html representation.
      */
     render: function() {
+        if (this.beforeRender) {
+            this.beforeRender();
+        }
+
         this.html = '<li id="' + this.id + '"' + this.style();
 
         if(this.isDivider) {
@@ -198,6 +207,10 @@ M.ListItemView = M.View.extend(
         var html = '';
         if(this.cssClass) {
             html += ' class="' + this.cssClass + '"';
+        }
+        if(this.icon) {
+            html += ' data-icon="';
+            html += this.icon + '"';
         }
         return html;
     },
