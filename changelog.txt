@@ -1,7 +1,10 @@
 ** Version 1.3 - Date 20.07.2012 **
 
+  * add M.ToggleSwitchView
+  * add isPersistent to Toolbar 
   * Added M.ToggleSwitchView
   * Fixed multiple selection dialog mode on for ipad
+  * Bugfix if a browser does not support localStorage
 
 ** Version 1.2 - Date 02.07.2012 **
 
