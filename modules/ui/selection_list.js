@@ -490,6 +490,7 @@ M.SelectionListView = M.View.extend(
                 selectionValues.push(this.selection[i].value);
                 $('#' + this.id + '_container').find('.ui-btn-text').html(this.formatSelectionLabel(this.selection.length));
             }
+            $('#' + this.id + '_container').find('.ui-li-count').html(this.selection ? this.selection.length : 0);
 
             /* if there is no more item selected, reset the initial text */
             if(this.selection.length === 0) {
@@ -502,7 +503,9 @@ M.SelectionListView = M.View.extend(
         }
 
         /* fix the toolbar(s) again */
-        $('#' + this.id).blur();
+        if(this.selectionMode !== M.MULTIPLE_SELECTION_DIALOG) {
+            $('#' + this.id).blur();
+        }
     },
 
     /**
@@ -615,6 +618,7 @@ M.SelectionListView = M.View.extend(
 
                     /* set the label */
                     $('#' + that.id + '_container').find('.ui-btn-text').html(that.formatSelectionLabel(that.selection.length));
+                    $('#' + that.id + '_container').find('.ui-li-count').html(that.selection ? that.selection.length : 0);
                 });
             }
         }
