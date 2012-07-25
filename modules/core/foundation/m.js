@@ -60,21 +60,23 @@ M.META_M_ID = '_m_id';
  * @param {String} param One character string. If it is 'f' (means 'force'), the existing clear() is used to clear the whole storage
  * if param is undefined or another letter, the custom clear is used.
  */
-Object.getPrototypeOf(localStorage).clear = function(param) {
-    /* Call localStorage.clear() with parameter 'f' to use system wide localStorage.clear() */
-    var l = this.length;
-    if(param === 'f') {
-        var l = this.length;
-        for (var i = l - 1; i >= 0; i--){
-            this.removeItem(this.key(i));
-        }
-    } else {
-        for (var i = l - 1; i >= 0; i--){
-            var k = this.key(i);
-            var regexResult = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX).exec(k);
-            if(regexResult) {
-                this.removeItem(k);
-            }
-        }
-    }
+if(localStorage){
+	Object.getPrototypeOf(localStorage).clear = function(param) {
+	    /* Call localStorage.clear() with parameter 'f' to use system wide localStorage.clear() */
+	    var l = this.length;
+	    if(param === 'f') {
+	        var l = this.length;
+	        for (var i = l - 1; i >= 0; i--){
+	            this.removeItem(this.key(i));
+	        }
+	    } else {
+	        for (var i = l - 1; i >= 0; i--){
+	            var k = this.key(i);
+	            var regexResult = new RegExp('^' + M.LOCAL_STORAGE_PREFIX + M.Application.name + M.LOCAL_STORAGE_SUFFIX).exec(k);
+	            if(regexResult) {
+	                this.removeItem(k);
+	            }
+	        }
+	    }
+	}
 }
