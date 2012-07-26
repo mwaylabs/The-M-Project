@@ -5,6 +5,7 @@
   * Added M.ToggleSwitchView
   * Fixed multiple selection dialog mode on for ipad
   * Bugfix if a browser does not support localStorage
+  * TextFieldView: setValueFromDOM on blur
 
 ** Version 1.2 - Date 02.07.2012 **
 
