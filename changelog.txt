@@ -1,13 +1,11 @@
 ** Version 1.3 - Date 20.07.2012 **
 
   * Added M.ToggleSwitchView
-  * add M.ToggleSwitchView
-  * add isPersistent to Toolbar 
-  * Added M.ToggleSwitchView
+  * Added isPersistent flag to Toolbar
   * Fixed multiple selection dialog mode on for ipad
   * Bugfix if a browser does not support localStorage
-  * TextFieldView: setValueFromDOM on blur
-  * Bugfix for jQuery mobile Split button lists 
+  * Fixed problem with BB devices and keyUp event
+  * Fixed issues with list item and multiple buttons 
 
 ** Version 1.2 - Date 02.07.2012 **
 
