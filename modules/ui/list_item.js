@@ -131,7 +131,7 @@ M.ListItemView = M.View.extend(
             this.html += ' data-role="list-divider"';
         }
 
-        this.html += '>';
+        this.html += '><div>';
 
         if(this.childViews) {
             if(this.inEditMode) {
@@ -153,7 +153,7 @@ M.ListItemView = M.View.extend(
             this.html += this.value;
         }
 
-        this.html += '</li>';
+        this.html += '</div></li>';
         
         return this.html;
     },
