@@ -462,7 +462,7 @@ M.TextFieldView = M.View.extend(
      */
     styleUpdate: function() {
         /* trigger keyup event to make the text field autogrow (enable fist, if necessary) */
-        if(this.value) {
+        if(this.value && this.value !== this.initialText) {
             $('#' + this.id).removeAttr('disabled');
             $('#'  + this.id).trigger('keyup');
         }
