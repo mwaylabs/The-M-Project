@@ -5,7 +5,8 @@
   * Fixed multiple selection dialog mode on for ipad
   * Bugfix if a browser does not support localStorage
   * Fixed problem with BB devices and keyUp event
-  * Fixed issues with list item and multiple buttons 
+  * Fixed issues with list item and multiple buttons
+  * Fixed a bug with keyUp event an initial text
 
 ** Version 1.2 - Date 02.07.2012 **
 
