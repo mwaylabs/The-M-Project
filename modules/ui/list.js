@@ -372,11 +372,15 @@ M.ListView = M.View.extend(
             /* If item is a model, assign the model's id to the view's modelId property */
             if(item.type === 'M.Model') {
                 obj.modelId = item.m_id;
-            /* Otherwise, if there is an id property, save this automatically to have a reference */
+                /* Otherwise, if there is an id property, save this automatically to have a reference */
             } else if(item[that.idName] || item[that.idName] === "") {
                 obj.modelId = item[that.idName];
             } else if(item.id || !isNaN(item.id)) {
                 obj.modelId = item.id;
+            } else { // if nothing is set, use the index of the passed array (if available)
+                if(index !== undefined && index !== null) {
+                    obj.modelId = index;
+                }
             }
 
             obj = that.cloneObject(obj, item);
