@@ -111,8 +111,6 @@ M.ImageView = M.View.extend(
     },
 
     sourceIsValid: function(id, event, nextEvent) {
-        $('#' + this.id).show();
-
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, YES);
         }
