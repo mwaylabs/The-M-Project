@@ -42,7 +42,7 @@ M.ImageView = M.View.extend(
      */
     render: function() {
         this.computeValue();
-        this.html += '<img id="' + this.id + '" src="' + (this.value && typeof(this.value) === 'string' ? this.value : '') + '"' + this.style() + '>';
+        this.html += '<img id="' + this.id + '" src="' + (this.value && typeof(this.value) === 'string' ? this.value : '') + '"' + this.style() + ' />';
         return this.html;
     },
 
