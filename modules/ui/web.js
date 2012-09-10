@@ -68,14 +68,13 @@ M.WebView = M.View.extend(
         if(this.value) {
             this.computeValue();
             this.checkURL();
-            $('#' + this.id).attr('src', this.value);
         }
 
         if(this.value && this.html && this.html.indexOf('<div') === 0) {
             this.html = '<iframe id="' + this.id + '"' + this.style() + ' src="' + this.value + '" scrolling="' + (this.isScrollable ? 'YES' : 'NO') + '"></iframe>';
             $('#' + this.id).replaceWith(this.html);
             this.registerEvents();
-        } else if(this.value) {
+        } else if(this.value && this.html && this.html.indexOf('<iframe') === 0) {
             $('#' + this.id).attr('src', this.value);
         }
     },

@@ -7,6 +7,7 @@
   * Fixed problem with BB devices and keyUp event
   * Fixed issues with list item and multiple buttons
   * Fixed a bug with keyUp event an initial text
+  * Fixed a bug with image view and the load event
   * Fixed a bug with M.WebView and Android+Cordova (render pseudo div and push iframe dynamically)
 
 ** Version 1.2 - Date 02.07.2012 **
