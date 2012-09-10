@@ -50,8 +50,9 @@ M.WebView = M.View.extend(
      * @returns {String} The button view's html representation.
      */
     render: function() {
+        this.computeValue();
         this.checkURL();
-        this.html = '<iframe id="' + this.id + '"' + this.style() + ' src="' + this.value + '" scrolling="' + (this.isScrollable ? 'YES' : 'NO') + '"></iframe>';
+        this.html = '<div id="' + this.id + '"></div>';
 
         return this.html;
     },
@@ -65,7 +66,16 @@ M.WebView = M.View.extend(
      */
     renderUpdate: function() {
         if(this.value) {
+            this.computeValue();
             this.checkURL();
+            $('#' + this.id).attr('src', this.value);
+        }
+
+        if(this.value && this.html && this.html.indexOf('<div') === 0) {
+            this.html = '<iframe id="' + this.id + '"' + this.style() + ' src="' + this.value + '" scrolling="' + (this.isScrollable ? 'YES' : 'NO') + '"></iframe>';
+            $('#' + this.id).replaceWith(this.html);
+            this.registerEvents();
+        } else if(this.value) {
             $('#' + this.id).attr('src', this.value);
         }
     },
