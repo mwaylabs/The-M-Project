@@ -58,6 +58,15 @@ M.WebView = M.View.extend(
     },
 
     /**
+     * Check if we can switch to iframe or need to keep div since there's no valid url yet.
+     *
+     * @private
+     */
+    theme: function() {
+        this.renderUpdate();
+    },
+
+    /**
      * This method is called whenever the content bound by content binding changes.
      * It forces the web view to re-render meaning to load the updated url stored
      * in the value property.
