@@ -384,7 +384,8 @@ M.ListView = M.View.extend(
             }
 
             obj = that.cloneObject(obj, item);
-
+            //set the current list item value to the view value. This enables for example to get the value/contentBinding of a list item in a template view.
+            obj.value = item;
             /* If edit mode is on, render a delete button */
             if(that.inEditMode) {
                 obj.inEditMode = that.inEditMode;

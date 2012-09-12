@@ -9,6 +9,7 @@
   * Fixed a bug with keyUp event an initial text
   * Fixed a bug with image view and the load event
   * Fixed a bug with M.WebView and Android+Cordova (render pseudo div and push iframe dynamically)
+  * Set the current list item value to the view value. This enables for example to get the value/contentBinding of a list item in a template view.
 
 ** Version 1.2 - Date 02.07.2012 **
 
