@@ -24,7 +24,6 @@
     };
     //return the width of an element with the its margin whether it's visible or not
     $.fn.outerMarginWidth = function() {
-
         if(!this || this.length < 1){
             return null;
         }
