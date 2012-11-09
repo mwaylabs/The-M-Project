@@ -11,6 +11,7 @@
   * Fixed a bug with M.WebView and Android+Cordova (render pseudo div and push iframe dynamically)
   * Set the current list item value to the view value. This enables for example to get the value/contentBinding of a list item in a template view.
   * Fixed an issue with the debugMode flag and M.Logger (thx to wherati)
+  * Added M.ImagePreloader component and linked it with espressos preloading part to auto-load all images on startup if enabled via config.json.
 
 ** Version 1.2 - Date 02.07.2012 **
 
