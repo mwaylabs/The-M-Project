@@ -202,6 +202,14 @@ M.ListView = M.View.extend(
     swipeButton: null,
 
     /**
+     * This property can be used to determine whether or not to use a list items index as its refer id.
+     *
+     * @type Boolean
+     * @private
+     */
+    useIndexAsId: NO,
+
+    /**
      * This method renders the empty list view either as an ordered or as an unordered list. It also applies
      * some styling, if the corresponding properties where set.
      *
@@ -369,18 +377,22 @@ M.ListView = M.View.extend(
 
             /* Create a new object for the current template view */
             var obj = templateView.design({});
-            /* If item is a model, assign the model's id to the view's modelId property */
-            if(item.type === 'M.Model') {
-                obj.modelId = item.m_id;
-            /* Otherwise, if there is an id property, save this automatically to have a reference */
-            } else if(item.id || !isNaN(item.id)) {
-                obj.modelId = item.id;
-            } else if(item[that.idName] || item[that.idName] === "") {
-                obj.modelId = item[that.idName];
-            } else { // if nothing is set, use the index of the passed array (if available)
-                if(index !== undefined && index !== null) {
-                    obj.modelId = index;
+
+            /* Determine the "modelId" value of the list item */
+            if(that.useIndexAsId && typeof(index) === 'number') {
+                obj.modelId = index;
+            } else if(item.type === 'M.Model') {
+                if(that.idName) {
+                    obj.modelId = item.get(that.idName);
+                } else {
+                    obj.modelId = item.m_id;
                 }
+            } else if(that.idName) {
+                obj.modelId = item[that.idName] || undefined;
+            } else if(item.id) {
+                obj.modelId = item.id;
+            } else if(typeof(index) === 'number') {
+                obj.modelId = index;
             }
 
             obj = that.cloneObject(obj, item);
