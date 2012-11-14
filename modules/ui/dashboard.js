@@ -190,7 +190,7 @@ M.DashboardView = M.View.extend(
 
             /* is new line starting? */
             if(itemIndex % this.itemsPerLine === 0) {
-                //html += '<div class="tmp-dashboard-line">';
+                html += '<div class="tmp-dashboard-line">';
             }
 
             /* assign the desired width */
@@ -201,7 +201,7 @@ M.DashboardView = M.View.extend(
 
             /* is a line finished? */
             if(itemIndex % this.itemsPerLine === this.itemsPerLine - 1) {
-                //html += '</div><div class="tmp-dashboard-line-clear"></div>';
+                html += '</div><div class="tmp-dashboard-line-clear"></div>';
             }
 
             /* return the html */
