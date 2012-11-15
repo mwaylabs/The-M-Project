@@ -131,7 +131,7 @@ M.ListItemView = M.View.extend(
             this.html += ' data-role="list-divider"';
         }
 
-        this.html += '><div>';
+        this.html += '>';
 
         if(this.childViews) {
             if(this.inEditMode) {
@@ -153,9 +153,39 @@ M.ListItemView = M.View.extend(
             this.html += this.value;
         }
 
-        this.html += '</div></li>';
-        
+        this.html += '</li>';
+
         return this.html;
+    },
+
+    /**
+     * Triggers render() on all children. This method defines a special rendering behaviour for a list item
+     * view's child views.
+     *
+     * @override
+     * @private
+     */
+    renderChildViews: function() {
+        if(this.childViews) {
+            var childViews = this.getChildViewsAsArray();
+            for(var i in childViews) {
+                var childView = this[childViews[i]];
+                if(childView) {
+                    childView._name = childViews[i];
+                    childView.parentView = this;
+
+                    if(childView.type = 'M.ButtonView') {
+                        this.html += '<div>' + childView.render() + '</div>';
+                    } else {
+                        this.html += childView.render();
+                    }
+                } else {
+                    this.childViews = this.childViews.replace(childViews[i], ' ');
+                    M.Logger.log('There is no child view \'' + childViews[i] + '\' available for ' + this.type + ' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')! It will be excluded from the child views and won\'t be rendered.', M.WARN);
+                }
+            }
+            return this.html;
+        }
     },
 
     /**
