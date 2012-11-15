@@ -210,22 +210,6 @@ M.ListView = M.View.extend(
     useIndexAsId: NO,
 
     /**
-     * An array containing all M.ListItemView objects that are currently rendered
-     *
-     *
-     */
-    childViewObjects: [],
-
-    /**
-     * Determines whether object clean up shall be performed when new M.ListItemViews are rendered.
-     *
-     * Should always be YES, for debugging and profiling NO is okay.
-     *
-     * @type Boolean
-     */
-    doCleanUp: YES,
-
-    /**
      * This method renders the empty list view either as an ordered or as an unordered list. It also applies
      * some styling, if the corresponding properties where set.
      *
@@ -285,50 +269,18 @@ M.ListView = M.View.extend(
      * This method adds a new list item to the list view by simply appending its html representation
      * to the list view inside the DOM. This method is based on jQuery's append().
      *
-     * Additionally, all M.ListItemViews are added to
-     *
      * @param {String} item The html representation of a list item to be added.
-     * @param {Object} obj The M.ListItemView that gets appended
      */
-    addItem: function(item, obj) {
+    addItem: function(item) {
         $('#' + this.id).append(item);
-
-        if(this.doCleanUp) {
-            this.childViewObjects.push(obj);
-        }
     },
 
     /**
      * This method removes all of the list view's items by removing all of its content in the DOM. This
      * method is based on jQuery's empty().
-     *
-     * Additionally all M.ListItemViews and their child views are deleted from M.ViewManager view reference array
      */
     removeAllItems: function() {
         $('#' + this.id).empty();
-        if(this.doCleanUp) {
-            for(var i = 0; i < this.childViewObjects.length; i++) {
-                this.removeFromViewManager(this.childViewObjects[i]);
-            }
-
-            this.childViewObjects = [];
-        }
-    },
-
-    /**
-     * Removes (recursively if childViews available) view from M.ViewManager.viewList
-     *
-     * @param view
-     */
-    removeFromViewManager: function(view) {
-        if(view.childViews) {
-            var children = view.getChildViewsAsArray();
-            for(var i = 0; i < children.length; i++) {
-                this.removeFromViewManager(view[children[i]]);
-            }
-        }
-
-        view.destroy();
     },
 
     /**
@@ -394,7 +346,6 @@ M.ListView = M.View.extend(
 
         /* Finally let the whole list look nice */
         this.themeUpdate();
-
     },
 
     /**
@@ -407,7 +358,7 @@ M.ListView = M.View.extend(
         var obj = M.ListItemView.design({});
         obj.value = name;
         obj.isDivider = YES,
-        this.addItem(obj.render(), obj);
+        this.addItem(obj.render());
         obj.theme();
     },
 
@@ -471,7 +422,7 @@ M.ListView = M.View.extend(
             obj.parentView = that;
 
             /* Add the current list view item to the list view ... */
-            that.addItem(obj.render(), obj);
+            that.addItem(obj.render());
 
             /* register events */
             obj.registerEvents();
@@ -718,6 +669,55 @@ M.ListView = M.View.extend(
 
         /* un-register tap/click for the page */
         $('#' + M.ViewManager.getCurrentPage().id).unbind('click tap');
+    },
+
+    /**
+     * This method can be used to silently update values within a single list item. Instead
+     * of removing the whole item, only the desired sub views are updated.
+     *
+     * To determine which list item to update, pass the internal id of the item as the first
+     * parameter.
+     *
+     * Note: This is not the DOM id! If no special id was set with the list item's data, the index
+     * of the item within the list is taken as reference id.
+     *
+     * As second parameter pass an array containing objects that specify which sub view to
+     * update (key) and which value to set (value), e.g.:
+     *
+     *     [
+     *         {
+     *             key: 'label1',
+     *             value: 'new value',
+     *         }
+     *     ]
+     *
+     * @param {String, Number} modelId The id to determine the list item.
+     * @param {Array} updates An array containing all updates.
+     */
+    updateListItemView: function(modelId, updates) {
+        var item = _.detect(this.childViewObjects, function(item) {
+            return item.modelId === modelId;
+        });
+
+        if(!item) {
+            M.Logger.log('No list item found with given id \'' + modelId + '\'.', M.WARN);
+            return;
+        }
+
+        if(!(updates && typeof(updates) === 'object')) {
+            M.Logger.log('No updates specified when calling \'updateListItemView\'.', M.WARN);
+            return;
+        }
+
+        _.each(updates, function(update) {
+            var view = M.ViewManager.getView(item, update['key']);
+
+            if(view) {
+                view.setValue(update['value']);
+            } else {
+                M.Logger.log('There is no view \'' + update['key'] + '\' available within the list item.', M.WARN);
+            }
+        });
     }
 
 });
