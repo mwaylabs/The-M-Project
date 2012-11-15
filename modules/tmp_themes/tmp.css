@@ -369,3 +369,12 @@
     width: 0px;
     clear: both;
 }
+
+
+/* IMAGE PRELOADING */
+.tmp-image-preloading {
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    visibility: hidden;
+}

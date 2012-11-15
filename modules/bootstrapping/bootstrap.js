@@ -36,6 +36,32 @@ $(document).ready(function(){
     /* init pages */
     $.mobile.initializePage();
 
+
+    /* preload images */
+    if(M.Application.getConfig('preloadImages') && M.Application.getConfig('imagesToPreload').length) {
+        M.ImagePreloader.init({
+            images: M.Application.getConfig('imagesToPreload'),
+            refId: 'bootstrap',
+            events: {
+                load: {
+                    action: function(imagePath, refId) {
+                        M.Logger.info('Image preloading: loaded single file \'' + imagePath + '\' for refId \'' + refId + '\'.');
+                    }
+                },
+                error: {
+                    action: function(imagePath, refId) {
+                        M.Logger.info('Image preloading: error loading single file \'' + imagePath + '\' for refId \'' + refId + '\'.');
+                    }
+                },
+                finish: {
+                    action: function(refId) {
+                        M.Logger.info('Image preloading: loaded all file associated with refId \'' + refId + '\'.');
+                    }
+                }
+            }
+        }).preload();
+    }
+
     /* dont hide the toolbar, ever */
     $("[data-role=header][data-position=fixed]").fixedtoolbar({ hideDuringFocus: "" });
 });

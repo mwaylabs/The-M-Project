@@ -1,4 +1,4 @@
-** Version 1.3 - Date 10.09.2012 **
+** Version 1.3 - Date 14.11.2012 **
 
   * Added M.ToggleSwitchView
   * Added isPersistent flag to Toolbar
@@ -10,6 +10,9 @@
   * Fixed a bug with image view and the load event
   * Fixed a bug with M.WebView and Android+Cordova (render pseudo div and push iframe dynamically)
   * Set the current list item value to the view value. This enables for example to get the value/contentBinding of a list item in a template view.
+  * Fixed an issue with the debugMode flag and M.Logger (thx to wherati)
+  * Added M.ImagePreloader component and linked it with espressos preloading part to auto-load all images on startup if enabled via config.json.
+  * Refactored internal id/model_id behaviour of list item ids passed when a list item is selected.
 
 ** Version 1.2 - Date 02.07.2012 **
 

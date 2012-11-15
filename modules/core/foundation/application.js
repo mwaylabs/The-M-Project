@@ -135,7 +135,7 @@ M.Application = M.Object.extend(
      * @returns {String} The value in the application's config object with the key 'key'.
      */
     getConfig: function(key) {
-        if(this.config[key]) {
+        if(this.config.hasOwnProperty(key)) {
             return this.config[key];
         }
         return null;
