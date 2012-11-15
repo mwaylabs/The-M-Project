@@ -672,6 +672,22 @@ M.ListView = M.View.extend(
     },
 
     /**
+     * This method can be used to determine a list item view based on its id.
+     *
+     * Note: This is not the DOM id! If no special id was set with the list item's data, the index
+     * of the item within the list is taken as reference id.
+     *
+     * @param {String, Number} modelId The id to determine the list item.
+     */
+    getListItemViewById: function(modelId) {
+        var item = _.detect(this.childViewObjects, function(item) {
+            return item.modelId === modelId;
+        });
+
+        return item;
+    },
+
+    /**
      * This method can be used to silently update values within a single list item. Instead
      * of removing the whole item, only the desired sub views are updated.
      *
@@ -695,9 +711,7 @@ M.ListView = M.View.extend(
      * @param {Array} updates An array containing all updates.
      */
     updateListItemView: function(modelId, updates) {
-        var item = _.detect(this.childViewObjects, function(item) {
-            return item.modelId === modelId;
-        });
+        var item = this.getListItemViewById(modelId);
 
         if(!item) {
             M.Logger.log('No list item found with given id \'' + modelId + '\'.', M.WARN);
