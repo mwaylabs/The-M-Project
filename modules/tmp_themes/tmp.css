@@ -295,6 +295,7 @@
 /* CONTENT AREA */
 .ui-content {
     -webkit-overflow-scrolling: touch;
+    overflow-x: visible;
 }
 
 
