@@ -210,6 +210,22 @@ M.ListView = M.View.extend(
     useIndexAsId: NO,
 
     /**
+     * An array containing all M.ListItemView objects that are currently rendered
+     *
+     *
+     */
+    childViewObjects: [],
+
+    /**
+     * Determines whether object clean up shall be performed when new M.ListItemViews are rendered.
+     *
+     * Should always be YES, for debugging and profiling NO is okay.
+     *
+     * @type Boolean
+     */
+    doCleanUp: YES,
+
+    /**
      * This method renders the empty list view either as an ordered or as an unordered list. It also applies
      * some styling, if the corresponding properties where set.
      *
@@ -269,18 +285,50 @@ M.ListView = M.View.extend(
      * This method adds a new list item to the list view by simply appending its html representation
      * to the list view inside the DOM. This method is based on jQuery's append().
      *
+     * Additionally, all M.ListItemViews are added to
+     *
      * @param {String} item The html representation of a list item to be added.
+     * @param {Object} obj The M.ListItemView that gets appended
      */
-    addItem: function(item) {
+    addItem: function(item, obj) {
         $('#' + this.id).append(item);
+
+        if(this.doCleanUp) {
+            this.childViewObjects.push(obj);
+        }
     },
 
     /**
      * This method removes all of the list view's items by removing all of its content in the DOM. This
      * method is based on jQuery's empty().
+     *
+     * Additionally all M.ListItemViews and their child views are deleted from M.ViewManager view reference array
      */
     removeAllItems: function() {
         $('#' + this.id).empty();
+        if(this.doCleanUp) {
+            for(var i = 0; i < this.childViewObjects.length; i++) {
+                this.removeFromViewManager(this.childViewObjects[i]);
+            }
+
+            this.childViewObjects = [];
+        }
+    },
+
+    /**
+     * Removes (recursively if childViews available) view from M.ViewManager.viewList
+     *
+     * @param view
+     */
+    removeFromViewManager: function(view) {
+        if(view.childViews) {
+            var children = view.getChildViewsAsArray();
+            for(var i = 0; i < children.length; i++) {
+                this.removeFromViewManager(view[children[i]]);
+            }
+        }
+
+        view.destroy();
     },
 
     /**
@@ -346,6 +394,9 @@ M.ListView = M.View.extend(
 
         /* Finally let the whole list look nice */
         this.themeUpdate();
+
+        /* DEBUG */
+        console.log('Anzahl Views: ' + _.keys(M.ViewManager.viewList).length);
     },
 
     /**
@@ -422,7 +473,7 @@ M.ListView = M.View.extend(
             obj.parentView = that;
 
             /* Add the current list view item to the list view ... */
-            that.addItem(obj.render());
+            that.addItem(obj.render(), obj);
 
             /* register events */
             obj.registerEvents();
