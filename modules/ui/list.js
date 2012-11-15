@@ -395,8 +395,6 @@ M.ListView = M.View.extend(
         /* Finally let the whole list look nice */
         this.themeUpdate();
 
-        /* DEBUG */
-        console.log('Anzahl Views: ' + _.keys(M.ViewManager.viewList).length);
     },
 
     /**
