@@ -14,6 +14,7 @@
   * Fixed an issue with the debugMode flag and M.Logger (thx to wherati)
   * Added M.ImagePreloader component and linked it with espressos preloading part to auto-load all images on startup if enabled via config.json.
   * Refactored internal id/model_id behaviour of list item ids passed when a list item is selected.
+  * ListView now cleans up old M.ListItemView objects when new items are added
 
 ** Version 1.2 - Date 02.07.2012 **
 
