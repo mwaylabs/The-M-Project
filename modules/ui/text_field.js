@@ -302,11 +302,15 @@ M.TextFieldView = M.View.extend(
             keyup: {
                 target: this,
                 action: 'setValueFromDOM'
-            },
-            tap: {
-                target: this,
-                action: 'handleTap'
             }
+        };
+        /* add TAP handler only if needed */
+        var type = this.inputType;
+        if (_.include(this.dateInputTypes, this.inputType) && !this.useNativeImplementationIfAvailable) {
+            this.internalEvents['tap'] = {
+                target:this,
+                action:'handleTap'
+            };
         }
         this.bindToCaller(this, M.View.registerEvents)();
     },
