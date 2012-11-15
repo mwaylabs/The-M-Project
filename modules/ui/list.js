@@ -407,7 +407,7 @@ M.ListView = M.View.extend(
         var obj = M.ListItemView.design({});
         obj.value = name;
         obj.isDivider = YES,
-        this.addItem(obj.render());
+        this.addItem(obj.render(), obj);
         obj.theme();
     },
 
