@@ -404,7 +404,7 @@ M.SelectionListView = M.View.extend(
     themeUpdate: function() {
         if(this.selectionMode === M.SINGLE_SELECTION_DIALOG || this.selectionMode === M.MULTIPLE_SELECTION_DIALOG) {
             $('#' + this.id).selectmenu('refresh');
-            if(this.selectionMode === M.MULTIPLE_SELECTION_DIALOG && this.initialText && this.selection && this.selection.length === 0) {
+            if((this.selectionMode === M.MULTIPLE_SELECTION_DIALOG && this.initialText && this.selection && this.selection.length === 0) || (this.selectionMode === M.SINGLE_SELECTION_DIALOG && !this.selection && this.initialText)) {
                 $('#' + this.id + '_container').find('.ui-btn-text').html(this.initialText);
             } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && !this.selection) {
                 var that = this;
