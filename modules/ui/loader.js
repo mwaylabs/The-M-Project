@@ -75,11 +75,11 @@ M.LoaderView = M.View.extend(
         var title = title && typeof(title) === 'string' ? title : this.defaultTitle;
         if(this.refCount == 1){
             $.mobile.showPageLoadingMsg('a', title, hideSpinner);
-            $('.ui-loader').removeClass('ui-loader-default');
-            $('.ui-loader').addClass('ui-loader-verbose');
+            var loader = $('.ui-loader');
+            loader.removeClass('ui-loader-default');
+            loader.addClass('ui-loader-verbose');
 
             /* position alert in the center of the possibly scrolled viewport */
-            var loader = $('.ui-loader');
             var screenSize = M.Environment.getSize();
             var scrollYOffset = window.pageYOffset;
             var loaderHeight = loader.outerHeight();

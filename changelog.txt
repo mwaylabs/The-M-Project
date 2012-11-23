@@ -16,6 +16,7 @@
   * Refactored internal id/model_id behaviour of list item ids passed when a list item is selected.
   * Disabled the automatic positioning of buttons within a list item view applied by jQuery Mobile.
   * Added updateListItemView to M.ListView.
+  * Minor performance improvement for M.LoaderView (cached selector).
   * Fixed inconsistency bug with selection list in single_selection_dialog mode.
 
 ** Version 1.2 - Date 02.07.2012 **
