@@ -162,6 +162,21 @@ M.MapMarkerView = M.View.extend(
     icon: null,
 
     /**
+     * This property can be used to specify the display size of the icon used for the
+     * marker. This is important if you want to support e.g. the iphone's retina display.
+     *
+     * Pass along an object containing the desired width and height, e.g.:
+     *
+     *     {
+     *         width: 20,
+     *         height: 20
+     *     }
+     *
+     * @type Object
+     */
+    iconSize: null,
+
+    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array
