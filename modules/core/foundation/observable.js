@@ -63,8 +63,8 @@ M.Observable = M.Object.extend(
          * It works on a copy so we have to assign the "cleaned"
          * array to our bindingList.
          */
-        this.bindlingList = $.grep(this.bindlingList, function(value, index) {
-                return value.observer !== observer;
+        this.bindingList = _.filter(this.bindingList, function(value, index) {
+                return value.observable !== observer;
         });
     },
 
