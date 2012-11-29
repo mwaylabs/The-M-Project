@@ -174,7 +174,7 @@ M.ButtonView = M.View.extend(
             html += ' data-icon="' + this.icon + '"';
         }
         if(this.cssClass) {
-            html += ' data-theme="' + this.cssClass + '"';
+            html += ' class="' + this.cssClass + '"';
         }
         if(this.isIconOnly) {
             html += ' data-iconpos="notext"';
