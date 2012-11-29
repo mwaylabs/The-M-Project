@@ -72,6 +72,13 @@ M.View = M.Object.extend(
     contentBindingReverse: null,
 
     /**
+     * some kind of ContentBinding for thinks like SelectionListViews if you want to apply some businessdata like a model to it.
+     *
+     * @property {String}
+     */
+    valueBinding: null,
+
+    /**
      * An array specifying the view's children.
      *
      * @type Array
@@ -516,34 +523,50 @@ M.View = M.Object.extend(
      * This method attaches the view to an observable to be later notified once the observable's
      * state did change.
      */
-    attachToObservable: function() {
-        var contentBinding = this.contentBinding ? this.contentBinding : (this.computedValue) ? this.computedValue.contentBinding : null;
 
-        if(!contentBinding) {
+    attachToObservable: function() {
+        this.registerContentBinding();
+        this.registervalueBinding();
+    },
+
+    registervalueBinding:function () {
+        var valueBinding = this.valueBinding ? this.valueBinding : (this.computedValue) ? this.computedValue.valueBinding : null;
+        if(!valueBinding) { return; }
+        this.attachBinding(valueBinding, 'valueBinding');
+    },
+
+    registerContentBinding: function(){
+        var contentBinding = this.contentBinding ? this.contentBinding : (this.computedValue) ? this.computedValue.contentBinding : null;
+        if(!contentBinding) { return; }
+        this.attachBinding(contentBinding, 'contentBinding');
+    },
+
+    attachBinding: function(binding, name) {
+        if(!binding) {
             return;
         }
 
-        if(typeof(contentBinding) === 'object') {
-            if(contentBinding.target && typeof(contentBinding.target) === 'object') {
-                if(contentBinding.property && typeof(contentBinding.property) === 'string') {
-                    var propertyChain = contentBinding.property.split('.');
-                    if(contentBinding.target[propertyChain[0]] !== undefined) {
-                        if(!contentBinding.target.observable) {
-                            contentBinding.target.observable = M.Observable.extend({});
+        if(typeof(binding) === 'object') {
+            if(binding.target && typeof(binding.target) === 'object') {
+                if(binding.property && typeof(binding.property) === 'string') {
+                    var propertyChain = binding.property.split('.');
+                    if(binding.target[propertyChain[0]] !== undefined) {
+                        if(!binding.target.observable) {
+                            binding.target.observable = M.Observable.extend({});
                         }
-                        contentBinding.target.observable.attach(this, contentBinding.property);
+                        binding.target.observable.attach(this, binding.property);
                         this.isObserver = YES;
                     } else {
-                        M.Logger.log('The specified target for contentBinding for \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')\' has no property \'' + contentBinding.property + '!', M.WARN);
+                        M.Logger.log('The specified target for ' + name + ' for \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')\' has no property \'' + binding.property + '!', M.WARN);
                     }
                 } else {
-                    M.Logger.log('The type of the value of \'action\' in contentBinding for \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')\' is \'' + typeof(contentBinding.property) + ' but it must be of type \'string\'!', M.WARN);
+                    M.Logger.log('The type of the value of \'action\' in ' + name + ' for \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')\' is \'' + typeof(binding.property) + ' but it must be of type \'string\'!', M.WARN);
                 }
             } else {
-                M.Logger.log('No valid target specified in content binding \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')!', M.WARN);
+                M.Logger.log('No valid target specified in ' + name + ' \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')!', M.WARN);
             }
         } else {
-            M.Logger.log('No valid content binding specified for \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')!', M.WARN);
+            M.Logger.log('No valid ' + name + ' specified for \'' + this.type + '\' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')!', M.WARN);
         }
     },
 

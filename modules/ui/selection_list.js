@@ -741,6 +741,29 @@ M.SelectionListView = M.View.extend(
                 $(this).removeAttr('disabled');
             });
         }
+    },
+
+    dataDidChange: function(){
+        var valueBinding = this.valueBinding ? this.valueBinding : (this.computedValue) ? this.computedValue.valueBinding : null;
+
+        if(!valueBinding) {
+            return;
+        }
+
+        var value = valueBinding.target;
+        var propertyChain = valueBinding.property.split('.');
+        _.each(propertyChain, function(level) {
+            if(value) {
+                value = value[level];
+            }
+        });
+
+        if(!value || value === undefined || value === null) {
+            M.Logger.log('The value assigned by valueBinding (property: \'' + valueBinding.property + '\') for ' + this.type + ' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ') is invalid!', M.WARN);
+            return;
+        }
+
+        this.setSelection(value);
     }
 
 });
