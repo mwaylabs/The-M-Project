@@ -743,7 +743,7 @@ M.SelectionListView = M.View.extend(
         }
     },
 
-    dataDidChange: function(){
+    valueDidChange: function(){
         var valueBinding = this.valueBinding ? this.valueBinding : (this.computedValue) ? this.computedValue.valueBinding : null;
 
         if(!valueBinding) {
