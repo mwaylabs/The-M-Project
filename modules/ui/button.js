@@ -70,6 +70,14 @@ M.ButtonView = M.View.extend(
     tag: null,
 
     /**
+     * This property can be used to specifically set the data-theme property of a button view
+     * as it is used by jquery mobile.
+     *
+     * @type String
+     */
+    dataTheme: '',
+
+    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array
@@ -175,6 +183,9 @@ M.ButtonView = M.View.extend(
         }
         if(this.cssClass) {
             html += ' data-theme="' + this.cssClass + '"';
+        }
+        if(this.dataTheme) {
+            html += ' data-theme="' + this.dataTheme + '"';
         }
         if(this.isIconOnly) {
             html += ' data-iconpos="notext"';
