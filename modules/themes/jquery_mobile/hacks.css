@@ -1,0 +1,25 @@
+/*Buttons in the Header are shown in the content area*/
+	.ui-header .ui-btn{
+		margin-top: 0;
+	}
+
+/* Default button group hasn't the browser width*/
+	.ui-page .ui-controlgroup-horizontal .ui-controlgroup-controls{
+		display: block;
+	}
+
+	/*or*/
+	/*.ui-page .ui-controlgroup-horizontal .ui-controlgroup-controls{
+		width: 100%;
+	}*/
+
+
+/* TODO: 
+ - Alert dialog Button add data-theme
+ - Confirm dialog style buttons
+ - Actionsheet style buttons
+ - Complex list there is a div don't know why
+ - Custom searchbar list is wrong, just wrong
+ - LocalStorage ToDo App Example looks not good
+ - LocalStorage ToDo App Example save/edit button ghost click (ipad mini)
+*/
