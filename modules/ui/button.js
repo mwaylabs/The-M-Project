@@ -182,7 +182,7 @@ M.ButtonView = M.View.extend(
             html += ' data-icon="' + this.icon + '"';
         }
         if(this.cssClass) {
-            html += ' data-theme="' + this.cssClass + '"';
+            html += ' class="' + this.cssClass + '"';
         }
         if(this.dataTheme) {
             html += ' data-theme="' + this.dataTheme + '"';

@@ -115,6 +115,15 @@ M.Object =
             $('#' + this.id).remove();
         }
         delete this;
+    },
+
+    detachContentBinding: function(){
+        if( this.contentBinding && this.contentBinding.target && this.contentBinding.target.observable && this.contentBinding.property){
+            this.contentBinding.target.observable.detach(this.contentBinding.property);
+        }
+        if( this.valueBinding    && this.valueBinding.target    && this.valueBinding.target.observable    && this.valueBinding.property){
+            this.valueBinding.target.observable.detach(this.valueBinding.property);
+        }
     }
 
 };

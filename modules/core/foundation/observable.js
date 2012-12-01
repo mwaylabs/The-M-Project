@@ -63,8 +63,8 @@ M.Observable = M.Object.extend(
          * It works on a copy so we have to assign the "cleaned"
          * array to our bindingList.
          */
-        this.bindlingList = $.grep(this.bindlingList, function(value, index) {
-                return value.observer !== observer;
+        this.bindingList = _.filter(this.bindingList, function(value, index) {
+                return value.observable !== observer;
         });
     },
 
@@ -75,10 +75,12 @@ M.Observable = M.Object.extend(
      */
     notifyObservers: function(key) {
         _.each(this.bindingList, function(entry){
-            if(key === entry.observable || (entry.observable.indexOf('.') > 0 && entry.observable.indexOf(key) > -1)) {
-                entry.observer.contentDidChange();
-            } else if(key.indexOf('.') > 0 && entry.observable.indexOf(key.substring(0, key.lastIndexOf('.'))) === 0) {
-                entry.observer.contentDidChange();
+            if((key === entry.observable || (entry.observable.indexOf('.') > 0 && entry.observable.indexOf(key) > -1)) || (key.indexOf('.') > 0 && entry.observable.indexOf(key.substring(0, key.lastIndexOf('.'))))) {
+                if(entry.observer.valueBinding && (key === entry.observer.valueBinding.property || key === entry.observer.valueBinding.property.split('.')[0])){
+                    entry.observer.valueDidChange();
+                }else{
+                    entry.observer.contentDidChange();
+                }
             }
         });
     }
