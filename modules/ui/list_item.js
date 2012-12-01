@@ -174,7 +174,7 @@ M.ListItemView = M.View.extend(
                     childView._name = childViews[i];
                     childView.parentView = this;
 
-                    if(childView.type = 'M.ButtonView') {
+                    if(childView.type === 'M.ButtonView') {
                         this.html += '<div>' + childView.render() + '</div>';
                     } else {
                         this.html += childView.render();
