@@ -177,6 +177,14 @@ M.MapMarkerView = M.View.extend(
     iconSize: null,
 
     /**
+     * This property can be used to display a map marker icon centered about its location.
+     * By default a map marker is positioned with its bottom center at the location.
+     *
+     * @type Boolean
+     */
+    isIconCentered: NO,
+
+    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array

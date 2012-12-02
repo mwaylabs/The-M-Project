@@ -551,7 +551,7 @@ M.MapView = M.View.extend(
                     marker.icon,
                     null,
                     null,
-                    null,
+                    marker.iconSize && marker.isIconCentered ? new google.maps.Point(marker.iconSize.width / 2, marker.iconSize.height / 2) : null,
                     marker.iconSize ? new google.maps.Size(marker.iconSize.width, marker.iconSize.height) : null
                 ) : marker.icon
             });
