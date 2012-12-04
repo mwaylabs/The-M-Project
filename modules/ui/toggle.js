@@ -84,7 +84,7 @@ M.ToggleView = M.View.extend(
                     if(this[childViews[i]]) {
                         if(this.toggleOnClick) {
                             this[childViews[i]].internalEvents = {
-                                tap: {
+                                vclick: {
                                     target: this,
                                     action: 'toggleView'
                                 }
@@ -110,8 +110,8 @@ M.ToggleView = M.View.extend(
     toggleView: function(id, event, nextEvent) {
         this.isInFirstState = !this.isInFirstState;
         var currentViewIndex = this.isInFirstState ? 0 : 1;
-        $('#' + this.id + '_' + currentViewIndex).show();
         $('#' + this.id + '_' + (currentViewIndex > 0 ? 0 : 1)).hide();
+        $('#' + this.id + '_' + currentViewIndex).show();
 
         /* set current view */
         var childViews = this.getChildViewsAsArray();
