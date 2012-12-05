@@ -407,6 +407,7 @@ M.SelectionListView = M.View.extend(
             $('#' + this.id).selectmenu('refresh');
             if((this.selectionMode === M.MULTIPLE_SELECTION_DIALOG && this.initialText && this.selection && this.selection.length === 0) || (this.selectionMode === M.SINGLE_SELECTION_DIALOG && !this.selection && this.initialText)) {
                 $('#' + this.id + '_container').find('.ui-btn-text').html(this.initialText);
+                document.getElementById(this.id).selectedIndex = -1;
             } else if(this.selectionMode === M.SINGLE_SELECTION_DIALOG && !this.selection) {
                 var that = this;
                 var item = M.ViewManager.getViewById($('#' + this.id).find('option:first-child').attr('id'));
