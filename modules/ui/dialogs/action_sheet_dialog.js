@@ -103,7 +103,7 @@ M.ActionSheetDialogView = M.DialogView.extend(
             buttons.push(M.ButtonView.design({
                 value: this.destructiveButtonValue,
                 tag: 'destruction',
-                cssClass: 'a tmp-actionsheet-destructive-button',
+                dataTheme: 'a tmp-actionsheet-destructive-button',
                 events: {
                     tap: {
                         target: that,
@@ -144,7 +144,7 @@ M.ActionSheetDialogView = M.DialogView.extend(
             buttons.push(M.ButtonView.design({
                 value: this.cancelButtonValue,
                 tag: 'cancel',
-                cssClass: 'a',
+                dataTheme: 'a',
                 events: {
                     tap: {
                         target: that,
