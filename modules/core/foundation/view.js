@@ -315,7 +315,7 @@ M.View = M.Object.extend(
      * @returns {Array} The child views as an array.
      */
     getChildViewsAsArray: function() {
-        return $.trim(this.childViews.replace(/\s+/g, ' ')).split(' ');
+        return this.childViews ? $.trim(this.childViews.replace(/\s+/g, ' ')).split(' ') : [];
     },
 
     /**

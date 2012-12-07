@@ -280,6 +280,9 @@ M.ListView = M.View.extend(
      * method is based on jQuery's empty().
      */
     removeAllItems: function() {
+        $('#' + this.id).find('> li').each(function() {
+            M.ViewManager.getViewById($(this).attr('id')).destroy();
+        });
         $('#' + this.id).empty();
     },
 

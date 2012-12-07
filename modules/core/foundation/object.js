@@ -110,6 +110,12 @@ M.Object =
      */
     destroy: function() {
         if(this.id && $('#' + this.id)) {
+            var childViews = this.getChildViewsAsArray();
+            for(var i in childViews) {
+                if(this[childViews[i]]) {
+                    this[childViews[i]].destroy();
+                }
+            }
             M.EventDispatcher.unregisterEvents(this);
             M.ViewManager.unregister(this);
             $('#' + this.id).remove();

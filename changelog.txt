@@ -21,6 +21,7 @@
   * Minor performance improvement for M.LoaderView (cached selector).
   * Fixed inconsistency bug with selection list in single_selection_dialog mode.
   * Added iconSize property to M.MapMarkerView.
+  * Added auto-destroy on DOM remove especially for list items
 
 ** Version 1.2 - Date 02.07.2012 **
 
