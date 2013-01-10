@@ -1,3 +1,5 @@
+** Version 1.4 - Date 10.01.2013 **
+  * Bugfix setActiveItem-method in CarouselView (Thanks to Markus)
 ** Version 1.3 - Date 07.12.2012 **
   * Add valueBinding to selectionListView
   * Bugfix cssClass on a Button doesn't affect data-theme anymore
