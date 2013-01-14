@@ -503,7 +503,7 @@ M.CarouselView = M.View.extend(
         }
 
         /* if item is already active, return */
-        var activeItem = M.ViewManager.getViewById($('#' + this.id + ' .tmp-carousel-list li:nth-child(' + this.activeItem + ')').attr('id'));
+        var activeItem = M.ViewManager.getViewById($('#' + this.id + ' .tmp-carousel-list li.tmp-carousel-item:nth-child(' + this.activeItem + ')').attr('id'));
         if(activeItem && activeItem.id === item.id) {
             M.Logger.log('The given carousel item already is active, so we do nothing.', M.INFO);
             return;
@@ -513,14 +513,14 @@ M.CarouselView = M.View.extend(
         $('#' + this.id + '_paginator_' + this.activeItem).removeClass('tmp-carousel-paginator-item-active');
         this.activeItem = 1;
         var that = this;
-        $('#' + this.id + ' .tmp-carousel-list li').each(function() {
+        $('#' + this.id + ' .tmp-carousel-list li.tmp-carousel-item').each(function() {
             if($(this).attr('id') !== item.id) {
                 that.activeItem++;
             } else {
                 return false;
             }
         });
-        this.iScroll.scrollToElement('li:nth-child(' + (this.activeItem > 1 ? this.activeItem : 1) + ')', 100);
+        this.iScroll.scrollToElement('li.tmp-carousel-item:nth-child(' + (this.activeItem > 1 ? this.activeItem : 1) + ')', 100);
     },
 
     /**

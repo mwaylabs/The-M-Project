@@ -83,7 +83,7 @@ M.ConfirmDialogView = M.DialogView.extend(
         /* build confirm button */
         var button = M.ButtonView.design({
             value: this.confirmButtonValue,
-            cssClass: 'b tmp-dialog-smallerbtn-confirm',
+            dataTheme: 'b tmp-dialog-smallerbtn-confirm',
             events: {
                 tap: {
                     target: that,
@@ -94,7 +94,7 @@ M.ConfirmDialogView = M.DialogView.extend(
         /* build cancel button */
         var button2 = M.ButtonView.design({
             value: this.cancelButtonValue,
-            cssClass: 'd tmp-dialog-smallerbtn-confirm',
+            dataTheme: 'd tmp-dialog-smallerbtn-confirm',
             events: {
                 tap: {
                     target: that,
