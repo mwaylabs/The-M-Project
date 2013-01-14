@@ -465,7 +465,7 @@ M.ListView = M.View.extend(
 
             /* This regex looks for a variable inside the template view (<%= ... %>) ... */
             var pattern = obj[childViewsArray[i]].computedValue ? obj[childViewsArray[i]].computedValue.valuePattern : obj[childViewsArray[i]].valuePattern;
-            var regexResult = /<%=\s+([.|_|-|$|§|@|a-zA-Z0-9]+)\s*%>/.exec(pattern);
+            var regexResult = /<%=\s+([.|_|-|$|§|@|a-zA-Z0-9\s]+)\s+%>/.exec(pattern);
 
             /* ... if a match was found, the variable is replaced by the corresponding value inside the record */
             if(regexResult) {
@@ -480,7 +480,7 @@ M.ListView = M.View.extend(
                                 regexResult = null;
                             } else {
                                 pattern = pattern.replace(regexResult[0], record[regexResult[1]]);
-                                regexResult = /<%=\s+([.|_|-|$|§|@|a-zA-Z0-9]+)\s*%>/.exec(pattern);
+                                regexResult = /<%=\s+([.|_|-|$|§|@|a-zA-Z0-9\s]+)\s+%>/.exec(pattern);
                             }
                         }
                         obj[childViewsArray[i]].value = pattern;
