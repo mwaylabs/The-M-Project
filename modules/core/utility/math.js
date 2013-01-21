@@ -53,8 +53,8 @@ M.Math = M.Object.extend(
      * This method returns the value of the base to the power of the exponent. So e.g.
      * pow(2, 3) would return '2 to the power of 3' --> 8.
      *
-     * @param base {Number} The base.
-     * @param exponent {Number} The exponent.
+     * @param {Number} base The base.
+     * @param {Number} exponent The exponent.
      * @returns {Number} The result of the operation.
      */
     pow: function(base, exponent) {
@@ -70,8 +70,8 @@ M.Math = M.Object.extend(
      * - 2: 33.2%
      * - 3: 33.6%
      *
-     * @param min {Number} The minimal value.
-     * @param max {Number} The maximal value.
+     * @param {Number} min The minimal value.
+     * @param {Number} max The maximal value.
      * @returns {Number} The result of the operation.
      */
     random: function(min, max) {
@@ -90,9 +90,9 @@ M.Math = M.Object.extend(
      * returned. For example round(1.2345, M.FLOOR, 3) would return 1.234. The default for this parameter
      * is 0.
      *
-     * @param input {Number} The input value.
-     * @param type {String} The type of rounding.
-     * @param type {Number} The number of decimals (only available for M.ROUND).
+     * @param {Number} input The input value.
+     * @param {String} type The type of rounding.
+     * @param {Number} type The number of decimals (only available for M.ROUND).
      * @returns {Number} The result of the operation.
      */
     round: function(input, type, decimals) {
@@ -130,8 +130,9 @@ M.Math = M.Object.extend(
      *
      * So e.g. "nearestNumber([10, 20, 30], 12)" will return "10".
      *
-     * @param numbers {Array} The array of numbers to search in.
-     * @param number {Number} The reference number.
+     * @param {Array} numbers The array of numbers to search in.
+     * @param {Number} number The reference number.
+     * @returns {Number} The nearest number.
      */
     nearestNumber: function(numbers, number) {
         var minDiff = null;
