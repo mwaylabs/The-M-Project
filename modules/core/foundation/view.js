@@ -765,6 +765,39 @@ M.View = M.Object.extend(
             }
             return this.parentPage;
         }
+    },
+    
+    /*
+    * find a childview to the given string
+    *
+    * @param {String} childName the name of the child view looking for.
+    * @param {Boolean} deepSearch look also in all childViews for the one.
+    * @return {*} the childView
+    * 
+    */
+    
+    findChildView:function(childName, deepSearch){
+
+        var childViews = this.getChildViewsAsArray();
+        var found = _.find(childViews, function(child){
+            return child === childName
+        });
+
+        if(found){
+            return this[childName];
+        } else if(deepSearch){
+            var that = this;
+            var foundInChild = null;
+            _.each(childViews, function(child){
+                var found = that[child].find(childName);
+                if(found){
+                    foundInChild = found;
+                }
+            });
+            return foundInChild;
+        }
+
+        return found;
     }
 
 });
