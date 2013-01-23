@@ -789,7 +789,7 @@ M.View = M.Object.extend(
             var that = this;
             var foundInChild = null;
             _.each(childViews, function(child){
-                var found = that[child].find(childName);
+                var found = that[child].findChildView(childName);
                 if(found){
                     foundInChild = found;
                 }
