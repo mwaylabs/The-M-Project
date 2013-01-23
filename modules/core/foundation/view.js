@@ -775,29 +775,23 @@ M.View = M.Object.extend(
     * @return {*} the childView
     * 
     */
-    
-    findChildView:function(childName, deepSearch){
-
+    findChildView: function( childName, deepSearch ) {
+    	var that = this;
         var childViews = this.getChildViewsAsArray();
-        var found = _.find(childViews, function(child){
-            return child === childName
+        var foundChildren = [];
+        _.each(childViews, function( child ) {
+            if( child === childName ) {
+                foundChildren.push(that[child]);
+            }
         });
 
-        if(found){
-            return this[childName];
-        } else if(deepSearch){
-            var that = this;
-            var foundInChild = null;
-            _.each(childViews, function(child){
-                var found = that[child].findChildView(childName, deepSearch);
-                if(found){
-                    foundInChild = found;
-                }
+        if( deepSearch ) {
+            _.each(childViews, function( child ) {
+                foundChildren.push.apply(foundChildren, that[child].findChildView(childName, deepSearch));
             });
-            return foundInChild;
         }
 
-        return found;
+        return foundChildren;
     }
-
+	
 });
