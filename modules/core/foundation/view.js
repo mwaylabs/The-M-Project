@@ -768,11 +768,11 @@ M.View = M.Object.extend(
     },
     
     /*
-    * find a childview to the given string
+    * find all childviews to the given string
     *
     * @param {String} childName the name of the child view looking for.
     * @param {Boolean} deepSearch look also in all childViews for the one.
-    * @return {*} the childView
+    * @return {Array} all found childViews
     * 
     */
     findChildViews: function( childName, deepSearch ) {
