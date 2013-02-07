@@ -28,6 +28,30 @@ Thanks for sharing!
 
 
 ## CHANGELOG
+** Version 1.3 - Date 07.12.2012 **
+  * Add valueBinding to selectionListView
+  * Bugfix cssClass on a Button doesn't affect data-theme anymore
+  * Fixed input tap delay
+  * Fixed Android Chrome scrolling
+  * Added M.ToggleSwitchView
+  * Added isPersistent flag to Toolbar
+  * Fixed multiple selection dialog mode on for ipad
+  * Bugfix if a browser does not support localStorage
+  * Fixed problem with BB devices and keyUp event
+  * Fixed issues with list item and multiple buttons
+  * Fixed a bug with keyUp event an initial text
+  * Fixed a bug with image view and the load event
+  * Fixed a bug with M.WebView and Android+Cordova (render pseudo div and push iframe dynamically)
+  * Set the current list item value to the view value. This enables for example to get the value/contentBinding of a list item in a template view.
+  * Fixed an issue with the debugMode flag and M.Logger (thx to wherati)
+  * Added M.ImagePreloader component and linked it with espressos preloading part to auto-load all images on startup if enabled via config.json.
+  * Refactored internal id/model_id behaviour of list item ids passed when a list item is selected.
+  * Disabled the automatic positioning of buttons within a list item view applied by jQuery Mobile.
+  * Added updateListItemView to M.ListView.
+  * Minor performance improvement for M.LoaderView (cached selector).
+  * Fixed inconsistency bug with selection list in single_selection_dialog mode.
+  * Added iconSize property to M.MapMarkerView.
+  * Added auto-destroy on DOM remove especially for list items
 
 ** Version 1.2 - Date 02.07.2012 **
 
