@@ -92,7 +92,7 @@ M.ButtonView = M.View.extend(
      */
     render: function() {
         this.computeValue();
-        this.html += '<a data-role="button" id="' + this.id + '"' + this.style() + ' ';
+        this.html = '<a data-role="button" id="' + this.id + '"' + this.style() + ' ';
 
         if(this.hyperlinkTarget && this.hyperlinkType) {
             switch (this.hyperlinkType) {
