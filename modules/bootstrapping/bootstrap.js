@@ -36,6 +36,7 @@ $(document).ready(function(){
     /* init pages */
     $.mobile.initializePage();
 
+    $(document).trigger('applicationdidload');
 
     /* preload images */
     if(M.Application.getConfig('preloadImages') && M.Application.getConfig('imagesToPreload').length) {
