@@ -1,4 +1,6 @@
-** Version 1.4 - Date 07.02.2013 **
+** Version 1.4 - Date 12.02.2013 **
+  * add appdidload event
+  * add cssClass property to M.GridView
   * Update jQuery to 1.9
   * Update jQuery mobile to 1.3rc1
   * Bugfix setActiveItem-method in CarouselView (Thanks to Markus)
