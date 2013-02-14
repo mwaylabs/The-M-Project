@@ -520,6 +520,8 @@ M.CarouselView = M.View.extend(
                 return false;
             }
         });
+        /* highlight active item in paginator again */
+        $('#' + this.id + '_paginator_' + this.activeItem).addClass('tmp-carousel-paginator-item-active');
         this.iScroll.scrollToElement('li.tmp-carousel-item:nth-child(' + (this.activeItem > 1 ? this.activeItem : 1) + ')', 100);
     },
 
