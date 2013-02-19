@@ -455,7 +455,11 @@ M.TextFieldView = M.View.extend(
 
         /* trigger keyup event to make the text field autogrow */
         if(this.value) {
-            $('#'  + this.id).trigger('keyup');
+            var jDom = $('#'  + this.id);
+            jDom.trigger('keyup').textinput();
+            if(!this.isEnabled){
+	        jDom.textinput('disable');
+	    }
         }
     },
 
