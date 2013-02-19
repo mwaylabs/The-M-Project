@@ -389,7 +389,10 @@ M.ButtonGroupView = M.View.extend(
                 this.activeButton.isActive = NO;
             }
 
-            var obj = M.ViewManager.getViewById(button);
+            var obj = this[button];
+            if(!obj){
+                obj = M.ViewManager.getViewById(button);
+            }
             if(!obj) {
                 if(button && typeof(button) === 'object' && button.type === 'M.ButtonView') {
                     obj = button;
