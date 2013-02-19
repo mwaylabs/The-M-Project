@@ -1,4 +1,6 @@
-** Version 1.4 - Date 12.02.2013 **
+** Version 1.4 - Date 19.02.2013 **
+  * setActiveButton of the M.ButtonGroupView accepts the name of the button
+  * implemented theme in M.TextFieldView 
   * add appdidload event
   * add cssClass property to M.GridView
   * Update jQuery to 1.9
