@@ -499,6 +499,7 @@ M.ListView = M.View.extend(
      * @private
      */
     theme: function() {
+        $('#' + this.id).listview();
         if(this.searchBar) {
             /* JQM-hack: remove multiple search bars */
             if($('#' + this.id) && $('#' + this.id).parent()) {
