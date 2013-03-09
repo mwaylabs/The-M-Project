@@ -64,7 +64,7 @@ M.SearchBarView = M.View.extend(
      * @returns {String} The search bar view's html representation.
      */
     render: function() {
-        this.html += '<input id="' + this.id + '" type="search" value="' + (this.value ? this.value : this.initialText) + '" class="' + this.cssClass + '" />';
+        this.html = '<input id="' + this.id + '" type="search" value="' + (this.value ? this.value : this.initialText) + '" class="' + this.cssClass + '" />';
 
         return this.html;
     },

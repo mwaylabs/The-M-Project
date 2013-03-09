@@ -85,7 +85,7 @@ M.TableView = M.View.extend(
      * @returns {String} The table view's html representation.
      */
     render: function() {
-        this.html += '<div id="' + this.id + '_container"><table id="' + this.id +'"' + this.style() + '><thead></thead><tbody></tbody></table></div>';
+        this.html = '<div id="' + this.id + '_container"><table id="' + this.id +'"' + this.style() + '><thead></thead><tbody></tbody></table></div>';
 
         return this.html;
     },

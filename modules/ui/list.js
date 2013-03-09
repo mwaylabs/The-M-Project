@@ -231,7 +231,7 @@ M.ListView = M.View.extend(
         }
 
         var listTagName = this.isNumberedList ? 'ol' : 'ul';
-        this.html += '<' + listTagName + ' id="' + this.id + '" data-role="listview"' + this.style() + '></' + listTagName + '>';
+        this.html = '<' + listTagName + ' id="' + this.id + '" data-role="listview"' + this.style() + '></' + listTagName + '>';
 
         return this.html;
     },

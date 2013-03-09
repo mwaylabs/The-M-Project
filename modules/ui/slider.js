@@ -110,6 +110,7 @@ M.SliderView = M.View.extend(
      * @returns {String} The slider view's html representation.
      */
     render: function() {
+        this.html = '';
         if(this.label) {
             this.html += '<label for="' + this.id + '">' + this.label;
             if (this.hasAsteriskOnLabel) {

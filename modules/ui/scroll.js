@@ -37,7 +37,7 @@ M.ScrollView = M.View.extend(
      * @returns {String} The scroll view's html representation.
      */
     render: function() {
-        this.html += '<div id="' + this.id + '" data-role="content"' + this.style() + '>';
+        this.html = '<div id="' + this.id + '" data-role="content"' + this.style() + '>';
 
         this.renderChildViews();
 

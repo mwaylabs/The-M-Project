@@ -34,7 +34,7 @@ M.PopoverView = M.View.extend(
     selectedItemInPopover: null,
 
     render: function() {
-        this.html += '<div data-role="page" id="' + this.id + '" class="tmp-popover">';
+        this.html = '<div data-role="page" id="' + this.id + '" class="tmp-popover">';
 
         /* render a toolbar as the popover's header */
         var toolbar = M.ToolbarView.design({

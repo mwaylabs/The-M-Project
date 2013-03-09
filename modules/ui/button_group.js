@@ -176,7 +176,7 @@ M.ButtonGroupView = M.View.extend(
                 }
             }
         }
-
+        this.html = '';
         /* if there are multiple lines, render multiple horizontally aligned button groups */
         if(this.numberOfLines) {
             /* set the direction to horizontally, no matter what it was set to before */

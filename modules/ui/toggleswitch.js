@@ -86,6 +86,7 @@ M.ToggleSwitchView = M.View.extend(
          */
         render:function () {
 
+            this.html = '';
             /* if there is no label put the value as label */
             if (!this.onLabel) {
                 this.onLabel = this.onValue;

@@ -42,7 +42,7 @@ M.CanvasView = M.View.extend(
      * @returns {String} The image view's styling as html representation.
      */
     render: function() {
-        this.html += '<canvas id="' + this.id + '" ></canvas>';
+        this.html = '<canvas id="' + this.id + '" ></canvas>';
 
         return this.html;
     },
