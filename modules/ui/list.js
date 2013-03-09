@@ -489,6 +489,12 @@ M.ListView = M.View.extend(
             }
         }
         obj.item = item;
+
+        _.each(Object.keys(item), function(key){
+            if(!obj.hasOwnProperty(key)){
+                obj[key] = item[key];
+            }
+        });
         
         return obj;
     },
