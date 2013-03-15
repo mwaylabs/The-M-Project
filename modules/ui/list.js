@@ -227,11 +227,13 @@ M.ListView = M.View.extend(
             this.searchBar.isListViewSearchBar = YES;
             this.searchBar.listView = this;
             this.searchBar = M.SearchBarView.design(this.searchBar);
-            this.html += this.searchBar.render();
+            this.html = this.searchBar.render();
+        } else {
+            this.html = '';
         }
 
         var listTagName = this.isNumberedList ? 'ol' : 'ul';
-        this.html = '<' + listTagName + ' id="' + this.id + '" data-role="listview"' + this.style() + '></' + listTagName + '>';
+        this.html += '<' + listTagName + ' id="' + this.id + '" data-role="listview"' + this.style() + '></' + listTagName + '>';
 
         return this.html;
     },
