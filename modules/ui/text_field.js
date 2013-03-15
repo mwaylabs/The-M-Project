@@ -229,18 +229,8 @@ M.TextFieldView = M.View.extend(
      */
     render: function() {
         this.computeValue();
-        this.html = '<div';
 
-        if(this.label && this.isGrouped) {
-            this.html += ' data-role="fieldcontain"';
-        }
-
-        if(this.cssClass) {
-            this.html += ' class="' + this.cssClass + '_container"';
-        }
-
-        this.html += '>';
-
+        this.html = '';
         if(this.label) {
             this.html += '<label for="' + (this.name ? this.name : this.id) + '">' + this.label;
             if(this.hasAsteriskOnLabel) {
@@ -275,9 +265,7 @@ M.TextFieldView = M.View.extend(
             
             this.html += '<input ' + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + placeholder + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
         }
-
-        this.html += '</div>';
-
+        
         return this.html;
     },
 
@@ -454,13 +442,16 @@ M.TextFieldView = M.View.extend(
         }
 
         /* trigger keyup event to make the text field autogrow */
+        var jDom = $('#'  + this.id);
         if(this.value) {
-            var jDom = $('#'  + this.id);
             jDom.trigger('keyup').textinput();
             if(!this.isEnabled){
-	        jDom.textinput('disable');
-	    }
+	            jDom.textinput('disable');
+	        }
         }
+
+        /* add container-css class */
+        jDom.parent().addClass(this.cssClass + '_container');
     },
 
     /**
