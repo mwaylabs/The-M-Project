@@ -246,24 +246,21 @@ M.TextFieldView = M.View.extend(
 
 		// If the device supports placeholders use the HTML5 placeholde attribute else use javascript workarround
         var placeholder = '';
-        var initialText = '';
-        if(M.Environment.modernizr.inputattributes['placeholder']) {
+        if(this.initialText) {
             placeholder = ' placeholder="' + this.initialText + '" ';
 
-        }else{
-            initialText = this.initialText;
         }
 
         if(this.hasMultipleLines) {
-            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + placeholder + '>' + (this.value ? this.value : initialText) + '</textarea>';
+            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + placeholder + '>' + (this.value ? this.value : '') + '</textarea>';
             
         } else {
             var type = this.inputType;
-            if(_.include(this.dateInputTypes, this.inputType) && !this.useNativeImplementationIfAvailable || (initialText && this.inputType == M.INPUT_PASSWORD)) {
+            if(_.include(this.dateInputTypes, this.inputType) && !this.useNativeImplementationIfAvailable) {
                 type = 'text';
             }
             
-            this.html += '<input ' + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + placeholder + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : this.initialText) + '" />';
+            this.html += '<input ' + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + placeholder + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : '') + '" />';
         }
         
         return this.html;
@@ -374,9 +371,6 @@ M.TextFieldView = M.View.extend(
      * @param {Object} nextEvent The next event (external event), if specified.
      */
     gotFocus: function(id, event, nextEvent) {
-        if(this.initialText && (!this.value || this.initialText === this.value)) {
-            this.setValue('');
-        }
         this.hasFocus = YES;
 
         if(nextEvent) {
@@ -396,10 +390,6 @@ M.TextFieldView = M.View.extend(
     lostFocus: function(id, event, nextEvent) {
         this.setValueFromDOM();
 
-        if(this.initialText && !this.value) {
-            this.setValue(this.initialText, NO);
-            this.value = '';
-        }
         this.hasFocus = NO;
 
         if(nextEvent) {
@@ -437,10 +427,6 @@ M.TextFieldView = M.View.extend(
      * @private
      */
     theme: function() {
-        if(this.initialText && !this.value && this.cssClassOnInit) {
-            this.addCssClass(this.cssClassOnInit);
-        }
-
         /* trigger keyup event to make the text field autogrow */
         var jDom = $('#'  + this.id);
         if(this.value) {
@@ -461,7 +447,7 @@ M.TextFieldView = M.View.extend(
      */
     styleUpdate: function() {
         /* trigger keyup event to make the text field autogrow (enable fist, if necessary) */
-        if(this.value && this.value !== this.initialText) {
+        if(this.value) {
             $('#' + this.id).removeAttr('disabled');
             $('#'  + this.id).trigger('keyup');
         }
@@ -509,27 +495,6 @@ M.TextFieldView = M.View.extend(
      */
     setValue: function(value, delegateUpdate, preventValueComputing) {
         this.value = value;
-
-		// Handle the classOnInit for initial text
-		if(value != this.initialText) {
-			if(this.cssClassOnInit) {
-				this.removeCssClass(this.cssClassOnInit);
-			}
-			if(this.inputType == M.INPUT_PASSWORD) {
-				// Set the field type to password
-				$('#' + this.id).prop('type','password');
-			}
-		}
-		else {
-            if(this.cssClassOnInit) {
-                this.addCssClass(this.cssClassOnInit);
-            }
-
-			if(this.inputType == M.INPUT_PASSWORD) {
-				// Set the field type to text
-				$('#' + this.id).prop('type','text');
-			}
-		}
 
         this.renderUpdate(preventValueComputing);
 
