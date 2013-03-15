@@ -1,4 +1,4 @@
-** Version 1.4 - Date 09.03.2013 **
+** Version 1.4 - Date 15.03.2013 **
   * Bugfix in M.List cloneObject
   * add contentBindingReverse to M.SelectionList
   * add error handling to M.View.getChildViewsAsArray
@@ -6,12 +6,14 @@
   * implemented theme in M.TextFieldView 
   * add appdidload event
   * add cssClass property to M.GridView
-  * Update jQuery to 1.9
-  * Update jQuery mobile to 1.3rc1
+  * Update jQuery to 1.9.1
+  * Update jQuery mobile to 1.3.0
   * Bugfix setActiveItem-method in CarouselView (Thanks to Markus)
   * Allow whitespace in property name of valuePattern
   * Added nearestNumber function to M.Math
   * Bugfix setActiveItem-method in CarouselView: Paginator didn't update
+  * Updated d8 to v0.4.0
+  * Updated underscore.js to v1.4.4
 
 ** Version 1.3 - Date 07.12.2012 **
   * Add valueBinding to selectionListView
