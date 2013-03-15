@@ -640,7 +640,6 @@ M.SelectionListView = M.View.extend(
                 });
             }
         }
-        that.theme();
     },
 
     /**
