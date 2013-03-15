@@ -13,7 +13,7 @@ function ResizePageContentHeight(page)
     }
 }
 
-$("[data-role=page]").live("pageshow", function(event) {
+$("[data-role=page]").on("pageshow", function(event) {
 	var $page = $(this);
 
 	// For the demos that use this script, we want the content area of each
@@ -58,6 +58,6 @@ $("[data-role=page]").live("pageshow", function(event) {
 	ResizePageContentHeight(event.target);
 });
 
-$(document).live("orientationchange", function(event) {
+$(document).on("orientationchange", function(event) {
 	ResizePageContentHeight($(".ui-page"));
 });
