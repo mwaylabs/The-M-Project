@@ -97,7 +97,7 @@ M.LabelView = M.View.extend(
      */
     render: function() {
         this.computeValue();
-        this.html += '<div id="' + this.id + '"' + this.style() + '>';
+        this.html = '<div id="' + this.id + '"' + this.style() + '>';
 
         if(this.hyperlinkTarget && this.hyperlinkType) {
             switch (this.hyperlinkType) {

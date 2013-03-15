@@ -60,7 +60,7 @@ M.ToggleView = M.View.extend(
      * @returns {String} The toggle view's html representation.
      */
     render: function() {
-        this.html += '<div id="' + this.id + '">';
+        this.html = '<div id="' + this.id + '">';
 
         this.renderChildViews();
 

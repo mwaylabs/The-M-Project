@@ -229,7 +229,7 @@ M.TextFieldView = M.View.extend(
      */
     render: function() {
         this.computeValue();
-        this.html += '<div';
+        this.html = '<div';
 
         if(this.label && this.isGrouped) {
             this.html += ' data-role="fieldcontain"';

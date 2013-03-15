@@ -203,7 +203,7 @@ M.SelectionListView = M.View.extend(
         /* initialize the initialState property as new array */
         this.initialState = [];
 
-        this.html += '<div id="' + this.id + '_container"';
+        this.html = '<div id="' + this.id + '_container"';
 
         if(this.isGrouped) {
             this.html += ' data-role="fieldcontain"';

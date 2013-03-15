@@ -246,7 +246,7 @@ M.MapView = M.View.extend(
      * @returns {String} The map view's html representation.
      */
     render: function() {
-        this.html += '<div data-fullscreen="true" id="' + this.id + '"';
+        this.html = '<div data-fullscreen="true" id="' + this.id + '"';
         this.html += !this.isInset ? ' class="ui-listview"' : '';
         this.html += '><div id="' + this.id + '_map"' + this.style() + '></div></div>';
 
