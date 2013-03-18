@@ -96,7 +96,24 @@ M.LabelView = M.View.extend(
      * @returns {String} The image view's styling as html representation.
      */
     render: function() {
+        var that = this;
         this.computeValue();
+        if(typeof(this.movable) === 'object') {
+            if (this.movable.time && this.movable.offset){
+                if(typeof(this.movable.time) === 'string' && typeof(this.movable.offset) === 'string') {
+                    this.html += '<div class="outer">';
+                    var xtrastyle = this.createExtraStyle();
+                    this.makeMovable(xtrastyle, this.movable.offset, this.movable.time);
+                    window.setTimeout(function(){
+                        that.html += '</div>';
+                    }, 0);
+                }else {
+                    console.log('falscher typ');
+                }
+            }else {
+                console.log("ein parameter fehlt");
+            }
+        }
         this.html = '<div id="' + this.id + '"' + this.style() + '>';
 
         if(this.hyperlinkTarget && this.hyperlinkType) {
@@ -132,6 +149,57 @@ M.LabelView = M.View.extend(
     renderUpdate: function() {
         this.computeValue();
         $('#' + this.id).html(this.newLineToBreak ? this.nl2br(this.value) : this.value);
+    },
+
+    /**
+     *
+     * Appends an extra style tag to the head
+     *
+     * @returns {HTMLElement} The style element as CSSOM
+     */
+    createExtraStyle: function(){
+        var animationStyle = document.createElement('style'), styles;
+        animationStyle.type = "text/css";
+        document.getElementsByTagName('head').item(0).appendChild(animationStyle);
+        styles = document.styleSheets.length;
+        animationStyle = document.styleSheets[styles-1];
+        return animationStyle;
+    },
+
+    /**
+     *
+     * Makes the label movable based on css3 animation
+     *
+     * @param {Object} style
+     */
+    makeMovable: function(style, offset, sec){
+        var that = this, browsertype = "", parent$, self$, outerSize$, ownSize$, diff;
+        if(CSSRule.WEBKIT_KEYFRAME_RULE) {
+            browsertype = "-webkit-";
+        }else if(CSSRule.MOZ_KEYRAME_RULE) {
+            browsertype = "-moz-";
+        }
+        window.setTimeout(function(){
+            self$ = $('#' + that.id);
+            parent$ = $('.outer');
+            self$.addClass('tmp-movable-inner');
+            parent$.addClass('tmp-movable-outer');
+            ownSize$ = self$.width();
+            outerSize$ = parent$.width();
+            diff = ownSize$ - outerSize$;
+            if(diff > 0){
+                style.insertRule('.tmp-movable-inner {'+
+                    browsertype+'animation-name: move;'+
+                    browsertype+'animation-duration: '+ sec +'s;'+
+                    browsertype+'animation-iteration-count: infinite;'+
+                    browsertype+'animation-timing-function: linear;'+
+                    '}', 0);
+                style.insertRule('@' + browsertype + 'keyframes move { 0%,100% { left: ' + offset + 'px;} 50% { left:' + (-diff - offset) + 'px;}}', 1);
+            }else{
+                self$.removeClass('tmp-movable-inner');
+                parent$.removeClass('tmp-movable-outer');
+            }
+        }, 0);
     },
 
     /**

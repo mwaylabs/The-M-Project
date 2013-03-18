@@ -298,8 +298,14 @@
     overflow-x: visible;
 }
 
+/* label */
+.tmp-movable-outer {
+    position: relative;
+}
 
-
+.tmp-movable-inner {
+    position: absolute;
+}
 
 /* carousel */
 .tmp-carousel-wrapper {
