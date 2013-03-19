@@ -88,6 +88,12 @@ M.LabelView = M.View.extend(
      */
     recommendedEvents: ['tap'],
 
+    isMovable: NO,
+
+    extraStyle: null,
+
+    moveRulesAvailable: NO,
+
     /**
      * Renders a label view as a div tag with corresponding data-role attribute and inner
      * text defined by value.
@@ -100,18 +106,15 @@ M.LabelView = M.View.extend(
         this.computeValue();
         if(typeof(this.movable) === 'object') {
             if (this.movable.time && this.movable.offset){
-                if(typeof(this.movable.time) === 'string' && typeof(this.movable.offset) === 'string') {
-                    this.html = '<div class="outer-'+ this.id +' tmp-movable-outer">';
-                    var xtrastyle = this.createExtraStyle();
-                    this.makeMovable(xtrastyle, this.movable.offset, this.movable.time);
-                    window.setTimeout(function(){
-                        that.html += '</div>';
-                    }, 0);
-                }else {
-                    console.log('falscher typ');
-                }
+                this.isMovable = YES;
+                this.html = '<div class="outer-'+ this.id +'">';
+                this.extraStyle = this.createExtraStyle();
+                this.makeMovable(this.movable.offset, this.movable.time);
+                window.setTimeout(function(){
+                    that.html += '</div>';
+                }, 0);
             }else {
-                console.log("ein parameter fehlt");
+                M.Logger.log('both properties "time" and "offset" are needed', M.WARN);
             }
         }
         this.html += '<div id="' + this.id + '"' + this.style() + '>';
@@ -137,7 +140,7 @@ M.LabelView = M.View.extend(
         }
 
         this.html += '</div>';
-        
+
         return this.html;
     },
 
@@ -147,14 +150,34 @@ M.LabelView = M.View.extend(
      * @private
      */
     renderUpdate: function() {
+        var that = this, self$ = $('#' + this.id);
         this.computeValue();
-        $('#' + this.id).html(this.newLineToBreak ? this.nl2br(this.value) : this.value);
+        self$.html(this.newLineToBreak ? this.nl2br(this.value) : this.value);
+        if(this.isMovable){
+            var parent$ = $('.outer-' + this.id);
+            this.addMoveClasses(self$, parent$);
+            var diff = this.getDiff(self$, parent$);
+            if(diff > 0) {
+                if(this.moveRulesAvailable) {
+                    this.deleteMoveRules();
+                }
+                window.setTimeout(function(){
+                    that.insertMoveRules(that.getBrowserKeyframeRule(), diff, that.movable.offset, that.movable.time);
+                }, 0);
+            }else {
+                this.removeMoveClasses(self$, parent$);
+                if(this.moveRulesAvailable) {
+                    this.deleteMoveRules();
+                }
+            }
+        }
     },
 
     /**
      *
      * Appends an extra style tag to the head
      *
+     * @private
      * @returns {HTMLElement} The style element as CSSOM
      */
     createExtraStyle: function(){
@@ -168,37 +191,116 @@ M.LabelView = M.View.extend(
 
     /**
      *
-     * Makes the label movable based on css3 animation
+     * Calculates the width-difference of self$ minus parent$
      *
-     * @param {Object} style
+     * @private
+     * @param {Object} self$
+     * @param {Object} parent$
+     * @returns {number} difference self-parent
      */
-    makeMovable: function(style, offset, sec){
-        var that = this, browsertype = "", parent$, self$, outerSize$, ownSize$, diff;
+    getDiff: function(self$, parent$){
+        var diff = self$.width() - parent$.width();
+        return diff;
+    },
+
+    /**
+     * Returns the CSSRule for the specific browser.
+     *
+     * @private
+     * @returns {string} the name of the browser for css3-animation
+     */
+    getBrowserKeyframeRule: function(){
         if(CSSRule.WEBKIT_KEYFRAME_RULE) {
-            browsertype = "-webkit-";
+            return "-webkit-";
         }else if(CSSRule.MOZ_KEYRAME_RULE) {
-            browsertype = "-moz-";
+            return "-moz-";
+        }else if(CSSRule.O_KEYFRAME_RULE) {
+            return "-o-";
+        }else {
+            return "";
         }
+    },
+
+    /**
+     * Adds special classes responsible for making the label move.
+     *
+     * @private
+     * @param {Object} self$ The jQuery-Object of this label
+     * @param {Object} parent$ The jQuery-Object of the surrounding div-container of the label
+     */
+    addMoveClasses: function(self$, parent$) {
+        self$.addClass('tmp-movable-inner');
+        self$.addClass('inner-' + this.id);
+        parent$.addClass('tmp-movable-outer');
+    },
+
+    /**
+     * Removes special classes responsible for making the label move.
+     *
+     * @private
+     * @param {Object} self$ The jQuery-Object of this label
+     * @param {Object} parent$ The jQuery-Object of the surrounding div-container of the label
+     */
+    removeMoveClasses: function(self$, parent$) {
+        self$.removeClass('tmp-movable-inner');
+        self$.removeClass('inner-' + this.id);
+        parent$.removeClass('tmp-movable-outer');
+    },
+
+    /**
+     * Inserts Animation-Rules to the CSSOM in the document-head.
+     *
+     * @private
+     * @param {String} The String for the specific browser
+     * @param diff The difference self-parent
+     * @param offset The offset value of the passed movable-object
+     * @param sec The time value of the passed movable-object
+     */
+    insertMoveRules: function(browsertype, diff, offset, sec){
+        this.extraStyle.insertRule('.inner-' + this.id + ' {'+
+            browsertype+'animation-name: move-' + this.id + ';'+
+            browsertype+'animation-duration: ' + sec + 's;'+
+            browsertype+'animation-iteration-count: infinite;'+
+            browsertype+'animation-timing-function: linear;'+
+            '}', 0);
+        this.extraStyle.insertRule('@' + browsertype + 'keyframes move-' + this.id + '{ 0%,100% { left: ' + offset + 'px;} 50% { left:' + (-diff - offset) + 'px;}}', 1);
+        this.moveRulesAvailable = YES;
+    },
+
+    /**
+     * Deletes the extra CSS3 animation-rules from the CSSOM in the document-head.
+     *
+     * @private
+     *
+     */
+    deleteMoveRules: function(){
+        var l = this.extraStyle.cssRules.length;
+        while(l > 0){
+            this.extraStyle.removeRule(l-1);
+            l = this.extraStyle.cssRules.length;
+        }
+        this.moveRulesAvailable = NO;
+    },
+
+    /**
+     * "Initial" method to make the label movable. Gets called in render if a movable-object is passed to the View.
+     *
+     * @private
+     * @param offset The offset value of the passed movable-object
+     * @param sec The time value of the passed movable-object
+     */
+    makeMovable: function(offset, sec){
+        var that = this, browsertype = "", parent$, self$, diff;
+        browsertype = this.getBrowserKeyframeRule();
         window.setTimeout(function(){
             self$ = $('#' + that.id);
             parent$ = $('.outer-' + that.id);
-            self$.addClass('tmp-movable-inner');
-            self$.addClass('inner-' + that.id);
-            ownSize$ = self$.width();
-            outerSize$ = parent$.width();
-            diff = ownSize$ - outerSize$;
+            that.addMoveClasses(self$, parent$);
+            diff = that.getDiff(self$, parent$);
             if(diff > 0){
-                style.insertRule('.inner-' + that.id + ' {'+
-                    browsertype+'animation-name: move;'+
-                    browsertype+'animation-duration: '+ sec +'s;'+
-                    browsertype+'animation-iteration-count: infinite;'+
-                    browsertype+'animation-timing-function: linear;'+
-                    '}', 0);
-                style.insertRule('@' + browsertype + 'keyframes move { 0%,100% { left: ' + offset + 'px;} 50% { left:' + (-diff - offset) + 'px;}}', 1);
+                that.insertMoveRules(browsertype, diff, offset, sec);
             }else{
-                self$.removeClass('tmp-movable-inner');
-                self$.removeClass('inner-' + that.id);
-                parent$.removeClass('tmp-movable-outer');
+                that.removeMoveClasses(self$, parent$);
             }
         }, 0);
     },
