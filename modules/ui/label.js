@@ -93,7 +93,7 @@ M.LabelView = M.View.extend(
     moveRulesAvailable: NO,
 
     /**
-     * jQuery object of the DOM representativ of this view
+     * jQuery object of the DOM representation of this view
      *
      * @type {Object}
      */
@@ -300,8 +300,7 @@ M.LabelView = M.View.extend(
      * @param {Object} $parent The jQuery-Object of the surrounding div-container of the label
      */
     removeMoveClasses: function($self, $parent) {
-        $self.removeClass('tmp-movable-inner');
-        $self.removeClass('inner-' + this.id);
+        $self.removeClass('tmp-movable-inner inner-' + this.id);
         $parent.removeClass('tmp-movable-outer');
     },
 
