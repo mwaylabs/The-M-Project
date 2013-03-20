@@ -88,11 +88,16 @@ M.LabelView = M.View.extend(
      */
     recommendedEvents: ['tap'],
 
-    isMovable: NO,
-
     extraStyle: null,
 
     moveRulesAvailable: NO,
+
+    /**
+     * jQuery object of the DOM representativ of this view
+     *
+     * @type {Object}
+     */
+    $this: null,
 
     /**
      * Renders a label view as a div tag with corresponding data-role attribute and inner
@@ -102,19 +107,15 @@ M.LabelView = M.View.extend(
      * @returns {String} The image view's styling as html representation.
      */
     render: function() {
-        var that = this;
         this.computeValue();
-        if(typeof(this.movable) === 'object') {
+        if(_.isObject(this.movable)) {
             if (this.movable.time && this.movable.offset){
-                this.isMovable = YES;
-                this.html = '<div class="outer-'+ this.id +'">';
-                this.extraStyle = this.createExtraStyle();
-                this.makeMovable(this.movable.offset, this.movable.time);
-                window.setTimeout(function(){
-                    that.html += '</div>';
-                }, 0);
+                this.html = '<div class="tmp-movable-outer outer-'+ this.id +'">';
+
+                this._initMovable();
+
             }else {
-                M.Logger.log('both properties "time" and "offset" are needed', M.WARN);
+                M.Logger.log('Both properties, "time" and "offset", are needed.', M.WARN);
             }
         }
         this.html += '<div id="' + this.id + '"' + this.style() + '>';
@@ -141,6 +142,11 @@ M.LabelView = M.View.extend(
 
         this.html += '</div>';
 
+        /* If movable is set, an outer div box was defined before and we need to close it here */
+        if(_.isObject(this.movable) && this.movable.time && this.movable.offset) {
+            this.html += '</div>';
+        }
+
         return this.html;
     },
 
@@ -150,27 +156,77 @@ M.LabelView = M.View.extend(
      * @private
      */
     renderUpdate: function() {
-        var that = this, self$ = $('#' + this.id);
+        var that = this;
+
+        this.$this = this.$this || $('#' +  this.id);
+
         this.computeValue();
-        self$.html(this.newLineToBreak ? this.nl2br(this.value) : this.value);
-        if(this.isMovable){
-            var parent$ = $('.outer-' + this.id);
-            this.addMoveClasses(self$, parent$);
-            var diff = this.getDiff(self$, parent$);
-            if(diff > 0) {
-                if(this.moveRulesAvailable) {
-                    this.deleteMoveRules();
-                }
-                window.setTimeout(function(){
-                    that.insertMoveRules(that.getBrowserKeyframeRule(), diff, that.movable.offset, that.movable.time);
-                }, 0);
-            }else {
-                this.removeMoveClasses(self$, parent$);
-                if(this.moveRulesAvailable) {
-                    this.deleteMoveRules();
-                }
+        this.$this.html(this.newLineToBreak ? this.nl2br(this.value) : this.value);
+        if(this.movable && this.movable.time && this.movable.offset) {
+
+            setTimeout(function() {
+                that._makeMovable();
+            }, 0);
+        }
+    },
+
+    /**
+     * "Initial" method to make the label movable. Gets called in render if a movable-object is passed to the View.
+     *
+     * @private
+     */
+    _makeMovable: function() {
+        this.$this = this.$this || $('#' + this.id);
+
+        var that = this;
+
+        var $parent = this.$this.parent();
+
+        this.addMoveClasses(this.$this, $parent);
+
+        var diff = this._checkIfMovingNecessary(this.$this, $parent);
+
+        if(diff) {
+
+            if(that.moveRulesAvailable) {
+                that.deleteMoveRules();
+            }
+
+            window.setTimeout(function() {
+                that.insertMoveRules(that.getBrowserKeyframeRule(), diff, that.movable.offset, that.movable.time);
+            }, 0);
+
+        } else {
+            that.removeMoveClasses(that.$this, $parent);
+
+            if(that.moveRulesAvailable) {
+                that.deleteMoveRules();
             }
         }
+    },
+
+    _initMovable: function() {
+        var that = this;
+        window.setTimeout(function() {
+
+            if(that._checkIfMovingNecessary()) {
+                that.extraStyle = that.createExtraStyle();
+                that._makeMovable();
+            }
+
+        }, 0);
+    },
+
+    _checkIfMovingNecessary: function() {
+        this.$this = this.$this || $('#' + this.id);
+
+        var diff = this.getDiff(this.$this, this.$this.parent());
+
+        if(diff > 0) {
+            return diff;
+        }
+
+        return NO;
     },
 
     /**
@@ -191,15 +247,18 @@ M.LabelView = M.View.extend(
 
     /**
      *
-     * Calculates the width-difference of self$ minus parent$
+     * Calculates the width-difference of the inner div (the one containing the value) and
+     * its outer box.
+     *
+     * Difference + offset results in the "moving value", the offset that the label is animated.
      *
      * @private
-     * @param {Object} self$
-     * @param {Object} parent$
+     * @param {Object} $self
+     * @param {Object} $parent
      * @returns {number} difference self-parent
      */
-    getDiff: function(self$, parent$){
-        var diff = self$.width() - parent$.width();
+    getDiff: function($self, $parent) {
+        var diff = $self.outerWidth() - $parent.width();
         return diff;
     },
 
@@ -225,26 +284,25 @@ M.LabelView = M.View.extend(
      * Adds special classes responsible for making the label move.
      *
      * @private
-     * @param {Object} self$ The jQuery-Object of this label
-     * @param {Object} parent$ The jQuery-Object of the surrounding div-container of the label
+     * @param {Object} $self The jQuery-Object of this label
+     * @param {Object} $parent The jQuery-Object of the surrounding div-container of the label
      */
-    addMoveClasses: function(self$, parent$) {
-        self$.addClass('tmp-movable-inner');
-        self$.addClass('inner-' + this.id);
-        parent$.addClass('tmp-movable-outer');
+    addMoveClasses: function($self, $parent) {
+        $self.addClass('tmp-movable-inner inner-' + this.id);
+        $parent.addClass('tmp-movable-outer');
     },
 
     /**
      * Removes special classes responsible for making the label move.
      *
      * @private
-     * @param {Object} self$ The jQuery-Object of this label
-     * @param {Object} parent$ The jQuery-Object of the surrounding div-container of the label
+     * @param {Object} $self The jQuery-Object of this label
+     * @param {Object} $parent The jQuery-Object of the surrounding div-container of the label
      */
-    removeMoveClasses: function(self$, parent$) {
-        self$.removeClass('tmp-movable-inner');
-        self$.removeClass('inner-' + this.id);
-        parent$.removeClass('tmp-movable-outer');
+    removeMoveClasses: function($self, $parent) {
+        $self.removeClass('tmp-movable-inner');
+        $self.removeClass('inner-' + this.id);
+        $parent.removeClass('tmp-movable-outer');
     },
 
     /**
@@ -283,29 +341,6 @@ M.LabelView = M.View.extend(
     },
 
     /**
-     * "Initial" method to make the label movable. Gets called in render if a movable-object is passed to the View.
-     *
-     * @private
-     * @param offset The offset value of the passed movable-object
-     * @param sec The time value of the passed movable-object
-     */
-    makeMovable: function(offset, sec){
-        var that = this, browsertype = "", parent$, self$, diff;
-        browsertype = this.getBrowserKeyframeRule();
-        window.setTimeout(function(){
-            self$ = $('#' + that.id);
-            parent$ = $('.outer-' + that.id);
-            that.addMoveClasses(self$, parent$);
-            diff = that.getDiff(self$, parent$);
-            if(diff > 0){
-                that.insertMoveRules(browsertype, diff, offset, sec);
-            }else{
-                that.removeMoveClasses(self$, parent$);
-            }
-        }, 0);
-    },
-
-    /**
      * Applies some style-attributes to the label.
      *
      * @private
@@ -317,7 +352,10 @@ M.LabelView = M.View.extend(
             html += ' style="display:inline;"';
         }
         if(this.cssClass) {
-            html += ' class="' + this.cssClass + '"';
+            var tmp_movable_inner_class = this.movable ? 'tmp-movable-inner inner-' + this.id : '';
+            html += ' class="' + tmp_movable_inner_class + ' ' + this.cssClass + '"';
+        } else {
+            html += ' class="tmp-movable-inner inner-' + this.id + '"';
         }
         return html;
     },
