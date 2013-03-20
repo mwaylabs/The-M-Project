@@ -101,7 +101,7 @@ M.LabelView = M.View.extend(
         if(typeof(this.movable) === 'object') {
             if (this.movable.time && this.movable.offset){
                 if(typeof(this.movable.time) === 'string' && typeof(this.movable.offset) === 'string') {
-                    this.html += '<div class="outer">';
+                    this.html = '<div class="outer-'+ this.id +' tmp-movable-outer">';
                     var xtrastyle = this.createExtraStyle();
                     this.makeMovable(xtrastyle, this.movable.offset, this.movable.time);
                     window.setTimeout(function(){
@@ -114,7 +114,7 @@ M.LabelView = M.View.extend(
                 console.log("ein parameter fehlt");
             }
         }
-        this.html = '<div id="' + this.id + '"' + this.style() + '>';
+        this.html += '<div id="' + this.id + '"' + this.style() + '>';
 
         if(this.hyperlinkTarget && this.hyperlinkType) {
             switch (this.hyperlinkType) {
@@ -181,14 +181,14 @@ M.LabelView = M.View.extend(
         }
         window.setTimeout(function(){
             self$ = $('#' + that.id);
-            parent$ = $('.outer');
+            parent$ = $('.outer-' + that.id);
             self$.addClass('tmp-movable-inner');
-            parent$.addClass('tmp-movable-outer');
+            self$.addClass('inner-' + that.id);
             ownSize$ = self$.width();
             outerSize$ = parent$.width();
             diff = ownSize$ - outerSize$;
             if(diff > 0){
-                style.insertRule('.tmp-movable-inner {'+
+                style.insertRule('.inner-' + that.id + ' {'+
                     browsertype+'animation-name: move;'+
                     browsertype+'animation-duration: '+ sec +'s;'+
                     browsertype+'animation-iteration-count: infinite;'+
@@ -197,6 +197,7 @@ M.LabelView = M.View.extend(
                 style.insertRule('@' + browsertype + 'keyframes move { 0%,100% { left: ' + offset + 'px;} 50% { left:' + (-diff - offset) + 'px;}}', 1);
             }else{
                 self$.removeClass('tmp-movable-inner');
+                self$.removeClass('inner-' + that.id);
                 parent$.removeClass('tmp-movable-outer');
             }
         }, 0);
