@@ -362,7 +362,7 @@ M.ListView = M.View.extend(
     renderListItemDivider: function(name) {
         var obj = M.ListItemView.design({});
         obj.value = name;
-        obj.isDivider = YES,
+        obj.isDivider = YES;
         this.addItem(obj.render());
         obj.theme();
     },
