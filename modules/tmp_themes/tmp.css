@@ -386,6 +386,10 @@
     visibility: hidden;
 }
 
+.tmp-image-hidden{
+    display: none;
+}
+
 /* Version 1.2 to Version 1.3 hacks*/
     /* iOS portrait to landscape hack*/
     .ui-mobile body .ui-page-active {
