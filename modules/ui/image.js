@@ -103,7 +103,7 @@ M.ImageView = M.View.extend(
 
     sourceIsInvalid: function(id, event, nextEvent) {
         M.Logger.log('The source \'' + this.value + '\' is invalid, so we hide the image!', M.WARN);
-        $('#' + this.id).hide();
+        $('#' + this.id).addClass('tmp-image-hidden');
 
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, YES);
@@ -111,6 +111,7 @@ M.ImageView = M.View.extend(
     },
 
     sourceIsValid: function(id, event, nextEvent) {
+        $('#' + this.id).removeClass('tmp-image-hidden');
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, YES);
         }
