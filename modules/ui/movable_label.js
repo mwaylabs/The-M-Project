@@ -49,8 +49,6 @@ M.MovableLabelView = M.LabelView.extend(
      */
     moveRulesAvailable: NO,
 
-
-    isMovable: NO,
     /**
      * jQuery object of the DOM representation of this view
      *
