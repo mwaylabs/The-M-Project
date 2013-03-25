@@ -36,6 +36,7 @@ M.MovableLabelView = M.LabelView.extend(
     /**
      * The CSSOM representation of the newly created style in the document-head
      *
+     * @private
      * @type {Object}
      */
     extraStyle: null,
@@ -43,6 +44,7 @@ M.MovableLabelView = M.LabelView.extend(
     /**
      * Signalizes if there are any moveRules attached to this view
      *
+     * @private
      * @type {Boolean}
      */
     moveRulesAvailable: NO,
@@ -50,6 +52,7 @@ M.MovableLabelView = M.LabelView.extend(
     /**
      * jQuery object of the DOM representation of this view
      *
+     * @private
      * @type {Object}
      */
     $this: null,
@@ -57,6 +60,7 @@ M.MovableLabelView = M.LabelView.extend(
     /**
      * jQuery object of the DOM representation of this view's parent
      *
+     * @private
      * @type {Object}
      */
     $parent: null,
