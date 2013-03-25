@@ -45,6 +45,7 @@ Thanks for sharing!
   * Bugfix setActiveItem-method in CarouselView: Paginator didn't update
   * Updated d8 to v0.4.0
   * Updated underscore.js to v1.4.4
+  * Added M.MovableLabelView
 
 ** Version 1.3 - Date 07.12.2012 **
 
