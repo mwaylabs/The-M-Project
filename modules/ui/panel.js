@@ -3,7 +3,7 @@
 // Copyright: (c) 2012 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2012 panacoda GmbH. All rights reserved.
 // Creator:   Frank
-// Date:      07.02.2012
+// Date:      07.02.2013
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
