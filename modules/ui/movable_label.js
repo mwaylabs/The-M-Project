@@ -36,6 +36,7 @@ M.MovableLabelView = M.LabelView.extend(
     /**
      * The CSSOM representation of the newly created style in the document-head
      *
+     * @private
      * @type {Object}
      */
     extraStyle: null,
@@ -43,6 +44,7 @@ M.MovableLabelView = M.LabelView.extend(
     /**
      * Signalizes if there are any moveRules attached to this view
      *
+     * @private
      * @type {Boolean}
      */
     moveRulesAvailable: NO,
@@ -50,6 +52,7 @@ M.MovableLabelView = M.LabelView.extend(
     /**
      * jQuery object of the DOM representation of this view
      *
+     * @private
      * @type {Object}
      */
     $this: null,
@@ -57,6 +60,7 @@ M.MovableLabelView = M.LabelView.extend(
     /**
      * jQuery object of the DOM representation of this view's parent
      *
+     * @private
      * @type {Object}
      */
     $parent: null,
@@ -70,19 +74,20 @@ M.MovableLabelView = M.LabelView.extend(
      * @private
      * @returns {String} The image view's styling as html representation.
      */
+
     render: function() {
         var that = this,
             diff;
         this.computeValue();
         if(_.isObject(this.movable)) {
-            if ((this.movable.time || this.movable.pxPerSec) && this.movable.offset){
+            if ((this.movable.time || this.movable.time === 0) || (this.movable.pxPerSec || this.movable.pxPerSec === 0)){
                 this.html = '<div class="tmp-movable-outer outer-'+ this.id +'">';
                 this.extraStyle = this._createExtraStyle();
                 window.setTimeout(function(){
                     (diff = that._checkIfMovingNecessary()) ? that._makeMovable(diff) : M.Logger.log('Width not big enough to move', M.INFO);
                 }, 0);
             }else {
-                M.Logger.log('Following properties are needed: "offset" AND ("time" OR "pxPerSec")', M.WARN);
+                M.Logger.log('"time" OR "pxPerSec" are needed', M.WARN);
             }
         }
         this.html += '<div id="' + this.id + '"' + this.style() + '>';
@@ -128,12 +133,12 @@ M.MovableLabelView = M.LabelView.extend(
         this.computeValue();
         $('#' + this.id).html(this.newLineToBreak ? this.nl2br(this.value) : this.value);
         if(_.isObject(this.movable)){
-            if((this.movable.time || this.movable.pxPerSec) && this.movable.offset) {
+            if ((this.movable.time || this.movable.time === 0) || (this.movable.pxPerSec || this.movable.pxPerSec === 0)){
                 window.setTimeout(function(){
                     (diff = that._checkIfMovingNecessary()) ? that._makeMovable(diff) : M.Logger.log('Width not big enough to move', M.INFO);
                 }, 0);
             }else {
-                M.Logger.log('Following properties are needed: "offset" AND ("time" OR "pxPerSec")', M.WARN);
+                M.Logger.log('"time" OR "pxPerSec" are needed', M.WARN);
             }
         }
     },
@@ -147,7 +152,7 @@ M.MovableLabelView = M.LabelView.extend(
     _makeMovable: function(diff) {
         var that = this;
         window.setTimeout(function(){
-            that._insertMoveRules(that._getBrowserKeyframeRule(), diff, that.movable.offset, (that.movable.pxPerSec) ? (diff / that.movable.pxPerSec) : that.movable.time);
+            that._insertMoveRules(that._getBrowserKeyframeRule(), diff, (that.movable.offset || that.movable.offset === 0) ? that.movable.offset : 0, (that.movable.pxPerSec) ? (diff / that.movable.pxPerSec) : that.movable.time);
         }, 0);
     },
 
