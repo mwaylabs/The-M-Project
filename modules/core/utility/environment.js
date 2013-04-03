@@ -267,6 +267,42 @@ M.Environment = M.Object.extend(
             return YES;
         }
         return NO;
+    },
+    
+    /**
+     * Checks if the userAgent contains one of known operations systems and returns it.
+     * If there is no match null will be returned.
+     *
+     * @return {String} the OS regarding to the userAgent.
+     */
+    getOS: function() {
+
+        var operatingSystems = {
+            android: function() {
+                return navigator.userAgent.match(/Android/i) ? true : false;
+            },
+            blackberry: function() {
+                return navigator.userAgent.match(/BlackBerry/i) ? true : false;
+            },
+            ios: function() {
+                return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
+            },
+            windowsMobile: function() {
+                return navigator.userAgent.match(/IEMobile/i) ? true : false;
+            },
+            mac: function() {
+                return navigator.userAgent.match(/Macintosh/i) ? true : false;
+            },
+            windows: function() {
+                return navigator.userAgent.match(/Windows/i) ? true : false;
+            }
+        };
+
+        var ret = null;
+        _.each(operatingSystems, function( value, key ) {
+            if(value()) ret = key;
+        });
+        return ret;
     }
 
 });
