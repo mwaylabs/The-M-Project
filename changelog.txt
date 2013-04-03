@@ -1,3 +1,5 @@
+** Version 1.5 - Date 03.04.2013 **
+  * Add getOS function to M.Environment
 ** Version 1.4 - Date 26.03.2013 **
   * Add class tmp-image-hidden in tmp.css
   * Bugfix in show/hide image in ImageView
