@@ -71,7 +71,8 @@ M.AlertDialogView = M.DialogView.extend(
      */
     render: function() {
         this.html = '<div class="tmp-dialog-background"></div>';
-        this.html += '<div id="' + this.id + '" class="tmp-dialog">';
+        var cssClass = this.cssClass ? this.cssClass : '';
+        this.html += '<div id="' + this.id + '" class="tmp-dialog ' + cssClass + '">';
         this.html += '<div class="tmp-dialog-header">';
         this.html += this.title ? this.title : '';
         this.html +='</div>';
