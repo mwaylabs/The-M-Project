@@ -189,7 +189,7 @@ M.DataConsumer = M.Object.extend(
                     action: function(request, message){
                         /* call callback */
                         if(this.callbacks && M.EventDispatcher.checkHandler(this.callbacks['error'])) {
-                            M.EventDispatcher.callHandler(this.callbacks['error'], null, NO, message);
+                            M.EventDispatcher.callHandler(this.callbacks['error'], null, NO, [request, message]);
                         }
                     }
                 }
