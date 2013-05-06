@@ -1,4 +1,5 @@
-** Version 1.5 - Date 03.04.2013 **
+** Version 1.5 - Date 06.05.2013 **
+  * Add constants representing the operating system to M.Environment
   * Add getOS function to M.Environment
   * Add cssClass to DialogViews (thanks to Wulf Solter)
   * Add autocomplete attribute to M.TextFieldView
