@@ -76,7 +76,7 @@ M.Environment = M.Object.extend(
     /**
      * Constant representing iOS devices.
      *
-     * Use to compate against M.Environment.getOS function
+     * Use to compare against M.Environment.getOS function
      *
      * @type String
      */
@@ -86,7 +86,7 @@ M.Environment = M.Object.extend(
     /**
      * Constant representing Android devices.
      *
-     * Use to compate against M.Environment.getOS function
+     * Use to compare against M.Environment.getOS function
      *
      * @type String
      */
@@ -96,7 +96,7 @@ M.Environment = M.Object.extend(
     /**
      * Constant representing BlackBerry devices.
      *
-     * Use to compate against M.Environment.getOS function
+     * Use to compare against M.Environment.getOS function
      *
      * @type String
      */
@@ -105,7 +105,7 @@ M.Environment = M.Object.extend(
     /**
      * Constant representing windows mobile devices.
      *
-     * Use to compate against M.Environment.getOS function
+     * Use to compare against M.Environment.getOS function
      *
      * @type String
      */
@@ -114,7 +114,7 @@ M.Environment = M.Object.extend(
     /**
      * Constant representing mac computer.
      *
-     * Use to compate against M.Environment.getOS function
+     * Use to compare against M.Environment.getOS function
      *
      * @type String
      */
@@ -123,11 +123,20 @@ M.Environment = M.Object.extend(
     /**
      * Constant representing windows computer.
      *
-     * Use to compate against M.Environment.getOS function
+     * Use to compare against M.Environment.getOS function
      *
      * @type String
      */
     WINDOWS: 'windows',
+
+    /**
+     * Constant representing BB10 devices.
+     *
+     * Use to compare against M.Environment.getOS function
+     *
+     * @type String
+     */
+    BB10: 'bb10',
 
     /**
      * This property contains a custom configuration of the awesome modernizr
@@ -334,29 +343,34 @@ M.Environment = M.Object.extend(
     getOS: function() {
 
         var operatingSystems = {};
+
         operatingSystems[this.ANDROID] = function() {
             return navigator.userAgent.match(/Android/i) ? true : false;
-        },
+        };
 
         operatingSystems[this.BLACKBERRY] = function() {
             return navigator.userAgent.match(/BlackBerry/i) ? true : false;
-        },
+        };
 
         operatingSystems[this.IOS] = function() {
             return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
-        },
+        };
 
         operatingSystems[this.WINDOWSMOBILE] = function() {
             return navigator.userAgent.match(/IEMobile/i) ? true : false;
-        },
+        };
 
         operatingSystems[this.MAC] = function() {
             return navigator.userAgent.match(/Macintosh/i) ? true : false;
-        },
+        };
 
         operatingSystems[this.WINDOWS] = function() {
             return navigator.userAgent.match(/Windows/i) ? true : false;
-        }
+        };
+
+        operatingSystems[this.BB10] = function() {
+            return navigator.userAgent.match(/BB10/i) ? true : false;
+        };
 
         var ret = null;
         _.each(operatingSystems, function( value, key ) {
