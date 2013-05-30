@@ -97,7 +97,7 @@ M.Environment = M.Object.extend(
      * @param {String} url Optional. The request url. When not given, a request is made to http://www.google.de/images/logos/ps_logo2.png.
      */
     getConnectionStatus: function(callback, url){
-        url = url ? url : 'http://www.google.de/images/logos/ps_logo2.png';
+        url = url ? url : 'http://www.google.de/images/logos/ps_logo2.png?ts=' + (M.Date.now().getTimestamp());
         var that = this;
         var image = M.ImageView.design({
             value: url,
