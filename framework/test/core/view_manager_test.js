@@ -25,7 +25,7 @@ test('M.ViewManager Test', function() {
     var idNumber2 = parseInt(id2.substr(M.ViewManager.idPrefix.length));
     ok(idNumber1 + 1 === idNumber2, 'getNewId correctly auto-increments the numerical part of the id.');
 
-    var view = M.View.design();
+    var view = M.View.design({});
     var id3 = M.ViewManager.getNewId(view);
     ok(M.ViewManager.getViewById(id3) === view, 'getViewById returns the correct view.');
 
