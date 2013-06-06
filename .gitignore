@@ -1,0 +1,6 @@
+.DS_STORE
+.svn/
+bin/
+.settings
+.idea
+framework/modules/themes/default/*.css
