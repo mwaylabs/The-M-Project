@@ -38,6 +38,8 @@ M.Application = M.Object.extend(/** @scope M.Application.prototype */{
      */
     _undefinedContentBindings: null,
 
+    runtime: '',
+
     /**
      * M.Application's _init method.
      *
@@ -49,6 +51,7 @@ M.Application = M.Object.extend(/** @scope M.Application.prototype */{
             this.config = this.config || {};
             this._undefinedContentBindings = [];
         }
+        this.setRuntime();
     },
 
     /**
@@ -137,6 +140,13 @@ M.Application = M.Object.extend(/** @scope M.Application.prototype */{
         _.each(this._undefinedContentBindings, function( observer ) {
             observer.attachToObservable()
         });
+    },
+
+    setRuntime: function(){
+        this.runtime = 'browser';
+        if(typeof window !== 'object'){
+            this.runtime = 'node';
+        }
     }
 
 });

@@ -5,13 +5,13 @@ SampleApp.ApplicationController = M.Controller.extend({
     init: function() {
 
         this.testData();
-
-        this.addText('changed the value by calling:<br>SampleApp.Main.set("value", "I made a change!")');
     },
 
     addText: function(txt) {
-        this.text += txt + '<br>';
-        SampleApp.Main.set('value', this.text);
+        if(this.runtime === 'browser'){
+            this.text += txt + '<br>';
+            SampleApp.Main.set('value', this.text);
+        }
     },
 
     testData: function() {
@@ -45,6 +45,7 @@ SampleApp.ApplicationController = M.Controller.extend({
             },
 
             error: function(error) {
+
                 that.addText ('Error saving Person: ' + error);
             }
         });
@@ -69,7 +70,7 @@ SampleApp.ApplicationController = M.Controller.extend({
                     }
                 });
             },
-            error: function()   { addText('error find persons.' ); },
+            error: function()   { that.addText('error find persons.' ); },
             finish: function()  { /* alert('find persons finished.' ); */ }
         });
 

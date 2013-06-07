@@ -1,0 +1,11 @@
+install requirejs:
+
+    npm install require -g
+
+        this will install the r-script in: '/usr/local/bin/r.js'
+
+run: ./SampleBackend.js
+
+TODO:
+- find a good solution to not use the views. at the moment 'if(this.runtime === 'browser')' is used - bad!
+

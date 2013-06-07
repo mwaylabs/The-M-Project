@@ -1,5 +1,8 @@
 (function() {
 
+    _ = require('underscore')._;
+    Backbone = require('backbone');
+
     /**
      * Defines the general namespace
      * @type {Object}
@@ -33,5 +36,7 @@
      * @type {Boolean}
      */
     NO = false;
+
+    return M;
 
 })();

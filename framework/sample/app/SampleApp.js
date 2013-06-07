@@ -1,9 +1,13 @@
-window.SampleApp = M.Application.extend({
+SampleApp = M.Application.extend({
 
     start: function() {
-        M.LayoutManager.setLayout(new M.Layout()).setContent({
-            view: SampleApp.Main
-        });
+
+        if(this.runtime === 'browser'){
+            M.LayoutManager.setLayout(new M.Layout()).setContent({
+                view: SampleApp.Main
+            });
+        }
+
 
         SampleApp.ApplicationController.init();
     }
