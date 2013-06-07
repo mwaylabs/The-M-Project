@@ -1,7 +1,60 @@
 <html>
-    <body>
-        <h1>The-M-Project 2.0 - node Test Server</h1>
-        <br>
-        <h2><a href="chat.html">chat</a></h2>
-    </body>
+<head>
+	<meta charset="UTF-8">
+	<title>Backbone => The-M-Project 2.0</title>
+    <script src="/framework/modules/libs/jquery-2.0.0.min.js"></script>
+    <script src="/framework/modules/libs/underscore-1.4.4.min.js"></script>
+    <script src="/framework/modules/libs/backbone-1.0.0.js"></script>
+    <script src="/framework/modules/libs/moment-2.0.0.min.js"></script>
+
+    <script src="/framework/modules/core/m.js"></script>
+    <script src="/framework/modules/core/const.js"></script>
+    <script src="/framework/modules/core/config.js"></script>
+    <script src="/framework/modules/core/object.js"></script>
+    <script src="/framework/modules/core/exception.js"></script>
+    <script src="/framework/modules/core/view_manager.js"></script>
+    <script src="/framework/modules/core/event_dispatcher.js"></script>
+    <script src="/framework/modules/core/application.js"></script>
+    <script src="/framework/modules/core/layout_manager.js"></script>
+    <script src="/framework/modules/core/logger.js"></script>
+    <script src="/framework/modules/core/error.js"></script>
+    <script src="/framework/modules/data/model.js"></script>
+    <script>
+        /*
+        var obj = M.Object.extend({ extend: null });
+
+        M.Model = Backbone.Model.extend(obj);
+
+        // M.Model = new m();
+        */
+        var myModel1 = M.Model.extend({
+            test: function() {
+                alert ('Test1');
+            }
+        });
+
+        var myModel2 = M.Model.extend({
+            test: function() {
+                alert ('Test2');
+            },
+
+            constructor: function() {
+                console.log('constructor:' + arguments)
+                Backbone.Model.apply(this, arguments);
+            },
+
+            initialize: function() {
+                console.log('initialize:' + arguments)
+            }
+        });
+
+    </script>
+
+</head>
+
+<body>
+    <h1>Backbone => The-M-Project 2.0 - Tests</h1>
+
+</body>
+
 </html>

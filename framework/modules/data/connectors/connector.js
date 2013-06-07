@@ -54,6 +54,18 @@ M.DataConnector = M.Object.extend({
     },
 
     addEntity: function(obj) {
+        var that = this;
+        obj.model = obj.model || M.Model.extend({});
+
+        _.extend(obj.model.prototype, {
+
+            idAttribute: "id",
+
+            sync: function(method, model, options) {
+                that.sync(method, model,
+                    _.extend({ entity: obj.name }, options));
+            }
+        });
 
         var entity = M.DataEntity.create(obj);
         if (entity) {
@@ -210,6 +222,43 @@ M.DataConnector = M.Object.extend({
             return false;
         }
         return true;
+    },
+
+    methodMap: {
+        'create': 'POST',
+        'update': 'PUT',
+        'patch':  'PATCH',
+        'delete': 'DELETE',
+        'read':   'find'
+    },
+
+    sync: function(method, model, options) {
+        switch(method) {
+            case 'create':
+            case 'update':
+            case 'patch':
+                return this.save(_.extend( { data: model }, options ) );
+            case 'delete':
+                return this.del(_.extend( { data: model }, options ) );
+            case 'read':
+                return this.findOne(model, options);
+        }
+    },
+
+    findOne: function(model, options) {
+
+        this.find(_.extend({}, options, {
+
+            data: model,
+
+            success: function(result) {
+                if (result && result.length > 0) {
+                    if (options.success) {
+                        options.success(result.at(0).attributes);
+                    }
+                }
+            }
+        }));
     }
 
 });

@@ -9,11 +9,24 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+//M.Object = function() {};
+//
+//M.Object.extend = Backbone.Model.extend;
+//
+//M.Object.create = function(properties) {
+//    var f = this.extend(properties);
+//    return new f();
+//};
+
+M.create = function(x,y) {
+    return new this(x,y);
+}
+
 /**
  * @class
  */
-M.Object = /** @scope M.Object.prototype */{
-
+// _.extend(M.Object.prototype, /** @scope M.Object.prototype */{
+M.Object = {
     /**
      * The type of this object.
      *
@@ -42,7 +55,7 @@ M.Object = /** @scope M.Object.prototype */{
      *
      * @param {Object} proto The prototype of the new object.
      */
-    create: function( proto ) {
+    _create: function( proto ) {
         var f = function() {
         };
         f.prototype = proto;
@@ -59,13 +72,7 @@ M.Object = /** @scope M.Object.prototype */{
             if( this.hasOwnProperty(prop) ) {
                 throw M.Exception.RESERVED_WORD.getException();
             }
-            var value = properties[prop];
-
-            // save overriden functions
-            if (this._super && _.isFunction(value) && _.isFunction(this[prop])) {
-                this._super[prop] = this[prop];
-            }
-            this[prop] = value;
+            this[prop] = properties[prop];
         }
 
         return this;
@@ -80,11 +87,8 @@ M.Object = /** @scope M.Object.prototype */{
      */
     extend: function( properties ) {
         /* create the new object */
-        var obj = M.Object.create(this);
-
-        if (properties !== this._super) {
-            obj.defineHiddenProperty("_super", _.extend({}, this._super || {}));
-        }
+        // var obj = M.Object._create(this);
+        var obj = this._create(this);
 
         /* assign the properties passed with the arguments array */
         obj.include(this._normalize(properties));
@@ -277,9 +281,9 @@ M.Object = /** @scope M.Object.prototype */{
      *
      * @return {Array}
      */
-    keys: function() {
-        return Object.keys(this);
-    },
+//    keys: function() {
+//        return Object.keys(this);
+//    },
 
     /**
      * Returns the type of the object.

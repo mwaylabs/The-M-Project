@@ -6,7 +6,7 @@ var rest         = require('./mongodb_rest.js').create("test");
 
 http_server.listen(8100);
 
-server.use(express.static(__dirname + '/public/'));
+server.use(express.static(__dirname + '/../'));
 server.use(express.bodyParser());
 
 //Find documents

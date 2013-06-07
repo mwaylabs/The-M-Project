@@ -42,8 +42,8 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
                 _fields: {}
             });
 
-            if (obj.model) {
-                entity._mergeFields(obj.model.getFields());
+            if (entity.model) {
+                // entity._mergeFields(obj.model.getFields());
             }
 
             if (obj.fields) {
@@ -56,7 +56,10 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
 
             if (!obj.model) {
                 // create dynamic model
-                entity._model = M.Model.extend({ config: { name: name, key: key, fields: entity._fields } } );
+                entity._model = M.Model.extend({
+                    idAttribute: key,
+                    getName: function() { return name; }
+                });
             }
             entity._updateFields(obj.typeMap);
         }
@@ -81,8 +84,26 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
     },
 
     getKeys: function() {
-        return M.Model.splitKey(this.key);
+        return this.splitKey(this.key);
     },
+
+    /**
+      * Splits a comma separated list of keys to a key array
+      *
+      * @returns {Array} array of keys
+      */
+     splitKey: function(key) {
+         var keys = [];
+         if( _.isString(key) ) {
+             _.each(key.split(","), function(key) {
+                 var k = key.trim();
+                 if( k ) {
+                     keys.push(k);
+                 }
+             });
+         }
+         return keys;
+     },
 
     getModel: function() {
         return this._model;
@@ -126,11 +147,11 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
     toRecord: function(data) {
         if (data && this._model && this._fields) {
             // map field names
-            var record = {};
+            var attributes = {};
             _.each(this._fields, function(field, key) {
-                record[key] = data[field.name];
+                attributes[key] = data[field.name];
             });
-            return this._model.createRecord(record);
+            return this._model.create(attributes);
         }
     },
 
@@ -138,9 +159,10 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
         var that = this;
         var data = {};
         if (record && this._fields) {
-            var rec  = _.isFunction(record.getData) ? record.getData() : record;
+//            var rec  = _.isFunction(record.getData) ? record.getData() : record;
             _.each(this._fields, function(field, key) {
-                var value = field.transform(rec[key]);
+                var value = _.isFunction(record.get) ? record.get(key) : record[key];
+                value = field.transform(value);
                 if( !_.isUndefined(value) ) {
                     data[field.name] = value;
                 }

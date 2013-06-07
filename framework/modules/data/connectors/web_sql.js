@@ -318,7 +318,7 @@ M.DataConnectorWebSql = M.DataConnector.extend({
 
             var that   = this;
             var result = this.getCollection(entity);
-            result.clear();
+            result.reset();
             this.db.readTransaction(function( t ) {
                 var statement = stm.statement || stm;
                 var arguments = stm.arguments;
@@ -539,7 +539,7 @@ M.DataConnectorWebSql = M.DataConnector.extend({
             sql += ' LEFT JOIN ' + obj.leftJoin;
         }
 
-        var where = this._sqlWhere(obj, entity);
+        var where = this._sqlWhere(obj, entity) || this._sqlWhereFromData(obj, entity);
         if (where) {
             sql += ' WHERE ' + where;
         }

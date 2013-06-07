@@ -2,7 +2,7 @@ test('callFromSuper implementation', function() {
 
     /* This usage of callFromSuper is good because you say call the super function of me in my context */
 
-    M.Person = M.Object.extend({
+    M.Person = M.Object.create({
         firstName: 'firstNamePerson',
         lastName: 'lastNamePerson',
         getAttributeString: function() {
@@ -29,7 +29,7 @@ test('callFromSuper implementation', function() {
     //M.Lecturer.getAttributeString(); //"firstNameLecturer_lastNameLecturer_idLecturer_workingIdDLecturer"
     ok(M.Lecturer.getAttributeString() === 'firstNameLecturer_lastNameLecturer', 'calling implicit  the super super implementation without own implementation');
 
-    M.Person = M.Object.extend({
+    M.Person = M.Object.create({
         firstName: 'firstNamePerson',
         lastName: 'lastNamePerson',
         getAttributeString: function() {
@@ -108,18 +108,18 @@ test('init implementation', function() {
 
     ok(typeof M.Object._init === 'function', 'M.Object._init() is a function.');
 
-    M.NewObject = M.Object.extend({
+    M.NewObject = M.Object.create({
         LEFT: 1,
         RIGHT: 2,
         default: null,
-        _init: function() {
+        initialize: function() {
             this.default = this.RIGHT;
         }
     });
 
     ok(M.NewObject.default === 2, '_init() was successfully called out of extend().');
 
-    M.NewObject = M.Object.extend({
+    M.NewObject = M.Object.create({
         LEFT: 1,
         RIGHT: 2
     });
@@ -258,7 +258,7 @@ test('handleCallback implementation', function() {
         prop2: 'type'
     }, null), 'target/action are called prop1/prop2.');
 
-    M.NewObject = M.Object.extend({
+    M.NewObject = M.Object.create({
         test: function( a, b, c ) {
             ok((a + b + c) === 6, 'action is properly called (check within the called function).');
         }
@@ -268,7 +268,7 @@ test('handleCallback implementation', function() {
         action: 'test'
     }, 1, 2, 3);
 
-    M.NewObject = M.Object.extend({
+    M.NewObject = M.Object.create({
         test: function( a, b, c ) {
             return a + b + c;
         }
@@ -288,7 +288,7 @@ test('bindToCaller implementation', function() {
 
     ok(typeof M.Object.bindToCaller === 'function', 'M.Object.bindToCaller() is a function.');
 
-    M.NewObject = M.Object.extend({
+    M.NewObject = M.Object.create({
         testProperty: 123,
         testMethod: function() {
             return this.testProperty
@@ -377,7 +377,7 @@ test('defineHiddenProperty implementation', function() {
 
     ok(M.Object.hidden === 23, 'The test property can be changed to an other value and type.');
 
-    M.TestObject = M.Object.extend({
+    M.TestObject = M.Object.create({
         prop1: 'prop1'
     });
 
@@ -418,7 +418,7 @@ test('defineReadonlyProperty implementation', function() {
 
     ok(M.Object.readonly === 'pong', 'The test property can not be changed.');
 
-    M.TestObject = M.Object.extend({
+    M.TestObject = M.Object.create({
         prop1: 'prop1'
     });
 
@@ -461,7 +461,7 @@ test('defineProperty implementation', function() {
 
     ok(M.Object.readonly === 'pong', 'The test property can not be changed.');
 
-    M.TestObject = M.Object.extend();
+    M.TestObject = M.Object.create();
 
     M.TestObject.defineProperty('allNo', 'pong', {writable: NO, configurable: NO, enumerable: NO});
 
@@ -477,7 +477,7 @@ test('defineProperty implementation', function() {
 
     ok(M.TestObject.allNo === 'pong', 'The test property can not be changed.');
 
-    var obj = M.Object.extend({
+    var obj = M.Object.create({
         marco: 1,
         dom: 2
     });
@@ -490,8 +490,8 @@ test('defineProperty implementation', function() {
     });
     ok(Object.keys(obj).length === ['marco', 'dom'].length && allright, 'basti is defined as a hidden property.');
 
-    var t1 = M.Object.extend();
-    var t2 = M.Object.extend();
+    var t1 = M.Object.create();
+    var t2 = M.Object.create();
 
     t1.defineProperty('test', 'test');
     Object.defineProperty(t2,'test',{value:'test'});
@@ -533,11 +533,11 @@ test('include implementation', function() {
 
 test('extend implementation', function() {
 
-    ok(M.Object.hasOwnProperty('extend'), 'M.Object.extend is defined.');
+    ok(M.Object.hasOwnProperty('extend'), 'M.Object.create is defined.');
 
-    ok(typeof M.Object.extend === 'function', 'M.Object.extend is a function.');
+    ok(typeof M.Object.create === 'function', 'M.Object.create is a function.');
 
-    M.TestObject = M.Object.extend({
+    M.TestObject = M.Object.create({
         prop1: 'prop1'
     });
 
@@ -545,14 +545,14 @@ test('extend implementation', function() {
 
     ok(Object.getPrototypeOf(M.TestObject) === M.Object, 'The Prototype of Testobject is M.Object.');
 
-    M.TestObject = M.Object.extend({
+    M.TestObject = M.Object.create({
         prop1: 'prop1',
         _init: function() {
             ok(this.prop1 === 'prop1', '_init of the testobject was called')
         }
     });
 
-    M.TestObject = M.Object.extend({
+    M.TestObject = M.Object.create({
         prop1: 'prop1',
         func: function() {
             ok(this.prop1 === 'prop1', 'Testobject has own function implementation')
@@ -574,7 +574,7 @@ test('keys implementation', function() {
 
     ok(Array.isArray(M.Object.keys()), 'M.Object.keys returns an array.');
 
-    var obj = M.Object.extend({
+    var obj = M.Object.create({
         prop1: 1,
         prop2: 2
     });
@@ -585,7 +585,7 @@ test('keys implementation', function() {
     obj.defineHiddenProperty('prop3', 3);
     ok(obj.keys().length === 2, 'M.Object.keys() returns the names of the objects only two properties (even if there is a third hidden property).');
 
-    ok(M.Object.extend().keys().length === 0, 'M.Object.extend().keys() returns an empty array since there are no own properties.');
+    ok(M.Object.create().keys().length === 0, 'M.Object.create().keys() returns an empty array since there are no own properties.');
 
 });
 
