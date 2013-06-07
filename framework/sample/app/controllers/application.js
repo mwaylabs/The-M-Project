@@ -4,6 +4,18 @@ SampleApp.ApplicationController = M.Controller.extend({
 
     init: function() {
 
+        this.testData();
+
+        this.addText('changed the value by calling:<br>SampleApp.Main.set("value", "I made a change!")');
+    },
+
+    addText: function(txt) {
+        this.text += txt + '<br>';
+        SampleApp.Main.set('value', this.text);
+    },
+
+    testData: function() {
+
         var that = this;
 
         var person = SampleApp.Person.create({
@@ -37,22 +49,31 @@ SampleApp.ApplicationController = M.Controller.extend({
             }
         });
 
-
         SampleApp.SqlConnector.find({
             order: 'id',
             entity: 'person',
             success: function(result) {
-                that.addText('found ' + result.length + ' persons. first SureName: ' + result.at(0).get('sureName'));
+                var model = result.at(0);
+
+                that.addText('found ' + result.length + ' persons. first SureName: ' + model.get('sureName'));
+
+                model.save({ notes: 'The-M-Project goes Backbone!' }, {
+                    success: function() {
+                        that.addText('changed Person.notes in Database.');
+
+                        person.fetch({
+                            success: function() {
+                                that.addText('fetched Person, notes in Database: ' + person.get('notes'));
+                            }
+                        });
+                    }
+                });
             },
             error: function()   { addText('error find persons.' ); },
             finish: function()  { /* alert('find persons finished.' ); */ }
         });
 
-        this.addText('changed the value by calling:<br>SampleApp.Main.set("value", "I made a change!")');
-    },
-
-    addText: function(txt) {
-        this.text += txt + '<br>';
-        SampleApp.Main.set('value', this.text);
     }
+
+
 });

@@ -132,7 +132,7 @@ M.DataConnector = M.Object.extend({
         if (model) {
             // we cache the data on entity
             if (!entity.collection) {
-                entity.collection = M.Collection.create(model);
+                entity.collection = M.Collection.create({ model : model });
             }
             return entity.collection;
         }
