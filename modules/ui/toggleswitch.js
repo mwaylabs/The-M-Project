@@ -181,6 +181,7 @@ M.ToggleSwitchView = M.View.extend(
                 $('#' + this.id + ' option[value*=' + val + ']').attr('selected', 'selected');
             }
             //toggle the view
+            $('#' + this.id).val(val);
             $('#' + this.id).slider('refresh');
         },
 
