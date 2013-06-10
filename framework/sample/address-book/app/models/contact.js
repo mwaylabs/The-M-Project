@@ -1,0 +1,1 @@
+Addressbook.Contact = M.Model.extend({});
