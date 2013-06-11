@@ -59,7 +59,7 @@ M.DataConnector = M.Object.extend({
 
         _.extend(obj.model.prototype, {
 
-            idAttribute: "id",
+            idAttribute: obj.key,
 
             sync: function(method, model, options) {
                 that.sync(method, model,
