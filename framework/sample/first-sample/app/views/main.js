@@ -1,5 +1,2 @@
-SampleApp.Main = new M.View({
-    model: new M._ViewModel({
-        'value': 'test'
-    })
+SampleApp.Main = M.View.create({
 });

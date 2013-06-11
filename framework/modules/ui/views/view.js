@@ -22,12 +22,12 @@ _.extend(M.View.prototype, {
 
 
 
-        this.bind();
+        this.set();
 
         this.template = _.template(this.valuePattern);
     },
 
-    bind: function( value ) {
+    set: function( value ) {
 
         this.value = value || this.value;
 
@@ -51,7 +51,7 @@ _.extend(M.View.prototype, {
 
     _add: function( model, collection, options ) {
         var view = this.valueView.create();
-        view.bind(model);
+        view.set(model);
         this.$el.append(view.render().el);
     },
 
