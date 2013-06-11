@@ -5,16 +5,33 @@ _.extend(M.View.prototype, {
 
     _type: 'M.View',
 
+    value: null,
+
+    valuePattern: "<%= value %>",
+
     initialize: function( properties ) {
         _.extend(this, properties);
+        this.value = this.collection
+        if( !this.value ) {
+            var value = { value: '' };
+            if(properties && properties.value){
+                value = properties.value
+            }
+            this.value = M.Model.create(value);
+        }
+
+
+
+        this.bind();
+
+        this.template = _.template(this.valuePattern);
     },
 
-    set: function( value ) {
+    bind: function( value ) {
 
-        this.value = value;
+        this.value = value || this.value;
 
         if( this.value ) {
-
             this.value.on('remove', this._remove, this);
             this.value.on('change', this._change, this);
             this.value.on('add', this._add, this);
@@ -22,21 +39,23 @@ _.extend(M.View.prototype, {
         }
     },
 
-    _remove: function(data){
-
+    _remove: function( data ) {
+        if(this.value.cid === data.cid){
+            this.remove();
+        }
     },
 
-    _change: function(data){
+    _change: function( data ) {
         this.render();
     },
 
-    _add: function(model, collection, options){
+    _add: function( model, collection, options ) {
         var view = this.valueView.create();
-        view.set(model);
+        view.bind(model);
         this.$el.append(view.render().el);
     },
 
-    _all: function(data){
+    _all: function( data ) {
 
     },
 
@@ -50,10 +69,10 @@ _.extend(M.View.prototype, {
 
         //        this._preRender();
         this._addClasses();
-//        this._renderChildViews();
+        //        this._renderChildViews();
+        this._createDOM();
 
-        var val = this.value ? this.value.get('firstname'): 'empty';
-        this.$el.html(val);
+        console.log('render: ' + this.getObjectType());
         return this;
     },
 
@@ -79,6 +98,14 @@ _.extend(M.View.prototype, {
             Object.getPrototypeOf(this)._getClasseName(cssClasses);
         }
         return cssClasses;
+    },
+
+    _createDOM: function(){
+        if(this.value.attributes){
+            val = this.template(this.value.attributes);
+            this.$el.html(val);
+        }
+
     }
 });
 
