@@ -1,5 +1,4 @@
-Addressbook.Main = new M.View({
-    model: new M._ViewModel({
-        'value': 'test'
-    })
+Addressbook.Main = M.View.create({
+
+
 });

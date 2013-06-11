@@ -1,35 +1,89 @@
-M._ViewModel = Backbone.Model.extend({
+M.View = Backbone.View.extend(M.Object);
 
-    defaults: function() {
-        return {
-            value: ""
-        };
-    }
-});
 
-M.View = Backbone.View.extend({
+_.extend(M.View.prototype, {
 
-    tagName: "div",
+    _type: 'M.View',
 
-    initialize: function() {
-        if(!this.model){
-            this.model = new M._ViewModel();
+    initialize: function( properties ) {
+        _.extend(this, properties);
+    },
+
+    set: function( value ) {
+
+        this.value = value;
+
+        if( this.value ) {
+
+            this.value.on('remove', this._remove, this);
+            this.value.on('change', this._change, this);
+            this.value.on('add', this._add, this);
+            this.value.on('all', this._all, this);
         }
-        this.listenTo(this.model, 'change', this.render);
     },
 
-    // Re-render the titles of the todo item.
+    _remove: function(data){
+
+    },
+
+    _change: function(data){
+
+    },
+
+    _add: function(model, collection, options){
+        var view = M.View.create({
+            value: model
+        });
+        this.$el.append(view.render().el);
+    },
+
+    _all: function(data){
+
+    },
+
+    constructor: function( properties ) {
+        _.extend(this, properties);
+        Backbone.View.apply(this, arguments);
+    },
+
     render: function() {
-        this.$el.html(this.model.get('value'));
+        //return M.View.prototype.render.apply(this, arguments);
+
+        //        this._preRender();
+        this._addClasses();
+//        this._renderChildViews();
+
+        var val = this.value ? this.value.attributes: 'empty';
+        this.$el.html(val);
         return this;
     },
 
-    set: function( property, value ) {
-        this.model.set(property, value);
-        return this;
-    }
 
+    contentDidChange: function( data ) {
+        debugger;
+    },
+
+    _addClasses: function() {
+        this.$el.addClass(Object.getPrototypeOf(this)._getClasseName().reverse().join(' '));
+    },
+
+    _getCssClassByType: function() {
+        return this.getObjectType().replace('.', '-').toLowerCase();
+    },
+
+    _getClasseName: function( cssClasses ) {
+        if( !cssClasses ) {
+            cssClasses = [];
+        }
+        cssClasses.push(this._getCssClassByType());
+        if( this.getObjectType() !== 'M.View' ) {
+            Object.getPrototypeOf(this)._getClasseName(cssClasses);
+        }
+        return cssClasses;
+    }
 });
+
+M.View.create = M.create;
 
 
 //// ==========================================================================
