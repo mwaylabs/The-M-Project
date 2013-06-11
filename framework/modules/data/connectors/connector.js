@@ -9,9 +9,22 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-M.DataConnector = M.Object.extend({
+M.DataConnector = function() {
+  this.initialize.apply(this, arguments);
+};
+
+M.DataConnector.extend = Backbone.Model.extend;
+
+M.DataConnector.create = M.create;
+
+// Attach all inheritable methods to the Connector prototype.
+_.extend(M.DataConnector.prototype, M.Object, {
 
     _type: 'M.DataConnector',
+
+    _initialized: false,
+
+    _callback: null,
 
     _entities: null,
 
@@ -24,10 +37,11 @@ M.DataConnector = M.Object.extend({
         'date':    'string'
     },
 
-    create: function(obj) {
-        var connector = this.extend(obj);
-        connector.configure(obj.config);
-        return connector;
+    initialize: function(obj) {
+        if (obj && obj.config) {
+            this.config = obj.config;
+            this.configure(obj.config);
+        }
     },
 
     // initialize from configuration
@@ -83,25 +97,23 @@ M.DataConnector = M.Object.extend({
     },
 
     getEntity: function(obj) {
-        var entity = null;
+        var entity = obj;
         if (obj.entity) {
             entity = this._entities[obj.entity];
         } else {
             var model =  obj.model || (_.isArray(obj.data) ? obj.data[0] : obj.data);
-            if (model && _.isFunction(model.getName)) {
-                var name = model.getName();
+            if (model) {
                 entity = _.find(this._entities, function(t) {
-                    return t.model ? name === t.model.getName() : name === t.name;
+                    return t.model === model || t.model && t.model.isPrototypeOf(model);
                 });
-                if ( _.isUndefined(entity)) {
-                    return this.addEntity({ model: model });
-                }
+//                if ( _.isUndefined(entity)) {
+//                    return this.addEntity({ model: model });
+//                }
             }
         }
         return entity;
     },
 
-    /*
     getData: function(obj) {
         if (obj && obj.data) {
             return _.isFunction(obj.data.getData) ? obj.data.getData() : obj.data;
@@ -128,9 +140,8 @@ M.DataConnector = M.Object.extend({
         return records;
     },
 
-    */
-
-    getCollection: function(entity) {
+    getCollection: function(obj) {
+        var entity = this.getEntity(obj);
         var model = entity ? entity.getModel() : null;
         if (model) {
             // we cache the data on entity
@@ -242,7 +253,7 @@ M.DataConnector = M.Object.extend({
     sync: function(method, model, options) {
         if( !this._initialized ) {
             var that = this;
-            this.init({ method: method, model: model, options: options },
+            this._initialize({ method: method, model: model, options: options },
                 function(obj) {
                     that.sync(obj.method, obj.model, obj.options);
                 }
@@ -263,7 +274,7 @@ M.DataConnector = M.Object.extend({
         }
     },
 
-    init: function(obj, callback) {
+    _initialize: function(obj, callback) {
         this._initialized = true;
         if (callback) {
             callback(obj);

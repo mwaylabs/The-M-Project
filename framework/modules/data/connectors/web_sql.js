@@ -28,10 +28,6 @@ M.DataConnectorWebSql = M.DataConnector.extend({
 
     _transactionFailed: false,
 
-    _initialized: false,
-
-    _callback: null,
-
     _selector: null,
 
     /**
@@ -51,7 +47,7 @@ M.DataConnectorWebSql = M.DataConnector.extend({
      * @param {Function} callback The function that called init as callback bind to this.
      * @private
      */
-    init: function( obj, callback ) {
+    _initialize: function( obj, callback ) {
         if( !this._callback ) {
             this._callback = callback;
         }
@@ -68,28 +64,20 @@ M.DataConnectorWebSql = M.DataConnector.extend({
         });
     },
 
-    save: function( obj ) {
-        if( !this._initialized ) {
-            this.init(obj, this._insertOrReplace);
-        } else {
-            this._insertOrReplace(obj);
-        }
+    create: function(model, options) {
+        this._insertOrReplace(_.extend({ data: model }, options ));
     },
 
-    update: function( obj ) {
-        if( !this._initialized ) {
-            this.init(obj, this._updateOrReplace);
-        } else {
-            this._updateOrReplace(obj);
-        }
+    update: function(model, options) {
+        this._insertOrReplace(_.extend({ data: model }, options ));
     },
 
-    del: function( obj ) {
-        if( !this._initialized ) {
-            this.init(obj, this._delete);
-        } else {
-            this._delete(obj);
-        }
+    delete: function(model, options) {
+        this._delete(_.extend({ data: model }, options ));
+    },
+
+    read: function(model, options) {
+        this._select(_.extend({ data: model }, options ));
     },
 
     dropTable: function( obj ) {

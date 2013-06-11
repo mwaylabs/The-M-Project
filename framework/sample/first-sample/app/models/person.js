@@ -19,6 +19,8 @@ M.RESTConnector = M.DataConnector.extend({
 
 SampleApp.RESTConnector = M.RESTConnector.create({
     config: {
+        name: 'MyDatabase',
+        version: '1.0',
         entities: {
             // name of the entity
             person: {

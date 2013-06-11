@@ -9,8 +9,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-M.Collection = new Backbone.Collection.extend(M.Object)();
-
+M.Collection = Backbone.Collection.extend(M.Object);
 
 _.extend(M.Collection.prototype, {
 

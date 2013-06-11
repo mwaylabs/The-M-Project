@@ -21,7 +21,7 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
 
     key:    '',
 
-    _model:  null,
+    model:  null,
 
     _fields: {},
 
@@ -38,7 +38,7 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
             entity = this.extend({
                 name:   name,
                 key:    key,
-                _model:  obj.model,
+                model:  obj.model,
                 _fields: {}
             });
 
@@ -56,7 +56,7 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
 
             if (!obj.model) {
                 // create dynamic model
-                entity._model = M.Model.extend({
+                entity.model = M.Model.extend({
                     idAttribute: key,
                     getName: function() { return name; }
                 });
@@ -106,7 +106,7 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
      },
 
     getModel: function() {
-        return this._model;
+        return this.model;
     },
 
     _mergeFields: function(newFields) {
@@ -145,13 +145,13 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
     },
 
     toRecord: function(data) {
-        if (data && this._model && this._fields) {
+        if (data && this.model && this._fields) {
             // map field names
             var attributes = {};
             _.each(this._fields, function(field, key) {
                 attributes[key] = data[field.name];
             });
-            return this._model.create(attributes);
+            return this.model.create(attributes);
         }
     },
 

@@ -52,8 +52,7 @@ M.Object = {
      * @param {Object} proto The prototype of the new object.
      */
     _create: function( proto ) {
-        var f = function() {
-        };
+        var f = function() {};
         f.prototype = proto;
         return new f();
     },
