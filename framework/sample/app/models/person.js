@@ -1,4 +1,16 @@
 
+SampleApp.Files = M.Collection.extend({});
+
+var files = SampleApp.Files.create({});
+files.url = "http://mdm.dev.mwaysolutions.com/relution/api/v1/files";
+
+files.fetch({
+    success: function() {
+        debugger;
+    }
+});
+
+
 SampleApp.Person = M.Model.extend({});
 
 SampleApp.SqlConnector = M.DataConnectorWebSql.create({
@@ -26,6 +38,7 @@ SampleApp.SqlConnector = M.DataConnectorWebSql.create({
         }
     }
 });
+
 /*
 SampleApp.Person = M.Model.extend({
 

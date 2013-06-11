@@ -13,15 +13,18 @@ M.DataConnectorWebSql = M.DataConnector.extend({
 
     _type: 'M.DataConnectorWebSql',
 
-    _typeMapping: {
-        'string':  'varchar(255)',
-        'text':    'text',
-        'object':  'text',
-        'float':   'float',
-        'integer': 'integer',
-        'date':    'varchar(255)',
-        'boolean': 'boolean'
-    },
+    _typeMapping: function(){
+        var map = {};
+        map [M.CONST.TYPE.STRING]  = 'varchar(255)';
+        map [M.CONST.TYPE.TEXT]    = 'text';
+        map [M.CONST.TYPE.OBJECT]  = 'text';
+        map [M.CONST.TYPE.ARRAY]   = 'text';
+        map [M.CONST.TYPE.FLOAT]   = 'float';
+        map [M.CONST.TYPE.INTEGER] = 'integer';
+        map [M.CONST.TYPE.DATE]    = 'varchar(255)';
+        map [M.CONST.TYPE.BOOLEAN] = 'boolean';
+        return map;
+    }(),
 
     _transactionFailed: false,
 

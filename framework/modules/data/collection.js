@@ -9,13 +9,29 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-M.Collection = Backbone.Collection.extend(M.Object);
+M.Collection = new Backbone.Collection.extend(M.Object)();
 
 
 _.extend(M.Collection.prototype, {
 
-    _type: 'M.Collection'
+    _type: 'M.Collection',
 
+    select: function(options) {
+        var selector   = options.where ? M.DataSelector.create(options.where) : null;
+        var collection = M.Collection.create({ model: this.model });
+
+        _.each(this, function(model) {
+            if (!selector || selector.matches(model.attributes)) {
+                collection.add(record);
+            }
+        });
+
+        if (options.sort) {
+            collection.sortBy(M.DataSelector.compileSort(options.sort));
+        }
+
+        return collection;
+    }
 });
 
 M.Collection.create = M.create;

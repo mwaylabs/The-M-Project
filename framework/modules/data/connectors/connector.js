@@ -101,6 +101,7 @@ M.DataConnector = M.Object.extend({
         return entity;
     },
 
+    /*
     getData: function(obj) {
         if (obj && obj.data) {
             return _.isFunction(obj.data.getData) ? obj.data.getData() : obj.data;
@@ -127,6 +128,8 @@ M.DataConnector = M.Object.extend({
         return records;
     },
 
+    */
+
     getCollection: function(entity) {
         var model = entity ? entity.getModel() : null;
         if (model) {
@@ -148,40 +151,52 @@ M.DataConnector = M.Object.extend({
         }
     },
 
-    find: function(obj) {
-
-        // get entity
-        var entity = this.getEntity(obj);
-
-        if (this._checkEntity(obj, entity)) {
-            // map internal collection to records
-            var collection = this.getCollection(entity);
-            var records    = collection.find(obj);
-            this.handleSuccess(obj, records);
-        }
+    select: function(options) {
+        var collection = this.getCollection(options);
+        return collection.select(options);
     },
+
+//    find: function(obj) {
+//
+//        // get entity
+//        var entity = this.getEntity(obj);
+//
+//        if (this._checkEntity(obj, entity)) {
+//            // map internal collection to records
+//            var collection = this.getCollection(entity);
+//            var records    = collection.find(obj);
+//            this.handleSuccess(obj, records);
+//        }
+//    },
 
     /***
      *
      * @param obj { data: array of model, success: success callback, error: error callback, finish:   }
      * @return {*}
      */
-    save: function(obj) {
+//    save: function(obj) {
+//
+//        // get array
+//        var array  = _.isArray(obj.data) ? obj.data : (_.isObject(obj.data) ? [ obj.data ] : null);
+//
+//        // get entity
+//        var entity = this.getEntity(obj);
+//
+//        if (this._checkEntity(obj, entity) && this._checkData(obj, array)) {
+//            var collection = this.getCollection(entity);
+//            _.each(array, function(item) {
+//                record = M.Model.isPrototypeOf(item) ? item : entity.toRecord(item);
+//                collection.set(record);
+//            });
+//            this.handleSuccess(obj);
+//        }
+//    },
 
-        // get array
-        var array  = _.isArray(obj.data) ? obj.data : (_.isObject(obj.data) ? [ obj.data ] : null);
-
-        // get entity
-        var entity = this.getEntity(obj);
-
-        if (this._checkEntity(obj, entity) && this._checkData(obj, array)) {
-            var collection = this.getCollection(entity);
-            _.each(array, function(item) {
-                record = M.Model.isPrototypeOf(item) ? item : entity.toRecord(item);
-                collection.set(record);
-            });
-            this.handleSuccess(obj);
-        }
+    save: function(model, options) {
+        var sync = model.sync;
+        model.sync = this.sync;
+        model.save(null, options);
+        model.sync = sync;
     },
 
     handleSuccess: function(obj) {
@@ -224,24 +239,78 @@ M.DataConnector = M.Object.extend({
         return true;
     },
 
-    methodMap: {
-        'create': 'POST',
-        'update': 'PUT',
-        'patch':  'PATCH',
-        'delete': 'DELETE',
-        'read':   'find'
+    sync: function(method, model, options) {
+        if( !this._initialized ) {
+            var that = this;
+            this.init({ method: method, model: model, options: options },
+                function(obj) {
+                    that.sync(obj.method, obj.model, obj.options);
+                }
+            );
+        } else {
+            switch(method) {
+                case 'create':
+                    return this.create(model, options );
+                case 'update':
+                    return this.update(model, options );
+                case 'patch':
+                    return this.patch (model, options );
+                case 'delete':
+                    return this.delete(model, options );
+                case 'read':
+                    return this.read  (model, options);
+            }
+        }
     },
 
-    sync: function(method, model, options) {
-        switch(method) {
-            case 'create':
-            case 'update':
-            case 'patch':
-                return this.save(_.extend( { data: model }, options ) );
-            case 'delete':
-                return this.del(_.extend( { data: model }, options ) );
-            case 'read':
-                return this.findOne(model, options);
+    init: function(obj, callback) {
+        this._initialized = true;
+        if (callback) {
+            callback(obj);
+        }
+    },
+
+    create: function(model, options) {
+        var collection = this.getCollection({ model: model, entity: options ? options.entity : '' });
+        if (collection) {
+            var resp = collection.add(model);
+            if (options.success) {
+                return options.success(model, resp, options);
+            }
+        }
+    },
+
+    update: function(model, options) {
+        var collection = this.getCollection({ model: model, entity: options ? options.entity : '' });
+        if (collection) {
+            var resp = collection.set(model, {add: false, remove: true, merge: true});
+            if (options.success) {
+                return options.success(model, resp, options);
+            }
+        }
+    },
+
+    patch: function(model, options) {
+        this.update(model, options);
+    },
+
+    delete: function(model, options) {
+        var collection = this.getCollection({ model: model, entity: options ? options.entity : '' });
+        if (collection) {
+            var resp = collection.remove(model);
+            if (options.success) {
+                return options.success(model, resp, options);
+            }
+        }
+    },
+
+    read: function(model, options) {
+        var collection = this.getCollection({ model: model, entity: options ? options.entity : '' });
+        if (collection) {
+            var resp = collection.find(model);
+            if (options.success) {
+                return options.success(model, resp, options);
+            }
         }
     },
 
@@ -254,7 +323,7 @@ M.DataConnector = M.Object.extend({
             success: function(result) {
                 if (result && result.length > 0) {
                     if (options.success) {
-                        options.success(result.at(0).attributes);
+                        return options.success(result.at(0).attributes);
                     }
                 }
             }

@@ -18,10 +18,6 @@
 //    return new f();
 //};
 
-M.create = function(x,y) {
-    return new this(x,y);
-}
-
 /**
  * @class
  */
