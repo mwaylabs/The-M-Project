@@ -3,7 +3,7 @@ Addressbook.ApplicationController = M.Controller.extend({
     collection: null,
 
     init: function() {
-        this.collection = new Addressbook.Contacts();
+        this.collection = Addressbook.Contacts.create();
         Addressbook.Main.set(this.collection);
         this.collection.fetch();
     },

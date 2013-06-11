@@ -27,13 +27,12 @@ _.extend(M.View.prototype, {
     },
 
     _change: function(data){
-
+        this.render();
     },
 
     _add: function(model, collection, options){
-        var view = M.View.create({
-            value: model
-        });
+        var view = this.valueView.create();
+        view.set(model);
         this.$el.append(view.render().el);
     },
 
@@ -53,7 +52,7 @@ _.extend(M.View.prototype, {
         this._addClasses();
 //        this._renderChildViews();
 
-        var val = this.value ? this.value.attributes: 'empty';
+        var val = this.value ? this.value.get('firstname'): 'empty';
         this.$el.html(val);
         return this;
     },
