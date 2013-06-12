@@ -1,12 +1,27 @@
 
+SampleApp.Files = M.Collection.extend({});
+
+var files = SampleApp.Files.create({});
+files.url = "http://mdm.dev.mwaysolutions.com/relution/api/v1/files";
+
+files.fetch({
+    success: function() {
+        debugger;
+    }
+});
+
+
 SampleApp.Person = M.Model.extend({});
 
 M.RESTConnector = M.DataConnector.extend({
 
 });
 
+/*
 SampleApp.RESTConnector = M.RESTConnector.create({
     config: {
+        name: 'MyDatabase',
+        version: '1.0',
         entities: {
             // name of the entity
             person: {
@@ -54,6 +69,21 @@ SampleApp.SqlConnector = M.DataConnectorWebSql.create({
         }
     }
 });
+*/
+SampleApp.LiveConnector = M.DataConnectorLive.create({
+    config: {
+        version: '1.0',
+        name: 'http://localhost:8100',
+        entities: {
+            // name of the entity
+            person: {
+                key:    'id',
+                model:   SampleApp.Person
+            }
+        }
+    }
+});
+
 /*
 SampleApp.Person = M.Model.extend({
 

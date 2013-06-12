@@ -26,6 +26,14 @@
      */
     M.f = function() {};
 
+    M.create = function(x,y) {
+        return new this(x,y);
+    }
+
+//    M.create = function() {
+//        return this.apply(this, arguments);
+//    };
+
     /**
      * Readable alias for true
      *

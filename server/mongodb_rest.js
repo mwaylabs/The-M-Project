@@ -41,7 +41,11 @@ exports.create = function(dbName) {
                     if(err){
                         res.send("Oops! " + err);
                     }
-                    res.send(doc);
+                    if (doc) {
+                        res.send(doc);
+                    } else {
+                        res.send(404, 'Document not found!');
+                    }
                 }
             );
         },
@@ -49,7 +53,7 @@ exports.create = function(dbName) {
         //Create new document(s)
         create: function(req, res) {
             var name = req.params.name;
-            var doc  = req.body[name];
+            var doc  = req.body;
             var collection = new mongodb.Collection(this.db, name);
             collection.insert(
                 doc,
@@ -70,18 +74,22 @@ exports.create = function(dbName) {
         //Update a document
         save: function(req, res) {
             var name = req.params.name;
-            var doc  = req.body[name];
+            var doc  = req.body;
             var id   = req.params.id;
             var collection = new mongodb.Collection(this.db, name);
             collection.update(
                 { "_id" : new ObjectID(id) },
                 doc,
-                {safe:true, upsert:true},
+                {safe:true, upsert:false},
                 function(err, n) {
                     if(err) {
                         res.send("Oops!: " + err);
                     } else {
-                        res.send(n);
+                        if (n==0) {
+                            res.send(404, 'Document not found!');
+                        } else {
+                            res.send(doc);
+                        }
                     }
                 }
             );

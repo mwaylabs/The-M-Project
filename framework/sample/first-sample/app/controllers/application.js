@@ -49,7 +49,7 @@ SampleApp.ApplicationController = M.Controller.extend({
             }
         });
 
-        SampleApp.SqlConnector.find({
+        SampleApp.LiveConnector.select({
             order: 'id',
             entity: 'person',
             success: function( result ) {
@@ -59,7 +59,7 @@ SampleApp.ApplicationController = M.Controller.extend({
 
                 model.save({ notes: 'The-M-Project goes Backbone!' }, {
                     success: function() {
-                        that.addText('changed Person.notes in Database.');
+                        that.addText('changed Person.notes in Database to: ' + model.get('notes'));
 
                         person.fetch({
                             success: function() {
