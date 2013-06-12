@@ -2,15 +2,17 @@ Addressbook.ContactView = Backbone.View.extend({
 
     tagName: "div",
 
-    template: _.template('<div class="view"><input class="toggle" type="text" value="<%= firstname %>" /><input class="toggle" type="text" value="<%= lastname %>" /></div>'),
+    template: _.template('<div class="view"><input class="toggle" type="text" value="<%= firstname %>" /><input class="toggle" type="text" value="<%= lastname %>" /> <span>X</span></div>'),
 
     // The DOM events specific to an item.
     events: {
-        "blur input": "changeValue"
+        "blur input": "changeValue",
+        "click span": "removeEntry"
     },
 
     initialize: function() {
         this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'destroy', this.remove);
     },
 
     render: function() {
@@ -24,6 +26,10 @@ Addressbook.ContactView = Backbone.View.extend({
             lastname: this.$('input')[1].value
         }
         this.model.save(newValues);
+    },
+
+    removeEntry: function(){
+        this.model.destroy();
     }
 
 });
