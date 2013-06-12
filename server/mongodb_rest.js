@@ -72,7 +72,7 @@ exports.create = function(dbName) {
         },
 
         //Update a document
-        save: function(req, res) {
+        update: function(req, res) {
             var name = req.params.name;
             var doc  = req.body;
             var id   = req.params.id;
@@ -101,12 +101,62 @@ exports.create = function(dbName) {
             var id   = req.params.id;
             var collection = new mongodb.Collection(this.db, name);
             collection.remove({ "_id" : new ObjectID(id) }, {safe:true}, function(err, n){
-                    if(err){
+                    if(err) {
                         res.send("Oops! " + err);
+                    } else {
+                        res.send(n);
+                        if (!fromMessage && n > 0) {
+                            rest.sendMessage(name, { method: 'delete', id: id });
+                        }
                     }
-                    res.send(n);
                 }
             );
+        },
+
+        sendMessage: function(entity, msg) {
+
+        },
+
+        handleMessage: function(entity, msg, resp) {
+            if (entity && msg && msg.method) {
+
+                var req = {
+                    params: { name: entity, id: msg.id },
+                    body: msg.data
+                };
+
+                var resp = {
+                    send: function(data) {
+                        // Todo: callback
+                    }
+                };
+
+                switch(method) {
+
+                    case 'create':
+                        this.create(req, resp);
+                        break;
+
+                    case 'update':
+                        this.update(req, resp);
+                        break;
+
+                    case 'patch':
+                        this.update(req, resp);
+                        break;
+
+                    case 'delete':
+                        this.delete(req, resp);
+                        break;
+
+                    case 'read':
+                        this.find  (req, resp);
+                        break;
+
+                    default:
+                        return;
+                }
+            }
         }
     };
 

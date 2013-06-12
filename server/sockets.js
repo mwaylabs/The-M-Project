@@ -41,7 +41,42 @@ exports.listen = function(server) {
                 }
                 sockets.chat.emit('message', data);
             });
-        })
+        }),
+
+        liveData: io.of('/live_data').authorization(function (handshakeData, callback) {
+
+            handshakeData.name = handshakeData.query.name;
+            callback(null, true);
+
+        }).on('connection', function (socket) {
+
+            socket.on('bind', function(entity) {
+
+                if (entity && typeof entity === 'string') {
+                    var channel = 'entity_' + entity;
+                    socket.on(channel, function(msg) {
+                        msg = this.handleMessage(entity, msg );
+                        if (msg) {
+                            socket.broadcast.emit(channel, msg);
+                        }
+                    });
+                }
+            });
+        }),
+
+        handleMessage: function(entity, msg, resp) {
+            if (msg && msg.method && msg.id && msg.data) {
+                return msg;
+            }
+        },
+
+        sendMessage: function(entity, msg) {
+            var channel = 'entity_' + entity;
+            if (msg && msg.method && msg.id && msg.data) {
+                this.liveData.emit(channel, msg);
+            }
+        }
+
     }
 
     return sockets;

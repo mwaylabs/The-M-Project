@@ -85,7 +85,7 @@ M.DataConnectorLive = M.DataConnector.extend({
         }
     },
 
-    sync: function(method, model, options, syncFromMessage) {
+    sync: function(method, model, options, fromMessage) {
         switch(method) {
             case 'create':
                 this.create(model, options );
@@ -110,7 +110,7 @@ M.DataConnectorLive = M.DataConnector.extend({
             var that = this;
             this._initialize({ method: method, model: model, options: options },
                 function(obj) {
-                    if (!syncFromMessage) {
+                    if (!fromMessage) {
                         that.sendMessage(method, model, options);
                     }
                 }
