@@ -9,6 +9,8 @@ _.extend(M.View.prototype, {
 
     valuePattern: "<%= value %>",
 
+    _domEvents: [{}],
+
     initialize: function( properties ) {
         _.extend(this, properties);
         this.value = this.collection
@@ -20,9 +22,8 @@ _.extend(M.View.prototype, {
             this.value = M.Model.create(value);
         }
 
-
-
         this.set();
+        this._initEvents();
 
         this.template = _.template(this.valuePattern);
     },
@@ -50,9 +51,12 @@ _.extend(M.View.prototype, {
     },
 
     _add: function( model, collection, options ) {
-        var view = this.valueView.create();
+
+        /*CLONE EVENT ON create*/ !!!! var view = this.valueView.create();
         view.set(model);
-        this.$el.append(view.render().el);
+        debugger;
+        var v = view.render().el;
+        this.$el.append(v);
     },
 
     _all: function( data ) {
@@ -66,20 +70,17 @@ _.extend(M.View.prototype, {
 
     render: function() {
         //return M.View.prototype.render.apply(this, arguments);
-
+        console.log('render: ' + this.getObjectType());
         //        this._preRender();
         this._addClasses();
         //        this._renderChildViews();
         this._createDOM();
+        this._addId();
+        this._registerEvents();
 
-        console.log('render: ' + this.getObjectType());
         return this;
     },
 
-
-    contentDidChange: function( data ) {
-        debugger;
-    },
 
     _addClasses: function() {
         this.$el.addClass(Object.getPrototypeOf(this)._getClasseName().reverse().join(' '));
@@ -106,6 +107,103 @@ _.extend(M.View.prototype, {
             this.$el.html(val);
         }
 
+    },
+
+    _addId: function(){
+      this.$el.attr('id', this.cid);
+    },
+
+    /** EVENTS **/
+
+    /**
+     * This property is used to specifiy all events for a view within an application.
+     *
+     * @type {Object}
+     */
+    events: null,
+
+    /**
+     * This property contains a view's event handlers that are handled by the event dispatcher.
+     *
+     * @type {Object}
+     */
+    _domEvents: null,
+
+    /**
+     * This property contains a view's event handlers for all events that are not handled by
+     * the event dispatcher, e.g. 'postRender'.
+     *
+     * @type {Object}
+     */
+    _events: null,
+
+    /**
+     * This property contains an array of event types that are not handled by the event dispatcher.
+     *
+     * @type {Array}
+     */
+    _eventTypes: ['preRender', 'postRender'],
+
+    _initEvents: function() {
+        this.events = this.events || {};
+        this._domEvents = {};
+        this._events = {};
+
+        this._eventTypes = _.uniq(_.compact(this._eventTypes.concat(Object.getPrototypeOf(this)._eventTypes)));
+
+        _.each(this.events, function( eventHandler, eventName ) {
+            if( !this.events[eventName].target ) {
+                if( !this.events[eventName].action ) {
+                    var tmp = this.events[eventName];
+                    this.events[eventName] = null;
+                    this.events[eventName] = {
+                        action: tmp
+                    };
+                }
+
+                this.events[eventName].target = this;
+            }
+
+            if( _.contains(this._eventTypes, eventName) ) {
+                this._events[eventName] = this.events[eventName];
+            } else {
+                this._domEvents[eventName] = this.events[eventName];
+            }
+        }, this);
+    },
+
+    /**
+     * This method registers a view's dom events at the event dispatcher. This happens
+     * automatically during the render process of a view.
+     *
+     * @private
+     */
+    _registerEvents: function() {
+        _.each(this._domEvents, function( handler, eventType ) {
+            M.EventDispatcher.registerEvent({
+                type: eventType,
+                source: this
+            });
+        }, this);
+    },
+
+    /**
+     * This method returns the event handler of a certain event type of a view.
+     *
+     * @param eventType
+     * @returns {*}
+     */
+    getEventHandler: function( eventType ) {
+        return this._domEvents[eventType];
+    },
+
+    _unregisterEvents: function() {
+        _.each(this._domEvents, function( event, key ) {
+            M.EventDispatcher.unregisterEvent({
+                type: key,
+                source: this
+            });
+        }, this);
     }
 });
 
@@ -124,9 +222,9 @@ M.View.create = M.create;
 //// ==========================================================================
 //
 ///**
-// * @class
-// * @extends M.Object
-// */
+//* @class
+//* @extends M.Object
+//*/
 //M.View = M.Object.extend(/** @scope M.View.prototype */{
 //
 //    /**

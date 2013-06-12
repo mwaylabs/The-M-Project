@@ -2,12 +2,10 @@ Addressbook = M.Application.extend({
 
     start: function() {
 
-        Addressbook.ApplicationController.init();
+        M.LayoutManager.setLayout(M.Layout.create()).setContent({
+            view: Addressbook.Main
+        });
 
-        if(this.runtime === 'browser'){
-            M.LayoutManager.setLayout(M.Layout.create()).setContent({
-                view: Addressbook.Main
-            });
-        }
+        Addressbook.ApplicationController.init();
     }
 });

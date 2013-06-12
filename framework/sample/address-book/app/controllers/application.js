@@ -20,12 +20,12 @@ Addressbook.ApplicationController = M.Controller.extend({
         this.collection.at(0).set('firstname', 'klaus');
     },
 
-    gotoDetail: function(){
-        Addressbook.Detail.bind(this.collection.at(0));
-        M.LayoutManager.setContent({ view: Addressbook.Detail});
+    gotoDetail: function(that){
+        Addressbook.Detail.set(that.value);
+        M.LayoutManager.setContent({ view: Addressbook.Detail });
     },
 
-    gotoMain: function(){
-        M.LayoutManager.setContent({ view: Addressbook.Main});
+    gotoMain: function(that){
+        M.LayoutManager.setContent({ view: Addressbook.Main });
     }
 });

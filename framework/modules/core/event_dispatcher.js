@@ -267,6 +267,7 @@ M.EventDispatcher = M.Object.extend(/** @scope M.EventDispatcher.prototype */ {
         /* check for custom events first */
         if( _.isArray(this._customEventRegistry[type]) ) {
             for( var i = 0, len = this._customEventRegistry[type].length; i < len; i++ ) {
+                console.log(this._customEventRegistry[type], type);
                 (function() {
                     var _id = id;
                     var j = i;
