@@ -9,14 +9,23 @@ Addressbook.ApplicationController = M.Controller.extend({
     },
 
     remove: function() {
-        Addressbook.ApplicationController.collection.remove(Addressbook.ApplicationController.collection.at(0));
+        this.collection.remove(Addressbook.ApplicationController.collection.at(0));
     },
 
     add: function() {
-        Addressbook.ApplicationController.collection.add({'firstname': 'horscht'});
+        this.collection.add({'firstname': 'horscht'});
     },
 
     change: function() {
-        Addressbook.ApplicationController.collection.at(0).set('firstname', 'klaus');
+        this.collection.at(0).set('firstname', 'klaus');
+    },
+
+    gotoDetail: function(){
+        Addressbook.Detail.bind(this.collection.at(0));
+        M.LayoutManager.setContent({ view: Addressbook.Detail});
+    },
+
+    gotoMain: function(){
+        M.LayoutManager.setContent({ view: Addressbook.Main});
     }
 });

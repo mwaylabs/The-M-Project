@@ -6,6 +6,8 @@ _.extend(M.Model.prototype, {
 
     _type: 'M.Model',
 
+    isModel: YES,
+
     defaults: function() {
         return {
             value: ""
