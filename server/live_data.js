@@ -19,14 +19,23 @@ exports.listen = function(server) {
 
             socket.on('bind', function(data) {
 
-                if (entities[data]) {
+                if (data && typeof data === 'string') {
                     var channel = 'entity_' + data;
-                    socket.on(channel, function(data) {
-                        socket.broadcast.emit(channel, data);
+                    socket.on(channel, function(msg) {
+                        msg = this.handleMessage(msg);
+                        if (msg) {
+                            socket.broadcast.emit(channel, msg);
+                        }
                     });
                 }
             });
-        })
+        }),
+
+        handleMessage: function(msg) {
+            if (msg.method && msg.id && msg.data) {
+                return msg;
+            }
+        }
     }
 
     return live;

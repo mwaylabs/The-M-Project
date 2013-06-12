@@ -17,18 +17,17 @@ _.extend(M.Collection.prototype, {
 
     select: function(options) {
         var selector   = options.where ? M.DataSelector.create(options.where) : null;
-        var collection = M.Collection.create({ model: this.model });
+        var collection = M.Collection.create(null, { model: this.model });
 
         _.each(this, function(model) {
             if (!selector || selector.matches(model.attributes)) {
-                collection.add(record);
+                collection.add(model);
             }
         });
 
         if (options.sort) {
             collection.sortBy(M.DataSelector.compileSort(options.sort));
         }
-
         return collection;
     }
 });

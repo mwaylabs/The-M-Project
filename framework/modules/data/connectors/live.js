@@ -19,31 +19,44 @@ M.DataConnectorLive = M.DataConnector.extend({
      * Default configuration
      */
     config: {
-        name: 'https://mway.firebaseIO.com/the-m-project',
-        version: '1.0',
-        entities: []
+        name:       '',
+        version:    '1.0',
+        entities:   []
     },
 
-    initialize: function( obj ) {
-        M.DataConnector.prototype.initialize.apply(this, arguments);
+    _initialize: function(obj, callback) {
+        var that = this;
+        this._socket = M.SocketIO.create({
 
-        this._socket  = M.SocketIO.create({
-
-            host: 'http://localhost:8100',
+            host: this.config.name,
 
             path: 'live_data',
 
             events: {
-
-                connected: {
-                    action: function() { }
+                connect: {
+                    action: function() {
+                        that.connected();
+                        that._initialized = true;
+                        if (callback) {
+                            callback(obj);
+                        }
+                    }
                 }
             }
         });
+    },
 
+//    initialize: function( obj ) {
+//        M.DataConnector.prototype.initialize.apply(this, arguments);
+//
+//    },
+
+    connected: function() {
         var entities = this.getEntities();
-        for (var name in entities) {
-            this._bindEntity(entities[name], this._socket);
+        if (entities) {
+            for (var name in entities) {
+                this._bindEntity(entities[name], this._socket);
+            }
         }
     },
 
@@ -53,28 +66,70 @@ M.DataConnectorLive = M.DataConnector.extend({
         var store = this.getCollection(entity);
         entity.ref = ref;
 
-        entity.ref.on( 'entity_' + entity.name, { target: entity, action: 'onMessage' });
+        entity.channel = 'entity_' + entity.name;
+        entity.ref.emit('bind', entity.name);
+        entity.ref.on(entity.channel, {
+                target: entity,
+                action: 'onMessage'
+            }
+        );
 
         entity.onMessage = function(msg) {
             if (msg.data && msg.method) {
                 var model = entity.toRecord(msg.data);
-                model.setId(id);
-                that.sync(msg.method, model, { entity: entity.name });
+                if (msg.id) {
+                    model.setId(msg.id);
+                }
+                that.sync(msg.method, model, { entity: entity.name }, true);
             }
         }
     },
 
-    create: function(model, options) {
-        var entity = this.getEntity(_.extend({ model: model }, options));
-        if (entity) {
-            var msg = {
-                method: 'create',
-                id:     '',
-                data:   model.attributes
-            }
-            entity.db.emit('create', JSON.stringify(msg));
+    sync: function(method, model, options, syncFromMessage) {
+        switch(method) {
+            case 'create':
+                this.create(model, options );
+                break;
+            case 'update':
+                this.update(model, options );
+                break;
+            case 'patch':
+                this.patch (model, options );
+                break;
+            case 'delete':
+                this.delete(model, options );
+                break;
+            case 'read':
+                this.read  (model, options);
+                break;
+            default:
+                return;
         }
-//      M.DataConnector.prototype.create.apply(this, arguments);
+
+        if( !this._initialized ) {
+            var that = this;
+            this._initialize({ method: method, model: model, options: options },
+                function(obj) {
+                    if (!syncFromMessage) {
+                        that.sendMessage(method, model, options);
+                    }
+                }
+            );
+        }
+    },
+
+    sendMessage: function(method, model, options) {
+        if (method && model) {
+            var entity = this.getEntity(_.extend({ model: model }, options));
+            if (entity) {
+                var msg = {
+                    method: method,
+                    id:     model.id,
+                    data:   model.attributes
+                }
+                entity.ref.emit('entity_' + entity.name, msg);
+            }
+        }
     }
 
 

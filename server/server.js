@@ -1,7 +1,7 @@
 var express      = require('express');
 var server          = express();
 var http_server  = require('http').createServer(server);
-var sockets      = require('./sockets.js').listen(http_server);
+// var sockets      = require('./sockets.js').listen(http_server);
 var live_data    = require('./live_data.js').listen(http_server);
 var rest         = require('./mongodb_rest.js').create("test");
 var PORT         = 8100;

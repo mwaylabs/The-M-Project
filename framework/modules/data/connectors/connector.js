@@ -146,7 +146,7 @@ _.extend(M.DataConnector.prototype, M.Object, {
         if (model) {
             // we cache the data on entity
             if (!entity.collection) {
-                entity.collection = M.Collection.create({ model : model });
+                entity.collection = M.Collection.create(null, { model : model });
             }
             return entity.collection;
         }
@@ -164,6 +164,7 @@ _.extend(M.DataConnector.prototype, M.Object, {
 
     select: function(options) {
         var collection = this.getCollection(options);
+        this.handleSuccess(options, collection);
         return collection.select(options);
     },
 
@@ -283,21 +284,19 @@ _.extend(M.DataConnector.prototype, M.Object, {
 
     create: function(model, options) {
         var collection = this.getCollection({ model: model, entity: options ? options.entity : '' });
-        if (collection) {
-            var resp = collection.add(model);
-            if (options.success) {
-                return options.success(model, resp, options);
-            }
+        if (collection && model) {
+            var attrs = model.attributes || model;
+            var resp  = collection.add(attrs);
+            this.handleSuccess(options, resp);
         }
     },
 
     update: function(model, options) {
         var collection = this.getCollection({ model: model, entity: options ? options.entity : '' });
-        if (collection) {
-            var resp = collection.set(model, {add: false, remove: true, merge: true});
-            if (options.success) {
-                return options.success(model, resp, options);
-            }
+        if (collection && model) {
+            var attrs = model.attributes || model;
+            var resp = collection.set(attrs, {add: true, remove: true, merge: true});
+            this.handleSuccess(options, resp);
         }
     },
 
@@ -307,20 +306,22 @@ _.extend(M.DataConnector.prototype, M.Object, {
 
     delete: function(model, options) {
         var collection = this.getCollection({ model: model, entity: options ? options.entity : '' });
-        if (collection) {
+        if (collection && model) {
             var resp = collection.remove(model);
-            if (options.success) {
-                return options.success(model, resp, options);
-            }
+            this.handleSuccess(options, resp);
         }
     },
 
     read: function(model, options) {
         var collection = this.getCollection({ model: model, entity: options ? options.entity : '' });
         if (collection) {
-            var resp = collection.find(model);
-            if (options.success) {
-                return options.success(model, resp, options);
+            if (model && model.id) {
+                var resp  = collection.get(model.id);
+                var attrs = resp ? resp.attributes : null;
+                this.handleSuccess(options, attrs);
+            } else {
+                var resp = collection.select(options);
+                this.handleSuccess(options, resp);
             }
         }
     },

@@ -97,7 +97,7 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
             url += "?" + (_.isString(param) ? param : $.param(param));
         }
         this._socket = io.connect(url);
-        this._socket.on('connected', function(data) {
+        this._socket.on('connect', function(data) {
             that._connected(data);
         });
         this._registerEvents();
@@ -186,7 +186,7 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
         var that = this;
         if (this._socket) {
             this._socket.removeAllListeners();
-            this._socket.on('connected', function(data) {
+            this._socket.on('connect', function(data) {
                 that._connected(data);
             });
         }

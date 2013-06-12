@@ -83,7 +83,7 @@ M.DataConnectorWebSql = M.DataConnector.extend({
     dropTable: function( obj ) {
 
         if( !this._initialized ) {
-            this.init(obj, this._dropTable);
+            this._initialize(obj, this._dropTable);
         } else {
             this._dropTable(obj);
         }
@@ -92,7 +92,7 @@ M.DataConnectorWebSql = M.DataConnector.extend({
     createTable: function( obj ) {
 
         if( !this._initialized ) {
-            this.init(obj, this._createTable);
+            this._initialize(obj, this._createTable);
         } else {
             this._createTable(obj);
         }
@@ -100,7 +100,15 @@ M.DataConnectorWebSql = M.DataConnector.extend({
 
     find: function( obj ) {
         if( !this._initialized ) {
-            this.init(obj, this._select);
+            this._initialize(obj, this._select);
+        } else {
+            this._select(obj);
+        }
+    },
+
+    select: function( obj ) {
+        if( !this._initialized ) {
+            this._initialize(obj, this._select);
         } else {
             this._select(obj);
         }
@@ -108,7 +116,7 @@ M.DataConnectorWebSql = M.DataConnector.extend({
 
     execute: function(obj) {
         if( !this._initialized ) {
-            this.init(obj, this._executeSql);
+            this._initialize(obj, this._executeSql);
         } else {
             this._executeSql(obj);
         }

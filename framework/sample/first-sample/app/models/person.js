@@ -17,6 +17,7 @@ M.RESTConnector = M.DataConnector.extend({
 
 });
 
+/*
 SampleApp.RESTConnector = M.RESTConnector.create({
     config: {
         name: 'MyDatabase',
@@ -64,6 +65,20 @@ SampleApp.SqlConnector = M.DataConnectorWebSql.create({
                     address:     { type: M.CONST.TYPE.OBJECT },
                     displayName: { type: M.CONST.TYPE.STRING, persistent: NO }
                 }
+            }
+        }
+    }
+});
+*/
+SampleApp.LiveConnector = M.DataConnectorLive.create({
+    config: {
+        version: '1.0',
+        name: 'http://localhost:8100',
+        entities: {
+            // name of the entity
+            person: {
+                key:    'id',
+                model:   SampleApp.Person
             }
         }
     }
