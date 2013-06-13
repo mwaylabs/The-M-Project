@@ -24,6 +24,11 @@ M.DataConnectorLive = M.DataConnector.extend({
         entities:   []
     },
 
+    initialize: function() {
+        M.DataConnector.prototype.initialize.apply(this, arguments);
+        this._initialize();
+    },
+
     _initialize: function(obj, callback) {
         var that = this;
         this._socket = M.SocketIO.create({
@@ -76,9 +81,9 @@ M.DataConnectorLive = M.DataConnector.extend({
 
         entity.onMessage = function(msg) {
             if (msg.data && msg.method) {
-                var model = entity.toRecord(msg.data);
+                var model = entity.model ? new entity.model(msg.data) : new M.Model(msg.data);
                 if (msg.id) {
-                    model.setId(msg.id);
+                    model.id = msg.id;
                 }
                 that.sync(msg.method, model, { entity: entity.name }, true);
             }
@@ -86,6 +91,11 @@ M.DataConnectorLive = M.DataConnector.extend({
     },
 
     sync: function(method, model, options, fromMessage) {
+        // for now not handle collections
+        if (!model || !model.attributes) {
+            return;
+        }
+        var data = model.attributes;
         switch(method) {
             case 'create':
                 this.create(model, options );
@@ -106,15 +116,19 @@ M.DataConnectorLive = M.DataConnector.extend({
                 return;
         }
 
+        var that = this;
         if( !this._initialized ) {
-            var that = this;
-            this._initialize({ method: method, model: model, options: options },
+            this._initialize({ method: method, model: model, options: options,  fromMessage: fromMessage },
                 function(obj) {
-                    if (!fromMessage) {
-                        that.sendMessage(method, model, options);
+                    if (that._initialized && !obj.fromMessage) {
+                        that.sendMessage(obj.method, obj.model, obj.options);
                     }
                 }
             );
+        } else {
+            if (!fromMessage) {
+                that.sendMessage(method, model, options);
+            }
         }
     },
 

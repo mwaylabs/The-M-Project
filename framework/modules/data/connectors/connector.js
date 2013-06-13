@@ -287,7 +287,7 @@ _.extend(M.DataConnector.prototype, M.Object, {
         if (collection && model) {
             var attrs = model.attributes || model;
             var resp  = collection.add(attrs);
-            this.handleSuccess(options, resp);
+            this.handleSuccess(options, attrs);
         }
     },
 
@@ -295,8 +295,13 @@ _.extend(M.DataConnector.prototype, M.Object, {
         var collection = this.getCollection({ model: model, entity: options ? options.entity : '' });
         if (collection && model) {
             var attrs = model.attributes || model;
-            var resp = collection.set(attrs, {add: true, remove: true, merge: true});
-            this.handleSuccess(options, resp);
+            var existing = collection.get(model.id);
+            if (existing) {
+                existing.set(attrs);
+            } else {
+                collection.set(attrs, {add: true, remove: true, merge: true});
+            }
+            this.handleSuccess(options, attrs);
         }
     },
 
@@ -308,7 +313,7 @@ _.extend(M.DataConnector.prototype, M.Object, {
         var collection = this.getCollection({ model: model, entity: options ? options.entity : '' });
         if (collection && model) {
             var resp = collection.remove(model);
-            this.handleSuccess(options, resp);
+            this.handleSuccess(options);
         }
     },
 

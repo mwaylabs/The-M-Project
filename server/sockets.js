@@ -55,7 +55,7 @@ exports.listen = function(server) {
                 if (entity && typeof entity === 'string') {
                     var channel = 'entity_' + entity;
                     socket.on(channel, function(msg) {
-                        msg = this.handleMessage(entity, msg );
+                        msg = sockets.handleMessage(entity, msg );
                         if (msg) {
                             socket.broadcast.emit(channel, msg);
                         }
@@ -64,7 +64,7 @@ exports.listen = function(server) {
             });
         }),
 
-        handleMessage: function(entity, msg, resp) {
+        handleMessage: function(entity, msg) {
             if (msg && msg.method && msg.id && msg.data) {
                 return msg;
             }

@@ -4,6 +4,7 @@ Addressbook.ApplicationController = M.Controller.extend({
 
     init: function() {
         this.collection = Addressbook.Contacts.create();
+//        this.collection = Addressbook.LiveConnector.getCollection({ entity: 'contacts' });
         Addressbook.Main.set(this.collection);
         this.collection.fetch();
     },
