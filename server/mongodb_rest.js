@@ -11,6 +11,16 @@ exports.create = function(dbName) {
 
         db: null,
 
+        toId: function(id, createNewIfEmpty) {
+            try {
+                if (id || createNewIfEmpty) {
+                    return new ObjectID(id);
+                }
+            } catch (e) {
+            }
+            return id && id.toString ? id.toString() : '';
+        },
+
         //Find documents
         find: function(req, res) {
             var name    = req.params.name;
@@ -35,13 +45,15 @@ exports.create = function(dbName) {
         //Find a specific document
         findOne: function(req, res) {
             var name = req.params.name;
-            var id   = req.params.id;
+            var id   = this.toId(req.params.id);
+            if (!id) {
+                return res.send(400, "invalid id.");
+            }
             var collection = new mongodb.Collection(this.db, name);
-            collection.find({ "_id" : new ObjectID(id) }, { limit:1 }).nextObject(function(err, doc){
+            collection.find({ "_id" : id }, { limit:1 }).nextObject(function(err, doc){
                     if(err){
                         res.send("Oops! " + err);
-                    }
-                    if (doc) {
+                    } else if (doc) {
                         res.send(doc);
                     } else {
                         res.send(404, 'Document not found!');
@@ -51,36 +63,50 @@ exports.create = function(dbName) {
         },
 
         //Create new document(s)
-        create: function(req, res) {
+        create: function(req, res, fromMessage) {
             var name = req.params.name;
             var doc  = req.body;
+            var id   = this.toId(doc._id, true);
+            if (!id) {
+                return res.send(400, "invalid id.");
+            }
+
+            doc._id  = id;
             var collection = new mongodb.Collection(this.db, name);
             collection.insert(
                 doc,
                 {safe:true},
-                function(err, docs) {
+                function(err, doc) {
                     if(err) {
                         res.send("Oops!: " + err);
                         if (err.message.indexOf('E11000 ') !== -1) {
                             // this _id was already inserted in the database
                         }
                     } else {
-                        res.send(docs);
+                        res.send(doc);
+                        if (!fromMessage && n > 0) {
+                            rest.sendMessage(name, { method: 'create', id: id.toString(), data: doc });
+                        }
                     }
                 }
             );
         },
 
         //Update a document
-        update: function(req, res) {
+        update: function(req, res, fromMessage) {
             var name = req.params.name;
             var doc  = req.body;
-            var id   = req.params.id;
+            var id   = this.toId(req.params.id || doc._id);
+            if (!id) {
+                return res.send(400, "invalid id.");
+            }
+            doc._id = id;
+
             var collection = new mongodb.Collection(this.db, name);
             collection.update(
-                { "_id" : new ObjectID(id) },
+                { "_id" : id },
                 doc,
-                {safe:true, upsert:false},
+                { safe:true, upsert:true },
                 function(err, n) {
                     if(err) {
                         res.send("Oops!: " + err);
@@ -89,6 +115,9 @@ exports.create = function(dbName) {
                             res.send(404, 'Document not found!');
                         } else {
                             res.send(doc);
+                            if (/*!fromMessage && */n > 0) {
+                                rest.sendMessage(name, { method: 'update', id: id.toString(), data: doc });
+                            }
                         }
                     }
                 }
@@ -96,17 +125,25 @@ exports.create = function(dbName) {
         },
 
         //Delete a contact
-        delete: function(req, res) {
+        delete: function(req, res, fromMessage) {
             var name = req.params.name;
-            var id   = req.params.id;
+            var id   = this.toId(req.params.id);
+            if (!id) {
+                return res.send(400, "invalid id.");
+            }
+
             var collection = new mongodb.Collection(this.db, name);
-            collection.remove({ "_id" : new ObjectID(id) }, {safe:true}, function(err, n){
+            collection.remove({ "_id" : id }, { }, function(err, n){
                     if(err) {
                         res.send("Oops! " + err);
                     } else {
-                        res.send(n);
+                        if (n==0) {
+                            res.send(404, 'Document not found!');
+                        } else {
+                            res.send({ _id: id.toString() });
+                        }
                         if (!fromMessage && n > 0) {
-                            rest.sendMessage(name, { method: 'delete', id: id });
+                            rest.sendMessage(name, { method: 'delete', id: id.toString() });
                         }
                     }
                 }
@@ -114,7 +151,6 @@ exports.create = function(dbName) {
         },
 
         sendMessage: function(entity, msg) {
-
         },
 
         handleMessage: function(entity, msg, resp) {
@@ -131,26 +167,22 @@ exports.create = function(dbName) {
                     }
                 };
 
-                switch(method) {
+                switch(msg.method) {
 
                     case 'create':
-                        this.create(req, resp);
+                        this.create(req, resp, true);
                         break;
 
                     case 'update':
-                        this.update(req, resp);
+                        this.update(req, resp, true);
                         break;
 
                     case 'patch':
-                        this.update(req, resp);
+                        this.update(req, resp, true);
                         break;
 
                     case 'delete':
-                        this.delete(req, resp);
-                        break;
-
-                    case 'read':
-                        this.find  (req, resp);
+                        this.delete(req, resp, true);
                         break;
 
                     default:

@@ -60,11 +60,11 @@ Addressbook.ContactView = M.View.extend({
     },
 
     changeValue: function() {
-        //        var newValues = {
-        //            firstname: this.$('input')[0].value,
-        //            lastname: this.$('input')[1].value
-        //        }
-        //this.model.save();
+        var newValues = {
+            firstname: this.$('input')[0].value,
+            lastname: this.$('input')[1].value
+        }
+        this.model.save();
     },
 
     removeEntry: function() {
