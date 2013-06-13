@@ -64,9 +64,16 @@ M.ViewManager = M.Object.extend(/** @scope M.ViewManager.prototype */{
         this.nextId = this.nextId + 1;
 
         var id = this.idPrefix + this.nextId;
-        this._views[id] = view;
+        this.addView(view, id);
 
         return id;
+    },
+
+    addView: function(view, id){
+        if(!id){
+            id = view.cid
+        }
+        this._views[id] = view;
     },
 
     /**

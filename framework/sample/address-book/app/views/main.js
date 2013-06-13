@@ -1,34 +1,73 @@
-Addressbook.ContactView = Backbone.View.extend({
+Addressbook.ContactView = M.View.extend({
 
+    //TODO general
     tagName: "div",
 
-    template: _.template('<div class="view"><input class="toggle" type="text" value="<%= firstname %>" /><input class="toggle" type="text" value="<%= lastname %>" /> <span>X</span></div>'),
+    //TODO neue lösung finden
+    template: _.template('<div class="view"><h1></h1><input class="firstname" class="toggle" type="text" value="<%= firstname %>" /><input class="lastname" class="toggle" type="text" value="<%= lastname %>" /> <div class="emails"><%= emails %></div> <span>X</span></div>'),
 
     // The DOM events specific to an item.
+    //TODO ??
     events: {
-        "blur input": "changeValue",
         "click span": "removeEntry"
     },
 
+    //TODO top!
+    bindings: {
+        '.lastname': {
+            observe: 'lastname',
+            updateView: false
+        },
+        '.emails': 'emails',
+        '.firstname': {
+            observe: 'firstname',
+            onSet: function(val, options) {
+                return val.toUpperCase();
+            },
+            getVal: function($el, event, options) {
+                return $el.val();
+            }
+        },
+        'h1': {
+            observe: ['lastname','firstname'],
+            onGet: function(values) {
+                return values[0] + ' - ' +values[1]
+            }
+        },
+        ':el': {
+            observe: 'lastname',
+            onGet: function(value) {
+                console.log(value);
+            }
+        }
+
+    },
+
+    //TODO ???
     initialize: function() {
-        this.listenTo(this.model, 'change', this.render);
+        this.listenTo(this.model, 'change', this.log);
         this.listenTo(this.model, 'destroy', this.remove);
     },
 
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
+        //TODO general
+        this.$('.view').attr('id', this.cid);
+        M.ViewManager.addView(this);
+        this.stickit();
         return this;
     },
 
     changeValue: function() {
-        var newValues = {
-            firstname: this.$('input')[0].value,
-            lastname: this.$('input')[1].value
-        }
-        this.model.save(newValues);
+        //        var newValues = {
+        //            firstname: this.$('input')[0].value,
+        //            lastname: this.$('input')[1].value
+        //        }
+        //        this.model.save(newValues);
     },
 
-    removeEntry: function(){
+    removeEntry: function() {
+        this.unstickit();
         this.model.destroy();
     }
 
@@ -48,8 +87,8 @@ Addressbook.AppView = Backbone.View.extend({
     initialize: function() {
 
         this.listenTo(Addressbook.Contacts, 'add', this.addOne);
-//        this.listenTo(Addressbook.Contacts, 'reset', this.addAll);
-        this.listenTo(Addressbook.Contacts,'all', this.render);
+        //        this.listenTo(Addressbook.Contacts, 'reset', this.addAll);
+        this.listenTo(Addressbook.Contacts, 'all', this.render);
 
         Addressbook.Contacts.fetch();
     },
@@ -59,8 +98,12 @@ Addressbook.AppView = Backbone.View.extend({
     },
 
     addOne: function( contact ) {
+        this.$el.append('...................................');
         var view = new Addressbook.ContactView({model: contact});
         this.$el.append(view.render().el);
+
+        var view2 = new Addressbook.ContactView({model: contact});
+        this.$el.append(view2.render().el);
     },
 
     // Add all items in the **Todos** collection at once.
@@ -71,31 +114,3 @@ Addressbook.AppView = Backbone.View.extend({
 
 Addressbook.Contacts = Addressbook.ContactList.create()
 Addressbook.App = new Addressbook.AppView;
-
-//Addressbook.Main = M.View.create({
-//
-//    valueView: M.View.create({
-//        valuePattern: "<%= firstname %>, <%= lastname %>",
-//
-//        /*CLONE EVENT ON create*/
-//        events: {
-//            click: function(a,b,c) {
-//                console.log('click');
-//            }
-//        }
-//    })
-//
-//
-//
-//});
-//
-//Addressbook.Detail = M.View.create({
-//
-//    valuePattern: "<%= firstname %>, <%= lastname %>",
-//    events: {
-//        "click" : function(){
-//            Addressbook.ApplicationController.gotoMain(this);
-//        }
-//    }
-//
-//});
