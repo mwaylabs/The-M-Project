@@ -1,0 +1,54 @@
+.m-perspective {
+    position: absolute;
+    width: 300px;
+    height: 200px;
+    left: 100px;
+    top: 100px;
+    outline: 3px solid #000; /*-webkit-perspective: 1200px; -moz-perspective: 1200px; perspective: 1200px; -webkit-transform-style: preserve-3d; -moz-transform-style: preserve-3d; transform-style: preserve-3d;*/
+}
+
+.m-perspective-transitioning, .m-perspective-transitioning .m-page {
+    /*width: 100%; height: 100%;*/
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.m-page {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0; /*visibility: hidden;*/
+    display: none; /*-webkit-backface-visibility: hidden; -moz-backface-visibility: hidden; backface-visibility: hidden; -webkit-transform: translate3d(0, 0, 0); -moz-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0);*/
+    overflow: scroll;
+}
+
+.m-page-current {
+    display: block;
+}
+
+.m-page-1 {
+    background: #0ac2d2;
+}
+
+.m-page-2 {
+    background: #7bb7fa;
+}
+
+.m-page-3 {
+    background: #60d7a9;
+}
+
+.m-page-4 {
+    background: #fdc162;
+}
+
+.m-page-5 {
+    background: #fd6a62;
+}
+
+.m-page-6 {
+    background: #f68dbb;
+}

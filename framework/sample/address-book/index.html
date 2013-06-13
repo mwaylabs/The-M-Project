@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Sample App</title>
+    <meta charset="UTF-8">
+    <title>Sample App</title>
+
+    <link rel="stylesheet" href="../../modules/ui/layouts/animation.css">
+    <link rel="stylesheet" href="../../modules/ui/layouts/main.css">
 
     <script src="../../modules/libs/jquery-2.0.0.min.js"></script>
     <script src="../../modules/libs/underscore-1.4.4.min.js"></script>
@@ -46,24 +49,29 @@
     <!--<script src="../../framework/modules/data/connectors/firebase.js"></script>-->
     <!--<script src="../../framework/modules/data/connectors/local_storage.js"></script>-->
 
-    <script src="../../modules/ui/views/view.js"></script>
-    <script src="../../modules/ui/layouts/layout.js"></script>
-
-
-    <!-- APP -->
-
 </head>
 <body>
-<div id="app">
+<!--<div id="app"></div>-->
+<div class="m-perspective m-perspective-transitioning">
+    <div class="m-page m-page-current m-page-1">Page 1</div>
+    <div class="m-page m-page-2">Page 2</div>
 </div>
 
-<div id="log">
-</div>
-<!--<script src="app/Addressbook.js"></script>-->
-<script>Addressbook = {};</script>
+</body>
+
+<script src="../../modules/ui/views/view.js"></script>
+<script src="../../modules/ui/layouts/layout.js"></script>
+
+<script src="../../modules/ui/layouts/main.js"></script>
+<script src="../../modules/ui/layouts/pagetransitions.js"></script>
+
+<!-- APP -->
+<script src="app/Addressbook.js"></script>
 <script src="app/models/contact.js"></script>
 <!--<script src="app/controllers/application.js"></script>-->
 <script src="app/views/main.js"></script>
 
-</body>
+<script>Addressbook.start();</script>
+
+
 </html>

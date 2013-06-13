@@ -10,6 +10,7 @@ Addressbook.ContactView = M.View.extend({
     //TODO ??
     events: {
         "click span": "removeEntry",
+        "click .view": "click",
         "blur input": "changeValue"
     },
 
@@ -22,22 +23,22 @@ Addressbook.ContactView = M.View.extend({
         '.emails': 'emails',
         '.firstname': {
             observe: 'firstname',
-            onSet: function(val, options) {
+            onSet: function( val, options ) {
                 return val.toUpperCase();
             },
-            getVal: function($el, event, options) {
+            getVal: function( $el, event, options ) {
                 return $el.val();
             }
         },
         'h1': {
-            observe: ['lastname','firstname'],
-            onGet: function(values) {
-                return values[0] + ' - ' +values[1]
+            observe: ['lastname', 'firstname'],
+            onGet: function( values ) {
+                return values[0] + ' - ' + values[1]
             }
         },
         ':el': {
             observe: 'lastname',
-            onGet: function(value) {
+            onGet: function( value ) {
                 console.log(value);
             }
         }
@@ -70,8 +71,36 @@ Addressbook.ContactView = M.View.extend({
     removeEntry: function() {
         this.unstickit();
         this.model.destroy();
+    },
+
+    click: function() {
+        var v = new Addressbook.ContactDetailView({model: this.model});
+        M.LayoutManager.setContent({view: v});
     }
 
+});
+
+
+Addressbook.ContactDetailView = Backbone.View.extend({
+
+    template: _.template('<div class="view"><div class="firstname"><%= firstname %></div><div class="lastname"><%= lastname %></div></div>'),
+
+    events: {
+        "click .view": "click"
+    },
+
+    initialize: function() {
+
+    },
+
+    render: function() {
+        this.$el.html(this.template(this.model.toJSON()));
+        return this;
+    },
+
+    click: function() {
+        M.LayoutManager.next();
+    }
 });
 
 
@@ -80,7 +109,8 @@ Addressbook.ContactView = M.View.extend({
 
 Addressbook.AppView = Backbone.View.extend({
 
-    el: $("#app"),
+    //    el: $("#app"),
+
 
     events: {
     },
@@ -96,6 +126,7 @@ Addressbook.AppView = Backbone.View.extend({
 
     render: function() {
 
+        return this;
     },
 
     addOne: function( contact ) {
@@ -114,4 +145,4 @@ Addressbook.AppView = Backbone.View.extend({
 });
 
 Addressbook.Contacts = Addressbook.ContactList.create()
-Addressbook.App = new Addressbook.AppView;
+//Addressbook.App = new Addressbook.AppView;

@@ -3,9 +3,9 @@ Addressbook = M.Application.extend({
     start: function() {
 
         M.LayoutManager.setLayout(M.Layout.create()).setContent({
-            view: Addressbook.Main
+            view: new Addressbook.AppView
         });
 
-        Addressbook.ApplicationController.init();
+        //Addressbook.ApplicationController.init();
     }
 });

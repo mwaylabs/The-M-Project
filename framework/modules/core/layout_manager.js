@@ -30,6 +30,8 @@ M.LayoutManager = M.Object.extend(/** @scope M.LayoutManager.prototype */{
      */
     setLayout: function( layout ) {
 
+        this._first = YES;
+
         if( !(layout && layout.isMLayout) ) {
             layout = new M.Layout();
         }
@@ -37,7 +39,7 @@ M.LayoutManager = M.Object.extend(/** @scope M.LayoutManager.prototype */{
         this.layout = layout;
 
         /* empty the body and append the given layout */
-        $('body').empty().append(this.layout.render().el);
+        //$('body').empty().append(this.layout.render().el);
 
         /* return reference to layout manager to enable chaining calls */
         return this;
@@ -50,11 +52,14 @@ M.LayoutManager = M.Object.extend(/** @scope M.LayoutManager.prototype */{
      * @param obj
      */
     setContent: function( obj ) {
-
         this.layout._setContent(obj);
 
         /* return reference to layout manager to enable chaining calls */
         return this;
+    },
+
+    next: function(){
+        this.layout._next(1);
     }
 
 });
