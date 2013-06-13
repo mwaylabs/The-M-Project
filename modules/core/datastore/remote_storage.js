@@ -76,7 +76,7 @@ M.DataProviderRemoteStorage = M.DataProvider.extend(
         var readUrl = obj.ID ? config.read.url.one(obj.ID) : config.read.url.all();
         readUrl = config.url + readUrl;
 
-        this.remoteQuery('read', readUrl, config.read.httpMethod, null, obj);
+        this.remoteQuery('read', readUrl, config.read.httpMethod, obj.query, obj);
 
     },
 
