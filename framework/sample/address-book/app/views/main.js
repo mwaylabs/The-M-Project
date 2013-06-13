@@ -74,8 +74,8 @@ Addressbook.ContactView = M.View.extend({
     },
 
     click: function() {
-        var v = new Addressbook.ContactDetailView({model: this.model});
-        M.LayoutManager.setContent({view: v});
+//        var v = new Addressbook.ContactDetailView({model: this.model});
+//        M.LayoutManager.setContent({view: v});
     }
 
 });
@@ -99,7 +99,7 @@ Addressbook.ContactDetailView = Backbone.View.extend({
     },
 
     click: function() {
-        M.LayoutManager.next();
+//        M.LayoutManager.next();
     }
 });
 
