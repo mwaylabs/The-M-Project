@@ -64,7 +64,7 @@ Addressbook.ContactView = M.View.extend({
         //            firstname: this.$('input')[0].value,
         //            lastname: this.$('input')[1].value
         //        }
-        this.model.save();
+        //this.model.save();
     },
 
     removeEntry: function() {
