@@ -9,10 +9,11 @@ Addressbook.ContactView = M.View.extend({
     // The DOM events specific to an item.
     //TODO ??
     events: {
-        "click span": "removeEntry"
+        "click span": "removeEntry",
+        "blur input": "changeValue"
     },
 
-    //TODO top!
+    //TODO evtl. hier direkt mit dem template zusammen ein property - nicht 3 mal firstname schreiben
     bindings: {
         '.lastname': {
             observe: 'lastname',
@@ -63,7 +64,7 @@ Addressbook.ContactView = M.View.extend({
         //            firstname: this.$('input')[0].value,
         //            lastname: this.$('input')[1].value
         //        }
-        //        this.model.save(newValues);
+        this.model.save();
     },
 
     removeEntry: function() {
