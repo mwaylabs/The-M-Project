@@ -50,7 +50,7 @@ Addressbook.ContactView = M.View.extend({
     //TODO ???
     initialize: function() {
         this.listenTo(this.model, 'change', this.changed);
-        this.listenTo(this.model, 'destroy', this.remove);
+        this.listenTo(this.model, 'destroy', this.removeEntry);
     },
 
     render: function() {
