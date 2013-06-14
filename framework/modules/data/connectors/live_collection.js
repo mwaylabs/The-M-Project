@@ -90,24 +90,30 @@ M.LiveDataCollection = M.Collection.extend({
     },
 
     onMessage: function(msg) {
-        if (msg.data && msg.method) {
+        if (msg && msg.method) {
             var options = {};
             switch(msg.method) {
 
                 case 'create':
-                    var model = this._prepareModel(msg.data, options);
-                    this.add(model, options);
+                    if (msg.data) {
+                        var model = this._prepareModel(msg.data, options);
+                        this.add(model, options);
+                    }
                     break;
 
                 case 'update':
                 case 'patch':
-                    var model = this.get(msg.id);
-                    model.set(msg.data);
+                    if (msg.data && msg.id) {
+                        var model = this.get(msg.id);
+                        model.set(msg.data);
+                    }
                     break;
 
                 case 'delete':
-                    var model = this.get(msg.id);
-                    this.remove(model, options);
+                    if (msg.id) {
+                        var model = this.get(msg.id);
+                        this.remove(model, options);
+                    }
                     break;
 
                 default:

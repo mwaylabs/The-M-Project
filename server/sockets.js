@@ -72,7 +72,7 @@ exports.listen = function(server) {
 
         sendMessage: function(entity, msg) {
             var channel = 'entity_' + entity;
-            if (msg && msg.method && msg.id && msg.data) {
+            if (msg && msg.method) {
                 this.liveData.emit(channel, msg);
             }
         }
