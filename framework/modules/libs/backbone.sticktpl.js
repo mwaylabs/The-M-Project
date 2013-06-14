@@ -46,22 +46,23 @@
                         elem = div;
                     }
 
-                    var cssClass = '';
+                    var attributeName = '';
                     // elem outer prints the source code representation of the dom element with special characters encoded
                     // decode the special characters by replacing them
                     // use the underscorpe matcher regex to find the given <%= => template and it's identifier and write it into cssClass
                     //e.q. <%= firstname => writes the string 'firstname' into cssClass
                     elem.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(matcher, function(match, escape, interpolate) {
                         if(interpolate){
-                            cssClass = interpolate.replace(/\s/g, '');
+                            attributeName = interpolate.replace(/\s/g, '');
                         }
                         return match;
                     });
 
-                    if(cssClass){
+                    if(attributeName){
                         // add the cssClass name from the template to the current element
                         // so stickit can use it
-                        elem.classList.add(cssClass);
+//                        elem.classList.add(cssClass);
+                        elem.setAttribute('data-binding', attributeName);
                     }
 
                     // write the sourcecode of the current element to the puffer variable

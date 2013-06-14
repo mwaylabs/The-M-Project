@@ -17,12 +17,12 @@ Addressbook.ContactView = M.View.extend({
 
     //TODO evtl. hier direkt mit dem template zusammen ein property - nicht 3 mal firstname schreiben
     bindings: {
-        '.lastname': {
+        '[data-binding="lastname"]': {
             observe: 'lastname',
             updateView: false
         },
-        '.emails': 'emails',
-        '.firstname': {
+        '[data-binding="emails"]': 'emails',
+        '[data-binding="firstname"]': {
             observe: 'firstname',
             onSet: function( val, options ) {
                 return val.toUpperCase();
@@ -36,7 +36,8 @@ Addressbook.ContactView = M.View.extend({
             onGet: function( values ) {
                 return values[0] + ' - ' + values[1]
             }
-        },
+        }
+        ,
         ':el': {
             observe: 'lastname',
             onGet: function( value ) {
@@ -66,7 +67,7 @@ Addressbook.ContactView = M.View.extend({
             firstname: this.$('input')[0].value,
             lastname: this.$('input')[1].value
         }
-        this.model.save();
+        //this.model.save();
     },
 
     removeEntry: function() {
