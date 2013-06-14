@@ -18,19 +18,19 @@ exports.create = function(dbName) {
                 }
             } catch (e) {
             }
-            return id && id.toString ? id.toString() : '';
+            return id; // parseInt(id) !== NaN ? parseInt(id) : id;
         },
 
         //Find documents
         find: function(req, res) {
             var name    = req.params.name;
-            var query   = req.query.query;   // has to be an object
+            var query   = req.query.query || {};   // has to be an object
             var fields  = req.query.fields;  // has to an array
-            var options = req.query.options; // has to be an object
+            var options = req.query.options || {}; // has to be an object
             var collection = new mongodb.Collection(this.db, name);
-            collection.find({}, {limit:10}).toArray(function(err, docs) {
+            collection.find(query, options).toArray(function(err, docs) {
                 if(err){
-                    res.send("Oops!: " + err);
+                    res.send(400, err);
                 } else {
                     if (req.query.var) {
                         var script = req.query.var + " = " + JSON.stringify(docs) + ";";
@@ -46,13 +46,13 @@ exports.create = function(dbName) {
         findOne: function(req, res) {
             var name = req.params.name;
             var id   = this.toId(req.params.id);
-            if (!id) {
+            if (typeof id === 'undefined' || id === '') {
                 return res.send(400, "invalid id.");
             }
             var collection = new mongodb.Collection(this.db, name);
             collection.find({ "_id" : id }, { limit:1 }).nextObject(function(err, doc){
                     if(err){
-                        res.send("Oops! " + err);
+                        res.send(400, err);
                     } else if (doc) {
                         res.send(doc);
                     } else {
@@ -67,7 +67,7 @@ exports.create = function(dbName) {
             var name = req.params.name;
             var doc  = req.body;
             var id   = this.toId(doc._id, true);
-            if (!id) {
+            if (typeof id === 'undefined' || id === '') {
                 return res.send(400, "invalid id.");
             }
 
@@ -76,16 +76,18 @@ exports.create = function(dbName) {
             collection.insert(
                 doc,
                 {safe:true},
-                function(err, doc) {
+                function(err, docs) {
                     if(err) {
-                        res.send("Oops!: " + err);
-                        if (err.message.indexOf('E11000 ') !== -1) {
-                            // this _id was already inserted in the database
-                        }
+                        res.send(400, err);
                     } else {
-                        res.send(doc);
-                        if (!fromMessage && n > 0) {
-                            rest.sendMessage(name, { method: 'create', id: id.toString(), data: doc });
+                        var doc = docs && docs.length > 0 ? docs[0] : null;
+                        if (doc) {
+                            res.send(doc);
+                            if (doc) {
+                                rest.sendMessage(name, { method: 'create', id: id.toString(), data: doc });
+                            }
+                        } else {
+                            res.send(400, 'failed to create document.');
                         }
                     }
                 }
@@ -97,7 +99,7 @@ exports.create = function(dbName) {
             var name = req.params.name;
             var doc  = req.body;
             var id   = this.toId(req.params.id || doc._id);
-            if (!id) {
+            if (typeof id === 'undefined' || id === '') {
                 return res.send(400, "invalid id.");
             }
             doc._id = id;
@@ -115,7 +117,7 @@ exports.create = function(dbName) {
                             res.send(404, 'Document not found!');
                         } else {
                             res.send(doc);
-                            if (/*!fromMessage && */n > 0) {
+                            if (n > 0) {
                                 rest.sendMessage(name, { method: 'update', id: id.toString(), data: doc });
                             }
                         }
@@ -128,7 +130,7 @@ exports.create = function(dbName) {
         delete: function(req, res, fromMessage) {
             var name = req.params.name;
             var id   = this.toId(req.params.id);
-            if (!id) {
+            if (typeof id === 'undefined' || id === '') {
                 return res.send(400, "invalid id.");
             }
 
@@ -142,7 +144,7 @@ exports.create = function(dbName) {
                         } else {
                             res.send({ _id: id.toString() });
                         }
-                        if (!fromMessage && n > 0) {
+                        if (n > 0) {
                             rest.sendMessage(name, { method: 'delete', id: id.toString() });
                         }
                     }

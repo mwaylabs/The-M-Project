@@ -4,8 +4,8 @@ Addressbook.ContactView = M.View.extend({
     tagName: "div",
 
     //TODO neue lösung finden
-    //template: _.template('<div class="view"><h1></h1><input class="firstname" class="toggle" type="text" value="<%= firstname %>" /><input class="lastname" class="toggle" type="text" value="<%= lastname %>" /> <div class="emails"><%= emails %></div> <span>X</span></div>'),
-    template: _.tpl('<div class="view"><h1></h1><input class="toggle" type="text" value="<%= firstname %>" /><input class="toggle" type="text" value="<%= lastname %>" /> <div><%= emails %></div> <span>X</span></div>'),
+    template: _.template('<div class="view"><h1></h1><input class="firstname" class="toggle" type="text" value="<%= firstname %>" /><input class="lastname" class="toggle" type="text" value="<%= lastname %>" /> <div class="emails"><%= emails %></div> <span>X</span></div>'),
+//    template: _.tpl('<div class="view"><h1></h1><input class="toggle" type="text" value="<%= firstname %>" /><input class="toggle" type="text" value="<%= lastname %>" /> <div><%= emails %></div> <span>X</span></div>'),
 
     // The DOM events specific to an item.
     //TODO ??
@@ -19,7 +19,7 @@ Addressbook.ContactView = M.View.extend({
     bindings: {
         '[data-binding="lastname"]': {
             observe: 'lastname',
-            updateView: false
+            updateView: true
         },
         '[data-binding="emails"]': 'emails',
         '[data-binding="firstname"]': {
@@ -49,7 +49,7 @@ Addressbook.ContactView = M.View.extend({
 
     //TODO ???
     initialize: function() {
-        this.listenTo(this.model, 'change', this.log);
+        this.listenTo(this.model, 'change', this.changed);
         this.listenTo(this.model, 'destroy', this.remove);
     },
 
@@ -63,11 +63,7 @@ Addressbook.ContactView = M.View.extend({
     },
 
     changeValue: function() {
-        var newValues = {
-            firstname: this.$('input')[0].value,
-            lastname: this.$('input')[1].value
-        }
-        //this.model.save();
+        this.model.save();
     },
 
     removeEntry: function() {
@@ -78,6 +74,10 @@ Addressbook.ContactView = M.View.extend({
     click: function() {
 //        var v = new Addressbook.ContactDetailView({model: this.model});
 //        M.LayoutManager.setContent({view: v});
+    },
+
+    changed: function(){
+        console.log(this.model.attributes);
     }
 
 });
