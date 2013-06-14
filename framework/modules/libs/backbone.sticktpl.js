@@ -62,14 +62,14 @@
                         // add the cssClass name from the template to the current element
                         // so stickit can use it
                         elem.classList.add(cssClass);
+                    }
 
-                        // write the sourcecode of the current element to the puffer variable
-                        s += elem.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+                    // write the sourcecode of the current element to the puffer variable
+                    s += elem.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 
-                        // if there are nested objects inside the element call this function recursive
-                        if($obj.children()){
-                            return convert($obj.children());
-                        }
+                    // if there are nested objects inside the element call this function recursive
+                    if($obj.children()){
+                        return convert($obj.children());
                     }
                 });
             };
