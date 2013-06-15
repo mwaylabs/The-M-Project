@@ -11,6 +11,11 @@ require.config({
             "main": "backbone.layoutmanager.js"
         },
         {
+            "name": "backbone.stickit",
+            "location": "../vendor/libs",
+            "main": "backbone.stickit.js"
+        },
+        {
             "name": "jquery",
             "location": "../vendor/libs",
             "main": "jquery-2.0.0.min.js"
@@ -33,6 +38,12 @@ require.config({
                 "jquery", "backbone", "underscore"
             ],
             "exports": "Backbone.Layout"
+        },
+        "backbone.stickit": {
+            "deps": [
+                "jquery", "backbone", "underscore"
+            ],
+            "exports": "Backbone.Stickit"
         },
         "underscore": {
             "exports": "_"
