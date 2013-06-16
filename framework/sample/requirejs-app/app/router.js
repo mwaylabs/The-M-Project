@@ -3,7 +3,7 @@ define([
     "app",
 
     // Modules.
-    "modules/test"
+    "modules/contacts"
 ],
 
     function( app, Contact ) {
@@ -21,8 +21,11 @@ define([
                 window.Contact = Contact;
 
                 setTimeout(function() {
-                    collections.contacts.add(new Contact.Model({firstname:'Sarah',lastname:'lange'}));
-                },3000)
+                    collections.contacts.at(0).set('firstname', 'Mr. Frank')
+                }, 1000)
+                setTimeout(function() {
+                    collections.contacts.add(new Contact.Model({firstname:'Dejan',lastname:' Dujmović'}));
+                }, 3000)
 
                 // Ensure the router has references to the collections.
                 _.extend(this, collections);
