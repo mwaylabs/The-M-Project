@@ -20,15 +20,21 @@ define([
                 window.collections = collections;
                 window.Contact = Contact;
 
-                setTimeout(function() {
+                /*setTimeout(function() {
                     collections.contacts.at(0).set('firstname', 'Mr. Frank')
                 }, 1000)
                 setTimeout(function() {
-                    collections.contacts.add(new Contact.Model({firstname:'Dejan',lastname:' Dujmović'}));
+                    collections.contacts.add(new Contact.Model({id:9, firstname: 'Dejan', lastname: ' Dujmović'}));
                 }, 3000)
+                setTimeout(function() {
+                    collections.contacts.fetch()
+                }, 5000)
+                */
 
                 // Ensure the router has references to the collections.
                 _.extend(this, collections);
+
+                this.contacts.fetch()
 
                 // Use main layout and set Views.
                 app.useLayout("main-layout").setViews({
@@ -37,11 +43,23 @@ define([
             },
 
             routes: {
-                "": "index"
+                '': 'index',
+                'detail/:id': 'detail'
             },
 
             index: function() {
-                console.log('Router index');
+                app.useLayout("main-layout").setViews({
+                    ".list": new Contact.Views.List(collections)
+                }).render();
+            },
+
+            detail: function( id ) {
+                var model = this.contacts.get(id);
+                var detail = new Contact.Views.Detail({model: model});
+
+                app.useLayout("main-layout").setViews({
+                    ".list": detail
+                }).render();
             }
         });
 
