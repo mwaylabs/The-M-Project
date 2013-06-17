@@ -2,10 +2,11 @@ define([
     // Application.
     'app',
     'backbone.stickit',
-    "text!templates/detail.html"
+    "text!templates/detail.html",
+    "text!templates/item.html"
 ],
 
-    function( app, stickit, detailTemplate ) {
+    function( app, stickit, detailTemplate, itemTemplate ) {
 
         var Contact = app.module();
 
@@ -13,20 +14,12 @@ define([
 
         Contact.Collection = Backbone.Collection.extend({
             model: Contact.Model,
-            url: 'http://stefanbuck.com/contact.json',
-
-            initialize: function() {
-                this.on('remove', this.removeItem)
-            },
-
-            removeItem: function( model ) {
-                model.trigger('removeItem')
-            }
+            url: 'http://stefanbuck.com/contact.json'
         });
 
         Contact.Views.Item = Backbone.View.extend({
 
-            template: 'item',
+            template: _.template(itemTemplate),
             tagName: 'li',
 
             bindings: {
@@ -44,13 +37,18 @@ define([
                 }
             },
 
-            initialize: function() {
-                this.model.on('removeItem', this.remove, this)
+            initialize: function(){
+                this.model.on('destroy', this.love, this);
             },
 
             afterRender: function() {
                 this.stickit();
                 return this;
+            },
+
+            love: function() {
+                this.unstickit();
+                this.remove();
             },
 
             serialize: function() {
@@ -63,14 +61,26 @@ define([
 
             initialize: function() {
                 this.listenTo(this.options.contacts, 'add', this.addOne);
-                this.listenTo(this.options.contacts, 'fetch', this.addAll);
+                this.listenTo(this.options.contacts, 'remove', this.destroy);
+                this.listenTo(this.options.contacts, 'fetch', function() {
+                    console.log("fetch")
+                    this.addAll();
+                });
+            },
+
+            destroy: function(models, options) {
+                console.log(models);
+                console.log(options);
+                debugger;
             },
 
             beforeRender: function() {
+                console.log('Contact.Views.List beforeRender');
                 this.addAll();
             },
 
             addOne: function( model, render ) {
+                console.log('Contact.Views.List addOne', model.attributes);
                 var view = this.insertView(new Contact.Views.Item({ model: model }));
 
                 // Only trigger render if it not inserted inside `beforeRender`.
@@ -80,6 +90,7 @@ define([
             },
 
             addAll: function() {
+                console.log('Contact.Views.List addAll');
                 this.options.contacts.each(function( model ) {
                     this.addOne(model, false);
                 }, this);

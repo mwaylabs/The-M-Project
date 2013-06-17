@@ -18,6 +18,12 @@ define([
                     contacts: new Contact.Collection()
                 };
 
+                A = this;
+
+
+                C = Contact;
+
+
 
                 //this.contacts = this.collections.contacts
                 _.extend(this, collections);
