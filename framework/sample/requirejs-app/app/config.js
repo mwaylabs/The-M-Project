@@ -16,6 +16,6 @@ require.config({
         // Put shims here.
     },
 
-    approot: '/Users/hano/Documents/Development/Projects/bikini/framework/sample/requirejs-app/'
+    approot: ''
 
 });

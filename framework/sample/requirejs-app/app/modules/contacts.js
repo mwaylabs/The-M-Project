@@ -12,8 +12,8 @@ define([
 
         Contact.Model = Backbone.Model.extend({
             idAttribute: '_id',
-            urlRoot: 'http://127.0.0.1:8100/contact',
-            url: 'http://127.0.0.1:8100/contact',
+            urlRoot: '/contact',
+            url: '/contact',
             defaults:{
                 firstname: '',
                 lastname: ''
@@ -22,13 +22,14 @@ define([
 
         Contact.Collection = Backbone.Collection.extend({
             model: Contact.Model,
-            url: 'http://127.0.0.1:8100/contact'
+            url: '/contact'
         });
 
         Contact.Views.Item = Backbone.View.extend({
 
             template: _.template(itemTemplate),
-            tagName: 'li',
+            tagName: 'div',
+            className: 'contact-container',
 
             bindings: {
                 '.firstname': {
@@ -70,18 +71,15 @@ define([
             initialize: function() {
                 this.listenTo(this.options.contacts, 'add', this.addOne);
                 this.listenTo(this.options.contacts, 'fetch', function() {
-                    console.log("fetch")
                     this.addAll();
                 });
             },
 
             beforeRender: function() {
-                console.log('Contact.Views.List beforeRender');
                 this.addAll();
             },
 
             addOne: function( model, render ) {
-                console.log('Contact.Views.List addOne', model.attributes);
                 var view = this.insertView(new Contact.Views.Item({ model: model }));
 
                 // Only trigger render if it not inserted inside `beforeRender`.
@@ -91,7 +89,6 @@ define([
             },
 
             addAll: function() {
-                console.log('Contact.Views.List addAll');
                 this.options.contacts.each(function( model ) {
                     this.addOne(model, false);
                 }, this);
