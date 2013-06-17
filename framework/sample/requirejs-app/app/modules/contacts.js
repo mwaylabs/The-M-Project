@@ -10,11 +10,19 @@ define([
 
         var Contact = app.module();
 
-        Contact.Model = Backbone.Model.extend({});
+        Contact.Model = Backbone.Model.extend({
+            idAttribute: '_id',
+            urlRoot: 'http://127.0.0.1:8100/contact',
+            url: 'http://127.0.0.1:8100/contact',
+            defaults:{
+                firstname: '',
+                lastname: ''
+            }
+        });
 
         Contact.Collection = Backbone.Collection.extend({
             model: Contact.Model,
-            url: 'http://stefanbuck.com/contact.json'
+            url: 'http://127.0.0.1:8100/contact'
         });
 
         Contact.Views.Item = Backbone.View.extend({
@@ -38,7 +46,7 @@ define([
             },
 
             initialize: function(){
-                this.model.on('destroy', this.love, this);
+                this.model.on('destroy', this.destroy, this);
             },
 
             afterRender: function() {
@@ -46,7 +54,7 @@ define([
                 return this;
             },
 
-            love: function() {
+            destroy: function() {
                 this.unstickit();
                 this.remove();
             },
@@ -61,17 +69,10 @@ define([
 
             initialize: function() {
                 this.listenTo(this.options.contacts, 'add', this.addOne);
-                this.listenTo(this.options.contacts, 'remove', this.destroy);
                 this.listenTo(this.options.contacts, 'fetch', function() {
                     console.log("fetch")
                     this.addAll();
                 });
-            },
-
-            destroy: function(models, options) {
-                console.log(models);
-                console.log(options);
-                debugger;
             },
 
             beforeRender: function() {
@@ -99,19 +100,30 @@ define([
 
         Contact.Views.Detail = Backbone.View.extend({
             template: _.template(detailTemplate),
+
             events: {
                 "click .back": "back"
             },
-            initialize: function() {
-                //console.log('detailvew', this);
+
+            bindings: {
+                '.firstname': {
+                    observe: 'firstname'
+                }
             },
+
             // provide data to the template
             serialize: function() {
                 return this.model.toJSON();
             },
+
             back: function() {
                 this.$el.remove();
                 Backbone.history.navigate("/", true);
+            },
+
+            afterRender: function() {
+                this.stickit();
+                return this;
             }
         })
 

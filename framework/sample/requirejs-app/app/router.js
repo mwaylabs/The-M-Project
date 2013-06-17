@@ -18,18 +18,9 @@ define([
                     contacts: new Contact.Collection()
                 };
 
-                A = this;
-
-
-                C = Contact;
-
-
-
-                //this.contacts = this.collections.contacts
                 _.extend(this, collections);
 
-                this.contacts.fetch()
-
+                V = collections;
             },
 
             routes: {
@@ -38,10 +29,10 @@ define([
             },
 
             index: function() {
+
+                this.contacts.fetch();
+
                 var listOptions = { contacts: this.contacts };
-                //                app.useLayout("main-layout").setViews({
-                //                    ".list": new Contact.Views.List(options)
-                //                }).render();
 
                 var list = new Contact.Views.List(listOptions);
 
@@ -59,16 +50,14 @@ define([
 
             detail: function( id ) {
                 var model = this.contacts.get(id);
+
+                var detail = null;
+
                 if(!model){
-                    location.href = 'file://localhost/Users/hano/Documents/Development/Projects/bikini/framework/sample/requirejs-app/index.html'
+                    model = new Contact.Model({_id: id});
+                    model.fetch({url: model.urlRoot + '/' + id});
                 }
-                var detail = new Contact.Views.Detail({model: model});
-//
-//                app.useLayout("main-layout").setViews({
-//                    ".list": detail
-//                }).render();
-                var listOptions = { contacts: this.contacts };
-                var list = new Contact.Views.List(listOptions);
+                detail = new Contact.Views.Detail({model: model});
 
                 app._useLayout(mainTemplate);
                 app.layout.setViews({

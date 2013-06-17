@@ -53,7 +53,6 @@ _.extend(M.View.prototype, {
     _add: function( model, collection, options ) {
 
         /*CLONE EVENT ON create*/
-        debugger;
         var view = _.clone(this.valueView);
         view.set(model);
         var v = view.render().el;
