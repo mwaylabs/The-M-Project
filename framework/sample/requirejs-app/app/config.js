@@ -5,7 +5,7 @@ require.config({
     deps: ["../vendor/require.config", "main"],
 
     paths: {
-        // Put additional paths here.
+        text: '../vendor/libs/require.text'
     },
 
     map: {
@@ -14,6 +14,8 @@ require.config({
 
     shim: {
         // Put shims here.
-    }
+    },
+
+    approot: '/Users/hano/Documents/Development/Projects/bikini/framework/sample/requirejs-app/'
 
 });

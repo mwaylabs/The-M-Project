@@ -11,7 +11,7 @@ define([
         // creation.
         var app = {
             // The root path to run the application.
-            root: "/"
+            root: requirejs.s.contexts._.config.approot
         };
 
         // Localize or create a new JavaScript Template object.
@@ -78,6 +78,22 @@ define([
 
                 // Cache the reference.
                 return this.layout;
+            },
+            _useLayout: function(template){
+
+                if(this.layout && this.layout.options.template === template){
+                    return this.layout;
+                } else {
+                    var Layout = Backbone.Layout.extend({
+//                        template: template,
+                        el: template
+                    }, {
+                        template: template
+                    });
+                    this.layout = new Layout;
+                }
+                return this.layout;
+
             }
         }, Backbone.Events);
 

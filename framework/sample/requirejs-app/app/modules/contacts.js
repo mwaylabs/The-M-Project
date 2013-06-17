@@ -1,9 +1,11 @@
 define([
     // Application.
-    'app', 'backbone.stickit'
+    'app',
+    'backbone.stickit',
+    "text!templates/detail.html"
 ],
 
-    function( app, stickit ) {
+    function( app, stickit, detailTemplate ) {
 
         var Contact = app.module();
 
@@ -85,7 +87,7 @@ define([
         });
 
         Contact.Views.Detail = Backbone.View.extend({
-            template: "detail",
+            template: _.template(detailTemplate),
             events: {
                 "click .back": "back"
             },

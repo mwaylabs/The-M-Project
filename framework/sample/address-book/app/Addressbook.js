@@ -13,8 +13,8 @@
 var AddressbookApp = Backbone.Router.extend({
 
     routes: {
-        "overview":             "overview",    // #overview
-        "detail/:query":        "detail",  // #detail/kiwis
+        "overview": "overview",    // #overview
+        "detail/:query": "detail",  // #detail/kiwis
         "detail/:query/p:page": "detail"   // #detail/kiwis/p7
     },
 
@@ -24,14 +24,23 @@ var AddressbookApp = Backbone.Router.extend({
         });
     },
 
-    detail: function(query, page) {
-        console.log('show detail', query, page);
+    detail: function( modelid, page ) {
+        var model = Addressbook.Contacts.get('51b5ced9122ba7723d000002');
+
+        if( !model ) {
+            Addressbook.Contacts.fetch()
+        } else {
+            M.LayoutManager.setContent({
+                view: new Addressbook.ContactDetailView({model: model})
+            });
+        }
+
     },
 
-    start: function(){
-        Backbone.history.start();
-        this.navigate("overview", {trigger: true});
-        console.log('start the application');
+    start: function() {
+        if(!Backbone.history.start()){
+            this.navigate("overview", {trigger: true});
+        }
     }
 
 });

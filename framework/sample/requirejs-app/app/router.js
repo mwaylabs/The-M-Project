@@ -3,10 +3,11 @@ define([
     "app",
 
     // Modules.
-    "modules/contacts"
+    "modules/contacts",
+    "text!templates/main-layout.html"
 ],
 
-    function( app, Contact ) {
+    function( app, Contact, mainTemplate ) {
 
         // Defining the application router, you can attach sub routers here.
         var Router = Backbone.Router.extend({
@@ -17,29 +18,12 @@ define([
                     contacts: new Contact.Collection()
                 };
 
-                window.collections = collections;
-                window.Contact = Contact;
 
-                /*setTimeout(function() {
-                    collections.contacts.at(0).set('firstname', 'Mr. Frank')
-                }, 1000)
-                setTimeout(function() {
-                    collections.contacts.add(new Contact.Model({id:9, firstname: 'Dejan', lastname: ' Dujmović'}));
-                }, 3000)
-                setTimeout(function() {
-                    collections.contacts.fetch()
-                }, 5000)
-                */
-
-                // Ensure the router has references to the collections.
+                //this.contacts = this.collections.contacts
                 _.extend(this, collections);
 
                 this.contacts.fetch()
 
-                // Use main layout and set Views.
-                app.useLayout("main-layout").setViews({
-                    ".list": new Contact.Views.List(collections)
-                }).render();
             },
 
             routes: {
@@ -48,18 +32,45 @@ define([
             },
 
             index: function() {
-                app.useLayout("main-layout").setViews({
-                    ".list": new Contact.Views.List(collections)
-                }).render();
+                var listOptions = { contacts: this.contacts };
+                //                app.useLayout("main-layout").setViews({
+                //                    ".list": new Contact.Views.List(options)
+                //                }).render();
+
+                var list = new Contact.Views.List(listOptions);
+
+
+                app._useLayout(mainTemplate);
+                app.layout.setViews({
+                    ".list": list
+                })
+
+                app.layout.render();
+
+                $('body').html(app.layout.el);
+
             },
 
             detail: function( id ) {
                 var model = this.contacts.get(id);
+                if(!model){
+                    location.href = 'file://localhost/Users/hano/Documents/Development/Projects/bikini/framework/sample/requirejs-app/index.html'
+                }
                 var detail = new Contact.Views.Detail({model: model});
+//
+//                app.useLayout("main-layout").setViews({
+//                    ".list": detail
+//                }).render();
+                var listOptions = { contacts: this.contacts };
+                var list = new Contact.Views.List(listOptions);
 
-                app.useLayout("main-layout").setViews({
+                app._useLayout(mainTemplate);
+                app.layout.setViews({
                     ".list": detail
-                }).render();
+                })
+
+                app.layout.render();
+                $('body').html(app.layout.el);
             }
         });
 

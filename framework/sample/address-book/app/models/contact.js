@@ -4,8 +4,11 @@ Addressbook.Contact = M.Model.extend({
 
 Addressbook.ContactList = M.LiveDataCollection.extend({
 //    url: 'http://localhost:8100/contacts',
-    url: 'http://nerds.mway.io:8100/contact',
-    model: Addressbook.Contact
+    url: 'http://nerds.mway.io:8100/contacts',
+    model: Addressbook.Contact,
+    connector: {
+        Contact: Addressbook.DataConnector
+    }
 });
 
 //Addressbook.LiveConnector = M.DataConnectorLive.create({
