@@ -142,7 +142,7 @@ M.I18N = M.Object.extend(
         if(language) {
             return language;
         } else if(navigator) {
-            var regexResult = /([a-zA-Z]{2,3})[\s_.-]?([a-zA-Z]{2,3})?/.exec(navigator.language);
+            var regexResult = /([a-zA-Z]{2,3})[\s_.-]?([a-zA-Z]{2,3})?/.exec(navigator.language.toLowerCase().replace('-', '_'));
             if(regexResult && this[regexResult[0]]) {
                 return regexResult[0].toLowerCase();
             } else if(regexResult && regexResult[1] && this.languageMapper[regexResult[1]]) {
