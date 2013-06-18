@@ -49,6 +49,11 @@ require.config({
             "name": "M.EventDispatcher",
             "location": "../vendor/core",
             "main": "event_dispatcher"
+        },
+        {
+            "name": "M.ViewManager",
+            "location": "../vendor/core",
+            "main": "view_manager"
         }
     ],
     "shim": {
@@ -100,6 +105,12 @@ require.config({
                 "M.Object"
             ],
             "exports": "M.EventDispatcher"
+        },
+        "M.ViewManager": {
+            "deps": [
+                "M.Object"
+            ],
+            "exports": "M.ViewManager"
         }
     }
 });

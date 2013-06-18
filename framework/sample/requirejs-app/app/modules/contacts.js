@@ -43,10 +43,11 @@ define([
                 }
             },
 
-            events: {
-                "tap": "userSelected",
-                "click": "clickuserSelected"
-            },
+            //USE THIS WITH STANDARD BACKBONE OR HAMMER JS
+//            events: {
+//                "tap": "userSelected",
+//                "click": "clickuserSelected"
+//            },
 
             clickuserSelected: function( a, b, c ) {
 
@@ -58,20 +59,35 @@ define([
             },
 
             userSelected: function( a, b, c ) {
-                //a.preventDefault();
-                //a.stopPropagation();
-//                $('#log').append('-------------<br>');
-//                $('#log').append('tap auf elem <br>');
-//                a.stopPropagation();
-//                a.preventDefault();
                 Backbone.history.navigate('detail/' + this.model.id, true);
             },
 
             initialize: function() {
+                this.MID = M.ViewManager.getNewId();
                 this.model.on('destroy', this.destroy, this);
+                M.EventDispatcher.registerEvent({
+                    type: 'click',
+                    source: this
+                });
+            },
+
+            getEventHandler: function(a){
+                var that = this;
+                return function(){
+                    that.userSelected();
+                }
+            },
+
+            getId: function(){
+                return this.MID;
+            },
+
+            beforeRender: function() {
+                return this;
             },
 
             afterRender: function() {
+                this.$el.attr('id', this.getId());
                 this.stickit();
                 return this;
             },
@@ -135,7 +151,6 @@ define([
             },
 
             initialize: function() {
-                M = this.model;
                 //              this.listenTo(this.model, 'change', this.change);
             },
 
