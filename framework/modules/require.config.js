@@ -13,7 +13,12 @@ require.config({
         {
             "name": "backbone.stickit",
             "location": "../vendor/libs",
-            "main": "backbone.stickit.js"
+            "main": "backbone.stickit-0.6.3.js"
+        },
+        {
+            "name": "backbone.sticktpl",
+            "location": "../vendor/libs",
+            "main": "backbone.sticktpl-0.0.0.0.1.js"
         },
         {
             "name": "jquery",
@@ -24,6 +29,11 @@ require.config({
             "name": "underscore",
             "location": "../vendor/libs",
             "main": "underscore-1.4.4.min.js"
+        },
+        {
+            "name": "hammerjs",
+            "location": "../vendor/libs",
+            "main": "hammer-1.0.6-dev.js"
         }
     ],
     "shim": {
@@ -45,8 +55,20 @@ require.config({
             ],
             "exports": "Backbone.Stickit"
         },
+        "backbone.sticktpl": {
+            "deps": [
+                "jquery", "backbone", "underscore"
+            ],
+            "exports": "_.tpl"
+        },
         "underscore": {
             "exports": "_"
+        },
+        "hammerjs": {
+            "deps": [
+                "jquery"
+            ],
+            "exports": "Hammer"
         }
     }
 });

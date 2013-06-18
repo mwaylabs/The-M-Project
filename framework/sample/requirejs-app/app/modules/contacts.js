@@ -1,9 +1,6 @@
 define([
     // Application.
-    'app',
-    'backbone.stickit',
-    "text!templates/detail.html",
-    "text!templates/item.html"
+    'app', 'backbone.stickit', "text!templates/detail.html", "text!templates/item.html"
 ],
 
     function( app, stickit, detailTemplate, itemTemplate ) {
@@ -14,7 +11,7 @@ define([
             idAttribute: '_id',
             urlRoot: '/contact',
             url: '/contact',
-            defaults:{
+            defaults: {
                 firstname: '',
                 lastname: ''
             }
@@ -46,7 +43,15 @@ define([
                 }
             },
 
-            initialize: function(){
+            events:{
+                "tap .m-btn": "userSelected"
+            },
+
+            userSelected: function(a,b,c) {
+                Backbone.history.navigate('detail/' + this.model.id, true);
+            },
+
+            initialize: function() {
                 this.model.on('destroy', this.destroy, this);
             },
 
@@ -96,16 +101,26 @@ define([
         });
 
         Contact.Views.Detail = Backbone.View.extend({
-            template: _.template(detailTemplate),
+            first: true,
+
+            template: _.tpl(detailTemplate),
 
             events: {
-                "click .back": "back"
+                "tap .back": "back"
             },
 
             bindings: {
-                '.firstname': {
+                '[data-binding="firstname"]': {
+                    observe: 'firstname'
+                },
+                '[data-binding="input-firstname"]': {
                     observe: 'firstname'
                 }
+            },
+
+            initialize: function() {
+                M = this.model;
+                //              this.listenTo(this.model, 'change', this.change);
             },
 
             // provide data to the template

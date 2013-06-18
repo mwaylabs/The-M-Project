@@ -4,7 +4,8 @@ define([
 
     // Modules.
     "modules/contacts",
-    "text!templates/main-layout.html"
+    "text!templates/main-layout.html",
+    "hammerjs"
 ],
 
     function( app, Contact, mainTemplate ) {
@@ -21,6 +22,7 @@ define([
                 _.extend(this, collections);
 
                 V = collections;
+                $('body').hammer();
             },
 
             routes: {
@@ -35,7 +37,6 @@ define([
                 var listOptions = { contacts: this.contacts };
 
                 var list = new Contact.Views.List(listOptions);
-
 
                 app._useLayout(mainTemplate);
                 app.layout.setViews({

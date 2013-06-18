@@ -1,5 +1,6 @@
 define([
-    "backbone.layoutmanager"
+    "backbone.layoutmanager",
+    "backbone.sticktpl"
 
     // Include additional libraries installed with JamJS or placed in the
     // `vendor/js` directory, here.

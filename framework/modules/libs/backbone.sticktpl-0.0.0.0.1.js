@@ -15,7 +15,6 @@
     /* Extend underscore */
     _.mixin({
         tpl: function( text, data, settings ) {
-
             var render;
             settings = _.defaults({}, settings, _.templateSettings);
 
@@ -38,20 +37,26 @@
             //loop over every template element recursivly
             var convert = function($obj){
                 _.each($obj, function(elem){
-
                     //is the current element a "string" node convert it to an div
-                    if(elem.textContent){
+
+                    if(!elem.tagName){
                         var div = document.createElement('div');
                         div.textContent = elem.textContent;
                         elem = div;
                     }
 
                     var attributeName = '';
+
+                    var compare = elem.outerHTML
+                    if(elem.children.length){
+                        var compare = elem.outerHTML.replace(elem.innerHTML,'');
+                    }
+
                     // elem outer prints the source code representation of the dom element with special characters encoded
                     // decode the special characters by replacing them
                     // use the underscorpe matcher regex to find the given <%= => template and it's identifier and write it into cssClass
                     //e.q. <%= firstname => writes the string 'firstname' into cssClass
-                    elem.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(matcher, function(match, escape, interpolate) {
+                    compare.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(matcher, function(match, escape, interpolate) {
                         if(interpolate){
                             attributeName = interpolate.replace(/\s/g, '');
                         }
@@ -62,11 +67,13 @@
                         // add the cssClass name from the template to the current element
                         // so stickit can use it
 //                        elem.classList.add(cssClass);
-                        elem.setAttribute('data-binding', attributeName);
-                    }
+                        if(elem.tagName === 'INPUT'){
+                            elem.setAttribute('data-binding', 'input-' + attributeName);
+                        } else {
+                            elem.setAttribute('data-binding', attributeName);
+                        }
 
-                    // write the sourcecode of the current element to the puffer variable
-                    s += elem.outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+                    }
 
                     // if there are nested objects inside the element call this function recursive
                     if($obj.children()){
@@ -76,10 +83,12 @@
             };
 
             // start the process
+
             convert(obj);
             // overwrite the originial template text with the generated one
-            text = s;
+            text = obj[0].outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');;
 
+            console.log(text );
             /*END MOD*/
 
             // Compile the template source, escaping string literals appropriately.
