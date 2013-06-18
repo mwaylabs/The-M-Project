@@ -43,11 +43,27 @@ define([
                 }
             },
 
-            events:{
-                "tap .m-btn": "userSelected"
+            events: {
+                "tap": "userSelected",
+                "click": "clickuserSelected"
             },
 
-            userSelected: function(a,b,c) {
+            clickuserSelected: function( a, b, c ) {
+
+                //Backbone.history.navigate('detail/' + this.model.id, true);
+                //  console.log('click auf elem');
+                $('#log').append('click auf elem <br>');
+                a.preventDefault();
+                a.stopPropagation();
+            },
+
+            userSelected: function( a, b, c ) {
+                //a.preventDefault();
+                //a.stopPropagation();
+//                $('#log').append('-------------<br>');
+//                $('#log').append('tap auf elem <br>');
+//                a.stopPropagation();
+//                a.preventDefault();
                 Backbone.history.navigate('detail/' + this.model.id, true);
             },
 
@@ -106,7 +122,7 @@ define([
             template: _.tpl(detailTemplate),
 
             events: {
-                "tap .back": "back"
+                "click .back": "back"
             },
 
             bindings: {

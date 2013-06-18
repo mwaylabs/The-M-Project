@@ -1099,7 +1099,9 @@
             doubletap_interval	: 300
         },
         handler: function tapGesture(ev, inst) {
+
             if(ev.eventType == Hammer.EVENT_END) {
+
                 // previous gesture, for the double tap since these are two different gesture detections
                 var prev = Hammer.detection.previous,
                     did_doubletap = false;

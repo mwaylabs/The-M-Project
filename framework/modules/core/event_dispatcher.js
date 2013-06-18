@@ -18,6 +18,8 @@
  *
  * @extends M.Object
  */
+(function(){
+
 M.EventDispatcher = M.Object.extend(/** @scope M.EventDispatcher.prototype */ {
 
     _type: 'M.EventDispatcher',
@@ -389,3 +391,5 @@ M.EventDispatcher = M.Object.extend(/** @scope M.EventDispatcher.prototype */ {
     }
 
 });
+
+})(M);

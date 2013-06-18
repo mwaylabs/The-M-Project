@@ -87,8 +87,6 @@
             convert(obj);
             // overwrite the originial template text with the generated one
             text = obj[0].outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');;
-
-            console.log(text );
             /*END MOD*/
 
             // Compile the template source, escaping string literals appropriately.

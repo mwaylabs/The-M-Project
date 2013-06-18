@@ -1,11 +1,4 @@
 (function() {
-
-    if(typeof _ === 'undefined'){
-        _ = require('underscore')._;
-        Backbone = require('backbone');
-    }
-
-
     /**
      * Defines the general namespace
      * @type {Object}

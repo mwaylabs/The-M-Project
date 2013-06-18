@@ -34,6 +34,21 @@ require.config({
             "name": "hammerjs",
             "location": "../vendor/libs",
             "main": "hammer-1.0.6-dev.js"
+        },
+        {
+            "name": "M",
+            "location": "../vendor/core",
+            "main": "m"
+        },
+        {
+            "name": "M.Object",
+            "location": "../vendor/core",
+            "main": "object"
+        },
+        {
+            "name": "M.EventDispatcher",
+            "location": "../vendor/core",
+            "main": "event_dispatcher"
         }
     ],
     "shim": {
@@ -69,6 +84,22 @@ require.config({
                 "jquery"
             ],
             "exports": "Hammer"
+        },
+
+        "M": {
+            "exports": "M"
+        },
+        "M.Object": {
+            "deps": [
+                "M"
+            ],
+            "exports": "M.Object"
+        },
+        "M.EventDispatcher": {
+            "deps": [
+                "M.Object"
+            ],
+            "exports": "M.EventDispatcher"
         }
     }
 });
