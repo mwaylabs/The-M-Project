@@ -15,7 +15,7 @@
  */
 M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
 
-    el: $(".m-perspective"),
+    //el: $(".m-perspective"),
 
     /**
      * The type of this object.
@@ -39,6 +39,8 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
      * @private
      */
     _setContent: function( obj ) {
+        this.$el.empty().append(obj.view.render().el);
+        return;
         this.$el.children().eq(this.currentChildIndex + 1).append(obj.view.render().el);
 
         if( !this.first ) {
@@ -89,6 +91,7 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
         this.totalChildren = this.$pages.length;
         this.animEndEventName = this.animEndEventNames['WebkitAnimation'];
         this.currentChildIndex = -1;
+        M.View.prototype.initialize.apply(this, arguments);
     },
 
 

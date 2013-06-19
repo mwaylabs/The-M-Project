@@ -174,7 +174,7 @@ var LayoutManager = Backbone.View.extend({
     // internal events that are triggered.
     view.on("all", function(name) {
       if (name !== "beforeRender" && name !== "afterRender") {
-        root.trigger.apply(root, arguments);
+       root.trigger.apply(root, arguments);
       }
     }, view);
 

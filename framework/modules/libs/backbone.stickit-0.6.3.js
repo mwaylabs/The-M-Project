@@ -51,7 +51,7 @@
     // Using `this.bindings` configuration or the `optionalBindingsConfig`, binds `this.model`
     // or the `optionalModel` to elements in the view.
     stickit: function(optionalModel, optionalBindingsConfig) {
-      var self = this,
+        var self = this,
         model = optionalModel || this.model,
         namespace = '.stickit.' + model.cid,
         bindings = optionalBindingsConfig || this.bindings || {};
@@ -109,8 +109,10 @@
           // `modelAttr` may be an array of attributes or a single string value.
           _.each(_.flatten([modelAttr]), function(attr) {
             observeModelEvent(model, self, 'change:'+attr, function(model, val, options) {
-              if (options == null || options.bindKey != bindKey)
-                updateViewBindEl(self, $el, config, getAttr(model, modelAttr, config, self), model);
+              if (options == null || options.bindKey != bindKey){
+                  updateViewBindEl(self, $el, config, getAttr(model, modelAttr, config, self), model);
+              }
+
             });
           });
 
@@ -275,9 +277,11 @@
   //
   var updateViewBindEl = function(view, $el, config, val, model, isInitializing) {
     if (!evaluateBoolean(view, config.updateView, val, config)) return;
-    config.update.call(view, $el, val, model, config);
+      config.update.call(view, $el, val, model, config);
     if (!isInitializing) applyViewFn(view, config.afterUpdate, $el, val, config);
   };
+
+
 
   // Default Handlers
   // ----------------

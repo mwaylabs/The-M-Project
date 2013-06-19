@@ -11,8 +11,8 @@
     <script src="../../modules/libs/underscore-1.4.4.min.js"></script>
     <script src="../../modules/libs/backbone-1.0.0.js"></script>
     <script src="../../modules/libs/moment-2.0.0.min.js"></script>
-    <script src="../../modules/libs/backbone.stickit.js"></script>
-    <script src="../../modules/libs/backbone.sticktpl.js"></script>
+    <script src="../../modules/libs/backbone.stickit-0.6.3.js"></script>
+    <script src="../../modules/libs/backbone.sticktpl-0.0.0.0.1.js"></script>
     <script src="../../modules/libs/backbone.layoutmanager.js"></script>
 
     <script src="../../modules/core/m.js"></script>
@@ -56,13 +56,19 @@
     <!--<script src="../../framework/modules/data/connectors/local_storage.js"></script>-->
 
 </head>
+
+<!-- LAYOUTS -->
+
+<script id="basic-transition-template" type="template">
+    <div class="m-perspective m-perspective-transitioning">
+        <div class="m-page m-page-current m-page-1">Page 1</div>
+        <div class="m-page m-page-2">Page 2</div>
+    </div>
+</script>
+
+
 <body>
 <!--<div id="app"></div>-->
-<div class="m-perspective m-perspective-transitioning">
-    <div class="m-page m-page-current m-page-1">Page 1</div>
-    <div class="m-page m-page-2">Page 2</div>
-</div>
-
 </body>
 
 <script src="../../modules/ui/views/view.js"></script>

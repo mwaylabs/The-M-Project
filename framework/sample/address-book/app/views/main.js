@@ -17,7 +17,7 @@ Addressbook.ContactView = M.View.extend({
 
     //TODO evtl. hier direkt mit dem template zusammen ein property - nicht 3 mal firstname schreiben
     bindings: {
-        '[data-binding="lastname"]': {
+        '[data-binding="input-lastname"]': {
             observe: 'lastname',
             updateView: true
         },
@@ -72,8 +72,7 @@ Addressbook.ContactView = M.View.extend({
     },
 
     click: function() {
-//        var v = new Addressbook.ContactDetailView({model: this.model});
-//        M.LayoutManager.setContent({view: v});
+//        Addressbook.navigate('detail/' + this.model.id, {trigger: true});
     },
 
     changed: function(){
@@ -101,7 +100,7 @@ Addressbook.ContactDetailView = Backbone.View.extend({
     },
 
     click: function() {
-//        M.LayoutManager.next();
+
     }
 });
 

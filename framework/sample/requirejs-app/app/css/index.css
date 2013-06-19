@@ -1,0 +1,111 @@
+/*-- HTML5 Boilerplate. -----------------------------------------------------*/
+
+@import "../../vendor/ui/css/reset.css";
+
+/*-- Application stylesheets. -----------------------------------------------*/
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body, body *:not(input) {
+    -webkit-user-select: none;
+}
+
+button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 100%;
+    vertical-align: baseline;
+    font-family: inherit;
+    color: inherit;
+    -webkit-appearance: none;
+    /*-moz-appearance: none;*/
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+}
+
+body {
+    font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.4em;
+    background: #eaeaea url('bg.png');
+    color: #4d4d4d;
+    width: 550px;
+    margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    -ms-font-smoothing: antialiased;
+    -o-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+
+#app {
+    background: #fff;
+    background: rgba(255, 255, 255, 0.9);
+    margin: 130px 0 40px 0;
+    border: 1px solid #ccc;
+    position: relative;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2),
+    0 25px 50px 0 rgba(0, 0, 0, 0.15);
+}
+
+a {
+    color: #f0512d;
+    text-decoration: none;
+}
+
+.headline-1 {
+    font-size: 18px;
+    color: #227e97;
+    border-bottom: 2px solid #f0512d;
+    margin-bottom: 10px;
+    white-space: normal;
+}
+
+.headline-2 {
+    font-size: 18px;
+    color: #f0512d;
+    text-shadow: 0 1px 0 #fff;
+    white-space: normal;
+}
+
+.headline-3 {
+    font-size: 16px;
+    color: #2e2e2e;
+    text-shadow: 0 1px 0 #fff;
+    white-space: normal;
+}
+
+.headline-1 + .headline-1,
+.headline-2 + .headline-1,
+.headline-3 + .headline-1{
+    margin-top: 10px;
+}
+
+.small-text{
+    font-size: 10px;
+    text-shadow: none;
+    color: #999999;
+    display: block;
+    font-weight: normal;
+}
+
+.contact-container{
+    margin: 20px;
+}
+
+.m-btn{
+    background: green;
+    padding: 20px 0;
+}
