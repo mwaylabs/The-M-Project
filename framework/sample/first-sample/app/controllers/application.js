@@ -4,16 +4,18 @@ SampleApp.ApplicationController = M.Controller.extend({
 
     init: function() {
 
-        this.testData();
+        this.testModel();
     },
 
     addText: function( txt ) {
+
+        console.log(txt);
 
         this.text += txt + '<br>';
         SampleApp.Main.set(M.Model.create({value: this.text}));
     },
 
-    testData: function() {
+    testModel: function() {
 
         var that = this;
 
@@ -36,11 +38,14 @@ SampleApp.ApplicationController = M.Controller.extend({
                 that.addText('FirstName changed to: ' + person.get('firstName'));
 
                 // reset to value from database
-                person.fetch({
-                    success: function() {
-                        that.addText('FirstName in Database: ' + person.get('firstName'));
-                    }
-                });
+//                person.fetch({
+//                    success: function() {
+//                        that.addText('FirstName in Database: ' + person.get('firstName'));
+//                    }
+//                });
+
+                that.testConnector();
+
             },
 
             error: function( error ) {
@@ -48,26 +53,33 @@ SampleApp.ApplicationController = M.Controller.extend({
                 that.addText('Error saving Person: ' + error);
             }
         });
+    },
 
-        SampleApp.LiveConnector.select({
-            order: 'id',
+    testConnector: function() {
+        var that = this;
+        SampleApp.LiveConnector.fetch(null, {
+            order: '_id',
             entity: 'person',
             success: function( result ) {
-                var model = result.at(0);
+                if (result.length > 0) {
+                    var model = result.at(0);
 
-                that.addText('found ' + result.length + ' persons. first SureName: ' + model.get('sureName'));
+                    that.addText('found ' + result.length + ' persons. first SureName: ' + model.get('sureName'));
 
-                model.save({ notes: 'The-M-Project goes Backbone!' }, {
-                    success: function() {
-                        that.addText('changed Person.notes in Database to: ' + model.get('notes'));
+                    model.save({ notes: 'The-M-Project goes Backbone!' }, {
+                        success: function() {
+                            that.addText('changed Person.notes in Database to: ' + model.get('notes'));
 
-                        person.fetch({
-                            success: function() {
-                                that.addText('fetched Person, notes in Database: ' + person.get('notes'));
-                            }
-                        });
-                    }
-                });
+                            person.fetch({
+                                success: function() {
+                                    that.addText('fetched Person, notes in Database: ' + person.get('notes'));
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    that.addText('no person found!!');
+                }
             },
             error: function() {
                 that.addText('error find persons.');

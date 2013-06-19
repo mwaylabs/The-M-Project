@@ -21,14 +21,24 @@ exports.create = function(dbName) {
             return id; // parseInt(id) !== NaN ? parseInt(id) : id;
         },
 
+        fromJson: function(json) {
+             var obj;
+             try {
+                 if (json) {
+                     obj = JSON.parse(json);
+                 }
+             } catch (e) {
+             }
+             return obj || {};
+        },
+
         //Find documents
         find: function(req, res) {
             var name    = req.params.name;
-            var query   = req.query.query || {};   // has to be an object
-            var fields  = req.query.fields;  // has to an array
-            var options = req.query.options || {}; // has to be an object
+            var query   = this.fromJson(req.query.query);   // has to be an object
+            var fields  = this.fromJson(req.query.fields);  // has to an array
             var collection = new mongodb.Collection(this.db, name);
-            collection.find(query, options).toArray(function(err, docs) {
+            collection.find(query, fields).toArray(function(err, docs) {
                 if(err){
                     res.send(400, err);
                 } else {
@@ -137,7 +147,7 @@ exports.create = function(dbName) {
             var collection = new mongodb.Collection(this.db, name);
             collection.remove({ "_id" : id }, { }, function(err, n){
                     if(err) {
-                        res.send("Oops! " + err);
+                        res.send(400, err);
                     } else {
                         if (n==0) {
                             res.send(404, 'Document not found!');
@@ -155,7 +165,7 @@ exports.create = function(dbName) {
         sendMessage: function(entity, msg) {
         },
 
-        handleMessage: function(entity, msg, resp) {
+        handleMessage: function(entity, msg, callback) {
             if (entity && msg && msg.method) {
 
                 var req = {
@@ -165,7 +175,9 @@ exports.create = function(dbName) {
 
                 var resp = {
                     send: function(data) {
-                        // Todo: callback
+                        if (typeof callback === 'function') {
+                            callback(data);
+                        }
                     }
                 };
 

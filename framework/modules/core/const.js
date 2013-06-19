@@ -61,6 +61,8 @@ M.CONST = {
 
         BINARY:     "binary",
 
+        OBJECTID:   "objectid",
+
         NULL:       "null"
     },
 

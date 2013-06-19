@@ -72,12 +72,32 @@ M.DataConnectorWebSql = M.DataConnector.extend({
         this._insertOrReplace(_.extend({ data: model }, options ));
     },
 
+    save: function(model, options) {
+        this._insertOrReplace(_.extend({ data: model }, options ));
+    },
+
     delete: function(model, options) {
         this._delete(_.extend({ data: model }, options ));
     },
 
     read: function(model, options) {
         this._select(_.extend({ data: model }, options ));
+    },
+
+    fetch: function( obj ) {
+        if( !this._initialized ) {
+            this._initialize(obj, this._select);
+        } else {
+            this._select(obj);
+        }
+    },
+
+    select: function( obj ) {
+        if( !this._initialized ) {
+            this._initialize(obj, this._select);
+        } else {
+            this._select(obj);
+        }
     },
 
     dropTable: function( obj ) {
@@ -95,22 +115,6 @@ M.DataConnectorWebSql = M.DataConnector.extend({
             this._initialize(obj, this._createTable);
         } else {
             this._createTable(obj);
-        }
-    },
-
-    find: function( obj ) {
-        if( !this._initialized ) {
-            this._initialize(obj, this._select);
-        } else {
-            this._select(obj);
-        }
-    },
-
-    select: function( obj ) {
-        if( !this._initialized ) {
-            this._initialize(obj, this._select);
-        } else {
-            this._select(obj);
         }
     },
 
@@ -674,6 +678,30 @@ M.DataConnectorWebSql = M.DataConnector.extend({
             if( type ) {
                 return field.name + ' ' + type.toUpperCase() + isReqStr;
             }
+        }
+    },
+
+    syncCollection: this.sync,
+
+    syncModel: this.sync,
+
+    sync: function(method, model, options) {
+        switch(method) {
+            case 'create':
+                this.create(model, options);
+                break;
+
+            case 'update':
+            case 'patch':
+                this.update(model, options);
+                break;
+
+            case 'delete':
+                this.delete(model, options);
+                break;
+
+            default:
+                break;
         }
     }
 

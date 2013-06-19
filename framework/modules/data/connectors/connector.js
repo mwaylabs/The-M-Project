@@ -37,10 +37,10 @@ _.extend(M.DataConnector.prototype, M.Object, {
         'date':    'string'
     },
 
-    initialize: function(obj) {
-        if (obj && obj.config) {
-            this.config = obj.config;
-            this.configure(obj.config);
+    initialize: function(config) {
+        if (config) {
+            this.config = config;
+            this.configure(config);
         }
     },
 
