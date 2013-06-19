@@ -119,6 +119,15 @@ M.Environment = M.Object.extend(
      * @type String
      */
     MAC: 'mac',
+    
+    /**
+     * Constant representing mac computer.
+     *
+     * Use to compare against M.Environment.getOS function
+     *
+     * @type String
+     */
+    LINUX: 'linux',
 
     /**
      * Constant representing windows computer.
@@ -363,6 +372,10 @@ M.Environment = M.Object.extend(
         operatingSystems[this.MAC] = function() {
             return navigator.userAgent.match(/Macintosh/i) ? true : false;
         };
+        
+        operatingSystems[this.LINUX] = function() {
+            return navigator.userAgent.match(/Linux/i) ? true : false;
+        };
 
         operatingSystems[this.WINDOWS] = function() {
             return navigator.userAgent.match(/Windows/i) ? true : false;
@@ -377,6 +390,6 @@ M.Environment = M.Object.extend(
             if(value()) ret = key;
         });
         return ret;
-    },
+    }
 
 });
