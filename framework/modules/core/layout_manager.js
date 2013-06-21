@@ -13,53 +13,58 @@
  * @class
  * @extends M.Object
  */
-M.LayoutManager = M.Object.extend(/** @scope M.LayoutManager.prototype */{
 
-    /**
-     * The type of this object.
-     *
-     * @type String
-     */
-    _type: 'M.LayoutManager',
+(function() {
+    M.LayoutManager = M.Object.extend(/** @scope M.LayoutManager.prototype */{
 
-    /**
-     * This method sets the layout of an application. It triggers the rendering
-     * process on the desired layout and appends it to the live DOM.
-     *
-     * @param layout
-     */
-    setLayout: function( layout ) {
+        /**
+         * The type of this object.
+         *
+         * @type String
+         */
+        _type: 'M.LayoutManager',
 
-        this._first = YES;
+        /**
+         * This method sets the layout of an application. It triggers the rendering
+         * process on the desired layout and appends it to the live DOM.
+         *
+         * @param layout
+         */
+        setLayout: function( layout ) {
 
-        if( !(layout && layout.isMLayout) ) {
-            layout = new M.Layout();
-        }
+            this._first = YES;
 
-        this.layout = layout;
+            if( !(layout && layout.isMLayout) ) {
+                layout = new M.Layout();
+            }
 
-        /* empty the body and append the given layout */
+            this.layout = layout;
+
+            /* empty the body and append the given layout */
+
         $('body').empty().append(this.layout.render().el);
 
-        /* return reference to layout manager to enable chaining calls */
-        return this;
-    },
+            /* return reference to layout manager to enable chaining calls */
+            return this;
+        },
 
-    /**
-     * This method sets the content of the currently active layout. It requires
-     * an object as its only parameter.
-     *
-     * @param obj
-     */
-    setContent: function( obj ) {
-        this.layout._setContent(obj);
+        /**
+         * This method sets the content of the currently active layout. It requires
+         * an object as its only parameter.
+         *
+         * @param obj
+         */
+        setContent: function( obj ) {
+            this.layout._setContent(obj);
 
-        /* return reference to layout manager to enable chaining calls */
-        return this;
-    },
+            /* return reference to layout manager to enable chaining calls */
+            return this;
+        },
 
-    next: function(){
-        this.layout._next(1);
-    }
+        next: function() {
+            this.layout._next(1);
+        }
 
-});
+    });
+
+})(M);

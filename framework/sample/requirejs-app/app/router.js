@@ -5,7 +5,9 @@ define([
     // Modules.
     "modules/contacts",
     "text!templates/main-layout.html",
-    "hammerjs"
+    "M",
+    "M.EventDispatcher",
+    "M.ViewManager"
 ],
 
     function( app, Contact, mainTemplate ) {
@@ -22,7 +24,8 @@ define([
                 _.extend(this, collections);
 
                 V = collections;
-                $('body').hammer();
+                // USE THIS WHEN USING HAMMER
+                // $('body').hammer();
             },
 
             routes: {

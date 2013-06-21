@@ -31,9 +31,9 @@ require.config({
             "main": "underscore-1.4.4.min.js"
         },
         {
-            "name": "hammerjs",
+            "name": "quo",
             "location": "../vendor/libs",
-            "main": "hammer-1.0.6-dev.js"
+            "main": "quo-2.3.1.js"
         },
         {
             "name": "M",
@@ -49,6 +49,11 @@ require.config({
             "name": "M.EventDispatcher",
             "location": "../vendor/core",
             "main": "event_dispatcher"
+        },
+        {
+            "name": "M.ViewManager",
+            "location": "../vendor/core",
+            "main": "view_manager"
         }
     ],
     "shim": {
@@ -79,11 +84,11 @@ require.config({
         "underscore": {
             "exports": "_"
         },
-        "hammerjs": {
+        "quo": {
             "deps": [
                 "jquery"
             ],
-            "exports": "Hammer"
+            "exports": "quo"
         },
 
         "M": {
@@ -100,6 +105,12 @@ require.config({
                 "M.Object"
             ],
             "exports": "M.EventDispatcher"
+        },
+        "M.ViewManager": {
+            "deps": [
+                "M.Object"
+            ],
+            "exports": "M.ViewManager"
         }
     }
 });
