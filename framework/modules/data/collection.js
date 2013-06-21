@@ -11,9 +11,21 @@
 
 M.Collection = Backbone.Collection.extend(M.Object);
 
+M.Collection.create = M.create;
+
 _.extend(M.Collection.prototype, {
 
     _type: 'M.Collection',
+
+    isCollection: YES,
+
+    model: M.Model,
+
+    initialize: function() {
+        if (this.connector && this.connector.initModel) {
+            this.connector.initModel(this);
+        }
+    },
 
     select: function(options) {
         var selector   = options.where ? M.DataSelector.create(options.where) : null;
@@ -29,7 +41,15 @@ _.extend(M.Collection.prototype, {
             collection.sortBy(M.DataSelector.compileSort(options.sort));
         }
         return collection;
-    }
-});
+    },
 
-M.Collection.create = M.create;
+    sync: function(method, model, options) {
+        var connector = (options ? options.connector : null) || this.connector;
+        if (connector && connector.syncCollection) {
+            return connector.syncCollection.apply(this, arguments);
+        } else {
+            return Backbone.sync.apply(this, arguments);
+        }
+    }
+
+});

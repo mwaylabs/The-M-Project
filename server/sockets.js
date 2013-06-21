@@ -2,7 +2,26 @@
 
 exports.listen = function(server) {
 
-    var io = require('socket.io').listen(server);
+    var io           = require('socket.io').listen(server);
+
+//    var RedisStore = require('socket.io/lib/stores/redis')
+//      , redis  = require('socket.io/node_modules/redis')
+//      , pub    = redis.createClient()
+//      , sub    = redis.createClient()
+//      , client = redis.createClient();
+//
+//    io.set('store', new RedisStore({
+//        redisPub : pub,
+//        redisSub : sub,
+//        redisClient : client
+//    }));
+
+//    var MongoStore   = require('socket.io-mongo');
+//    io.configure(function() {
+//        var store = new MongoStore({ url: 'mongodb://localhost:27017/test' });
+//        store.on('error', console.error);
+//        io.set('store', store);
+//    });
 
     var sockets = {
 
@@ -54,19 +73,28 @@ exports.listen = function(server) {
 
                 if (entity && typeof entity === 'string') {
                     var channel = 'entity_' + entity;
-                    socket.on(channel, function(msg) {
-                        msg = sockets.handleMessage(entity, msg );
-                        if (msg) {
-                            socket.broadcast.emit(channel, msg);
-                        }
+                    socket.on(channel, function(msg, fn) {
+                        msg = sockets.handleMessage(entity, msg, function(data, error) {
+
+                            // if the response is an object message has succeeded
+                            if (typeof data === 'object') {
+                                socket.broadcast.emit(channel, msg);
+                            } else if (!error) {
+                                error = typeof data === 'string' ? data : 'error processing message!';
+                            }
+                            // callback to the client, send error if failed
+                            fn(error);
+                        });
                     });
                 }
             });
         }),
 
-        handleMessage: function(entity, msg) {
+        handleMessage: function(entity, msg, callback) {
             if (msg && msg.method && msg.id && msg.data) {
-                return msg;
+                if (typeof callback === 'function') {
+                    callback(msg);
+                }
             }
         },
 

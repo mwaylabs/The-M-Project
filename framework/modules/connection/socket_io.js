@@ -75,8 +75,8 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
         return this.extend(obj);
     },
 
-    emit: function(event, data) {
-        this._socket.emit(event, data);
+    emit: function(event, data, callback) {
+        this._socket.emit(event, data, callback);
     },
 
     on: function(eventType, handler) {
@@ -87,6 +87,16 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     },
 
     disconnect: function() {
+        var that = this;
+        if (this._socket) {
+            this._socket.removeAllListeners();
+            this._socket.on('connect', function(data) {
+                that._connected(data);
+            });
+            this._socket.on('disconnect', function(data) {
+                that._disconnect(data);
+            });
+        }
         this._socket.disconnect();
     },
 
@@ -98,9 +108,9 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
         }
         this._socket = io.connect(url);
         this._socket.on('connect', function(data) {
-            that._connected(data);
+            that.connected(data);
         });
-        this._registerEvents();
+        that._registerEvents();
     },
 
     ready: function() {
@@ -154,12 +164,19 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
         this.events = this.events || {};
         this._events = {};
 
-        _.each(this.events, function( eventHandler, eventName ) {
-            if( !this.events[eventName].target ) {
-                this.events[eventName].target = this;
-            }
-            this._events[eventName] = this.events[eventName];
+        _.each(this.events, function( handler, eventName ) {
+            this._addEvent(name, handler)
         }, this);
+    },
+
+    _addEvent: function(eventName, handler) {
+        if( _.isFunction(handler)) {
+            handler = { action: handler };
+        }
+        if (!handler.target ) {
+            handler.target = this;
+        }
+        this._events[eventName] = handler;
     },
 
     /**
@@ -170,7 +187,7 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     _registerEvents: function() {
         var that = this;
         this._socket.on('disconnect', function(data) {
-            that._disconnect(data)
+            that.disconnect(data)
         } );
         _.each(this._events, function( handler, eventType ) {
             this._socket.on(eventType, function(data) {
@@ -179,17 +196,10 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
         }, this);
     },
 
-    _connected: function(data) {
+    connected: function(data) {
     },
 
-    _disconnect: function(data) {
-        var that = this;
-        if (this._socket) {
-            this._socket.removeAllListeners();
-            this._socket.on('connect', function(data) {
-                that._connected(data);
-            });
-        }
+    disconnect: function(data) {
     }
 
 });

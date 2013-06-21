@@ -19,7 +19,7 @@ var AddressbookApp = Backbone.Router.extend({
     },
 
     overview: function() {
-        M.LayoutManager.setLayout(M.Layout.create()).setContent({
+        M.LayoutManager.setLayout(new M.Layout()).setContent({
             view: new Addressbook.AppView
         });
     },

@@ -41,7 +41,8 @@
             this.layout = layout;
 
             /* empty the body and append the given layout */
-            //$('body').empty().append(this.layout.render().el);
+
+        $('body').empty().append(this.layout.render().el);
 
             /* return reference to layout manager to enable chaining calls */
             return this;

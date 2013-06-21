@@ -13,11 +13,11 @@ _.extend(M.View.prototype, {
 
     initialize: function( properties ) {
         _.extend(this, properties);
-        this.value = this.collection
+        this.value = this.collection;
         if( !this.value ) {
             var value = { value: '' };
             if(properties && properties.value){
-                value = properties.value
+                value = properties.value;
             }
             this.value = M.Model.create(value);
         }

@@ -77,6 +77,10 @@ M.DataField = M.Object.extend(/** @scope M.DataField.prototype */ {
                     var date = value ? M.Date.create(value) : null;
                     return date && date.isValid() ? date : null;
                 }
+            } else if( type === M.CONST.TYPE.OBJECTID ) {
+                if( !M.ObjectID.prototype.isPrototypeOf(value) ) {
+                    return _.isString(value) ? new M.ObjectID(value) : null;
+                }
             }
             return value;
         } catch( e ) {
@@ -112,6 +116,9 @@ M.DataField = M.Object.extend(/** @scope M.DataField.prototype */ {
         }
         if( _.isDate(v) || M.Date.isPrototypeOf(v) ) {
             return M.CONST.TYPE.DATE;
+        }
+        if( M.ObjectID.prototype.isPrototypeOf(v) ) {
+            return M.CONST.TYPE.OBJECTID;
         }
         if( this.isBinary(v) ) {
             return M.CONST.TYPE.BINARY;
@@ -234,12 +241,12 @@ M.DataField = M.Object.extend(/** @scope M.DataField.prototype */ {
         if( ta !== tb ) {
             throw Error("Missing type coercion logic in _cmp");
         }
-//        if( ta === 7 ) { // ObjectID
-//            // Convert to string.
-//            ta = tb = 2;
-//            a = a.toHexString();
-//            b = b.toHexString();
-//        }
+        if( ta === 7 ) { // ObjectID
+            // Convert to string.
+            ta = tb = 2;
+            a = a.toHexString();
+            b = b.toHexString();
+        }
         if( ta === M.CONST.TYPE.DATE ) {
             // Convert to millis.
             ta = tb = 1;
