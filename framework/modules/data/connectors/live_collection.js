@@ -49,14 +49,8 @@ M.LiveDataCollection = M.Collection.extend({
             this._initialize(socket_url);
         }
 
-        this.store = this._createStore('_live_'+this.entity);
-        this.store.select({
-            entity: 'documents',
-            fields: ['_id'],
-            order: '_id DESC',
-            limit: 1,
-            success: { target: this, action: 'syncDocuments' }
-        });
+//        this.store = this._createStore('_live_'+this.entity);
+        this.loadDocuments();
     },
 
     _createStore: function(name) {
@@ -171,16 +165,13 @@ M.LiveDataCollection = M.Collection.extend({
         }
     },
 
-    syncDocuments: function(result) {
-
-    },
-
     sync_model: function(method, model, options) {
         var that = model.collection;
         if (that && _.contains(that.msg_methods, method)) {
             that.addMessage(method, model, options);
         } else {
-            Backbone.Collection.prototype.sync.apply(this, arguments);
+            this.fetchDocument(model, options)
+//            Backbone.Collection.prototype.sync.apply(this, arguments);
         }
     },
 
@@ -188,56 +179,65 @@ M.LiveDataCollection = M.Collection.extend({
         if ( _.contains(this.msg_methods, method)) {
             this.addMessage(method, model, options);
         } else {
-            Backbone.Collection.prototype.sync.apply(this, arguments);
+            this.fetchDocument(model, options)
+//            Backbone.Collection.prototype.sync.apply(this, arguments);
         }
     },
 
     addMessage: function(method, model, options) {
         var that = this;
         if (method && model) {
-            var data = null;
-            switch (method) {
-                case 'update':
-                case 'create':
-                    data = model.attributes;
-                    break;
-                case 'patch':
-                    data = model.changedAttributes();
-                    break;
-            }
-            if (data !== false) {
-                var msg = { method: method, id: model.id, data: data };
-                this.storeMessage(msg);
-                if (this._socket && this.channel) {
-                    this._socket.emit(this.channel, msg, function(error) {
-                        that.removeMessage(msg);
-                        if (error) {
-                            that.handleCallback(options.error, error);
-                        } else {
-                            that.syncToStore(msg, options);
-//                            that.handleCallback(options.success, model);
-                        }
-                    });
-//                    model.trigger('request', model, {}, options);
+            var changes = model.changedSinceSync;
+            if (!_.isEmpty(changes)) {
+                var data = null;
+                switch (method) {
+                    case 'update':
+                    case 'create':
+                        data = model.attributes;
+                        break;
+                    case 'patch':
+                        data = changes;
+                        break;
                 }
+                var msg = { method: method, id: model.id, data: data };
+                this.storeMessage(msg, function() {
+                    if (that._socket && that.channel) {
+                        that._socket.emit(that.channel, msg, function(error) {
+                            that.removeMessage(msg, function() {
+                                if (error) {
+                                    that.handleCallback(options.error, error);
+                                } else {
+                                    that.storeDocument(msg, options);
+                                }
+                            });
+                        });
+                        model.trigger('request', model, {}, options);
+                    }
+                });
             }
         }
     },
 
-    storeMessage: function(msg) {
-//        this.store.save({
-//            "_id": msg.id,
-//            "message": JSON.stringify(msg)
-//        }, { entity: 'messages' } );
+    storeMessage: function(msg, callback) {
+        this.store.save({
+            "_id": msg.id,
+            "message": JSON.stringify(msg)
+        }, {
+            entity: 'messages',
+            finish: callback
+        } );
     },
 
-    removeMessage: function(msg) {
-//        this.store.delete({
-//            "_id": msg.id
-//        }, { entity: 'messages' } );
+    removeMessage: function(msg, callback) {
+        this.store.delete({
+            "_id": msg.id
+        }, {
+            entity: 'messages',
+            finish: callback
+        });
     },
 
-    syncToStore: function(msg, options) {
+    storeDocument: function(msg, options) {
         var that = this;
         var data = {
             _id: msg.id,
@@ -279,6 +279,22 @@ M.LiveDataCollection = M.Collection.extend({
                 });
                 break;
         }
-    }
+    },
 
+    fetchDocument: function(model, options) {
+        var that = this;
+        this.store.select({
+            data: model,
+            entity: 'documents',
+            success: function(result){
+                _.each(result, function(model) {
+
+                });
+            }
+        });
+    },
+
+    documentsLoaded: function(result) {
+
+    }
 });

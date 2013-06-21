@@ -70,7 +70,7 @@ rest.sendMessage = function(entity, msg) {
 };
 
 sockets.handleMessage = function(entity, msg, callback) {
-    if (msg && msg.method && msg.id && msg.data) {
+    if (msg && msg.method) {
         return rest.handleMessage(entity, msg, callback);
     }
 };

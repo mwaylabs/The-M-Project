@@ -21,7 +21,16 @@
 
     M.create = function(x,y) {
         return new this(x,y);
-    }
+    };
+
+    M.isCollection = function (collection) {
+        return Backbone.Collection.prototype.isPrototypeOf(collection);
+    };
+
+    M.isModel = function (model) {
+        return Backbone.Model.prototype.isPrototypeOf(model);
+    };
+
 
 //    M.create = function() {
 //        return this.apply(this, arguments);

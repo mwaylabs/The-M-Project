@@ -8,70 +8,72 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
+M.Entity = function(options) {
+    var fields  = this.fields;
+    this.fields = {};
+    this._mergeFields(fields);
+    options = options || {};
+    if (options.fields) {
+        this._mergeFields(options.fields);
+    }
+    this.typeMapping = options.typeMapping || this.typeMapping;
+    this.collection  = options.collection  || this.collection;
+    this.idAttribute = options.idAttribute || this.idAttribute ||
+        (this.collection && this.collection.prototype.model ? this.collection.prototype.model.idAttribute : '');
+    this._updateFields(this.typeMapping);
+    this.initialize.apply(this, arguments);
+};
+
+M.Entity.from = function(entity, options) {
+    // is not an instance of M.Entity
+    if (!M.Entity.prototype.isPrototypeOf(entity)) {
+        // if this is a prototype of an entity, create an instance
+        if ( _.isFunction(entity) &&
+             M.Entity.prototype.isPrototypeOf(entity.prototype)) {
+            entity = new entity(options);
+        } else {
+            // if this is just a config create a new Entity
+            var e  = M.Entity.extend(entity);
+            entity = new e(options);
+        }
+    } else if (options && options.typeMapping) {
+        entity._updateFields(options.typeMapping);
+    }
+    return entity;
+};
+
+M.Entity.extend = Backbone.Model.extend;
+
+M.Entity.create = M.create;
+
+_.extend(M.Entity.prototype, M.Object, {
 
     /**
      * The type of this object.
      *
      * @type String
      */
-    _type: 'M.DataEntity',
+    _type: 'M.Entity',
 
-    name:   '',
+    name: '',
 
-    key:    '',
+    idAttribute: '',
 
-    model:  null,
+    collection: null,
 
-    _fields: {},
+    model: null,
 
-    create: function(obj) {
-        var name = obj.name;
-        if (!name && obj.model && _.isFunction(obj.model.getName)) {
-            name = obj.model.getName();
-        }
-        var key  = obj.key;
-        if (!key && obj.model && _.isFunction(obj.model.getKey)) {
-            key = obj.model.getKey();
-        }
-        if (name) {
-            entity = this.extend({
-                name:   name,
-                key:    key,
-                model:  obj.model,
-                _fields: {}
-            });
+    fields: {},
 
-            if (entity.model) {
-                // entity._mergeFields(obj.model.getFields());
-            }
-
-            if (obj.fields) {
-//                var fields = {};
-//                _.each(obj.fields, function(def, name) {
-//                    fields[name] = M.DataField.extend(def);
-//                });
-                entity._mergeFields(obj.fields);
-            }
-
-            if (!obj.model) {
-                // create dynamic model
-                entity.model = M.Model.extend({
-                    idAttribute: key,
-                    getName: function() { return name; }
-                });
-            }
-            entity._updateFields(obj.typeMap);
-        }
-        return entity;
+    initialize: function() {
     },
 
     getFields: function() {
-        return this._fields;
+        return this.fields;
     },
 
     getField: function(fieldKey) {
-        return this._fields[fieldKey];
+        return this.fields[fieldKey];
     },
 
     getFieldName: function(fieldKey) {
@@ -80,11 +82,11 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
     },
 
     getKey: function() {
-        return this.key;
+        return this.idAttribute || M.Model.idAttribute;
     },
 
     getKeys: function() {
-        return this.splitKey(this.key);
+        return this.splitKey(this.getKey());
     },
 
     /**
@@ -92,7 +94,7 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
       *
       * @returns {Array} array of keys
       */
-     splitKey: function(key) {
+    splitKey: function(key) {
          var keys = [];
          if( _.isString(key) ) {
              _.each(key.split(","), function(key) {
@@ -103,72 +105,82 @@ M.DataEntity = M.Object.extend(/** @scope M.DataEntity.prototype */ {
              });
          }
          return keys;
-     },
-
-    getModel: function() {
-        return this.model;
     },
 
     _mergeFields: function(newFields) {
-        if (!_.isObject(this._fields)) {
-            this._fields = {};
+        if (!_.isObject(this.fields)) {
+            this.fields = {};
         }
         var that = this;
-        if (newFields) {
+        if (_.isObject(newFields)) {
             _.each(newFields, function(value, key) {
-                if (!that._fields[key]) {
-                    that._fields[key] = M.DataField.create(value);
+                if (!that.fields[key]) {
+                    that.fields[key] = new M.Field(value);
                 } else {
-                    that._fields[key].merge(value);
+                    that.fields[key].merge(value);
                 }
             });
         }
     },
 
-    _updateFields: function(typeMap) {
+    _updateFields: function(typeMapping) {
         var that = this;
-        _.each(this._fields, function(value, key) {
+        _.each(this.fields, function(value, key) {
             // remove unused properties
             if (value.persistent === NO) {
-                delete that._fields[key];
+                delete that.fields[key];
             } else {
                 // add missing names
                 if (!value.name) {
                     value.name = key;
                 }
                 // apply default type conversions
-                if (typeMap && typeMap[value.type]) {
-                    value.type = typeMap[value.type];
+                if (typeMapping && typeMapping[value.type]) {
+                    value.type = typeMapping[value.type];
                 }
             }
         });
     },
 
-    toRecord: function(data) {
-        if (data && this.model && this._fields) {
+    toAttributes: function(data, id) {
+        if (data && !_.isEmpty(this.fields)) {
             // map field names
-            var attributes = {};
-            _.each(this._fields, function(field, key) {
-                attributes[key] = data[field.name];
+            var value, attributes = {};
+            _.each(this.fields, function(field, key) {
+                value = _.isFunction(data.get) ? data.get(field.name) : data[field.name];
+                attributes[key] = value;
             });
-            return this.model.create(attributes);
+            return attributes;
         }
+        return data;
     },
 
-    fromRecord: function(record) {
-        var that = this;
-        var data = {};
-        if (record && this._fields) {
-//            var rec  = _.isFunction(record.getData) ? record.getData() : record;
-            _.each(this._fields, function(field, key) {
-                var value = _.isFunction(record.get) ? record.get(key) : record[key];
+    fromAttributes: function(attrs) {
+        if (attrs && !_.isEmpty(this.fields)) {
+            var data = {};
+            _.each(this.fields, function(field, key) {
+                var value = _.isFunction(attrs.get) ? attrs.get(key) : attrs[key];
                 value = field.transform(value);
                 if( !_.isUndefined(value) ) {
                     data[field.name] = value;
                 }
             });
+            return data;
         }
-        return data;
+        return attrs;
+    },
+
+    setId: function(attrs, id) {
+        if (attrs && id && this.idAttribute) {
+            attrs[this.idAttribute] = id;
+        }
+        return attrs;
+    },
+
+    getId: function(attrs) {
+        if (attrs && this.idAttribute) {
+            return attrs[this.idAttribute];
+        }
     }
 
 

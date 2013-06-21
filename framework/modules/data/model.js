@@ -8,20 +8,35 @@ _.extend(M.Model.prototype, {
 
     isModel: YES,
 
+    entity: null,
+
     changedSinceSync: {},
 
-    initialize: function() {
-        if (this.connector && this.connector.initCollection) {
-            this.connector.initCollection(this);
+    constructor: function(attributes, options) {
+        options = options || {};
+
+        this.idAttribute = options.idAttribute || this.idAttribute;
+        if (this.store && _.isFunction(this.store.initModel)) {
+            this.store.initModel(this, options);
+        }
+        if (this.entity) {
+            this.entity = M.Entity.from(this.entity, { typeMapping: options.typeMapping });
+            this.idAttribute = entity.idAttribute || this.idAttribute;
         }
         this.on('change', this.onChange, this);
-        this.on('sync', this.onSync, this);
+        this.on('sync',   this.onSync, this);
+
+        // call base constructor
+        Backbone.Model.apply(this, arguments);
+    },
+
+    initialize: function(attributes, options) {
     },
 
     sync: function(method, model, options) {
-        var connector = (options ? options.connector : null) || this.connector;
-        if (connector && connector.syncModel) {
-            return connector.syncModel.apply(this, arguments);
+        var store = (options ? options.store : null) || this.store;
+        if (store && _.isFunction(store.sync)) {
+            return store.sync.apply(this, arguments);
         } else {
             return Backbone.sync.apply(this, arguments);
         }

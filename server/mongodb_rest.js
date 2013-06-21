@@ -93,7 +93,7 @@ exports.create = function(dbName) {
                         var doc = docs && docs.length > 0 ? docs[0] : null;
                         if (doc) {
                             res.send(doc);
-                            if (doc) {
+                            if (doc && !fromMessage) {
                                 rest.sendMessage(name, { method: 'create', id: id.toString(), data: doc });
                             }
                         } else {
@@ -127,7 +127,7 @@ exports.create = function(dbName) {
                             res.send(404, 'Document not found!');
                         } else {
                             res.send(doc);
-                            if (n > 0) {
+                            if (n > 0 && !fromMessage) {
                                 rest.sendMessage(name, { method: 'update', id: id.toString(), data: doc });
                             }
                         }
@@ -154,7 +154,7 @@ exports.create = function(dbName) {
                         } else {
                             res.send({ _id: id.toString() });
                         }
-                        if (n > 0) {
+                        if (n > 0 && !fromMessage) {
                             rest.sendMessage(name, { method: 'delete', id: id.toString() });
                         }
                     }
@@ -170,13 +170,14 @@ exports.create = function(dbName) {
 
                 var req = {
                     params: { name: entity, id: msg.id },
+                    query: {},
                     body: msg.data
                 };
 
                 var resp = {
-                    send: function(data) {
+                    send: function(data, error) {
                         if (typeof callback === 'function') {
-                            callback(data);
+                            callback(data, error);
                         }
                     }
                 };
@@ -197,6 +198,14 @@ exports.create = function(dbName) {
 
                     case 'delete':
                         this.delete(req, resp, true);
+                        break;
+
+                    case 'read':
+                        if (msg.id) {
+                            this.findOne(req, resp, true);
+                        } else {
+                            this.find(req, resp, true);
+                        }
                         break;
 
                     default:

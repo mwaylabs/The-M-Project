@@ -8,23 +8,14 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-M.Field = function(options) {
-    this.merge(options);
-    this.initialize.apply(this, arguments);
-};
-
-M.Field.extend = Backbone.Model.extend;
-
-M.Field.create = M.create;
-
-_.extend(M.Field.prototype, M.Object, {
+M.DataField = M.Object.extend(/** @scope M.DataField.prototype */ {
 
     /**
      * The type of this object.
      *
      * @type String
      */
-    _type: 'M.Field',
+    _type: 'M.DataField',
 
     name: null,
 
@@ -38,17 +29,14 @@ _.extend(M.Field.prototype, M.Object, {
 
     persistent: YES,
 
-    initialize: function() {
-    },
-
-    create: function( config ) {
+    create: function( obj ) {
         var field = this.extend({
-            name:       config.name,
-            type:       config.type,
-            default:    config.default,
-            length:     config.length,
-            required:   config.required,
-            persistent: config.persistent
+            name:       obj.name,
+            type:       obj.type,
+            default:    obj.default,
+            length:     obj.length,
+            required:   obj.required,
+            persistent: obj.persistent
         });
         return field;
     },

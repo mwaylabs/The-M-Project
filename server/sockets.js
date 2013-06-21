@@ -2,7 +2,7 @@
 
 exports.listen = function(server) {
 
-    var io           = require('socket.io').listen(server);
+    var io = require('socket.io').listen(server);
 
 //    var RedisStore = require('socket.io/lib/stores/redis')
 //      , redis  = require('socket.io/node_modules/redis')
@@ -74,16 +74,19 @@ exports.listen = function(server) {
                 if (entity && typeof entity === 'string') {
                     var channel = 'entity_' + entity;
                     socket.on(channel, function(msg, fn) {
-                        msg = sockets.handleMessage(entity, msg, function(data, error) {
+                        sockets.handleMessage(entity, msg, function(data, error) {
 
                             // if the response is an object message has succeeded
                             if (typeof data === 'object') {
-                                socket.broadcast.emit(channel, msg);
+                                msg.data = data;
+                                if (msg.method != 'read') {
+                                    socket.broadcast.emit(channel, msg);
+                                }
                             } else if (!error) {
-                                error = typeof data === 'string' ? data : 'error processing message!';
+                                error = typeof msg === 'string' ? msg : 'error processing message!';
                             }
                             // callback to the client, send error if failed
-                            fn(error);
+                            fn(msg, error);
                         });
                     });
                 }
@@ -93,7 +96,7 @@ exports.listen = function(server) {
         handleMessage: function(entity, msg, callback) {
             if (msg && msg.method && msg.id && msg.data) {
                 if (typeof callback === 'function') {
-                    callback(msg);
+                    callback(msg.data);
                 }
             }
         },

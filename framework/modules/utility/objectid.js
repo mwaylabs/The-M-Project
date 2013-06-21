@@ -20,9 +20,9 @@
 
 // m_require('core/foundation/object.js');
 M.ObjectID = function( hexString ) {
-    if (!this._shared.counter) {
-        this._shared.counter = parseInt(Math.random() * Math.pow(16, 6));
-    }
+    M.ObjectID.counter   = M.ObjectID.counter   || parseInt(Math.random() * Math.pow(16, 6));
+    M.ObjectID.machineId = M.ObjectID.machineId || parseInt(Math.random() * Math.pow(16, 6));
+    M.ObjectID.processId = M.ObjectID.processId || parseInt(Math.random() * Math.pow(16, 4));
     this._ObjectID(hexString);
 };
 
@@ -34,10 +34,6 @@ _.extend(M.ObjectID.prototype, {
 
     _str: '',
 
-    _shared: {
-        counter: 0
-    },
-
     _ObjectID: function( hexString ) {
         //random-based impl of Mongo ObjectID
         if( hexString ) {
@@ -48,9 +44,12 @@ _.extend(M.ObjectID.prototype, {
             // meant to work with _.isEqual(), which relies on structural equality
             this._str = hexString;
         } else {
-            this._str = this._hexString(8, new Date().getTime()) + // a 4-byte value from the Unix timestamp
-                this._hexString(10) +                           // a 3-byte machine identifier and a 2-byte process id
-                this._hexString(6, this._shared.counter++);     // a 3-byte counter, starting with a random value.
+
+            this._str =
+                this._hexString(8, new Date().getTime()/1000) +     // a 4-byte value from the Unix timestamp
+                this._hexString(6, M.ObjectID.machineId) +          // a 3-byte machine identifier
+                this._hexString(4, M.ObjectID.processId) +          // a 2-byte process identifier
+                this._hexString(6, M.ObjectID.counter++);   // a 3-byte counter, starting with a random value.
         }
         return this._str;
     },
@@ -82,6 +81,18 @@ _.extend(M.ObjectID.prototype, {
 
     getTimestamp: function() {
         return parseInt(this._str.substr(0, 8), 16)*1000;
+    },
+
+    getMachineId: function() {
+        return parseInt(this._str.substr(8, 6), 16);
+    },
+
+    getProcessId: function() {
+        return parseInt(this._str.substr(14, 4), 16);
+    },
+
+    getCounter: function() {
+        return parseInt(this._str.substr(18, 6), 16);
     },
 
     valueOf: function() {
