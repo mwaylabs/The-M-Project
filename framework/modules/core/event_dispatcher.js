@@ -39,6 +39,16 @@
                     }
                 }
             }
+            //            tap: {
+            //                type: 'touchstart',
+            //                source: {
+            //                    getEventHandler: function() {
+            //                        return function( id, event ) {
+            //
+            //                        }
+            //                    }
+            //                }
+            //            }
         },
 
         /**
@@ -69,6 +79,12 @@
         _init: function() {
             this._eventRegistry = {};
             this._customEventRegistry = {};
+
+            $(document).on('click', function(ev){
+                ev.stopPropagation();
+                ev.preventDefault();
+                return false;
+            });
 
             this._initCustomEvents();
         },
@@ -136,7 +152,7 @@
 
             /* check if event type is already registered - if not, register to document  */
 
-            if( !this._eventRegistry[obj.type] ) {
+            if( !this._eventRegistry[obj.type] && obj.type !== 'click' ) {
                 $(document).bind(obj.type, this._delegateEvent);
             }
 

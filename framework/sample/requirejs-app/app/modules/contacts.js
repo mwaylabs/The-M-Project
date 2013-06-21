@@ -9,8 +9,8 @@ define([
 
         Contact.Model = Backbone.Model.extend({
             idAttribute: '_id',
-            urlRoot: '/contact',
-            url: '/contact',
+            urlRoot: 'http://nerds.mway.io:8100/contact',
+            url: 'http://nerds.mway.io:8100/contact',
             defaults: {
                 firstname: '',
                 lastname: ''
@@ -19,7 +19,7 @@ define([
 
         Contact.Collection = Backbone.Collection.extend({
             model: Contact.Model,
-            url: '/contact'
+            url: 'http://nerds.mway.io:8100/contact'
         });
 
         Contact.Views.Item = Backbone.View.extend({
@@ -65,10 +65,17 @@ define([
             initialize: function() {
                 this.MID = M.ViewManager.getNewId();
                 this.model.on('destroy', this.destroy, this);
+                var that = this;
                 M.EventDispatcher.registerEvent({
-                    type: 'click',
+                    type: 'touchstart',
                     source: this
                 });
+
+//                this.el.addEventListener('click', function(){
+//                    that.userSelected();
+//                });
+
+
             },
 
             getEventHandler: function(a){
@@ -137,9 +144,9 @@ define([
 
             template: _.tpl(detailTemplate),
 
-            events: {
-                "click .back": "back"
-            },
+//            events: {
+//                "click .back": "back"
+//            },
 
             bindings: {
                 '[data-binding="firstname"]': {

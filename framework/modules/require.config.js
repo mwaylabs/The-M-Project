@@ -31,9 +31,9 @@ require.config({
             "main": "underscore-1.4.4.min.js"
         },
         {
-            "name": "hammerjs",
+            "name": "quo",
             "location": "../vendor/libs",
-            "main": "hammer-1.0.6-dev.js"
+            "main": "quo-2.3.1.js"
         },
         {
             "name": "M",
@@ -84,11 +84,11 @@ require.config({
         "underscore": {
             "exports": "_"
         },
-        "hammerjs": {
+        "quo": {
             "deps": [
                 "jquery"
             ],
-            "exports": "Hammer"
+            "exports": "quo"
         },
 
         "M": {
