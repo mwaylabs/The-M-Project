@@ -4,7 +4,10 @@ SampleApp.ApplicationController = M.Controller.extend({
 
     init: function() {
 
-        this.testModel();
+        var that = this;
+        window.setTimeout(function() {
+            that.testModel();
+        }, 2000);
     },
 
     addText: function( txt ) {

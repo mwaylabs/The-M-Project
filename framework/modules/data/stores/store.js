@@ -75,12 +75,16 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         }
     },
 
-    createCollection: function(entity) {
+    getCollection: function(entity) {
         if (_.isString(entity)) {
             entity = this.entities[entity];
         }
         if (entity && entity.collection) {
-            return new entity.collection();
+            if (M.Collection.prototype.isPrototypeOf(entity.collection)) {
+                return entity.collection;
+            } else {
+                return new entity.collection();
+            }
         }
     },
 
@@ -88,8 +92,11 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         if (_.isString(entity)) {
             entity = this.entities[entity];
         }
-        if (entity && entity.collection && entity.collection.prototype.model) {
-            return new entity.collection.prototype.model();
+        if (entity && entity.collection) {
+            var model = entity.collection.model || entity.collection.prototype.model;
+            if (model) {
+                return new model();
+            }
         }
     },
 
@@ -149,7 +156,7 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
             options = collection;
         }
         if( (!collection || (!collection.models && !collection.attributes)) && options && options.entity ) {
-            collection = this.createCollection(options.entity);
+            collection = this.getCollection(options.entity);
         }
         if( collection && collection.fetch ) {
             var opts = _.extend({}, options || {}, { store: this });
@@ -163,7 +170,7 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
             options = model;
         }
         if( (!collection || !collection.models) && options && options.entity ) {
-            collection = this.createCollection(options.entity);
+            collection = this.getCollection(options.entity);
         }
         if( collection && collection.create ) {
             var opts = _.extend({}, options || {}, { store: this });
