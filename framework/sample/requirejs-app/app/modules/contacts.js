@@ -7,7 +7,7 @@ define([
 
         var Contact = app.module();
 
-        Contact.Model = Backbone.Model.extend({
+        Contact.Model = M.Model.extend({
             idAttribute: '_id',
             urlRoot: 'http://nerds.mway.io:8100/contact',
             url: 'http://nerds.mway.io:8100/contact',
@@ -17,7 +17,7 @@ define([
             }
         });
 
-        Contact.Collection = Backbone.Collection.extend({
+        Contact.Collection = M.Collection.extend({
             model: Contact.Model,
             url: 'http://nerds.mway.io:8100/contact'
         });

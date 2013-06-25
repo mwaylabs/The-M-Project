@@ -46,6 +46,31 @@ require.config({
             "main": "object"
         },
         {
+            "name": "M.Collection",
+            "location": "../vendor/data",
+            "main": "collection"
+        },
+        {
+            "name": "M.Model",
+            "location": "../vendor/data",
+            "main": "model"
+        },
+        {
+            "name": "M.Field",
+            "location": "../vendor/data",
+            "main": "field"
+        },
+        {
+            "name": "M.Entity",
+            "location": "../vendor/data",
+            "main": "entity"
+        },
+        {
+            "name": "M.DataSelector",
+            "location": "../vendor/data",
+            "main": "data_selector"
+        },
+        {
             "name": "M.EventDispatcher",
             "location": "../vendor/core",
             "main": "event_dispatcher"
@@ -99,6 +124,43 @@ require.config({
                 "M"
             ],
             "exports": "M.Object"
+        },
+        "M.Collection": {
+            "deps": [
+                "M.Object",
+                "M.Entity",
+                "M.Model",
+                "M.DataSelector"
+            ],
+            "exports": "M.Collection"
+        },
+        "M.DataSelector": {
+            "deps": [
+                "M.Object"
+            ],
+            "exports": "M.DataSelector"
+        },
+        "M.Entity": {
+            "deps": [
+                "M.Object",
+                "M.Field"
+            ],
+            "exports": "M.Entity"
+        },
+        "M.Field": {
+            "deps": [
+                "M.Object"
+            ],
+            "exports": "M.Field"
+        },
+        "M.Model": {
+            "deps": [
+                "M.Entity",
+                "M.Object",
+                "backbone",
+                "underscore"
+            ],
+            "exports": "M.Model"
         },
         "M.EventDispatcher": {
             "deps": [

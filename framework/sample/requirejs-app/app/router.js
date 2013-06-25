@@ -1,13 +1,9 @@
 define([
     // Application.
     "app",
-
     // Modules.
     "modules/contacts",
-    "text!templates/main-layout.html",
-    "M",
-    "M.EventDispatcher",
-    "M.ViewManager"
+    "text!templates/main-layout.html"
 ],
 
     function( app, Contact, mainTemplate ) {

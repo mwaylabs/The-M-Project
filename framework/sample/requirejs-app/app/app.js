@@ -1,6 +1,10 @@
 define([
     "backbone.layoutmanager",
-    "backbone.sticktpl"
+    "backbone.sticktpl",
+    "M",
+    "M.EventDispatcher",
+    "M.ViewManager",
+    "M.Collection"
 
     // Include additional libraries installed with JamJS or placed in the
     // `vendor/js` directory, here.
