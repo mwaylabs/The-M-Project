@@ -1,3 +1,25 @@
-<hr/>
-<a class="clickme" href="#">Click me</a>
-<div id="log"></div>
+
+<% if(contacts.length) { %>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th width="220">ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<% }else{ %>
+
+    <div class="alert alert-info">Your address book is empty!</div>
+
+<% } %>
+<button class="btn btn-large add" type="button">Add</button>
+
+        <hr/>
+        <i>Entries: <%= contacts.length %></i>
+

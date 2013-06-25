@@ -18,7 +18,12 @@
  *
  * @extends M.Object
  */
-(function() {
+(function(M, $, _, window, document, undefined) {
+    'use strict';
+
+    // var log = M.Logger.log;
+    // var logCore = M.CONST.LOGGER.TAG_FRAMEWORK_CORE;
+
 
     M.EventDispatcher = M.Object.extend(/** @scope M.EventDispatcher.prototype */ {
 
@@ -76,11 +81,15 @@
 
         _customEventRegistry: null,
 
+        //--------------------------------------------------------
+        // Constructor
+        //--------------------------------------------------------
+
         _init: function() {
             this._eventRegistry = {};
             this._customEventRegistry = {};
 
-            $(document).on('click', function(ev){
+            $(document).on('click', function( ev ) {
                 ev.stopPropagation();
                 ev.preventDefault();
                 return false;
@@ -89,26 +98,21 @@
             this._initCustomEvents();
         },
 
-        _initCustomEvents: function() {
-            _.each(this._customEvents, function( event ) {
-                this.registerEvent(event);
-            }, this);
-        },
+        //--------------------------------------------------------
+        // Interface XY
+        //--------------------------------------------------------
 
-        /**
-         * Is called as a handler for events.
-         *
-         * Delegates event via M.EventDispatcher#delegateEvent
-         *
-         *
-         * @param {Object} evt jQuery event object with target, type, offset etc. see jQuery docs for details
-         * @private
-         */
-        _delegateEvent: function( evt ) {
-            M.EventDispatcher.delegateEvent({
-                evt: evt
-            });
-        },
+        //--------------------------------------------------------
+        // Public
+        //--------------------------------------------------------
+
+        //--------------------------------------------------------
+        // Private
+        //--------------------------------------------------------
+
+        //--------------------------------------------------------
+        // Events
+        //--------------------------------------------------------
 
         /**
          * Registers an event of given type in the internal _eventRegistry.
@@ -131,8 +135,6 @@
                 M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_CORE, 'Cannot register event because no event type passed.');
                 return NO;
             }
-
-            console.log('register event', obj.type);
 
             if( !obj.source ) {
                 M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_CORE, 'Cannot register event because no event source passed.');
@@ -287,7 +289,6 @@
             /* check for custom events first */
             if( _.isArray(this._customEventRegistry[type]) ) {
                 for( var i = 0, len = this._customEventRegistry[type].length; i < len; i++ ) {
-                    console.log(this._customEventRegistry[type], type);
                     (function() {
                         var _id = id;
                         var j = i;
@@ -367,6 +368,28 @@
             return YES;
         },
 
+
+        _initCustomEvents: function() {
+            _.each(this._customEvents, function( event ) {
+                this.registerEvent(event);
+            }, this);
+        },
+
+        /**
+         * Is called as a handler for events.
+         *
+         * Delegates event via M.EventDispatcher#delegateEvent
+         *
+         *
+         * @param {Object} evt jQuery event object with target, type, offset etc. see jQuery docs for details
+         * @private
+         */
+        _delegateEvent: function( evt ) {
+            M.EventDispatcher.delegateEvent({
+                evt: evt
+            });
+        },
+
         /**
          * Checks whether an event type is seen as global event or not.
          * True, e.g. for "orientationchange"
@@ -410,4 +433,4 @@
 
     });
 
-})(M);
+})(M, jQuery, _, window, document);

@@ -1,6 +1,7 @@
 define([
     "backbone.layoutmanager",
     "backbone.sticktpl",
+    "quo",
     "M",
     "M.EventDispatcher",
     "M.ViewManager",

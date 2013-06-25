@@ -17,6 +17,8 @@ define([
                     contacts: new Contact.Collection()
                 };
 
+                A = collections;
+
                 _.extend(this, collections);
 
                 V = collections;
@@ -26,7 +28,8 @@ define([
 
             routes: {
                 '': 'index',
-                'detail/:id': 'detail'
+                'detail/:id': 'detail',
+                'add': 'add'
             },
 
             index: function() {
@@ -39,7 +42,7 @@ define([
 
                 app._useLayout(mainTemplate);
                 app.layout.setViews({
-                    ".list": list
+                    ".content": list
                 })
 
                 app.layout.render();
@@ -57,11 +60,24 @@ define([
                     model = new Contact.Model({_id: id});
                     model.fetch({url: model.urlRoot + '/' + id});
                 }
-                detail = new Contact.Views.Detail({model: model});
+                view = new Contact.Views.Detail({model: model});
 
                 app._useLayout(mainTemplate);
                 app.layout.setViews({
-                    ".list": detail
+                    ".content": view
+                })
+
+                app.layout.render();
+                $('body').html(app.layout.el);
+            },
+
+            add: function( id ) {
+
+                view = new Contact.Views.Add({collection: this.contacts});
+
+                app._useLayout(mainTemplate);
+                app.layout.setViews({
+                    ".content": view
                 })
 
                 app.layout.render();
