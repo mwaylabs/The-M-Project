@@ -69,26 +69,37 @@ exports.listen = function(server) {
 
         }).on('connection', function (socket) {
 
-            socket.on('bind', function(entity) {
-
+            socket.on('bind', function(data) {
+                var entity = typeof data === 'object' ? data.entity : data;
                 if (entity && typeof entity === 'string') {
                     var channel = 'entity_' + entity;
+
+                    // listen to this channel
                     socket.on(channel, function(msg, fn) {
                         sockets.handleMessage(entity, msg, function(data, error) {
 
                             // if the response is an object message has succeeded
                             if (typeof data === 'object') {
                                 msg.data = data;
+                                msg.time = new Date().getTime();
+                                msg.id   = data._id;
                                 if (msg.method != 'read') {
                                     socket.broadcast.emit(channel, msg);
                                 }
                             } else if (!error) {
-                                error = typeof msg === 'string' ? msg : 'error processing message!';
+                                error = typeof data === 'string' ? data : 'error processing message!';
                             }
                             // callback to the client, send error if failed
                             fn(msg, error);
                         });
                     });
+
+                    // send update messages, saved since time
+                    if (data && data.time) {
+                        sockets.readMessages(entity, data.time, function(msg) {
+                            socket.emit(channel, msg);
+                        });
+                    }
                 }
             });
         }),
@@ -106,8 +117,10 @@ exports.listen = function(server) {
             if (msg && msg.method) {
                 this.liveData.emit(channel, msg);
             }
-        }
+        },
 
+        readMessages: function(entity, time, callback) {
+        }
     }
 
     return sockets;

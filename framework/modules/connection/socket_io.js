@@ -139,19 +139,11 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     _init: function() {
         if ( Object.getPrototypeOf(this) === M.SocketIO ) {
             this._initEvents();
-            M.Application.loadScript(
-                this.host + "/" + this.script,
-                {
-                    success: {
-                        target: this,
-                        action: 'ready'
-                    },
-                    error: {
-                        target: this,
-                        action: 'error'
-                    }
-                }
-            );
+            var socket_io_js = this.host + "/" + this.script;
+            var that = this;
+            require([socket_io_js], function() {
+                that.ready();
+            });
         }
     },
 

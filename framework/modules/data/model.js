@@ -1,6 +1,7 @@
 
 M.Model = Backbone.Model.extend(M.Object);
 
+M.Model.create = M.create;
 
 _.extend(M.Model.prototype, {
 
@@ -58,5 +59,3 @@ _.extend(M.Model.prototype, {
     }
 
 });
-
-M.Model.create = M.create;

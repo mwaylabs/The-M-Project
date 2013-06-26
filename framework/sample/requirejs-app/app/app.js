@@ -5,8 +5,8 @@ define([
     "M",
     "M.EventDispatcher",
     "M.ViewManager",
-    "M.Collection"
-
+    "M.Collection",
+    "M.SocketStore"
     // Include additional libraries installed with JamJS or placed in the
     // `vendor/js` directory, here.
 ],

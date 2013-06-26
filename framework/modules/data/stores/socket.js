@@ -30,6 +30,7 @@ M.SocketStore = M.Store.extend({
 
         var that  = this;
         options   = options || {};
+
         this.host = options.host || this.host;
         this.path = options.path || this.path;
 
@@ -66,18 +67,34 @@ M.SocketStore = M.Store.extend({
     },
 
     _bindEntity: function(entity) {
-         var that = this;
-         entity.channel = entity.channel || 'entity_' + entity.name;
-         this._socket.emit('bind', entity.name);
-         this._socket.on(entity.channel, function(msg) {
-                that.trigger(entity.channel, msg)
-             }
-         );
+        var that = this;
+        entity.channel = entity.channel || 'entity_' + entity.name;
+        var time = this.getLastMessageTime(entity.channel);
+        this._socket.emit('bind', {
+             entity: entity.name,
+             time:   time
+        });
+        this._socket.on(entity.channel, function(msg) {
+            if (msg) {
+                that.setLastMessageTime(entity.channel, msg.time);
+                that.trigger(entity.channel, msg);
+            }
+        });
+    },
+
+    getLastMessageTime: function(channel) {
+        return localStorage.getItem('__'+ channel + 'last_msg_time') || 0;
+    },
+
+    setLastMessageTime: function(channel, time) {
+        if (time) {
+            localStorage.setItem('__'+ channel + 'last_msg_time', time);
+        }
     },
 
     onMessage: function(msg) {
-        if (msg && msg.method && this.lastStore) {
-            var options = { store: this.lastStore, merge: true };
+        if (msg && msg.method) {
+            var options = { store: this.lastStore, merge: true, fromMessage: true };
             var attrs   = msg.data;
             switch(msg.method) {
                 case 'patch':
@@ -109,6 +126,9 @@ M.SocketStore = M.Store.extend({
 
     sync: function(method, model, options) {
         var that   = options.store || this.store;
+        if (options.fromMessage) {
+            return that.handleCallback(options.success);
+        }
         var entity = that.getEntity(model, options, this.entity);
         if (that && entity) {
             var channel = entity.channel;
@@ -119,7 +139,10 @@ M.SocketStore = M.Store.extend({
                 this.listenTo(that, channel, that.onMessage, this);
             }
 
-            if (method !== "read" || !this.lastStore) { // only send read messages if no other store can do this
+            var time = that.getLastMessageTime(entity.channel);
+            // only send read messages if no other store can do this
+            // or for initial load
+            if (method !== "read" || !this.lastStore || !time) {
                 that.addMessage(method, model,
                     this.lastStore ? {} : options, // we don't need to call callbacks if an other store handle this
                     entity);
@@ -175,7 +198,23 @@ M.SocketStore = M.Store.extend({
                         var resp = msg ? msg.data : null;
                         that.handleCallback(options.success, resp);
                     } else {
-                        that.trigger(channel, msg);
+                        that.setLastMessageTime(channel, msg.time);
+                        if (msg.method === 'read') {
+                            var array = _.isArray(msg.data) ? msg.data : [ msg.data ];
+                            for (var i=0; i < array.length; i++) {
+                                var data = array[i];
+                                if (data) {
+                                    that.trigger(channel, {
+                                        id: data._id,
+                                        method: 'update',
+                                        data: data[i]
+                                    });
+                                    that.setLastMessageTime(channel, msg.time);
+                                }
+                            }
+                        } else {
+                            that.trigger(channel, msg);
+                        }
                     }
                 }
             });

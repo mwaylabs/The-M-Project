@@ -41,6 +41,16 @@ require.config({
             "main": "m"
         },
         {
+            "name": "M.CONST",
+            "location": "../vendor/core",
+            "main": "const"
+        },
+        {
+            "name": "M.ObjectID",
+            "location": "../vendor/utility",
+            "main": "objectid"
+        },
+        {
             "name": "M.Object",
             "location": "../vendor/core",
             "main": "object"
@@ -69,6 +79,26 @@ require.config({
             "name": "M.DataSelector",
             "location": "../vendor/data",
             "main": "data_selector"
+        },
+        {
+            "name": "M.Store",
+            "location": "../vendor/data/stores",
+            "main": "store"
+        },
+        {
+            "name": "M.SocketStore",
+            "location": "../vendor/data/stores",
+            "main": "socket"
+        },
+        {
+            "name": "M.LocalStorageStore",
+            "location": "../vendor/data/stores",
+            "main": "local_storage"
+        },
+        {
+            "name": "M.SocketIO",
+            "location": "../vendor/connection",
+            "main": "socket_io"
         },
         {
             "name": "M.EventDispatcher",
@@ -119,11 +149,47 @@ require.config({
         "M": {
             "exports": "M"
         },
-        "M.Object": {
+        "M.CONST": {
             "deps": [
                 "M"
             ],
+            "exports": "M.CONST"
+        },
+        "M.Object": {
+            "deps": [
+                "M",
+                "M.CONST"
+            ],
             "exports": "M.Object"
+        },
+        "M.SocketStore": {
+            "deps": [
+                "M.Object",
+                "M.SocketIO",
+                "M.Store",
+                "M.LocalStorageStore"
+            ],
+            "exports": "M.SocketStore"
+        },
+        "M.LocalStorageStore": {
+            "deps": [
+                "M.Object",
+                "M.Store"
+            ],
+            "exports": "M.LocalStorageStore"
+        },
+        "M.SocketIO": {
+            "deps": [
+                "M.Object"
+            ],
+            "exports": "M.SocketIO"
+        },
+        "M.Store": {
+            "deps": [
+                "M.Object",
+                "M.Collection"
+            ],
+            "exports": "M.Store"
         },
         "M.Collection": {
             "deps": [
@@ -157,6 +223,7 @@ require.config({
             "deps": [
                 "M.Entity",
                 "M.Object",
+                "M.ObjectID",
                 "backbone",
                 "underscore"
             ],

@@ -24,9 +24,41 @@ define([
             }
         });
 
+        var host = ''; // http://localhost:8100';
+
         Contact.Collection = M.Collection.extend({
             model: Contact.Model,
-            url: 'http://nerds.mway.io:8100/contact'
+            url: host+'/contact' // for rest usage
+        });
+
+        Contact.LocalStore = new M.LocalStorageStore({
+            entities: {
+                contact: {
+                    collection: Contact.Collection
+                }
+            }
+        });
+
+        Contact.RemoteStore = new M.SocketStore({
+            host: host, // for message usage
+            path: 'live_data',
+            entities: {
+                contact: {
+                    channel: 'entity_contact',
+                    idAttribute: '_id',
+                    fields:  {
+                        _id:         { type: M.CONST.TYPE.STRING, required: YES },
+                        firstName:   { type: M.CONST.TYPE.STRING,  length: 200 },
+                        lastName:    { type: M.CONST.TYPE.STRING,  required: YES, index: true },
+                        birthDate:   { type: M.CONST.TYPE.DATE   },
+                        bmi:         { type: M.CONST.TYPE.FLOAT,   default: 0.0},
+                        notes:       { type: M.CONST.TYPE.TEXT   },
+                        address:     { type: M.CONST.TYPE.OBJECT },
+                        displayName: { type: M.CONST.TYPE.STRING, persistent: NO }
+                    },
+                    collection: Contact.Collection
+                }
+            }
         });
 
         Contact.Views.Item = Backbone.View.extend({

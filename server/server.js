@@ -64,8 +64,10 @@ server.delete('/:name/:id', function(req, res){
     rest.delete(req, res);
 });
 
+// overriden functions
 
 rest.sendMessage = function(entity, msg) {
+    rest.saveMessage(entity, msg);
     sockets.sendMessage(entity, msg);
 };
 
@@ -74,3 +76,8 @@ sockets.handleMessage = function(entity, msg, callback) {
         return rest.handleMessage(entity, msg, callback);
     }
 };
+
+sockets.readMessages = function(entity, time, callback) {
+    rest.readMessages(entity, time, callback);
+};
+

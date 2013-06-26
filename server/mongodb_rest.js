@@ -80,8 +80,9 @@ exports.create = function(dbName) {
             if (typeof id === 'undefined' || id === '') {
                 return res.send(400, "invalid id.");
             }
-
             doc._id  = id;
+            doc._time = new Date().getTime();
+
             var collection = new mongodb.Collection(this.db, name);
             collection.insert(
                 doc,
@@ -92,10 +93,14 @@ exports.create = function(dbName) {
                     } else {
                         var doc = docs && docs.length > 0 ? docs[0] : null;
                         if (doc) {
+                            var msg = {
+                                method: 'create',
+                                id: doc._id,
+                                time: doc._time,
+                                data: doc
+                            };
+                            rest.onSuccess(name, msg, fromMessage);
                             res.send(doc);
-                            if (doc && !fromMessage) {
-                                rest.sendMessage(name, { method: 'create', id: id.toString(), data: doc });
-                            }
                         } else {
                             res.send(400, 'failed to create document.');
                         }
@@ -112,8 +117,8 @@ exports.create = function(dbName) {
             if (typeof id === 'undefined' || id === '') {
                 return res.send(400, "invalid id.");
             }
-            doc._id = id;
-
+            doc._id   = id;
+            doc._time = new Date().getTime();
             var collection = new mongodb.Collection(this.db, name);
             collection.update(
                 { "_id" : id },
@@ -126,10 +131,14 @@ exports.create = function(dbName) {
                         if (n==0) {
                             res.send(404, 'Document not found!');
                         } else {
+                            var msg = {
+                                method: 'update',
+                                id: doc._id,
+                                time: doc._time,
+                                data: doc
+                            };
+                            rest.onSuccess(name, msg, fromMessage);
                             res.send(doc);
-                            if (n > 0 && !fromMessage) {
-                                rest.sendMessage(name, { method: 'update', id: id.toString(), data: doc });
-                            }
                         }
                     }
                 }
@@ -143,7 +152,9 @@ exports.create = function(dbName) {
             if (typeof id === 'undefined' || id === '') {
                 return res.send(400, "invalid id.");
             }
-
+            var doc   = {};
+            doc._id   = id;
+            doc._time = new Date().getTime();
             var collection = new mongodb.Collection(this.db, name);
             collection.remove({ "_id" : id }, { }, function(err, n){
                     if(err) {
@@ -151,15 +162,93 @@ exports.create = function(dbName) {
                     } else {
                         if (n==0) {
                             res.send(404, 'Document not found!');
-                        } else {
-                            res.send({ _id: id.toString() });
                         }
-                        if (n > 0 && !fromMessage) {
-                            rest.sendMessage(name, { method: 'delete', id: id.toString() });
+                        if (n > 0) {
+                            var msg = {
+                                method: 'delete',
+                                id: doc._id,
+                                time: doc._time,
+                                data: doc
+                            };
+                            rest.onSuccess(name, msg, fromMessage);
+                            res.send(doc, msg);
                         }
                     }
                 }
             );
+        },
+
+        //save a new change message
+        saveMessage: function(entity, msg) {
+            if (!msg._id) {
+                msg._id = new ObjectID();
+            }
+            var collection = new mongodb.Collection(this.db, "__msg__" + entity);
+            collection.insert(
+                msg,
+                { safe: false }
+            );
+        },
+
+        //read the change message, since time
+        readMessages: function(entity, time, callback) {
+            var collection = new mongodb.Collection(this.db, "__msg__" + entity);
+            time = parseInt(time);
+            if (!time) {
+                return;
+            }
+            collection.ensureIndex(
+                { time: 1, id: 1 },
+                { unique:true, background:true, w:1 },
+                function(err, indexName) {
+                    var cursor = collection.find({ time: { $gt: time } });
+                    var id, msg, lastMsg;
+                    cursor.sort([['id', 1], ['time', 1]]).each(function(err, msg) {
+                        if (msg && msg.id) {
+                            // the same id, merge document
+                            if (id && id.equals(id)) {
+                                if (lastMsg) {
+                                    msg = rest.mergeMessage(lastMsg, msg);
+                                }
+                            } else if (lastMsg) {
+                                // send the document to the client
+                                callback(lastMsg);
+                                lastMsg = null;
+                            }
+                            lastMsg = msg;
+                            id = msg.id;
+                        }
+                    });
+                    if (lastMsg) {
+                        callback(lastMsg);
+                    }
+                }
+            );
+        },
+
+        mergeMessage: function(doc1, doc2) {
+            doc1 = doc1 || {};
+            if (doc2) {
+                doc1.id   = doc2.id;
+                doc1.time = doc2.time;
+                if (doc2.method && (doc1.method !== 'create' || doc2.method === 'delete')) {
+                    doc1.method = doc2.method;
+                }
+                doc1.data = doc1.data || {};
+                if (doc2.data) {
+                    for (var key in doc2.data) {
+                        doc1.data[key] = doc2.data[key];
+                    }
+                }
+            }
+            return doc1;
+        },
+
+        onSuccess: function(entity, msg, fromMessage) {
+            this.saveMessage(entity, msg);
+            if (!fromMessage) {
+                this.sendMessage(entity, msg);
+            }
         },
 
         sendMessage: function(entity, msg) {

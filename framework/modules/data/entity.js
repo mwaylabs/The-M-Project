@@ -46,6 +46,7 @@ M.Entity.extend = Backbone.Model.extend;
 
 M.Entity.create = M.create;
 
+
 _.extend(M.Entity.prototype, M.Object, {
 
     /**
@@ -182,6 +183,4 @@ _.extend(M.Entity.prototype, M.Object, {
             return attrs[this.idAttribute];
         }
     }
-
-
 });

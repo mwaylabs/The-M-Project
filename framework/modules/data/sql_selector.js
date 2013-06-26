@@ -292,5 +292,4 @@ M.SqlSelector = M.DataSelector.extend({
             };
         }
     }
-
 });
