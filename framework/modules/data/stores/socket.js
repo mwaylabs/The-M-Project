@@ -134,8 +134,12 @@ M.SocketStore = M.Store.extend({
         if (that && entity) {
             var channel = entity.channel;
 
+            if ( M.isModel(model) && !model.id) {
+                model.set(model.idAttribute, new M.ObjectID().toHexString());
+            }
+
             // connect collection with this channel
-            if (this.models && channel && !this.channel) {
+            if ( M.isCollection(this) && channel && !this.channel) {
                 this.channel = channel;
                 this.listenTo(that, channel, that.onMessage, this);
             }
@@ -171,7 +175,7 @@ M.SocketStore = M.Store.extend({
                     break;
             }
             var msg = {
-                _id: model.id || new M.ObjectID().toHexString(),
+                _id: model.id,
                 id: model.id,
                 method: method,
                 data: data
