@@ -43,6 +43,7 @@ define([
         Contact.RemoteStore = new M.SocketStore({
             host: host, // for message usage
             path: 'live_data',
+            version: '1.0',
             entities: {
                 contact: {
                     channel: 'entity_contact',
@@ -203,11 +204,11 @@ define([
             },
 
             bindings: {
-                '[data-binding="firstname"]': {
-                    observe: 'firstname'
-                },
                 '[data-binding="input-firstname"]': {
                     observe: 'firstname'
+                },
+                '[data-binding="input-lastname"]': {
+                    observe: 'lastname'
                 }
             },
 

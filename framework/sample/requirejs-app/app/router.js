@@ -54,11 +54,15 @@ define([
             detail: function( id ) {
                 var model = this.contacts.get(id);
 
+                var that   = this;
                 var detail = null;
 
-                if(!model){
-                    model = new Contact.Model({_id: id});
-                    model.fetch({url: model.urlRoot + '/' + id});
+                if(!model) {
+                    model = new Contact.Model({_id: id });
+                    model.collection = this.contacts;
+                    model.fetch({ success: function(model) {
+                        that.contacts.add(model);
+                    }});
                 }
                 view = new Contact.Views.Detail({model: model});
 
