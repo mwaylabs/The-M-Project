@@ -217,11 +217,10 @@ exports.create = function(dbName) {
                             }
                             lastMsg = msg;
                             id = msg.id;
+                        } else if (lastMsg) {
+                            callback(lastMsg);
                         }
                     });
-                    if (lastMsg) {
-                        callback(lastMsg);
-                    }
                 }
             );
         },

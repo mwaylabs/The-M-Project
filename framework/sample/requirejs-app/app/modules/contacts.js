@@ -24,6 +24,7 @@ define([
             }
         });
 
+        //var host = '';
         var host = 'http://nerds.mway.io:8200';
 
         Contact.Collection = M.Collection.extend({

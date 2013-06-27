@@ -71,15 +71,15 @@ M.SocketStore = M.Store.extend({
         var that = this;
         entity.channel = entity.channel || 'entity_' + entity.name;
         var time = this.getLastMessageTime(entity.channel);
-        this._socket.emit('bind', {
-             entity: entity.name,
-             time:   time
-        });
         this._socket.on(entity.channel, function(msg) {
             if (msg) {
                 that.setLastMessageTime(entity.channel, msg.time);
                 that.trigger(entity.channel, msg);
             }
+        });
+        this._socket.emit('bind', {
+             entity: entity.name,
+             time:   time
         });
     },
 
