@@ -24,7 +24,7 @@ define([
             }
         });
 
-        var host = ''; // http://localhost:8100';
+        var host = 'http://nerds.mway.io:8200';
 
         Contact.Collection = M.Collection.extend({
             model: Contact.Model,

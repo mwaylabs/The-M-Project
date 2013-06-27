@@ -64,6 +64,7 @@ M.SocketStore = M.Store.extend({
             }
         });
         this.messages  = new MsgCollection();
+        this.messages.fetch();
     },
 
     _bindEntity: function(entity) {
@@ -207,7 +208,7 @@ M.SocketStore = M.Store.extend({
                                     that.trigger(channel, {
                                         id: data._id,
                                         method: 'update',
-                                        data: data[i]
+                                        data: data
                                     });
                                     that.setLastMessageTime(channel, msg.time);
                                 }
