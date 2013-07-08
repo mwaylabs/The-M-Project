@@ -93,7 +93,7 @@ M.MapView = M.View.extend(
      * mapped to the zoom property of a google map view. For further information
      * see the google maps API specification:
      *
-     *   http://code.google.com/intl/de-DE/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#MapOptions
      *
      * @type Number
      */
@@ -111,7 +111,7 @@ M.MapView = M.View.extend(
      *
      * For further information see the google maps API specification:
      *
-     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#MapOptions
      *
      * @type String
      */
@@ -122,7 +122,7 @@ M.MapView = M.View.extend(
      * inside of this map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#MapOptions
      *
      * @type Boolean
      */
@@ -133,7 +133,7 @@ M.MapView = M.View.extend(
      * inside of this map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#MapOptions
      *
      * @type Boolean
      */
@@ -144,7 +144,7 @@ M.MapView = M.View.extend(
      * inside of this map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#MapOptions
      *
      * @type Boolean
      */
@@ -155,11 +155,41 @@ M.MapView = M.View.extend(
      * a user won't be able to move the map, respectively the visible sector. For
      * further information see the google maps API specification:
      *
-     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#MapOptions
      *
      * @type Boolean
      */
     isDraggable: YES,
+
+    /**
+     * Enables/disables zoom and center on double click. Enabled by default.
+     * For further information see the google maps API specification:
+     *
+     *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#MapOptions
+     *
+     * @type Boolean
+     */
+    disableDoubleClickZoom: NO,
+
+    /**
+     * If false, disables scrollwheel zooming on the map. The scrollwheel is enabled by default.
+     * For further information see the google maps API specification:
+     *
+     *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#MapOptions
+     *
+     * @type Boolean
+     */
+    scrollwheel: YES,
+
+    /**
+     * The enabled/disabled state of the Zoom control.
+     * For further information see the google maps API specification:
+     *
+     *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#MapOptions
+     *
+     * @type Boolean
+     */
+    zoomControl: YES,
 
     /**
      * This property specifies the initial location for this map view, as an M.Location
@@ -167,7 +197,7 @@ M.MapView = M.View.extend(
      * property of a google map view. For further information see the google maps API
      * specification:
      *
-     *   http://code.google.com/intl/en-US/apis/maps/documentation/javascript/reference.html#MapOptions
+     *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#MapOptions
      *
      * @type M.Location
      */
@@ -240,13 +270,58 @@ M.MapView = M.View.extend(
     recommendedEvents: ['click', 'tap'],
 
     /**
+     * This property specifies the map language for this map view.
+     *
+     * @type String
+     */
+    language: 'en',
+
+    /**
+     * To access the special features of Google Maps API for Business,
+     * you must provide a client ID. All client IDs begin with a gme- prefix.
+     *
+     * For further information see the google maps for business docs specification:
+     * https://developers.google.com/maps/documentation/business/guide?hl=en
+     *
+     * @type String
+     */
+    clientId: '',
+
+    /**
+     * To track usage across different applications using the same client ID,
+     * you may provide an optional channel parameter with your requests.
+     * By specifying different channel values for different aspects of your
+     * application, you can determine precisely how your application is used.
+     *
+     * For further information see the google maps for business docs specification:
+     * https://developers.google.com/maps/documentation/business/guide?hl=en
+     *
+     * @type String
+     */
+    channelId: '',
+
+    /**
+     * This property specified the Google Map version for this map view.
+     * If not specified, the latest version will be used.
+     *
+     * @type String
+     */
+    version: '',
+
+    /**
      * Renders a map view, respectively a map view container.
      *
      * @private
      * @returns {String} The map view's html representation.
      */
     render: function() {
-        this.html = '<div data-fullscreen="true" id="' + this.id + '"';
+
+        var containerCssClass = 'map_container';
+        if(this.cssClass) {
+            containerCssClass = this.cssClass + '_' + containerCssClass;
+        }
+
+        this.html = '<div data-fullscreen="true" id="' + this.id + '" class="' + containerCssClass +'"';
         this.html += !this.isInset ? ' class="ui-listview"' : '';
         this.html += '><div id="' + this.id + '_map"' + this.style() + '></div></div>';
 
@@ -328,9 +403,11 @@ M.MapView = M.View.extend(
      */
     style: function() {
         var html = '';
+        html += ' class="gmap';
         if(this.cssClass) {
-            html += ' class="' + this.cssClass + '"';
+            html += ' ' + this.cssClass;
         }
+        html += '"';
         return html;
     },
 
@@ -374,7 +451,7 @@ M.MapView = M.View.extend(
      *       }
      *     }
      *   }
-     *   
+     *
      * @param {Object} options The options for the map view.
      * @param {Boolean} isUpdate Indicates whether this is an update call or not.
      */
@@ -413,8 +490,18 @@ M.MapView = M.View.extend(
      */
     didRetrieveConnectionStatus: function(connectionStatus) {
         if(connectionStatus === M.ONLINE) {
+
+            var url = 'http://maps.google.com/maps/api/js?';
+            url += (this.loadPlacesLibrary ? 'libraries=places&' : '');
+            url += (this.clientId ? 'client='+ this.clientId +'&' : '');
+            url += (this.channelId ? 'channel='+ this.channelId +'&' : '');
+            url += (this.version ? 'version='+ this.version +'&' : '');
+            url += (this.language ? 'language='+ this.language +'&' : '');
+            url += 'sensor=true&';
+            url += 'callback=M.INITIAL_MAP.map.googleDidLoad';
+
             $.getScript(
-                'http://maps.google.com/maps/api/js?' + (this.loadPlacesLibrary ? 'libraries=places&' : '') + 'sensor=true&callback=M.INITIAL_MAP.map.googleDidLoad'
+                url
             );
         } else {
             var callback = M.INITIAL_MAP.options ? M.INITIAL_MAP.options.callbacks : null;
@@ -476,7 +563,10 @@ M.MapView = M.View.extend(
                 mapTypeControl: this.showMapTypeControl,
                 navigationControl: this.showNavigationControl,
                 streetViewControl: this.showStreetViewControl,
-                draggable: this.isDraggable
+                draggable: this.isDraggable,
+                disableDoubleClickZoom: this.disableDoubleClickZoom,
+                scrollwheel: this.scrollwheel,
+                zoomControl: this.zoomControl
             });
         } else {
             this.map = new google.maps.Map($('#' + this.id + '_map')[0], {
@@ -486,7 +576,10 @@ M.MapView = M.View.extend(
                 mapTypeControl: this.showMapTypeControl,
                 navigationControl: this.showNavigationControl,
                 streetViewControl: this.showStreetViewControl,
-                draggable: this.isDraggable
+                draggable: this.isDraggable,
+                disableDoubleClickZoom: this.disableDoubleClickZoom,
+                scrollwheel: this.scrollwheel,
+                zoomControl: this.zoomControl
             });
         }
 
@@ -494,7 +587,8 @@ M.MapView = M.View.extend(
             var that = this;
             this.addMarker(M.MapMarkerView.init({
                 location: this.initialLocation,
-                map: that.map
+                map: this.map,
+                icon: this.icon
             }));
         }
 
@@ -511,7 +605,7 @@ M.MapView = M.View.extend(
      * With its options parameter you can update or update almost every parameter
      * of a map view. This allows you to define a map view within your view, but
      * then update its parameters later when you want this view to display a map
-     * and to update those options over and over again for this map. 
+     * and to update those options over and over again for this map.
      *
      * The options parameter must be passed as a simple object, containing all of
      * the M.MapView's properties you want to be updated. Such an options object
@@ -582,7 +676,7 @@ M.MapView = M.View.extend(
                 return !(marker === m);
             });
             if(!didRemoveMarker) {
-                M.Logger.log('No marker found matching the passed marker in removeMarker().', M.WARN);    
+                M.Logger.log('No marker found matching the passed marker in removeMarker().', M.WARN);
             }
         } else {
             M.Logger.log('No valid M.MapMarkerView passed for removeMarker().', M.WARN);
@@ -599,6 +693,56 @@ M.MapView = M.View.extend(
             marker.marker.setMap(null);
         });
         this.markers = [];
-    }
+    },
+
+	/**
+	 * This method change the center of the map to the given location.
+	 * For further information see the google maps API specification:
+	 *
+	 *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#Map
+	 *
+     * @param {M.Location} location The location to be centered.
+	 */
+	panTo: function(location) {
+		var latLng = new google.maps.LatLng(location.latitude, location.longitude);
+		this.map.panTo( latLng )
+	},
+
+	/**
+	 * This method change the center of the map to the given location.
+	 * For further information see the google maps API specification:
+	 *
+	 *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#Map
+	 *
+	 * @param {int} x Pixels to be changed from west to east.
+	 * @param {int} y Pixels to be changed from north to south.
+	 */
+	panBy: function(x,y) {
+		this.map.panBy(x,y);
+	},
+
+	/**
+	 * This method change the zoom of the map to the given value.
+	 * For further information see the google maps API specification:
+	 *
+	 *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#Map
+	 *
+	 * @type M.Location
+	 */
+	setZoom: function(value) {
+		this.map.setZoom(value);
+	},
+
+	/**
+	 * This method returns the zoom level of the map.
+	 * For further information see the google maps API specification:
+	 *
+	 *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#Map
+	 *
+	 * @return {int} Zoom level of the map
+	 */
+	getZoom: function() {
+		return this.map.getZoom();
+	}
 
 });

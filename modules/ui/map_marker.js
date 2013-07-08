@@ -185,6 +185,17 @@ M.MapMarkerView = M.View.extend(
     isIconCentered: NO,
 
     /**
+     * Disable optimized rendering for animated GIFs or PNGs, or when each marker
+     * must be rendered as a separate DOM element (advanced usage only).
+     * For further information see the google maps API specification:
+     *
+     * https://developers.google.com/maps/documentation/javascript/reference#MarkerOptions
+     *
+     * @type Boolean
+     */
+    optimized: true,
+
+    /**
      * This property specifies the recommended events for this type of view.
      *
      * @type Array
@@ -263,6 +274,19 @@ M.MapMarkerView = M.View.extend(
                 }
             }
         }
+    },
+
+    /**
+     * This method moves the marker to the given location.
+     * For further information see the google maps API specification:
+     *
+     *   https://developers.google.com/maps/documentation/javascript/reference?hl=en-US#Marker
+     *
+     * @param {M.Location} location Marker location
+     */
+    setPosition: function(location) {
+        var latLng = new google.maps.LatLng(location.latitude, location.longitude);
+        this.marker.setPosition( latLng )
     }
 
 });
