@@ -641,7 +641,8 @@ M.MapView = M.View.extend(
                 draggable: NO,
                 animation: google.maps.Animation[marker.markerAnimationType ? marker.markerAnimationType : that.markerAnimationType],
                 position: new google.maps.LatLng(marker.location.latitude, marker.location.longitude),
-                icon: marker.icon ? new google.maps.MarkerImage(
+                optimized: marker.optimized,
+                icon: !marker.icon ? new google.maps.MarkerImage(
                     marker.icon,
                     null,
                     null,
