@@ -50,7 +50,6 @@ M.SplitView = M.View.extend(
 
     shouldHaveScrollview: YES,
 
-
     /**
      * Renders a split view.
      *
@@ -158,11 +157,10 @@ M.SplitView = M.View.extend(
                 }
 
                 /* theme the list */
-
                 this.menu.menu.themeUpdate();
 
                 /* now set the active list item */
-                this.menu.menu.setActiveListItem(entryItem);
+//                this.menu.menu.setActiveListItem(entryItem);
 
                 /* finally show the active list item's content */
                 this.listItemSelected(entryItem);
@@ -193,7 +191,7 @@ M.SplitView = M.View.extend(
         var size = M.Environment.getSize();
         var width = size[0];
         var height = size[1];
-                      ;
+
         /* landscape mode */
         if (M.Environment.getWidth() > M.Environment.getHeight()) {
             this.orientation = 'landscape';
@@ -242,12 +240,16 @@ M.SplitView = M.View.extend(
 
             /* check whether scrolling is required or not for the menu */
             if (this.orientation === 'landscape') {
+
                 this.itemheight = $('#' + this.menu.menu.id).find('li:first').outerHeight();
                 var itemCount = $('#' + this.menu.menu.id).find('li').length;
+
                 if (this.itemheight !== 0) {
                     var menuHeight = M.Environment.getHeight();
                     var itemListHeight = itemCount * this.itemheight;
+
                     if (menuHeight < itemListHeight) {
+
                         $('#' + this.menu.menu.id).scrollview({
                             direction: 'y'
                         });
@@ -270,6 +272,7 @@ M.SplitView = M.View.extend(
         this.headerheight = $('#' + M.ViewManager.getCurrentPage().id + ' .ui-header').height();
         this.footerheight = $('#' + M.ViewManager.getCurrentPage().id + ' .ui-footer').height();
         this.contentLoaded = YES;
+        this.themeUpdate();
     },
 
     registerEvents: function() {
@@ -293,23 +296,6 @@ M.SplitView = M.View.extend(
             NO,
             YES
         );
-
-        M.EventDispatcher.registerEvent(
-            'pageshow',
-            page.id,
-            {
-                target: this,
-                action:  function() {
-                    if(!this.scrollviewsInitialized){
-                        this.themeUpdate();
-                    }
-                }
-            },
-            ['pageshow'],
-            null,
-            NO,
-            YES
-        );
     },
 
     listItemSelected: function(id) {
@@ -318,7 +304,6 @@ M.SplitView = M.View.extend(
         if (!contentView) {
             return;
         }
-
         this.selectedItem = M.ViewManager.getViewById(id).splitViewItem;
 
         if (!this.isInitialized) {
@@ -333,11 +318,13 @@ M.SplitView = M.View.extend(
         } else {
             if (contentView.html) {
                 $('#' + this.content.id + ' div:first').html(contentView.html);
+
             } else {
                 $('#' + this.content.id + ' div:first').html(contentView.render());
                 contentView.theme();
-                contentView.registerEvents();
             }
+            contentView.registerEvents();
+
             $('#' + this.content.id).scrollview('scrollTo', 0, 0);
         }
 
@@ -454,9 +441,9 @@ M.SplitView = M.View.extend(
             });
         }
         console.log("scrollListToRightPosition " + this.menu.menu.id);
-
-        $('#' + this.menu.menu.id).scrollview('scrollTo', 0, yScroll);
-
+//        debugger;
+//        $('#' + this.menu.menu.id).scrollview('scrollTo', 0, yScroll);
+//        debugger;
     }
 
 });
