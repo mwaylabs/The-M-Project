@@ -518,7 +518,7 @@ jQuery.widget( "mobile.scrollview", jQuery.mobile.widget, {
 //				.trigger("mousedown")
 				//.trigger("focus")
 //				.trigger("mouseup")
-				.trigger("tap");
+//				.trigger("tap");
 		}
 
 		// If a view scrolled, then we need to absorb
