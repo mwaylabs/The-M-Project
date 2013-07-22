@@ -29,27 +29,27 @@ define([
         // Configure LayoutManager with Backbone Boilerplate defaults.
         LayoutManager.configure({
             // Allow LayoutManager to augment Backbone.View.prototype.
-            manage: true,
+            manage: true
 
-            prefix: "app/templates/",
-
-            fetch: function( path ) {
-                // Concatenate the file extension.
-                path = path + ".html";
-
-                // If cached, use the compiled template.
-                if( JST[path] ) {
-                    return JST[path];
-                }
-
-                // Put fetch into `async-mode`.
-                var done = this.async();
-
-                // Seek out the template asynchronously.
-                $.get(app.root + path, function( contents ) {
-                    done(_.template(contents));
-                }, "text");
-            }
+//            prefix: "app/templates/",
+//
+//            fetch: function( path ) {
+//                // Concatenate the file extension.
+//                path = path + ".html";
+//
+//                // If cached, use the compiled template.
+//                if( JST[path] ) {
+//                    return JST[path];
+//                }
+//
+//                // Put fetch into `async-mode`.
+//                var done = this.async();
+//
+//                // Seek out the template asynchronously.
+//                $.get(app.root + path, function( contents ) {
+//                    done(_.template(contents));
+//                }, "text");
+//            }
         });
 
 

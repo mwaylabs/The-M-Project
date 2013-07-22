@@ -4,10 +4,12 @@ define([
     'backbone.stickit',
     "text!templates/detail.html",
     "text!templates/item.html",
-    "text!templates/add.html"
+    "text!templates/add.html",
+    "text!templates/list.html"
+
 ],
 
-    function( app, stickit, detailTemplate, itemTemplate, addTemplate ) {
+    function( app, stickit, detailTemplate, itemTemplate, addTemplate, listTemplate ) {
 
         var Contact = app.module();
 
@@ -156,7 +158,7 @@ define([
         });
 
         Contact.Views.List = Backbone.View.extend({
-            template: 'list',
+            template: _.template(listTemplate),
 
             events: {
                 "tap .add": "addEntry"
