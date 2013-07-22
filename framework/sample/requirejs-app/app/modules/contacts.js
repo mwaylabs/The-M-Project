@@ -1,6 +1,10 @@
 define([
     // Application.
-    'app', 'backbone.stickit', "text!templates/detail.html", "text!templates/item.html", "text!templates/add.html"
+    'app',
+    'backbone.stickit',
+    "text!templates/detail.html",
+    "text!templates/item.html",
+    "text!templates/add.html"
 ],
 
     function( app, stickit, detailTemplate, itemTemplate, addTemplate ) {
@@ -25,7 +29,8 @@ define([
         });
 
         //var host = '';
-        var host = 'http://nerds.mway.io:8200';
+//        var host = 'http://nerds.mway.io:8200';
+        var host = 'http://127.0.0.1:8200';
 
         Contact.Collection = M.Collection.extend({
             model: Contact.Model,
@@ -107,7 +112,11 @@ define([
             },
 
             userSelected: function( a, b, c ) {
-                Backbone.history.navigate('detail/' + this.model.id, true);
+                app.layout.navigate({
+                    route: 'detail',
+                    params: this.model.id
+                });
+                //Backbone.history.navigate('detail/' + this.model.id, true);
             },
 
             initialize: function() {

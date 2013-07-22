@@ -3,19 +3,27 @@ define([
     "app",
     // Modules.
     "modules/contacts",
-    "text!templates/main-layout.html"
+    "text!templates/detail-layout.html",
+    "text!templates/index-layout.html"
 ],
 
-    function( app, Contact, mainTemplate ) {
+    function( app, Contact, detailTemplate, indexLayout ) {
 
         // Defining the application router, you can attach sub routers here.
         var Router = Backbone.Router.extend({
 
-            initialize: function() {
+            routes: {
+                '': 'index',
+                'detail/:id': 'detail',
+                'add': 'add'
+            },
 
+            initialize: function() {
                 var collections = {
                     contacts: new Contact.Collection()
                 };
+
+                app.layout = new (Backbone.Layout.extend());
 
                 A = collections;
 
@@ -26,12 +34,6 @@ define([
                 // $('body').hammer();
             },
 
-            routes: {
-                '': 'index',
-                'detail/:id': 'detail',
-                'add': 'add'
-            },
-
             index: function() {
 
                 this.contacts.fetch();
@@ -40,14 +42,12 @@ define([
 
                 var list = new Contact.Views.List(listOptions);
 
-                app._useLayout(mainTemplate);
+                app.layout.useLayout(indexLayout);
                 app.layout.setViews({
                     ".content": list
                 })
 
-                app.layout.render();
-
-                $('body').html(app.layout.el);
+                app.layout.switchToPage();
 
             },
 
@@ -64,22 +64,23 @@ define([
                         that.contacts.add(model);
                     }});
                 }
-                view = new Contact.Views.Detail({model: model});
+                var view = new Contact.Views.Detail({model: model});
 
-                app._useLayout(mainTemplate);
+                app.layout.useLayout(detailTemplate);
                 app.layout.setViews({
                     ".content": view
-                })
+                });
 
-                app.layout.render();
-                $('body').html(app.layout.el);
+                app.layout.switchToPage();
+
+
             },
 
             add: function( id ) {
 
                 view = new Contact.Views.Add({collection: this.contacts});
 
-                app._useLayout(mainTemplate);
+//                app.layout.useLayout(indexTemplate);
                 app.layout.setViews({
                     ".content": view
                 })
