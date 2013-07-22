@@ -109,6 +109,21 @@ require.config({
             "name": "M.ViewManager",
             "location": "../vendor/core",
             "main": "view_manager"
+        },
+        {
+            "name": "M.LayoutManager",
+            "location": "../vendor/ui",
+            "main": "layout_manager"
+        },
+        {
+            "name": "modenizer",
+            "location": "../vendor/libs",
+            "main": "modenizer.custom"
+        },
+        {
+            "name": "pagetransition",
+            "location": "../vendor/libs",
+            "main": "pagetransitions"
         }
     ],
     "shim": {
@@ -240,6 +255,24 @@ require.config({
                 "M.Object"
             ],
             "exports": "M.ViewManager"
+        },
+        "M.LayoutManager": {
+            "deps": [
+                "backbone.layoutmanager", "M.Object"
+            ],
+            "exports": "M.LayoutManager"
+        },
+        "modenizer": {
+            "deps": [
+                "jquery"
+            ],
+            "exports": "modenizer"
+        },
+        "pagetransition": {
+            "deps": [
+                "jquery", "modenizer"
+            ],
+            "exports": "pagetransition"
         }
     }
 });
