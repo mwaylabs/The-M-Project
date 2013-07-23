@@ -30,6 +30,11 @@ require.config({
             "name": "view",
             "location": "modules/ui/views",
             "main": "view"
+        },
+        {
+            "name": "view_manager",
+            "location": "modules/core",
+            "main": "view_manager"
         }
     ],
     "shim": {
@@ -53,11 +58,11 @@ require.config({
             "deps": [ "modules/core", "quo", "backbone.layoutmanager", "backbone.stickit", "backbone.sticktpl" ],
             "exports": "M.View"
         },
-                "collection": {
-                    "deps": ["view"],
-                    "exports": "M.Collection"
-                }
+        "view_manager": {
+            "deps": [ "modules/core", "view" ],
+            "exports": "M.View"
+        }
     }
 });
 
-define(['view']);
+define(['view', 'view_manager']);

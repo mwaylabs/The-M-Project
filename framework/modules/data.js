@@ -60,7 +60,7 @@ require.config({
         {
             "name": "store.socket",
             "location": "modules/data/stores",
-            "main": "local_storage"
+            "main": "socket"
         },
         {
             "name": "store.web_sql",
