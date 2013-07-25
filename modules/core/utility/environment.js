@@ -352,6 +352,10 @@ M.Environment = M.Object.extend(
     getOS: function() {
 
         var operatingSystems = {};
+        
+        operatingSystems[this.LINUX] = function() {
+            return navigator.userAgent.match(/Linux/i) ? true : false;
+        };
 
         operatingSystems[this.ANDROID] = function() {
             return navigator.userAgent.match(/Android/i) ? true : false;
@@ -371,10 +375,6 @@ M.Environment = M.Object.extend(
 
         operatingSystems[this.MAC] = function() {
             return navigator.userAgent.match(/Macintosh/i) ? true : false;
-        };
-        
-        operatingSystems[this.LINUX] = function() {
-            return navigator.userAgent.match(/Linux/i) ? true : false;
         };
 
         operatingSystems[this.WINDOWS] = function() {
