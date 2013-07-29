@@ -70,9 +70,22 @@ define([
             }
         });
 
+        MyView = M.View.design({
+            label: M.View.design({
+                template: 'label'
+            }),
+            input: M.View.design({
+                template: 'input'
+            }),
+            lastname: M.View.design({
+                valuePattern: '<%= lastName =>',
+                tmpl: 'label'
+            })
+        });
+
         Contact.Views.Item = Backbone.View.extend({
 
-            template: _.template(itemTemplate),
+            template: _.template(MyView.render().el),
             tagName: 'tr',
             className: 'contact-container',
 
@@ -157,7 +170,9 @@ define([
             }
         });
 
+
         Contact.Views.List = Backbone.View.extend({
+
             template: _.template(listTemplate),
 
             events: {
