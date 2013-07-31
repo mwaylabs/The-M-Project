@@ -1,10 +1,10 @@
 var PageTransitions = (function() {
 
-    var $main = $( '#pt-main' ),
-        $pages = $main.children( 'div.pt-page' ),
-        $iterate = $( '#iterateEffects' ),
+    var $main = null,
+        $pages = null,
+        $iterate = null,
         animcursor = 1,
-        pagesCount = $pages.length,
+        pagesCount = 0,
         current = 0,
         isAnimating = false,
         endCurrPage = false,
@@ -21,10 +21,10 @@ var PageTransitions = (function() {
         support = Modernizr.cssanimations;
 
     function init() {
-
         $main = $( '#pt-main' );
         $pages = $main.children( 'div.pt-page' );
         $iterate = $( '#iterateEffects' );
+        pagesCount = $pages.length;
 
         $pages.each( function() {
             var $page = $( this );
@@ -32,30 +32,21 @@ var PageTransitions = (function() {
         } );
 
         $pages.eq( current ).addClass( 'pt-page-current' );
+    }
 
-//        $( '#dl-menu' ).dlmenu( {
-//            animationClasses : { in : 'dl-animate-in-2', out : 'dl-animate-out-2' },
-//            onLinkClick : function( el, ev ) {
-//                ev.preventDefault();
-//                nextPage( el.data( 'animation' ) );
-//            }
-//        } );
-
-        $iterate.on( 'click', function() {
-            if( isAnimating ) {
-                return false;
-            }
-            if( animcursor > 67 ) {
-                animcursor = 1;
-            }
-            nextPage( animcursor );
-            ++animcursor;
-        } );
+    function switchToNextPage(){
+        if( isAnimating ) {
+            return false;
+        }
+        if( animcursor > 67 ) {
+            animcursor = 1;
+        }
+        nextPage( animcursor );
+        ++animcursor;
 
     }
 
     function nextPage( animation ) {
-
         if( isAnimating ) {
             return false;
         }
@@ -346,21 +337,27 @@ var PageTransitions = (function() {
                 break;
         }
 
-        $currPage.addClass( outClass ).on( animEndEventName, function() {
+        $($currPage[0]).on( animEndEventName, function() {
             $currPage.off( animEndEventName );
             endCurrPage = true;
             if( endNextPage ) {
                 onEndAnimation( $currPage, $nextPage );
             }
         } );
+        $currPage.addClass( outClass );
 
-        $nextPage.addClass( inClass ).on( animEndEventName, function() {
+        $($nextPage[0]).on( animEndEventName, function() {
             $nextPage.off( animEndEventName );
             endNextPage = true;
             if( endCurrPage ) {
                 onEndAnimation( $currPage, $nextPage );
             }
         } );
+        $nextPage.addClass( inClass );
+
+        $(document).on(animEndEventName, function(ev){
+            onEndAnimation( $currPage, $nextPage );
+        });
 
         if( !support ) {
             onEndAnimation( $currPage, $nextPage );
@@ -371,6 +368,7 @@ var PageTransitions = (function() {
     function onEndAnimation( $outpage, $inpage ) {
         endCurrPage = false;
         endNextPage = false;
+
         resetPage( $outpage, $inpage );
         isAnimating = false;
     }
@@ -378,10 +376,11 @@ var PageTransitions = (function() {
     function resetPage( $outpage, $inpage ) {
         $outpage.attr( 'class', $outpage.data( 'originalClassList' ) );
         $inpage.attr( 'class', $inpage.data( 'originalClassList' ) + ' pt-page-current' );
+        //$outpage.removeClass('pt-page-current');
+        //$inpage.addClass('pt-page-current');
     }
 
     //init();
-
-    return { init : init };
+    return { init : init, next: switchToNextPage };
 
 })();

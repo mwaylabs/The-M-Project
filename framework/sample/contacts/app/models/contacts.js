@@ -4,7 +4,6 @@ define([
 ],
 
     function( app, detailTemplate, itemTemplate, addTemplate, listTemplate ) {
-
         var Contact = app.module();
 
         Contact.Model = M.Model.extend({
@@ -107,7 +106,10 @@ define([
             },
 
             userSelected: function( a, b, c ) {
-                Backbone.history.navigate('detail/' + this.model.id, true);
+                app.layoutManager.navigate({
+                    route: 'detail',
+                    params: this.model.id
+                });
             },
 
             initialize: function() {
@@ -223,8 +225,12 @@ define([
             },
 
             back: function() {
-                this.$el.remove();
-                Backbone.history.navigate("/", true);
+//                this.$el.remove();
+//                Backbone.history.navigate("/", true);
+                app.layoutManager.navigate({
+                    route: '',
+                    params: ''
+                });
             },
 
             deleteEntry: function() {
