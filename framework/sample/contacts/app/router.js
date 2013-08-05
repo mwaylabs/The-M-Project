@@ -1,10 +1,16 @@
 define([
     // Application.
     "app/app", // Modules.
-    "switch-layout", "app/models/contacts", "text!templates/main-layout.html", "text!templates/detail-layout.html", "text!templates/index-layout.html"
+    "switch-layout",
+    "text!templates/main-layout.html",
+    "app/views/list",
+    "app/views/add",
+    "app/views/detail",
+    "app/data/contact_collection",
+    "app/data/contact_model"
 ],
 
-    function( app, switchLayout, Contact, mainTemplate, detailTemplate, indexTemplate ) {
+    function( app, switchLayout, mainTemplate, ListView, AddView, DetailView, ContactCollection, ContactModel  ) {
 
         // Defining the application router, you can attach sub routers here.
         var Router = Backbone.Router.extend({
@@ -14,34 +20,38 @@ define([
                 app.layoutManager = new (Backbone.Layout.extend());
 
                 var collections = {
-                    contacts: new Contact.Collection()
+                    contacts: new ContactCollection()
                 };
 
                 _.extend(this, collections);
 
-                _.each(this.routes, function(route){
+                _.each(this.routes, function( route ) {
                     this.visitedRoutes[route] = false;
                 }, this);
             },
 
             visitedRoutes: {},
 
-            route: function(route, name, callback) {
-                if (!_.isRegExp(route)) route = this._routeToRegExp(route);
-                if (_.isFunction(name)) {
+            route: function( route, name, callback ) {
+                if( !_.isRegExp(route) ) {
+                    route = this._routeToRegExp(route);
+                }
+                if( _.isFunction(name) ) {
                     callback = name;
                     name = '';
                 }
-                if (!callback) callback = this[name];
+                if( !callback ) {
+                    callback = this[name];
+                }
                 var router = this;
-                Backbone.history.route(route, function(fragment) {
+                Backbone.history.route(route, function( fragment ) {
                     var args = router._extractParameters(route, fragment);
                     args.unshift(!router.visitedRoutes[name]);
                     callback && callback.apply(router, args);
                     router.trigger.apply(router, ['route:' + name].concat(args));
                     router.trigger('route', name, args);
                     Backbone.history.trigger('route', router, name, args);
-                    if(!router.visitedRoutes[name]){
+                    if( !router.visitedRoutes[name] ) {
                         router.visitedRoutes[name] = true;
                     }
                 });
@@ -54,13 +64,13 @@ define([
                 'add': 'add'
             },
 
-            index: function(isFirstLoad) {
+            index: function( isFirstLoad ) {
 
                 if( isFirstLoad ) {
 
                     this.contacts.fetch();
                     var listOptions = { contacts: this.contacts };
-                    var list = new Contact.Views.List(listOptions);
+                    var list = new ListView(listOptions);
 
                     app.layoutManager.useLayout(switchLayout);
 
@@ -87,14 +97,14 @@ define([
                 var that = this;
 
                 if( !model ) {
-                    model = new Contact.Model({_id: id });
+                    model = new ContactModel({_id: id });
                     model.collection = this.contacts;
                     model.fetch({ success: function( model ) {
                         that.contacts.add(model);
                     }});
                 }
 
-                var view = new Contact.Views.Detail({model: model});
+                var view = new DetailView({model: model});
 
                 app.layoutManager.useLayout(switchLayout);
 
@@ -110,20 +120,24 @@ define([
                 }
 
 
-
             },
 
-            add: function( id ) {
+            add: function(  ) {
 
-                view = new Contact.Views.Add({collection: this.contacts});
+                var view = new AddView({collection: this.contacts});
 
-                //                app._useLayout(mainTemplate);
-                app.layoutManager.setViews({
-                    ".content": view
+                app.layoutManager.useLayout(switchLayout);
+
+                app.layoutManager.applyViews({
+                    content: view,
+                    footer: '<div>hello</div>'
                 });
 
-                app.layoutManager.render();
-                $('body').html(app.layoutManager.el);
+                if( !app.layoutManager.isFirstLoad ) {
+                    PageTransitions.next();
+                } else {
+                    app.layoutManager.initialRenderProcess();
+                }
             }
         });
 
