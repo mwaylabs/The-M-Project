@@ -298,9 +298,13 @@
     overflow-x: visible;
 }
 
-/* label */
+/* movable label */
 .tmp-movable-outer {
     position: relative;
+    overflow: hidden;
+    height: 1em;
+    line-height: 1em;
+    max-width: 100%;
 }
 
 .tmp-movable-inner {
