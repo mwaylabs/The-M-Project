@@ -12,6 +12,7 @@ var files = [
     'src/core/i18n.js',
     'src/core/date.js',
     'src/core/view_manager.js',
+    'src/core/application.js',
 
     'src/utility/data.js',
     'src/utility/i18n.js',
@@ -54,7 +55,7 @@ module.exports = function( grunt ) {
             },
             build: {
                 src: files,
-                dest: 'build/the-m-project.js'
+                dest: 'build/themproject.js'
             }
         },
         copy: {
