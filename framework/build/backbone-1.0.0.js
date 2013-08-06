@@ -24,7 +24,7 @@
   var slice = array.slice;
   var splice = array.splice;
 
-  // The top-level namespace. All public Backbone classes and modules will
+  // The top-level namespace. All public Backbone classes and src will
   // be attached to this. Exported for both the browser and the server.
   var Backbone;
   if (typeof exports !== 'undefined') {

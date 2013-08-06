@@ -1,7 +1,6 @@
 define([
-
-],
-    function() {
+    'm'
+], function( M ) {
 
         var Model = M.Model.extend({
             idAttribute: '_id',

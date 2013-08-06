@@ -4,6 +4,7 @@ define([
 ],
 
     function( app, menuTemplate ) {
+        debugger;
         var Menu = app.module();
 
         Menu = Backbone.View.extend({

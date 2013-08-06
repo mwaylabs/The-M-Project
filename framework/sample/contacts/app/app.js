@@ -1,26 +1,28 @@
-define( function() {
-        // Provide a global location to place configuration settings and module
-        // creation.
-        var app = {
-            // The root path to run the application.
-            root: requirejs.s.contexts._.config.approot
-        };
+// Filename: app.js
+define([
+    'jquery',
+    'underscore',
+    'backbone',
+    'app/router',
+    'backboneLayoutManager'
+], function( $, _, Backbone, Router ) {
+debugger;
+    var App = function() {
 
-        // Localize or create a new JavaScript Template object.
-        var JST = window.JST = window.JST || {};
-
-        // Configure LayoutManager with Backbone Boilerplate defaults.
         Backbone.Layout.configure({
             // Allow LayoutManager to augment Backbone.View.prototype.
             manage: true
         });
 
+        // Pass in our Router module and call it's initialize function
+        this.router = new Router();
+        Backbone.history.start();
+    };
 
-    return _.extend(app, {
+    return _.extend(App, {
         // Create a custom object with a nested Views object.
         module: function( additionalProps ) {
             return _.extend({ Views: {} }, additionalProps);
         }
     }, Backbone.Events);
-
-    });
+});
