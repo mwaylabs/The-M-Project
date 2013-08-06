@@ -1,9 +1,17 @@
 define([
     // Application.
-    "app/app", "swipe-layout", "app/models/contacts", "app/models/menu", "text!templates/main-layout.html", "text!templates/detail-layout.html", "text!templates/index-layout.html"
+    "app/app", // Modules.
+    "swipe-layout",
+    "text!templates/main-layout.html",
+    "app/views/list",
+    "app/views/menu",
+    "app/views/add",
+    "app/views/detail",
+    "app/data/contact_collection",
+    "app/data/contact_model"
 ],
 
-    function( app, swipeLayout, Contact, Menu, mainTemplate, detailTemplate, indexTemplate ) {
+    function( app, layout, mainTemplate, ListView, MenuView, AddView, DetailView, ContactCollection, ContactModel  ) {
 
         // Defining the application router, you can attach sub routers here.
         var Router = Backbone.Router.extend({
@@ -13,7 +21,7 @@ define([
                 app.layoutManager = new (Backbone.Layout.extend());
 
                 var collections = {
-                    contacts: new Contact.Collection()
+                    contacts: new ContactCollection()
                 };
 
                 _.extend(this, collections);
@@ -58,19 +66,19 @@ define([
             },
 
             index: function( isFirstLoad ) {
+
                 if( isFirstLoad ) {
 
                     this.contacts.fetch();
                     var listOptions = { contacts: this.contacts };
+                    var list = new ListView(listOptions);
+                    var menu = new MenuView();
 
-                    var list = new Contact.Views.List(listOptions);
-                    var navigation = new Menu.Navigation();
-
-                    app.layoutManager.setLayout(swipeLayout);
+                    app.layoutManager.setLayout(layout);
 
                     app.layoutManager.applyViews({
                         content: list,
-                        footer: navigation
+                        footer: menu
 
                     });
                 }
@@ -85,27 +93,25 @@ define([
             },
 
             detail: function( isFirstLoad, id ) {
-
-                console.log(isFirstLoad, id);
                 var model = this.contacts.get(id);
                 var that = this;
 
                 if( !model ) {
-                    model = new Contact.Model({_id: id });
+                    model = new ContactModel({_id: id });
                     model.collection = this.contacts;
                     model.fetch({ success: function( model ) {
                         that.contacts.add(model);
                     }});
                 }
 
-                var view = new Contact.Views.Detail({model: model});
-                var navigation = new Menu.Navigation();
+                var view = new DetailView({model: model});
+                var menu = new MenuView();
 
-                app.layoutManager.setLayout(swipeLayout);
+                app.layoutManager.setLayout(layout);
 
                 app.layoutManager.applyViews({
                     content: view,
-                    footer: navigation
+                    footer: menu
                 });
 
                 if( !app.layoutManager.isFirstLoad ) {
@@ -117,17 +123,22 @@ define([
 
             },
 
-            add: function( id ) {
+            add: function(  ) {
 
-                view = new Contact.Views.Add({collection: this.contacts});
+                var view = new AddView({collection: this.contacts});
+                var menu = new MenuView();
+                app.layoutManager.setLayout(layout);
 
-                //                app.setLayout(mainTemplate);
-                app.layoutManager.setViews({
-                    ".content": view
+                app.layoutManager.applyViews({
+                    content: view,
+                    footer: menu
                 });
 
-                app.layoutManager.render();
-                $('body').html(app.layoutManager.el);
+                if( !app.layoutManager.isFirstLoad ) {
+                    PageTransitions.next();
+                } else {
+                    app.layoutManager.initialRenderProcess();
+                }
             }
         });
 

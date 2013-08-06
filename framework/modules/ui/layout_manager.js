@@ -46,8 +46,12 @@ define([
 
             navigate: function( settings ) {
 
-                var url = settings.route + '/';
-                var path = _.isArray(settings.params) ? settings.params.join('/') : settings.params;
+                var url = settings.route;
+                var path = '';
+                if( settings.params ) {
+                    path = _.isArray(settings.params) ? settings.params.join('/') : settings.params;
+                    url += '/';
+                }
                 var options = settings.options || true;
 
                 this.setTransition(settings.transition);

@@ -6,7 +6,7 @@ define([
     function( app, menuTemplate ) {
         var Menu = app.module();
 
-        Menu.Navigation = Backbone.View.extend({
+        Menu = Backbone.View.extend({
 
             template: _.template(menuTemplate),
 
@@ -42,7 +42,6 @@ define([
             },
 
             moveLeftPanel: function(evt) {
-                console.log('moveLeftPanel');
                 app.layoutManager.getLayout().moveLeftPanel(evt);
             }
 

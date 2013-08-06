@@ -1,3 +1,6 @@
+@import "component.css";
+@import "animations.css";
+@import "swipe-layout/swipe.css";
 .m-perspective {
     position: absolute;
     width: 300px;

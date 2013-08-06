@@ -17,7 +17,7 @@ define([
     function( LayoutManager ) {
         // Provide a global location to place configuration settings and module
         // creation.
-        console.log(arguments[8]);
+
         var app = {
             // The root path to run the application.
             root: requirejs.s.contexts._.config.approot

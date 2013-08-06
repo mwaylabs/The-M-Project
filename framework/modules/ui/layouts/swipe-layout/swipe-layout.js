@@ -104,8 +104,6 @@ define([
                 var touch = evt.originalEvent.touches[0] || evt.originalEvent.changedTouches[0];
 
                 var diff = touch.pageX - this.moveStart;
-
-                console.log(diff);
                 if( diff <= 0 ) {
                     diff = 0;
                 } else if( diff >= this.rightThreshold ) {
