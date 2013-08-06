@@ -57,17 +57,23 @@ define([
                 Backbone.history.navigate(url + path, options);
             },
 
-            useLayout: function( layout ) {
+            setLayout: function( layout ) {
                 if( this.currentLayout && this.currentLayout.identifier === layout.identifier ) {
                     return this;
                 } else {
                     this.currentLayout = layout;
                     this.el = this.currentLayout.template;
                     this.constructor(this);
+                    this.currentLayout.initialize();
                 }
                 return this;
 
+            },
+
+            getLayout: function(){
+                return this.currentLayout;
             }
+
 
         });
 

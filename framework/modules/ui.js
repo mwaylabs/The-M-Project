@@ -60,6 +60,11 @@ require.config({
             "name": "switch-layout",
             "location": "modules/ui/layouts/switch-layout",
             "main": "switch-layout.js"
+        },
+        {
+            "name": "swipe-layout",
+            "location": "modules/ui/layouts/swipe-layout",
+            "main": "swipe-layout.js"
         }
     ],
     "shim": {
