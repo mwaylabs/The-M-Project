@@ -6,7 +6,8 @@ require.config({
     paths: {
         app: 'sample/contacts/app',
         text: 'modules/libs/require.text',
-        templates: 'sample/contacts/app/templates'
+        templates: 'sample/contacts/app/resources/templates',
+        layouts: 'modules/ui/layouts'
     },
 
     shim: {

@@ -1,29 +1,62 @@
 define([
     // Application.
-    "app/app",
-    // Modules.
-    "app/models/contacts",
-    "text!templates/main-layout.html"
+    "app/app", // Modules.
+    "swipe-layout",
+    "text!templates/main-layout.html",
+    "app/views/list",
+    "app/views/menu",
+    "app/views/add",
+    "app/views/detail",
+    "app/data/contact_collection",
+    "app/data/contact_model"
 ],
 
-    function( app, Contact, mainTemplate ) {
+    function( app, layout, mainTemplate, ListView, MenuView, AddView, DetailView, ContactCollection, ContactModel  ) {
 
         // Defining the application router, you can attach sub routers here.
         var Router = Backbone.Router.extend({
 
             initialize: function() {
 
-                var collections = {
-                    contacts: new Contact.Collection()
-                };
+                app.layoutManager = new (Backbone.Layout.extend());
 
-                A = collections;
+                var collections = {
+                    contacts: new ContactCollection()
+                };
 
                 _.extend(this, collections);
 
-                V = collections;
-                // USE THIS WHEN USING HAMMER
-                // $('body').hammer();
+                _.each(this.routes, function( route ) {
+                    this.visitedRoutes[route] = false;
+                }, this);
+            },
+
+            visitedRoutes: {},
+
+            route: function( route, name, callback ) {
+                if( !_.isRegExp(route) ) {
+                    route = this._routeToRegExp(route);
+                }
+                if( _.isFunction(name) ) {
+                    callback = name;
+                    name = '';
+                }
+                if( !callback ) {
+                    callback = this[name];
+                }
+                var router = this;
+                Backbone.history.route(route, function( fragment ) {
+                    var args = router._extractParameters(route, fragment);
+                    args.unshift(!router.visitedRoutes[name]);
+                    callback && callback.apply(router, args);
+                    router.trigger.apply(router, ['route:' + name].concat(args));
+                    router.trigger('route', name, args);
+                    Backbone.history.trigger('route', router, name, args);
+                    if( !router.visitedRoutes[name] ) {
+                        router.visitedRoutes[name] = true;
+                    }
+                });
+                return this;
             },
 
             routes: {
@@ -32,60 +65,80 @@ define([
                 'add': 'add'
             },
 
-            index: function() {
+            index: function( isFirstLoad ) {
 
-                this.contacts.fetch();
+                if( isFirstLoad ) {
 
-                var listOptions = { contacts: this.contacts };
+                    this.contacts.fetch();
+                    var listOptions = { contacts: this.contacts };
+                    var list = new ListView(listOptions);
+                    var menu = new MenuView();
 
-                var list = new Contact.Views.List(listOptions);
+                    app.layoutManager.setLayout(layout);
 
-                app._useLayout(mainTemplate);
-                app.layout.setViews({
-                    ".content": list
-                })
+                    app.layoutManager.applyViews({
+                        content: list,
+                        footer: menu
 
-                app.layout.render();
+                    });
+                }
 
-                $('body').html(app.layout.el);
+                if( !app.layoutManager.isFirstLoad ) {
+                    PageTransitions.next();
+                } else {
+                    app.layoutManager.initialRenderProcess();
+                }
+
 
             },
 
-            detail: function( id ) {
+            detail: function( isFirstLoad, id ) {
                 var model = this.contacts.get(id);
+                var that = this;
 
-                var that   = this;
-                var detail = null;
-
-                if(!model) {
-                    model = new Contact.Model({_id: id });
+                if( !model ) {
+                    model = new ContactModel({_id: id });
                     model.collection = this.contacts;
-                    model.fetch({ success: function(model) {
+                    model.fetch({ success: function( model ) {
                         that.contacts.add(model);
                     }});
                 }
-                view = new Contact.Views.Detail({model: model});
 
-                app._useLayout(mainTemplate);
-                app.layout.setViews({
-                    ".content": view
-                })
+                var view = new DetailView({model: model});
+                var menu = new MenuView();
 
-                app.layout.render();
-                $('body').html(app.layout.el);
+                app.layoutManager.setLayout(layout);
+
+                app.layoutManager.applyViews({
+                    content: view,
+                    footer: menu
+                });
+
+                if( !app.layoutManager.isFirstLoad ) {
+                    PageTransitions.next();
+                } else {
+                    app.layoutManager.initialRenderProcess();
+                }
+
+
             },
 
-            add: function( id ) {
+            add: function(  ) {
 
-                view = new Contact.Views.Add({collection: this.contacts});
+                var view = new AddView({collection: this.contacts});
+                var menu = new MenuView();
+                app.layoutManager.setLayout(layout);
 
-                app._useLayout(mainTemplate);
-                app.layout.setViews({
-                    ".content": view
-                })
+                app.layoutManager.applyViews({
+                    content: view,
+                    footer: menu
+                });
 
-                app.layout.render();
-                $('body').html(app.layout.el);
+                if( !app.layoutManager.isFirstLoad ) {
+                    PageTransitions.next();
+                } else {
+                    app.layoutManager.initialRenderProcess();
+                }
             }
         });
 

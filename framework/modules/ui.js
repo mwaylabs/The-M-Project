@@ -35,12 +35,50 @@ require.config({
             "name": "view_manager",
             "location": "modules/core",
             "main": "view_manager"
+        },
+        {
+            "name": "layout_manager",
+            "location": "modules/ui",
+            "main": "layout_manager"
+        },
+        {
+            "name": "layout_manager",
+            "location": "modules/ui",
+            "main": "layout_manager"
+        },
+        {
+            "name": "Modernizr",
+            "location": "modules/libs",
+            "main": "modenizer.custom.js"
+        },
+        {
+            "name": "pagetransitions",
+            "location": "modules/libs",
+            "main": "pagetransitions.js"
+        },
+        {
+            "name": "switch-layout",
+            "location": "modules/ui/layouts/switch-layout",
+            "main": "switch-layout.js"
+        },
+        {
+            "name": "swipe-layout",
+            "location": "modules/ui/layouts/swipe-layout",
+            "main": "swipe-layout.js"
         }
     ],
     "shim": {
         "backbone.layoutmanager": {
             "deps": ["modules/core"],
             "exports": "Backbone.Layout"
+        },
+        "pagetransitions": {
+            "deps": ["modules/core"],
+            "exports": "pagetransitions"
+        },
+        "layout_manager": {
+            "deps": [ "modules/core", "backbone.layoutmanager", "Modernizr", "pagetransitions" ],
+            "exports": "M.LayoutManager"
         },
         "backbone.stickit": {
             "deps": ["modules/core"],
@@ -55,7 +93,7 @@ require.config({
             "exports": "quo"
         },
         "view": {
-            "deps": [ "modules/core", "quo", "backbone.layoutmanager", "backbone.stickit", "backbone.sticktpl" ],
+            "deps": [ "modules/core", "quo", "backbone.layoutmanager", "layout_manager", "backbone.stickit", "backbone.sticktpl" ],
             "exports": "M.View"
         },
         "view_manager": {

@@ -37,7 +37,6 @@ var LayoutManager = Backbone.View.extend({
     // Options may not always be passed to the constructor, this ensures it is
     // always an object.
     options = options || {};
-
     // Grant this View superpowers.
     LayoutManager.setupView(this, options);
 

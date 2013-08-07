@@ -1,9 +1,15 @@
 define([
     // Application.
-    'app', 'backbone.stickit', "text!templates/detail.html", "text!templates/item.html", "text!templates/add.html"
+    'app',
+    'backbone.stickit',
+    "text!templates/detail.html",
+    "text!templates/item.html",
+    "text!templates/add.html",
+    "text!templates/list.html"
+
 ],
 
-    function( app, stickit, detailTemplate, itemTemplate, addTemplate ) {
+    function( app, stickit, detailTemplate, itemTemplate, addTemplate, listTemplate ) {
 
         var Contact = app.module();
 
@@ -25,7 +31,8 @@ define([
         });
 
         //var host = '';
-        var host = 'http://nerds.mway.io:8200';
+//        var host = 'http://nerds.mway.io:8200';
+        var host = 'http://127.0.0.1:8200';
 
         Contact.Collection = M.Collection.extend({
             model: Contact.Model,
@@ -63,9 +70,22 @@ define([
             }
         });
 
+        MyView = M.View.design({
+            label: M.View.design({
+                template: 'label'
+            }),
+            input: M.View.design({
+                template: 'input'
+            }),
+            lastname: M.View.design({
+                valuePattern: '<%= lastName =>',
+                tmpl: 'label'
+            })
+        });
+
         Contact.Views.Item = Backbone.View.extend({
 
-            template: _.template(itemTemplate),
+            template: _.template(MyView.render().el),
             tagName: 'tr',
             className: 'contact-container',
 
@@ -107,7 +127,11 @@ define([
             },
 
             userSelected: function( a, b, c ) {
-                Backbone.history.navigate('detail/' + this.model.id, true);
+                app.layout.navigate({
+                    route: 'detail',
+                    params: this.model.id
+                });
+                //Backbone.history.navigate('detail/' + this.model.id, true);
             },
 
             initialize: function() {
@@ -146,8 +170,10 @@ define([
             }
         });
 
+
         Contact.Views.List = Backbone.View.extend({
-            template: 'list',
+
+            template: _.template(listTemplate),
 
             events: {
                 "tap .add": "addEntry"
