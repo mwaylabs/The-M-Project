@@ -1,46 +1,26 @@
 define([
-    "text!layouts/switch-layout/switch-layout.html", "text!layouts/swipe-layout/swipe-layout.html"
+    "/modules/ui/layouts/switch-layout/switch-layout.js",
+    "text!layouts/switch-layout/switch-layout.html",
+    "text!layouts/swipe-layout/swipe-layout.html"
 ],
 
-    function( switchTemplate, swipeTemplate ) {
+    function( switchLayout, switchTemplate, swipeTemplate ) {
+        var template = $(swipeTemplate);
+        template.find('.right-panel').before(switchTemplate);
+
         var SwipeLayout = {
 
             identifier: 'swipe-layout',
 
-            template: swipeTemplate,
-
-            currentPage: '',
+            template: template,
 
             leftPanelIsOpen: null,
 
             rightThreshold: null,
 
-            applyViews: function( settings ) {
-                var current = $('.pt-page-current');
-                var next = $('.pt-page:not(.pt-page-current)');
-                var selector = '';
-                if( current.length < 1 ) {
-                    selector = 'pt-page-1';
-                } else if( current.hasClass('pt-page-1') ) {
-                    selector = 'pt-page-2';
-                } else if( current.hasClass('pt-page-2') ) {
-                    selector = 'pt-page-1';
-                }
-
-                var view = {};
-                //                view['.' + selector + ' .content'] = settings.content;
-                view['.' + selector + ' .content'] = settings.content;
-                if( settings.footer ) {
-                    view['.' + selector + ' .footer'] = settings.footer;
-                } else {
-                    view['.' + selector + ' .footer'] = 'settings.footer';
-                }
-
-                return view;
-            },
-
             initialize: function() {
-                //TODO! How to do this in the future
+                //TODO! How to do this initialize in the future
+                switchLayout.prototype.initialize.call(this);
                 var w = $(window).width();
                 this.rightThreshold = (w / 100) * 80;
             },
@@ -96,11 +76,11 @@ define([
             },
 
             moveLeftPanel: function(  evt ) {
-//                if(!evt || !evt.originalEvent){
-//                    return;
-//                }
-//                evt.stopPropagation();
-//                evt.preventDefault();
+                //                if(!evt || !evt.originalEvent){
+                //                    return;
+                //                }
+                //                evt.stopPropagation();
+                //                evt.preventDefault();
                 var touch = evt.originalEvent.touches[0] || evt.originalEvent.changedTouches[0];
 
                 var diff = touch.pageX - this.moveStart;
@@ -131,6 +111,6 @@ define([
             }
         };
 
-        return SwipeLayout;
+        return switchLayout.extend(SwipeLayout);
 
     });

@@ -39,6 +39,15 @@ var files = [
     'src/ui/layout_manager.js'
 ];
 
+var cssFiles = [
+    'src/ui/css/reset.css',
+    'src/ui/layouts/switch-layout/switch-animations.css',
+    'src/ui/layouts/switch-layout/switch-layout.css',
+    'src/ui/layouts/swipe-layout/swipe-layout.css',
+    'src/ui/layouts/header-layout/header-layout.css',
+    'src/ui/layouts/bottom-bar-layout/bottom-bar-layout.css'
+];
+
 module.exports = function( grunt ) {
 
     // Project configuration.
@@ -59,7 +68,8 @@ module.exports = function( grunt ) {
                 dest: 'build/themproject.js'
             },
             css: {
-                src: ['src/ui/css/reset.css','src/ui/layouts/animations.css','src/ui/layouts/component.css','src/ui/layouts/main.css'],
+                src: cssFiles,
+
                 dest: 'build/themproject.css'
             }
         },
@@ -74,6 +84,15 @@ module.exports = function( grunt ) {
                     }
                 ]
             }
+        },
+        watch: {
+            scripts: {
+                files: ['src/**/*'],
+                tasks: ['default'],
+                options: {
+                    spawn: false
+                }
+            }
         }
     });
 
@@ -81,6 +100,7 @@ module.exports = function( grunt ) {
     grunt.loadNpmTasks('grunt-jsonlint');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     grunt.registerTask('default', ['jsonlint', 'concat', 'copy']);
 };

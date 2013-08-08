@@ -1,24 +1,39 @@
 define([
     "themproject",
     "text!templates/add.html",
-    "data/contact_model"
+    "data/contact_model",
+    "app"
 
 ],
-    function( M, tpl, ContactModel ) {
+    function( M, template, ContactModel, app ) {
 
         var View = M.View.extend({
             first: true,
 
-            template: _.template(tpl),
+            template: _.tpl(template),
 
             events: {
                 "click .back": "back",
                 "click .save": "saveEntry"
             },
 
+            bindings: {
+                '[data-binding="input-firstname"]': {
+                    observe: 'firstname'
+                },
+                '[data-binding="input-lastname"]': {
+                    observe: 'lastname'
+                }
+            },
+
             back: function() {
-                this.$el.remove();
-                Backbone.history.navigate("/", true);
+                app.layoutManager.navigate({
+                    route: '/'
+                });
+            },
+
+            initialize: function() {
+
             },
 
             saveEntry: function() {
@@ -38,6 +53,10 @@ define([
                         }
                     })
                 }
+            },
+
+            afterRender: function() {
+                return this;
             }
         });
 

@@ -55,6 +55,7 @@ _.extend(Backbone.Layout.prototype, {
             this.el = this.currentLayout.template;
             this.constructor(this);
             this.currentLayout.initialize();
+            this.isFirstLoad = true;
         }
         return this;
 

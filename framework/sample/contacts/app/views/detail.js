@@ -1,8 +1,9 @@
 define([
     'themproject',
-    "text!templates/detail.html"
+    "text!templates/detail.html",
+    "app"
 ],
-    function( M, template ) {
+    function( M, template, app ) {
 
         var View = M.View.extend({
             first: true,
@@ -34,8 +35,9 @@ define([
             },
 
             back: function() {
-                this.$el.remove();
-                Backbone.history.navigate("/", true);
+                app.layoutManager.navigate({
+                    route: '/'
+                });
             },
 
             deleteEntry: function() {
