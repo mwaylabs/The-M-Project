@@ -13,6 +13,14 @@
  * @class
  * @extends M.View
  */
+
+M.Themes = {
+    DEFAULT_THEME: 'basic',
+    basic: {
+
+    }
+};
+
 M.Layout = Backbone.Layout.extend(/** @scope M.Layout.prototype */{
 
     //el: $(".m-perspective"),
@@ -32,15 +40,9 @@ M.Layout = Backbone.Layout.extend(/** @scope M.Layout.prototype */{
      */
     isMLayout: YES,
 
-    DEFAULT_THEME: 'basic',
-
     template: '<div></div>',
 
     applyViews: function(){
-
-    },
-
-    themes: {
 
     }
 

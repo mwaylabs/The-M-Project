@@ -1,4 +1,4 @@
-//TODO
+
 _.extend(Backbone.Layout.prototype, {
 
     transition: null,

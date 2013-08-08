@@ -5780,6 +5780,14 @@ var PageTransitions = (function() {
  * @class
  * @extends M.View
  */
+
+M.Themes = {
+    DEFAULT_THEME: 'basic',
+    basic: {
+
+    }
+};
+
 M.Layout = Backbone.Layout.extend(/** @scope M.Layout.prototype */{
 
     //el: $(".m-perspective"),
@@ -5799,15 +5807,9 @@ M.Layout = Backbone.Layout.extend(/** @scope M.Layout.prototype */{
      */
     isMLayout: YES,
 
-    DEFAULT_THEME: 'basic',
-
     template: '<div></div>',
 
     applyViews: function(){
-
-    },
-
-    themes: {
 
     }
 
@@ -5951,7 +5953,7 @@ M.Layout = Backbone.Layout.extend(/** @scope M.Layout.prototype */{
 //        }, 0)
 //    }
 //
-//});;//TODO
+//});;
 _.extend(Backbone.Layout.prototype, {
 
     transition: null,
@@ -6020,4 +6022,164 @@ _.extend(Backbone.Layout.prototype, {
     }
 
 
+});
+;
+M.Themes[M.Themes.DEFAULT_THEME]['header-layout'] = '<div class="header"></div>';
+
+M.HeaderLayout = M.Layout.extend({
+
+    _type: 'header-layout',
+
+    template: M.Themes[M.Themes.DEFAULT_THEME]['header-layout']
+});;//
+M.Themes[M.Themes.DEFAULT_THEME]['bottom-bar-layout'] = '<div class="bottom-bar"></div>';
+
+M.BottomBarLayout = M.Layout.extend({
+
+    _type: 'bottom-bar-layout',
+
+    template: M.Themes[M.Themes.DEFAULT_THEME]['bottom-bar-layout']
+});;
+M.Themes[M.Themes.DEFAULT_THEME]['switch-layout'] = '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>';
+
+M.SwitchLayout = M.Layout.extend({
+
+    _type: 'switch-layout',
+
+    template: M.Themes[M.Themes.DEFAULT_THEME]['switch-layout'],
+
+    currentPage: '',
+
+    applyViews: function( settings ){
+        var current = $('.pt-page-current');
+
+        var next = $('.pt-page:not(.pt-page-current)');
+
+        var selector = '';
+
+        if(current.length < 1){
+            selector = 'pt-page-1';
+        } else if(current.hasClass('pt-page-1')){
+            selector = 'pt-page-2';
+        } else if(current.hasClass('pt-page-2')){
+            selector = 'pt-page-1';
+        }
+
+        var view = {};
+        //                view['.' + selector + ' .content'] = settings.content;
+        view['.' + selector + ' .content'] = settings.content;
+        if( settings.footer ) {
+            view['.' + selector + ' .footer'] = settings.footer;
+        } else {
+            view['.' + selector + ' .footer'] = 'settings.footer';
+        }
+        return view;
+    }
+});;//TODO do this in good
+var template = $('<div class="wrap"> <div class="left-panel firstLeft"> <div class="action-menu-close"></div> <div class="content"></div> </div> <div class="right-panel"> <div class="content"></div> </div> </div>');
+template.find('.right-panel').before(M.SwitchLayout.prototype.template);
+
+M.Themes[M.Themes.DEFAULT_THEME]['swipe-layout'] = template;
+
+M.SwipeLayout = M.SwitchLayout.extend({
+
+    _type: 'swipe-layout',
+
+    template: M.Themes[M.Themes.DEFAULT_THEME]['swipe-layout'],
+
+    leftPanelIsOpen: null,
+
+    rightThreshold: null,
+
+    initialize: function() {
+        M.SwitchLayout.prototype.initialize.call(this);
+
+        var w = $(window).width();
+        this.rightThreshold = (w / 100) * 80;
+    },
+
+    toggleRightPanel: function() {
+        this.closeLeftPanel();
+        $('.right-panel').toggleClass('show');
+    },
+
+    closeRightPanel: function() {
+        $('.right-panel').removeClass('show');
+    },
+
+    toggleLeftPanel: function() {
+        this.closeRightPanel();
+        if( this.leftPanelIsOpen ) {
+            this.closeLeftPanel();
+        } else {
+            this.openLeftPanel();
+        }
+    },
+
+    startMoveLeftPanel: function( evt ) {
+        if( !evt || !evt.originalEvent ) {
+            return;
+        }
+        evt.stopPropagation();
+        evt.preventDefault();
+        var touch = evt.originalEvent.touches[0] || evt.originalEvent.changedTouches[0];
+
+        if( this.leftPanelIsOpen ) {
+            this.moveStart = 0;
+        } else {
+            this.moveStart = touch.pageX;
+        }
+    },
+
+    stopMoveLeftPanel: function( evt ) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        $('#pt-main').addClass('easing');
+
+        if( this.leftPanelIsOpen ) {
+            this.closeLeftPanel();
+        } else {
+            this.openLeftPanel();
+        }
+
+        setTimeout(function() {
+            $('#pt-main').removeClass('easing');
+        }, 500);
+
+    },
+
+    moveLeftPanel: function( evt ) {
+        //                if(!evt || !evt.originalEvent){
+        //                    return;
+        //                }
+        //                evt.stopPropagation();
+        //                evt.preventDefault();
+        var touch = evt.originalEvent.touches[0] || evt.originalEvent.changedTouches[0];
+
+        var diff = touch.pageX - this.moveStart;
+        if( diff <= 0 ) {
+            diff = 0;
+        } else if( diff >= this.rightThreshold ) {
+            diff = this.rightThreshold;
+        } else {
+            $('#pt-main').css('-webkit-transform', 'translate3d(' + diff + 'px, 0, 0)');
+        }
+
+        //        -webkit-transform: translate3d(80%, 0, 0);
+        //        -moz-transform: translate3d(80%, 0, 0);
+        //        -ms-transform: translate3d(80%, 0, 0);
+        //        -o-transform: translate3d(80%, 0, 0);
+        //        transform: translate3d(80%, 0, 0);
+    },
+
+    closeLeftPanel: function() {
+        //$('.os-bb10 .template-bottom, .os-bb10 .template-right').css('-webkit-transform', 'translate3d(' + 0 + 'px, 0, 0)');
+        $('#pt-main').css('-webkit-transform', 'translate3d(' + 0 + 'px, 0, 0)');
+        this.leftPanelIsOpen = false;
+    },
+
+    openLeftPanel: function() {
+        $('#pt-main').css('-webkit-transform', 'translate3d(' + this.rightThreshold + 'px, 0, 0)');
+        this.leftPanelIsOpen = true;
+    }
 });

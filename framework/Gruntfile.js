@@ -36,7 +36,13 @@ var files = [
     'src/ui/views/view.js',
     'src/ui/pagetransitions.js',
     'src/ui/layouts/layout.js',
-    'src/ui/layout_manager.js'
+    'src/ui/layout_manager.js',
+
+    'src/ui/layouts/header-layout/header-layout.js',
+    'src/ui/layouts/bottom-bar-layout/bottom-bar-layout.js',
+    'src/ui/layouts/switch-layout/switch-layout.js',
+    'src/ui/layouts/swipe-layout/swipe-layout.js'
+
 ];
 
 var cssFiles = [

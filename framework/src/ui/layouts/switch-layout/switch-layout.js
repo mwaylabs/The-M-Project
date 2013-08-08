@@ -1,10 +1,11 @@
-M.Layout[M.Layout.DEFAULT_THEME]['switch-layout'] = '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>';
+
+M.Themes[M.Themes.DEFAULT_THEME]['switch-layout'] = '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>';
 
 M.SwitchLayout = M.Layout.extend({
 
     _type: 'switch-layout',
 
-    template: M.Layout[M.Layout.DEFAULT_THEME]['switch-layout'],
+    template: M.Themes[M.Themes.DEFAULT_THEME]['switch-layout'],
 
     currentPage: '',
 

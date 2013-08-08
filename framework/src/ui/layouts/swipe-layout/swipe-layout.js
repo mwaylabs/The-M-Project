@@ -1,19 +1,22 @@
-//TODO
-M.Layout[M.Layout.DEFAULT_THEME]['swipe-layout'] = '<div class="wrap"> <div class="left-panel firstLeft"> <div class="action-menu-close"></div> <div class="content"></div> </div> <div class="right-panel"> <div class="content"></div> </div> </div>';
+//TODO do this in good
+var template = $('<div class="wrap"> <div class="left-panel firstLeft"> <div class="action-menu-close"></div> <div class="content"></div> </div> <div class="right-panel"> <div class="content"></div> </div> </div>');
+template.find('.right-panel').before(M.SwitchLayout.prototype.template);
+
+M.Themes[M.Themes.DEFAULT_THEME]['swipe-layout'] = template;
 
 M.SwipeLayout = M.SwitchLayout.extend({
 
     _type: 'swipe-layout',
 
-    template: M.Layout[M.Layout.DEFAULT_THEME]['swipe-layout'],
+    template: M.Themes[M.Themes.DEFAULT_THEME]['swipe-layout'],
 
     leftPanelIsOpen: null,
 
     rightThreshold: null,
 
     initialize: function() {
-        //TODO! How to do this initialize in the future
         M.SwitchLayout.prototype.initialize.call(this);
+
         var w = $(window).width();
         this.rightThreshold = (w / 100) * 80;
     },

@@ -1,10 +1,10 @@
 define([
     "themproject", // Application.
     "app", // Modules.
-    "swipe-layout", "text!templates/main-layout.html", "views/list", "views/menu", "views/add", "views/detail", "data/contact_collection", "data/contact_model"
+    "text!templates/main-layout.html", "views/list", "views/menu", "views/add", "views/detail", "data/contact_collection", "data/contact_model"
 ],
 
-    function( M, app, layout, mainTemplate, ListView, MenuView, AddView, DetailView, ContactCollection, ContactModel ) {
+    function( M, app, mainTemplate, ListView, MenuView, AddView, DetailView, ContactCollection, ContactModel ) {
 
         // Defining the application router, you can attach sub routers here.
         var Router = Backbone.Router.extend({
@@ -67,7 +67,7 @@ define([
                     var list = new ListView(listOptions);
                     var menu = new MenuView();
 
-                    app.layoutManager.setLayout(layout);
+                    app.layoutManager.setLayout(new M.SwipeLayout());
 
                     app.layoutManager.applyViews({
                         content: list,
@@ -100,7 +100,7 @@ define([
                 var view = new DetailView({model: model});
                 var menu = new MenuView();
 
-                app.layoutManager.setLayout(layout);
+                app.layoutManager.setLayout(new M.SwitchLayout());
 
                 app.layoutManager.applyViews({
                     content: view,
@@ -121,7 +121,7 @@ define([
                 var view = new AddView({collection: this.contacts});
                 var menu = new MenuView();
 
-                app.layoutManager.setLayout(layout);
+                app.layoutManager.setLayout(new M.SwipeLayout());
 
                 app.layoutManager.applyViews({
                     content: view,
