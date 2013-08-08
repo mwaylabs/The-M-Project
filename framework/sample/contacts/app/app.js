@@ -1,13 +1,8 @@
 define([
-
-  'backbone',
   'themproject'
 
-], function( Backbone, M) {
-
-    Backbone.Layout.configure({
-        manage: true
-    });
+], function( M ) {
+    debugger;
 
     var App = new M.Application();
 

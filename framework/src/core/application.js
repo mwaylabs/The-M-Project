@@ -14,6 +14,10 @@ M.Application = function() {
 
 };
 
+Backbone.Layout.configure({
+    manage: true
+});
+
 _.extend(M.Application.prototype, Backbone.Events, {
 
     _type: 'M.Application',

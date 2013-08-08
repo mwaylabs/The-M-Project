@@ -1,18 +1,15 @@
-
 define([
+    'app',
+    'themproject'
 
-  // Libraries.
-  'backbone'
-
-], function(Backbone) {
-  'use strict';
+], function( app, M ) {
+  debugger;
 
   var Router = Backbone.Router.extend({
 
     routes: {
       '' : 'index',
       'detail' : 'detail'
-
     },
 
     index: function() {
