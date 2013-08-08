@@ -2,12 +2,12 @@ define([
     'themproject',
     "text!templates/detail.html"
 ],
-    function( M, tpl ) {
+    function( M, template ) {
 
         var View = M.View.extend({
             first: true,
 
-            template: _.template(tpl),
+            template: _.tpl(template),
 
             events: {
                 "click .back": "back",
