@@ -1,3 +1,14 @@
+// ==========================================================================
+// Project:   The M-Project - Mobile HTML5 Application Framework
+// Version:   0.0.0
+// Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
+// Date:      Thu Aug 08 2013 23:46:45
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
+//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
+// ==========================================================================
+
+// Source: src/core/m.js
 (function() {
     /**
      * Defines the general namespace
@@ -52,7 +63,9 @@
 
     return M;
 
-})();;/**
+})();
+// Source: src/core/const.js
+/**
  * @class
  *
  * M.CONST defines constants used all over the framework.
@@ -453,7 +466,9 @@ M.CONST = {
          */
         WEEK: 'week'
     }
-};;// ==========================================================================
+};
+// Source: src/core/object.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -744,7 +759,9 @@ M.Object = {
         return this._type;
     }
 
-};;// ==========================================================================
+};
+// Source: src/core/logger.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -1103,7 +1120,9 @@ M.Logger = M.Object.extend(/** @scope M.Logger.prototype */ {
         return NO;
     }
 
-});;// ==========================================================================
+});
+// Source: src/core/view_manager.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -1270,7 +1289,9 @@ M.ViewManager = M.Object.extend(/** @scope M.ViewManager.prototype */{
         }
     }
 
-});;// ==========================================================================
+});
+// Source: src/core/application.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -1297,7 +1318,9 @@ _.extend(M.Application.prototype, Backbone.Events, {
     start: function() {
         Backbone.history.start();
     }
-});;// ==========================================================================
+});
+// Source: src/utility/i18n.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -1593,7 +1616,9 @@ M.I18N = M.Object.extend(/** @scope M.I18N.prototype */ {
         }
         return result;
     }
-});;// ==========================================================================
+});
+// Source: src/utility/objectid.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -1758,7 +1783,9 @@ _.extend(M.ObjectID.prototype, {
 
         return null;
     }
-});;// ==========================================================================
+});
+// Source: src/utility/uuid.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2011 panacoda GmbH. All rights reserved.
@@ -1803,7 +1830,9 @@ M.UniqueId = M.Object.extend({
         }
         return uuid.join('');
     }
-});;// ==========================================================================
+});
+// Source: src/connection/request.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -2009,7 +2038,9 @@ M.Request = M.Object.extend(/** @scope M.Request.prototype */{
         this.cancel();
     }
 
-});;// ==========================================================================
+});
+// Source: src/connection/request_manager.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -2253,7 +2284,9 @@ M.RequestManager = M.Object.extend(/** @scope M.RequestManager.prototype */{
         }, this);
     }
 
-});;// ==========================================================================
+});
+// Source: src/connection/socket_io.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -2449,7 +2482,9 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     disconnect: function(data) {
     }
 
-});;// Project:   The M-Project - Mobile HTML5 Application Framework
+});
+// Source: src/data/field.js
+// Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
 // Creator:   Frank
@@ -2781,7 +2816,9 @@ _.extend(M.Field.prototype, M.Object, {
         throw Error("Unknown type to sort");
     }
 });
-;// Project:   The M-Project - Mobile HTML5 Application Framework
+
+// Source: src/data/entity.js
+// Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
 // Creator:   Frank
@@ -2967,7 +3004,9 @@ _.extend(M.Entity.prototype, M.Object, {
         }
     }
 });
-;
+
+// Source: src/data/model.js
+
 M.Model = Backbone.Model.extend(M.Object);
 
 M.Model.create = M.create;
@@ -3028,7 +3067,9 @@ _.extend(M.Model.prototype, {
     }
 
 });
-;// ==========================================================================
+
+// Source: src/data/collection.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -3097,7 +3138,9 @@ _.extend(M.Collection.prototype, {
     }
 
 });
-;// ==========================================================================
+
+// Source: src/data/data_selector.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -3706,7 +3749,9 @@ M.DataSelector = M.Object.extend({
     }
 
 });
-;// ==========================================================================
+
+// Source: src/data/sql_selector.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -4001,7 +4046,9 @@ M.SqlSelector = M.DataSelector.extend({
         }
     }
 });
-;// ==========================================================================
+
+// Source: src/data/stores/store.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -4243,7 +4290,9 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
     }
 
 });
-;M.LocalStorageStore = M.Store.extend({
+
+// Source: src/data/stores/local_storage.js
+M.LocalStorageStore = M.Store.extend({
 
     _type: 'M.LocalStorageStore',
 
@@ -4371,7 +4420,9 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
             M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while saving ids to local storage: ', e);
         }
     }
-});;M.SocketStore = M.Store.extend({
+});
+// Source: src/data/stores/socket.js
+M.SocketStore = M.Store.extend({
 
     _type: 'M.SocketStore',
 
@@ -4643,7 +4694,9 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         callback(channel, msg);
     }
 
-});;M.WebSqlStore = M.Store.extend({
+});
+// Source: src/data/stores/web_sql.js
+M.WebSqlStore = M.Store.extend({
 
     _type: 'M.WebSqlStore',
 
@@ -5184,7 +5237,9 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         }
         return true;
     }
-});;M.View = Backbone.View.extend(M.Object);
+});
+// Source: src/ui/views/view.js
+M.View = Backbone.View.extend(M.Object);
 
 
 _.extend(M.View.prototype, {
@@ -5378,7 +5433,9 @@ _.extend(M.View.prototype, {
 //    }
 });
 
-M.View.create = M.create;;
+M.View.create = M.create;
+// Source: src/ui/pagetransitions.js
+
 var PageTransitions = (function() {
 
     var $main = null,
@@ -5765,7 +5822,9 @@ var PageTransitions = (function() {
     //init();
     return { init : init, next: switchToNextPage };
 
-})();;// ==========================================================================
+})();
+// Source: src/ui/layouts/layout.js
+// ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
 //            (c) 2013 panacoda GmbH. All rights reserved.
@@ -5781,12 +5840,71 @@ var PageTransitions = (function() {
  * @extends M.View
  */
 
-M.Themes = {
+M.Themes = M.Object.extend({
     DEFAULT_THEME: 'basic',
-    basic: {
 
+    basic: {},
+
+    _currentThemeName: 'basic',
+
+    _themes: {},
+
+    registerTemplateForTheme: function( themeName, templateName, template, override ) {
+        override = override || false;
+
+        var theme = this._getThemeByName(themeName);
+        if( !theme ) {
+            this._createThemeWithName( themeName );
+        }
+
+        var exists = this._getTemplateByNameForTheme(themeName, templateName) !== '';
+        if( !exists || override ) {
+            this._themes[ themeName ][ templateName ] = template;
+            return true;
+        }
+
+        console.warn('Template "' + templateName + '" already defined for theme "' + themeName + '"');
+        return false;
+    },
+
+    getTemplateByName: function( templateName ) {
+
+        var template = this.getTemplateByNameForTheme(this._currentThemeName, templateName);
+        if( template == '' && this._currentThemeName != this.DEFAULT_THEME) {
+            console.log( 'Template "' + templateName + '" not defined for theme "' + this._currentThemeName + '", switched to default theme "' + this.DEFAULT_THEME + '"');
+            template = this.getTemplateByNameForTheme(this.DEFAULT_THEME, templateName);
+        }
+        return template;
+    },
+
+    getTemplateByNameForTheme: function( themeName, templateName ) {
+        var template = this._getTemplateByNameForTheme(themeName, templateName);
+        if( template ) {
+            return template;
+        }
+        console.warn( 'Template "' + templateName + '" not defined for theme "' + themeName + '"');
+        return '';
+    },
+
+    _getTemplateByNameForTheme: function( themeName, templateName ) {
+        var theme = this._getThemeByName(themeName);
+        if( theme && theme[templateName] ) {
+            return theme[templateName];
+        }
+        return '';
+    },
+
+    _createThemeWithName: function( name ) {
+        this._themes[ name ] = {};
+    },
+
+    _getThemeByName: function( name ) {
+        if(this._themes[ name ]) {
+            return this._themes[ name ];
+        }
+        return null;
     }
-};
+});
 
 M.Layout = Backbone.Layout.extend(/** @scope M.Layout.prototype */{
 
@@ -5953,7 +6071,8 @@ M.Layout = Backbone.Layout.extend(/** @scope M.Layout.prototype */{
 //        }, 0)
 //    }
 //
-//});;
+//});
+// Source: src/ui/layout_manager.js
 _.extend(Backbone.Layout.prototype, {
 
     transition: null,
@@ -6023,30 +6142,37 @@ _.extend(Backbone.Layout.prototype, {
 
 
 });
-;
-M.Themes[M.Themes.DEFAULT_THEME]['header-layout'] = '<div class="header"></div>';
+
+// Source: src/ui/layouts/header-layout/header-layout.js
+
+
+M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'header-layout', '<div class="header"></div>' );
 
 M.HeaderLayout = M.Layout.extend({
 
     _type: 'header-layout',
 
-    template: M.Themes[M.Themes.DEFAULT_THEME]['header-layout']
-});;//
-M.Themes[M.Themes.DEFAULT_THEME]['bottom-bar-layout'] = '<div class="bottom-bar"></div>';
+    template: M.Themes.getTemplateByName('header-layout')
+});
+// Source: src/ui/layouts/bottom-bar-layout/bottom-bar-layout.js
+//
+M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'bottom-bar-layout', '<div class="bottom-bar"></div>' );
 
 M.BottomBarLayout = M.Layout.extend({
 
     _type: 'bottom-bar-layout',
 
-    template: M.Themes[M.Themes.DEFAULT_THEME]['bottom-bar-layout']
-});;
-M.Themes[M.Themes.DEFAULT_THEME]['switch-layout'] = '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>';
+    template: M.Themes.getTemplateByName('bottom-bar-layout')
+});
+// Source: src/ui/layouts/switch-layout/switch-layout.js
+
+M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>' );
 
 M.SwitchLayout = M.Layout.extend({
 
     _type: 'switch-layout',
 
-    template: M.Themes[M.Themes.DEFAULT_THEME]['switch-layout'],
+    template: M.Themes.getTemplateByName('switch-layout'),
 
     currentPage: '',
 
@@ -6075,17 +6201,19 @@ M.SwitchLayout = M.Layout.extend({
         }
         return view;
     }
-});;//TODO do this in good
+});
+// Source: src/ui/layouts/swipe-layout/swipe-layout.js
+//TODO do this in good
 var template = $('<div class="wrap"> <div class="left-panel firstLeft"> <div class="action-menu-close"></div> <div class="content"></div> </div> <div class="right-panel"> <div class="content"></div> </div> </div>');
 template.find('.right-panel').before(M.SwitchLayout.prototype.template);
 
-M.Themes[M.Themes.DEFAULT_THEME]['swipe-layout'] = template;
+M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'swipe-layout', template );
 
 M.SwipeLayout = M.SwitchLayout.extend({
 
     _type: 'swipe-layout',
 
-    template: M.Themes[M.Themes.DEFAULT_THEME]['swipe-layout'],
+    template: M.Themes.getTemplateByName('swipe-layout'),
 
     leftPanelIsOpen: null,
 

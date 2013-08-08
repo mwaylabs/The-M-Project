@@ -2,13 +2,13 @@
 var template = $('<div class="wrap"> <div class="left-panel firstLeft"> <div class="action-menu-close"></div> <div class="content"></div> </div> <div class="right-panel"> <div class="content"></div> </div> </div>');
 template.find('.right-panel').before(M.SwitchLayout.prototype.template);
 
-M.Themes[M.Themes.DEFAULT_THEME]['swipe-layout'] = template;
+M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'swipe-layout', template );
 
 M.SwipeLayout = M.SwitchLayout.extend({
 
     _type: 'swipe-layout',
 
-    template: M.Themes[M.Themes.DEFAULT_THEME]['swipe-layout'],
+    template: M.Themes.getTemplateByName('swipe-layout'),
 
     leftPanelIsOpen: null,
 

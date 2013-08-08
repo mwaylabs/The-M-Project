@@ -1,4 +1,3 @@
-
 _.extend(Backbone.Layout.prototype, {
 
     transition: null,

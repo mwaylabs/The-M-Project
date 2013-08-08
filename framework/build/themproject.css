@@ -1,3 +1,15 @@
+/*
+// ==========================================================================
+// Project:   The M-Project - Mobile HTML5 Application Framework
+// Version:   0.0.0
+// Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
+// Date:      Thu Aug 08 2013 23:46:45
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
+//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
+// ==========================================================================
+*/
+/* Source: src/ui/css/reset.css*/
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
@@ -45,7 +57,9 @@ q:before, q:after {
 table {
     border-collapse: collapse;
     border-spacing: 0;
-};/* animation sets */
+}
+/* Source: src/ui/layouts/switch-layout/switch-animations.css*/
+/* animation sets */
 
 /* move from / to  */
 
@@ -1672,7 +1686,9 @@ table {
     -webkit-animation-delay: 1s;
     -moz-animation-delay: 1s;
     animation-delay: 1s;
-};html, body { height: 100%; }
+}
+/* Source: src/ui/layouts/switch-layout/switch-layout.css*/
+html, body { height: 100%; }
 
 .pt-perspective {
     position: relative;
@@ -1878,7 +1894,9 @@ table {
     .pt-triggers .dl-menuwrapper {
         display: none;
     }
-};.wrap {
+}
+/* Source: src/ui/layouts/swipe-layout/swipe-layout.css*/
+.wrap {
     position: relative;
     width: 100%;
     height: 100%;
@@ -2137,13 +2155,17 @@ table {
     bottom: 0;
     border-color: #484948;
     background-image: -webkit-gradient(linear, center top, center bottom, from(#323232), to(#272727));
-};.header{
+}
+/* Source: src/ui/layouts/header-layout/header-layout.css*/
+.header{
     height: 50px;
     width: 100%;
     background: red;
     position: absolute;
     top: 0;
-};.bottom-bar{
+}
+/* Source: src/ui/layouts/bottom-bar-layout/bottom-bar-layout.css*/
+.bottom-bar{
     height: 100px;
     width: 100%;
     background: blue;
