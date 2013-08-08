@@ -609,7 +609,7 @@ config = {
 		}
 	],
 
-	// Set of all modules.
+	// Set of all src.
 	modules: {},
 
 	// logging callback queues

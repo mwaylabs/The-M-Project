@@ -1,5 +1,5 @@
 define([
-    "app/data/contact_collection"
+    "data/contact_collection"
 ],
     function( Collection ) {
 

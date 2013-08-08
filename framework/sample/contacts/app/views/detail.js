@@ -1,17 +1,19 @@
 define([
-    "text!templates/detail.html"
+    'themproject',
+    "text!templates/detail.html",
+    "app"
 ],
-    function( tpl ) {
+    function( M, template, app ) {
 
-        var View = Backbone.View.extend({
+        var View = M.View.extend({
             first: true,
 
-            template: _.tpl(tpl),
+            template: _.tpl(template),
 
             events: {
-                "tap .back": "back",
-                "tap .delete": "deleteEntry",
-                "tap .edit": "editEntry"
+                "click .back": "back",
+                "click .delete": "deleteEntry",
+                "click .edit": "editEntry"
             },
 
             bindings: {
@@ -33,8 +35,9 @@ define([
             },
 
             back: function() {
-                this.$el.remove();
-                Backbone.history.navigate("/", true);
+                app.layoutManager.navigate({
+                    route: '/'
+                });
             },
 
             deleteEntry: function() {
