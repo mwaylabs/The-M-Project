@@ -1,5 +1,5 @@
 define([
-    "text!switch-layout/switch-layout.html", "text!swipe-layout/swipe-layout.html"
+    "text!templates/switch-layout.html", "text!templates/swipe-layout.html"
 ],
 
     function( switchTemplate, swipeTemplate ) {

@@ -1,19 +1,19 @@
 define([
     // Application.
-    'app/app', "text!templates/menu.html"
+    'themproject',
+    'app',
+    "text!templates/menu.html"
 ],
 
-    function( app, menuTemplate ) {
-        debugger;
-        var Menu = app.module();
+    function( M, app, menuTemplate ) {
 
-        Menu = Backbone.View.extend({
+        var Menu = M.View.extend({
 
             template: _.template(menuTemplate),
 
             events: {
-                "tap .toggleRightPanel": "toggleRightPanel",
-                "tap .toggleLeftPanel": "toggleLeftPanel",
+                "click .toggleRightPanel": "toggleRightPanel",
+                "click .toggleLeftPanel": "toggleLeftPanel",
                 "touchstart .moveLeftPanel": "startMoveLeftPanel",
                 "touchend .moveLeftPanel": "stopMoveLeftPanel",
                 "touchmove .moveLeftPanel": "moveLeftPanel"

@@ -68,20 +68,6 @@ _.extend(M.View.prototype, {
         Backbone.View.apply(this, arguments);
     },
 
-    render: function() {
-        //return M.View.prototype.render.apply(this, arguments);
-        console.log('render: ' + this.getObjectType());
-        //        this._preRender();
-        this._addClasses();
-        //        this._renderChildViews();
-        this._createDOM();
-        this._addId();
-        this._registerEvents();
-
-        return this;
-    },
-
-
     _addClasses: function() {
         this.$el.addClass(Object.getPrototypeOf(this)._getClasseName().reverse().join(' '));
     },

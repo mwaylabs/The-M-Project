@@ -34,6 +34,7 @@ var files = [
     'src/data/stores/web_sql.js',
 
     'src/ui/views/view.js',
+    'src/ui/pagetransitions.js',
     'src/ui/layouts/layout.js',
     'src/ui/layout_manager.js'
 ];
@@ -53,9 +54,13 @@ module.exports = function( grunt ) {
             options: {
                 separator: ';'
             },
-            build: {
+            framework: {
                 src: files,
                 dest: 'build/themproject.js'
+            },
+            css: {
+                src: ['src/ui/css/reset.css','src/ui/layouts/animations.css','src/ui/layouts/component.css','src/ui/layouts/main.css'],
+                dest: 'build/themproject.css'
             }
         },
         copy: {

@@ -1,18 +1,19 @@
 define([
+    "themproject",
     "text!templates/add.html",
-    "app/data/contact_model"
+    "data/contact_model"
 
 ],
-    function( tpl, ContactModel ) {
+    function( M, tpl, ContactModel ) {
 
-        var View = Backbone.View.extend({
+        var View = M.View.extend({
             first: true,
 
-            template: _.tpl(tpl),
+            template: _.template(tpl),
 
             events: {
-                "tap .back": "back",
-                "tap .save": "saveEntry"
+                "click .back": "back",
+                "click .save": "saveEntry"
             },
 
             back: function() {

@@ -1,17 +1,18 @@
 define([
+    'themproject',
     "text!templates/detail.html"
 ],
-    function( tpl ) {
+    function( M, tpl ) {
 
-        var View = Backbone.View.extend({
+        var View = M.View.extend({
             first: true,
 
-            template: _.tpl(tpl),
+            template: _.template(tpl),
 
             events: {
-                "tap .back": "back",
-                "tap .delete": "deleteEntry",
-                "tap .edit": "editEntry"
+                "click .back": "back",
+                "click .delete": "deleteEntry",
+                "click .edit": "editEntry"
             },
 
             bindings: {

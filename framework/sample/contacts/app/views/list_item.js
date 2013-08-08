@@ -1,12 +1,13 @@
 define([
-    "app/app",
+    'themproject',
+    "app",
     "text!templates/item.html"
 ],
-    function( app, tpl) {
+    function( M, app, tpl) {
 
-        var View = Backbone.View.extend({
+        var View = M.View.extend({
 
-            template: _.template(tpl),
+            template: _.template(tpl), // TODO Move _.template into M.View
             tagName: 'tr',
             className: 'contact-container',
 
@@ -29,7 +30,7 @@ define([
             },
 
             events: {
-                'tap': 'userSelected'
+                'click': 'userSelected'
             },
 
             //USE THIS WITH STANDARD BACKBONE OR HAMMER JS

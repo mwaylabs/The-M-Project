@@ -10,7 +10,8 @@ require.config({
         underscore: '../libs/underscore-1.4.4.min',
         themproject: '../libs/themproject',
         text: '../libs/require.text',
-        templates: 'resources/templates'
+        templates: 'resources/templates',
+        modenizer: '../libs/modenizer.custom'
     },
 
     shim: {
@@ -37,11 +38,9 @@ require.config({
         },
         themproject: {
             deps: [
-                'backbone', 'backboneLayoutManager', 'text', 'stickIt'
+                'backbone', 'backboneLayoutManager', 'text', 'stickIt', 'modenizer'
             ],
             exports: 'M'
         }
     }
-
 });
-

@@ -2,10 +2,9 @@ define([
     'app',
     'router'
 
-], function( App, router ) {
-    debugger;
+], function( App, Router ) {
 
-    App.Router = router;
+    var r = new Router();
+    // App.router = r;
     App.start();
-
 });

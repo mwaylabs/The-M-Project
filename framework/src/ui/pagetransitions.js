@@ -1,4 +1,6 @@
-var PageTransitions = (function() {
+
+
+;var PageTransitions = (function() {
 
     var $main = null,
         $pages = null,
@@ -14,9 +16,9 @@ var PageTransitions = (function() {
             'OAnimation' : 'oAnimationEnd',
             'msAnimation' : 'MSAnimationEnd',
             'animation' : 'animationend'
-        },
+        };
     // animation end event name
-        animEndEventName = animEndEventNames[ Modernizr.prefixed( 'animation' ) ],
+        animEndEventName = animEndEventNames[ Modernizr.prefixed( 'animation' ) ];
     // support css animations
         support = Modernizr.cssanimations;
 
