@@ -2,12 +2,11 @@
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Version:   0.0.0
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-// Date:      Thu Aug 08 2013 23:46:45
+// Date:      Thu Aug 08 2013 23:52:08
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
-
 // Source: src/core/m.js
 (function() {
     /**

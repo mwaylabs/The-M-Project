@@ -54,24 +54,22 @@ var cssFiles = [
     'src/ui/layouts/bottom-bar-layout/bottom-bar-layout.css'
 ];
 
-var banner = '// ==========================================================================\n' +
-'// Project:   The M-Project - Mobile HTML5 Application Framework\n' +
-'// Version:   <%= pkg.version %>\n' +
-'// Copyright: (c) <%= grunt.template.today("yyyy") %> M-Way Solutions GmbH. All rights reserved.\n' +
-'// Date:      <%= grunt.template.today() %>\n' +
-'// License:   Dual licensed under the MIT or GPL Version 2 licenses.\n' +
-'//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE\n' +
-'//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE\n' +
-'// ==========================================================================\n';
-
 module.exports = function( grunt ) {
 
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         meta: {
-            bannerJS: banner + '\n',
-            bannerCSS: '/*\n' + banner + '*/\n'
+            banner:   '// ==========================================================================\n' +
+                        '// Project:   The M-Project - Mobile HTML5 Application Framework\n' +
+                        '// Version:   <%= pkg.version %>\n' +
+                        '// Copyright: (c) <%= grunt.template.today("yyyy") %> M-Way Solutions GmbH. All rights reserved.\n' +
+                        '// Date:      <%= grunt.template.today() %>\n' +
+                        '// License:   Dual licensed under the MIT or GPL Version 2 licenses.\n' +
+                        '//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE\n' +
+                        '//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE\n' +
+                        '// ==========================================================================\n',
+            bannerCSS: '/*\n<%= meta.banner %>*/'
         },
         jsonlint: {
             sample: {
@@ -81,7 +79,7 @@ module.exports = function( grunt ) {
         concat: {
             framework: {
                 options: {
-                    banner: "<%= meta.bannerJS %>",
+                    banner: "<%= meta.banner %>",
                     process: function( src, filepath ) {
                         return '// Source: ' + filepath + '\n' + src;
                     }
