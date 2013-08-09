@@ -1,15 +1,16 @@
 define([
-    "app/data/contact_collection"
-],
-    function(Collection) {
+    'themproject',
+    'data/contact_collection'
 
-        var LocalStore = new M.LocalStorageStore({
-            entities: {
-                contact: {
-                    collection: Collection
-                }
+], function( M, Collection ) {
+
+    var LocalStore = new M.LocalStorageStore({
+        entities: {
+            contact: {
+                collection: Collection
             }
-        });
-
-        return LocalStore;
+        }
     });
+
+    return LocalStore;
+});

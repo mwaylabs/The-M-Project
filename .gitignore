@@ -4,4 +4,5 @@ bin/
 .settings
 .idea
 framework/modules/themes/default/*.css
-server/node_modules
+node_modules
+npm-debug.log

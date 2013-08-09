@@ -1,17 +1,10 @@
 define([
-    // Application.
-    "app/app", // Modules.
-    "swipe-layout",
-    "text!templates/main-layout.html",
-    "app/views/list",
-    "app/views/menu",
-    "app/views/add",
-    "app/views/detail",
-    "app/data/contact_collection",
-    "app/data/contact_model"
+    "themproject", // Application.
+    "app", // Modules.
+    "text!templates/main-layout.html", "views/list", "views/menu", "views/add", "views/detail", "data/contact_collection", "data/contact_model"
 ],
 
-    function( app, layout, mainTemplate, ListView, MenuView, AddView, DetailView, ContactCollection, ContactModel  ) {
+    function( M, app, mainTemplate, ListView, MenuView, AddView, DetailView, ContactCollection, ContactModel ) {
 
         // Defining the application router, you can attach sub routers here.
         var Router = Backbone.Router.extend({
@@ -74,7 +67,7 @@ define([
                     var list = new ListView(listOptions);
                     var menu = new MenuView();
 
-                    app.layoutManager.setLayout(layout);
+                    app.layoutManager.setLayout(new M.SwipeLayout());
 
                     app.layoutManager.applyViews({
                         content: list,
@@ -107,7 +100,7 @@ define([
                 var view = new DetailView({model: model});
                 var menu = new MenuView();
 
-                app.layoutManager.setLayout(layout);
+                app.layoutManager.setLayout(new M.SwitchLayout());
 
                 app.layoutManager.applyViews({
                     content: view,
@@ -123,15 +116,17 @@ define([
 
             },
 
-            add: function(  ) {
+            add: function() {
 
                 var view = new AddView({collection: this.contacts});
                 var menu = new MenuView();
-                app.layoutManager.setLayout(layout);
+
+                app.layoutManager.setLayout(new M.SwipeLayout());
 
                 app.layoutManager.applyViews({
                     content: view,
-                    footer: menu
+                    footer: menu,
+                    header: app.header
                 });
 
                 if( !app.layoutManager.isFirstLoad ) {
