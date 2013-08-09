@@ -49,6 +49,11 @@ server.get('/:name/:id', function(req, res) {
     rest.findOne(req, res);
 });
 
+//Find a changes since given time
+server.get('/:name/changes/:time', function(req, res) {
+    rest.findChanges(req, res);
+});
+
 //Create document(s)
 server.post('/:name', function(req, res) {
     rest.create(req, res);

@@ -97,7 +97,9 @@ exports.listen = function(server) {
                     // send update messages, saved since time
                     if (data && data.time) {
                         sockets.readMessages(entity, data.time, function(msg) {
-                            socket.emit(channel, msg);
+                            if (msg) {
+                                socket.emit(channel, msg);
+                            }
                         });
                     }
                 }
@@ -121,7 +123,7 @@ exports.listen = function(server) {
 
         readMessages: function(entity, time, callback) {
         }
-    }
+    };
 
     return sockets;
 };

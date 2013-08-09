@@ -72,6 +72,23 @@ exports.create = function(dbName) {
             );
         },
 
+                //Find a specific document
+        findChanges: function(req, res) {
+            var name = req.params.name;
+            var time = parseInt(req.params.time);
+            if (!time && time !== 0) {
+                return res.send(400, "invalid timestamp.");
+            }
+            var messages = [];
+            this.readMessages(name, time, function(message) {
+                if (message) {
+                    messages.push(message);
+                } else {
+                    res.send(messages);
+                }
+            })
+        },
+
         //Create new document(s)
         create: function(req, res, fromMessage) {
             var name = req.params.name;
@@ -156,26 +173,42 @@ exports.create = function(dbName) {
             doc._id   = id;
             doc._time = new Date().getTime();
             var collection = new mongodb.Collection(this.db, name);
-            collection.remove({ "_id" : id }, { }, function(err, n){
+            if (id === 'all') {
+                collection.drop(function (err) {
                     if(err) {
                         res.send(400, err);
                     } else {
-                        if (n==0) {
-                            res.send(404, 'Document not found!');
-                        }
-                        if (n > 0) {
-                            var msg = {
-                                method: 'delete',
-                                id: doc._id,
-                                time: doc._time,
-                                data: doc
-                            };
-                            rest.onSuccess(name, msg, fromMessage);
-                            res.send(doc, msg);
+                        var msg = {
+                            method: 'delete',
+                            id: doc._id,
+                            time: doc._time
+                        };
+                        rest.onSuccess(name, msg, fromMessage);
+                        res.send(doc);
+                    }
+                });
+            } else {
+                collection.remove({ "_id" : id }, { }, function(err, n){
+                        if(err) {
+                            res.send(400, err);
+                        } else {
+                            if (n==0) {
+                                res.send(404, 'Document not found!');
+                            }
+                            if (n > 0) {
+                                var msg = {
+                                    method: 'delete',
+                                    id: doc._id,
+                                    time: doc._time,
+                                    data: doc
+                                };
+                                rest.onSuccess(name, msg, fromMessage);
+                                res.send(doc);
+                            }
                         }
                     }
-                }
-            );
+                );
+            }
         },
 
         //save a new change message
@@ -184,45 +217,50 @@ exports.create = function(dbName) {
                 msg._id = new ObjectID();
             }
             var collection = new mongodb.Collection(this.db, "__msg__" + entity);
-            collection.insert(
-                msg,
-                { safe: false }
-            );
+            if (msg.method === 'delete' && msg.id === 'all') {
+                collection.remove(function () {
+                    collection.insert(msg, { safe: false } );
+                });
+            }
+            collection.insert(msg, { safe: false } );
         },
 
         //read the change message, since time
         readMessages: function(entity, time, callback) {
             var collection = new mongodb.Collection(this.db, "__msg__" + entity);
             time = parseInt(time);
-            if (!time) {
-                return;
-            }
-            collection.ensureIndex(
-                { time: 1, id: 1 },
-                { unique:true, background:true, w:1 },
-                function(err, indexName) {
-                    var cursor = collection.find({ time: { $gt: time } });
-                    var id, msg, lastMsg;
-                    cursor.sort([['id', 1], ['time', 1]]).each(function(err, msg) {
-                        if (msg && msg.id) {
-                            // the same id, merge document
-                            if (id && id.equals(id)) {
-                                if (lastMsg) {
-                                    msg = rest.mergeMessage(lastMsg, msg);
+            if (time || time === 0) {
+                collection.ensureIndex(
+                    { time: 1, id: 1 },
+                    { unique:true, background:true, w:1 },
+                    function(err, indexName) {
+                        var cursor = collection.find({ time: { $gt: time } });
+                        var id, lastMsg;
+                        cursor.sort([['id', 1], ['time', 1]]).each(function(err, msg) {
+                            if (msg && msg.id) {
+                                // the same id, merge document
+                                if (id && id.equals(msg.id)) {
+                                    if (lastMsg) {
+                                        msg = rest.mergeMessage(lastMsg, msg);
+                                    }
+                                } else if (lastMsg) {
+                                    // send the document to the client
+                                    callback(lastMsg);
                                 }
-                            } else if (lastMsg) {
-                                // send the document to the client
-                                callback(lastMsg);
-                                lastMsg = null;
+                                lastMsg = msg;
+                                id = msg.id;
+                            } else {
+                                if (lastMsg) {
+                                    callback(lastMsg);
+                                }
+                                callback(null);
                             }
-                            lastMsg = msg;
-                            id = msg.id;
-                        } else if (lastMsg) {
-                            callback(lastMsg);
-                        }
-                    });
-                }
-            );
+                        });
+                    }
+                );
+            } else {
+                callback(null);
+            }
         },
 
         mergeMessage: function(doc1, doc2) {
