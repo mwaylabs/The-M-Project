@@ -1,9 +1,10 @@
-** Version 1.5 - Date 06.05.2013 **
+** Version 1.5 - Date 02.09.2013 **
   * Add constants representing the operating system to M.Environment
   * Add getOS function to M.Environment
   * Add cssClass to DialogViews (thanks to Wulf Solter)
   * Add autocomplete attribute to M.TextFieldView
   * Error callback of DataConsumer.find now passes xhr object and message
+  * Bugfix displayName
 
 ** Version 1.4 - Date 26.03.2013 **
   * Add class tmp-image-hidden in tmp.css
