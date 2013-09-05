@@ -30,7 +30,7 @@ _.extend(M.Field.prototype, M.Object, {
 
     type: null,
 
-    default: undefined,
+    defaultValue: undefined,
 
     length: null,
 
@@ -43,30 +43,30 @@ _.extend(M.Field.prototype, M.Object, {
 
     create: function( config ) {
         var field = this.extend({
-            name:       config.name,
-            type:       config.type,
-            default:    config.default,
-            length:     config.length,
-            required:   config.required,
-            persistent: config.persistent
+            name:           config.name,
+            type:           config.type,
+            defaultValue:   config.defaultValue,
+            length:         config.length,
+            required:       config.required,
+            persistent:     config.persistent
         });
         return field;
     },
 
     merge: function(obj) {
-        this.name       = !_.isUndefined(obj.name)       ? obj.name       : this.name;
-        this.type       = !_.isUndefined(obj.type)       ? obj.type       : this.type;
-        this.default    = !_.isUndefined(obj.default)    ? obj.default    : this.default;
-        this.length     = !_.isUndefined(obj.length)     ? obj.length     : this.length;
-        this.required   = !_.isUndefined(obj.required)   ? obj.required   : this.required;
-        this.persistent = !_.isUndefined(obj.persistent) ? obj.persistent : this.persistent;
+        this.name           = !_.isUndefined(obj.name)          ? obj.name          : this.name;
+        this.type           = !_.isUndefined(obj.type)          ? obj.type          : this.type;
+        this.defaultValue   = !_.isUndefined(obj.defaultValue)  ? obj.defaultValue  : this.defaultValue;
+        this.length         = !_.isUndefined(obj.length)        ? obj.length        : this.length;
+        this.required       = !_.isUndefined(obj.required)      ? obj.required      : this.required;
+        this.persistent     = !_.isUndefined(obj.persistent)    ? obj.persistent    : this.persistent;
     },
 
     transform: function( value, type ) {
         type = type || this.type;
         try {
             if( _.isUndefined(value) ) {
-                return this.default;
+                return this.defaultValue;
             }
             if( type === M.CONST.TYPE.STRING || type === M.CONST.TYPE.TEXT ) {
                 if( _.isObject(value) ) {
