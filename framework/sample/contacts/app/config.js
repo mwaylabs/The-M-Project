@@ -12,7 +12,8 @@ require.config({
         themproject: '../libs/themproject',
         text: '../libs/require.text',
         templates: 'resources/templates',
-        modenizer: '../libs/modenizer.custom'
+        modenizer: '../libs/modenizer.custom',
+        FastClick: '../libs/fastclick-0.6.9'
     },
 
     shim: {
@@ -43,9 +44,13 @@ require.config({
             ],
             exports: 'BackboneLayoutManager'
         },
+        FastClick: {
+            deps: [],
+            exports: 'FastClick'
+        },
         themproject: {
             deps: [
-                'backbone', 'backboneLayoutManager', 'text', 'stickItTemplate', 'modenizer'
+                'backbone', 'backboneLayoutManager', 'text', 'stickItTemplate', 'modenizer', 'FastClick'
             ],
             exports: 'M'
         }

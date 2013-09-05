@@ -1,15 +1,22 @@
 define([
     "themproject", // Application.
     "app", // Modules.
-    "text!templates/main-layout.html", "views/list", "views/menu", "views/add", "views/detail", "data/contact_collection", "data/contact_model"
+    "text!templates/main-layout.html",
+    "views/list",
+    "views/menu",
+    "views/add",
+    "views/detail",
+    "data/contact_collection",
+    "data/contact_model"
 ],
 
     function( M, app, mainTemplate, ListView, MenuView, AddView, DetailView, ContactCollection, ContactModel ) {
-
         // Defining the application router, you can attach sub routers here.
         var Router = Backbone.Router.extend({
 
             initialize: function() {
+
+                FastClick.attach(document.body);
 
                 app.layoutManager = new (Backbone.Layout.extend());
 
@@ -100,7 +107,7 @@ define([
                 var view = new DetailView({model: model});
                 var menu = new MenuView();
 
-                app.layoutManager.setLayout(new M.SwitchLayout());
+                app.layoutManager.setLayout(new M.SwipeLayout());
 
                 app.layoutManager.applyViews({
                     content: view,
