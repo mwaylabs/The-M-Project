@@ -62,11 +62,12 @@ define([
             routes: {
                 '': 'index',
                 'detail/:id': 'detail',
-                'add': 'add'
+                'add': 'add',
+                'contacts': 'contacts'
+
             },
 
-            index: function( isFirstLoad ) {
-
+            contacts: function(){
                 if( isFirstLoad ) {
 
                     this.contacts.fetch();
@@ -79,7 +80,6 @@ define([
                     app.layoutManager.applyViews({
                         content: list,
                         footer: menu
-
                     });
                 }
 
@@ -88,8 +88,25 @@ define([
                 } else {
                     app.layoutManager.initialRenderProcess();
                 }
+            },
 
+            index: function( isFirstLoad ) {
+                if( isFirstLoad ) {
 
+                    var menu = new MenuView();
+
+                    app.layoutManager.setLayout(new M.SwipeLayout());
+                    debugger;
+                    app.layoutManager.applyViews({
+                        content: menu
+                    });
+                }
+
+                if( !app.layoutManager.isFirstLoad ) {
+                    PageTransitions.next();
+                } else {
+                    app.layoutManager.initialRenderProcess();
+                }
             },
 
             detail: function( isFirstLoad, id ) {
@@ -119,8 +136,6 @@ define([
                 } else {
                     app.layoutManager.initialRenderProcess();
                 }
-
-
             },
 
             add: function() {

@@ -1,3 +1,7 @@
+var exec = require('child_process').exec;
+//start mongodb
+exec('mongod run --config /usr/local/etc/mongod.conf', function(){});
+
 var express      = require('express');
 var server       = express();
 var http_server  = require('http').createServer(server);
