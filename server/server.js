@@ -1,13 +1,14 @@
 var express      = require('express');
 var server       = express();
 var http_server  = require('http').createServer(server);
-var sockets      = require('./sockets.js').listen(http_server);
+var sockets      = require('./bikini_live.js').listen(http_server);
 var rest         = require('./mongodb_rest.js').create("test");
 var PORT         = 8200;
 
 http_server.listen(PORT);
 console.log('http://127.0.0.1:' + PORT);
 
+server.use(express.static(__dirname + '/public/'));
 server.use(express.static(__dirname + '/../framework/'));
 server.use(express.bodyParser());
 

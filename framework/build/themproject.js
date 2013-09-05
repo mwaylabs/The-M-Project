@@ -2323,12 +2323,14 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
      */
     path: '',
 
+    resource: '',
+
     /**
      * The path to the socket.io.js client script on the server.
      *
      * @type String
      */
-    script: 'socket.io/socket.io.js',
+    script: 'libs/socket.io.js',
 
     /**
      * This property is used to specifiy all events for a socket within an application.
@@ -2393,7 +2395,8 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
         if (param) {
             url += "?" + (_.isString(param) ? param : $.param(param));
         }
-        this._socket = io.connect(url);
+        var options  = this.resource ? { resource: this.resource } : {};
+        this._socket = io.connect(url, options);
         this._socket.on('connect', function(data) {
             that.connected(data);
         });
@@ -2426,7 +2429,7 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     _init: function() {
         if ( Object.getPrototypeOf(this) === M.SocketIO ) {
             this._initEvents();
-            var socket_io_js = this.host + "/" + this.script;
+            var socket_io_js = this.script;
             var that = this;
             require([socket_io_js], function() {
                 that.ready();
@@ -4437,7 +4440,7 @@ M.SocketStore = M.Store.extend({
 
     host:   '',
 
-    path:   'live_data',
+    path:   '',
 
     msgStore:  null,
 
@@ -4454,22 +4457,24 @@ M.SocketStore = M.Store.extend({
         var that  = this;
         options   = options || {};
 
-        this.host = options.host || this.host;
-        this.path = options.path || this.path;
+        this.host     = options.host || this.host;
+        this.path     = options.path || this.path;
+        this.resource = options.resource || this.resource;
 
         this._initStores();
 
         this._socket = M.SocketIO.create({
             host: this.host,
             path: this.path,
+            resource: this.resource,
             connected: function() {
+                that._initialized = true;
                 if( that.entities ) {
                     for( var name in that.entities ) {
                         var entity = that.entities[name];
                         that._bindEntity(entity);
                     }
                 }
-                that._initialized = true;
                 that.sendMessages();
             }
         });
@@ -4504,6 +4509,14 @@ M.SocketStore = M.Store.extend({
              entity: entity.name,
              time:   time
         });
+        // do initial sync
+        // if (!this.getLastMessageTime(entity.channel)) {
+            this.sync("read", {}, { entity: entity.name, store: this });
+        //}
+    },
+
+    _isValidChannel: function(channel) {
+        return channel && channel.indexOf('entity_') === 0 && this.getEntity( null, { entity: channel.substr(7) } );
     },
 
     getLastMessageTime: function(channel) {
@@ -4587,14 +4600,20 @@ M.SocketStore = M.Store.extend({
         if (method && model) {
             var changes = model.changedSinceSync;
             var data = null;
+            var storeMsg = false;
             switch (method) {
                 case 'update':
                 case 'create':
-                    data = model.attributes;
+                    data  = model.attributes;
+                    storeMsg = true;
                     break;
                 case 'patch':
                     if ( _.isEmpty(changes)) return;
                     data = changes;
+                    storeMsg = true;
+                    break;
+                case 'delete':
+                    storeMsg = true;
                     break;
             }
             var msg = {
@@ -4603,13 +4622,18 @@ M.SocketStore = M.Store.extend({
                 method: method,
                 data: data
             };
-            this.storeMessage(entity.channel, msg, function(channel, msg) {
-                if (that._initialized) {
+            var emit = function(channel, msg) {
+            if (that._initialized) {
                     that.emitMessage(channel, msg, options);
                 } else {
                     that.handleCallback(options.success, msg.data);
                 }
-            });
+            };
+            if (storeMsg) {
+                this.storeMessage(entity.channel, msg, emit);
+            } else {
+                emit(entity.channel, msg);
+            }
         }
     },
 
@@ -4655,10 +4679,14 @@ M.SocketStore = M.Store.extend({
             var msg      = message.get('msg');
             var channel  = message.get('channel');
             var callback = message.get('callback');
-            if (callback) {
-                callback(channel, msg);
-            } else if (that._initialized) {
-                that.emitMessage(channel, msg, {});
+            if (that._isValidChannel(channel)) {
+                if (callback) {
+                    callback(channel, msg);
+                } else if (that._initialized) {
+                    that.emitMessage(channel, msg, {});
+                }
+            } else {
+                that.removeMessage(channel, msg);
             }
         });
     },
