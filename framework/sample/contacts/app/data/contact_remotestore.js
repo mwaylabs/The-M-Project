@@ -7,11 +7,11 @@ define([
 
         var RemoteStore = new M.SocketStore({
             host: host, // for message usage
-            path: 'live_data',
+            resource: 'bikini/live',
             version: '1.0',
             entities: {
-                contact: {
-                    channel: 'entity_contact',
+                contacts: {
+                    channel: 'entity_contacts',
                     idAttribute: '_id',
                     fields:  {
                         _id:         { type: M.CONST.TYPE.STRING, required: YES },

@@ -8,7 +8,7 @@ define([
 
         var Collection = M.Collection.extend({
             model: Model,
-            url: host + '/contact' // for rest usage
+            url: host + '/contacts' // for rest usage
         });
 
         return Collection;

@@ -6,7 +6,7 @@ define([
 
     var LocalStore = new M.LocalStorageStore({
         entities: {
-            contact: {
+            contacts: {
                 collection: Collection
             }
         }

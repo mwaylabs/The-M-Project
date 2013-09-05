@@ -37,11 +37,18 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     path: '',
 
     /**
+     * The resource to the socket.io instance on the server.
+     *
+     * @type String
+     */
+    resource: '',
+
+    /**
      * The path to the socket.io.js client script on the server.
      *
      * @type String
      */
-    script: 'socket.io/socket.io.js',
+    script: 'libs/socket.io.js',
 
     /**
      * This property is used to specifiy all events for a socket within an application.
@@ -102,11 +109,12 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
 
     connect: function(param) {
         var that = this;
-        var url  = this.host + "/" + this.path;
+        var url  = this.path;
         if (param) {
             url += "?" + (_.isString(param) ? param : $.param(param));
         }
-        this._socket = io.connect(url);
+        var options  = this.resource ? { resource: this.resource } : {};
+        this._socket = io.connect(url, options);
         this._socket.on('connect', function(data) {
             that.connected(data);
         });
