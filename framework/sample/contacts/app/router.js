@@ -1,10 +1,10 @@
 define([
     "themproject", // Application.
     "app", // Modules.
-    "text!templates/main-layout.html", "views/list", "views/menu", "views/add", "views/detail", "data/contact_collection", "data/contact_model"
+    "text!templates/main-layout.html", "views/list", "views/menu", "views/add", "views/detail", "data/contact_collection", "data/contact_model", "data/contact_remotestore"
 ],
 
-    function( M, app, mainTemplate, ListView, MenuView, AddView, DetailView, ContactCollection, ContactModel ) {
+    function( M, app, mainTemplate, ListView, MenuView, AddView, DetailView, ContactCollection, ContactModel, RemoteStore ) {
 
         // Defining the application router, you can attach sub routers here.
         var Router = Backbone.Router.extend({
