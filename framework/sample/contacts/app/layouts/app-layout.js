@@ -1,22 +1,22 @@
 define([
-    "themproject",
-    "text!layouts/header-layout/header-layout.html",
-    "text!layouts/bottom-bar-layout/bottom-bar-layout.html"
+    "themproject"
 ],
 
-    function( Layout, headerTemplate, bottomBarTemplate ) {
-        var template = $(Layout.prototype.template);
-        template.find('#pt-main .pt-page').first().before(headerTemplate);
-        template.find('#pt-main .pt-page').last().after(bottomBarTemplate);
+    function( M ) {
+        var template = $(M.SwipeLayout.prototype.template);
+        template.find('#pt-main .pt-page').first().before(M.HeaderLayout.prototype.template);
+        template.find('#pt-main .pt-page').last().after(M.HeaderLayout.prototype.template);
 
         var AppLayout = {
 
             identifier: 'app-layout',
 
-            template: Layout.prototype.template,
+            template: template,
 
             applyViews: function( settings ){
                 var current = $('.pt-page-current');
+
+                var next = $('.pt-page:not(.pt-page-current)');
 
                 var selector = '';
 
@@ -32,10 +32,9 @@ define([
                 //                view['.' + selector + ' .content'] = settings.content;
                 view['.' + selector + ' .content'] = settings.content;
                 if( settings.footer ) {
-                    view['.pt-perspective .bottom-bar'] = settings.footer;
-                }
-                if( settings.header ) {
-                    view['.pt-perspective .header'] = settings.header;
+                    view['.' + selector + ' .footer'] = settings.footer;
+                } else {
+                    view['.' + selector + ' .footer'] = 'settings.footer';
                 }
                 return view;
             }
@@ -43,6 +42,6 @@ define([
 
         };
 
-        return Layout.extend(AppLayout);
+        return M.SwipeLayout.extend(AppLayout);
 
     });

@@ -48,7 +48,7 @@ _.extend(Backbone.Layout.prototype, {
     },
 
     setLayout: function( layout ) {
-        if( this.currentLayout && this.currentLayout.identifier === layout.identifier ) {
+        if( this.currentLayout && this.currentLayout._type === layout._type ) {
             return this;
         } else {
             this.currentLayout = layout;
