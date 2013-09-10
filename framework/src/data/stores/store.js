@@ -88,14 +88,14 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         }
     },
 
-    createModel: function(entity) {
+    createModel: function(entity, attrs) {
         if (_.isString(entity)) {
             entity = this.entities[entity];
         }
         if (entity && entity.collection) {
             var model = entity.collection.model || entity.collection.prototype.model;
             if (model) {
-                return new model();
+                return new model(attrs);
             }
         }
     },

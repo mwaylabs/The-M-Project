@@ -202,6 +202,13 @@ M.Request = M.Object.extend(/** @scope M.Request.prototype */{
         });
 
         this.cancel();
+    },
+
+    setAuthentication: function(xhr, credentials) {
+        if (credentials && credentials.username && xhr && M.Base64) {
+            var basicAuth = M.Base64.encode(encodeURIComponent(credentials.username + ":" + (credentials.password || '')));
+            xhr.setRequestHeader('Authorization', 'Basic ' + basicAuth);
+        }
     }
 
 });

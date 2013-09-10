@@ -32,6 +32,11 @@ M.Entity.from = function(entity, options) {
              M.Entity.prototype.isPrototypeOf(entity.prototype)) {
             entity = new entity(options);
         } else {
+            if (typeof entity === 'string') {
+                entity = {
+                    name: entity
+                };
+            }
             // if this is just a config create a new Entity
             var e  = M.Entity.extend(entity);
             entity = new e(options);

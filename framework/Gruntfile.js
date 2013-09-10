@@ -18,6 +18,8 @@ var files = [
     'src/utility/i18n.js',
     'src/utility/objectid.js',
     'src/utility/uuid.js',
+    'src/utility/base64.js',
+    'src/utility/cypher.js',
 
     'src/connection/request.js',
     'src/connection/request_manager.js',
@@ -32,6 +34,7 @@ var files = [
     'src/data/stores/local_storage.js',
     'src/data/stores/socket.js',
     'src/data/stores/web_sql.js',
+    'src/data/stores/bikini_store.js',
 
     'src/ui/views/view.js',
     'src/ui/pagetransitions.js',

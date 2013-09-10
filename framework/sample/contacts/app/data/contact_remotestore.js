@@ -1,13 +1,17 @@
+
+
 define([
     "data/contact_collection"
-],
-    function( Collection ) {
+], function( Collection ) {
 
-        var host = 'http://nerds.mway.io:8200';
+//        var host = 'http://nerds.mway.io:8200';
+        var host = 'http://localhost:8200';
+//        var host = 'http://192.168.3.24:8200';
+//        var host = 'http://localhost:8080';
 
-        var RemoteStore = new M.SocketStore({
+        var RemoteStore = new M.BikiniStore({
             host: host, // for message usage
-            resource: 'bikini/live',
+            path: 'bikini',
             version: '1.0',
             entities: {
                 contacts: {
@@ -22,8 +26,7 @@ define([
                         notes:       { type: M.CONST.TYPE.TEXT   },
                         address:     { type: M.CONST.TYPE.OBJECT },
                         displayName: { type: M.CONST.TYPE.STRING, persistent: NO }
-                    },
-                    collection: Collection
+                    }
                 }
             }
         });

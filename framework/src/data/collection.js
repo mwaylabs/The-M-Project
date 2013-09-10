@@ -23,22 +23,17 @@ _.extend(M.Collection.prototype, {
 
     entity: null,
 
-    constructor: function(options) {
+    initialize: function(options) {
         options = options || {};
-        this.connector = options.connector || this.connector || (this.model ? this.model.prototype.connector : null);
-        this.entity    = options.entity || this.entity || (this.model ? this.model.prototype.entity : null);
+        this.store  = options.store  || this.store  || (this.model ? this.model.prototype.store : null);
+        this.entity = options.entity || this.entity || (this.model ? this.model.prototype.entity : null);
 
-        if (this.connector && _.isFunction(this.connector.initCollection)) {
-            this.connector.initCollection(this, options);
+        if (this.store && _.isFunction(this.store.initCollection)) {
+            this.store.initCollection(this, options);
         }
         if (this.entity) {
-            this.entity = M.Entity.from(this.entity, { typeMapping: options.typeMapping });
+            this.entity = M.Entity.from(this.entity, { model: this.model, typeMapping: options.typeMapping });
         }
-        // call base constructor
-        Backbone.Collection.apply(this, arguments);
-    },
-
-    initialize: function(options) {
     },
 
     select: function(options) {
@@ -62,6 +57,12 @@ _.extend(M.Collection.prototype, {
         if (store && _.isFunction(store.sync)) {
             return store.sync.apply(this, arguments);
         } else {
+            if (options && this.credentials) {
+                var credentials = this.credentials;
+                options.beforeSend = function(xhr) {
+                    M.Request.setAuthentication(xhr, credentials);
+                }
+            }
             return Backbone.sync.apply(this, arguments);
         }
     }

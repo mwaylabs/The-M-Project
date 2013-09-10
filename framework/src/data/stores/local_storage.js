@@ -2,7 +2,7 @@ M.LocalStorageStore = M.Store.extend({
 
     _type: 'M.LocalStorageStore',
 
-    name: 'bikini',
+    name: '',
 
     ids: {},
 

@@ -13,25 +13,22 @@ _.extend(M.Model.prototype, {
 
     changedSinceSync: {},
 
-    constructor: function(attributes, options) {
-        options = options || {};
+    initialize: function(attributes, options) {
+         options = options || {};
 
         this.idAttribute = options.idAttribute || this.idAttribute;
+        this.store = this.store || (this.collection ? this.collection.store : null) || options.store;
         if (this.store && _.isFunction(this.store.initModel)) {
             this.store.initModel(this, options);
         }
+        this.entity = this.entity || (this.collection ? this.collection.entity : null) || options.entity;
         if (this.entity) {
             this.entity = M.Entity.from(this.entity, { typeMapping: options.typeMapping });
-            this.idAttribute = entity.idAttribute || this.idAttribute;
+            this.idAttribute = this.entity.idAttribute || this.idAttribute;
         }
+        this.credentials = this.credentials || (this.collection ? this.collection.credentials : null) || options.credentials;
         this.on('change', this.onChange, this);
         this.on('sync',   this.onSync, this);
-
-        // call base constructor
-        Backbone.Model.apply(this, arguments);
-    },
-
-    initialize: function(attributes, options) {
     },
 
     sync: function(method, model, options) {
@@ -39,6 +36,12 @@ _.extend(M.Model.prototype, {
         if (store && _.isFunction(store.sync)) {
             return store.sync.apply(this, arguments);
         } else {
+            if (options && this.credentials) {
+                var credentials = this.credentials;
+                options.beforeSend = function(xhr) {
+                    M.Request.setAuthentication(xhr, credentials);
+                }
+            }
             return Backbone.sync.apply(this, arguments);
         }
     },
@@ -57,5 +60,4 @@ _.extend(M.Model.prototype, {
     onSync: function(model, options) {
         this.changedSinceSync = {};
     }
-
 });
