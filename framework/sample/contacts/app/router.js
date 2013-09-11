@@ -72,7 +72,6 @@ define([
                     var list = new ListView(listOptions);
                     var menu = new ContactsView();
 
-                    menu  = M.View.create();
 
                     app.layoutManager.setLayout(new M.SwipeLayout());
 

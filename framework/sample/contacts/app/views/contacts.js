@@ -19,9 +19,6 @@ define([
                 "touchmove .moveLeftPanel": "moveLeftPanel"
             },
 
-            initialize: function() {
-            },
-
             beforeRender: function() {
 
             },
