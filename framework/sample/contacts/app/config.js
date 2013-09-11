@@ -1,3 +1,7 @@
+uiframeworks = ['jqm', 'topcoat', 'default', 'bootstrap'];
+currentUI = localStorage.getItem('uiframework') || 2;
+uiframework = uiframeworks[currentUI];
+
 require.config({
 
     deps: ['main'],

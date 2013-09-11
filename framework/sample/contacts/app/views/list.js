@@ -6,7 +6,6 @@ define([
 ],
     function( M, tpl, app, ListItemView ) {
 
-
         var View = M.View.extend({
 
             template: _.template(tpl), // TODO Move _.template into M.View

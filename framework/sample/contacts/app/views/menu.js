@@ -1,53 +1,36 @@
 define([
     // Application.
-    'themproject',
-    'app',
-    "text!templates/menu.html"
+    'themproject', 'app', "text!templates/menu.html"
 ],
 
     function( M, app, menuTemplate ) {
 
-        var Menu = M.View.extend({
+        var btn = M.Button.create({
 
-            template: _.template(menuTemplate),
+            value: 'toggle ui framework',
 
             events: {
-                "click .toggleRightPanel": "toggleRightPanel",
-                "click .toggleLeftPanel": "toggleLeftPanel",
-                "touchstart .moveLeftPanel": "startMoveLeftPanel",
-                "touchend .moveLeftPanel": "stopMoveLeftPanel",
-                "touchmove .moveLeftPanel": "moveLeftPanel"
+                click: 'click'
             },
 
-            initialize: function() {
-            },
+            click: function() {
+                console.log('click');
+                return;
+                if( currentUI >= uiframeworks.length - 1 ) {
+                    currentUI = -1;
+                }
+                localStorage.setItem('uiframework', ++currentUI);
+                location.reload();
 
-            beforeRender: function() {
-
-            },
-
-            toggleRightPanel: function() {
-                app.layoutManager.getLayout().toggleRightPanel();
-            },
-
-            toggleLeftPanel: function() {
-                app.layoutManager.getLayout().toggleLeftPanel();
-            },
-
-            startMoveLeftPanel: function(evt) {
-                app.layoutManager.getLayout().startMoveLeftPanel(evt);
-            },
-
-            stopMoveLeftPanel: function(evt) {
-                app.layoutManager.getLayout().stopMoveLeftPanel(evt);
-            },
-
-            moveLeftPanel: function(evt) {
-                app.layoutManager.getLayout().moveLeftPanel(evt);
             }
-
 
         });
 
-        return Menu;
+        var label = M.ModelView.create({
+            value: 'ich bin ein label'
+        });
+
+        BBB = btn;
+
+        return btn;
     });

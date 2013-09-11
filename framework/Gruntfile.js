@@ -34,6 +34,7 @@ var files = [
     'src/data/stores/web_sql.js',
 
     'src/ui/views/view.js',
+    'src/ui/views/button.js',
     'src/ui/pagetransitions.js',
     'src/ui/layouts/layout.js',
     'src/ui/layout_manager.js',
