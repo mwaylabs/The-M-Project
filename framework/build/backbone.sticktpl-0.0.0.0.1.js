@@ -20,15 +20,19 @@
 
             // Combine delimiters into one regular expression via alternation.
             var matcher = new RegExp([
-                (settings.escape || noMatch).source, (settings.interpolate || noMatch).source, (settings.evaluate || noMatch).source
+                (settings.escape || noMatch).source,
+                (settings.interpolate || noMatch).source,
+                (settings.evaluate || noMatch).source
             ].join('|') + '|$', 'g');
-
 
             /*START MOD*/
 
             // add a cssClass to every template so stickit can use it as binding.
 
             // convert the template string to jQuery object
+
+            text = text.replace(/<%/g, '@%').replace(/%>/g, '%@');
+            text = text.replace(/@%=/g, '@%@');
             var obj = $(text);
 
             // text to produce and replace later with the originial text - just a puffer variable
@@ -56,7 +60,7 @@
                     // decode the special characters by replacing them
                     // use the underscorpe matcher regex to find the given <%= => template and it's identifier and write it into cssClass
                     //e.q. <%= firstname => writes the string 'firstname' into cssClass
-                    compare.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(matcher, function(match, escape, interpolate) {
+                    compare.replace(matcher, function(match, escape, interpolate) {
                         if(interpolate){
                             attributeName = interpolate.replace(/\s/g, '');
                         }
@@ -66,7 +70,7 @@
                     if(attributeName){
                         // add the cssClass name from the template to the current element
                         // so stickit can use it
-//                        elem.classList.add(cssClass);
+                        //                        elem.classList.add(cssClass);
                         if(elem.tagName === 'INPUT'){
                             elem.setAttribute('data-binding', 'input-' + attributeName);
                         } else {
@@ -83,64 +87,56 @@
             };
 
             // start the process
-
             convert(obj);
             // overwrite the originial template text with the generated one
-            text = obj[0].outerHTML.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');;
+            text = text.replace(/@%@/g, '<%=');
+            text = text.replace(/@%/g, '<%').replace(/%@/g, '%>');
+
+
             /*END MOD*/
 
             // Compile the template source, escaping string literals appropriately.
             var index = 0;
-
             var source = "__p+='";
+            text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
+                source += text.slice(index, offset)
+                    .replace(escaper, function(match) { return '\\' + escapes[match]; });
 
-            var f = function( match, escape, interpolate, evaluate, offset ) {
-                var surrounding = text.slice(index, offset).replace(escaper, function( match ) {
-                    return '\\' + escapes[match];
-                });
-
-                source += surrounding;
-
-                if( escape ) {
+                if (escape) {
                     source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'";
                 }
-                if( interpolate ) {
+                if (interpolate) {
                     source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
                 }
-                if( evaluate ) {
+                if (evaluate) {
                     source += "';\n" + evaluate + "\n__p+='";
                 }
                 index = offset + match.length;
                 return match;
-            };
-
-            text.replace(matcher, f);
+            });
             source += "';\n";
-
+            console.log(source);
             // If a variable is not specified, place data values in local scope.
-            if( !settings.variable ) {
-                source = 'with(obj||{}){\n' + source + '}\n';
-            }
+            if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
 
-            source = "var __t,__p='',__j=Array.prototype.join," + "print=function(){__p+=__j.call(arguments,'');};\n" + source + "return __p;\n";
+            source = "var __t,__p='',__j=Array.prototype.join," +
+                "print=function(){__p+=__j.call(arguments,'');};\n" +
+                source + "return __p;\n";
 
             try {
                 render = new Function(settings.variable || 'obj', '_', source);
-            } catch( e ) {
+            } catch (e) {
                 e.source = source;
                 throw e;
             }
 
-            if( data ) {
-                return render(data, _);
-            }
-            var template = function( data ) {
+            if (data) return render(data, _);
+            var template = function(data) {
                 return render.call(this, data, _);
             };
 
             // Provide the compiled function source as a convenience for precompilation.
             template.source = 'function(' + (settings.variable || 'obj') + '){\n' + source + '}';
-
             return template;
         }
     });
