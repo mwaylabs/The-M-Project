@@ -39,20 +39,19 @@ define([
             saveEntry: function() {
                 var that = this;
 
-                var model = ContactModel.create({
+                var attrs = {
                     firstname: this.$('.firstname').val(),
                     lastname: this.$('.lastname').val()
-                })
+                };
 
-                if( !model.isValid() ) {
-                    alert(model.validationError)
-                } else {
-                    this.collection.create(model, {
-                        success: function() {
-                            that.back();
-                        }
-                    })
-                }
+                this.collection.create(attrs, {
+                    success: function() {
+                        that.back();
+                    },
+                    error: function(error) {
+                        alert(error)
+                    }
+                });
             },
 
             afterRender: function() {

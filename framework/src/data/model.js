@@ -59,5 +59,20 @@ _.extend(M.Model.prototype, {
 
     onSync: function(model, options) {
         this.changedSinceSync = {};
+    },
+
+    getUrlRoot: function() {
+        if (this.urlRoot) {
+            return _.isFunction(this.urlRoot) ? this.urlRoot() : this.urlRoot;
+        } else if (this.collection) {
+            return this.collection.getUrlRoot();
+        } else if (this.url) {
+            var url = _.isFunction(this.url) ? this.url() : this.url;
+            if (url && this.id && url.indexOf(this.id) > 0) {
+                return url.substr(0, url.indexOf(this.id));
+            }
+            return url;
+        }
     }
+
 });

@@ -66,12 +66,13 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         }
     },
 
-    getEntity: function(model, options, entity) {
-        var name = entity ? (_.isString(entity) ? entity : entity.name) : null;
-        name = name || (options ? options.entity : null);
-        name = name || (model && model.entity ? model.entity.name : null);
-        if (name) {
-            return this.entities[name] || entity;
+    getEntity: function(obj) {
+        if (obj) {
+            var entity = obj.entity || obj;
+            var name   = _.isString(entity) ? entity : entity.name;
+            if (name) {
+                return this.entities[name] || (entity && entity.name ? entity : { name: name });
+            }
         }
     },
 

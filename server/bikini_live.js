@@ -4,9 +4,11 @@ exports.listen = function(server) {
 
     var io = require('socket.io').listen( server, { resource: '/bikini/live' } );
 
-    var bikni = {
+    var bikini = {
 
         io: io,
+
+        bindings: {},
 
         live: io.sockets.authorization(function (handshakeData, callback) {
 
@@ -15,14 +17,15 @@ exports.listen = function(server) {
 
         }).on('connection', function (socket) {
 
-            socket.on('bind', function(data) {
-                var entity = typeof data === 'object' ? data.entity : data;
-                if (entity && typeof entity === 'string') {
-                    var channel = 'entity_' + entity;
+            socket.on('bind', function(binding) {
+                if (binding && binding.entity && binding.channel) {
+                    var entity  = binding.entity;
+                    var channel = binding.channel;
+                    bikini.bindings[channel] = binding;
 
                     // listen to this channel
                     socket.on(channel, function(msg, fn) {
-                        bikni.handleMessage(entity, msg, function(data, error) {
+                        bikini.handleMessage(entity, msg, function(data, error) {
 
                             // if the response is an object message has succeeded
                             if (typeof data === 'object') {
@@ -41,8 +44,8 @@ exports.listen = function(server) {
                     });
 
                     // send update messages, saved since time
-                    if (data && data.time) {
-                        bikni.readMessages(entity, data.time, function(msg) {
+                    if (binding && binding.time) {
+                        bikini.readMessages(entity, binding.time, function(msg) {
                             if (msg) {
                                 socket.emit(channel, msg);
                             }
@@ -61,9 +64,12 @@ exports.listen = function(server) {
         },
 
         sendMessage: function(entity, msg) {
-            var channel = 'entity_' + entity;
-            if (msg && msg.method) {
-                io.sockets.emit(channel, msg);
+            if (entity && msg && msg.method) {
+                for (var channel in bikini.bindings) {
+                    if (bikini.bindings[channel].entity === entity) {
+                        io.sockets.emit(channel, msg);
+                    }
+                }
             }
         },
 
@@ -71,5 +77,5 @@ exports.listen = function(server) {
         }
     };
 
-    return bikni;
+    return bikini;
 };

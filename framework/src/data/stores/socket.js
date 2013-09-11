@@ -90,7 +90,7 @@ M.SocketStore = M.Store.extend({
     },
 
     _isValidChannel: function(channel) {
-        return channel && channel.indexOf('entity_') === 0 && this.getEntity( null, { entity: channel.substr(7) } );
+        return channel && channel.indexOf('entity_') === 0 && this.getEntity( channel.substr(7) );
     },
 
     getLastMessageTime: function(channel) {
@@ -140,7 +140,7 @@ M.SocketStore = M.Store.extend({
         if (options.fromMessage) {
             return that.handleCallback(options.success);
         }
-        var entity = that.getEntity(model, options, this.entity);
+        var entity = that.getEntity(model.entity || options.entity || this.entity);
         if (that && entity) {
             var channel = entity.channel;
 

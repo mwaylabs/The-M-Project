@@ -2,7 +2,7 @@
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Version:   0.0.0
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-// Date:      Tue Sep 10 2013 17:09:47
+// Date:      Wed Sep 11 2013 16:47:35
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -2412,6 +2412,29 @@ M.Request = M.Object.extend(/** @scope M.Request.prototype */{
             var basicAuth = M.Base64.encode(encodeURIComponent(credentials.username + ":" + (credentials.password || '')));
             xhr.setRequestHeader('Authorization', 'Basic ' + basicAuth);
         }
+    },
+
+     /*
+        url = "http://example.com:3000/pathname/?search=test#hash";
+
+        location.protocol; // => "http:"
+        location.host;     // => "example.com:3000"
+        location.hostname; // => "example.com"
+        location.port;     // => "3000"
+        location.pathname; // => "/pathname/"
+        location.hash;     // => "#hash"
+        location.search;   // => "?search=test"
+     */
+    getLocation: function(url) {
+        var location = document.createElement("a");
+        location.href = url || this.url;
+        // IE doesn't populate all link properties when setting .href with a relative URL,
+        // however .href will return an absolute URL which then can be used on itself
+        // to populate these additional fields.
+        if (location.host == "") {
+          location.href = location.href;
+        }
+        return location;
     }
 
 });
@@ -3456,7 +3479,22 @@ _.extend(M.Model.prototype, {
 
     onSync: function(model, options) {
         this.changedSinceSync = {};
+    },
+
+    getUrlRoot: function() {
+        if (this.urlRoot) {
+            return _.isFunction(this.urlRoot) ? this.urlRoot() : this.urlRoot;
+        } else if (this.collection) {
+            return this.collection.getUrlRoot();
+        } else if (this.url) {
+            var url = _.isFunction(this.url) ? this.url() : this.url;
+            if (url && this.id && url.indexOf(this.id) > 0) {
+                return url.substr(0, url.indexOf(this.id));
+            }
+            return url;
+        }
     }
+
 });
 
 // Source: src/data/collection.js
@@ -3495,6 +3533,12 @@ _.extend(M.Collection.prototype, {
         }
         if (this.entity) {
             this.entity = M.Entity.from(this.entity, { model: this.model, typeMapping: options.typeMapping });
+        } else if (this.url) {
+            // extract last path part as entity name
+            var parts = M.Request.getLocation(this.url).pathname.match(/([^\/]+)\/?$/);
+            if (parts && parts.length > 1) {
+                this.entity = M.Entity.from(parts[1]);
+            }
         }
     },
 
@@ -3527,6 +3571,10 @@ _.extend(M.Collection.prototype, {
             }
             return Backbone.sync.apply(this, arguments);
         }
+    },
+
+    getUrlRoot: function() {
+        return _.isFunction(this.url) ? this.url() : this.url;
     }
 
 });
@@ -4508,12 +4556,13 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         }
     },
 
-    getEntity: function(model, options, entity) {
-        var name = entity ? (_.isString(entity) ? entity : entity.name) : null;
-        name = name || (options ? options.entity : null);
-        name = name || (model && model.entity ? model.entity.name : null);
-        if (name) {
-            return this.entities[name] || entity;
+    getEntity: function(obj) {
+        if (obj) {
+            var entity = obj.entity || obj;
+            var name   = _.isString(entity) ? entity : entity.name;
+            if (name) {
+                return this.entities[name] || (entity && entity.name ? entity : { name: name });
+            }
         }
     },
 
@@ -4695,7 +4744,7 @@ M.LocalStorageStore = M.Store.extend({
     sync: function( method, model, options ) {
         var options = options || {};
         var that = options.store || this.store;
-        var entity = that.getEntity(model, options, this.entity);
+        var entity = that.getEntity(model.entity || options.entity || this.entity);
         if( that && entity && model ) {
             var id = model.id || (method === 'create' ? new M.ObjectID().toHexString() : null);
             var attrs = options.attrs || model.attributes;
@@ -4906,7 +4955,7 @@ M.SocketStore = M.Store.extend({
     },
 
     _isValidChannel: function(channel) {
-        return channel && channel.indexOf('entity_') === 0 && this.getEntity( null, { entity: channel.substr(7) } );
+        return channel && channel.indexOf('entity_') === 0 && this.getEntity( channel.substr(7) );
     },
 
     getLastMessageTime: function(channel) {
@@ -4956,7 +5005,7 @@ M.SocketStore = M.Store.extend({
         if (options.fromMessage) {
             return that.handleCallback(options.success);
         }
-        var entity = that.getEntity(model, options, this.entity);
+        var entity = that.getEntity(model.entity || options.entity || this.entity);
         if (that && entity) {
             var channel = entity.channel;
 
@@ -5163,10 +5212,10 @@ M.WebSqlStore = M.Store.extend({
         });
     },
 
-    _options: function(data, options, entity) {
+    _options: function(model, options, entity) {
         var opts = _.extend({}, options);
-        opts.entity = this.getEntity(data, options, entity);
-        opts.data   = this.getArray(data);
+        opts.entity = this.getEntity(model.entity || options.entity || this.entity);
+        opts.data   = this.getArray(model);
         return opts;
     },
 
@@ -5677,6 +5726,8 @@ M.BikiniStore = M.Store.extend({
 
     resource: 'live',
 
+    endpoints: {},
+
     useLocalStore: true,
 
     msgStore:  null,
@@ -5697,65 +5748,108 @@ M.BikiniStore = M.Store.extend({
         this.host     = options.host || this.host;
         this.path     = options.path || this.path;
         this.resource = options.resource || this.resource;
+    },
 
-        this._initStores();
+    initModel: function( model ) {
+    },
 
-        this._socket = M.SocketIO.create({
-            host: this.host,
-            resource: (this.path ? this.path + "/" : "") + this.resource,
-            connected: function() {
-                that._initialized = true;
-                if( that.entities ) {
-                    for( var name in that.entities ) {
-                        var entity = that.entities[name];
-                        that._bindEntity(entity);
-                    }
-                }
-                that.sendMessages();
+    initCollection: function( collection ) {
+        var url    = collection.getUrlRoot();
+        var entity = this.getEntity(collection.entity);
+        if (url && entity) {
+            var name    = entity.name;
+            var hash    = this._hashCode(url);
+            var channel = name + hash;
+            collection.channel = channel;
+            // get or create endpoint for this url
+            var endpoint   = this.endpoints[hash];
+            if (!endpoint) {
+                endpoint = {};
+                endpoint.url         = url;
+                endpoint.entity      = entity;
+                endpoint.channel     = channel;
+                endpoint.credentials = entity.credentials || collection.credentials;
+                endpoint.localStore  = this.createLocalStore   (endpoint);
+                endpoint.messages    = this.createMsgCollection(endpoint);
+                endpoint.socket      = this.createSocket       (endpoint);
+                this.endpoints[hash] = endpoint;
             }
+            collection.endpoint   = endpoint;
+            collection.localStore = endpoint.localStore;
+            collection.messages   = endpoint.messages;
+            collection.listenTo(this, channel, this.onMessage, collection);
+
+            this.sendMessages(endpoint, collection);
+        }
+    },
+
+    getEndpoint: function(url) {
+        if (url) {
+            var hash = this._hashCode(url);
+            return this.endpoints[hash];
+        }
+    },
+
+    createLocalStore: function(endpoint) {
+        var entities = {};
+        entities[endpoint.entity.name] = {
+            name: endpoint.channel
+        };
+        return new M.LocalStorageStore({
+            entities: entities
         });
     },
 
-    _initStores: function() {
-        var MsgCollection  = M.Collection.extend({
+    createMsgCollection: function(endpoint) {
+        var name = "msg-" + endpoint.channel;
+        var MsgCollection = M.Collection.extend({
             model: M.Model.extend({ idAttribute: '_id' })
         });
-        this.msgStore = new M.LocalStorageStore({
-            entities: {
-                messages: {
-                    collection: MsgCollection
-                }
-            }
+        var messages  = new MsgCollection({
+            entity: name,
+            store: new M.LocalStorageStore()
         });
-
-        this.messages  = new MsgCollection();
-        this.messages.fetch();
+        messages.fetch();
+        return messages;
     },
 
-    _bindEntity: function(entity) {
+    createSocket: function(endpoint) {
+        var url = M.Request.getLocation(endpoint.url);
+        var host = url.protocol + "://" +url.host;
+        var path = url.pathname;
+        // TODO: generate a resource path out of the url path
+        var resource = "bikini/live";
         var that = this;
-        entity.channel = entity.channel || 'entity_' + entity.name;
-        var time = this.getLastMessageTime(entity.channel);
-        this._socket.on(entity.channel, function(msg) {
-            if (msg) {
-                that.setLastMessageTime(entity.channel, msg.time);
-                that.trigger(entity.channel, msg);
+        var socket = M.SocketIO.create({
+            host: this.host,
+            resource: resource,
+            connected: function() {
+                that._bindChannel(socket, endpoint);
             }
         });
-        this._socket.emit('bind', {
-             entity: entity.name,
-             time:   time
+        return socket;
+    },
+
+    _bindChannel: function(socket, endpoint) {
+        var that = this;
+        var channel = endpoint.channel;
+        var name    = endpoint.entity.name;
+        var time = this.getLastMessageTime(channel);
+        socket.on(channel, function(msg) {
+            if (msg) {
+                that.setLastMessageTime(channel, msg.time);
+                that.trigger(channel, msg);
+            }
+        });
+        socket.emit('bind', {
+            entity:  name,
+            channel: channel,
+            time:    time
         });
         // do initial sync
         // if (!this.getLastMessageTime(entity.channel)) {
         //    this.sync("read", {}, { entity: entity.name, store: this });
         //}
-    },
-
-    getEntityByChannel: function(channel) {
-        if (channel && channel.indexOf('entity_') === 0 && channel.length > 7) {
-            return this.getEntity( null, { entity: channel.substr(7) } )
-        }
     },
 
     getLastMessageTime: function(channel) {
@@ -5779,17 +5873,6 @@ M.BikiniStore = M.Store.extend({
         return hash;
     },
 
-    createLocalStore: function(entity, collection) {
-        var entities = {};
-        var hash = this._hashCode(collection.url);
-        var name = entity +"-"+hash;
-        entities[entity] = {
-            name: name
-        };
-        return new M.LocalStorageStore({
-            entities: entities
-        });
-    },
 
     onMessage: function(msg) {
         if (msg && msg.method) {
@@ -5828,38 +5911,22 @@ M.BikiniStore = M.Store.extend({
         if (options.fromMessage) {
             return that.handleCallback(options.success);
         }
-        var entity = that.getEntity(model, options, this.entity);
-        if (that && entity) {
-            var channel = entity.channel;
+        var endpoint = that.getEndpoint(this.getUrlRoot());
+        if (that && endpoint) {
+            var channel = this.channel;
 
             if ( M.isModel(model) && !model.id) {
                 model.set(model.idAttribute, new M.ObjectID().toHexString());
             }
 
-            // connect collection with this channel
-            if ( M.isCollection(this) && channel && !this.channel) {
-                this.channel = channel;
-                if (that.useLocalStore && !this.localStore) {
-                    this.localStore = that.createLocalStore(entity.name, this);
-                }
-                if (!entity.collection) {
-                    entity.collection = this;
-                }
-                if (this.url) {
-                    entity.url = this.url;
-                    entity.credentials = this.credentials;
-                }
-                this.listenTo(that, channel, that.onMessage, this);
-            }
-
-            var time = that.getLastMessageTime(entity.channel);
+            var time = that.getLastMessageTime(channel);
             // only send read messages if no other store can do this
             // or for initial load
             if (method !== "read" || !this.localStore || !time) {
                 // do backbone rest
                 that.addMessage(method, model,
                     this.localStore ? {} : options, // we don't need to call callbacks if an other store handle this
-                    entity);
+                    endpoint);
             }
             if (this.localStore) {
                 options.store  = this.localStore;
@@ -5868,7 +5935,7 @@ M.BikiniStore = M.Store.extend({
         }
     },
 
-    addMessage: function(method, model, options, entity) {
+    addMessage: function(method, model, options, endpoint) {
         var that = this;
         if (method && model) {
             var changes = model.changedSinceSync;
@@ -5895,23 +5962,22 @@ M.BikiniStore = M.Store.extend({
                 method: method,
                 data: data
             };
-            var emit = function(entity, msg) {
-                that.emitMessage(entity, msg, options);
+            var emit = function(endpoint, msg) {
+                that.emitMessage(endpoint, msg, options, model);
             };
             if (storeMsg) {
-                this.storeMessage(entity, msg, emit);
+                this.storeMessage(endpoint, msg, emit);
             } else {
-                emit(entity, msg);
+                emit(endpoint, msg);
             }
         }
     },
 
-    emitMessage: function(entity, msg, options) {
-        var channel = entity.channel;
+    emitMessage: function(endpoint, msg, options, model) {
+        var channel = endpoint.channel;
         var that = this;
-        console.log('emitMessage:' + msg.id);
-        var model = this.createModel(channel.substr(7), msg.data);
-        var url   = entity.url;
+        console.log('emitMessage:' + msg.method + (msg.id ? ' : ' + msg.id : '') );
+        var url   = endpoint.url;
         if (msg.id && msg.method !== 'create') {
             url += "/" + msg.id;
         }
@@ -5919,16 +5985,16 @@ M.BikiniStore = M.Store.extend({
             url: url,
             error: function(xhr, status) {
                 if (status === 'error') {
-                    that.handleCallback(options.error, error);
+                    that.handleCallback(options.error, status);
                 } else {
-                    that.removeMessage(channel, msg, function(channel, msg) {
+                    that.removeMessage(endpoint, msg, function(endpoint, msg) {
                         // Todo: revert changed data
-                        that.handleCallback(options.error, error);
+                        that.handleCallback(options.error, status);
                     });
                 }
             },
             success: function(data) {
-                that.removeMessage(channel, msg, function(channel, msg) {
+                that.removeMessage(endpoint, msg, function(endpoint, msg) {
                     if (options.success) {
                         var resp = data;
                         that.handleCallback(options.success, resp);
@@ -5959,21 +6025,19 @@ M.BikiniStore = M.Store.extend({
         });
     },
 
-    sendMessages: function() {
+    sendMessages: function(endpoint, collection) {
         var that = this;
-        this.messages.each( function(message) {
+        endpoint.messages.each( function(message) {
             var msg      = message.get('msg');
             var channel  = message.get('channel');
-            var entity   = that.getEntityByChannel(channel);
             var callback = message.get('callback');
-            if (entity) {
+            if (msg && channel) {
                 if (callback) {
-                    callback(entity, msg);
+                    callback(endpoint, msg);
                 } else {
-                    that.emitMessage(entity, msg, {});
+                    var model = that.createModel({ collection: collection }, msg.data);
+                    that.emitMessage(endpoint, msg, {}, model);
                 }
-            } else {
-                that.removeMessage(channel, msg);
             }
         });
     },
@@ -5982,15 +6046,15 @@ M.BikiniStore = M.Store.extend({
         return data;
     },
 
-    storeMessage: function(entity, msg, callback) {
-        var channel = entity.channel;
-        var message = this.messages.get(msg._id);
+    storeMessage: function(endpoint, msg, callback) {
+        var channel = endpoint.channel;
+        var message = endpoint.messages.get(msg._id);
         if (message) {
             message.save({
                 msg: _.extend(message.get('msg'), msg)
             });
         } else {
-            this.messages.create({
+            endpoint.messages.create({
                 _id: msg._id,
                 id:  msg.id,
                 msg: msg,
@@ -5998,15 +6062,15 @@ M.BikiniStore = M.Store.extend({
                 callback: callback
             });
         }
-        callback(entity, msg);
+        callback(endpoint, msg);
     },
 
-    removeMessage: function(channel, msg, callback) {
-        var message = this.messages.get(msg._id);
+    removeMessage: function(endpoint, msg, callback) {
+        var message = endpoint.messages.get(msg._id);
         if (message) {
             message.destroy();
         }
-        callback(channel, msg);
+        callback(endpoint, msg);
     }
 });
 

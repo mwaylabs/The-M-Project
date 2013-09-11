@@ -33,6 +33,12 @@ _.extend(M.Collection.prototype, {
         }
         if (this.entity) {
             this.entity = M.Entity.from(this.entity, { model: this.model, typeMapping: options.typeMapping });
+        } else if (this.url) {
+            // extract last path part as entity name
+            var parts = M.Request.getLocation(this.url).pathname.match(/([^\/]+)\/?$/);
+            if (parts && parts.length > 1) {
+                this.entity = M.Entity.from(parts[1]);
+            }
         }
     },
 
@@ -65,6 +71,10 @@ _.extend(M.Collection.prototype, {
             }
             return Backbone.sync.apply(this, arguments);
         }
+    },
+
+    getUrlRoot: function() {
+        return _.isFunction(this.url) ? this.url() : this.url;
     }
 
 });

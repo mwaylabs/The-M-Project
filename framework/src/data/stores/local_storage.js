@@ -9,7 +9,7 @@ M.LocalStorageStore = M.Store.extend({
     sync: function( method, model, options ) {
         var options = options || {};
         var that = options.store || this.store;
-        var entity = that.getEntity(model, options, this.entity);
+        var entity = that.getEntity(model.entity || options.entity || this.entity);
         if( that && entity && model ) {
             var id = model.id || (method === 'create' ? new M.ObjectID().toHexString() : null);
             var attrs = options.attrs || model.attributes;
