@@ -57,7 +57,7 @@ define([
             },
 
             routes: {
-                '': 'index',
+                '': 'contacts',
                 'detail/:id': 'detail',
                 'add': 'add',
                 'contacts': 'contacts'
@@ -71,6 +71,8 @@ define([
                     var listOptions = { contacts: this.contacts };
                     var list = new ListView(listOptions);
                     var menu = new ContactsView();
+
+                    menu  = M.View.create();
 
                     app.layoutManager.setLayout(new M.SwipeLayout());
 
@@ -119,7 +121,7 @@ define([
                 }
 
                 var view = new DetailView({model: model});
-                var menu = new MenuView();
+                var menu = MenuView;
 
                 app.layoutManager.setLayout(new M.SwitchLayout());
 
@@ -138,7 +140,7 @@ define([
             add: function() {
 
                 var view = new AddView({collection: this.contacts});
-                var menu = new MenuView();
+                var menu = MenuView;
 
                 app.layoutManager.setLayout(new M.SwipeLayout());
 

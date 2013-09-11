@@ -33,7 +33,7 @@ define([
             },
 
             initialize: function() {
-
+                M.View.prototype.initialize.apply(this, arguments);
             },
 
             saveEntry: function() {

@@ -14,8 +14,6 @@ define([
             },
 
             click: function() {
-                console.log('click');
-                return;
                 if( currentUI >= uiframeworks.length - 1 ) {
                     currentUI = -1;
                 }

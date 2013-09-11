@@ -15,6 +15,7 @@ define([
             },
 
             initialize: function() {
+                M.View.prototype.initialize.apply(this, arguments);
                 this.listenTo(this.options.contacts, 'add', this.addOne);
                 this.listenTo(this.options.contacts, 'fetch', function() {
                     this.addAll();
