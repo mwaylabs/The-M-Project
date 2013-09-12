@@ -21,7 +21,11 @@ M.BikiniStore = M.Store.extend({
 
     endpoints: {},
 
-    useLocalStore: true,
+    useLocalStore:    true,
+
+    useSocketNotify:  true,
+
+    useOfflineChange: true,
 
     msgStore:  null,
 
@@ -62,9 +66,9 @@ M.BikiniStore = M.Store.extend({
                 endpoint.entity      = entity;
                 endpoint.channel     = channel;
                 endpoint.credentials = entity.credentials || collection.credentials;
-                endpoint.localStore  = this.createLocalStore   (endpoint);
-                endpoint.messages    = this.createMsgCollection(endpoint);
-                endpoint.socket      = this.createSocket       (endpoint);
+                endpoint.localStore  = this.useLocalStore    ? this.createLocalStore(endpoint) : null;
+                endpoint.messages    = this.useOfflineChange ? this.createMsgCollection(endpoint) : null;
+                endpoint.socket      = this.useSocketNotify  ? this.createSocket(endpoint, collection) : null;
                 this.endpoints[hash] = endpoint;
             }
             collection.endpoint   = endpoint;
@@ -72,7 +76,9 @@ M.BikiniStore = M.Store.extend({
             collection.messages   = endpoint.messages;
             collection.listenTo(this, channel, this.onMessage, collection);
 
-            this.sendMessages(endpoint, collection);
+            if (endpoint.messages && !endpoint.socket) {
+                this.sendMessages(endpoint, collection);
+            }
         }
     },
 
@@ -106,7 +112,7 @@ M.BikiniStore = M.Store.extend({
         return messages;
     },
 
-    createSocket: function(endpoint) {
+    createSocket: function(endpoint, collection) {
         var url = M.Request.getLocation(endpoint.url);
         var host = url.protocol + "://" +url.host;
         var path = url.pathname;
@@ -118,6 +124,7 @@ M.BikiniStore = M.Store.extend({
             resource: resource,
             connected: function() {
                 that._bindChannel(socket, endpoint);
+                that.sendMessages(endpoint, collection);
             }
         });
         return socket;
@@ -277,8 +284,9 @@ M.BikiniStore = M.Store.extend({
         Backbone.sync(msg.method, model, {
             url: url,
             error: function(xhr, status) {
-                if (status === 'error') {
-                    that.handleCallback(options.error, status);
+                if (status === 'error' && that.useOfflineChange) {
+                    // this seams to be only a connection problem, so we keep the message an call success
+                    that.handleCallback(options.success, msg.data);
                 } else {
                     that.removeMessage(endpoint, msg, function(endpoint, msg) {
                         // Todo: revert changed data
@@ -319,20 +327,20 @@ M.BikiniStore = M.Store.extend({
     },
 
     sendMessages: function(endpoint, collection) {
-        var that = this;
-        endpoint.messages.each( function(message) {
-            var msg      = message.get('msg');
-            var channel  = message.get('channel');
-            var callback = message.get('callback');
-            if (msg && channel) {
-                if (callback) {
-                    callback(endpoint, msg);
-                } else {
+        if (endpoint && endpoint.messages) {
+            var that = this;
+            endpoint.messages.each( function(message) {
+                var msg;
+                try { msg = JSON.parse(message.get('msg')) } catch(e) {};
+                var channel  = message.get('channel');
+                if (msg && channel) {
                     var model = that.createModel({ collection: collection }, msg.data);
                     that.emitMessage(endpoint, msg, {}, model);
+                } else {
+                    message.destroy();
                 }
-            }
-        });
+            });
+        }
     },
 
     mergeMessages: function(data, id) {
@@ -340,28 +348,32 @@ M.BikiniStore = M.Store.extend({
     },
 
     storeMessage: function(endpoint, msg, callback) {
-        var channel = endpoint.channel;
-        var message = endpoint.messages.get(msg._id);
-        if (message) {
-            message.save({
-                msg: _.extend(message.get('msg'), msg)
-            });
-        } else {
-            endpoint.messages.create({
-                _id: msg._id,
-                id:  msg.id,
-                msg: msg,
-                channel: channel,
-                callback: callback
-            });
+        if (endpoint && endpoint.messages && msg) {
+            var channel = endpoint.channel;
+            var message = endpoint.messages.get(msg._id);
+            if (message) {
+                var oldMsg = JSON.parse(message.get('msg'));
+                message.save({
+                    msg: JSON.stringify(_.extend(oldMsg, msg))
+                });
+            } else {
+                endpoint.messages.create({
+                    _id: msg._id,
+                    id:  msg.id,
+                    msg: JSON.stringify(msg),
+                    channel: channel
+                });
+            }
         }
         callback(endpoint, msg);
     },
 
     removeMessage: function(endpoint, msg, callback) {
-        var message = endpoint.messages.get(msg._id);
-        if (message) {
-            message.destroy();
+        if (endpoint && endpoint.messages) {
+            var message = endpoint.messages.get(msg._id);
+            if (message) {
+                message.destroy();
+            }
         }
         callback(endpoint, msg);
     }

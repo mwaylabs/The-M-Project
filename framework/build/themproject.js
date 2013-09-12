@@ -2,7 +2,7 @@
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Version:   0.0.0
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-// Date:      Thu Aug 08 2013 23:52:08
+// Date:      Thu Sep 12 2013 11:17:49
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -1851,179 +1851,182 @@ M.UniqueId = M.Object.extend({
  *
  * @extends M.Object
  */
-M.Base64 = M.Object.extend(
-/** @scope M.Base64.prototype */ {
+M.Base64 = M.Object.extend(/** @scope M.Base64.prototype */ {
 
-    /**
-     * The type of this object.
-     *
-     * @type String
-     */
-    type: 'M.Base64',
+        /**
+         * The type of this object.
+         *
+         * @type String
+         */
+        type: 'M.Base64',
 
-    /**
-     * The key string for the base 64 decoding and encoding.
-     *
-     * @type String
-     */
-    _keyStr:   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+        /**
+         * The key string for the base 64 decoding and encoding.
+         *
+         * @type String
+         */
+        _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
-    /**
-     * This method encodes a given binary input, using the base64 encoding.
-     *
-     * @param {String} input The binary to be encoded. (e.g. an requested image)
-     * @returns {String} The base64 encoded string.
-     */
-    encodeBinary: function (input) {
-        var output = "";
-        var bytebuffer;
-        var encodedCharIndexes = new Array(4);
-        var inx = 0;
-        var paddingBytes = 0;
+        /**
+         * This method encodes a given binary input, using the base64 encoding.
+         *
+         * @param {String} input The binary to be encoded. (e.g. an requested image)
+         * @returns {String} The base64 encoded string.
+         */
+        encodeBinary: function( input ) {
+            var output = "";
+            var bytebuffer;
+            var encodedCharIndexes = new Array(4);
+            var inx = 0;
+            var paddingBytes = 0;
 
-        while (inx < input.length) {
-            // Fill byte buffer array
-            bytebuffer = new Array(3);
-            for (jnx = 0; jnx < bytebuffer.length; jnx++)
-                if (inx < input.length)
-                    bytebuffer[jnx] = input.charCodeAt(inx++) & 0xff; // throw away high-order byte, as documented at: https://developer.mozilla.org/En/Using_XMLHttpRequest#Handling_binary_data
-                else
-                    bytebuffer[jnx] = 0;
+            while( inx < input.length ) {
+                // Fill byte buffer array
+                bytebuffer = new Array(3);
+                for( jnx = 0; jnx < bytebuffer.length; jnx++ ) {
+                    if( inx < input.length ) {
+                        bytebuffer[jnx] = input.charCodeAt(inx++) & 0xff;
+                    } // throw away high-order byte, as documented at: https://developer.mozilla.org/En/Using_XMLHttpRequest#Handling_binary_data
+                    else {
+                        bytebuffer[jnx] = 0;
+                    }
+                }
 
-            // Get each encoded character, 6 bits at a time
-            // index 1: first 6 bits
-            encodedCharIndexes[0] = bytebuffer[0] >> 2;
-            // index 2: second 6 bits (2 least significant bits from input byte 1 + 4 most significant bits from byte 2)
-            encodedCharIndexes[1] = ((bytebuffer[0] & 0x3) << 4) | (bytebuffer[1] >> 4);
-            // index 3: third 6 bits (4 least significant bits from input byte 2 + 2 most significant bits from byte 3)
-            encodedCharIndexes[2] = ((bytebuffer[1] & 0x0f) << 2) | (bytebuffer[2] >> 6);
-            // index 3: forth 6 bits (6 least significant bits from input byte 3)
-            encodedCharIndexes[3] = bytebuffer[2] & 0x3f;
+                // Get each encoded character, 6 bits at a time
+                // index 1: first 6 bits
+                encodedCharIndexes[0] = bytebuffer[0] >> 2;
+                // index 2: second 6 bits (2 least significant bits from input byte 1 + 4 most significant bits from byte 2)
+                encodedCharIndexes[1] = ((bytebuffer[0] & 0x3) << 4) | (bytebuffer[1] >> 4);
+                // index 3: third 6 bits (4 least significant bits from input byte 2 + 2 most significant bits from byte 3)
+                encodedCharIndexes[2] = ((bytebuffer[1] & 0x0f) << 2) | (bytebuffer[2] >> 6);
+                // index 3: forth 6 bits (6 least significant bits from input byte 3)
+                encodedCharIndexes[3] = bytebuffer[2] & 0x3f;
 
-            // Determine whether padding happened, and adjust accordingly
-            paddingBytes = inx - (input.length - 1);
-            switch (paddingBytes) {
-                case 2:
-                    // Set last 2 characters to padding char
-                    encodedCharIndexes[3] = 64;
-                    encodedCharIndexes[2] = 64;
-                    break;
-                case 1:
-                    // Set last character to padding char
-                    encodedCharIndexes[3] = 64;
-                    break;
-                default:
-                    break; // No padding - proceed
+                // Determine whether padding happened, and adjust accordingly
+                paddingBytes = inx - (input.length - 1);
+                switch( paddingBytes ) {
+                    case 2:
+                        // Set last 2 characters to padding char
+                        encodedCharIndexes[3] = 64;
+                        encodedCharIndexes[2] = 64;
+                        break;
+                    case 1:
+                        // Set last character to padding char
+                        encodedCharIndexes[3] = 64;
+                        break;
+                    default:
+                        break; // No padding - proceed
+                }
+                // Now we will grab each appropriate character out of our keystring
+                // based on our index array and append it to the output string
+                for( jnx = 0; jnx < encodedCharIndexes.length; jnx++ ) {
+                    output += this._keyStr.charAt(encodedCharIndexes[jnx]);
+                }
             }
-            // Now we will grab each appropriate character out of our keystring
-            // based on our index array and append it to the output string
-            for (jnx = 0; jnx < encodedCharIndexes.length; jnx++)
-                output += this._keyStr.charAt(encodedCharIndexes[jnx]);
+            return output;
+        },
+
+        /**
+         * This method encodes a given input string, using the base64 encoding.
+         *
+         * @param {String} input The string to be encoded.
+         * @returns {String} The base64 encoded string.
+         */
+        encode: function( input ) {
+            var output = '';
+            var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+            var i = 0;
+
+            input = M.Cypher.utf8_encode(input);
+
+            while( i < input.length ) {
+                chr1 = input.charCodeAt(i++);
+                chr2 = input.charCodeAt(i++);
+                chr3 = input.charCodeAt(i++);
+
+                enc1 = chr1 >> 2;
+                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
+
+                if( isNaN(chr2) ) {
+                    enc3 = enc4 = 64;
+                } else if( isNaN(chr3) ) {
+                    enc4 = 64;
+                }
+
+                output += this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) + this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+            }
+
+            return output;
+        },
+
+        binaryEncode: function( input ) {
+            var output = '';
+            var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+            var i = 0;
+
+            while( i < input.length ) {
+                chr1 = input.charCodeAt(i++);
+                chr2 = input.charCodeAt(i++);
+                chr3 = input.charCodeAt(i++);
+
+                enc1 = chr1 >> 2;
+                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
+
+                if( isNaN(chr2) ) {
+                    enc3 = enc4 = 64;
+                } else if( isNaN(chr3) ) {
+                    enc4 = 64;
+                }
+
+                output += this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) + this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+            }
+
+            return output;
+        },
+
+        /**
+         * This method decodes a given input string, using the base64 decoding.
+         *
+         * @param {String} input The string to be decoded.
+         * @returns {String} The base64 decoded string.
+         */
+        decode: function( input ) {
+            var output = "";
+            var chr1, chr2, chr3;
+            var enc1, enc2, enc3, enc4;
+            var i = 0;
+
+            input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+            while( i < input.length ) {
+                enc1 = this._keyStr.indexOf(input.charAt(i++));
+                enc2 = this._keyStr.indexOf(input.charAt(i++));
+                enc3 = this._keyStr.indexOf(input.charAt(i++));
+                enc4 = this._keyStr.indexOf(input.charAt(i++));
+
+                chr1 = (enc1 << 2) | (enc2 >> 4);
+                chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+                chr3 = ((enc3 & 3) << 6) | enc4;
+
+                output = output + String.fromCharCode(chr1);
+
+                if( enc3 != 64 ) {
+                    output = output + String.fromCharCode(chr2);
+                }
+
+                if( enc4 != 64 ) {
+                    output = output + String.fromCharCode(chr3);
+                }
+            }
+
+            return M.Cypher.utf8_decode(output);
         }
-        return output;
-    },
 
-    /**
-     * This method encodes a given input string, using the base64 encoding.
-     *
-     * @param {String} input The string to be encoded.
-     * @returns {String} The base64 encoded string.
-     */
-    encode: function(input) {
-        var output = '';
-        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-        var i = 0;
-
-        input = M.Cypher.utf8_encode(input);
-
-        while (i < input.length) {
-            chr1 = input.charCodeAt(i++);
-            chr2 = input.charCodeAt(i++);
-            chr3 = input.charCodeAt(i++);
-
-            enc1 = chr1 >> 2;
-            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-            enc4 = chr3 & 63;
-
-            if(isNaN(chr2)) {
-                enc3 = enc4 = 64;
-            } else if(isNaN(chr3)) {
-                enc4 = 64;
-            }
-
-            output += this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) + this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
-        }
-
-        return output;
-    },
-
-    binaryEncode: function(input) {
-        var output = '';
-        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-        var i = 0;
-
-        while (i < input.length) {
-            chr1 = input.charCodeAt(i++);
-            chr2 = input.charCodeAt(i++);
-            chr3 = input.charCodeAt(i++);
-
-            enc1 = chr1 >> 2;
-            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-            enc4 = chr3 & 63;
-
-            if(isNaN(chr2)) {
-                enc3 = enc4 = 64;
-            } else if(isNaN(chr3)) {
-                enc4 = 64;
-            }
-
-            output += this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) + this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
-        }
-
-        return output;
-    },
-
-    /**
-     * This method decodes a given input string, using the base64 decoding.
-     *
-     * @param {String} input The string to be decoded.
-     * @returns {String} The base64 decoded string.
-     */
-    decode: function(input) {
-        var output = "";
-        var chr1, chr2, chr3;
-        var enc1, enc2, enc3, enc4;
-        var i = 0;
-
-        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-
-        while (i < input.length) {
-            enc1 = this._keyStr.indexOf(input.charAt(i++));
-            enc2 = this._keyStr.indexOf(input.charAt(i++));
-            enc3 = this._keyStr.indexOf(input.charAt(i++));
-            enc4 = this._keyStr.indexOf(input.charAt(i++));
-
-            chr1 = (enc1 << 2) | (enc2 >> 4);
-            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-            chr3 = ((enc3 & 3) << 6) | enc4;
-
-            output = output + String.fromCharCode(chr1);
-
-            if(enc3 != 64) {
-                output = output + String.fromCharCode(chr2);
-            }
-            
-            if(enc4 != 64) {
-                output = output + String.fromCharCode(chr3);
-            }
-        }
-
-        return M.Cypher.utf8_decode(output);
-    }
-
-});
+    });
 // Source: src/utility/cypher.js
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
@@ -2044,162 +2047,159 @@ M.Base64 = M.Object.extend(
  *
  * @extends M.Object
  */
-M.Cypher = M.Object.extend(
-/** @scope M.Cypher.prototype */ {
+M.Cypher = M.Object.extend(/** @scope M.Cypher.prototype */ {
 
-    /**
-     * The type of this object.
-     *
-     * @type String
-     */
-    type: 'M.Cypher',
+        /**
+         * The type of this object.
+         *
+         * @type String
+         */
+        type: 'M.Cypher',
 
-    /**
-     * The default decoder.
-     *
-     * @type M.Base64
-     */
-    defaultDecoder: M.Base64,
+        /**
+         * The default decoder.
+         *
+         * @type M.Base64
+         */
+        defaultDecoder: M.Base64,
 
-    /**
-     * The default encoder.
-     *
-     * @type M.Base64
-     */
+        /**
+         * The default encoder.
+         *
+         * @type M.Base64
+         */
 
-    defaultEncoder: M.Base64,
+        defaultEncoder: M.Base64,
 
-    /**
-     * The default hash algorithm.
-     *
-     * @type M.SHA256
-     */
+        /**
+         * The default hash algorithm.
+         *
+         * @type M.SHA256
+         */
 
-    defaultHasher: M.SHA256,
+        defaultHasher: M.SHA256,
 
-    /**
-     * This method is the one that initiates the decoding of a given string, based on either
-     * the default decoder or a custom decoder.
-     *
-     * @param {String} input The input string to be decoded.
-     * @param {Object} algorithm The algorithm object containing a decode method.
-     * @returns {String} The decoded string.
-     */
-    decode: function(input, algorithm) {
+        /**
+         * This method is the one that initiates the decoding of a given string, based on either
+         * the default decoder or a custom decoder.
+         *
+         * @param {String} input The input string to be decoded.
+         * @param {Object} algorithm The algorithm object containing a decode method.
+         * @returns {String} The decoded string.
+         */
+        decode: function( input, algorithm ) {
 
-        if(algorithm && algorithm.decode) {
-            return algorithm.decode(input);
-        } else {
-            return this.defaultDecoder.decode(input);
-        }
-        
-    },
-
-    /**
-     * This method is the one that initiates the encoding of a given string, based on either
-     * the default encoder or a custom encoder.
-     *
-     * @param {String} input The input string to be decoded.
-     * @param {Object} algorithm The algorithm object containing a encode method.
-     * @returns {String} The encoded string.
-     */
-    encode: function(input, algorithm) {
-
-        if(algorithm && algorithm.encode) {
-            return algorithm.encode(input);
-        } else {
-            return this.defaultEncoder.encode(input);
-        }
-
-    },
-
-    /**
-     * This method is the one that initiates the hashing of a given string, based on either
-     * the default hashing algorithm or a custom hashing algorithm.
-     *
-     * @param {String} input The input string to be hashed.
-     * @param {Object} algorithm The algorithm object containing a hash method.
-     * @returns {String} The hashed string.
-     */
-    hash: function(input, algorithm) {
-
-        if(algorithm && algorithm.hash) {
-            return algorithm.hash(input);
-        } else {
-            return this.defaultHasher.hash(input);
-        }
-
-    },
-
-    /**
-     * Private method for UTF-8 encoding
-     *
-     * @private
-     * @param {String} string The string to be encoded.
-     * @returns {String} The utf8 encoded string.
-     */
-    utf8_encode : function (string) {
-        string = string.replace(/\r\n/g, '\n');
-        var utf8String = '';
-
-        for (var n = 0; n < string.length; n++) {
-
-            var c = string.charCodeAt(n);
-
-            if (c < 128) {
-                utf8String += String.fromCharCode(c);
-            }
-            else if((c > 127) && (c < 2048)) {
-                utf8String += String.fromCharCode((c >> 6) | 192);
-                utf8String += String.fromCharCode((c & 63) | 128);
-            }
-            else {
-                utf8String += String.fromCharCode((c >> 12) | 224);
-                utf8String += String.fromCharCode(((c >> 6) & 63) | 128);
-                utf8String += String.fromCharCode((c & 63) | 128);
-            }
-
-        }
-
-        return utf8String;
-    },
-
-    /**
-     * Private method for UTF-8 decoding
-     *
-     * @private
-     * @param {String} string The string to be decoded.
-     * @returns {String} The utf8 decoded string.
-     */
-    utf8_decode : function (utf8String) {
-        var string = '';
-        var i = 0;
-        var c = c1 = c2 = 0;
-
-        while ( i < utf8String.length ) {
-
-            c = utf8String.charCodeAt(i);
-
-            if (c < 128) {
-                string += String.fromCharCode(c);
-                i++;
-            }  else if((c > 191) && (c < 224)) {
-                c2 = utf8String.charCodeAt(i+1);
-                string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
-                i += 2;
+            if( algorithm && algorithm.decode ) {
+                return algorithm.decode(input);
             } else {
-                c2 = utf8String.charCodeAt(i+1);
-                c3 = utf8String.charCodeAt(i+2);
-                string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-                i += 3;
+                return this.defaultDecoder.decode(input);
             }
 
+        },
+
+        /**
+         * This method is the one that initiates the encoding of a given string, based on either
+         * the default encoder or a custom encoder.
+         *
+         * @param {String} input The input string to be decoded.
+         * @param {Object} algorithm The algorithm object containing a encode method.
+         * @returns {String} The encoded string.
+         */
+        encode: function( input, algorithm ) {
+
+            if( algorithm && algorithm.encode ) {
+                return algorithm.encode(input);
+            } else {
+                return this.defaultEncoder.encode(input);
+            }
+
+        },
+
+        /**
+         * This method is the one that initiates the hashing of a given string, based on either
+         * the default hashing algorithm or a custom hashing algorithm.
+         *
+         * @param {String} input The input string to be hashed.
+         * @param {Object} algorithm The algorithm object containing a hash method.
+         * @returns {String} The hashed string.
+         */
+        hash: function( input, algorithm ) {
+
+            if( algorithm && algorithm.hash ) {
+                return algorithm.hash(input);
+            } else {
+                return this.defaultHasher.hash(input);
+            }
+
+        },
+
+        /**
+         * Private method for UTF-8 encoding
+         *
+         * @private
+         * @param {String} string The string to be encoded.
+         * @returns {String} The utf8 encoded string.
+         */
+        utf8_encode: function( string ) {
+            string = string.replace(/\r\n/g, '\n');
+            var utf8String = '';
+
+            for( var n = 0; n < string.length; n++ ) {
+
+                var c = string.charCodeAt(n);
+
+                if( c < 128 ) {
+                    utf8String += String.fromCharCode(c);
+                } else if( (c > 127) && (c < 2048) ) {
+                    utf8String += String.fromCharCode((c >> 6) | 192);
+                    utf8String += String.fromCharCode((c & 63) | 128);
+                } else {
+                    utf8String += String.fromCharCode((c >> 12) | 224);
+                    utf8String += String.fromCharCode(((c >> 6) & 63) | 128);
+                    utf8String += String.fromCharCode((c & 63) | 128);
+                }
+
+            }
+
+            return utf8String;
+        },
+
+        /**
+         * Private method for UTF-8 decoding
+         *
+         * @private
+         * @param {String} string The string to be decoded.
+         * @returns {String} The utf8 decoded string.
+         */
+        utf8_decode: function( utf8String ) {
+            var string = '';
+            var i = 0;
+            var c = c1 = c2 = 0;
+
+            while( i < utf8String.length ) {
+
+                c = utf8String.charCodeAt(i);
+
+                if( c < 128 ) {
+                    string += String.fromCharCode(c);
+                    i++;
+                } else if( (c > 191) && (c < 224) ) {
+                    c2 = utf8String.charCodeAt(i + 1);
+                    string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+                    i += 2;
+                } else {
+                    c2 = utf8String.charCodeAt(i + 1);
+                    c3 = utf8String.charCodeAt(i + 2);
+                    string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+                    i += 3;
+                }
+
+            }
+
+            return string;
         }
 
-        return string;
-    }
-
-});
+    });
 // Source: src/connection/request.js
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
@@ -5728,7 +5728,11 @@ M.BikiniStore = M.Store.extend({
 
     endpoints: {},
 
-    useLocalStore: true,
+    useLocalStore:    true,
+
+    useSocketNotify:  true,
+
+    useOfflineChange: true,
 
     msgStore:  null,
 
@@ -5769,9 +5773,9 @@ M.BikiniStore = M.Store.extend({
                 endpoint.entity      = entity;
                 endpoint.channel     = channel;
                 endpoint.credentials = entity.credentials || collection.credentials;
-                endpoint.localStore  = this.createLocalStore   (endpoint);
-                endpoint.messages    = this.createMsgCollection(endpoint);
-                endpoint.socket      = this.createSocket       (endpoint);
+                endpoint.localStore  = this.useLocalStore    ? this.createLocalStore(endpoint) : null;
+                endpoint.messages    = this.useOfflineChange ? this.createMsgCollection(endpoint) : null;
+                endpoint.socket      = this.useSocketNotify  ? this.createSocket(endpoint, collection) : null;
                 this.endpoints[hash] = endpoint;
             }
             collection.endpoint   = endpoint;
@@ -5779,7 +5783,9 @@ M.BikiniStore = M.Store.extend({
             collection.messages   = endpoint.messages;
             collection.listenTo(this, channel, this.onMessage, collection);
 
-            this.sendMessages(endpoint, collection);
+            if (endpoint.messages && !endpoint.socket) {
+                this.sendMessages(endpoint, collection);
+            }
         }
     },
 
@@ -5813,7 +5819,7 @@ M.BikiniStore = M.Store.extend({
         return messages;
     },
 
-    createSocket: function(endpoint) {
+    createSocket: function(endpoint, collection) {
         var url = M.Request.getLocation(endpoint.url);
         var host = url.protocol + "://" +url.host;
         var path = url.pathname;
@@ -5825,6 +5831,7 @@ M.BikiniStore = M.Store.extend({
             resource: resource,
             connected: function() {
                 that._bindChannel(socket, endpoint);
+                that.sendMessages(endpoint, collection);
             }
         });
         return socket;
@@ -5984,8 +5991,9 @@ M.BikiniStore = M.Store.extend({
         Backbone.sync(msg.method, model, {
             url: url,
             error: function(xhr, status) {
-                if (status === 'error') {
-                    that.handleCallback(options.error, status);
+                if (status === 'error' && that.useOfflineChange) {
+                    // this seams to be only a connection problem, so we keep the message an call success
+                    that.handleCallback(options.success, msg.data);
                 } else {
                     that.removeMessage(endpoint, msg, function(endpoint, msg) {
                         // Todo: revert changed data
@@ -6026,20 +6034,20 @@ M.BikiniStore = M.Store.extend({
     },
 
     sendMessages: function(endpoint, collection) {
-        var that = this;
-        endpoint.messages.each( function(message) {
-            var msg      = message.get('msg');
-            var channel  = message.get('channel');
-            var callback = message.get('callback');
-            if (msg && channel) {
-                if (callback) {
-                    callback(endpoint, msg);
-                } else {
+        if (endpoint && endpoint.messages) {
+            var that = this;
+            endpoint.messages.each( function(message) {
+                var msg;
+                try { msg = JSON.parse(message.get('msg')) } catch(e) {};
+                var channel  = message.get('channel');
+                if (msg && channel) {
                     var model = that.createModel({ collection: collection }, msg.data);
                     that.emitMessage(endpoint, msg, {}, model);
+                } else {
+                    message.destroy();
                 }
-            }
-        });
+            });
+        }
     },
 
     mergeMessages: function(data, id) {
@@ -6047,28 +6055,32 @@ M.BikiniStore = M.Store.extend({
     },
 
     storeMessage: function(endpoint, msg, callback) {
-        var channel = endpoint.channel;
-        var message = endpoint.messages.get(msg._id);
-        if (message) {
-            message.save({
-                msg: _.extend(message.get('msg'), msg)
-            });
-        } else {
-            endpoint.messages.create({
-                _id: msg._id,
-                id:  msg.id,
-                msg: msg,
-                channel: channel,
-                callback: callback
-            });
+        if (endpoint && endpoint.messages && msg) {
+            var channel = endpoint.channel;
+            var message = endpoint.messages.get(msg._id);
+            if (message) {
+                var oldMsg = JSON.parse(message.get('msg'));
+                message.save({
+                    msg: JSON.stringify(_.extend(oldMsg, msg))
+                });
+            } else {
+                endpoint.messages.create({
+                    _id: msg._id,
+                    id:  msg.id,
+                    msg: JSON.stringify(msg),
+                    channel: channel
+                });
+            }
         }
         callback(endpoint, msg);
     },
 
     removeMessage: function(endpoint, msg, callback) {
-        var message = endpoint.messages.get(msg._id);
-        if (message) {
-            message.destroy();
+        if (endpoint && endpoint.messages) {
+            var message = endpoint.messages.get(msg._id);
+            if (message) {
+                message.destroy();
+            }
         }
         callback(endpoint, msg);
     }
