@@ -2,7 +2,7 @@
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Version:   0.0.0
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-// Date:      Wed Sep 11 2013 16:47:35
+// Date:      Thu Aug 08 2013 23:52:08
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -29,8 +29,8 @@
      */
     M.f = function() {};
 
-    M.create = function(x,y) {
-        return new this(x,y);
+    M.create = function(arguments) {
+        return new this(arguments);
     };
 
     M.isCollection = function (collection) {
@@ -6077,103 +6077,118 @@ M.BikiniStore = M.Store.extend({
 // Source: src/ui/views/view.js
 M.View = Backbone.View.extend(M.Object);
 
+M.View.prototype.template = '<div><%= value %></div>';
 
 _.extend(M.View.prototype, {
 
     _type: 'M.View',
 
-    value: null,
+    value: '',
 
-    valuePattern: "<%= value %>",
+    model: null,
 
-    _domEvents: [{}],
+    events: null,
 
-    initialize: function( properties ) {
-//        _.extend(this, properties);
-//        this.value = this.collection;
-//        if( !this.value ) {
-//            var value = { value: '' };
-//            if(properties && properties.value){
-//                value = properties.value;
-//            }
-//            this.value = M.Model.create(value);
-//        }
-////
-//        this.set();
-//        this._initEvents();
-//
-//        this.template = _.template(this.valuePattern);
+    bindings: {
+        '[data-binding="value"]': {
+            observe: 'value'
+        }
     },
 
-//    set: function( value ) {
-//        this.value = value || this.value;
-//
-//        if( this.value ) {
-//            this.value.on('remove', this._remove, this);
-//            this.value.on('change', this._change, this);
-//            this.value.on('add', this._add, this);
-//            this.value.on('all', this._all, this);
-//        }
-//    },
+    afterRender: function() {
+        this.stickit();
+        return this;
+    },
 
-//    _remove: function( data ) {
-//        if(this.value.cid === data.cid){
-//            this.remove();
-//        }
-//    },
+    template: _.tpl(M.View.prototype.template),
 
-//    _change: function( data ) {
-//        this.render();
-//    },
+    initialize: function() {
+        this.events = this.events || {};
+        var value = this.options.value || this.value;
+        if( this.options.value instanceof Backbone.Model ) {
+            this.model = this.options.value;
+        } else if( this.value instanceof Backbone.Model ) {
+            this.model = this.value;
+        } else {
+            this.model = new Backbone.Model({value: value, contenteditable: 'contenteditable' });
+        }
 
-//    _add: function( model, collection, options ) {
-//
-//        /*CLONE EVENT ON create*/
-//        var view = _.clone(this.valueView);
-//        view.set(model);
-//        var v = view.render().el;
-//        this.$el.append(v);
-//    },
+    },
 
-//    _all: function( data ) {
-//
-//    },
+    // provide data to the template
+    serialize: function() {
+        return this.model.attributes
+    }
 
-//    constructor: function( properties ) {
-//        _.extend(this, properties);
-//        Backbone.View.apply(this, arguments);
-//    },
+    //    set: function( value ) {
+    //        this.value = value || this.value;
+    //
+    //        if( this.value ) {
+    //            this.value.on('remove', this._remove, this);
+    //            this.value.on('change', this._change, this);
+    //            this.value.on('add', this._add, this);
+    //            this.value.on('all', this._all, this);
+    //        }
+    //    },
 
-//    _addClasses: function() {
-//        this.$el.addClass(Object.getPrototypeOf(this)._getClasseName().reverse().join(' '));
-//    },
+    //    _remove: function( data ) {
+    //        if(this.value.cid === data.cid){
+    //            this.remove();
+    //        }
+    //    },
 
-//    _getCssClassByType: function() {
-//        return this.getObjectType().replace('.', '-').toLowerCase();
-//    },
+    //    _change: function( data ) {
+    //        this.render();
+    //    },
 
-//    _getClasseName: function( cssClasses ) {
-//        if( !cssClasses ) {
-//            cssClasses = [];
-//        }
-//        cssClasses.push(this._getCssClassByType());
-//        if( this.getObjectType() !== 'M.View' ) {
-//            Object.getPrototypeOf(this)._getClasseName(cssClasses);
-//        }
-//        return cssClasses;
-//    },
+    //    _add: function( model, collection, options ) {
+    //
+    //        /*CLONE EVENT ON create*/
+    //        var view = _.clone(this.valueView);
+    //        view.set(model);
+    //        var v = view.render().el;
+    //        this.$el.append(v);
+    //    },
 
-//    _createDOM: function(){
-//        if(this.value.attributes){
-//            val = this.template(this.value.attributes);
-//            this.$el.html(val);
-//        }
-//
-//    },
+    //    _all: function( data ) {
+    //
+    //    },
 
-//    _addId: function(){
-//      this.$el.attr('id', this.cid);
-//    },
+    //    constructor: function( properties ) {
+    //        _.extend(this, properties);
+    //        Backbone.View.apply(this, arguments);
+    //    },
+
+    //    _addClasses: function() {
+    //        this.$el.addClass(Object.getPrototypeOf(this)._getClasseName().reverse().join(' '));
+    //    },
+
+    //    _getCssClassByType: function() {
+    //        return this.getObjectType().replace('.', '-').toLowerCase();
+    //    },
+
+    //    _getClasseName: function( cssClasses ) {
+    //        if( !cssClasses ) {
+    //            cssClasses = [];
+    //        }
+    //        cssClasses.push(this._getCssClassByType());
+    //        if( this.getObjectType() !== 'M.View' ) {
+    //            Object.getPrototypeOf(this)._getClasseName(cssClasses);
+    //        }
+    //        return cssClasses;
+    //    },
+
+    //    _createDOM: function(){
+    //        if(this.value.attributes){
+    //            val = this.template(this.value.attributes);
+    //            this.$el.html(val);
+    //        }
+    //
+    //    },
+
+    //    _addId: function(){
+    //      this.$el.attr('id', this.cid);
+    //    },
 
     /** EVENTS **/
 
@@ -6182,14 +6197,14 @@ _.extend(M.View.prototype, {
      *
      * @type {Object}
      */
-//    events: null,
+    //    events: null,
 
     /**
      * This property contains a view's event handlers that are handled by the event dispatcher.
      *
      * @type {Object}
      */
-//    _domEvents: null,
+    //    _domEvents: null,
 
     /**
      * This property contains a view's event handlers for all events that are not handled by
@@ -6197,79 +6212,165 @@ _.extend(M.View.prototype, {
      *
      * @type {Object}
      */
-//    _events: null,
-//
+    //    _events: null,
+    //
     /**
      * This property contains an array of event types that are not handled by the event dispatcher.
      *
      * @type {Array}
      */
-//    _eventTypes: ['preRender', 'postRender'],
+    //    _eventTypes: ['preRender', 'postRender'],
 
-//    _initEvents: function() {
-//        this.events = this.events || {};
-//        this._domEvents = {};
-//        this._events = {};
-//
-//        this._eventTypes = _.uniq(_.compact(this._eventTypes.concat(Object.getPrototypeOf(this)._eventTypes)));
-//
-//        _.each(this.events, function( eventHandler, eventName ) {
-//            if( !this.events[eventName].target ) {
-//                if( !this.events[eventName].action ) {
-//                    var tmp = this.events[eventName];
-//                    this.events[eventName] = null;
-//                    this.events[eventName] = {
-//                        action: tmp
-//                    };
-//                }
-//
-//                this.events[eventName].target = this;
-//            }
-//
-//            if( _.contains(this._eventTypes, eventName) ) {
-//                this._events[eventName] = this.events[eventName];
-//            } else {
-//                this._domEvents[eventName] = this.events[eventName];
-//            }
-//        }, this);
-//    },
-//
-//    /**
-//     * This method registers a view's dom events at the event dispatcher. This happens
-//     * automatically during the render process of a view.
-//     *
-//     * @private
-//     */
-//    _registerEvents: function() {
-//        _.each(this._domEvents, function( handler, eventType ) {
-//            M.EventDispatcher.registerEvent({
-//                type: eventType,
-//                source: this
-//            });
-//        }, this);
-//    },
-//
-//    /**
-//     * This method returns the event handler of a certain event type of a view.
-//     *
-//     * @param eventType
-//     * @returns {*}
-//     */
-//    getEventHandler: function( eventType ) {
-//        return this._domEvents[eventType];
-//    },
-//
-//    _unregisterEvents: function() {
-//        _.each(this._domEvents, function( event, key ) {
-//            M.EventDispatcher.unregisterEvent({
-//                type: key,
-//                source: this
-//            });
-//        }, this);
-//    }
+    //    _initEvents: function() {
+    //        this.events = this.events || {};
+    //        this._domEvents = {};
+    //        this._events = {};
+    //
+    //        this._eventTypes = _.uniq(_.compact(this._eventTypes.concat(Object.getPrototypeOf(this)._eventTypes)));
+    //
+    //        _.each(this.events, function( eventHandler, eventName ) {
+    //            if( !this.events[eventName].target ) {
+    //                if( !this.events[eventName].action ) {
+    //                    var tmp = this.events[eventName];
+    //                    this.events[eventName] = null;
+    //                    this.events[eventName] = {
+    //                        action: tmp
+    //                    };
+    //                }
+    //
+    //                this.events[eventName].target = this;
+    //            }
+    //
+    //            if( _.contains(this._eventTypes, eventName) ) {
+    //                this._events[eventName] = this.events[eventName];
+    //            } else {
+    //                this._domEvents[eventName] = this.events[eventName];
+    //            }
+    //        }, this);
+    //    },
+    //
+    //    /**
+    //     * This method registers a view's dom events at the event dispatcher. This happens
+    //     * automatically during the render process of a view.
+    //     *
+    //     * @private
+    //     */
+    //    _registerEvents: function() {
+    //        _.each(this._domEvents, function( handler, eventType ) {
+    //            M.EventDispatcher.registerEvent({
+    //                type: eventType,
+    //                source: this
+    //            });
+    //        }, this);
+    //    },
+    //
+    //    /**
+    //     * This method returns the event handler of a certain event type of a view.
+    //     *
+    //     * @param eventType
+    //     * @returns {*}
+    //     */
+    //    getEventHandler: function( eventType ) {
+    //        return this._domEvents[eventType];
+    //    },
+    //
+    //    _unregisterEvents: function() {
+    //        _.each(this._domEvents, function( event, key ) {
+    //            M.EventDispatcher.unregisterEvent({
+    //                type: key,
+    //                source: this
+    //            });
+    //        }, this);
+    //    }
 });
 
 M.View.create = M.create;
+// Source: src/ui/views/button.js
+//TODO DO THIS NICE
+(function(){
+
+    var templates = {
+        default : '<div>Button: <div class="<%= contenteditable %>" <% if(contenteditable) {  } %>><%= value %></div></div>',
+        topcoat: '<button class="topcoat-button--large" ><%= value %></button>',
+        bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star"></span><%= value %></button>',
+        jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= value %></span></span></a>'
+    };
+
+    M.Button = M.View.extend({
+
+        _type: 'M.Button',
+
+        initialize: function(){
+            M.View.prototype.initialize.apply(this, arguments);
+        },
+
+        contenteditable: true,
+
+        template: _.tpl(templates[uiframework])
+
+    });
+
+    M.UltraStefanCustomMegaViewWithHyperFunctionalty = M.View.extend({
+
+        _type: 'M.UltraStefanCustomMegaViewWithHyperFunctionalty',
+
+        // a
+        initialize: function(){
+            M.View.prototype.initialize.apply(this, arguments);
+            _.each(this.childViews, function(child){
+                this.$el.find('[data-child-views["first"]]').append(child.render());
+            }, this);
+        },
+        template: _.tpl('<div><%= value %><div data-child-views="first"></div></div>'),
+
+
+        // b
+        template: _.tpl('<div><%= value %><% childViews %></div>'),
+
+        // b2
+        template: _.tpl('<div><%= value %>@@@([childViews])@@@</div>'),
+
+
+        // c
+        initialize: function(){
+            M.View.prototype.initialize.apply(this, arguments);
+            _.each(this.childViews, function(child){
+                this.$el.append($('div'))
+                this.$el.find('div span').append(child.render());
+            }, this);
+        },
+        template: _.tpl('<div><%= value %><span></span></div>'),
+
+
+        // d
+        template: _.tpl('<div><%= value %></div>'),
+
+
+
+
+
+        value: 'default button value'
+
+    });
+
+})();
+
+(function(){
+
+    var template = '<div>Complex View: <div><%= value %></div></div>';
+
+    M.ModelView = M.View.extend({
+
+        _type: 'M.ModelView',
+
+        template: _.tpl(template),
+
+        value: 'default ModelView'
+
+    });
+
+
+})();
 // Source: src/ui/pagetransitions.js
 
 var PageTransitions = (function() {
@@ -7033,7 +7134,7 @@ M.SwitchLayout = M.Layout.extend({
         if( settings.footer ) {
             view['.' + selector + ' .footer'] = settings.footer;
         } else {
-            view['.' + selector + ' .footer'] = 'settings.footer';
+            view['.' + selector + ' .footer'] = new M.View();
         }
         return view;
     }

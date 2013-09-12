@@ -37,6 +37,7 @@ var files = [
     'src/data/stores/bikini_store.js',
 
     'src/ui/views/view.js',
+    'src/ui/views/button.js',
     'src/ui/pagetransitions.js',
     'src/ui/layouts/layout.js',
     'src/ui/layout_manager.js',

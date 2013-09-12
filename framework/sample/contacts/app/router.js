@@ -1,10 +1,10 @@
 define([
     "themproject", // Application.
     "app", // Modules.
-    "text!templates/main-layout.html", "views/list", "views/menu", "views/add", "views/detail", "data/contact_collection", "data/contact_model", "data/contact_remotestore"
+    "text!templates/main-layout.html", "views/list", "views/menu", "views/contacts", "views/add", "views/detail", "data/contact_collection", "data/contact_model", "data/contact_remotestore"
 ],
 
-    function( M, app, mainTemplate, ListView, MenuView, AddView, DetailView, ContactCollection, ContactModel, RemoteStore ) {
+    function( M, app, mainTemplate, ListView, MenuView, ContactsView, AddView, DetailView, ContactCollection, ContactModel, RemoteStore ) {
 
         // Defining the application router, you can attach sub routers here.
         var Router = Backbone.Router.extend({
@@ -57,26 +57,27 @@ define([
             },
 
             routes: {
-                '': 'index',
+                '': 'contacts',
                 'detail/:id': 'detail',
-                'add': 'add'
+                'add': 'add',
+                'contacts': 'contacts'
+
             },
 
-            index: function( isFirstLoad ) {
-
+            contacts: function( isFirstLoad ){
                 if( isFirstLoad ) {
 
                     this.contacts.fetch();
                     var listOptions = { contacts: this.contacts };
                     var list = new ListView(listOptions);
-                    var menu = new MenuView();
+                    var menu = new ContactsView();
+
 
                     app.layoutManager.setLayout(new M.SwipeLayout());
 
                     app.layoutManager.applyViews({
                         content: list,
                         footer: menu
-
                     });
                 }
 
@@ -85,8 +86,25 @@ define([
                 } else {
                     app.layoutManager.initialRenderProcess();
                 }
+            },
 
+            index: function( isFirstLoad ) {
+                if( isFirstLoad ) {
+                    app.layoutManager.setLayout(new M.SwipeLayout());
 
+                    app.layoutManager.applyViews({
+                        content: MenuView,
+                        footer: M.Button.create({value:'haha', childViews: 'v1'})
+                    });
+                }
+
+                MM = MenuView;
+
+                if( !app.layoutManager.isFirstLoad ) {
+                    PageTransitions.next();
+                } else {
+                    app.layoutManager.initialRenderProcess();
+                }
             },
 
             detail: function( isFirstLoad, id ) {
@@ -102,7 +120,7 @@ define([
                 }
 
                 var view = new DetailView({model: model});
-                var menu = new MenuView();
+                var menu = MenuView;
 
                 app.layoutManager.setLayout(new M.SwitchLayout());
 
@@ -116,14 +134,12 @@ define([
                 } else {
                     app.layoutManager.initialRenderProcess();
                 }
-
-
             },
 
             add: function() {
 
                 var view = new AddView({collection: this.contacts});
-                var menu = new MenuView();
+                var menu = MenuView;
 
                 app.layoutManager.setLayout(new M.SwipeLayout());
 

@@ -34,7 +34,7 @@ define([
                 if( settings.footer ) {
                     view['.' + selector + ' .footer'] = settings.footer;
                 } else {
-                    view['.' + selector + ' .footer'] = 'settings.footer';
+                    view['.' + selector + ' .footer'] = new M.View();
                 }
                 return view;
             }

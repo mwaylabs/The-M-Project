@@ -6,7 +6,6 @@ define([
 ],
     function( M, tpl, app, ListItemView ) {
 
-
         var View = M.View.extend({
 
             template: _.template(tpl), // TODO Move _.template into M.View
@@ -16,6 +15,7 @@ define([
             },
 
             initialize: function() {
+                M.View.prototype.initialize.apply(this, arguments);
                 this.listenTo(this.options.contacts, 'add', this.addOne);
                 this.listenTo(this.options.contacts, 'fetch', function() {
                     this.addAll();

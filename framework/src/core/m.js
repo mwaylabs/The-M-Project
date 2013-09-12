@@ -19,8 +19,8 @@
      */
     M.f = function() {};
 
-    M.create = function(x,y) {
-        return new this(x,y);
+    M.create = function(arguments) {
+        return new this(arguments);
     };
 
     M.isCollection = function (collection) {
