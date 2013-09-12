@@ -109,7 +109,7 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
 
     connect: function(param) {
         var that = this;
-        var url  = this.path;
+        var url  = this.host; //  + '/'  + this.path;
         if (param) {
             url += "?" + (_.isString(param) ? param : $.param(param));
         }
@@ -147,9 +147,8 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     _init: function() {
         if ( Object.getPrototypeOf(this) === M.SocketIO ) {
             this._initEvents();
-            var socket_io_js = this.host + "/" + this.script;
             var that = this;
-            require([socket_io_js], function() {
+            require([this.script], function() {
                 that.ready();
             });
         }

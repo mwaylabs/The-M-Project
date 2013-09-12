@@ -2,7 +2,7 @@
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Version:   0.0.0
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-// Date:      Thu Sep 12 2013 11:17:49
+// Date:      Thu Sep 12 2013 13:23:09
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -2796,7 +2796,7 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
 
     connect: function(param) {
         var that = this;
-        var url  = this.path;
+        var url  = this.host; //  + '/'  + this.path;
         if (param) {
             url += "?" + (_.isString(param) ? param : $.param(param));
         }
@@ -2834,9 +2834,8 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     _init: function() {
         if ( Object.getPrototypeOf(this) === M.SocketIO ) {
             this._initEvents();
-            var socket_io_js = this.host + "/" + this.script;
             var that = this;
-            require([socket_io_js], function() {
+            require([this.script], function() {
                 that.ready();
             });
         }
@@ -5749,9 +5748,7 @@ M.BikiniStore = M.Store.extend({
         var that  = this;
         options   = options || {};
 
-        this.host     = options.host || this.host;
-        this.path     = options.path || this.path;
-        this.resource = options.resource || this.resource;
+        this.socketio_path = options.socketio_path || this.socketio_path;
     },
 
     initModel: function( model ) {
@@ -5821,13 +5818,13 @@ M.BikiniStore = M.Store.extend({
 
     createSocket: function(endpoint, collection) {
         var url = M.Request.getLocation(endpoint.url);
-        var host = url.protocol + "://" +url.host;
-        var path = url.pathname;
-        // TODO: generate a resource path out of the url path
-        var resource = "bikini/live";
+        var host = url.protocol + "//" +url.host;
+        var path = this.socketio_path || (url.pathname + 'live');
+        // remove leading /
+        var resource = (path && path.indexOf('/') == 0) ? path.substr(1) : path;
         var that = this;
         var socket = M.SocketIO.create({
-            host: this.host,
+            host: host,
             resource: resource,
             connected: function() {
                 that._bindChannel(socket, endpoint);
@@ -5935,9 +5932,9 @@ M.BikiniStore = M.Store.extend({
                     this.localStore ? {} : options, // we don't need to call callbacks if an other store handle this
                     endpoint);
             }
-            if (this.localStore) {
-                options.store  = this.localStore;
-                this.localStore.sync.apply(this, arguments);
+            if (endpoint.localStore) {
+                options.store  = endpoint.localStore;
+                endpoint.localStore.sync.apply(this, arguments);
             }
         }
     },
@@ -5991,7 +5988,7 @@ M.BikiniStore = M.Store.extend({
         Backbone.sync(msg.method, model, {
             url: url,
             error: function(xhr, status) {
-                if (status === 'error' && that.useOfflineChange) {
+                if (!xhr.responseText && that.useOfflineChange) {
                     // this seams to be only a connection problem, so we keep the message an call success
                     that.handleCallback(options.success, msg.data);
                 } else {
