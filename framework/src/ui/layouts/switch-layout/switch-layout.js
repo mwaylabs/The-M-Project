@@ -25,11 +25,11 @@ M.SwitchLayout = M.Layout.extend({
 
         var view = {};
         view['.' + selector + ' .content'] = settings.content;
-//        if( settings.footer ) {
-//            view['.' + selector + ' .footer'] = settings.footer;
-//        } else {
-//            view['.' + selector + ' .footer'] = new M.View();
-//        }
+        if( settings.footer ) {
+            view['.' + selector + ' .footer'] = settings.footer;
+        } else {
+            view['.' + selector + ' .footer'] = new M.View();
+        }
         return view;
     }
 });

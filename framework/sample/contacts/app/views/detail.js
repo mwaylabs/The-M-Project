@@ -5,8 +5,6 @@ define([
 ],
     function( M, template, app ) {
 
-        debugger;
-
         var View = M.View.extend({
             first: true,
 
@@ -53,7 +51,6 @@ define([
             },
 
             editEntry: function() {
-                debugger;
                 this.model.save();
                 this.back();
             },

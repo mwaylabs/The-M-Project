@@ -3,7 +3,7 @@
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Version:   0.0.0
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-// Date:      Thu Sep 12 2013 13:23:09
+// Date:      Fri Sep 13 2013 22:36:05
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -1730,37 +1730,6 @@ html, body { height: 100%; }
 
 .pt-page-ontop {
     z-index: 999;
-}
-
-/* Text Styles, Colors, Backgrounds */
-
-.pt-page h1 {
-    position: absolute;
-    font-weight: 300;
-    font-size: 4.4em;
-    line-height: 1;
-    letter-spacing: 6px;
-    margin: 0;
-    top: 12%;
-    width: 100%;
-    text-align: center;
-    text-transform: uppercase;
-    word-spacing: -0.3em;
-}
-
-.pt-page h1 span {
-    font-family: 'Satisfy', serif;
-    font-weight: 400;
-    font-size: 40%;
-    text-transform: none;
-    word-spacing: 0;
-    letter-spacing: 0;
-    display: block;
-    opacity: 0.4;
-}
-
-.pt-page h1 strong {
-    color: rgba(0,0,0,0.1);
 }
 
 .pt-page-1 {
