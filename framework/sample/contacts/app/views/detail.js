@@ -51,7 +51,6 @@ define([
             },
 
             editEntry: function() {
-                debugger;
                 this.model.save();
                 this.back();
             },
