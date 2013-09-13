@@ -5,8 +5,6 @@ define([
 ],
     function( M, template, app ) {
 
-        debugger;
-
         var View = M.View.extend({
             first: true,
 

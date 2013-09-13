@@ -4,17 +4,19 @@ define([
 
 ], function( M, Model ) {
 
-        // var host = 'http://localhost:8200';
-        var host = 'http://nerds.mway.io:8200';
+        var host = '';
+//        var host = 'http://localhost:8080';
+        //var host = 'http://localhost:8200';
+        //var host = 'http://nerds.mway.io:8200';
 
         var Collection = M.Collection.extend({
-            model: Model,
-            entity: 'contacts',
             url: host + '/bikini/contacts', // for rest usage
-            credentials: {
-                username: 'admin',
-                password: 'mway123'
-            }
+            model: Model,
+//            credentials: {
+//                username: 'admin',
+//                password: 'mway123'
+//            },
+            entity: 'contacts'
         });
 
         return Collection;

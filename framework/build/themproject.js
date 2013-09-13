@@ -2,7 +2,7 @@
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Version:   0.0.0
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-// Date:      Thu Sep 12 2013 13:23:09
+// Date:      Fri Sep 13 2013 17:28:01
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -5819,7 +5819,8 @@ M.BikiniStore = M.Store.extend({
     createSocket: function(endpoint, collection) {
         var url = M.Request.getLocation(endpoint.url);
         var host = url.protocol + "//" +url.host;
-        var path = this.socketio_path || (url.pathname + 'live');
+        var path = url.pathname;
+        var path = this.socketio_path || (path + (path.charAt(path.length-1) === '/' ? '' : '/' ) + 'live');
         // remove leading /
         var resource = (path && path.indexOf('/') == 0) ? path.substr(1) : path;
         var that = this;
@@ -6025,7 +6026,7 @@ M.BikiniStore = M.Store.extend({
                 });
             },
             beforeSend: function(xhr) {
-                M.Request.setAuthentication(xhr, that.credentials);
+                M.Request.setAuthentication(xhr, endpoint.credentials);
             }
         });
     },
@@ -6086,22 +6087,30 @@ M.BikiniStore = M.Store.extend({
 // Source: src/ui/views/view.js
 M.View = Backbone.View.extend(M.Object);
 
-M.View.prototype.template = '<div><%= value %></div>';
-
 _.extend(M.View.prototype, {
 
-    _type: 'M.View',
+    //    _type: 'M.View',
+    //
+    //    value: '',
+    //
+    //    model: null,
+    //
+    //    events: null,
+    //
+    //    bindings: {
+    //        '[data-binding="value"]': {
+    //            observe: 'value'
+    //        }
+    //    },
 
-    value: '',
+    getChildViewIdentifier: function( name ) {
+        console.log('#' + this.options.value + ' [data-child-view="' + name + '"]');
+        return '#' + this.options.value + ' > [data-child-view="' + name + '"]';
+    },
 
-    model: null,
+    beforeRender: function() {
 
-    events: null,
-
-    bindings: {
-        '[data-binding="value"]': {
-            observe: 'value'
-        }
+        this.addChildViews();
     },
 
     afterRender: function() {
@@ -6109,7 +6118,7 @@ _.extend(M.View.prototype, {
         return this;
     },
 
-    template: _.tpl(M.View.prototype.template),
+    template: _.tpl('<div id="<%= value %>"><div><%= value %></div><div data-child-view="main"></div></div>'),
 
     initialize: function() {
         this.events = this.events || {};
@@ -6118,15 +6127,80 @@ _.extend(M.View.prototype, {
             this.model = this.options.value;
         } else if( this.value instanceof Backbone.Model ) {
             this.model = this.value;
-        } else {
+        } else if( !this.model ) {
             this.model = new Backbone.Model({value: value, contenteditable: 'contenteditable' });
+        }
+    },
+    //
+    //    // provide data to the template
+    serialize: function() {
+        return this.model.attributes
+    },
+
+    applyViews: function() {
+        this.prototype.applyViews.apply(this, arguments);
+    },
+
+    isView: function( view ) {
+        if( view ) {
+            return M.View.prototype.isPrototypeOf(view)
+        } else {
+            return false;
         }
 
     },
 
-    // provide data to the template
-    serialize: function() {
-        return this.model.attributes
+    addChildViews: function() {
+        var childViews = this.getChildViews();
+
+        if(childViews){
+            this.setViews(childViews);
+        }
+        if( this.validateChildViews(childViews) ) {
+
+        }
+    },
+
+    getChildViews: function() {
+        if( this.options && this.options.childViews ) {
+            return this.addChildViewIdentifier();
+        } else {
+            return false;
+        }
+    },
+
+    addChildViewIdentifier: function() {
+        var childViews = {};
+
+        if( _.isArray(this.options.childViews)){
+            var key= 'main';
+            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
+        } else {
+            _.each(this.options.childViews, function( value, key ) {
+                if( key.search(/[.#]/) === 0 ) {
+                    key = key.replace(/[.#]/, '');
+                }
+                childViews[this.getChildViewIdentifier(key)] = value;
+            }, this);
+        }
+        return childViews;
+    },
+
+    validateChildViews: function( childViews ) {
+
+        var childViews = childViews || this.getChildViews();
+        var isValid = true;
+        _.each(childViews, function( childView ) {
+            if( _.isArray(childView)){
+                _.each(childView, function( child ) {
+                    isValid = this.validateChildViews(child);
+                }, this);
+            } else if( !this.isView(childView) ) {
+                isValid = false;
+            }
+        }, this);
+
+        return isValid ? childViews : false;
     }
 
     //    set: function( value ) {
@@ -6296,20 +6370,40 @@ _.extend(M.View.prototype, {
 M.View.create = M.create;
 // Source: src/ui/views/button.js
 //TODO DO THIS NICE
-(function(){
+(function() {
 
     var templates = {
-        default : '<div>Button: <div class="<%= contenteditable %>" <% if(contenteditable) {  } %>><%= value %></div></div>',
+        default: '<div>Button: <div class="<%= contenteditable %>" <% if(contenteditable) {  } %>><%= value %></div></div>',
         topcoat: '<button class="topcoat-button--large" ><%= value %></button>',
         bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star"></span><%= value %></button>',
         jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= value %></span></span></a>'
     };
 
+    var toolbarTemplates = {
+        default: '<div id="<%= value %>"><div data-child-view="left"></div> <div class="center"><%= value %></div> <div data-child-view="right"></div></div>'
+    };
+
+    M.TemplateManager = M.Object.extend({
+
+        containerTemplates: {
+            default: '<div id="<%= value %>"><div data-child-view="main"></div><div><%= value %></div></div>'
+        },
+
+        currentTemplate: 'default',
+
+        get: function( template ) {
+            if( this[template] ) {
+                return this[template][this.currentTemplate];
+            }
+        }
+    });
+
+
     M.Button = M.View.extend({
 
         _type: 'M.Button',
 
-        initialize: function(){
+        initialize: function() {
             M.View.prototype.initialize.apply(this, arguments);
         },
 
@@ -6319,65 +6413,22 @@ M.View.create = M.create;
 
     });
 
-    M.UltraStefanCustomMegaViewWithHyperFunctionalty = M.View.extend({
+    M.Toolbar = M.View.extend({
 
-        _type: 'M.UltraStefanCustomMegaViewWithHyperFunctionalty',
+        _type: 'M.Toolbar',
 
-        // a
-        initialize: function(){
-            M.View.prototype.initialize.apply(this, arguments);
-            _.each(this.childViews, function(child){
-                this.$el.find('[data-child-views["first"]]').append(child.render());
-            }, this);
-        },
-        template: _.tpl('<div><%= value %><div data-child-views="first"></div></div>'),
+        template: _.tpl(toolbarTemplates['default'])
 
-
-        // b
-        template: _.tpl('<div><%= value %><% childViews %></div>'),
-
-        // b2
-        template: _.tpl('<div><%= value %>@@@([childViews])@@@</div>'),
-
-
-        // c
-        initialize: function(){
-            M.View.prototype.initialize.apply(this, arguments);
-            _.each(this.childViews, function(child){
-                this.$el.append($('div'))
-                this.$el.find('div span').append(child.render());
-            }, this);
-        },
-        template: _.tpl('<div><%= value %><span></span></div>'),
-
-
-        // d
-        template: _.tpl('<div><%= value %></div>'),
-
-
-
-
-
-        value: 'default button value'
 
     });
 
-})();
+    M.ContainerView = M.View.extend({
 
-(function(){
+        _type: 'M.ContainerView',
 
-    var template = '<div>Complex View: <div><%= value %></div></div>';
-
-    M.ModelView = M.View.extend({
-
-        _type: 'M.ModelView',
-
-        template: _.tpl(template),
-
-        value: 'default ModelView'
+        template: _.tpl(M.TemplateManager.get('containerTemplates'))
 
     });
-
 
 })();
 // Source: src/ui/pagetransitions.js
@@ -7042,7 +7093,7 @@ _.extend(Backbone.Layout.prototype, {
     },
 
     initialRenderProcess: function() {
-        this.render();
+//        this.render();
         $('body').html(this.el);
         PageTransitions.init();
     },
@@ -7111,8 +7162,7 @@ M.BottomBarLayout = M.Layout.extend({
     template: M.Themes.getTemplateByName('bottom-bar-layout')
 });
 // Source: src/ui/layouts/switch-layout/switch-layout.js
-
-M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>' );
+M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>');
 
 M.SwitchLayout = M.Layout.extend({
 
@@ -7122,29 +7172,28 @@ M.SwitchLayout = M.Layout.extend({
 
     currentPage: '',
 
-    applyViews: function( settings ){
+    applyViews: function( settings ) {
         var current = $('.pt-page-current');
 
         var next = $('.pt-page:not(.pt-page-current)');
 
         var selector = '';
 
-        if(current.length < 1){
+        if( current.length < 1 ) {
             selector = 'pt-page-1';
-        } else if(current.hasClass('pt-page-1')){
+        } else if( current.hasClass('pt-page-1') ) {
             selector = 'pt-page-2';
-        } else if(current.hasClass('pt-page-2')){
+        } else if( current.hasClass('pt-page-2') ) {
             selector = 'pt-page-1';
         }
 
         var view = {};
-        //                view['.' + selector + ' .content'] = settings.content;
         view['.' + selector + ' .content'] = settings.content;
-        if( settings.footer ) {
-            view['.' + selector + ' .footer'] = settings.footer;
-        } else {
-            view['.' + selector + ' .footer'] = new M.View();
-        }
+//        if( settings.footer ) {
+//            view['.' + selector + ' .footer'] = settings.footer;
+//        } else {
+//            view['.' + selector + ' .footer'] = new M.View();
+//        }
         return view;
     }
 });
