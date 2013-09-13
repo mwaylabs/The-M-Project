@@ -29,10 +29,10 @@
 
             // add a cssClass to every template so stickit can use it as binding.
 
-            // convert the template string to jQuery object
-
+            // the characters = and < are problematic ones converting a string to an dom object and back - so replace them with other stuff
             text = text.replace(/<%/g, '@%').replace(/%>/g, '%@');
             text = text.replace(/@%=/g, '@%@');
+            // convert the template string to jQuery object
             var obj = $(text);
 
             // text to produce and replace later with the originial text - just a puffer variable
@@ -115,7 +115,7 @@
                 return match;
             });
             source += "';\n";
-            console.log(source);
+
             // If a variable is not specified, place data values in local scope.
             if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
 

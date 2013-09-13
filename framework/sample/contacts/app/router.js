@@ -1,10 +1,10 @@
 define([
     "themproject", // Application.
     "app", // Modules.
-    "text!templates/main-layout.html", "views/list", "views/menu", "views/contacts", "views/add", "views/detail", "data/contact_collection", "data/contact_model", "data/contact_remotestore"
+    "text!templates/main-layout.html", "views/list", "views/menu", "views/contacts", "views/add", "views/detail", "data/contact_collection", "data/contact_model", "data/contact_remotestore", "views/main"
 ],
 
-    function( M, app, mainTemplate, ListView, MenuView, ContactsView, AddView, DetailView, ContactCollection, ContactModel, RemoteStore ) {
+    function( M, app, mainTemplate, ListView, MenuView, ContactsView, AddView, DetailView, ContactCollection, ContactModel, RemoteStore, Main ) {
 
         // Defining the application router, you can attach sub routers here.
         var Router = Backbone.Router.extend({
@@ -72,7 +72,6 @@ define([
                     var list = new ListView(listOptions);
                     var menu = new ContactsView();
 
-
                     app.layoutManager.setLayout(new M.SwipeLayout());
 
                     app.layoutManager.applyViews({
@@ -88,24 +87,7 @@ define([
                 }
             },
 
-            index: function( isFirstLoad ) {
-                if( isFirstLoad ) {
-                    app.layoutManager.setLayout(new M.SwipeLayout());
-
-                    app.layoutManager.applyViews({
-                        content: MenuView,
-                        footer: M.Button.create({value:'haha', childViews: 'v1'})
-                    });
-                }
-
-                MM = MenuView;
-
-                if( !app.layoutManager.isFirstLoad ) {
-                    PageTransitions.next();
-                } else {
-                    app.layoutManager.initialRenderProcess();
-                }
-            },
+            index: Main,
 
             detail: function( isFirstLoad, id ) {
                 var model = this.contacts.get(id);

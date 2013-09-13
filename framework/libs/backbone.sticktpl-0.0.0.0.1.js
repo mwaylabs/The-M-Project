@@ -115,7 +115,7 @@
                 return match;
             });
             source += "';\n";
-            console.log(source);
+
             // If a variable is not specified, place data values in local scope.
             if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
 

@@ -21,7 +21,7 @@ _.extend(Backbone.Layout.prototype, {
     },
 
     initialRenderProcess: function() {
-        this.render();
+//        this.render();
         $('body').html(this.el);
         PageTransitions.init();
     },

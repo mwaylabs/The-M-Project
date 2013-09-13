@@ -24,11 +24,5 @@ define([
 
         });
 
-        var label = M.ModelView.create({
-            value: 'ich bin ein label'
-        });
-
-        BBB = btn;
-
         return btn;
     });

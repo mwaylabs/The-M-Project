@@ -315,7 +315,9 @@ var LayoutManager = Backbone.View.extend({
 
     // Actually facilitate a render.
     function actuallyRender() {
+
       var options = root.getAllOptions();
+        console.log('actuallyRender', options);
       var manager = root.__manager__;
       var parent = manager.parent;
       var rentManager = parent && parent.__manager__;
