@@ -72,7 +72,7 @@ exports.create = function(dbName) {
             );
         },
 
-                //Find a specific document
+        //Find a specific document
         findChanges: function(req, res) {
             var name = req.params.name;
             var time = parseInt(req.params.time);
@@ -221,8 +221,9 @@ exports.create = function(dbName) {
                 collection.remove(function () {
                     collection.insert(msg, { safe: false } );
                 });
+            } else {
+                collection.insert(msg, { safe: false } );
             }
-            collection.insert(msg, { safe: false } );
         },
 
         //read the change message, since time
