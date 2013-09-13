@@ -113,7 +113,8 @@ M.BikiniStore = M.Store.extend({
     createSocket: function(endpoint, collection) {
         var url = M.Request.getLocation(endpoint.url);
         var host = url.protocol + "//" +url.host;
-        var path = this.socketio_path || (url.pathname + 'live');
+        var path = url.pathname;
+        var path = this.socketio_path || (path + (path.charAt(path.length-1) === '/' ? '' : '/' ) + 'live');
         // remove leading /
         var resource = (path && path.indexOf('/') == 0) ? path.substr(1) : path;
         var that = this;
@@ -319,7 +320,7 @@ M.BikiniStore = M.Store.extend({
                 });
             },
             beforeSend: function(xhr) {
-                M.Request.setAuthentication(xhr, that.credentials);
+                M.Request.setAuthentication(xhr, endpoint.credentials);
             }
         });
     },
