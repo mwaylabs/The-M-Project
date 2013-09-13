@@ -48,10 +48,10 @@ M.WebSqlStore = M.Store.extend({
         });
     },
 
-    _options: function(data, options, entity) {
+    _options: function(model, options, entity) {
         var opts = _.extend({}, options);
-        opts.entity = this.getEntity(data, options, entity);
-        opts.data   = this.getArray(data);
+        opts.entity = this.getEntity(model.entity || options.entity || this.entity);
+        opts.data   = this.getArray(model);
         return opts;
     },
 

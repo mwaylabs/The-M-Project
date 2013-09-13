@@ -2,7 +2,7 @@
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Version:   0.0.0
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-// Date:      Fri Sep 13 2013 12:31:27
+// Date:      Thu Sep 12 2013 13:23:09
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -1830,6 +1830,376 @@ M.UniqueId = M.Object.extend({
         return uuid.join('');
     }
 });
+// Source: src/utility/base64.js
+// ==========================================================================
+// Project:   The M-Project - Mobile HTML5 Application Framework
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
+// Creator:   Dominik
+// Date:      11.11.2010
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
+//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
+// ==========================================================================
+
+/**
+ * @class
+ *
+ * This prototype defines decoding and encoding mechanisms based on the Base64 algorithm. You
+ * normally don't call this object respectively its methods directly, but let M.Cypher handle
+ * this.
+ *
+ * @extends M.Object
+ */
+M.Base64 = M.Object.extend(/** @scope M.Base64.prototype */ {
+
+        /**
+         * The type of this object.
+         *
+         * @type String
+         */
+        type: 'M.Base64',
+
+        /**
+         * The key string for the base 64 decoding and encoding.
+         *
+         * @type String
+         */
+        _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+
+        /**
+         * This method encodes a given binary input, using the base64 encoding.
+         *
+         * @param {String} input The binary to be encoded. (e.g. an requested image)
+         * @returns {String} The base64 encoded string.
+         */
+        encodeBinary: function( input ) {
+            var output = "";
+            var bytebuffer;
+            var encodedCharIndexes = new Array(4);
+            var inx = 0;
+            var paddingBytes = 0;
+
+            while( inx < input.length ) {
+                // Fill byte buffer array
+                bytebuffer = new Array(3);
+                for( jnx = 0; jnx < bytebuffer.length; jnx++ ) {
+                    if( inx < input.length ) {
+                        bytebuffer[jnx] = input.charCodeAt(inx++) & 0xff;
+                    } // throw away high-order byte, as documented at: https://developer.mozilla.org/En/Using_XMLHttpRequest#Handling_binary_data
+                    else {
+                        bytebuffer[jnx] = 0;
+                    }
+                }
+
+                // Get each encoded character, 6 bits at a time
+                // index 1: first 6 bits
+                encodedCharIndexes[0] = bytebuffer[0] >> 2;
+                // index 2: second 6 bits (2 least significant bits from input byte 1 + 4 most significant bits from byte 2)
+                encodedCharIndexes[1] = ((bytebuffer[0] & 0x3) << 4) | (bytebuffer[1] >> 4);
+                // index 3: third 6 bits (4 least significant bits from input byte 2 + 2 most significant bits from byte 3)
+                encodedCharIndexes[2] = ((bytebuffer[1] & 0x0f) << 2) | (bytebuffer[2] >> 6);
+                // index 3: forth 6 bits (6 least significant bits from input byte 3)
+                encodedCharIndexes[3] = bytebuffer[2] & 0x3f;
+
+                // Determine whether padding happened, and adjust accordingly
+                paddingBytes = inx - (input.length - 1);
+                switch( paddingBytes ) {
+                    case 2:
+                        // Set last 2 characters to padding char
+                        encodedCharIndexes[3] = 64;
+                        encodedCharIndexes[2] = 64;
+                        break;
+                    case 1:
+                        // Set last character to padding char
+                        encodedCharIndexes[3] = 64;
+                        break;
+                    default:
+                        break; // No padding - proceed
+                }
+                // Now we will grab each appropriate character out of our keystring
+                // based on our index array and append it to the output string
+                for( jnx = 0; jnx < encodedCharIndexes.length; jnx++ ) {
+                    output += this._keyStr.charAt(encodedCharIndexes[jnx]);
+                }
+            }
+            return output;
+        },
+
+        /**
+         * This method encodes a given input string, using the base64 encoding.
+         *
+         * @param {String} input The string to be encoded.
+         * @returns {String} The base64 encoded string.
+         */
+        encode: function( input ) {
+            var output = '';
+            var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+            var i = 0;
+
+            input = M.Cypher.utf8_encode(input);
+
+            while( i < input.length ) {
+                chr1 = input.charCodeAt(i++);
+                chr2 = input.charCodeAt(i++);
+                chr3 = input.charCodeAt(i++);
+
+                enc1 = chr1 >> 2;
+                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
+
+                if( isNaN(chr2) ) {
+                    enc3 = enc4 = 64;
+                } else if( isNaN(chr3) ) {
+                    enc4 = 64;
+                }
+
+                output += this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) + this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+            }
+
+            return output;
+        },
+
+        binaryEncode: function( input ) {
+            var output = '';
+            var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+            var i = 0;
+
+            while( i < input.length ) {
+                chr1 = input.charCodeAt(i++);
+                chr2 = input.charCodeAt(i++);
+                chr3 = input.charCodeAt(i++);
+
+                enc1 = chr1 >> 2;
+                enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                enc4 = chr3 & 63;
+
+                if( isNaN(chr2) ) {
+                    enc3 = enc4 = 64;
+                } else if( isNaN(chr3) ) {
+                    enc4 = 64;
+                }
+
+                output += this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) + this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+            }
+
+            return output;
+        },
+
+        /**
+         * This method decodes a given input string, using the base64 decoding.
+         *
+         * @param {String} input The string to be decoded.
+         * @returns {String} The base64 decoded string.
+         */
+        decode: function( input ) {
+            var output = "";
+            var chr1, chr2, chr3;
+            var enc1, enc2, enc3, enc4;
+            var i = 0;
+
+            input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+            while( i < input.length ) {
+                enc1 = this._keyStr.indexOf(input.charAt(i++));
+                enc2 = this._keyStr.indexOf(input.charAt(i++));
+                enc3 = this._keyStr.indexOf(input.charAt(i++));
+                enc4 = this._keyStr.indexOf(input.charAt(i++));
+
+                chr1 = (enc1 << 2) | (enc2 >> 4);
+                chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+                chr3 = ((enc3 & 3) << 6) | enc4;
+
+                output = output + String.fromCharCode(chr1);
+
+                if( enc3 != 64 ) {
+                    output = output + String.fromCharCode(chr2);
+                }
+
+                if( enc4 != 64 ) {
+                    output = output + String.fromCharCode(chr3);
+                }
+            }
+
+            return M.Cypher.utf8_decode(output);
+        }
+
+    });
+// Source: src/utility/cypher.js
+// ==========================================================================
+// Project:   The M-Project - Mobile HTML5 Application Framework
+// Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
+//            (c) 2011 panacoda GmbH. All rights reserved.
+// Creator:   Dominik
+// Date:      11.11.2010
+// License:   Dual licensed under the MIT or GPL Version 2 licenses.
+//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
+//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
+// ==========================================================================
+
+/**
+ * @class
+ *
+ * M.Cypher defines a prototype for handling decoding, encoding and hashing of string
+ * based values.
+ *
+ * @extends M.Object
+ */
+M.Cypher = M.Object.extend(/** @scope M.Cypher.prototype */ {
+
+        /**
+         * The type of this object.
+         *
+         * @type String
+         */
+        type: 'M.Cypher',
+
+        /**
+         * The default decoder.
+         *
+         * @type M.Base64
+         */
+        defaultDecoder: M.Base64,
+
+        /**
+         * The default encoder.
+         *
+         * @type M.Base64
+         */
+
+        defaultEncoder: M.Base64,
+
+        /**
+         * The default hash algorithm.
+         *
+         * @type M.SHA256
+         */
+
+        defaultHasher: M.SHA256,
+
+        /**
+         * This method is the one that initiates the decoding of a given string, based on either
+         * the default decoder or a custom decoder.
+         *
+         * @param {String} input The input string to be decoded.
+         * @param {Object} algorithm The algorithm object containing a decode method.
+         * @returns {String} The decoded string.
+         */
+        decode: function( input, algorithm ) {
+
+            if( algorithm && algorithm.decode ) {
+                return algorithm.decode(input);
+            } else {
+                return this.defaultDecoder.decode(input);
+            }
+
+        },
+
+        /**
+         * This method is the one that initiates the encoding of a given string, based on either
+         * the default encoder or a custom encoder.
+         *
+         * @param {String} input The input string to be decoded.
+         * @param {Object} algorithm The algorithm object containing a encode method.
+         * @returns {String} The encoded string.
+         */
+        encode: function( input, algorithm ) {
+
+            if( algorithm && algorithm.encode ) {
+                return algorithm.encode(input);
+            } else {
+                return this.defaultEncoder.encode(input);
+            }
+
+        },
+
+        /**
+         * This method is the one that initiates the hashing of a given string, based on either
+         * the default hashing algorithm or a custom hashing algorithm.
+         *
+         * @param {String} input The input string to be hashed.
+         * @param {Object} algorithm The algorithm object containing a hash method.
+         * @returns {String} The hashed string.
+         */
+        hash: function( input, algorithm ) {
+
+            if( algorithm && algorithm.hash ) {
+                return algorithm.hash(input);
+            } else {
+                return this.defaultHasher.hash(input);
+            }
+
+        },
+
+        /**
+         * Private method for UTF-8 encoding
+         *
+         * @private
+         * @param {String} string The string to be encoded.
+         * @returns {String} The utf8 encoded string.
+         */
+        utf8_encode: function( string ) {
+            string = string.replace(/\r\n/g, '\n');
+            var utf8String = '';
+
+            for( var n = 0; n < string.length; n++ ) {
+
+                var c = string.charCodeAt(n);
+
+                if( c < 128 ) {
+                    utf8String += String.fromCharCode(c);
+                } else if( (c > 127) && (c < 2048) ) {
+                    utf8String += String.fromCharCode((c >> 6) | 192);
+                    utf8String += String.fromCharCode((c & 63) | 128);
+                } else {
+                    utf8String += String.fromCharCode((c >> 12) | 224);
+                    utf8String += String.fromCharCode(((c >> 6) & 63) | 128);
+                    utf8String += String.fromCharCode((c & 63) | 128);
+                }
+
+            }
+
+            return utf8String;
+        },
+
+        /**
+         * Private method for UTF-8 decoding
+         *
+         * @private
+         * @param {String} string The string to be decoded.
+         * @returns {String} The utf8 decoded string.
+         */
+        utf8_decode: function( utf8String ) {
+            var string = '';
+            var i = 0;
+            var c = c1 = c2 = 0;
+
+            while( i < utf8String.length ) {
+
+                c = utf8String.charCodeAt(i);
+
+                if( c < 128 ) {
+                    string += String.fromCharCode(c);
+                    i++;
+                } else if( (c > 191) && (c < 224) ) {
+                    c2 = utf8String.charCodeAt(i + 1);
+                    string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+                    i += 2;
+                } else {
+                    c2 = utf8String.charCodeAt(i + 1);
+                    c3 = utf8String.charCodeAt(i + 2);
+                    string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+                    i += 3;
+                }
+
+            }
+
+            return string;
+        }
+
+    });
 // Source: src/connection/request.js
 // ==========================================================================
 // Project:   The M-Project - Mobile HTML5 Application Framework
@@ -2035,6 +2405,36 @@ M.Request = M.Object.extend(/** @scope M.Request.prototype */{
         });
 
         this.cancel();
+    },
+
+    setAuthentication: function(xhr, credentials) {
+        if (credentials && credentials.username && xhr && M.Base64) {
+            var basicAuth = M.Base64.encode(encodeURIComponent(credentials.username + ":" + (credentials.password || '')));
+            xhr.setRequestHeader('Authorization', 'Basic ' + basicAuth);
+        }
+    },
+
+     /*
+        url = "http://example.com:3000/pathname/?search=test#hash";
+
+        location.protocol; // => "http:"
+        location.host;     // => "example.com:3000"
+        location.hostname; // => "example.com"
+        location.port;     // => "3000"
+        location.pathname; // => "/pathname/"
+        location.hash;     // => "#hash"
+        location.search;   // => "?search=test"
+     */
+    getLocation: function(url) {
+        var location = document.createElement("a");
+        location.href = url || this.url;
+        // IE doesn't populate all link properties when setting .href with a relative URL,
+        // however .href will return an absolute URL which then can be used on itself
+        // to populate these additional fields.
+        if (location.host == "") {
+          location.href = location.href;
+        }
+        return location;
     }
 
 });
@@ -2385,10 +2785,10 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
         if (this._socket) {
             this._socket.removeAllListeners();
             this._socket.on('connect', function(data) {
-                that._connected(data);
+                that.connected(data);
             });
             this._socket.on('disconnect', function(data) {
-                that._disconnect(data);
+                that.disconnected(data);
             });
         }
         this._socket.disconnect();
@@ -2396,7 +2796,7 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
 
     connect: function(param) {
         var that = this;
-        var url  = this.path;
+        var url  = this.host; //  + '/'  + this.path;
         if (param) {
             url += "?" + (_.isString(param) ? param : $.param(param));
         }
@@ -2434,9 +2834,8 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     _init: function() {
         if ( Object.getPrototypeOf(this) === M.SocketIO ) {
             this._initEvents();
-            var socket_io_js = this.host + "/" + this.script;
             var that = this;
-            require([socket_io_js], function() {
+            require([this.script], function() {
                 that.ready();
             });
         }
@@ -2486,7 +2885,7 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     connected: function(data) {
     },
 
-    disconnect: function(data) {
+    disconnected: function(data) {
     }
 
 });
@@ -2859,6 +3258,11 @@ M.Entity.from = function(entity, options) {
              M.Entity.prototype.isPrototypeOf(entity.prototype)) {
             entity = new entity(options);
         } else {
+            if (typeof entity === 'string') {
+                entity = {
+                    name: entity
+                };
+            }
             // if this is just a config create a new Entity
             var e  = M.Entity.extend(entity);
             entity = new e(options);
@@ -3028,25 +3432,22 @@ _.extend(M.Model.prototype, {
 
     changedSinceSync: {},
 
-    constructor: function(attributes, options) {
-        options = options || {};
+    initialize: function(attributes, options) {
+         options = options || {};
 
         this.idAttribute = options.idAttribute || this.idAttribute;
+        this.store = this.store || (this.collection ? this.collection.store : null) || options.store;
         if (this.store && _.isFunction(this.store.initModel)) {
             this.store.initModel(this, options);
         }
+        this.entity = this.entity || (this.collection ? this.collection.entity : null) || options.entity;
         if (this.entity) {
             this.entity = M.Entity.from(this.entity, { typeMapping: options.typeMapping });
-            this.idAttribute = entity.idAttribute || this.idAttribute;
+            this.idAttribute = this.entity.idAttribute || this.idAttribute;
         }
+        this.credentials = this.credentials || (this.collection ? this.collection.credentials : null) || options.credentials;
         this.on('change', this.onChange, this);
         this.on('sync',   this.onSync, this);
-
-        // call base constructor
-        Backbone.Model.apply(this, arguments);
-    },
-
-    initialize: function(attributes, options) {
     },
 
     sync: function(method, model, options) {
@@ -3054,6 +3455,12 @@ _.extend(M.Model.prototype, {
         if (store && _.isFunction(store.sync)) {
             return store.sync.apply(this, arguments);
         } else {
+            if (options && this.credentials) {
+                var credentials = this.credentials;
+                options.beforeSend = function(xhr) {
+                    M.Request.setAuthentication(xhr, credentials);
+                }
+            }
             return Backbone.sync.apply(this, arguments);
         }
     },
@@ -3071,6 +3478,20 @@ _.extend(M.Model.prototype, {
 
     onSync: function(model, options) {
         this.changedSinceSync = {};
+    },
+
+    getUrlRoot: function() {
+        if (this.urlRoot) {
+            return _.isFunction(this.urlRoot) ? this.urlRoot() : this.urlRoot;
+        } else if (this.collection) {
+            return this.collection.getUrlRoot();
+        } else if (this.url) {
+            var url = _.isFunction(this.url) ? this.url() : this.url;
+            if (url && this.id && url.indexOf(this.id) > 0) {
+                return url.substr(0, url.indexOf(this.id));
+            }
+            return url;
+        }
     }
 
 });
@@ -3101,22 +3522,23 @@ _.extend(M.Collection.prototype, {
 
     entity: null,
 
-    constructor: function(options) {
+    initialize: function(options) {
         options = options || {};
-        this.connector = options.connector || this.connector || (this.model ? this.model.prototype.connector : null);
-        this.entity    = options.entity || this.entity || (this.model ? this.model.prototype.entity : null);
+        this.store  = options.store  || this.store  || (this.model ? this.model.prototype.store : null);
+        this.entity = options.entity || this.entity || (this.model ? this.model.prototype.entity : null);
 
-        if (this.connector && _.isFunction(this.connector.initCollection)) {
-            this.connector.initCollection(this, options);
+        if (this.store && _.isFunction(this.store.initCollection)) {
+            this.store.initCollection(this, options);
         }
         if (this.entity) {
-            this.entity = M.Entity.from(this.entity, { typeMapping: options.typeMapping });
+            this.entity = M.Entity.from(this.entity, { model: this.model, typeMapping: options.typeMapping });
+        } else if (this.url) {
+            // extract last path part as entity name
+            var parts = M.Request.getLocation(this.url).pathname.match(/([^\/]+)\/?$/);
+            if (parts && parts.length > 1) {
+                this.entity = M.Entity.from(parts[1]);
+            }
         }
-        // call base constructor
-        Backbone.Collection.apply(this, arguments);
-    },
-
-    initialize: function(options) {
     },
 
     select: function(options) {
@@ -3140,8 +3562,18 @@ _.extend(M.Collection.prototype, {
         if (store && _.isFunction(store.sync)) {
             return store.sync.apply(this, arguments);
         } else {
+            if (options && this.credentials) {
+                var credentials = this.credentials;
+                options.beforeSend = function(xhr) {
+                    M.Request.setAuthentication(xhr, credentials);
+                }
+            }
             return Backbone.sync.apply(this, arguments);
         }
+    },
+
+    getUrlRoot: function() {
+        return _.isFunction(this.url) ? this.url() : this.url;
     }
 
 });
@@ -4123,12 +4555,13 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         }
     },
 
-    getEntity: function(model, options, entity) {
-        var name = entity ? (_.isString(entity) ? entity : entity.name) : null;
-        name = name || (options ? options.entity : null);
-        name = name || (model && model.entity ? model.entity.name : null);
-        if (name) {
-            return this.entities[name] || entity;
+    getEntity: function(obj) {
+        if (obj) {
+            var entity = obj.entity || obj;
+            var name   = _.isString(entity) ? entity : entity.name;
+            if (name) {
+                return this.entities[name] || (entity && entity.name ? entity : { name: name });
+            }
         }
     },
 
@@ -4145,14 +4578,14 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         }
     },
 
-    createModel: function(entity) {
+    createModel: function(entity, attrs) {
         if (_.isString(entity)) {
             entity = this.entities[entity];
         }
         if (entity && entity.collection) {
             var model = entity.collection.model || entity.collection.prototype.model;
             if (model) {
-                return new model();
+                return new model(attrs);
             }
         }
     },
@@ -4303,14 +4736,14 @@ M.LocalStorageStore = M.Store.extend({
 
     _type: 'M.LocalStorageStore',
 
-    name: 'bikini',
+    name: '',
 
     ids: {},
 
     sync: function( method, model, options ) {
         var options = options || {};
         var that = options.store || this.store;
-        var entity = that.getEntity(model, options, this.entity);
+        var entity = that.getEntity(model.entity || options.entity || this.entity);
         if( that && entity && model ) {
             var id = model.id || (method === 'create' ? new M.ObjectID().toHexString() : null);
             var attrs = options.attrs || model.attributes;
@@ -4521,7 +4954,7 @@ M.SocketStore = M.Store.extend({
     },
 
     _isValidChannel: function(channel) {
-        return channel && channel.indexOf('entity_') === 0 && this.getEntity( null, { entity: channel.substr(7) } );
+        return channel && channel.indexOf('entity_') === 0 && this.getEntity( channel.substr(7) );
     },
 
     getLastMessageTime: function(channel) {
@@ -4571,7 +5004,7 @@ M.SocketStore = M.Store.extend({
         if (options.fromMessage) {
             return that.handleCallback(options.success);
         }
-        var entity = that.getEntity(model, options, this.entity);
+        var entity = that.getEntity(model.entity || options.entity || this.entity);
         if (that && entity) {
             var channel = entity.channel;
 
@@ -4778,10 +5211,10 @@ M.WebSqlStore = M.Store.extend({
         });
     },
 
-    _options: function(data, options, entity) {
+    _options: function(model, options, entity) {
         var opts = _.extend({}, options);
-        opts.entity = this.getEntity(data, options, entity);
-        opts.data   = this.getArray(data);
+        opts.entity = this.getEntity(model.entity || options.entity || this.entity);
+        opts.data   = this.getArray(model);
         return opts;
     },
 
@@ -5270,33 +5703,405 @@ M.WebSqlStore = M.Store.extend({
         return true;
     }
 });
+// Source: src/data/stores/bikini_store.js
+
+M.BikiniStore = M.Store.extend({
+
+    _type: 'M.BikiniStore',
+
+    _transactionFailed: false,
+
+    _selector: null,
+
+    name: 'bikini',
+
+    size: 1024 * 1024 * 5,
+
+    version: '1.2',
+
+    host:   '',
+
+    path:   '',
+
+    resource: 'live',
+
+    endpoints: {},
+
+    useLocalStore:    true,
+
+    useSocketNotify:  true,
+
+    useOfflineChange: true,
+
+    msgStore:  null,
+
+    messages:  null,
+
+    typeMapping: {
+        'binary':  'text',
+        'date':    'string'
+    },
+
+    initialize: function( options ) {
+        M.Store.prototype.initialize.apply(this, arguments);
+
+        var that  = this;
+        options   = options || {};
+
+        this.socketio_path = options.socketio_path || this.socketio_path;
+    },
+
+    initModel: function( model ) {
+    },
+
+    initCollection: function( collection ) {
+        var url    = collection.getUrlRoot();
+        var entity = this.getEntity(collection.entity);
+        if (url && entity) {
+            var name    = entity.name;
+            var hash    = this._hashCode(url);
+            var channel = name + hash;
+            collection.channel = channel;
+            // get or create endpoint for this url
+            var endpoint   = this.endpoints[hash];
+            if (!endpoint) {
+                endpoint = {};
+                endpoint.url         = url;
+                endpoint.entity      = entity;
+                endpoint.channel     = channel;
+                endpoint.credentials = entity.credentials || collection.credentials;
+                endpoint.localStore  = this.useLocalStore    ? this.createLocalStore(endpoint) : null;
+                endpoint.messages    = this.useOfflineChange ? this.createMsgCollection(endpoint) : null;
+                endpoint.socket      = this.useSocketNotify  ? this.createSocket(endpoint, collection) : null;
+                this.endpoints[hash] = endpoint;
+            }
+            collection.endpoint   = endpoint;
+            collection.localStore = endpoint.localStore;
+            collection.messages   = endpoint.messages;
+            collection.listenTo(this, channel, this.onMessage, collection);
+
+            if (endpoint.messages && !endpoint.socket) {
+                this.sendMessages(endpoint, collection);
+            }
+        }
+    },
+
+    getEndpoint: function(url) {
+        if (url) {
+            var hash = this._hashCode(url);
+            return this.endpoints[hash];
+        }
+    },
+
+    createLocalStore: function(endpoint) {
+        var entities = {};
+        entities[endpoint.entity.name] = {
+            name: endpoint.channel
+        };
+        return new M.LocalStorageStore({
+            entities: entities
+        });
+    },
+
+    createMsgCollection: function(endpoint) {
+        var name = "msg-" + endpoint.channel;
+        var MsgCollection = M.Collection.extend({
+            model: M.Model.extend({ idAttribute: '_id' })
+        });
+        var messages  = new MsgCollection({
+            entity: name,
+            store: new M.LocalStorageStore()
+        });
+        messages.fetch();
+        return messages;
+    },
+
+    createSocket: function(endpoint, collection) {
+        var url = M.Request.getLocation(endpoint.url);
+        var host = url.protocol + "//" +url.host;
+        var path = this.socketio_path || (url.pathname + 'live');
+        // remove leading /
+        var resource = (path && path.indexOf('/') == 0) ? path.substr(1) : path;
+        var that = this;
+        var socket = M.SocketIO.create({
+            host: host,
+            resource: resource,
+            connected: function() {
+                that._bindChannel(socket, endpoint);
+                that.sendMessages(endpoint, collection);
+            }
+        });
+        return socket;
+    },
+
+    _bindChannel: function(socket, endpoint) {
+        var that = this;
+        var channel = endpoint.channel;
+        var name    = endpoint.entity.name;
+        var time = this.getLastMessageTime(channel);
+        socket.on(channel, function(msg) {
+            if (msg) {
+                that.setLastMessageTime(channel, msg.time);
+                that.trigger(channel, msg);
+            }
+        });
+        socket.emit('bind', {
+            entity:  name,
+            channel: channel,
+            time:    time
+        });
+        // do initial sync
+        // if (!this.getLastMessageTime(entity.channel)) {
+        //    this.sync("read", {}, { entity: entity.name, store: this });
+        //}
+    },
+
+    getLastMessageTime: function(channel) {
+        return localStorage.getItem('__'+ channel + 'last_msg_time') || 0;
+    },
+
+    setLastMessageTime: function(channel, time) {
+        if (time) {
+            localStorage.setItem('__'+ channel + 'last_msg_time', time);
+        }
+    },
+
+    _hashCode: function(str){
+        var hash = 0, i, char;
+        if (str.length == 0) return hash;
+        for (i = 0, l = str.length; i < l; i++) {
+            char  = str.charCodeAt(i);
+            hash  = ((hash<<5)-hash)+char;
+            hash |= 0; // Convert to 32bit integer
+        }
+        return hash;
+    },
+
+
+    onMessage: function(msg) {
+        if (msg && msg.method) {
+            var options = { store: this.localStore, merge: true, fromMessage: true, entity: this.entity.name };
+            var attrs   = msg.data;
+            switch(msg.method) {
+                case 'patch':
+                    options.patch = true;
+                case 'update':
+                case 'create':
+                    var model = msg.id ? this.get(msg.id) : null;
+                    if (model) {
+                        model.save(attrs, options);
+                    } else {
+                        this.create(attrs, options);
+                    }
+                    break;
+
+                case 'delete':
+                    if (msg.id) {
+                        var model = this.get(msg.id);
+                        if (model) {
+                            model.destroy(options);
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    },
+
+    sync: function(method, model, options) {
+        var that   = options.store || this.store;
+        if (options.fromMessage) {
+            return that.handleCallback(options.success);
+        }
+        var endpoint = that.getEndpoint(this.getUrlRoot());
+        if (that && endpoint) {
+            var channel = this.channel;
+
+            if ( M.isModel(model) && !model.id) {
+                model.set(model.idAttribute, new M.ObjectID().toHexString());
+            }
+
+            var time = that.getLastMessageTime(channel);
+            // only send read messages if no other store can do this
+            // or for initial load
+            if (method !== "read" || !this.localStore || !time) {
+                // do backbone rest
+                that.addMessage(method, model,
+                    this.localStore ? {} : options, // we don't need to call callbacks if an other store handle this
+                    endpoint);
+            }
+            if (endpoint.localStore) {
+                options.store  = endpoint.localStore;
+                endpoint.localStore.sync.apply(this, arguments);
+            }
+        }
+    },
+
+    addMessage: function(method, model, options, endpoint) {
+        var that = this;
+        if (method && model) {
+            var changes = model.changedSinceSync;
+            var data = null;
+            var storeMsg = false;
+            switch (method) {
+                case 'update':
+                case 'create':
+                    data  = model.attributes;
+                    storeMsg = true;
+                    break;
+                case 'patch':
+                    if ( _.isEmpty(changes)) return;
+                    data = changes;
+                    storeMsg = true;
+                    break;
+                case 'delete':
+                    storeMsg = true;
+                    break;
+            }
+            var msg = {
+                _id: model.id,
+                id: model.id,
+                method: method,
+                data: data
+            };
+            var emit = function(endpoint, msg) {
+                that.emitMessage(endpoint, msg, options, model);
+            };
+            if (storeMsg) {
+                this.storeMessage(endpoint, msg, emit);
+            } else {
+                emit(endpoint, msg);
+            }
+        }
+    },
+
+    emitMessage: function(endpoint, msg, options, model) {
+        var channel = endpoint.channel;
+        var that = this;
+        console.log('emitMessage:' + msg.method + (msg.id ? ' : ' + msg.id : '') );
+        var url   = endpoint.url;
+        if (msg.id && msg.method !== 'create') {
+            url += "/" + msg.id;
+        }
+        Backbone.sync(msg.method, model, {
+            url: url,
+            error: function(xhr, status) {
+                if (!xhr.responseText && that.useOfflineChange) {
+                    // this seams to be only a connection problem, so we keep the message an call success
+                    that.handleCallback(options.success, msg.data);
+                } else {
+                    that.removeMessage(endpoint, msg, function(endpoint, msg) {
+                        // Todo: revert changed data
+                        that.handleCallback(options.error, status);
+                    });
+                }
+            },
+            success: function(data) {
+                that.removeMessage(endpoint, msg, function(endpoint, msg) {
+                    if (options.success) {
+                        var resp = data;
+                        that.handleCallback(options.success, resp);
+                    } else {
+                        // that.setLastMessageTime(channel, msg.time);
+                        if (msg.method === 'read') {
+                            var array = _.isArray(data) ? data : [ data ];
+                            for (var i=0; i < array.length; i++) {
+                                data = array[i];
+                                if (data) {
+                                    that.trigger(channel, {
+                                        id: data._id,
+                                        method: 'update',
+                                        data: data
+                                    });
+                                    //that.setLastMessageTime(channel, msg.time);
+                                }
+                            }
+                        } else {
+                            that.trigger(channel, msg);
+                        }
+                    }
+                });
+            },
+            beforeSend: function(xhr) {
+                M.Request.setAuthentication(xhr, that.credentials);
+            }
+        });
+    },
+
+    sendMessages: function(endpoint, collection) {
+        if (endpoint && endpoint.messages) {
+            var that = this;
+            endpoint.messages.each( function(message) {
+                var msg;
+                try { msg = JSON.parse(message.get('msg')) } catch(e) {};
+                var channel  = message.get('channel');
+                if (msg && channel) {
+                    var model = that.createModel({ collection: collection }, msg.data);
+                    that.emitMessage(endpoint, msg, {}, model);
+                } else {
+                    message.destroy();
+                }
+            });
+        }
+    },
+
+    mergeMessages: function(data, id) {
+        return data;
+    },
+
+    storeMessage: function(endpoint, msg, callback) {
+        if (endpoint && endpoint.messages && msg) {
+            var channel = endpoint.channel;
+            var message = endpoint.messages.get(msg._id);
+            if (message) {
+                var oldMsg = JSON.parse(message.get('msg'));
+                message.save({
+                    msg: JSON.stringify(_.extend(oldMsg, msg))
+                });
+            } else {
+                endpoint.messages.create({
+                    _id: msg._id,
+                    id:  msg.id,
+                    msg: JSON.stringify(msg),
+                    channel: channel
+                });
+            }
+        }
+        callback(endpoint, msg);
+    },
+
+    removeMessage: function(endpoint, msg, callback) {
+        if (endpoint && endpoint.messages) {
+            var message = endpoint.messages.get(msg._id);
+            if (message) {
+                message.destroy();
+            }
+        }
+        callback(endpoint, msg);
+    }
+});
+
 // Source: src/ui/views/view.js
 M.View = Backbone.View.extend(M.Object);
 
+M.View.prototype.template = '<div><%= value %></div>';
+
 _.extend(M.View.prototype, {
 
-    //    _type: 'M.View',
-    //
-    //    value: '',
-    //
-    //    model: null,
-    //
-    //    events: null,
-    //
-    //    bindings: {
-    //        '[data-binding="value"]': {
-    //            observe: 'value'
-    //        }
-    //    },
+    _type: 'M.View',
 
-    getChildViewIdentifier: function( name ) {
-        console.log('#' + this.options.value + ' [data-child-view="' + name + '"]');
-        return '#' + this.options.value + ' > [data-child-view="' + name + '"]';
-    },
+    value: '',
 
-    beforeRender: function() {
+    model: null,
 
-        this.addChildViews();
+    events: null,
+
+    bindings: {
+        '[data-binding="value"]': {
+            observe: 'value'
+        }
     },
 
     afterRender: function() {
@@ -5304,7 +6109,7 @@ _.extend(M.View.prototype, {
         return this;
     },
 
-    template: _.tpl('<div id="<%= value %>"><div><%= value %></div><div data-child-view="main"></div></div>'),
+    template: _.tpl(M.View.prototype.template),
 
     initialize: function() {
         this.events = this.events || {};
@@ -5313,80 +6118,15 @@ _.extend(M.View.prototype, {
             this.model = this.options.value;
         } else if( this.value instanceof Backbone.Model ) {
             this.model = this.value;
-        } else if( !this.model ) {
+        } else {
             this.model = new Backbone.Model({value: value, contenteditable: 'contenteditable' });
         }
+
     },
-    //
-    //    // provide data to the template
+
+    // provide data to the template
     serialize: function() {
         return this.model.attributes
-    },
-
-    applyViews: function() {
-        this.prototype.applyViews.apply(this, arguments);
-    },
-
-    isView: function( view ) {
-        if( view ) {
-            return M.View.prototype.isPrototypeOf(view)
-        } else {
-            return false;
-        }
-
-    },
-
-    addChildViews: function() {
-        var childViews = this.getChildViews();
-
-        if(childViews){
-            this.setViews(childViews);
-        }
-        if( this.validateChildViews(childViews) ) {
-
-        }
-    },
-
-    getChildViews: function() {
-        if( this.options && this.options.childViews ) {
-            return this.addChildViewIdentifier();
-        } else {
-            return false;
-        }
-    },
-
-    addChildViewIdentifier: function() {
-        var childViews = {};
-
-        if( _.isArray(this.options.childViews)){
-            var key= 'main';
-            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
-        } else {
-            _.each(this.options.childViews, function( value, key ) {
-                if( key.search(/[.#]/) === 0 ) {
-                    key = key.replace(/[.#]/, '');
-                }
-                childViews[this.getChildViewIdentifier(key)] = value;
-            }, this);
-        }
-        return childViews;
-    },
-
-    validateChildViews: function( childViews ) {
-
-        var childViews = childViews || this.getChildViews();
-        var isValid = true;
-        _.each(childViews, function( childView ) {
-            if( _.isArray(childView)){
-                _.each(childView, function( child ) {
-                    isValid = this.validateChildViews(child);
-                }, this);
-            } else if( !this.isView(childView) ) {
-                isValid = false;
-            }
-        }, this);
-
-        return isValid ? childViews : false;
     }
 
     //    set: function( value ) {
@@ -5556,40 +6296,20 @@ _.extend(M.View.prototype, {
 M.View.create = M.create;
 // Source: src/ui/views/button.js
 //TODO DO THIS NICE
-(function() {
+(function(){
 
     var templates = {
-        default: '<div>Button: <div class="<%= contenteditable %>" <% if(contenteditable) {  } %>><%= value %></div></div>',
+        default : '<div>Button: <div class="<%= contenteditable %>" <% if(contenteditable) {  } %>><%= value %></div></div>',
         topcoat: '<button class="topcoat-button--large" ><%= value %></button>',
         bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star"></span><%= value %></button>',
         jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= value %></span></span></a>'
     };
 
-    var toolbarTemplates = {
-        default: '<div id="<%= value %>"><div data-child-view="left"></div> <div class="center"><%= value %></div> <div data-child-view="right"></div></div>'
-    };
-
-    M.TemplateManager = M.Object.extend({
-
-        containerTemplates: {
-            default: '<div id="<%= value %>"><div data-child-view="main"></div><div><%= value %></div></div>'
-        },
-
-        currentTemplate: 'default',
-
-        get: function( template ) {
-            if( this[template] ) {
-                return this[template][this.currentTemplate];
-            }
-        }
-    });
-
-
     M.Button = M.View.extend({
 
         _type: 'M.Button',
 
-        initialize: function() {
+        initialize: function(){
             M.View.prototype.initialize.apply(this, arguments);
         },
 
@@ -5599,22 +6319,65 @@ M.View.create = M.create;
 
     });
 
-    M.Toolbar = M.View.extend({
+    M.UltraStefanCustomMegaViewWithHyperFunctionalty = M.View.extend({
 
-        _type: 'M.Toolbar',
+        _type: 'M.UltraStefanCustomMegaViewWithHyperFunctionalty',
 
-        template: _.tpl(toolbarTemplates['default'])
+        // a
+        initialize: function(){
+            M.View.prototype.initialize.apply(this, arguments);
+            _.each(this.childViews, function(child){
+                this.$el.find('[data-child-views["first"]]').append(child.render());
+            }, this);
+        },
+        template: _.tpl('<div><%= value %><div data-child-views="first"></div></div>'),
 
+
+        // b
+        template: _.tpl('<div><%= value %><% childViews %></div>'),
+
+        // b2
+        template: _.tpl('<div><%= value %>@@@([childViews])@@@</div>'),
+
+
+        // c
+        initialize: function(){
+            M.View.prototype.initialize.apply(this, arguments);
+            _.each(this.childViews, function(child){
+                this.$el.append($('div'))
+                this.$el.find('div span').append(child.render());
+            }, this);
+        },
+        template: _.tpl('<div><%= value %><span></span></div>'),
+
+
+        // d
+        template: _.tpl('<div><%= value %></div>'),
+
+
+
+
+
+        value: 'default button value'
 
     });
 
-    M.ContainerView = M.View.extend({
+})();
 
-        _type: 'M.ContainerView',
+(function(){
 
-        template: _.tpl(M.TemplateManager.get('containerTemplates'))
+    var template = '<div>Complex View: <div><%= value %></div></div>';
+
+    M.ModelView = M.View.extend({
+
+        _type: 'M.ModelView',
+
+        template: _.tpl(template),
+
+        value: 'default ModelView'
 
     });
+
 
 })();
 // Source: src/ui/pagetransitions.js
@@ -6279,7 +7042,7 @@ _.extend(Backbone.Layout.prototype, {
     },
 
     initialRenderProcess: function() {
-//        this.render();
+        this.render();
         $('body').html(this.el);
         PageTransitions.init();
     },
@@ -6348,7 +7111,8 @@ M.BottomBarLayout = M.Layout.extend({
     template: M.Themes.getTemplateByName('bottom-bar-layout')
 });
 // Source: src/ui/layouts/switch-layout/switch-layout.js
-M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>');
+
+M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>' );
 
 M.SwitchLayout = M.Layout.extend({
 
@@ -6358,28 +7122,29 @@ M.SwitchLayout = M.Layout.extend({
 
     currentPage: '',
 
-    applyViews: function( settings ) {
+    applyViews: function( settings ){
         var current = $('.pt-page-current');
 
         var next = $('.pt-page:not(.pt-page-current)');
 
         var selector = '';
 
-        if( current.length < 1 ) {
+        if(current.length < 1){
             selector = 'pt-page-1';
-        } else if( current.hasClass('pt-page-1') ) {
+        } else if(current.hasClass('pt-page-1')){
             selector = 'pt-page-2';
-        } else if( current.hasClass('pt-page-2') ) {
+        } else if(current.hasClass('pt-page-2')){
             selector = 'pt-page-1';
         }
 
         var view = {};
+        //                view['.' + selector + ' .content'] = settings.content;
         view['.' + selector + ' .content'] = settings.content;
-//        if( settings.footer ) {
-//            view['.' + selector + ' .footer'] = settings.footer;
-//        } else {
-//            view['.' + selector + ' .footer'] = new M.View();
-//        }
+        if( settings.footer ) {
+            view['.' + selector + ' .footer'] = settings.footer;
+        } else {
+            view['.' + selector + ' .footer'] = new M.View();
+        }
         return view;
     }
 });

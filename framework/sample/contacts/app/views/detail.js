@@ -5,6 +5,8 @@ define([
 ],
     function( M, template, app ) {
 
+        debugger;
+
         var View = M.View.extend({
             first: true,
 
@@ -17,10 +19,10 @@ define([
             },
 
             bindings: {
-                '[data-binding="input-firstname"]': {
+                '.firstname': {
                     observe: 'firstname'
                 },
-                '[data-binding="input-lastname"]': {
+                '.lastname': {
                     observe: 'lastname'
                 }
             },
@@ -51,6 +53,7 @@ define([
             },
 
             editEntry: function() {
+                debugger;
                 this.model.save();
                 this.back();
             },
@@ -59,7 +62,7 @@ define([
                 this.stickit();
                 return this;
             }
-        })
+        });
 
         return View;
     });

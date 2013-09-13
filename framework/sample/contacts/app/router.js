@@ -101,7 +101,7 @@ define([
                     }});
                 }
 
-                var view = new DetailView({model: model});
+                view = new DetailView({model: model});
                 var menu = MenuView;
 
                 app.layoutManager.setLayout(new M.SwitchLayout());

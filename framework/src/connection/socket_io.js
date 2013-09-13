@@ -98,10 +98,10 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
         if (this._socket) {
             this._socket.removeAllListeners();
             this._socket.on('connect', function(data) {
-                that._connected(data);
+                that.connected(data);
             });
             this._socket.on('disconnect', function(data) {
-                that._disconnect(data);
+                that.disconnected(data);
             });
         }
         this._socket.disconnect();
@@ -109,7 +109,7 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
 
     connect: function(param) {
         var that = this;
-        var url  = this.path;
+        var url  = this.host; //  + '/'  + this.path;
         if (param) {
             url += "?" + (_.isString(param) ? param : $.param(param));
         }
@@ -147,9 +147,8 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     _init: function() {
         if ( Object.getPrototypeOf(this) === M.SocketIO ) {
             this._initEvents();
-            var socket_io_js = this.host + "/" + this.script;
             var that = this;
-            require([socket_io_js], function() {
+            require([this.script], function() {
                 that.ready();
             });
         }
@@ -199,7 +198,7 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     connected: function(data) {
     },
 
-    disconnect: function(data) {
+    disconnected: function(data) {
     }
 
 });

@@ -8,6 +8,7 @@ var http_server  = require('http').createServer(server);
 var sockets      = require('./bikini_live.js').listen(http_server);
 var rest         = require('./mongodb_rest.js').create("test");
 var PORT         = 8200;
+var path         = "/bikini";
 
 http_server.listen(PORT);
 console.log('http://127.0.0.1:' + PORT);
@@ -45,32 +46,32 @@ server.use(function(req, res, next) {
 });
 
 //Find documents
-server.get("/:name", function(req, res) {
+server.get(path+"/:name", function(req, res) {
     rest.find(req, res);
 });
 
 //Find a specific document
-server.get('/:name/:id', function(req, res) {
+server.get(path+'/:name/:id', function(req, res) {
     rest.findOne(req, res);
 });
 
 //Find a changes since given time
-server.get('/:name/changes/:time', function(req, res) {
+server.get(path+'/:name/changes/:time', function(req, res) {
     rest.findChanges(req, res);
 });
 
 //Create document(s)
-server.post('/:name', function(req, res) {
+server.post(path+'/:name', function(req, res) {
     rest.create(req, res);
 });
 
 //Update a document
-server.put('/:name/:id', function(req, res) {
+server.put(path+'/:name/:id', function(req, res) {
     rest.update(req, res);
 });
 
 //Delete a document
-server.delete('/:name/:id', function(req, res){
+server.delete(path+'/:name/:id', function(req, res){
     rest.delete(req, res);
 });
 
