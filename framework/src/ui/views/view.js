@@ -1,29 +1,21 @@
 M.View = Backbone.View.extend(M.Object);
 
+M.View.prototype.template = '<div><%= value %></div>';
+
 _.extend(M.View.prototype, {
 
-    //    _type: 'M.View',
-    //
-    //    value: '',
-    //
-    //    model: null,
-    //
-    //    events: null,
-    //
-    //    bindings: {
-    //        '[data-binding="value"]': {
-    //            observe: 'value'
-    //        }
-    //    },
+    _type: 'M.View',
 
-    getChildViewIdentifier: function( name ) {
-        console.log('#' + this.options.value + ' [data-child-view="' + name + '"]');
-        return '#' + this.options.value + ' > [data-child-view="' + name + '"]';
-    },
+    value: '',
 
-    beforeRender: function() {
+    model: null,
 
-        this.addChildViews();
+    events: null,
+
+    bindings: {
+        '[data-binding="value"]': {
+            observe: 'value'
+        }
     },
 
     afterRender: function() {
@@ -31,7 +23,7 @@ _.extend(M.View.prototype, {
         return this;
     },
 
-    template: _.tpl('<div id="<%= value %>"><div><%= value %></div><div data-child-view="main"></div></div>'),
+    template: _.tpl(M.View.prototype.template),
 
     initialize: function() {
         this.events = this.events || {};
@@ -40,80 +32,15 @@ _.extend(M.View.prototype, {
             this.model = this.options.value;
         } else if( this.value instanceof Backbone.Model ) {
             this.model = this.value;
-        } else if( !this.model ) {
+        } else {
             this.model = new Backbone.Model({value: value, contenteditable: 'contenteditable' });
         }
+
     },
-    //
-    //    // provide data to the template
+
+    // provide data to the template
     serialize: function() {
         return this.model.attributes
-    },
-
-    applyViews: function() {
-        this.prototype.applyViews.apply(this, arguments);
-    },
-
-    isView: function( view ) {
-        if( view ) {
-            return M.View.prototype.isPrototypeOf(view)
-        } else {
-            return false;
-        }
-
-    },
-
-    addChildViews: function() {
-        var childViews = this.getChildViews();
-
-        if(childViews){
-            this.setViews(childViews);
-        }
-        if( this.validateChildViews(childViews) ) {
-
-        }
-    },
-
-    getChildViews: function() {
-        if( this.options && this.options.childViews ) {
-            return this.addChildViewIdentifier();
-        } else {
-            return false;
-        }
-    },
-
-    addChildViewIdentifier: function() {
-        var childViews = {};
-
-        if( _.isArray(this.options.childViews)){
-            var key= 'main';
-            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
-        } else {
-            _.each(this.options.childViews, function( value, key ) {
-                if( key.search(/[.#]/) === 0 ) {
-                    key = key.replace(/[.#]/, '');
-                }
-                childViews[this.getChildViewIdentifier(key)] = value;
-            }, this);
-        }
-        return childViews;
-    },
-
-    validateChildViews: function( childViews ) {
-
-        var childViews = childViews || this.getChildViews();
-        var isValid = true;
-        _.each(childViews, function( childView ) {
-            if( _.isArray(childView)){
-                _.each(childView, function( child ) {
-                    isValid = this.validateChildViews(child);
-                }, this);
-            } else if( !this.isView(childView) ) {
-                isValid = false;
-            }
-        }, this);
-
-        return isValid ? childViews : false;
     }
 
     //    set: function( value ) {
