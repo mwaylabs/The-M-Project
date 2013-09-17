@@ -37,10 +37,16 @@ _.extend(M.View.prototype, {
 
         this.events = this.events || {};
         var value = this.options.value || this.value;
-        if( this.options.value instanceof Backbone.Model ) {
+        if( _.isFunction(value)){
+            value = value();
+        }
+
+        if( value instanceof Backbone.Model ) {
             this.model = this.options.value;
-        } else if( this.value instanceof Backbone.Model ) {
-            this.model = this.value;
+        } else if( value instanceof Backbone.Model ) {
+            this.model = value;
+        } else if( value instanceof Backbone.Collection ) {
+            this.model = value;
         } else if( !this.model ) {
             this.model = new Backbone.Model({value: value });
         }
@@ -58,11 +64,10 @@ _.extend(M.View.prototype, {
 
     isView: function( view ) {
         if( view ) {
-            return M.View.prototype.isPrototypeOf(view)
+            return M.View.prototype.isPrototypeOf(view);
         } else {
-            return false;
+            return M.View.prototype.isPrototypeOf(this);
         }
-
     },
 
 //    addChildViews: function() {

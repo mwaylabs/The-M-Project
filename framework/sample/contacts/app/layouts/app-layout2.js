@@ -27,7 +27,7 @@ define([
 
                 var view = {};
                 //                view['.' + selector + ' .content'] = settings.content;
-                view['.' + selector + ' .content'] = settings.content;
+                view['.' + selector + ' .content'] = settings.content.create();
 //                if( settings.footer ) {
 //                    view['.' + selector + ' .footer'] = settings.footer;
 //                } else {

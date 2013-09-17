@@ -14,14 +14,14 @@ define([
                 FastClick.attach(document.body);
 
                 app.layoutManager = new (Backbone.Layout.extend());
-
-                var collections = {
+                app.collections = {
                     contacts: new ContactCollection({
                         store: RemoteStore
                     })
                 };
 
-                _.extend(this, collections);
+//
+//                _.extend(this, collections);
 
                 _.each(this.routes, function( route ) {
                     this.visitedRoutes[route] = false;
@@ -41,11 +41,40 @@ define([
                 if( !callback ) {
                     callback = this[name];
                 }
+
+                if( !_.isFunction(callback) && callback.isView() ) {
+                    var doAfterViewIinit = null;
+                    if(Object.keys(this.visitedRoutes).length === 0){
+                        callback = callback.options.initialLoad || callback.initialLoad;
+                        doAfterViewIinit = function(){
+                            app.layoutManager.initialRenderProcess();
+                        }
+                    } else{
+                        callback = callback.options.onPageSwitch || callback.onPageSwitch;
+                    }
+
+                }
+
                 var router = this;
                 Backbone.history.route(route, function( fragment ) {
+                    var res = null;
+                    _.each(router.routes, function( val, key ) {
+                        var string = route.toString().slice(1,-1);
+                        var reg = new RegExp(string.replace(/\(\[\^/g, ':([^'));
+                        var exec = reg.exec(key);
+                        if( exec && exec.length ) {
+                            res = exec.slice(1);
+                        }
+                    });
                     var args = router._extractParameters(route, fragment);
+                    res = _.object(res, args);
                     args.unshift(!router.visitedRoutes[name]);
-                    callback && callback.apply(router, args);
+                    callback && callback.apply(router, [res]);
+
+                    if( _.isFunction(doAfterViewIinit)){
+                        doAfterViewIinit();
+                    }
+
                     router.trigger.apply(router, ['route:' + name].concat(args));
                     router.trigger('route', name, args);
                     Backbone.history.trigger('route', router, name, args);
@@ -58,13 +87,12 @@ define([
 
             routes: {
                 '': 'index',
-                'detail/:id': 'detail',
+                'detail/:id': 'details',
                 'add': 'add',
                 'contacts': 'contacts'
-
             },
 
-            contacts: function( isFirstLoad ){
+            contacts: function( isFirstLoad ) {
                 if( isFirstLoad ) {
 
                     this.contacts.fetch();
@@ -89,7 +117,7 @@ define([
 
             index: Main,
 
-            detail: function( isFirstLoad, id ) {
+            details: function( isFirstLoad, id ) {
                 var model = this.contacts.get(id);
                 var that = this;
 

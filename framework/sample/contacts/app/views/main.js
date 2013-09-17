@@ -1,75 +1,100 @@
 define([
-    'themproject', "app", "views/menu"
-], function( M, app, MenuView ) {
-
-    var Main = function( isFirstLoad ) {
+    'themproject', "app", "views/menu", "views/list"
+], function( M, app, MenuView, ListView ) {
 
 
-        var view = M.ContainerView.create({
+    //    var view = M.ContainerView.create({
+    //
+    //        value: 'outer',
+    //
+    //        views: {
+    //            '[data-child-view="main"]': M.ContainerView.create({
+    //                value: 'childViews',
+    //                views: {
+    //                    '[data-child-view="main"]': M.Button.create({
+    //                        value: 'press',
+    //                        events: {
+    //                            'click': function() {
+    //                                console.log('asd');
+    //                            }
+    //                        }
+    //                    })
+    //                }
+    //
+    //            })
+    //        },
+    //
+    //        events: {
+    //            'click': function() {
+    //                console.log('parent');
+    //            }
+    //        }
+    //    });
 
-            value: 'outer',
-            views: {
-                '[data-child-view="main"]': M.ContainerView.create({
-                    value: 'childViews',
-                    views: {
-                        '[data-child-view="main"]': M.Button.create({
-                            value: 'press',
-                            events: {
-                                'click': function() {
-                                    console.log('asd');
-                                }
-                            }
-                        })
+
+    var footer = M.Toolbar.extend({
+        value: 'footer',
+        views: {
+            '[data-child-view="right"]': M.Button.create({
+                value: 'right',
+                events: {
+                    'click': function() {
+                        console.log('right');
                     }
-
-                })
-            },
-
-            events: {
-                'click': function() {
-                    console.log('parent');
                 }
-            }
-        });
-
-        v = view;
-
-        var footer = M.Toolbar.create({
-            value: 'welcome',
-            views: {
-                '[data-child-view="right"]': M.Button.create({
-                    value:'right',
-                    events: {
-                        'click': function() {
-                            console.log('right');
-                        }
+            }),
+            '[data-child-view="left"]': M.Button.create({
+                value: 'left',
+                events: {
+                    'click': function() {
+                        console.log('left');
                     }
-                }),
-                '[data-child-view="left"]': M.Button.create({
-                    value:'left',
-                    events: {
-                        'click': function() {
-                            console.log('left');
-                        }
-                    }
-                })
-            }
-        });
+                }
+            })
+        }
+    });
 
-        if( isFirstLoad ) {
+    var header = M.Toolbar.extend({
+        value: 'welcome',
+        views: {
+            '[data-child-view="right"]': M.Button.create({
+                value: 'add',
+                events: {
+                    'click': function() {
+                        console.log('add');
+                    }
+                }
+            })
+        }
+    });
+
+
+    var content = ListView.extend({
+
+        value: function(){
+            return app.collections.contacts
+        }
+
+    });
+
+
+    var Main = M.Fragment.create({
+
+        initialLoad: function( params ) {
+            app.collections.contacts.fetch();
             app.layoutManager.setLayout(new M.SwipeLayout());
+            debugger;
             app.layoutManager.applyViews({
-                content: view,
+                header: header,
+                content: content,
                 footer: footer
             });
-        }
+        },
 
-        if( !app.layoutManager.isFirstLoad ) {
-            PageTransitions.next();
-        } else {
-            app.layoutManager.initialRenderProcess();
+        onPageSwitch: function( params ) {
+
         }
-    }
+    });
 
 
     return Main;

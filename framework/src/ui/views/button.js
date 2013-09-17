@@ -20,7 +20,7 @@
             jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= value %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
         },
 
-        currentTemplate: 'bootstrap',
+        currentTemplate: 'jqm',
 
         get: function( template ) {
             if( this[template] ) {
@@ -43,6 +43,11 @@
             M.View.prototype.initialize.apply(this, arguments);
         },
 
+        afterRender: function(){
+            this.el
+            M.View.prototype.afterRender.apply(this, arguments);
+        },
+
         contenteditable: true,
 
         template: _.template(M.TemplateManager.get('buttonTemplates'))
@@ -62,6 +67,21 @@
         _type: 'M.ContainerView',
 
         template: _.template(M.TemplateManager.get('containerTemplates'))
+
+    });
+
+
+    M.Fragment = M.View.extend({
+
+        _type: 'M.Fragment',
+
+        onPageSwitch: function(){
+
+        },
+
+        initialLoad: function(){
+
+        }
 
     });
 

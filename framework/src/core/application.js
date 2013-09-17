@@ -24,5 +24,7 @@ _.extend(M.Application.prototype, Backbone.Events, {
 
     start: function() {
         Backbone.history.start();
-    }
+    },
+
+    collections: null
 });

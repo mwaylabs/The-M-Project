@@ -10,7 +10,7 @@ define([
         var View = M.View.extend({
             first: true,
 
-            template: _.tpl(template),
+            template: _.template(template),
 
             events: {
                 "click .back": "back",

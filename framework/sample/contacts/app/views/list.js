@@ -6,28 +6,28 @@ define([
 ],
     function( M, tpl, app, ListItemView ) {
 
-        var View = M.View.extend({
+        M.ListView = M.View.extend({
 
             template: _.template(tpl), // TODO Move _.template into M.View
 
-            events: {
-                "click .add": "addEntry"
-            },
+//            events: {
+//                "click .add": "addEntry"
+//            },
 
             initialize: function() {
                 M.View.prototype.initialize.apply(this, arguments);
-                this.listenTo(this.options.contacts, 'add', this.addOne);
-                this.listenTo(this.options.contacts, 'fetch', function() {
+                this.listenTo(this.model, 'add', this.addOne);
+                this.listenTo(this.model, 'fetch', function() {
                     this.addAll();
                 });
 
-                this.listenToOnce(this.options.contacts, 'sync', function() {
+                this.listenToOnce(this.model, 'sync', function() {
                     this.render();
                 });
             },
 
             serialize: function() {
-                return this.options
+                return this;
             },
 
             addEntry: function() {
@@ -37,7 +37,7 @@ define([
             },
 
             beforeRender: function() {
-                this.addAll();
+                this.addAll.apply(this);
             },
 
             addOne: function( model, render ) {
@@ -50,13 +50,13 @@ define([
             },
 
             addAll: function() {
-                this.options.contacts.each(function( model ) {
-                    this.addOne(model, false);
+                app.collections.contacts.each(function( model ) {
+                    this.addOne.apply(this, [model, false]);
                 }, this);
             }
         });
 
-        return View;
+        return M.ListView;
     });
 
 
