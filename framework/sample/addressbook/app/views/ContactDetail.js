@@ -42,31 +42,36 @@ define([
 
             template: detailTemplate,
 
-            views: {'[data-child-view="footer"]': M.View.extend({value: 'a'})}
+            //            childViews: {'[data-child-view="footer"]': M.View.extend({value: 'a'})}
 
-            //            views:
-            //            {
-            //                '[data-child-view="footer"]': [M.Toolbar.extend({
-            //                    template: {
-            //                        topcoat: '<h1 data-child-view="left"></h1>'
-            //                    }
-            ////                    ,
-            ////                    views:
-            ////                    {
-            ////                        '[data-child-view="left"]': [
-            ////                            M.Button.create({
-            ////                                value: 'Edit'
-            ////                            }),
-            ////                            M.Button.create({
-            ////                                value: 'Share'
-            ////                            })
-            ////                        ]
-            ////                    }
-            //
-            //                })]
-            //            }
+            childViews: {
+                '[data-child-view="footer"]': M.Toolbar.extend({
+                    template: {
+                        topcoat: '<h1 data-child-view="left"></h1>'
+                    },
+                    childViews: {
+                        '[data-child-view="left"]': [
+                            M.Button.create({
+                                value: 'Edit 1'
+                            }), M.Button.create({
+                                value: 'Share 1'
+                            })
+                        ],
+                        '[data-child-view="right"]': [
+                            M.Button.extend({
+                                value: 'Edit 2'
+                            }), M.Button.extend({
+                                value: 'Share 2'
+                            })
+                        ]
+                    }
+
+                })
+            }
 
         });
+
+        D= Detail;
 
         return Detail;
     });

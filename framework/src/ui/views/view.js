@@ -21,9 +21,12 @@ _.extend(M.View.prototype, {
 //        return '#' + this.options.value + ' > [data-child-view="' + name + '"]';
 //    },
 
-    beforeRender: function() {
+    render: function(){
 
-//        this.addChildViews();
+    },
+
+    beforeRender: function() {
+        this.addChildViews();
     },
 
     afterRender: function() {
@@ -90,17 +93,37 @@ _.extend(M.View.prototype, {
         }
     },
 
-//    addChildViews: function() {
-//        var childViews = this.getChildViews();
-//
-//        if(childViews){
-//            this.setViews(childViews);
-//        }
-//        if( this.validateChildViews(childViews) ) {
-//
-//        }
-//    },
-//
+    addChildViews: function() {
+        var childViews = this.getChildViews();
+        if(childViews){
+            var children = {}
+            _.each(childViews, function(child, query){
+                if( _.isFunction(child)){
+                    children[query] = child.create();
+                } else if(_.isArray(child)){
+                    children[query] = [];
+                    _.each(child, function(view){
+                        if( _.isFunction(view)){
+                            children[query].push(view.create());
+                        } else {
+                            children[query].push(view);
+                        }
+                    }, this);
+                } else {
+                    children[query] = child;
+                }
+            }, this);
+            this.setViews(children);
+        }
+    },
+
+    getChildViews: function() {
+        if(this.childViews){
+            return this.childViews;
+        }
+        return this.childViews;
+    },
+
 //    getChildViews: function() {
 //        if( this.options && this.options.childViews ) {
 //            return this.addChildViewIdentifier();
