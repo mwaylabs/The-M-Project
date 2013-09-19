@@ -2,7 +2,7 @@
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Version:   0.0.0
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-// Date:      Tue Sep 17 2013 17:59:49
+// Date:      Wed Sep 18 2013 16:37:40
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -1314,11 +1314,13 @@ _.extend(M.Application.prototype, Backbone.Events, {
 
     _type: 'M.Application',
 
-    start: function() {
+    start: function( options ) {
+        if(!options.router){
+            console.warn('no router was given to the app start');
+        }
+        this.router = options.router;
         Backbone.history.start();
-    },
-
-    collections: null
+    }
 });
 // Source: src/utility/i18n.js
 // ==========================================================================
@@ -6120,9 +6122,29 @@ _.extend(M.View.prototype, {
         return this;
     },
 
+    getTemplateIdentifier: function(){
+        throw new DOMException();
+        console.warn('define your f****ing own getter for the templateIdentifier');
+    },
+
     template: _.template('<div id="<%= value %>" contenteditable="true"><div><%= value %></div><div data-child-view="main"></div></div>'),
 
     initialize: function() {
+        if(this.options.template){
+            if( _.isFunction(this.options.template) || _.isNodeList(this.options.template)){
+                this.template = this.options.template;
+            } else if( _.isObject(this.options.template)){
+                var templateIdentifier = this.getTemplateIdentifier();
+                var options = {template: _.extend(M.TemplateManager[templateIdentifier], this.options.template)};
+                var template = M.TemplateManager.get.apply(options, ['template']);
+                if(template){
+                    this.template = _.template(template);
+                } else {
+                    console.warn('template not found');
+                }
+
+            }
+        }
 
         this.events = this.events || {};
         var value = this.options.value || this.value;
@@ -6144,7 +6166,7 @@ _.extend(M.View.prototype, {
     //    // provide data to the template
     serialize: function() {
 
-        return this.model.attributes
+        return this.model ? this.model.attributes : {};
     },
 
     applyViews: function() {
@@ -6381,6 +6403,13 @@ M.View.create = M.create;
 //TODO DO THIS NICE
 (function() {
 
+    _.mixin({isNodeList: function( el ) {
+        if( typeof el.length === 'number' && typeof el[0] === 'object' && el[0].hasOwnProperty('innerHTML') ) {
+            return true;
+        }
+        return false;
+    }});
+
     M.TemplateManager = M.Object.extend({
 
         containerTemplates: {
@@ -6395,7 +6424,7 @@ M.View.create = M.create;
         },
 
         toolbarTemplates: {
-            default: '<div><div data-child-view="left"></div> <div class="center" data-binding="value"><%= value %></div> <div data-child-view="right"></div></div>',
+            default: '<div>AAA<div data-child-view="left"></div> <div class="center" data-binding="value"><%= value %></div> <div data-child-view="right"></div></div>',
             bootstrap: '<div class="page-header"><div data-child-view="left"></div><h1><%= value %></h1><div data-child-view="right"></div></div>',
             jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= value %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
         },
@@ -6404,7 +6433,7 @@ M.View.create = M.create;
 
         get: function( template ) {
             if( this[template] ) {
-                var tpl = this[template][this.currentTemplate];
+                var tpl = this[template][M.TemplateManager.currentTemplate];
                 if( !tpl ) {
                     return this[template]['default'];
                 } else {
@@ -6423,7 +6452,7 @@ M.View.create = M.create;
             M.View.prototype.initialize.apply(this, arguments);
         },
 
-        afterRender: function(){
+        afterRender: function() {
             this.el
             M.View.prototype.afterRender.apply(this, arguments);
         },
@@ -6438,7 +6467,16 @@ M.View.create = M.create;
 
         _type: 'M.Toolbar',
 
-        template: _.template(M.TemplateManager.get('toolbarTemplates'))
+        template: _.template(M.TemplateManager.get('toolbarTemplates')),
+
+        getTemplateIdentifier: function(){
+
+            return 'toolbarTemplates'
+        },
+
+        initialize: function() {
+            M.View.prototype.initialize.apply(this, arguments);
+        }
 
     });
 
@@ -6450,20 +6488,27 @@ M.View.create = M.create;
 
     });
 
+//    M.Controller = function(){};
+//
+//    M.Controller.prototype._type = 'M.Controller';
+//
+//    M.Controller.prototype..onPageSwitch = function() {
+//
+//    };
+//
+//    M.Controller.prototype..initialLoad = function() {
+//
+//    };
+//
+//    M.Controller = M.Object.extend(M.Controller);
+//    M.Controller.create = M.create;
 
-    M.Fragment = M.View.extend({
 
-        _type: 'M.Fragment',
+    M.Controller = function(){
+        _.extend(this, arguments[0]);
+    };
 
-        onPageSwitch: function(){
-
-        },
-
-        initialLoad: function(){
-
-        }
-
-    });
+    M.Controller.create = M.create;
 
 })();
 // Source: src/ui/pagetransitions.js

@@ -22,9 +22,11 @@ _.extend(M.Application.prototype, Backbone.Events, {
 
     _type: 'M.Application',
 
-    start: function() {
+    start: function( options ) {
+        if(!options.router){
+            console.warn('no router was given to the app start');
+        }
+        this.router = options.router;
         Backbone.history.start();
-    },
-
-    collections: null
+    }
 });

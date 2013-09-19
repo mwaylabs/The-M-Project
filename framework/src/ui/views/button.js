@@ -1,6 +1,13 @@
 //TODO DO THIS NICE
 (function() {
 
+    _.mixin({isNodeList: function( el ) {
+        if( typeof el.length === 'number' && typeof el[0] === 'object' && el[0].hasOwnProperty('innerHTML') ) {
+            return true;
+        }
+        return false;
+    }});
+
     M.TemplateManager = M.Object.extend({
 
         containerTemplates: {
@@ -15,7 +22,7 @@
         },
 
         toolbarTemplates: {
-            default: '<div><div data-child-view="left"></div> <div class="center" data-binding="value"><%= value %></div> <div data-child-view="right"></div></div>',
+            default: '<div>AAA<div data-child-view="left"></div> <div class="center" data-binding="value"><%= value %></div> <div data-child-view="right"></div></div>',
             bootstrap: '<div class="page-header"><div data-child-view="left"></div><h1><%= value %></h1><div data-child-view="right"></div></div>',
             jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= value %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
         },
@@ -24,7 +31,7 @@
 
         get: function( template ) {
             if( this[template] ) {
-                var tpl = this[template][this.currentTemplate];
+                var tpl = this[template][M.TemplateManager.currentTemplate];
                 if( !tpl ) {
                     return this[template]['default'];
                 } else {
@@ -43,7 +50,7 @@
             M.View.prototype.initialize.apply(this, arguments);
         },
 
-        afterRender: function(){
+        afterRender: function() {
             this.el
             M.View.prototype.afterRender.apply(this, arguments);
         },
@@ -58,7 +65,16 @@
 
         _type: 'M.Toolbar',
 
-        template: _.template(M.TemplateManager.get('toolbarTemplates'))
+        template: _.template(M.TemplateManager.get('toolbarTemplates')),
+
+        getTemplateIdentifier: function(){
+
+            return 'toolbarTemplates'
+        },
+
+        initialize: function() {
+            M.View.prototype.initialize.apply(this, arguments);
+        }
 
     });
 
@@ -70,19 +86,26 @@
 
     });
 
+//    M.Controller = function(){};
+//
+//    M.Controller.prototype._type = 'M.Controller';
+//
+//    M.Controller.prototype..onPageSwitch = function() {
+//
+//    };
+//
+//    M.Controller.prototype..initialLoad = function() {
+//
+//    };
+//
+//    M.Controller = M.Object.extend(M.Controller);
+//    M.Controller.create = M.create;
 
-    M.Fragment = M.View.extend({
 
-        _type: 'M.Fragment',
+    M.Controller = function(){
+        _.extend(this, arguments[0]);
+    };
 
-        onPageSwitch: function(){
-
-        },
-
-        initialLoad: function(){
-
-        }
-
-    });
+    M.Controller.create = M.create;
 
 })();

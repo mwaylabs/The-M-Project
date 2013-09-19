@@ -31,9 +31,29 @@ _.extend(M.View.prototype, {
         return this;
     },
 
+    getTemplateIdentifier: function(){
+        throw new DOMException();
+        console.warn('define your f****ing own getter for the templateIdentifier');
+    },
+
     template: _.template('<div id="<%= value %>" contenteditable="true"><div><%= value %></div><div data-child-view="main"></div></div>'),
 
     initialize: function() {
+        if(this.options.template){
+            if( _.isFunction(this.options.template) || _.isNodeList(this.options.template)){
+                this.template = this.options.template;
+            } else if( _.isObject(this.options.template)){
+                var templateIdentifier = this.getTemplateIdentifier();
+                var options = {template: _.extend(M.TemplateManager[templateIdentifier], this.options.template)};
+                var template = M.TemplateManager.get.apply(options, ['template']);
+                if(template){
+                    this.template = _.template(template);
+                } else {
+                    console.warn('template not found');
+                }
+
+            }
+        }
 
         this.events = this.events || {};
         var value = this.options.value || this.value;
@@ -55,7 +75,7 @@ _.extend(M.View.prototype, {
     //    // provide data to the template
     serialize: function() {
 
-        return this.model.attributes
+        return this.model ? this.model.attributes : {};
     },
 
     applyViews: function() {
