@@ -21,10 +21,6 @@ _.extend(M.View.prototype, {
 //        return '#' + this.options.value + ' > [data-child-view="' + name + '"]';
 //    },
 
-    render: function(){
-
-    },
-
     beforeRender: function() {
         this.addChildViews();
     },

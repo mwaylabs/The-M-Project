@@ -16,9 +16,9 @@
 
         buttonTemplates: {
             default: '<div>Button: <div data-binding="value"<% if(value) {  } %>><%= value %></div></div>',
-            topcoat: '<button class="topcoat-button--large" ><%= value %></button>',
-            bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star"></span><%= value %></button>',
-            jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= value %></span></span></a>'
+            topcoat: '<button class="topcoat-button--large" data-binding="value"><%= value %></button>',
+            bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star" data-binding="value"></span><%= value %></button>',
+            jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="value"><%= value %></span></span></a>'
         },
 
         toolbarTemplates: {
@@ -107,5 +107,51 @@
     };
 
     M.Controller.create = M.create;
+
+
+
+    M.ListView = M.View.extend({
+
+        template: _.template('<% if(model.length) { %> <table class="table table-striped"> <thead> <tr> <th>Firstname</th> <th>Lastname</th> <th width="220">ID</th> </tr> </thead> <tbody> </tbody> </table> <% }else{ %> <div class="alert alert-info">Your address book is empty!</div> <% } %> <!--<button class="btn btn-large add" type="button">Add</button>--> <hr/> <i>Entries: <%= model.length %></i>'),
+
+        //            events: {
+        //                "click .add": "addEntry"
+        //            },
+
+        initialize: function() {
+            M.View.prototype.initialize.apply(this, arguments);
+            this.listenTo(this.model, 'add', this.addOne);
+            this.listenTo(this.model, 'fetch', function() {
+                this.addAll();
+            });
+
+            this.listenToOnce(this.model, 'sync', function() {
+                this.render();
+            });
+        },
+
+        serialize: function() {
+            return this;
+        },
+
+        addEntry: function() {
+            app.layoutManager.navigate({
+                route: 'add'
+            });
+        },
+
+        addChildViews: function() {
+            this.addAll.apply(this);
+        },
+
+        addOne: function( model, render ) {
+            var view = this.insertView('tbody', new M.View({ template: _.template(), value: model }));
+
+            // Only trigger render if it not inserted inside `beforeRender`.
+            if( render !== false ) {
+                view.render();
+            }
+        }
+    });
 
 })();
