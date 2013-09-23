@@ -5330,20 +5330,16 @@ var M = (function( global, Backbone, _ ) {
         //
         //    events: null,
         //
-            bindings: {
-                '[data-binding="value"]': {
-                    observe: 'value'
-                }
-            },
-    
-    //    getChildViewIdentifier: function( name ) {
-    //        console.log('#' + this.options.value + ' [data-child-view="' + name + '"]');
-    //        return '#' + this.options.value + ' > [data-child-view="' + name + '"]';
-    //    },
-    
-        render: function(){
-    
+        bindings: {
+            '[data-binding="value"]': {
+                observe: 'value'
+            }
         },
+    
+        //    getChildViewIdentifier: function( name ) {
+        //        console.log('#' + this.options.value + ' [data-child-view="' + name + '"]');
+        //        return '#' + this.options.value + ' > [data-child-view="' + name + '"]';
+        //    },
     
         beforeRender: function() {
             this.addChildViews();
@@ -5354,22 +5350,22 @@ var M = (function( global, Backbone, _ ) {
             return this;
         },
     
-        getTemplateIdentifier: function(){
+        getTemplateIdentifier: function() {
             throw new DOMException();
             console.warn('define your f****ing own getter for the templateIdentifier');
         },
     
-        template: _.template('<div id="<%= value %>" contenteditable="true"><div><%= value %></div><div data-child-view="main"></div></div>'),
+        template: _.template('<div id="<%= value %>" contenteditable="true"><div data-binding="value"><%= value %></div><div data-child-view="main"></div></div>'),
     
         initialize: function() {
-            if(this.options.template){
-                if( _.isFunction(this.options.template) || _.isNodeList(this.options.template)){
+            if( this.options.template ) {
+                if( _.isFunction(this.options.template) || _.isNodeList(this.options.template) ) {
                     this.template = this.options.template;
-                } else if( _.isObject(this.options.template)){
+                } else if( _.isObject(this.options.template) ) {
                     var templateIdentifier = this.getTemplateIdentifier();
                     var options = {template: _.extend(M.TemplateManager[templateIdentifier], this.options.template)};
                     var template = M.TemplateManager.get.apply(options, ['template']);
-                    if(template){
+                    if( template ) {
                         this.template = _.template(template);
                     } else {
                         console.warn('template not found');
@@ -5380,19 +5376,20 @@ var M = (function( global, Backbone, _ ) {
     
             this.events = this.events || {};
             var value = this.options.value || this.value;
-            if( _.isFunction(value)){
+            if( _.isFunction(value) ) {
                 value = value();
             }
     
             if( value instanceof Backbone.Model ) {
-                this.model = this.options.value;
-            } else if( value instanceof Backbone.Model ) {
                 this.model = value;
+                console.log(this.__name__, this.cid);
+                this.listenTo(this.model, "didchange", this.modelDidChange);
             } else if( value instanceof Backbone.Collection ) {
                 this.model = value;
             } else if( !this.model ) {
                 this.model = new Backbone.Model({value: value });
             }
+    
         },
         //
         //    // provide data to the template
@@ -5415,15 +5412,15 @@ var M = (function( global, Backbone, _ ) {
     
         addChildViews: function() {
             var childViews = this.getChildViews();
-            if(childViews){
-                var children = {}
-                _.each(childViews, function(child, query){
-                    if( _.isFunction(child)){
+            if( childViews ) {
+                var children = {};
+                _.each(childViews, function( child, query ) {
+                    if( _.isFunction(child) ) {
                         children[query] = child.create();
-                    } else if(_.isArray(child)){
+                    } else if( _.isArray(child) ) {
                         children[query] = [];
-                        _.each(child, function(view){
-                            if( _.isFunction(view)){
+                        _.each(child, function( view ) {
+                            if( _.isFunction(view) ) {
                                 children[query].push(view.create());
                             } else {
                                 children[query].push(view);
@@ -5433,58 +5430,65 @@ var M = (function( global, Backbone, _ ) {
                         children[query] = child;
                     }
                 }, this);
+                this.children = children;
                 this.setViews(children);
             }
         },
     
         getChildViews: function() {
-            if(this.childViews){
+            if( this.childViews ) {
                 return this.childViews;
             }
             return this.childViews;
         },
     
-    //    getChildViews: function() {
-    //        if( this.options && this.options.childViews ) {
-    //            return this.addChildViewIdentifier();
-    //        } else {
-    //            return false;
-    //        }
-    //    },
-    //
-    //    addChildViewIdentifier: function() {
-    //        var childViews = {};
-    //
-    //        if( _.isArray(this.options.childViews)){
-    //            var key= 'main';
-    //            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
-    //        } else {
-    //            _.each(this.options.childViews, function( value, key ) {
-    //                if( key.search(/[.#]/) === 0 ) {
-    //                    key = key.replace(/[.#]/, '');
-    //                }
-    //                childViews[this.getChildViewIdentifier(key)] = value;
-    //            }, this);
-    //        }
-    //        return childViews;
-    //    },
-    //
-    //    validateChildViews: function( childViews ) {
-    //
-    //        var childViews = childViews || this.getChildViews();
-    //        var isValid = true;
-    //        _.each(childViews, function( childView ) {
-    //            if( _.isArray(childView)){
-    //                _.each(childView, function( child ) {
-    //                    isValid = this.validateChildViews(child);
-    //                }, this);
-    //            } else if( !this.isView(childView) ) {
-    //                isValid = false;
-    //            }
-    //        }, this);
-    //
-    //        return isValid ? childViews : false;
-    //    }
+        modelDidChange: function( model ){
+            this.model = model;
+            this.render();
+    
+        }
+    
+        //    getChildViews: function() {
+        //        if( this.options && this.options.childViews ) {
+        //            return this.addChildViewIdentifier();
+        //        } else {
+        //            return false;
+        //        }
+        //    },
+        //
+        //    addChildViewIdentifier: function() {
+        //        var childViews = {};
+        //
+        //        if( _.isArray(this.options.childViews)){
+        //            var key= 'main';
+        //            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
+        //        } else {
+        //            _.each(this.options.childViews, function( value, key ) {
+        //                if( key.search(/[.#]/) === 0 ) {
+        //                    key = key.replace(/[.#]/, '');
+        //                }
+        //                childViews[this.getChildViewIdentifier(key)] = value;
+        //            }, this);
+        //        }
+        //        return childViews;
+        //    },
+        //
+        //    validateChildViews: function( childViews ) {
+        //
+        //        var childViews = childViews || this.getChildViews();
+        //        var isValid = true;
+        //        _.each(childViews, function( childView ) {
+        //            if( _.isArray(childView)){
+        //                _.each(childView, function( child ) {
+        //                    isValid = this.validateChildViews(child);
+        //                }, this);
+        //            } else if( !this.isView(childView) ) {
+        //                isValid = false;
+        //            }
+        //        }, this);
+        //
+        //        return isValid ? childViews : false;
+        //    }
     
         //    set: function( value ) {
         //        this.value = value || this.value;
@@ -6305,6 +6309,7 @@ var M = (function( global, Backbone, _ ) {
     
         applyViews: function( settings ) {
             var views = this.currentLayout.applyViews(settings);
+            this.children = views;
             this.setViews(views);
             this.render();
         },
@@ -6375,9 +6380,9 @@ var M = (function( global, Backbone, _ ) {
     
             buttonTemplates: {
                 default: '<div>Button: <div data-binding="value"<% if(value) {  } %>><%= value %></div></div>',
-                topcoat: '<button class="topcoat-button--large" ><%= value %></button>',
-                bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star"></span><%= value %></button>',
-                jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= value %></span></span></a>'
+                topcoat: '<button class="topcoat-button--large" data-binding="value"><%= value %></button>',
+                bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star" data-binding="value"></span><%= value %></button>',
+                jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="value"><%= value %></span></span></a>'
             },
     
             toolbarTemplates: {
@@ -6466,6 +6471,77 @@ var M = (function( global, Backbone, _ ) {
         };
     
         M.Controller.create = M.create;
+    
+    
+        M.Controller.prototype.setModel = function( modelname, modelToUpdate ) {
+            if( this[modelname] ) {
+                var events = this[modelname]._events;
+                var b = this[modelname];
+            } else {
+                this[modelname] = modelToUpdate;
+            }
+            if( events ) {
+                b.trigger('didchange', modelToUpdate);
+            }
+        };
+    
+    
+        M.ListView = M.View.extend({
+    
+            template: _.template('<div></div>'),
+    
+            //            events: {
+            //                "click .add": "addEntry"
+            //            },
+    
+            initialize: function() {
+                M.View.prototype.initialize.apply(this, arguments);
+                this.listenTo(this.model, 'add', this.addOne);
+                this.listenTo(this.model, 'fetch', function() {
+                    this.addAll();
+                });
+    
+                this.listenToOnce(this.model, 'sync', function() {
+                    this.render();
+                });
+    
+                this.addAll.apply(this);
+            },
+    
+            serialize: function() {
+                return this;
+            },
+    
+            addEntry: function() {
+                app.layoutManager.navigate({
+                    route: 'add'
+                });
+            },
+    
+            addChildViews: function() {
+    
+            },
+    
+            addAll: function() {
+                this.model.each(function( model ) {
+                    this.addOne.apply(this, [model, false]);
+                }, this);
+            },
+    
+            addOne: function( model, render ) {
+                var item = this.listItemView.create({
+                    template: this.listItemView.template,
+                    value: model
+                });
+                //'tbody', new M.View({ template: _.template(), value: model })
+                var view = this.insertView(item);
+    
+                // Only trigger render if it not inserted inside `beforeRender`.
+                if( render !== false ) {
+                    view.render();
+                }
+            }
+        });
     
     })();
 

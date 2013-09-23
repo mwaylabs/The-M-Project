@@ -109,10 +109,22 @@
     M.Controller.create = M.create;
 
 
+    M.Controller.prototype.setModel = function( modelname, modelToUpdate ) {
+        if( this[modelname] ) {
+            var events = this[modelname]._events;
+            var b = this[modelname];
+        } else {
+            this[modelname] = modelToUpdate;
+        }
+        if( events ) {
+            b.trigger('didchange', modelToUpdate);
+        }
+    };
+
 
     M.ListView = M.View.extend({
 
-        template: _.template('<% if(model.length) { %> <table class="table table-striped"> <thead> <tr> <th>Firstname</th> <th>Lastname</th> <th width="220">ID</th> </tr> </thead> <tbody> </tbody> </table> <% }else{ %> <div class="alert alert-info">Your address book is empty!</div> <% } %> <!--<button class="btn btn-large add" type="button">Add</button>--> <hr/> <i>Entries: <%= model.length %></i>'),
+        template: _.template('<div></div>'),
 
         //            events: {
         //                "click .add": "addEntry"
@@ -128,6 +140,8 @@
             this.listenToOnce(this.model, 'sync', function() {
                 this.render();
             });
+
+            this.addAll.apply(this);
         },
 
         serialize: function() {
@@ -141,11 +155,22 @@
         },
 
         addChildViews: function() {
-            this.addAll.apply(this);
+
+        },
+
+        addAll: function() {
+            this.model.each(function( model ) {
+                this.addOne.apply(this, [model, false]);
+            }, this);
         },
 
         addOne: function( model, render ) {
-            var view = this.insertView('tbody', new M.View({ template: _.template(), value: model }));
+            var item = this.listItemView.create({
+                template: this.listItemView.template,
+                value: model
+            });
+            //'tbody', new M.View({ template: _.template(), value: model })
+            var view = this.insertView(item);
 
             // Only trigger render if it not inserted inside `beforeRender`.
             if( render !== false ) {

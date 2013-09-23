@@ -16,7 +16,7 @@ define([
 
                 var view = {};
                 if(settings.left && _.isFunction(settings.left)){
-                    view['.left'] = settings.left;
+                    view['.left'] = settings.left.create();
                 } else if(settings.left && settings.left.isView()){
                     view['.left'] = settings.left;
                 }

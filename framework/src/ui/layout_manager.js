@@ -16,6 +16,7 @@ _.extend(Backbone.Layout.prototype, {
 
     applyViews: function( settings ) {
         var views = this.currentLayout.applyViews(settings);
+        this.children = views;
         this.setViews(views);
         this.render();
     },

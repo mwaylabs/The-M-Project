@@ -10,16 +10,16 @@ _.extend(M.View.prototype, {
     //
     //    events: null,
     //
-        bindings: {
-            '[data-binding="value"]': {
-                observe: 'value'
-            }
-        },
+    bindings: {
+        '[data-binding="value"]': {
+            observe: 'value'
+        }
+    },
 
-//    getChildViewIdentifier: function( name ) {
-//        console.log('#' + this.options.value + ' [data-child-view="' + name + '"]');
-//        return '#' + this.options.value + ' > [data-child-view="' + name + '"]';
-//    },
+    //    getChildViewIdentifier: function( name ) {
+    //        console.log('#' + this.options.value + ' [data-child-view="' + name + '"]');
+    //        return '#' + this.options.value + ' > [data-child-view="' + name + '"]';
+    //    },
 
     beforeRender: function() {
         this.addChildViews();
@@ -30,22 +30,22 @@ _.extend(M.View.prototype, {
         return this;
     },
 
-    getTemplateIdentifier: function(){
+    getTemplateIdentifier: function() {
         throw new DOMException();
         console.warn('define your f****ing own getter for the templateIdentifier');
     },
 
-    template: _.template('<div id="<%= value %>" contenteditable="true"><div><%= value %></div><div data-child-view="main"></div></div>'),
+    template: _.template('<div id="<%= value %>" contenteditable="true"><div data-binding="value"><%= value %></div><div data-child-view="main"></div></div>'),
 
     initialize: function() {
-        if(this.options.template){
-            if( _.isFunction(this.options.template) || _.isNodeList(this.options.template)){
+        if( this.options.template ) {
+            if( _.isFunction(this.options.template) || _.isNodeList(this.options.template) ) {
                 this.template = this.options.template;
-            } else if( _.isObject(this.options.template)){
+            } else if( _.isObject(this.options.template) ) {
                 var templateIdentifier = this.getTemplateIdentifier();
                 var options = {template: _.extend(M.TemplateManager[templateIdentifier], this.options.template)};
                 var template = M.TemplateManager.get.apply(options, ['template']);
-                if(template){
+                if( template ) {
                     this.template = _.template(template);
                 } else {
                     console.warn('template not found');
@@ -56,19 +56,20 @@ _.extend(M.View.prototype, {
 
         this.events = this.events || {};
         var value = this.options.value || this.value;
-        if( _.isFunction(value)){
+        if( _.isFunction(value) ) {
             value = value();
         }
 
         if( value instanceof Backbone.Model ) {
-            this.model = this.options.value;
-        } else if( value instanceof Backbone.Model ) {
             this.model = value;
+            console.log(this.__name__, this.cid);
+            this.listenTo(this.model, "didchange", this.modelDidChange);
         } else if( value instanceof Backbone.Collection ) {
             this.model = value;
         } else if( !this.model ) {
             this.model = new Backbone.Model({value: value });
         }
+
     },
     //
     //    // provide data to the template
@@ -91,15 +92,15 @@ _.extend(M.View.prototype, {
 
     addChildViews: function() {
         var childViews = this.getChildViews();
-        if(childViews){
-            var children = {}
-            _.each(childViews, function(child, query){
-                if( _.isFunction(child)){
+        if( childViews ) {
+            var children = {};
+            _.each(childViews, function( child, query ) {
+                if( _.isFunction(child) ) {
                     children[query] = child.create();
-                } else if(_.isArray(child)){
+                } else if( _.isArray(child) ) {
                     children[query] = [];
-                    _.each(child, function(view){
-                        if( _.isFunction(view)){
+                    _.each(child, function( view ) {
+                        if( _.isFunction(view) ) {
                             children[query].push(view.create());
                         } else {
                             children[query].push(view);
@@ -109,58 +110,65 @@ _.extend(M.View.prototype, {
                     children[query] = child;
                 }
             }, this);
+            this.children = children;
             this.setViews(children);
         }
     },
 
     getChildViews: function() {
-        if(this.childViews){
+        if( this.childViews ) {
             return this.childViews;
         }
         return this.childViews;
     },
 
-//    getChildViews: function() {
-//        if( this.options && this.options.childViews ) {
-//            return this.addChildViewIdentifier();
-//        } else {
-//            return false;
-//        }
-//    },
-//
-//    addChildViewIdentifier: function() {
-//        var childViews = {};
-//
-//        if( _.isArray(this.options.childViews)){
-//            var key= 'main';
-//            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
-//        } else {
-//            _.each(this.options.childViews, function( value, key ) {
-//                if( key.search(/[.#]/) === 0 ) {
-//                    key = key.replace(/[.#]/, '');
-//                }
-//                childViews[this.getChildViewIdentifier(key)] = value;
-//            }, this);
-//        }
-//        return childViews;
-//    },
-//
-//    validateChildViews: function( childViews ) {
-//
-//        var childViews = childViews || this.getChildViews();
-//        var isValid = true;
-//        _.each(childViews, function( childView ) {
-//            if( _.isArray(childView)){
-//                _.each(childView, function( child ) {
-//                    isValid = this.validateChildViews(child);
-//                }, this);
-//            } else if( !this.isView(childView) ) {
-//                isValid = false;
-//            }
-//        }, this);
-//
-//        return isValid ? childViews : false;
-//    }
+    modelDidChange: function( model ){
+        this.model = model;
+        this.render();
+
+    }
+
+    //    getChildViews: function() {
+    //        if( this.options && this.options.childViews ) {
+    //            return this.addChildViewIdentifier();
+    //        } else {
+    //            return false;
+    //        }
+    //    },
+    //
+    //    addChildViewIdentifier: function() {
+    //        var childViews = {};
+    //
+    //        if( _.isArray(this.options.childViews)){
+    //            var key= 'main';
+    //            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
+    //        } else {
+    //            _.each(this.options.childViews, function( value, key ) {
+    //                if( key.search(/[.#]/) === 0 ) {
+    //                    key = key.replace(/[.#]/, '');
+    //                }
+    //                childViews[this.getChildViewIdentifier(key)] = value;
+    //            }, this);
+    //        }
+    //        return childViews;
+    //    },
+    //
+    //    validateChildViews: function( childViews ) {
+    //
+    //        var childViews = childViews || this.getChildViews();
+    //        var isValid = true;
+    //        _.each(childViews, function( childView ) {
+    //            if( _.isArray(childView)){
+    //                _.each(childView, function( child ) {
+    //                    isValid = this.validateChildViews(child);
+    //                }, this);
+    //            } else if( !this.isView(childView) ) {
+    //                isValid = false;
+    //            }
+    //        }, this);
+    //
+    //        return isValid ? childViews : false;
+    //    }
 
     //    set: function( value ) {
     //        this.value = value || this.value;
