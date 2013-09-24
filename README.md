@@ -1,5 +1,4 @@
-The-M-Project - Mobile HTML5 Application Framework
-======================================
+#The-M-Project - Mobile HTML5 Application Framework
 
 The-M-Project is an HTML5 Javascript framework for writing cross-platform mobile apps
 
@@ -28,7 +27,7 @@ Thanks for sharing!
 
 
 ## CHANGELOG
-** Version 1.4 - Date 26.03.2013 **
+#### Version 1.4 - Date 26.03.2013
   * Add class tmp-image-hidden in tmp.css
   * Bugfix in show/hide image in ImageView
   * Bugfix in M.List cloneObject
@@ -48,7 +47,7 @@ Thanks for sharing!
   * Updated underscore.js to v1.4.4
   * Added MovableLabelView
   
-** Version 1.3 - Date 07.12.2012 **
+#### Version 1.3 - Date 07.12.2012
 
   * Add valueBinding to selectionListView
   * Bugfix cssClass on a Button doesn't affect data-theme anymore
@@ -74,7 +73,7 @@ Thanks for sharing!
   * Added iconSize property to M.MapMarkerView.
   * Added auto-destroy on DOM remove especially for list items
 
-** Version 1.2 - Date 02.07.2012 **
+#### Version 1.2 - Date 02.07.2012
 
   * Fixed a bug with callbacks property in the date picker view
   * Added M.CarouselView as ui widget for vertically or horizontally slidable content
@@ -90,7 +89,7 @@ Thanks for sharing!
   * Removed binding touchmove for dialogs to fix scrolling issues with lists that listen to tap events
   * Adjusted selector for fixing only fixed toolbars
 
-** Version 1.1 - Date 20.04.2012 **
+#### Version 1.1 - Date 20.04.2012
 
   * Fixed Issue #30: Changed button() to buttonMarkup() to render dynamically added buttons correctly
   * Fixed isAsync and isJSON flags in M.Request
@@ -126,7 +125,7 @@ Thanks for sharing!
   * Fixed a bug with M.ScrollView
   * Upgraded split view to work with JQM 1.1
 
-** Version 1.0 - Date 25.01.2012 **
+#### Version 1.0 - Date 25.01.2012
 
   * Do not trigger success callback when isUpdate within M.MapView's init()
   * Added icon property to M.MapMarkerView
@@ -141,7 +140,7 @@ Thanks for sharing!
   * Fixed the "overlapping" problem of M.ListView if used in between other views
   * Fixed the problem of too long values in the center position of a toolbar
 
-** Version 1.0 RC1 - Date 17.01.2012 **
+#### Version 1.0 RC1 - Date 17.01.2012
 
   * Fixed a bug with sendNoCacheHeader property of M.Request
   * I18N not sets language to default language if the desired one is not available
@@ -165,7 +164,7 @@ Thanks for sharing!
   * Changed version to 1.0RC1
 
 
-** Version 0.8 - Date 05.12.2011 **
+#### Version 0.8 - Date 05.12.2011
 
   * Fixed a typo bug in M.Request
   * Added M.CanvasView
@@ -191,7 +190,7 @@ Thanks for sharing!
   * Added sendNoCacheHeader and sendTimestamp properties to M.Request
   * Changed version to 0.8
 
-** Version 0.7 - Date 18.10.2011 **
+#### Version 0.7 - Date 18.10.2011
 
   * Added D8 as the next generation date object in JavaScript (M.Date remains, but will no longer be maintained)
   * Fixed a bug in M.LocationManager
@@ -218,7 +217,7 @@ Thanks for sharing!
   * Finalized v0.7
   * Refactored getLocation() to work with callbacks in all cases instead of returning boolean value
 
-** Version 0.6 - Date 21.07.2011 **
+#### Version 0.6 - Date 21.07.2011
 
   * Refactored content binding (3): set() now can set single values of a chain like 'person.address.street'
   * Added 'orientationchange' event to M.PageView
@@ -245,7 +244,7 @@ Thanks for sharing!
   * Added setView() to M.ToggleView
   * Use debugMode property of config.json to only log if we are not in production mode
 
-** Version 0.5 - Date 03.06.2011 **
+#### Version 0.5 - Date 03.06.2011 **
 
   * Fixed a bug in M.I18N
   * Added setValue() to M.LabelView
@@ -260,7 +259,7 @@ Thanks for sharing!
   * Refactored dialogs: no more rendered as page but as an overlay animated with CSS3
   * Refactored toggle view: do show/hide instead of add/remove
 
-** Version 0.4 - Date 19.04.2011 **
+#### Version 0.4 - Date 19.04.2011 **
 
   * Updated jQuery to 1.5.2
   * Updated jQuery Mobile to 1.0a4.1
@@ -268,7 +267,7 @@ Thanks for sharing!
   * Updated M.SelectionListView to work with latest version of JQM
   * Fixed a bug in M.ToggleView
 
-** Version 0.3 - Date 22.02.2011 **
+#### Version 0.3 - Date 22.02.2011
 
   * Added M.DatePickerView.
   * Added 'entryPage' property to M.Application and refactored the process of launching this first page.
@@ -277,3 +276,5 @@ Thanks for sharing!
   * Fixed a bug with M.ListView: ID 0 of a model record was ignored due to an invalid constraint.
   * Added CouchDB Data Provider
   * Bugfixes in M.Model
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mwaylabs/the-m-project/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
