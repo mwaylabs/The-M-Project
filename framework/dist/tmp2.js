@@ -1296,24 +1296,44 @@ var M = (function( global, Backbone, _ ) {
     // ==========================================================================
     
     
-    M.Application = function() {
-    
+    M.Application = function(options) {
+        this.initialize(options);
     };
     
     Backbone.Layout.configure({
         manage: true
     });
     
+    M.Application.create = M.create;
+    
     _.extend(M.Application.prototype, Backbone.Events, {
     
         _type: 'M.Application',
+    
+        router: null,
+    
+        initialize: function(options){
+            if(options && options.applicationName){
+                window.TMP_APPLICATION_NAME = options.applicationName;
+            }
+    
+            window[window.TMP_APPLICATION_NAME] = this;
+    
+            return this;
+        },
     
         start: function( options ) {
             if(!options.router){
                 console.warn('no router was given to the app start');
             }
+    
             this.router = options.router;
             Backbone.history.start();
+            return this;
+        },
+    
+        initialRender: function(){
+            this.layoutManager.initialRenderProcess();
         }
     });
 
@@ -5351,13 +5371,46 @@ var M = (function( global, Backbone, _ ) {
         },
     
         getTemplateIdentifier: function() {
-            throw new DOMException();
             console.warn('define your f****ing own getter for the templateIdentifier');
+            throw new DOMException();
         },
     
         template: _.template('<div id="<%= value %>" contenteditable="true"><div data-binding="value"><%= value %></div><div data-child-view="main"></div></div>'),
     
         initialize: function() {
+    
+    
+            this._assignTemplate();
+    
+            this.events = this.events || {};
+    
+            this._assignValue();
+    
+            this._assignContentBinding();
+    
+        },
+    
+        _assignContentBinding: function(){
+            if( this.contentBinding && this.contentBinding.target ) {
+                this.listenTo(this.contentBinding.target, this.contentBinding.property, this.setValue);
+            }
+        },
+    
+        _assignValue: function(){
+            var value = this.options.value || this.value;
+    
+            if( _.isFunction(value) ) {
+                value = value();
+            }
+    
+            if( value instanceof Backbone.Model || value instanceof Backbone.Collection ) {
+                this.setValue(value, true);
+            } else if( !this.model ) {
+                this.model = new Backbone.Model({value: value });
+            }
+        },
+    
+        _assignTemplate: function(){
             if( this.options.template ) {
                 if( _.isFunction(this.options.template) || _.isNodeList(this.options.template) ) {
                     this.template = this.options.template;
@@ -5373,21 +5426,13 @@ var M = (function( global, Backbone, _ ) {
     
                 }
             }
+        },
     
-            this.events = this.events || {};
-            var value = this.options.value || this.value;
-            if( _.isFunction(value) ) {
-                value = value();
-            }
+        setValue: function( value, doNotRender ) {
     
-            if( value instanceof Backbone.Model ) {
-                this.model = value;
-                console.log(this.__name__, this.cid);
-                this.listenTo(this.model, "didchange", this.modelDidChange);
-            } else if( value instanceof Backbone.Collection ) {
-                this.model = value;
-            } else if( !this.model ) {
-                this.model = new Backbone.Model({value: value });
+            this.model = value;
+            if(!doNotRender){
+                this.render();
             }
     
         },
@@ -5442,7 +5487,7 @@ var M = (function( global, Backbone, _ ) {
             return this.childViews;
         },
     
-        modelDidChange: function( model ){
+        modelDidChange: function( model ) {
             this.model = model;
             this.render();
     
@@ -6299,23 +6344,89 @@ var M = (function( global, Backbone, _ ) {
     
         isFirstLoad: true,
     
+        _views: null,
+    
+        __totalLayoutViews: null,
+    
         setTransition: function( transition ) {
     
         },
     
-        initialize: function() {
-    
+        applyViews: function( settings, callback ) {
+            var that = this;
+            this._loadViews(settings, function(views){
+                var viewsToRender = that.currentLayout.__applyViews(views);
+                that.children = viewsToRender;
+                that.setViews(viewsToRender);
+                that.render();
+                callback();
+            });
         },
     
-        applyViews: function( settings ) {
-            var views = this.currentLayout.applyViews(settings);
-            this.children = views;
-            this.setViews(views);
-            this.render();
-        },
+        _viewDidLoad: function( domSelector, view, callback ) {
+    
+            this.totalLayoutViews -= 1;
+    
+            this._views[domSelector] = view;
+    
+            if( this.totalLayoutViews === 0 ) {
+                callback(this._views);
+            }
+    
+       },
+    
+    
+        _loadViews: function( views, callback ) {
+    
+            var that = this;
+            this.totalLayoutViews = Object.keys(views).length;
+            this._views = {};
+    
+            _.each(views, function( view, domSelector ){
+    
+                if( view && _.isFunction(view) ) {
+    
+                    that._viewDidLoad(domSelector, view.create(), callback);
+    
+                } else if( view && typeof view === 'string' ) {
+    
+                    require([view], function( loadedView ) {
+                        that._viewDidLoad(domSelector, loadedView.create(), callback);
+                    });
+    
+                } else if( view && view.isView() ) {
+    
+                    that._viewDidLoad(domSelector, view, callback);
+    
+                }
+    
+            });
+    
+    //        if( settings.left && _.isFunction(settings.left) ) {
+    //            this.applyView('.left', settings.left.create(), callback);
+    //        } else if( settings.left && typeof settings.left === 'string' ) {
+    //            require([settings.left], function( left ) {
+    //                that.applyView('.left', left.create(), callback);
+    //            })
+    //        } else if( settings.left && settings.left.isView() ) {
+    //            this.applyView('.left', settings.left, callback);
+    //        }
+    //
+    //        if( settings.right && _.isFunction(settings.right) ) {
+    //            this.applyView('.right', settings.right.create(), callback);
+    //        } else if( settings.right && typeof settings.right === 'string' ) {
+    //            require([settings.right], function( right ) {
+    //                that.applyView('.right', right.create(), callback);
+    //            })
+    //        } else if( settings.right && settings.right.isView() ) {
+    //            this.applyView('.right', settings.right, callback);
+    //        }
+    
+            return this;
+    __    },
     
         initialRenderProcess: function() {
-    //        this.render();
+            //        this.render();
             $('body').html(this.el);
             PageTransitions.init();
         },
@@ -6375,18 +6486,18 @@ var M = (function( global, Backbone, _ ) {
         M.TemplateManager = M.Object.extend({
     
             containerTemplates: {
-                default: '<div><div data-binding="value" contenteditable="true"><%= value %></div><div data-child-view="main"></div>'
+                defaultTemplate: '<div><div data-binding="value" contenteditable="true"><%= value %></div><div data-child-view="main"></div>'
             },
     
             buttonTemplates: {
-                default: '<div>Button: <div data-binding="value"<% if(value) {  } %>><%= value %></div></div>',
+                defaultTemplate: '<div>Button: <div data-binding="value"<% if(value) {  } %>><%= value %></div></div>',
                 topcoat: '<button class="topcoat-button--large" data-binding="value"><%= value %></button>',
                 bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star" data-binding="value"></span><%= value %></button>',
                 jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="value"><%= value %></span></span></a>'
             },
     
             toolbarTemplates: {
-                default: '<div>AAA<div data-child-view="left"></div> <div class="center" data-binding="value"><%= value %></div> <div data-child-view="right"></div></div>',
+                defaultTemplate: '<div>AAA<div data-child-view="left"></div> <div class="center" data-binding="value"><%= value %></div> <div data-child-view="right"></div></div>',
                 bootstrap: '<div class="page-header"><div data-child-view="left"></div><h1><%= value %></h1><div data-child-view="right"></div></div>',
                 jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= value %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
             },
@@ -6397,7 +6508,7 @@ var M = (function( global, Backbone, _ ) {
                 if( this[template] ) {
                     var tpl = this[template][M.TemplateManager.currentTemplate];
                     if( !tpl ) {
-                        return this[template]['default'];
+                        return this[template]['defaultTemplate'];
                     } else {
                         return tpl;
                     }
@@ -6431,7 +6542,7 @@ var M = (function( global, Backbone, _ ) {
     
             template: _.template(M.TemplateManager.get('toolbarTemplates')),
     
-            getTemplateIdentifier: function(){
+            getTemplateIdentifier: function() {
     
                 return 'toolbarTemplates'
             },
@@ -6450,40 +6561,43 @@ var M = (function( global, Backbone, _ ) {
     
         });
     
-    //    M.Controller = function(){};
-    //
-    //    M.Controller.prototype._type = 'M.Controller';
-    //
-    //    M.Controller.prototype..onPageSwitch = function() {
-    //
-    //    };
-    //
-    //    M.Controller.prototype..initialLoad = function() {
-    //
-    //    };
-    //
-    //    M.Controller = M.Object.extend(M.Controller);
-    //    M.Controller.create = M.create;
+        //    M.Controller = function(){};
+        //
+        //    M.Controller.prototype._type = 'M.Controller';
+        //
+        //    M.Controller.prototype..onPageSwitch = function() {
+        //
+        //    };
+        //
+        //    M.Controller.prototype..initialLoad = function() {
+        //
+        //    };
+        //
+        //    M.Controller = M.Object.extend(M.Controller);
+        //    M.Controller.create = M.create;
     
     
-        M.Controller = function(){
+        M.Controller = function() {
             _.extend(this, arguments[0]);
+            this.initialize(arguments[0]);
         };
     
         M.Controller.create = M.create;
     
     
-        M.Controller.prototype.setModel = function( modelname, modelToUpdate ) {
-            if( this[modelname] ) {
-                var events = this[modelname]._events;
-                var b = this[modelname];
-            } else {
-                this[modelname] = modelToUpdate;
+        _.extend(M.Controller.prototype, Backbone.Events, {
+    
+            _type: 'M.Controller',
+    
+            initialize: function( options ) {
+                return this;
+            },
+    
+            set: function( name, value ) {
+                this[name] = value;
+                this.trigger(name, value);
             }
-            if( events ) {
-                b.trigger('didchange', modelToUpdate);
-            }
-        };
+        });
     
     
         M.ListView = M.View.extend({
@@ -6542,6 +6656,99 @@ var M = (function( global, Backbone, _ ) {
                 }
             }
         });
+    
+    
+        M.Router = Backbone.Router.extend({
+    
+            visitedRoutes: {},
+    
+            initialize: function() {
+    
+                FastClick.attach(document.body);
+    
+                window[window.TMP_APPLICATION_NAME].layoutManager = new (Backbone.Layout.extend());
+    
+            },
+    
+            callCallback: function( route, name, callback, res ) {
+    
+                var controller = callback;
+                var _callback = void 0;
+    
+                if( !M.Controller.prototype.isPrototypeOf(callback) ) {
+    
+                }
+    
+                if( Object.keys(this.visitedRoutes).length === 0 ) {
+                    _callback = controller.applicationStart;
+                    //                doAfterViewIinit = function(){
+                    //                    Addressbook.layoutManager.initialRenderProcess();
+                    //                }
+                } else {
+                    _callback = controller.show;
+                }
+    
+    
+                _callback && _callback.apply(this, [res]);
+                return this;
+            },
+    
+            route: function( route, name, callback ) {
+    
+                if( !_.isRegExp(route) ) {
+                    route = this._routeToRegExp(route);
+                }
+                if( _.isFunction(name) ) {
+                    callback = name;
+                    name = '';
+                }
+                if( !callback ) {
+                    callback = this[name];
+                }
+                //            if( _.isFunction(callback) ) {
+                //
+                //                //callback = callback();
+                //            } else {
+                //                var doAfterViewIinit = null;
+                //                if(Object.keys(this.visitedRoutes).length === 0){
+                //                    callback = callback.applicationStart;
+                //                    doAfterViewIinit = function(){
+                //                        Addressbook.layoutManager.initialRenderProcess();
+                //                    }
+                //                } else{
+                //                    callback = callback.show;
+                //                }
+                //            }
+    
+                var router = this;
+                Backbone.history.route(route, function( fragment ) {
+                    var res = null;
+                    _.each(router.routes, function( val, key ) {
+                        var string = route.toString().slice(1, -1);
+                        var reg = new RegExp(string.replace(/\(\[\^/g, ':([^'));
+                        var exec = reg.exec(key);
+                        if( exec && exec.length ) {
+                            res = exec.slice(1);
+                        }
+                    });
+                    var args = router._extractParameters(route, fragment);
+                    res = _.object(res, args);
+                    args.unshift(!router.visitedRoutes[name]);
+                    router.callCallback(route, name, callback, res);
+    
+                    router.trigger.apply(router, ['route:' + name].concat(args));
+                    router.trigger('route', name, args);
+                    Backbone.history.trigger('route', router, name, args);
+                    if( !router.visitedRoutes[name] ) {
+                        router.visitedRoutes[name] = true;
+                    }
+                });
+                return this;
+            }
+    
+        });
+    
+        M.Router.create = M.create;
     
     })();
 

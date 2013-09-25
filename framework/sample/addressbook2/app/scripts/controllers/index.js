@@ -1,15 +1,15 @@
 /*global define*/
 
 define([
-    'underscore', 'backbone', 'themproject', 'layouts/app-layout', 'views/ContactAll', 'views/ContactDetail', 'data/contact_model', 'data/contact_collection', 'exports'
-], function( _, Backbone, M, AppLayout, ContactAll, ContactDetail, ContactModel, ContactCollection, exports ) {
+    'underscore', 'backbone', 'themproject', 'layouts/app-layout', /*'views/ContactAll',*/ /*'views/ContactDetail',*/ 'data/contact_model', 'data/contact_collection', 'exports', 'require'
+], function( _, Backbone, M, AppLayout, /*ContactAll,*/ /*ContactDetail,*/ ContactModel, ContactCollection, exports, require ) {
     //    'use strict';
-
     var IndexController = M.Controller.create({
 
         CurrentContact: null,
 
         applicationStart: function( params ) {
+            console.timeEnd('asdf');
 
             if( !params.id ) {
                 Addressbook.Contact = ContactModel.extend();
@@ -21,29 +21,27 @@ define([
 
                 Addressbook.ContactCollection = ContactCollection.create(contacts);
 
-                IndexController.setModel('CurrentContact', Addressbook.ContactCollection.model.create(Addressbook.ContactCollection.models[0].attributes));
+                IndexController.set('CurrentContact', Addressbook.ContactCollection.models[0]);
             }
-
-
-            //            Addressbook.CurrentContact = new Addressbook.Contact({firstname: "Max", lastname: "Mustermann", _id: 1});
 
             Addressbook.layoutManager.setLayout(new AppLayout());
 
             Addressbook.layoutManager.applyViews({
-                left: ContactAll,
-                right: ContactDetail
+                left: "views/ContactAll",
+                right: "views/ContactDetail"
+            }, function(){
+                Addressbook.layoutManager.initialRenderProcess();
             });
+
         },
 
-        show: function( params ) {
-
+        show: function(){
+            debugger;
         }
     });
 
 
-    exports.IndexController = function(){
-        return IndexController;
-    }
+    exports.IndexController = IndexController;
 
     return IndexController;
 });

@@ -31,13 +31,46 @@ _.extend(M.View.prototype, {
     },
 
     getTemplateIdentifier: function() {
-        throw new DOMException();
         console.warn('define your f****ing own getter for the templateIdentifier');
+        throw new DOMException();
     },
 
     template: _.template('<div id="<%= value %>" contenteditable="true"><div data-binding="value"><%= value %></div><div data-child-view="main"></div></div>'),
 
     initialize: function() {
+
+
+        this._assignTemplate();
+
+        this.events = this.events || {};
+
+        this._assignValue();
+
+        this._assignContentBinding();
+
+    },
+
+    _assignContentBinding: function(){
+        if( this.contentBinding && this.contentBinding.target ) {
+            this.listenTo(this.contentBinding.target, this.contentBinding.property, this.setValue);
+        }
+    },
+
+    _assignValue: function(){
+        var value = this.options.value || this.value;
+
+        if( _.isFunction(value) ) {
+            value = value();
+        }
+
+        if( value instanceof Backbone.Model || value instanceof Backbone.Collection ) {
+            this.setValue(value, true);
+        } else if( !this.model ) {
+            this.model = new Backbone.Model({value: value });
+        }
+    },
+
+    _assignTemplate: function(){
         if( this.options.template ) {
             if( _.isFunction(this.options.template) || _.isNodeList(this.options.template) ) {
                 this.template = this.options.template;
@@ -53,21 +86,13 @@ _.extend(M.View.prototype, {
 
             }
         }
+    },
 
-        this.events = this.events || {};
-        var value = this.options.value || this.value;
-        if( _.isFunction(value) ) {
-            value = value();
-        }
+    setValue: function( value, doNotRender ) {
 
-        if( value instanceof Backbone.Model ) {
-            this.model = value;
-            console.log(this.__name__, this.cid);
-            this.listenTo(this.model, "didchange", this.modelDidChange);
-        } else if( value instanceof Backbone.Collection ) {
-            this.model = value;
-        } else if( !this.model ) {
-            this.model = new Backbone.Model({value: value });
+        this.model = value;
+        if(!doNotRender){
+            this.render();
         }
 
     },
@@ -122,7 +147,7 @@ _.extend(M.View.prototype, {
         return this.childViews;
     },
 
-    modelDidChange: function( model ){
+    modelDidChange: function( model ) {
         this.model = model;
         this.render();
 

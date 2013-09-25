@@ -10,23 +10,43 @@
 // ==========================================================================
 
 
-M.Application = function() {
-
+M.Application = function(options) {
+    this.initialize(options);
 };
 
 Backbone.Layout.configure({
     manage: true
 });
 
+M.Application.create = M.create;
+
 _.extend(M.Application.prototype, Backbone.Events, {
 
     _type: 'M.Application',
+
+    router: null,
+
+    initialize: function(options){
+        if(options && options.applicationName){
+            window.TMP_APPLICATION_NAME = options.applicationName;
+        }
+
+        window[window.TMP_APPLICATION_NAME] = this;
+
+        return this;
+    },
 
     start: function( options ) {
         if(!options.router){
             console.warn('no router was given to the app start');
         }
+
         this.router = options.router;
         Backbone.history.start();
+        return this;
+    },
+
+    initialRender: function(){
+        this.layoutManager.initialRenderProcess();
     }
 });
