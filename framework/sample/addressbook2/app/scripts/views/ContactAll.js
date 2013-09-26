@@ -13,14 +13,14 @@ define([
 
         template: _.template('<div><div data-binding="firstname"><%= firstname %></div><div data-binding="lastname"><%= lastname %></div></div>'),
 
-        bindings: {
-            '[data-binding="firstname"]': {
-                observe: 'firstname'
-            },
-            '[data-binding="lastname"]': {
-                observe: 'lastname'
-            }
-        },
+//        bindings: {
+//            '[data-binding="firstname"]': {
+//                observe: 'firstname'
+//            },
+//            '[data-binding="lastname"]': {
+//                observe: 'lastname'
+//            }
+//        },
 
         events: {
            click: function() {

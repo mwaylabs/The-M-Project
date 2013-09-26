@@ -8,23 +8,22 @@ define([
 ], function ($, Backbone, M, indexController) {
     'use strict';
 
-
     // Defining the application router, you can attach sub routers here.
     var Router = M.Router.extend({
 
         routes: {
             '': 'index',
-            'detail': 'detail'
+            'edit': 'edit',
+            'edit/:firstname/:lastname': 'edit'
         },
 
         index: indexController,
 
-        detail: function(){
-            return require(['controllers/detail']);
-        },
+        edit: 'controllers/edit',
 
         initialize: function() {
             M.Router.prototype.initialize.apply(this, arguments);
+            Addressbook.IndexController = indexController;
         }
 
     });

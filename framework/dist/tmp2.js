@@ -5338,6 +5338,196 @@ var M = (function( global, Backbone, _ ) {
         }
     });
 
+    //////////////////////////
+    
+    _.mixin({
+        tmpl: function(text, data, settings) {
+            var render;
+            var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
+            var idCounter = 0;
+            _.uniqueId = function(prefix) {
+                var id = ++idCounter + '';
+                return prefix ? prefix + id : id;
+            };
+    
+            // By default, Underscore uses ERB-style template delimiters, change the
+            // following template settings to use alternative delimiters.
+            _.templateSettings = {
+                evaluate    : /<%([\s\S]+?)%>/g,
+                interpolate : /<%=([\s\S]+?)%>/g,
+                escape      : /<%-([\s\S]+?)%>/g
+            };
+    
+            // When customizing `templateSettings`, if you don't want to define an
+            // interpolation, evaluation or escaping regex, we need one that is
+            // guaranteed not to match.
+            var noMatch = /(.)^/;
+    
+            // Certain characters need to be escaped so that they can be put into a
+            // string literal.
+            var escapes = {
+                "'":      "'",
+                '\\':     '\\',
+                '\r':     'r',
+                '\n':     'n',
+                '\t':     't',
+                '\u2028': 'u2028',
+                '\u2029': 'u2029'
+            };
+            settings = _.defaults({}, settings, _.templateSettings);
+    
+            // Combine delimiters into one regular expression via alternation.
+            var matcher = new RegExp([
+                (settings.escape || noMatch).source,
+                (settings.interpolate || noMatch).source,
+                (settings.evaluate || noMatch).source
+            ].join('|') + '|$', 'g');
+    
+            // Compile the template source, escaping string literals appropriately.
+            var index = 0;
+            var source = [];
+            source.push("__p+='");
+    
+            var stickitAttribute = settings.stickitAttribute || 'data-binding';
+    
+            text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
+                var sliced = text.slice(index, offset);
+    
+                if( interpolate && sliced.slice(-1) === '>' ){
+                    var before = sliced.slice(0,-1);
+                    sliced = before + ' ' + stickitAttribute + '="' + interpolate.trim() + '"' + '>';
+                    source.push(sliced.replace(escaper, function(match) {
+                        return '\\' + escapes[match];
+                    }));
+                } else if(interpolate && (sliced.slice(-7) === 'value="')){
+                    var before = sliced.slice(0,-7);
+                    sliced = before + stickitAttribute + '="' + interpolate.trim() + '" value="';
+                    source.push(sliced.replace(escaper, function(match) {
+                        return '\\' + escapes[match];
+                    }));
+                } else {
+                    source.push(sliced.replace(escaper, function(match) {
+                        return '\\' + escapes[match];
+                    }));
+                }
+    
+                if (escape) {
+                    source.push("'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'");
+                }
+                if (interpolate) {
+                    source.push("'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'");
+                }
+                if (evaluate) {
+                    source.push("';\n" + evaluate + "\n__p+='");
+                }
+                index = offset + match.length;
+    
+                return match;
+            });
+            source.push("';\n");
+            source = source.join('');
+    
+            // If a variable is not specified, place data values in local scope.
+            if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
+    
+            source = "var __t,__p='',__j=Array.prototype.join," +
+                "print=function(){__p+=__j.call(arguments,'');};\n" +
+                source + "return __p;\n";
+    
+            try {
+                render = new Function(settings.variable || 'obj', '_', source);
+            } catch (e) {
+                e.source = source;
+                throw e;
+            }
+    
+            if (data) return render(data, _);
+            var template = function(data) {
+                return render.call(this, data, _);
+            };
+    
+            // Provide the compiled function source as a convenience for precompilation.
+            template.source = 'function(' + (settings.variable || 'obj') + '){\n' + source + '}';
+    
+            return template;
+        }
+    });
+    
+    
+    
+    
+    
+    //
+    //    var obj = {
+    //        f1: 'value_f1',
+    //        f2: 'value_f2'
+    //    }
+    //
+    //    var test = [
+    //        '<div></div>',
+    //        '<div class="a"></div>',
+    //        '<div><%= f1 %></div>',
+    //        '<div class="a"><%= f1 %></div>',
+    //        '<div class="<%= f1 %>"><%= f1 %></div>',
+    //        '<div class="<%= f1 %>"><%= f2 %></div>',
+    //        '<div class="<%= f1 %>"><%= f1 %><%= f2 %></div>',
+    //        '<div class="<% if(f1){ %>a<% } %>"><%= f1 %></div>',
+    //        '<div id="<%= f1 %>" class="<%= f2 %>"></div>',
+    //        '<div id="<%= f1 %>" class="<%= f1 %><%= f2 %>"></div>',
+    //        '<div><div id="<%= f1 %>" class="<%= f1 %><%= f2 %>"></div></div>',
+    //        '<div><div id="<%= f1 %>" class="<%= f1 %><%= f2 %>"><div><%= f1 %></div></div></div>',
+    //        '<div><div class="<%= f1 %>" contenteditable="true"><%= f1 %></div><div contenteditable="true"><%= f2 %></div></div>',
+    //        '<input type="text" name="input" value="<%= f1 %>" />',
+    //        '<input placeholder="<%= f1 %>" type="text" name="input" value="<%= f1 %>" />'
+    //    ];
+    //
+    //    var results = [
+    //        '<div></div>',
+    //        '<div class="a"></div>',
+    //        '<div data-binding="f1">value_f1</div>',
+    //        '<div class="a" data-binding="f1">value_f1</div>',
+    //        '<div class="value_f1" data-binding="f1">value_f1</div>',
+    //        '<div class="value_f1" data-binding="f2">value_f2</div>',
+    //        '<div class="value_f1" data-binding="f1">value_f1value_f2</div>',
+    //        '<div class="a" data-binding="f1">value_f1</div>',
+    //        '<div id="value_f1" class="value_f2"></div>',
+    //        '<div id="value_f1" class="value_f1value_f2"></div>',
+    //        '<div><div id="value_f1" class="value_f1value_f2"></div></div>',
+    //        '<div><div id="value_f1" class="value_f1value_f2"><div data-binding="f1">value_f1</div></div></div>',
+    //        '<div><div class="value_f1" contenteditable="true" data-binding="f1">value_f1</div><div contenteditable="true" data-binding="f2">value_f2</div></div>',
+    //        '<input type="text" name="input" data-binding="f1" value="value_f1" />',
+    //        '<input placeholder="value_f1" type="text" name="input" data-binding="f1" value="value_f1" />'
+    //    ]
+    //
+    //
+    //    _.each(test, function(value, ind){
+    //        var func = _.tmpl(test[ind], null, {stickitAttribute: 'data-binding'});
+    //        var res = func(obj);
+    //        if(results[ind] === res){
+    //
+    //            console.log('%c' + ind + ' was successfull', 'color: green;' );
+    //        } else {
+    //            console.log('%c' + ind + ' error', 'color: red;' );
+    //            console.log(res);
+    //            console.log(results[ind]);
+    //            console.log('');
+    //        }
+    //    });
+    //
+    //    _.each(test, function(value, ind){
+    //        var func = _.tmpl(test[ind]);
+    //        var res = func(obj);
+    //        if(results[ind] === res){
+    //
+    //            console.log('%c' + ind + ' was successfull', 'color: green;' );
+    //        } else {
+    //            console.log('%c' + ind + ' error', 'color: red;' );
+    //            console.log(res);
+    //            console.log(results[ind]);
+    //            console.log('');
+    //        }
+    //    });
+    
     M.View = Backbone.View.extend(M.Object);
     
     _.extend(M.View.prototype, {
@@ -5350,11 +5540,6 @@ var M = (function( global, Backbone, _ ) {
         //
         //    events: null,
         //
-        bindings: {
-            '[data-binding="value"]': {
-                observe: 'value'
-            }
-        },
     
         //    getChildViewIdentifier: function( name ) {
         //        console.log('#' + this.options.value + ' [data-child-view="' + name + '"]');
@@ -5375,28 +5560,62 @@ var M = (function( global, Backbone, _ ) {
             throw new DOMException();
         },
     
-        template: _.template('<div id="<%= value %>" contenteditable="true"><div data-binding="value"><%= value %></div><div data-child-view="main"></div></div>'),
+        template: _.tmpl('<div id="<%= value %>" contenteditable="true"><div><%= value %></div><div data-child-view="main"></div></div>'),
     
         initialize: function() {
     
-    
             this._assignTemplate();
     
-            this.events = this.events || {};
+            this._assignEvents();
     
             this._assignValue();
     
             this._assignContentBinding();
     
+            this._assignBinding();
+    
         },
     
-        _assignContentBinding: function(){
+        _assignBinding: function(){
+    
+            var bindings = {};
+    
+            _.each(this.model.attributes, function(value, key){
+                var selector = '[data-binding="' + key + '"]';
+                bindings[selector] = {observe: '' + key};
+            }, this);
+    
+            this.bindings = bindings;
+        },
+    
+        _assignEvents: function() {
+    
+            var events = {};
+    
+            _.each(this.events, function( event, eventName ) {
+    
+                events[eventName] = {};
+    
+                if( _.isFunction(event) ) {
+                    events[eventName] = event;
+                } else if( event.action && _.isFunction(event.action) ){
+                    events[eventName] = event.action;
+                } else if( event.target && event.action ){
+                    events[eventName] = event.target[event.action];
+                }
+    
+            }, this);
+    
+            this.events = events;
+        },
+    
+        _assignContentBinding: function() {
             if( this.contentBinding && this.contentBinding.target ) {
-                this.listenTo(this.contentBinding.target, this.contentBinding.property, this.setValue);
+                this.listenTo(this.contentBinding.target, this.contentBinding.property, this._setValue);
             }
         },
     
-        _assignValue: function(){
+        _assignValue: function() {
             var value = this.options.value || this.value;
     
             if( _.isFunction(value) ) {
@@ -5404,13 +5623,13 @@ var M = (function( global, Backbone, _ ) {
             }
     
             if( value instanceof Backbone.Model || value instanceof Backbone.Collection ) {
-                this.setValue(value, true);
+                this._setValue(value, true);
             } else if( !this.model ) {
                 this.model = new Backbone.Model({value: value });
             }
         },
     
-        _assignTemplate: function(){
+        _assignTemplate: function() {
             if( this.options.template ) {
                 if( _.isFunction(this.options.template) || _.isNodeList(this.options.template) ) {
                     this.template = this.options.template;
@@ -5428,10 +5647,12 @@ var M = (function( global, Backbone, _ ) {
             }
         },
     
-        setValue: function( value, doNotRender ) {
+    
+        //TODO... it is not setValue it is setModel
+        _setValue: function( value, doNotRender ) {
     
             this.model = value;
-            if(!doNotRender){
+            if( !doNotRender ) {
                 this.render();
             }
     
@@ -5485,218 +5706,7 @@ var M = (function( global, Backbone, _ ) {
                 return this.childViews;
             }
             return this.childViews;
-        },
-    
-        modelDidChange: function( model ) {
-            this.model = model;
-            this.render();
-    
         }
-    
-        //    getChildViews: function() {
-        //        if( this.options && this.options.childViews ) {
-        //            return this.addChildViewIdentifier();
-        //        } else {
-        //            return false;
-        //        }
-        //    },
-        //
-        //    addChildViewIdentifier: function() {
-        //        var childViews = {};
-        //
-        //        if( _.isArray(this.options.childViews)){
-        //            var key= 'main';
-        //            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
-        //        } else {
-        //            _.each(this.options.childViews, function( value, key ) {
-        //                if( key.search(/[.#]/) === 0 ) {
-        //                    key = key.replace(/[.#]/, '');
-        //                }
-        //                childViews[this.getChildViewIdentifier(key)] = value;
-        //            }, this);
-        //        }
-        //        return childViews;
-        //    },
-        //
-        //    validateChildViews: function( childViews ) {
-        //
-        //        var childViews = childViews || this.getChildViews();
-        //        var isValid = true;
-        //        _.each(childViews, function( childView ) {
-        //            if( _.isArray(childView)){
-        //                _.each(childView, function( child ) {
-        //                    isValid = this.validateChildViews(child);
-        //                }, this);
-        //            } else if( !this.isView(childView) ) {
-        //                isValid = false;
-        //            }
-        //        }, this);
-        //
-        //        return isValid ? childViews : false;
-        //    }
-    
-        //    set: function( value ) {
-        //        this.value = value || this.value;
-        //
-        //        if( this.value ) {
-        //            this.value.on('remove', this._remove, this);
-        //            this.value.on('change', this._change, this);
-        //            this.value.on('add', this._add, this);
-        //            this.value.on('all', this._all, this);
-        //        }
-        //    },
-    
-        //    _remove: function( data ) {
-        //        if(this.value.cid === data.cid){
-        //            this.remove();
-        //        }
-        //    },
-    
-        //    _change: function( data ) {
-        //        this.render();
-        //    },
-    
-        //    _add: function( model, collection, options ) {
-        //
-        //        /*CLONE EVENT ON create*/
-        //        var view = _.clone(this.valueView);
-        //        view.set(model);
-        //        var v = view.render().el;
-        //        this.$el.append(v);
-        //    },
-    
-        //    _all: function( data ) {
-        //
-        //    },
-    
-        //    constructor: function( properties ) {
-        //        _.extend(this, properties);
-        //        Backbone.View.apply(this, arguments);
-        //    },
-    
-        //    _addClasses: function() {
-        //        this.$el.addClass(Object.getPrototypeOf(this)._getClasseName().reverse().join(' '));
-        //    },
-    
-        //    _getCssClassByType: function() {
-        //        return this.getObjectType().replace('.', '-').toLowerCase();
-        //    },
-    
-        //    _getClasseName: function( cssClasses ) {
-        //        if( !cssClasses ) {
-        //            cssClasses = [];
-        //        }
-        //        cssClasses.push(this._getCssClassByType());
-        //        if( this.getObjectType() !== 'M.View' ) {
-        //            Object.getPrototypeOf(this)._getClasseName(cssClasses);
-        //        }
-        //        return cssClasses;
-        //    },
-    
-        //    _createDOM: function(){
-        //        if(this.value.attributes){
-        //            val = this.template(this.value.attributes);
-        //            this.$el.html(val);
-        //        }
-        //
-        //    },
-    
-        //    _addId: function(){
-        //      this.$el.attr('id', this.cid);
-        //    },
-    
-        /** EVENTS **/
-    
-        /**
-         * This property is used to specifiy all events for a view within an application.
-         *
-         * @type {Object}
-         */
-        //    events: null,
-    
-        /**
-         * This property contains a view's event handlers that are handled by the event dispatcher.
-         *
-         * @type {Object}
-         */
-        //    _domEvents: null,
-    
-        /**
-         * This property contains a view's event handlers for all events that are not handled by
-         * the event dispatcher, e.g. 'postRender'.
-         *
-         * @type {Object}
-         */
-        //    _events: null,
-        //
-        /**
-         * This property contains an array of event types that are not handled by the event dispatcher.
-         *
-         * @type {Array}
-         */
-        //    _eventTypes: ['preRender', 'postRender'],
-    
-        //    _initEvents: function() {
-        //        this.events = this.events || {};
-        //        this._domEvents = {};
-        //        this._events = {};
-        //
-        //        this._eventTypes = _.uniq(_.compact(this._eventTypes.concat(Object.getPrototypeOf(this)._eventTypes)));
-        //
-        //        _.each(this.events, function( eventHandler, eventName ) {
-        //            if( !this.events[eventName].target ) {
-        //                if( !this.events[eventName].action ) {
-        //                    var tmp = this.events[eventName];
-        //                    this.events[eventName] = null;
-        //                    this.events[eventName] = {
-        //                        action: tmp
-        //                    };
-        //                }
-        //
-        //                this.events[eventName].target = this;
-        //            }
-        //
-        //            if( _.contains(this._eventTypes, eventName) ) {
-        //                this._events[eventName] = this.events[eventName];
-        //            } else {
-        //                this._domEvents[eventName] = this.events[eventName];
-        //            }
-        //        }, this);
-        //    },
-        //
-        //    /**
-        //     * This method registers a view's dom events at the event dispatcher. This happens
-        //     * automatically during the render process of a view.
-        //     *
-        //     * @private
-        //     */
-        //    _registerEvents: function() {
-        //        _.each(this._domEvents, function( handler, eventType ) {
-        //            M.EventDispatcher.registerEvent({
-        //                type: eventType,
-        //                source: this
-        //            });
-        //        }, this);
-        //    },
-        //
-        //    /**
-        //     * This method returns the event handler of a certain event type of a view.
-        //     *
-        //     * @param eventType
-        //     * @returns {*}
-        //     */
-        //    getEventHandler: function( eventType ) {
-        //        return this._domEvents[eventType];
-        //    },
-        //
-        //    _unregisterEvents: function() {
-        //        _.each(this._domEvents, function( event, key ) {
-        //            M.EventDispatcher.unregisterEvent({
-        //                type: key,
-        //                source: this
-        //            });
-        //        }, this);
-        //    }
     });
     
     M.View.create = M.create;
@@ -6526,7 +6536,6 @@ var M = (function( global, Backbone, _ ) {
             },
     
             afterRender: function() {
-                this.el
                 M.View.prototype.afterRender.apply(this, arguments);
             },
     
@@ -6664,61 +6673,69 @@ var M = (function( global, Backbone, _ ) {
     
             initialize: function() {
     
-                FastClick.attach(document.body);
-    
-                window[window.TMP_APPLICATION_NAME].layoutManager = new (Backbone.Layout.extend());
+                this.bootstrap();
     
             },
     
-            callCallback: function( route, name, callback, res ) {
+            bootstrap: function(){
     
-                var controller = callback;
-                var _callback = void 0;
+                FastClick.attach(document.body);
     
-                if( !M.Controller.prototype.isPrototypeOf(callback) ) {
+                $(document).on('click', 'a[href^="#"]', function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return void 0;
+                });
     
-                }
+                window[window.TMP_APPLICATION_NAME].layoutManager = new (Backbone.Layout.extend());
+            },
     
-                if( Object.keys(this.visitedRoutes).length === 0 ) {
-                    _callback = controller.applicationStart;
-                    //                doAfterViewIinit = function(){
-                    //                    Addressbook.layoutManager.initialRenderProcess();
-                    //                }
-                } else {
-                    _callback = controller.show;
-                }
+            controllerDidLoad: function( controller, res, callback ) {
     
-    
+                var _callback = this.getCallBack(controller);
                 _callback && _callback.apply(this, [res]);
+                callback();
+            },
+    
+            callCallback: function( route, name, controller, res, callback ) {
+    
+    
+                var that = this;
+                if( _.isString(controller) ) {
+                    require([controller], function( ctrl ) {
+                        that.controllerDidLoad(ctrl, res, callback);
+                    });
+                } else if( M.Controller.prototype.isPrototypeOf(controller) ) {
+                    setTimeout(function() {
+                        that.controllerDidLoad(controller, res, callback);
+                    }, 0);
+                }
+    
                 return this;
             },
     
-            route: function( route, name, callback ) {
+            getCallBack: function( controller ) {
+                var _callback = null;
+                if( Object.keys(this.visitedRoutes).length === 0 ) {
+                    _callback = controller.applicationStart;
+                } else {
+                    _callback = controller.show;
+                }
+                return _callback;
+            },
+    
+            route: function( route, name, controller ) {
     
                 if( !_.isRegExp(route) ) {
                     route = this._routeToRegExp(route);
                 }
                 if( _.isFunction(name) ) {
-                    callback = name;
+                    controller = name;
                     name = '';
                 }
-                if( !callback ) {
-                    callback = this[name];
+                if( !controller ) {
+                    controller = this[name];
                 }
-                //            if( _.isFunction(callback) ) {
-                //
-                //                //callback = callback();
-                //            } else {
-                //                var doAfterViewIinit = null;
-                //                if(Object.keys(this.visitedRoutes).length === 0){
-                //                    callback = callback.applicationStart;
-                //                    doAfterViewIinit = function(){
-                //                        Addressbook.layoutManager.initialRenderProcess();
-                //                    }
-                //                } else{
-                //                    callback = callback.show;
-                //                }
-                //            }
     
                 var router = this;
                 Backbone.history.route(route, function( fragment ) {
@@ -6734,14 +6751,14 @@ var M = (function( global, Backbone, _ ) {
                     var args = router._extractParameters(route, fragment);
                     res = _.object(res, args);
                     args.unshift(!router.visitedRoutes[name]);
-                    router.callCallback(route, name, callback, res);
-    
-                    router.trigger.apply(router, ['route:' + name].concat(args));
-                    router.trigger('route', name, args);
-                    Backbone.history.trigger('route', router, name, args);
-                    if( !router.visitedRoutes[name] ) {
-                        router.visitedRoutes[name] = true;
-                    }
+                    router.callCallback(route, name, controller, res, function(){
+                        router.trigger.apply(router, ['route:' + name].concat(args));
+                        router.trigger('route', name, args);
+                        Backbone.history.trigger('route', router, name, args);
+                        if( !router.visitedRoutes[name] ) {
+                            router.visitedRoutes[name] = true;
+                        }
+                    });
                 });
                 return this;
             }
@@ -6750,7 +6767,46 @@ var M = (function( global, Backbone, _ ) {
     
         M.Router.create = M.create;
     
+    
+    
+    
     })();
+    
+    
+    //var P = {};
+    //
+    //Object.defineProperty(window, "Person", {
+    //    get: function() {
+    //        console.log('getter of person');
+    //        return P;
+    //    },
+    //    set: function( newValue ) {
+    //        console.log('setter of person');
+    //        debugger;
+    //        Object.keys(newValue).forEach(function(key){
+    //            P[key] = Object.defineProperty(P, key, {
+    //                get: function() {
+    //                    if(P[key] !== newValue){
+    //                        P[key] = newValue;
+    //                        console.log('getter of ' + key);
+    //                        return P[key];
+    //                    }
+    //                },
+    //                set: function( newValue ) {
+    //                    if(P[key] !== newValue)
+    //                        P[key] = newValue;
+    //
+    //                },
+    //                enumerable: true,
+    //                configurable: true
+    //            });
+    //        })
+    //    },
+    //    enumerable: true,
+    //    configurable: true
+    //});
+    //
+    //Person = {a:'a1', b: 'b1'}
 
     
     
