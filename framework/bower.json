@@ -1,7 +1,6 @@
 {
   "name": "TMP2",
-  "version": "0.0.1",
-  "main": "./dist/*",
+  "version": "0.0.4",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -12,12 +11,9 @@
   "dependencies": {
     "jquery": "git://github.com/components/jquery.git#~2.0.3",
     "underscore": "git://github.com/jashkenas/underscore.git#~1.5.2",
-    "backbone": "git://github.com/jashkenas/underscore.git#~1.0.0",
     "backbone.stickit": "git://github.com/NYTimes/backbone.stickit.git#~0.6.3",
     "layoutmanager": "git://github.com/tbranyen/backbone.layoutmanager.git#~0.9.2",
-    "moment": "git://github.com/timrwood/moment.git#~2.1.0",
-    "requirejs-text": "git://github.com/requirejs/text.git#~2.0.10",
-    "requirejs": "git://github.com/jrburke/requirejs.git#~2.1.8",
-    "socket.io": "git://github.com/LearnBoost/socket.io.git#~0.9.15"
+    "fastclick": "git://github.com/ftlabs/fastclick.git#0.6.10",
+    "tmpl": "git://github.com/mwaylabs/tmpl.git#~0.1.0"
   }
 }
