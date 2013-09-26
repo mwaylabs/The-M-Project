@@ -17,13 +17,29 @@ module.exports = function (grunt) {
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
+    var cfg = require('./grunt.config.json');
+
     // configurable paths
     var yeomanConfig = {
-        app: 'app',
-        dist: 'dist'
+        app: cfg.paths.app,
+        dist: cfg.paths.dist
+    };
+
+    // TODO: Implement validation handling
+    var defaultOption = function( name, defaultValue ) {
+        var value = grunt.option(name);
+        if( value === void 0 ) {
+            value = defaultValue;
+        }
+        return value;
     };
 
     grunt.initConfig({
+        jsonlint: {
+            pkg: {
+                src: ['grunt.config.json']
+            }
+        },
         yeoman: yeomanConfig,
         watch: {
             options: {
@@ -37,29 +53,32 @@ module.exports = function (grunt) {
                 files: ['test/spec/{,*/}*.coffee'],
                 tasks: ['coffee:test']
             },
-//            livereload: {
-//                options: {
-//                    livereload: LIVERELOAD_PORT
-//                },
-//                files: [
-//                    '<%= yeoman.app %>/*.html',
-//                    '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
-//                    '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-//                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
-//                    '<%= yeoman.app %>/scripts/templates/*.ejs'
-//                ]
-//            },
-            jst: {
+            compass: {
+                files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+                tasks: ['compass']
+            },
+            livereload: {
+                options: {
+                    livereload: LIVERELOAD_PORT
+                },
+                files: [
+                    '<%= yeoman.app %>/*.html',
+                    '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
+                    '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
+                    '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+                    '<%= yeoman.app %>/scripts/templates/*.ejs'
+                ]
+            },
+            tmpl: {
                 files: [
                     '<%= yeoman.app %>/scripts/templates/*.ejs'
                 ],
-                tasks: ['jst']
+                tasks: ['tmpl']
             }
         },
         connect: {
             options: {
-                port: 9000,
-                // change this to '0.0.0.0' to access the server from outside
+                port: defaultOption('port', cfg.server.port),
                 hostname: '0.0.0.0'
             },
             livereload: {
@@ -73,9 +92,20 @@ module.exports = function (grunt) {
                     }
                 }
             },
+            manualreload: {
+                options: {
+                    middleware: function (connect) {
+                        return [
+                            mountFolder(connect, '.tmp'),
+                            mountFolder(connect, yeomanConfig.app)
+                        ];
+                    },
+                    keepalive: true
+                }
+            },
             test: {
                 options: {
-                    port: 9001,
+                    port: cfg.test.port,
                     middleware: function (connect) {
                         return [
                             mountFolder(connect, '.tmp'),
@@ -145,7 +175,23 @@ module.exports = function (grunt) {
                 }]
             }
         },
-
+        compass: {
+            options: {
+                sassDir: '<%= yeoman.app %>/styles',
+                cssDir: '.tmp/styles',
+                imagesDir: '<%= yeoman.app %>/images',
+                javascriptsDir: '<%= yeoman.app %>/scripts',
+                fontsDir: '<%= yeoman.app %>/styles/fonts',
+                importPath: '<%= yeoman.app %>/bower_components',
+                relativeAssets: true
+            },
+            dist: {},
+            server: {
+                options: {
+                    debugInfo: true
+                }
+            }
+        },
         requirejs: {
             dist: {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
@@ -232,7 +278,8 @@ module.exports = function (grunt) {
                     src: [
                         '*.{ico,txt}',
                         '.htaccess',
-                        'images/{,*/}*.{webp,gif}'
+                        'images/{,*/}*.{webp,gif}',
+                        'styles/fonts/{,*/}*.*'
                     ]
                 }]
             }
@@ -242,7 +289,7 @@ module.exports = function (grunt) {
                 rjsConfig: '<%= yeoman.app %>/scripts/main.js'
             }
         },
-        jst: {
+        tmpl: {
             options: {
                 amd: true
             },
@@ -259,7 +306,7 @@ module.exports = function (grunt) {
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
                         '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
-                        '<%= yeoman.dist %>/styles/fonts/*'
+                        '/styles/fonts/{,*/}*.*'
                     ]
                 }
             }
@@ -278,27 +325,43 @@ module.exports = function (grunt) {
                 'clean:server',
                 'coffee',
                 'createDefaultTemplate',
-                'jst',
+                'tmpl',
+                'compass:server',
                 'connect:test:keepalive'
             ]);
         }
 
-        grunt.task.run([
+        var reloadType = 'manualreload';
+        if( defaultOption('autoReload', cfg.server.autoReload) ) {
+            reloadType = 'livereload';
+        }
+
+        var tasks = [
             'clean:server',
             'coffee:dist',
             'createDefaultTemplate',
-            'jst',
-            'connect:livereload',
-            'open',
-            'watch'
-        ]);
+            'tmpl',
+            'compass:server',
+            'connect:' + reloadType
+        ];
+
+        if(reloadType === 'livereload') {
+            tasks.push('watch');
+        }
+
+        if( defaultOption('openBrowser', cfg.server.openBrowser) ) {
+            tasks.splice(tasks.length - 1, 0, 'open');
+        }
+
+        grunt.task.run(tasks);
     });
 
     grunt.registerTask('test', [
         'clean:server',
         'coffee',
         'createDefaultTemplate',
-        'jst',
+        'tmpl',
+        'compass',
         'connect:test',
         'mocha'
     ]);
@@ -307,7 +370,8 @@ module.exports = function (grunt) {
         'clean:dist',
         'coffee',
         'createDefaultTemplate',
-        'jst',
+        'tmpl',
+        'compass:dist',
         'useminPrepare',
         'requirejs',
         'imagemin',
