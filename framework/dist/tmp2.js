@@ -5530,6 +5530,8 @@ var M = (function( global, Backbone, _ ) {
     
     M.View = Backbone.View.extend(M.Object);
     
+    M.View.CHILD_VIEW_SELECTOR = 'data-child-view';
+    
     _.extend(M.View.prototype, {
     
         //    _type: 'M.View',
@@ -5678,6 +5680,7 @@ var M = (function( global, Backbone, _ ) {
     
         addChildViews: function() {
             var childViews = this.getChildViews();
+            childViews = this._applyChildViewBinding(childViews);
             if( childViews ) {
                 var children = {};
                 _.each(childViews, function( child, query ) {
@@ -5699,6 +5702,45 @@ var M = (function( global, Backbone, _ ) {
                 this.children = children;
                 this.setViews(children);
             }
+        },
+    
+        _applyChildViewBinding: function(childViews){
+    
+            //if there are no childviews return
+            if(!childViews){
+                return
+            }
+            //if the template contains childViews get there names
+            var regEx = new RegExp(M.View.CHILD_VIEW_SELECTOR + '\=\"([a-zA-Z0-9]*)"', 'gi');
+            //get the template as a string
+            var template = this.template.source || this.template;
+            var _childViewKeys = [];
+            var childViewKeys = [];
+            //and find all childviews in the template
+            while ((_childViewKeys = regEx.exec(template)) !== null)
+            {
+                childViewKeys.push(_childViewKeys[1]);
+            }
+    
+            var newChildViews = childViews;
+            //if there are any differences between the given childViews and the ones defined in the template just stop and use the given childviews
+            if(_.difference(Object.keys(childViews), childViewKeys).length === 0){
+    
+                newChildViews = {};
+                //if there are no differences apply a new key to match the childviews
+                //so 'childViewKey': Object is set to: '[data-child-views="childViewKey"]': Object'
+                _.each(childViews, function(value, key){
+    
+                    var _key = '[' + M.View.CHILD_VIEW_SELECTOR + '="' + key + '"]';
+                    newChildViews[_key] = value;
+    
+                }, this);
+    
+            } else {
+                console.warn('found inconsistencies in child views so these are used: ', newChildViews);
+            }
+    
+            return newChildViews;
         },
     
         getChildViews: function() {
