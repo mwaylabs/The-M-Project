@@ -1,8 +1,8 @@
 /*global define*/
 
 define([
-    'underscore', 'backbone', 'themproject', 'layouts/app-layout', /*'views/ContactAll',*/ /*'views/ContactDetail',*/ 'data/contact_model', 'data/contact_collection', 'exports', 'require'
-], function( _, Backbone, M, AppLayout, /*ContactAll,*/ /*ContactDetail,*/ ContactModel, ContactCollection, exports, require ) {
+    'underscore', 'backbone', 'themproject', 'layouts/app-layout', 'data/contacts', 'data/contacts', 'exports', 'require'
+], function( _, Backbone, M, AppLayout, ContactCollection, exports, require ) {
     //    'use strict';
     var IndexController = M.Controller.create({
 
@@ -29,16 +29,14 @@ define([
                 return;
             }
             if( !params.id ) {
-                Addressbook.Contact = ContactModel.extend();
 
-                var contacts = [
-                    {lastname: 'Marco', firstname: 'Hanowski', a: 'a', b: 'b', c: 'c', d: 'd', e: 'e'},
-                    {lastname: 'Frank', firstname: 'Stierle', a: 'a', b: 'b', c: 'c', d: 'd', e: 'e'}
-                ];
+                Addressbook.ContactCollection = ContactCollection.create();
+                Addressbook.ContactCollection.fetch({
+                    success: function() {
+                        IndexController.set('CurrentContact', Addressbook.ContactCollection.models[0]);
+                    }
+                });
 
-                Addressbook.ContactCollection = ContactCollection.create(contacts);
-
-                IndexController.set('CurrentContact', Addressbook.ContactCollection.models[0]);
             }
         },
 

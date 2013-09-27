@@ -1,19 +1,19 @@
 define([
-    'themproject', 'app', 'data/remote-store'
+    'themproject', 'data/remote-store'
 
-], function( M, App, RemoteStore ) {
+], function( M, RemoteStore ) {
 
-    App.Contact = M.Model.extend({
+    var Contact = M.Model.extend({
         idAttribute: '_id'
     });
 
     var host = 'http://nerds.mway.io:8200';
-    App.Contacts = M.Collection.extend({
+    var Contacts = M.Collection.extend({
         url: host + '/bikini/contacts', // for rest usage
-        model: App.Contact,
+        model: Contact,
         store: RemoteStore,
         entity: 'contacts'
     });
 
-    return App.Contacts;
+    return Contacts;
 });
