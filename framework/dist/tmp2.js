@@ -4497,304 +4497,6 @@ var M = (function( global, Backbone, _ ) {
             }
         }
     });
-    M.SocketStore = M.Store.extend({
-    
-        _type: 'M.SocketStore',
-    
-        _transactionFailed: false,
-    
-        _selector: null,
-    
-        name: 'bikini',
-    
-        size: 1024 * 1024 * 5,
-    
-        version: '1.2',
-    
-        host:   '',
-    
-        path:   '',
-    
-        msgStore:  null,
-    
-        messages:  null,
-    
-        typeMapping: {
-            'binary':  'text',
-            'date':    'string'
-        },
-    
-        initialize: function( options ) {
-            M.Store.prototype.initialize.apply(this, arguments);
-    
-            var that  = this;
-            options   = options || {};
-    
-            this.host     = options.host || this.host;
-            this.path     = options.path || this.path;
-            this.resource = options.resource || this.resource;
-    
-            this._initStores();
-    
-            this._socket = M.SocketIO.create({
-                host: this.host,
-                path: this.path,
-                resource: this.resource,
-                connected: function() {
-                    that._initialized = true;
-                    if( that.entities ) {
-                        for( var name in that.entities ) {
-                            var entity = that.entities[name];
-                            that._bindEntity(entity);
-                        }
-                    }
-                    that.sendMessages();
-                }
-            });
-        },
-    
-        _initStores: function() {
-            var MsgCollection  = M.Collection.extend({
-                model: M.Model.extend({ idAttribute: '_id' })
-            });
-            this.msgStore = new M.LocalStorageStore({
-                entities: {
-                    messages: {
-                        collection: MsgCollection
-                    }
-                }
-            });
-            this.messages  = new MsgCollection();
-            this.messages.fetch();
-        },
-    
-        _bindEntity: function(entity) {
-            var that = this;
-            entity.channel = entity.channel || 'entity_' + entity.name;
-            var time = this.getLastMessageTime(entity.channel);
-            this._socket.on(entity.channel, function(msg) {
-                if (msg) {
-                    that.setLastMessageTime(entity.channel, msg.time);
-                    that.trigger(entity.channel, msg);
-                }
-            });
-            this._socket.emit('bind', {
-                 entity: entity.name,
-                 time:   time
-            });
-            // do initial sync
-            // if (!this.getLastMessageTime(entity.channel)) {
-                this.sync("read", {}, { entity: entity.name, store: this });
-            //}
-        },
-    
-        _isValidChannel: function(channel) {
-            return channel && channel.indexOf('entity_') === 0 && this.getEntity( channel.substr(7) );
-        },
-    
-        getLastMessageTime: function(channel) {
-            return localStorage.getItem('__'+ channel + 'last_msg_time') || 0;
-        },
-    
-        setLastMessageTime: function(channel, time) {
-            if (time) {
-                localStorage.setItem('__'+ channel + 'last_msg_time', time);
-            }
-        },
-    
-        onMessage: function(msg) {
-            if (msg && msg.method) {
-                var options = { store: this.lastStore, merge: true, fromMessage: true };
-                var attrs   = msg.data;
-                switch(msg.method) {
-                    case 'patch':
-                        options.patch = true;
-                    case 'update':
-                        var model = this.get(msg.id);
-                    case 'create':
-                        if (model) {
-                            model.save(attrs, options);
-                        } else {
-                            this.create(attrs, options);
-                        }
-                        break;
-    
-                    case 'delete':
-                        if (msg.id) {
-                            var model = this.get(msg.id);
-                            if (model) {
-                                model.destroy(options);
-                            }
-                        }
-                        break;
-    
-                    default:
-                        break;
-                }
-            }
-        },
-    
-        sync: function(method, model, options) {
-            var that   = options.store || this.store;
-            if (options.fromMessage) {
-                return that.handleCallback(options.success);
-            }
-            var entity = that.getEntity(model.entity || options.entity || this.entity);
-            if (that && entity) {
-                var channel = entity.channel;
-    
-                if ( M.isModel(model) && !model.id) {
-                    model.set(model.idAttribute, new M.ObjectID().toHexString());
-                }
-    
-                // connect collection with this channel
-                if ( M.isCollection(this) && channel && !this.channel) {
-                    this.channel = channel;
-                    this.listenTo(that, channel, that.onMessage, this);
-                }
-    
-                var time = that.getLastMessageTime(entity.channel);
-                // only send read messages if no other store can do this
-                // or for initial load
-                if (method !== "read" || !this.lastStore || !time) {
-                    that.addMessage(method, model,
-                        this.lastStore ? {} : options, // we don't need to call callbacks if an other store handle this
-                        entity);
-                }
-                if (this.lastStore) {
-                    options.store   = this.lastStore;
-                    this.lastStore.sync.apply(this, arguments);
-                }
-            }
-        },
-    
-        addMessage: function(method, model, options, entity) {
-            var that = this;
-            if (method && model) {
-                var changes = model.changedSinceSync;
-                var data = null;
-                var storeMsg = false;
-                switch (method) {
-                    case 'update':
-                    case 'create':
-                        data  = model.attributes;
-                        storeMsg = true;
-                        break;
-                    case 'patch':
-                        if ( _.isEmpty(changes)) return;
-                        data = changes;
-                        storeMsg = true;
-                        break;
-                    case 'delete':
-                        storeMsg = true;
-                        break;
-                }
-                var msg = {
-                    _id: model.id,
-                    id: model.id,
-                    method: method,
-                    data: data
-                };
-                var emit = function(channel, msg) {
-                if (that._initialized) {
-                        that.emitMessage(channel, msg, options);
-                    } else {
-                        that.handleCallback(options.success, msg.data);
-                    }
-                };
-                if (storeMsg) {
-                    this.storeMessage(entity.channel, msg, emit);
-                } else {
-                    emit(entity.channel, msg);
-                }
-            }
-        },
-    
-        emitMessage: function(channel, msg, options) {
-            var that = this;
-            console.log('emitMessage:'+msg.id);
-            this._socket.emit(channel, msg, function(msg, error) {
-                that.removeMessage(channel, msg, function(channel, msg) {
-                    if (error) {
-                        // Todo: revert changed data
-                        that.handleCallback(options.error, error);
-                    } else {
-                        if (options.success) {
-                            var resp = msg ? msg.data : null;
-                            that.handleCallback(options.success, resp);
-                        } else {
-                            that.setLastMessageTime(channel, msg.time);
-                            if (msg.method === 'read') {
-                                var array = _.isArray(msg.data) ? msg.data : [ msg.data ];
-                                for (var i=0; i < array.length; i++) {
-                                    var data = array[i];
-                                    if (data) {
-                                        that.trigger(channel, {
-                                            id: data._id,
-                                            method: 'update',
-                                            data: data
-                                        });
-                                        that.setLastMessageTime(channel, msg.time);
-                                    }
-                                }
-                            } else {
-                                that.trigger(channel, msg);
-                            }
-                        }
-                    }
-                });
-            });
-        },
-    
-        sendMessages: function() {
-            var that = this;
-            this.messages.each( function(message) {
-                var msg      = message.get('msg');
-                var channel  = message.get('channel');
-                var callback = message.get('callback');
-                if (that._isValidChannel(channel)) {
-                    if (callback) {
-                        callback(channel, msg);
-                    } else if (that._initialized) {
-                        that.emitMessage(channel, msg, {});
-                    }
-                } else {
-                    that.removeMessage(channel, msg);
-                }
-            });
-        },
-    
-        mergeMessages: function(data, id) {
-            return data;
-        },
-    
-        storeMessage: function(channel, msg, callback) {
-            var message = this.messages.get(msg._id);
-            if (message) {
-                message.save({
-                    msg: _.extend(message.get('msg'), msg)
-                });
-            } else {
-                this.messages.create({
-                    _id: msg._id,
-                    id:  msg.id,
-                    msg: msg,
-                    channel: channel,
-                    callback: callback
-                });
-            }
-            callback(channel, msg);
-        },
-    
-        removeMessage: function(channel, msg, callback) {
-            var message = this.messages.get(msg._id);
-            if (message) {
-                message.destroy();
-            }
-            callback(channel, msg);
-        }
-    
-    });
     M.WebSqlStore = M.Store.extend({
     
         _type: 'M.WebSqlStore',
@@ -5337,6 +5039,390 @@ var M = (function( global, Backbone, _ ) {
             return true;
         }
     });
+    
+    M.BikiniStore = M.Store.extend({
+    
+        _type: 'M.BikiniStore',
+    
+        _transactionFailed: false,
+    
+        _selector: null,
+    
+        name: 'bikini',
+    
+        size: 1024 * 1024 * 5,
+    
+        version: '1.2',
+    
+        host:   '',
+    
+        path:   '',
+    
+        resource: 'live',
+    
+        endpoints: {},
+    
+        useLocalStore:    true,
+    
+        useSocketNotify:  true,
+    
+        useOfflineChange: true,
+    
+        msgStore:  null,
+    
+        messages:  null,
+    
+        typeMapping: {
+            'binary':  'text',
+            'date':    'string'
+        },
+    
+        initialize: function( options ) {
+            M.Store.prototype.initialize.apply(this, arguments);
+    
+            var that  = this;
+            options   = options || {};
+    
+            this.socketio_path = options.socketio_path || this.socketio_path;
+        },
+    
+        initModel: function( model ) {
+        },
+    
+        initCollection: function( collection ) {
+            var url    = collection.getUrlRoot();
+            var entity = this.getEntity(collection.entity);
+            if (url && entity) {
+                var name    = entity.name;
+                var hash    = this._hashCode(url);
+                var channel = name + hash;
+                collection.channel = channel;
+                // get or create endpoint for this url
+                var endpoint   = this.endpoints[hash];
+                if (!endpoint) {
+                    endpoint = {};
+                    endpoint.url         = url;
+                    endpoint.entity      = entity;
+                    endpoint.channel     = channel;
+                    endpoint.credentials = entity.credentials || collection.credentials;
+                    endpoint.localStore  = this.useLocalStore    ? this.createLocalStore(endpoint) : null;
+                    endpoint.messages    = this.useOfflineChange ? this.createMsgCollection(endpoint) : null;
+                    endpoint.socket      = this.useSocketNotify  ? this.createSocket(endpoint, collection) : null;
+                    this.endpoints[hash] = endpoint;
+                }
+                collection.endpoint   = endpoint;
+                collection.localStore = endpoint.localStore;
+                collection.messages   = endpoint.messages;
+                collection.listenTo(this, channel, this.onMessage, collection);
+    
+                if (endpoint.messages && !endpoint.socket) {
+                    this.sendMessages(endpoint, collection);
+                }
+            }
+        },
+    
+        getEndpoint: function(url) {
+            if (url) {
+                var hash = this._hashCode(url);
+                return this.endpoints[hash];
+            }
+        },
+    
+        createLocalStore: function(endpoint) {
+            var entities = {};
+            entities[endpoint.entity.name] = {
+                name: endpoint.channel
+            };
+            return new M.LocalStorageStore({
+                entities: entities
+            });
+        },
+    
+        createMsgCollection: function(endpoint) {
+            var name = "msg-" + endpoint.channel;
+            var MsgCollection = M.Collection.extend({
+                model: M.Model.extend({ idAttribute: '_id' })
+            });
+            var messages  = new MsgCollection({
+                entity: name,
+                store: new M.LocalStorageStore()
+            });
+            messages.fetch();
+            return messages;
+        },
+    
+        createSocket: function(endpoint, collection) {
+            var url = M.Request.getLocation(endpoint.url);
+            var host = url.protocol + "//" +url.host;
+            var path = url.pathname;
+            var path = this.socketio_path || (path + (path.charAt(path.length-1) === '/' ? '' : '/' ) + 'live');
+            // remove leading /
+            var resource = (path && path.indexOf('/') == 0) ? path.substr(1) : path;
+            var that = this;
+            var socket = M.SocketIO.create({
+                host: host,
+                resource: resource,
+                connected: function() {
+                    that._bindChannel(socket, endpoint);
+                    that.sendMessages(endpoint, collection);
+                }
+            });
+            return socket;
+        },
+    
+        _bindChannel: function(socket, endpoint) {
+            var that = this;
+            var channel = endpoint.channel;
+            var name    = endpoint.entity.name;
+            var time = this.getLastMessageTime(channel);
+            socket.on(channel, function(msg) {
+                if (msg) {
+                    that.setLastMessageTime(channel, msg.time);
+                    that.trigger(channel, msg);
+                }
+            });
+            socket.emit('bind', {
+                entity:  name,
+                channel: channel,
+                time:    time
+            });
+            // do initial sync
+            // if (!this.getLastMessageTime(entity.channel)) {
+            //    this.sync("read", {}, { entity: entity.name, store: this });
+            //}
+        },
+    
+        getLastMessageTime: function(channel) {
+            return localStorage.getItem('__'+ channel + 'last_msg_time') || 0;
+        },
+    
+        setLastMessageTime: function(channel, time) {
+            if (time) {
+                localStorage.setItem('__'+ channel + 'last_msg_time', time);
+            }
+        },
+    
+        _hashCode: function(str){
+            var hash = 0, i, char;
+            if (str.length == 0) return hash;
+            for (i = 0, l = str.length; i < l; i++) {
+                char  = str.charCodeAt(i);
+                hash  = ((hash<<5)-hash)+char;
+                hash |= 0; // Convert to 32bit integer
+            }
+            return hash;
+        },
+    
+    
+        onMessage: function(msg) {
+            if (msg && msg.method) {
+                var options = { store: this.localStore, merge: true, fromMessage: true, entity: this.entity.name };
+                var attrs   = msg.data;
+                switch(msg.method) {
+                    case 'patch':
+                        options.patch = true;
+                    case 'update':
+                    case 'create':
+                        var model = msg.id ? this.get(msg.id) : null;
+                        if (model) {
+                            model.save(attrs, options);
+                        } else {
+                            this.create(attrs, options);
+                        }
+                        break;
+    
+                    case 'delete':
+                        if (msg.id) {
+                            if (msg.id === 'all') {
+                                this.reset();
+                            } else {
+                                var model = this.get(msg.id);
+                                if (model) {
+                                    model.destroy(options);
+                                }
+                            }
+                        }
+                        break;
+    
+                    default:
+                        break;
+                }
+            }
+        },
+    
+        sync: function(method, model, options) {
+            var that   = options.store || this.store;
+            if (options.fromMessage) {
+                return that.handleCallback(options.success);
+            }
+            var endpoint = that.getEndpoint(this.getUrlRoot());
+            if (that && endpoint) {
+                var channel = this.channel;
+    
+                if ( M.isModel(model) && !model.id) {
+                    model.set(model.idAttribute, new M.ObjectID().toHexString());
+                }
+    
+                var time = that.getLastMessageTime(channel);
+                // only send read messages if no other store can do this
+                // or for initial load
+                if (method !== "read" || !this.localStore || !time) {
+                    // do backbone rest
+                    that.addMessage(method, model,
+                        this.localStore ? {} : options, // we don't need to call callbacks if an other store handle this
+                        endpoint);
+                }
+                if (endpoint.localStore) {
+                    options.store  = endpoint.localStore;
+                    endpoint.localStore.sync.apply(this, arguments);
+                }
+            }
+        },
+    
+        addMessage: function(method, model, options, endpoint) {
+            var that = this;
+            if (method && model) {
+                var changes = model.changedSinceSync;
+                var data = null;
+                var storeMsg = false;
+                switch (method) {
+                    case 'update':
+                    case 'create':
+                        data  = model.attributes;
+                        storeMsg = true;
+                        break;
+                    case 'patch':
+                        if ( _.isEmpty(changes)) return;
+                        data = changes;
+                        storeMsg = true;
+                        break;
+                    case 'delete':
+                        storeMsg = true;
+                        break;
+                }
+                var msg = {
+                    _id: model.id,
+                    id: model.id,
+                    method: method,
+                    data: data
+                };
+                var emit = function(endpoint, msg) {
+                    that.emitMessage(endpoint, msg, options, model);
+                };
+                if (storeMsg) {
+                    this.storeMessage(endpoint, msg, emit);
+                } else {
+                    emit(endpoint, msg);
+                }
+            }
+        },
+    
+        emitMessage: function(endpoint, msg, options, model) {
+            var channel = endpoint.channel;
+            var that = this;
+            console.log('emitMessage:' + msg.method + (msg.id ? ' : ' + msg.id : '') );
+            var url   = endpoint.url;
+            if (msg.id && msg.method !== 'create') {
+                url += "/" + msg.id;
+            }
+            Backbone.sync(msg.method, model, {
+                url: url,
+                error: function(xhr, status) {
+                    if (!xhr.responseText && that.useOfflineChange) {
+                        // this seams to be only a connection problem, so we keep the message an call success
+                        that.handleCallback(options.success, msg.data);
+                    } else {
+                        that.removeMessage(endpoint, msg, function(endpoint, msg) {
+                            // Todo: revert changed data
+                            that.handleCallback(options.error, status);
+                        });
+                    }
+                },
+                success: function(data) {
+                    that.removeMessage(endpoint, msg, function(endpoint, msg) {
+                        if (options.success) {
+                            var resp = data;
+                            that.handleCallback(options.success, resp);
+                        } else {
+                            // that.setLastMessageTime(channel, msg.time);
+                            if (msg.method === 'read') {
+                                var array = _.isArray(data) ? data : [ data ];
+                                for (var i=0; i < array.length; i++) {
+                                    data = array[i];
+                                    if (data) {
+                                        that.trigger(channel, {
+                                            id: data._id,
+                                            method: 'update',
+                                            data: data
+                                        });
+                                        //that.setLastMessageTime(channel, msg.time);
+                                    }
+                                }
+                            } else {
+                                that.trigger(channel, msg);
+                            }
+                        }
+                    });
+                },
+                beforeSend: function(xhr) {
+                    M.Request.setAuthentication(xhr, endpoint.credentials);
+                }
+            });
+        },
+    
+        sendMessages: function(endpoint, collection) {
+            if (endpoint && endpoint.messages) {
+                var that = this;
+                endpoint.messages.each( function(message) {
+                    var msg;
+                    try { msg = JSON.parse(message.get('msg')) } catch(e) {};
+                    var channel  = message.get('channel');
+                    if (msg && channel) {
+                        var model = that.createModel({ collection: collection }, msg.data);
+                        that.emitMessage(endpoint, msg, {}, model);
+                    } else {
+                        message.destroy();
+                    }
+                });
+            }
+        },
+    
+        mergeMessages: function(data, id) {
+            return data;
+        },
+    
+        storeMessage: function(endpoint, msg, callback) {
+            if (endpoint && endpoint.messages && msg) {
+                var channel = endpoint.channel;
+                var message = endpoint.messages.get(msg._id);
+                if (message) {
+                    var oldMsg = JSON.parse(message.get('msg'));
+                    message.save({
+                        msg: JSON.stringify(_.extend(oldMsg, msg))
+                    });
+                } else {
+                    endpoint.messages.create({
+                        _id: msg._id,
+                        id:  msg.id,
+                        msg: JSON.stringify(msg),
+                        channel: channel
+                    });
+                }
+            }
+            callback(endpoint, msg);
+        },
+    
+        removeMessage: function(endpoint, msg, callback) {
+            if (endpoint && endpoint.messages) {
+                var message = endpoint.messages.get(msg._id);
+                if (message) {
+                    message.destroy();
+                }
+            }
+            callback(endpoint, msg);
+        }
+    });
+    
 
     //////////////////////////
     
@@ -6478,7 +6564,7 @@ var M = (function( global, Backbone, _ ) {
     __    },
     
         initialRenderProcess: function() {
-            //        this.render();
+    //        this.render();
             $('body').html(this.el);
             PageTransitions.init();
         },
@@ -6869,7 +6955,7 @@ var M = (function( global, Backbone, _ ) {
     
         template: M.Themes.getTemplateByName('bottom-bar-layout')
     });
-    M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"><div class="header"></div> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"><div class="header"></div> <div class="content"></div> <div class="footer"></div> </div> </div>');
+    M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>');
     
     M.SwitchLayout = M.Layout.extend({
     
@@ -6879,23 +6965,23 @@ var M = (function( global, Backbone, _ ) {
     
         currentPage: '',
     
-        applyViews: function( settings ) {
+        applyViews: function( settings ){
             var current = $('.pt-page-current');
     
             var next = $('.pt-page:not(.pt-page-current)');
     
             var selector = '';
     
-            if( current.length < 1 ) {
+            if(current.length < 1){
                 selector = 'pt-page-1';
-            } else if( current.hasClass('pt-page-1') ) {
+            } else if(current.hasClass('pt-page-1')){
                 selector = 'pt-page-2';
-            } else if( current.hasClass('pt-page-2') ) {
+            } else if(current.hasClass('pt-page-2')){
                 selector = 'pt-page-1';
             }
     
             var view = {};
-            view['.' + selector + ' .content'] = settings.content.create();
+            view['.' + selector + ' .content'] = settings.content;
             if( settings.footer ) {
                 view['.' + selector + ' .footer'] = settings.footer.create();
             } else {
@@ -6910,6 +6996,7 @@ var M = (function( global, Backbone, _ ) {
             return view;
         }
     });
+    
     //TODO do this in good
     var template = $('<div class="wrap"> <div class="left-panel firstLeft"> <div class="action-menu-close"></div> <div class="content"></div> </div> <div class="right-panel"> <div class="content"></div> </div> </div>');
     template.find('.right-panel').before(M.SwitchLayout.prototype.template);

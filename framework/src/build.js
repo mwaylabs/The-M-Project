@@ -29,8 +29,8 @@ var M = (function( global, Backbone, _ ) {
     // @include ./data/sql_selector.js
     // @include ./data/stores/store.js
     // @include ./data/stores/local_storage.js
-    // @include ./data/stores/socket.js
     // @include ./data/stores/web_sql.js
+    // @include ./data/stores/bikini_store.js
 
     // @include ./ui/views/view.js
     // @include ./ui/pagetransitions.js

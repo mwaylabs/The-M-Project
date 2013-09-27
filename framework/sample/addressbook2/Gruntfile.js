@@ -341,7 +341,7 @@ module.exports = function (grunt) {
             'coffee:dist',
             'createDefaultTemplate',
             'tmpl',
-            'compass:server',
+//            'compass:server',
             'connect:' + reloadType
         ];
 
@@ -361,7 +361,7 @@ module.exports = function (grunt) {
         'coffee',
         'createDefaultTemplate',
         'tmpl',
-        'compass',
+//        'compass',
         'connect:test',
         'mocha'
     ]);
@@ -371,7 +371,7 @@ module.exports = function (grunt) {
         'coffee',
         'createDefaultTemplate',
         'tmpl',
-        'compass:dist',
+//        'compass:dist',
         'useminPrepare',
         'requirejs',
         'imagemin',

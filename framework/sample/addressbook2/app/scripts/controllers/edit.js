@@ -16,8 +16,8 @@ define([
             Addressbook.layoutManager.setLayout(new AppLayout());
 
             Addressbook.layoutManager.applyViews({
-                left: "views/ContactDetail",
-                right: "views/ContactDetail"
+                left: "views/ContactAll",
+                right: "views/ContactEdit"
             }, function(){
                 Addressbook.layoutManager.initialRenderProcess();
                 if(Object.keys(params).length){
