@@ -1,4 +1,9 @@
-M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>');
+<<<<<<< HEAD
+M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"><div class="header"></div> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"><div class="header"></div> <div class="content"></div> <div class="footer"></div> </div> </div>');
+=======
+
+M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>' );
+>>>>>>> master
 
 M.SwitchLayout = M.Layout.extend({
 
@@ -24,7 +29,12 @@ M.SwitchLayout = M.Layout.extend({
         }
 
         var view = {};
+<<<<<<< HEAD
+        view['.' + selector + ' .content'] = settings.content.create();
+=======
+        //                view['.' + selector + ' .content'] = settings.content;
         view['.' + selector + ' .content'] = settings.content;
+>>>>>>> master
         if( settings.footer ) {
             view['.' + selector + ' .footer'] = settings.footer.create();
         } else {

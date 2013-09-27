@@ -14,11 +14,16 @@ define([
                 FastClick.attach(document.body);
 
                 app.layoutManager = new (Backbone.Layout.extend());
-
-                var collections = {
+<<<<<<< HEAD
+                app.collections = {
                     contacts: new ContactCollection({
                         store: RemoteStore
                     })
+=======
+
+                var collections = {
+                    contacts: new Contacts()
+>>>>>>> master
                 };
 
 //
@@ -87,8 +92,13 @@ define([
             },
 
             routes: {
+<<<<<<< HEAD
                 '': 'index',
+                'detail/:id': 'details',
+=======
+                '': 'contacts',
                 'detail/:id': 'detail',
+>>>>>>> master
                 'add': 'add',
                 'contacts': 'contacts'
             },

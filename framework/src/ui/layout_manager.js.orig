@@ -88,7 +88,11 @@ _.extend(Backbone.Layout.prototype, {
 __    },
 
     initialRenderProcess: function() {
-//        this.render();
+<<<<<<< HEAD
+        //        this.render();
+=======
+        this.render();
+>>>>>>> master
         $('body').html(this.el);
         PageTransitions.init();
     },

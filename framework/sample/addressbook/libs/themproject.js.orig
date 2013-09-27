@@ -2,7 +2,11 @@
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Version:   0.0.0
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-// Date:      Fri Sep 13 2013 17:31:14
+<<<<<<< HEAD:framework/sample/addressbook/libs/themproject.js
+// Date:      Fri Sep 20 2013 13:50:15
+=======
+// Date:      Mon Sep 16 2013 13:14:46
+>>>>>>> master:framework/build/themproject.js
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -6113,8 +6117,12 @@ _.extend(M.View.prototype, {
 //    },
 
     beforeRender: function() {
-
+<<<<<<< HEAD:framework/sample/addressbook/libs/themproject.js
         this.addChildViews();
+=======
+
+//        this.addChildViews();
+>>>>>>> master:framework/build/themproject.js
     },
 
     afterRender: function() {
@@ -6122,9 +6130,36 @@ _.extend(M.View.prototype, {
         return this;
     },
 
-    template: _.tpl('<div id="<%= value %>"><div><%= value %></div><div data-child-view="main"></div></div>'),
+<<<<<<< HEAD:framework/sample/addressbook/libs/themproject.js
+    getTemplateIdentifier: function(){
+        throw new DOMException();
+        console.warn('define your f****ing own getter for the templateIdentifier');
+    },
+
+    template: _.template('<div id="<%= value %>" contenteditable="true"><div><%= value %></div><div data-child-view="main"></div></div>'),
 
     initialize: function() {
+        if(this.options.template){
+            if( _.isFunction(this.options.template) || _.isNodeList(this.options.template)){
+                this.template = this.options.template;
+            } else if( _.isObject(this.options.template)){
+                var templateIdentifier = this.getTemplateIdentifier();
+                var options = {template: _.extend(M.TemplateManager[templateIdentifier], this.options.template)};
+                var template = M.TemplateManager.get.apply(options, ['template']);
+                if(template){
+                    this.template = _.template(template);
+                } else {
+                    console.warn('template not found');
+                }
+
+            }
+        }
+=======
+    template: _.template('<div id="<%= value %>" contenteditable="true"><div><%= value %></div><div data-child-view="main"></div></div>'),
+
+    initialize: function() {
+>>>>>>> master:framework/build/themproject.js
+
         this.events = this.events || {};
         var value = this.options.value || this.value;
         if( _.isFunction(value)){
@@ -6144,7 +6179,12 @@ _.extend(M.View.prototype, {
     //
     //    // provide data to the template
     serialize: function() {
+
+<<<<<<< HEAD:framework/sample/addressbook/libs/themproject.js
+        return this.model ? this.model.attributes : {};
+=======
         return this.model.attributes
+>>>>>>> master:framework/build/themproject.js
     },
 
     applyViews: function() {
@@ -6159,58 +6199,92 @@ _.extend(M.View.prototype, {
         }
     },
 
+<<<<<<< HEAD:framework/sample/addressbook/libs/themproject.js
     addChildViews: function() {
         var childViews = this.getChildViews();
-
         if(childViews){
-            this.setViews(childViews);
-        }
-        if( this.validateChildViews(childViews) ) {
-
+            var children = {}
+            _.each(childViews, function(child, query){
+                if( _.isFunction(child)){
+                    children[query] = child.create();
+                } else if(_.isArray(child)){
+                    children[query] = [];
+                    _.each(child, function(view){
+                        if( _.isFunction(view)){
+                            children[query].push(view.create());
+                        } else {
+                            children[query].push(view);
+                        }
+                    }, this);
+                } else {
+                    children[query] = child;
+                }
+            }, this);
+            this.setViews(children);
         }
     },
 
     getChildViews: function() {
-        if( this.options && this.options.childViews ) {
-            return this.addChildViewIdentifier();
-        } else {
-            return false;
+        if(this.childViews){
+            return this.childViews;
         }
+        return this.childViews;
     },
 
-    addChildViewIdentifier: function() {
-        var childViews = {};
-
-        if( _.isArray(this.options.childViews)){
-            var key= 'main';
-            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
-        } else {
-            _.each(this.options.childViews, function( value, key ) {
-                if( key.search(/[.#]/) === 0 ) {
-                    key = key.replace(/[.#]/, '');
-                }
-                childViews[this.getChildViewIdentifier(key)] = value;
-            }, this);
-        }
-        return childViews;
-    },
-
-    validateChildViews: function( childViews ) {
-
-        var childViews = childViews || this.getChildViews();
-        var isValid = true;
-        _.each(childViews, function( childView ) {
-            if( _.isArray(childView)){
-                _.each(childView, function( child ) {
-                    isValid = this.validateChildViews(child);
-                }, this);
-            } else if( !this.isView(childView) ) {
-                isValid = false;
-            }
-        }, this);
-
-        return isValid ? childViews : false;
-    }
+=======
+//    addChildViews: function() {
+//        var childViews = this.getChildViews();
+//
+//        if(childViews){
+//            this.setViews(childViews);
+//        }
+//        if( this.validateChildViews(childViews) ) {
+//
+//        }
+//    },
+//
+>>>>>>> master:framework/build/themproject.js
+//    getChildViews: function() {
+//        if( this.options && this.options.childViews ) {
+//            return this.addChildViewIdentifier();
+//        } else {
+//            return false;
+//        }
+//    },
+//
+//    addChildViewIdentifier: function() {
+//        var childViews = {};
+//
+//        if( _.isArray(this.options.childViews)){
+//            var key= 'main';
+//            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
+//        } else {
+//            _.each(this.options.childViews, function( value, key ) {
+//                if( key.search(/[.#]/) === 0 ) {
+//                    key = key.replace(/[.#]/, '');
+//                }
+//                childViews[this.getChildViewIdentifier(key)] = value;
+//            }, this);
+//        }
+//        return childViews;
+//    },
+//
+//    validateChildViews: function( childViews ) {
+//
+//        var childViews = childViews || this.getChildViews();
+//        var isValid = true;
+//        _.each(childViews, function( childView ) {
+//            if( _.isArray(childView)){
+//                _.each(childView, function( child ) {
+//                    isValid = this.validateChildViews(child);
+//                }, this);
+//            } else if( !this.isView(childView) ) {
+//                isValid = false;
+//            }
+//        }, this);
+//
+//        return isValid ? childViews : false;
+//    }
 
     //    set: function( value ) {
     //        this.value = value || this.value;
@@ -6381,28 +6455,68 @@ M.View.create = M.create;
 //TODO DO THIS NICE
 (function() {
 
-    var templates = {
-        default: '<div>Button: <div class="<%= contenteditable %>" <% if(contenteditable) {  } %>><%= value %></div></div>',
-        topcoat: '<button class="topcoat-button--large" ><%= value %></button>',
-        bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star"></span><%= value %></button>',
-        jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= value %></span></span></a>'
-    };
+<<<<<<< HEAD:framework/sample/addressbook/libs/themproject.js
+    _.mixin({isNodeList: function( el ) {
+        if( typeof el.length === 'number' && typeof el[0] === 'object' && el[0].hasOwnProperty('innerHTML') ) {
+            return true;
+        }
+        return false;
+    }});
 
-    var toolbarTemplates = {
-        default: '<div id="<%= value %>"><div data-child-view="left"></div> <div class="center"><%= value %></div> <div data-child-view="right"></div></div>'
-    };
-
+=======
+>>>>>>> master:framework/build/themproject.js
     M.TemplateManager = M.Object.extend({
 
         containerTemplates: {
-            default: '<div id="<%= value %>"><div data-child-view="main"></div><div><%= value %></div></div>'
+            default: '<div><div data-binding="value" contenteditable="true"><%= value %></div><div data-child-view="main"></div>'
+<<<<<<< HEAD:framework/sample/addressbook/libs/themproject.js
         },
 
-        currentTemplate: 'default',
+        buttonTemplates: {
+            default: '<div>Button: <div data-binding="value"<% if(value) {  } %>><%= value %></div></div>',
+            topcoat: '<button class="topcoat-button--large" data-binding="value"><%= value %></button>',
+            bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star" data-binding="value"></span><%= value %></button>',
+            jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="value"><%= value %></span></span></a>'
+        },
+
+        toolbarTemplates: {
+            default: '<div>AAA<div data-child-view="left"></div> <div class="center" data-binding="value"><%= value %></div> <div data-child-view="right"></div></div>',
+            bootstrap: '<div class="page-header"><div data-child-view="left"></div><h1><%= value %></h1><div data-child-view="right"></div></div>',
+            jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= value %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
+        },
+
+        currentTemplate: 'jqm',
 
         get: function( template ) {
             if( this[template] ) {
-                return this[template][this.currentTemplate];
+                var tpl = this[template][M.TemplateManager.currentTemplate];
+=======
+        },
+
+        buttonTemplates: {
+            default: '<div>Button: <div data-binding="value"<% if(value) {  } %>><%= value %></div></div>',
+            topcoat: '<button class="topcoat-button--large" ><%= value %></button>',
+            bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star"></span><%= value %></button>',
+            jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= value %></span></span></a>'
+        },
+
+        toolbarTemplates: {
+            default: '<div><div data-child-view="left"></div> <div class="center" data-binding="value"><%= value %></div> <div data-child-view="right"></div></div>',
+            bootstrap: '<div class="page-header"><div data-child-view="left"></div><h1><%= value %></h1><div data-child-view="right"></div></div>',
+            jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= value %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
+        },
+
+        currentTemplate: 'bootstrap',
+
+        get: function( template ) {
+            if( this[template] ) {
+                var tpl = this[template][this.currentTemplate];
+>>>>>>> master:framework/build/themproject.js
+                if( !tpl ) {
+                    return this[template]['default'];
+                } else {
+                    return tpl;
+                }
             }
         }
     });
@@ -6431,8 +6545,20 @@ M.View.create = M.create;
 
         _type: 'M.Toolbar',
 
-        template: _.tpl(toolbarTemplates['default'])
+<<<<<<< HEAD:framework/sample/addressbook/libs/themproject.js
+        template: _.template(M.TemplateManager.get('toolbarTemplates')),
 
+        getTemplateIdentifier: function(){
+
+            return 'toolbarTemplates'
+        },
+
+        initialize: function() {
+            M.View.prototype.initialize.apply(this, arguments);
+        }
+=======
+        template: _.template(M.TemplateManager.get('toolbarTemplates'))
+>>>>>>> master:framework/build/themproject.js
 
     });
 
@@ -7244,7 +7370,12 @@ M.BottomBarLayout = M.Layout.extend({
     template: M.Themes.getTemplateByName('bottom-bar-layout')
 });
 // Source: src/ui/layouts/switch-layout/switch-layout.js
-M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>');
+<<<<<<< HEAD:framework/sample/addressbook/libs/themproject.js
+M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"><div class="header"></div> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"><div class="header"></div> <div class="content"></div> <div class="footer"></div> </div> </div>');
+=======
+
+M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>' );
+>>>>>>> master:framework/build/themproject.js
 
 M.SwitchLayout = M.Layout.extend({
 
@@ -7270,12 +7401,28 @@ M.SwitchLayout = M.Layout.extend({
         }
 
         var view = {};
+<<<<<<< HEAD:framework/sample/addressbook/libs/themproject.js
+        view['.' + selector + ' .content'] = settings.content.create();
+        if( settings.footer ) {
+            view['.' + selector + ' .footer'] = settings.footer.create();
+        } else {
+            view['.' + selector + ' .footer'] = new M.View();
+        }
+
+        if( settings.header ) {
+            view['.' + selector + ' .header'] = settings.header.create();
+        } else {
+            view['.' + selector + ' .header'] = new M.View();
+        }
+=======
+        //                view['.' + selector + ' .content'] = settings.content;
         view['.' + selector + ' .content'] = settings.content;
-//        if( settings.footer ) {
-//            view['.' + selector + ' .footer'] = settings.footer;
-//        } else {
-//            view['.' + selector + ' .footer'] = new M.View();
-//        }
+        if( settings.footer ) {
+            view['.' + selector + ' .footer'] = settings.footer;
+        } else {
+            view['.' + selector + ' .footer'] = new M.View();
+        }
+>>>>>>> master:framework/build/themproject.js
         return view;
     }
 });

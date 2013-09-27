@@ -1,11 +1,9 @@
 define([
     "themproject",
     "text!templates/add.html",
-    "data/contact_model",
-    "app"
-
+    "data/contacts"
 ],
-    function( M, template, ContactModel, app ) {
+    function( M, template, app ) {
 
         var View = M.View.extend({
             first: true,
