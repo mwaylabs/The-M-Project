@@ -60,7 +60,8 @@
                     // decode the special characters by replacing them
                     // use the underscorpe matcher regex to find the given <%= => template and it's identifier and write it into cssClass
                     //e.q. <%= firstname => writes the string 'firstname' into cssClass
-                    compare.replace(matcher, function(match, escape, interpolate) {
+                    _matcher = /@%-([\s\S]+?)%@|@%@([\s\S]+?)%@|@%([\s\S]+?)%@|$/g;
+                    compare.replace(_matcher, function(match, escape, interpolate) {
                         if(interpolate){
                             attributeName = interpolate.replace(/\s/g, '');
                         }
@@ -71,6 +72,7 @@
                         // add the cssClass name from the template to the current element
                         // so stickit can use it
                         //                        elem.classList.add(cssClass);
+
                         if(elem.tagName === 'INPUT'){
                             elem.setAttribute('data-binding', 'input-' + attributeName);
                         } else {
@@ -88,6 +90,10 @@
 
             // start the process
             convert(obj);
+
+            console.log(obj[0].outerHTML);
+            console.log(text);
+
             // overwrite the originial template text with the generated one
             text = text.replace(/@%@/g, '<%=');
             text = text.replace(/@%/g, '<%').replace(/%@/g, '%>');

@@ -55,7 +55,7 @@ define([
             },
 
             routes: {
-                '': 'contacts',
+                '': 'index',
                 'detail/:id': 'detail',
                 'add': 'add',
                 'contacts': 'contacts'

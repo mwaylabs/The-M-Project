@@ -4,51 +4,63 @@ define([
 
     var Main = function( isFirstLoad ) {
 
-        var Toolbar = M.Toolbar.create({
 
-            value: 'Hello',
+        var view = M.ContainerView.create({
 
-            childViews: {
-
-                left: M.View.create({
-                    value: 'a',
-                    childViews: {
-                        left: M.Button.create({
-                            value: '0one one'
+            value: 'outer',
+            views: {
+                '[data-child-view="main"]': M.ContainerView.create({
+                    value: 'childViews',
+                    views: {
+                        '[data-child-view="main"]': M.Button.create({
+                            value: 'press',
+                            events: {
+                                'click': function() {
+                                    console.log('asd');
+                                }
+                            }
                         })
                     }
-                }),
 
-                right: M.ContainerView.create({
-                    value: 'b',
-                    childViews: [
-                        M.ContainerView.create({value: '1two one'}), M.ContainerView.create({value: '2two two'}), M.ContainerView.create({value: '3two two'}), M.ContainerView.create({value: '4two two'})
-                    ]
+                })
+            },
+
+            events: {
+                'click': function() {
+                    console.log('parent');
+                }
+            }
+        });
+
+        v = view;
+
+        var footer = M.Toolbar.create({
+            value: 'welcome',
+            views: {
+                '[data-child-view="right"]': M.Button.create({
+                    value:'right',
+                    events: {
+                        'click': function() {
+                            console.log('right');
+                        }
+                    }
+                }),
+                '[data-child-view="left"]': M.Button.create({
+                    value:'left',
+                    events: {
+                        'click': function() {
+                            console.log('left');
+                        }
+                    }
                 })
             }
         });
 
-        T = Toolbar;
-        //
-        //
-        //        b = M.ContainerView.create({
-        //
-        //            value: 'inner'
-        //        });
-        //
-        //        c = M.Button.create({
-        //
-        //            value: 'inner -- inner'
-        //
-        //        });
-
-        //opt.
-        //T.render();
-
         if( isFirstLoad ) {
             app.layoutManager.setLayout(new M.SwipeLayout());
             app.layoutManager.applyViews({
-                content: Toolbar
+                content: view,
+                footer: footer
             });
         }
 
@@ -61,4 +73,5 @@ define([
 
 
     return Main;
+
 });
