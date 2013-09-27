@@ -192,9 +192,13 @@ M.BikiniStore = M.Store.extend({
 
                 case 'delete':
                     if (msg.id) {
-                        var model = this.get(msg.id);
-                        if (model) {
-                            model.destroy(options);
+                        if (msg.id === 'all') {
+                            this.reset();
+                        } else {
+                            var model = this.get(msg.id);
+                            if (model) {
+                                model.destroy(options);
+                            }
                         }
                     }
                     break;

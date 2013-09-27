@@ -11,7 +11,7 @@ define([
          socketio_path: 'bikini/live'
     });
 
-    var host = '';
+    var host = 'http://nerds.mway.io:8200';
     App.Contacts = M.Collection.extend({
         url: host + '/bikini/contacts', // for rest usage
         model: App.Contact,

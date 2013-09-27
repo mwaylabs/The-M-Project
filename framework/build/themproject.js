@@ -2,7 +2,7 @@
 // Project:   The M-Project - Mobile HTML5 Application Framework
 // Version:   0.0.0
 // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-// Date:      Fri Sep 13 2013 17:31:14
+// Date:      Mon Sep 16 2013 13:14:46
 // License:   Dual licensed under the MIT or GPL Version 2 licenses.
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -6097,20 +6097,20 @@ _.extend(M.View.prototype, {
     //
     //    events: null,
     //
-    //    bindings: {
-    //        '[data-binding="value"]': {
-    //            observe: 'value'
-    //        }
-    //    },
+        bindings: {
+            '[data-binding="value"]': {
+                observe: 'value'
+            }
+        },
 
-    getChildViewIdentifier: function( name ) {
-        console.log('#' + this.options.value + ' [data-child-view="' + name + '"]');
-        return '#' + this.options.value + ' > [data-child-view="' + name + '"]';
-    },
+//    getChildViewIdentifier: function( name ) {
+//        console.log('#' + this.options.value + ' [data-child-view="' + name + '"]');
+//        return '#' + this.options.value + ' > [data-child-view="' + name + '"]';
+//    },
 
     beforeRender: function() {
 
-        this.addChildViews();
+//        this.addChildViews();
     },
 
     afterRender: function() {
@@ -6118,9 +6118,10 @@ _.extend(M.View.prototype, {
         return this;
     },
 
-    template: _.tpl('<div id="<%= value %>"><div><%= value %></div><div data-child-view="main"></div></div>'),
+    template: _.template('<div id="<%= value %>" contenteditable="true"><div><%= value %></div><div data-child-view="main"></div></div>'),
 
     initialize: function() {
+
         this.events = this.events || {};
         var value = this.options.value || this.value;
         if( this.options.value instanceof Backbone.Model ) {
@@ -6128,12 +6129,13 @@ _.extend(M.View.prototype, {
         } else if( this.value instanceof Backbone.Model ) {
             this.model = this.value;
         } else if( !this.model ) {
-            this.model = new Backbone.Model({value: value, contenteditable: 'contenteditable' });
+            this.model = new Backbone.Model({value: value });
         }
     },
     //
     //    // provide data to the template
     serialize: function() {
+
         return this.model.attributes
     },
 
@@ -6150,58 +6152,58 @@ _.extend(M.View.prototype, {
 
     },
 
-    addChildViews: function() {
-        var childViews = this.getChildViews();
-
-        if(childViews){
-            this.setViews(childViews);
-        }
-        if( this.validateChildViews(childViews) ) {
-
-        }
-    },
-
-    getChildViews: function() {
-        if( this.options && this.options.childViews ) {
-            return this.addChildViewIdentifier();
-        } else {
-            return false;
-        }
-    },
-
-    addChildViewIdentifier: function() {
-        var childViews = {};
-
-        if( _.isArray(this.options.childViews)){
-            var key= 'main';
-            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
-        } else {
-            _.each(this.options.childViews, function( value, key ) {
-                if( key.search(/[.#]/) === 0 ) {
-                    key = key.replace(/[.#]/, '');
-                }
-                childViews[this.getChildViewIdentifier(key)] = value;
-            }, this);
-        }
-        return childViews;
-    },
-
-    validateChildViews: function( childViews ) {
-
-        var childViews = childViews || this.getChildViews();
-        var isValid = true;
-        _.each(childViews, function( childView ) {
-            if( _.isArray(childView)){
-                _.each(childView, function( child ) {
-                    isValid = this.validateChildViews(child);
-                }, this);
-            } else if( !this.isView(childView) ) {
-                isValid = false;
-            }
-        }, this);
-
-        return isValid ? childViews : false;
-    }
+//    addChildViews: function() {
+//        var childViews = this.getChildViews();
+//
+//        if(childViews){
+//            this.setViews(childViews);
+//        }
+//        if( this.validateChildViews(childViews) ) {
+//
+//        }
+//    },
+//
+//    getChildViews: function() {
+//        if( this.options && this.options.childViews ) {
+//            return this.addChildViewIdentifier();
+//        } else {
+//            return false;
+//        }
+//    },
+//
+//    addChildViewIdentifier: function() {
+//        var childViews = {};
+//
+//        if( _.isArray(this.options.childViews)){
+//            var key= 'main';
+//            childViews[this.getChildViewIdentifier(key)] = this.options.childViews;
+//        } else {
+//            _.each(this.options.childViews, function( value, key ) {
+//                if( key.search(/[.#]/) === 0 ) {
+//                    key = key.replace(/[.#]/, '');
+//                }
+//                childViews[this.getChildViewIdentifier(key)] = value;
+//            }, this);
+//        }
+//        return childViews;
+//    },
+//
+//    validateChildViews: function( childViews ) {
+//
+//        var childViews = childViews || this.getChildViews();
+//        var isValid = true;
+//        _.each(childViews, function( childView ) {
+//            if( _.isArray(childView)){
+//                _.each(childView, function( child ) {
+//                    isValid = this.validateChildViews(child);
+//                }, this);
+//            } else if( !this.isView(childView) ) {
+//                isValid = false;
+//            }
+//        }, this);
+//
+//        return isValid ? childViews : false;
+//    }
 
     //    set: function( value ) {
     //        this.value = value || this.value;
@@ -6372,28 +6374,35 @@ M.View.create = M.create;
 //TODO DO THIS NICE
 (function() {
 
-    var templates = {
-        default: '<div>Button: <div class="<%= contenteditable %>" <% if(contenteditable) {  } %>><%= value %></div></div>',
-        topcoat: '<button class="topcoat-button--large" ><%= value %></button>',
-        bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star"></span><%= value %></button>',
-        jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= value %></span></span></a>'
-    };
-
-    var toolbarTemplates = {
-        default: '<div id="<%= value %>"><div data-child-view="left"></div> <div class="center"><%= value %></div> <div data-child-view="right"></div></div>'
-    };
-
     M.TemplateManager = M.Object.extend({
 
         containerTemplates: {
-            default: '<div id="<%= value %>"><div data-child-view="main"></div><div><%= value %></div></div>'
+            default: '<div><div data-binding="value" contenteditable="true"><%= value %></div><div data-child-view="main"></div>'
         },
 
-        currentTemplate: 'default',
+        buttonTemplates: {
+            default: '<div>Button: <div data-binding="value"<% if(value) {  } %>><%= value %></div></div>',
+            topcoat: '<button class="topcoat-button--large" ><%= value %></button>',
+            bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star"></span><%= value %></button>',
+            jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= value %></span></span></a>'
+        },
+
+        toolbarTemplates: {
+            default: '<div><div data-child-view="left"></div> <div class="center" data-binding="value"><%= value %></div> <div data-child-view="right"></div></div>',
+            bootstrap: '<div class="page-header"><div data-child-view="left"></div><h1><%= value %></h1><div data-child-view="right"></div></div>',
+            jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= value %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
+        },
+
+        currentTemplate: 'bootstrap',
 
         get: function( template ) {
             if( this[template] ) {
-                return this[template][this.currentTemplate];
+                var tpl = this[template][this.currentTemplate];
+                if( !tpl ) {
+                    return this[template]['default'];
+                } else {
+                    return tpl;
+                }
             }
         }
     });
@@ -6409,7 +6418,7 @@ M.View.create = M.create;
 
         contenteditable: true,
 
-        template: _.tpl(templates[uiframework])
+        template: _.template(M.TemplateManager.get('buttonTemplates'))
 
     });
 
@@ -6417,8 +6426,7 @@ M.View.create = M.create;
 
         _type: 'M.Toolbar',
 
-        template: _.tpl(toolbarTemplates['default'])
-
+        template: _.template(M.TemplateManager.get('toolbarTemplates'))
 
     });
 
@@ -6426,7 +6434,7 @@ M.View.create = M.create;
 
         _type: 'M.ContainerView',
 
-        template: _.tpl(M.TemplateManager.get('containerTemplates'))
+        template: _.template(M.TemplateManager.get('containerTemplates'))
 
     });
 
@@ -7093,7 +7101,7 @@ _.extend(Backbone.Layout.prototype, {
     },
 
     initialRenderProcess: function() {
-//        this.render();
+        this.render();
         $('body').html(this.el);
         PageTransitions.init();
     },
@@ -7162,7 +7170,8 @@ M.BottomBarLayout = M.Layout.extend({
     template: M.Themes.getTemplateByName('bottom-bar-layout')
 });
 // Source: src/ui/layouts/switch-layout/switch-layout.js
-M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>');
+
+M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div class="content"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div class="content"></div> <div class="footer"></div> </div> </div>' );
 
 M.SwitchLayout = M.Layout.extend({
 
@@ -7172,28 +7181,29 @@ M.SwitchLayout = M.Layout.extend({
 
     currentPage: '',
 
-    applyViews: function( settings ) {
+    applyViews: function( settings ){
         var current = $('.pt-page-current');
 
         var next = $('.pt-page:not(.pt-page-current)');
 
         var selector = '';
 
-        if( current.length < 1 ) {
+        if(current.length < 1){
             selector = 'pt-page-1';
-        } else if( current.hasClass('pt-page-1') ) {
+        } else if(current.hasClass('pt-page-1')){
             selector = 'pt-page-2';
-        } else if( current.hasClass('pt-page-2') ) {
+        } else if(current.hasClass('pt-page-2')){
             selector = 'pt-page-1';
         }
 
         var view = {};
+        //                view['.' + selector + ' .content'] = settings.content;
         view['.' + selector + ' .content'] = settings.content;
-//        if( settings.footer ) {
-//            view['.' + selector + ' .footer'] = settings.footer;
-//        } else {
-//            view['.' + selector + ' .footer'] = new M.View();
-//        }
+        if( settings.footer ) {
+            view['.' + selector + ' .footer'] = settings.footer;
+        } else {
+            view['.' + selector + ' .footer'] = new M.View();
+        }
         return view;
     }
 });
