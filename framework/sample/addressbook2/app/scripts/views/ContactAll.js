@@ -9,33 +9,24 @@ define([
 
     var exp = exports;
 
-    var ListItemView = M.View.extend({
-
-        template: _.template('<div><div data-binding="firstname"><%= firstname %></div><div data-binding="lastname"><%= lastname %></div></div>'),
-
-//        bindings: {
-//            '[data-binding="firstname"]': {
-//                observe: 'firstname'
-//            },
-//            '[data-binding="lastname"]': {
-//                observe: 'lastname'
-//            }
-//        },
-
-        events: {
-           click: function() {
-               var IndexController = require('controllers/index');
-               IndexController.set('CurrentContact', this.model);
-            }
-        }
-    });
 
     var AllView = M.ListView.extend({
 
         value: function(){
-            return Addressbook.ContactCollection
+            return Addressbook.ContactCollection;
         },
-        listItemView: ListItemView
+
+        listItemView: M.View.extend({
+
+            template: _.tmpl('<div><div><%= firstname %></div><div><%= lastname %></div></div>'),
+
+            events: {
+                click: function() {
+                    var IndexController = require('controllers/index');
+                    IndexController.set('CurrentContact', this.model);
+                }
+            }
+        })
     });
 
     return AllView;

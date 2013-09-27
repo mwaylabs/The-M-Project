@@ -8,17 +8,9 @@ define(['themproject', 'templates', 'controllers/index'], function( M, JST, Inde
 
         childViews: {
 
-            '[data-child-view="content"]': [ M.View.extend({
-                template: JST['app/scripts/templates/PersonDetail.ejs'],
+            'content': [ M.View.extend({
 
-//                bindings: {
-//                    '[data-binding="firstname"]': {
-//                        observe: 'firstname'
-//                    },
-//                    '[data-binding="lastname"]': {
-//                        observe: 'lastname'
-//                    }
-//                },
+                template: JST['app/scripts/templates/PersonDetail.ejs'],
 
                 value: function() {
                     var IndexController = require('controllers/index');
@@ -31,7 +23,8 @@ define(['themproject', 'templates', 'controllers/index'], function( M, JST, Inde
                 }
             })
             ],
-            '[data-child-view="footer"]': M.Button.extend({
+
+            'footer': M.Button.extend({
                 value:'edit',
                 events: {
                     click: {
@@ -42,8 +35,6 @@ define(['themproject', 'templates', 'controllers/index'], function( M, JST, Inde
             })
         }
     });
-
-    //    exports.ContactdetailView = ContactdetailView;
 
     return ContactdetailView;
 });
