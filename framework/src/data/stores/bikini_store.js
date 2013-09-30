@@ -19,6 +19,12 @@ M.BikiniStore = M.Store.extend({
 
     messages:  null,
 
+    useLocalStore: true,
+
+    useSocketNotify: true,
+
+    useOfflineChanges: true,
+
     typeMapping: {
         'binary':  'text',
         'date':    'string'
@@ -27,9 +33,9 @@ M.BikiniStore = M.Store.extend({
     initialize: function( options ) {
         M.Store.prototype.initialize.apply(this, arguments);
         this.options = {
-            useLocalStore:      true,
-            useSocketNotify:    true,
-            useOfflineChanges:  true,
+            useLocalStore:      this.useLocalStore,
+            useSocketNotify:    this.useSocketNotify,
+            useOfflineChanges:  this.useOfflineChanges,
             socketPath:         this.socketPath
         };
         _.extend(this.options, options || {});

@@ -4,7 +4,8 @@ define([
 
     var RemoteStore = M.BikiniStore.create({
         // socketPath: 'bikini/live',
-        useSocketNotify: false
+        useSocketNotify: false,
+        useLocalStore: false
     });
 
     return RemoteStore;
