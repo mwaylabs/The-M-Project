@@ -32,13 +32,21 @@ require.config({
             deps: [],
             exports: 'FastClick'
         },
+        tmpl: {
+            deps: [
+                'underscore',
+                'jquery'
+            ],
+            exports: 'tmpl'
+        },
         themproject: {
             deps: [
                 'backbone',
                 'backboneLayoutManager',
                 'text',
                 'FastClick',
-                'stickIt'
+                'stickIt',
+                'tmpl'
             ],
             exports: 'M'
         }
@@ -52,6 +60,7 @@ require.config({
         text: '../bower_components/requirejs-text/text',
         themproject: '../bower_components/tmp2/tmp2',
         FastClick: '../bower_components/fastclick/lib/fastclick',
-        socketio: '../bower_components/socket.io/lib/socket.io.js'
+        socketio: '../bower_components/socket.io/lib/socket.io.js',
+        tmpl: '../bower_components/tmpl/tmpl'
     }
 });
