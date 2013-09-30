@@ -128,38 +128,23 @@
 
         template: _.tmpl('<div></div>'),
 
-        viewMapping: {},
+        //            events: {
+        //                "click .add": "addEntry"
+        //            },
 
-        beforeRender: function() {
 
-        },
+
 
         initialize: function() {
-            var that = this;
             M.View.prototype.initialize.apply(this, arguments);
-            this.listenTo(this.model, 'add', function( model ){
-                that.addOne(model, true);
-            });
+            this.listenTo(this.model, 'add', this.addOne);
             this.listenTo(this.model, 'fetch', this.addAll);
-            this.listenTo(this.model, 'remove', this.removeOne);
-
-            //            this.listenTo(this.model, 'sync', function( a, b, c ) {
-            //                debugger;
-            //                //                that.render();
-            //            });
-
-            //            this.listenToOnce(this.model, 'reset', function( a, b, c ) {
-            //                debugger;
-            //                //                that.render();
-            //            });
+            var that = this;
+            this.listenToOnce(this.model, 'sync', function(){
+//                that.render();
+            });
 
             this.addAll.apply(this);
-        },
-
-        removeOne: function( removedObj, collection, xhr ) {
-
-            this._getViewMapping(removedObj.cid).remove();
-            this._removeViewMapping(removedObj.cid);
         },
 
         serialize: function() {
@@ -172,43 +157,28 @@
             });
         },
 
+        addChildViews: function() {
+
+        },
+
         addAll: function() {
             _.each(this.model.models, function( model ) {
-                this.addOne.apply(this, [model, false]);
+                this.addOne.apply(this, [model, true]);
             }, this);
-
-
         },
 
         addOne: function( model, render ) {
-
-            var view = this.listItemView.create({
+            var item = this.listItemView.create({
                 template: this.listItemView.template,
                 value: model
             });
+            //'tbody', new M.View({ template: _.template(), value: model })
+            var view = this.insertView(item);
 
-            this.insertView(view);
-
-            if( render ) {
+            // Only trigger render if it not inserted inside `beforeRender`.
+            if( render !== false ) {
                 view.render();
             }
-
-            this._setViewMapping(view, model.cid);
-        },
-
-        _setViewMapping: function( view, cid ) {
-
-            this.viewMapping[cid] = view;
-        },
-
-        _getViewMapping: function( cid ) {
-
-            return this.viewMapping[cid];
-        },
-
-        _removeViewMapping: function( cid ) {
-
-            delete this.viewMapping[cid];
         }
     });
 

@@ -21,7 +21,7 @@ M.BikiniStore = M.Store.extend({
 
     endpoints: {},
 
-    useLocalStore:    false,
+    useLocalStore:    true,
 
     useSocketNotify:  true,
 
