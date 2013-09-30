@@ -4,8 +4,8 @@
     "app": "app"
   },
   "server": {
-    "openBrowser": true,
-    "autoReload": true,
+    "openBrowser": false,
+    "autoReload": false,
     "port": 9000
   },
   "test": {
