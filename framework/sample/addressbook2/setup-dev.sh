@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env sh
 
 read -p "Update npm dependencies (y/N)? " NPM
 read -p "Update bower dependencies (y/N)? " BOWER

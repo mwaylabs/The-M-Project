@@ -32,10 +32,9 @@ define([
             if( !params || !params.id ) {
 
                 Addressbook.ContactCollection = ContactCollection.create();
-//                IndexController.set('CurrentContact', Addressbook.ContactCollection.model.create({firstname: '', lastname:''}));
                 Addressbook.ContactCollection.fetch({
                     success: function() {
-                        //IndexController.set('CurrentContact', Addressbook.ContactCollection.models[0]);
+                        IndexController.set('CurrentContact', Addressbook.ContactCollection.models[0]);
                     }
                 });
 

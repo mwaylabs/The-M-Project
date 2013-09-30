@@ -56,7 +56,7 @@
 
         contenteditable: true,
 
-        template: _.template(M.TemplateManager.get('buttonTemplates'))
+        template: _.tmpl(M.TemplateManager.get('buttonTemplates'))
 
     });
 
@@ -64,7 +64,7 @@
 
         _type: 'M.Toolbar',
 
-        template: _.template(M.TemplateManager.get('toolbarTemplates')),
+        template: _.tmpl(M.TemplateManager.get('toolbarTemplates')),
 
         getTemplateIdentifier: function() {
 
@@ -81,7 +81,7 @@
 
         _type: 'M.ContainerView',
 
-        template: _.template(M.TemplateManager.get('containerTemplates'))
+        template: _.tmpl(M.TemplateManager.get('containerTemplates'))
 
     });
 
@@ -126,7 +126,7 @@
 
     M.ListView = M.View.extend({
 
-        template: _.template('<div></div>'),
+        template: _.tmpl('<div></div>'),
 
         //            events: {
         //                "click .add": "addEntry"
@@ -141,7 +141,7 @@
             this.listenTo(this.model, 'fetch', this.addAll);
             var that = this;
             this.listenToOnce(this.model, 'sync', function(){
-                that.render();
+//                that.render();
             });
 
             this.addAll.apply(this);
