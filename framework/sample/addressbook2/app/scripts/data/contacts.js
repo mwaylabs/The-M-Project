@@ -7,7 +7,7 @@ define([
         idAttribute: '_id'
     });
 
-    var host = 'http://nerds.mway.io:8200';
+    var host = 'http://localhost:8200';//http://nerds.mway.io:8200';
     var Contacts = M.Collection.extend({
         url: host + '/bikini/contacts', // for rest usage
         model: Contact,

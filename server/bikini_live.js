@@ -1,8 +1,8 @@
 
 
-exports.listen = function(server) {
+exports.listen = function(server, resource) {
 
-    var io = require('socket.io').listen( server, { resource: '/bikini/live' } );
+    var io = require('socket.io').listen( server, { resource: resource } );
 
     var bikini = {
 

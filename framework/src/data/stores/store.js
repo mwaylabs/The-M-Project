@@ -24,8 +24,6 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
 
     name: '',
 
-    url: '',
-
     entities: null,
 
     typeMapping: function() {
@@ -39,7 +37,6 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
     initialize: function( config ) {
         config = config || {};
         this.name = config.name || this.name;
-        this.url = config.url || this.url;
         this.typeMapping = config.typeMapping || this.typeMapping;
 
         var entities = config.entities || this.entities || {};

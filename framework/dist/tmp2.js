@@ -4150,8 +4150,6 @@ var M = (function( global, Backbone, _ ) {
     
         name: '',
     
-        url: '',
-    
         entities: null,
     
         typeMapping: function() {
@@ -4165,7 +4163,6 @@ var M = (function( global, Backbone, _ ) {
         initialize: function( config ) {
             config = config || {};
             this.name = config.name || this.name;
-            this.url = config.url || this.url;
             this.typeMapping = config.typeMapping || this.typeMapping;
     
             var entities = config.entities || this.entities || {};
@@ -5050,23 +5047,11 @@ var M = (function( global, Backbone, _ ) {
     
         name: 'bikini',
     
-        size: 1024 * 1024 * 5,
+        endpoints: {},
     
         version: '1.2',
     
-        host:   '',
-    
-        path:   '',
-    
-        resource: 'live',
-    
-        endpoints: {},
-    
-        useLocalStore:    true,
-    
-        useSocketNotify:  true,
-    
-        useOfflineChange: true,
+        options: null,
     
         msgStore:  null,
     
@@ -5079,11 +5064,13 @@ var M = (function( global, Backbone, _ ) {
     
         initialize: function( options ) {
             M.Store.prototype.initialize.apply(this, arguments);
-    
-            var that  = this;
-            options   = options || {};
-    
-            this.socketio_path = options.socketio_path || this.socketio_path;
+            this.options = {
+                useLocalStore:      true,
+                useSocketNotify:    true,
+                useOfflineChanges:  true,
+                socketPath:         this.socketPath
+            };
+            _.extend(this.options, options || {});
         },
     
         initModel: function( model ) {
@@ -5105,9 +5092,10 @@ var M = (function( global, Backbone, _ ) {
                     endpoint.entity      = entity;
                     endpoint.channel     = channel;
                     endpoint.credentials = entity.credentials || collection.credentials;
-                    endpoint.localStore  = this.useLocalStore    ? this.createLocalStore(endpoint) : null;
-                    endpoint.messages    = this.useOfflineChange ? this.createMsgCollection(endpoint) : null;
-                    endpoint.socket      = this.useSocketNotify  ? this.createSocket(endpoint, collection) : null;
+                    endpoint.localStore  = this.createLocalStore(endpoint);
+                    endpoint.messages    = this.createMsgCollection(endpoint);
+                    endpoint.socket      = this.createSocket(endpoint, collection);
+                    endpoint.info        = this.fetchServerInfo(endpoint);
                     this.endpoints[hash] = endpoint;
                 }
                 collection.endpoint   = endpoint;
@@ -5129,45 +5117,51 @@ var M = (function( global, Backbone, _ ) {
         },
     
         createLocalStore: function(endpoint) {
-            var entities = {};
-            entities[endpoint.entity.name] = {
-                name: endpoint.channel
-            };
-            return new M.LocalStorageStore({
-                entities: entities
-            });
+            if (this.options.useLocalStore && endpoint) {
+                var entities = {};
+                entities[endpoint.entity.name] = {
+                    name: endpoint.channel
+                };
+                return new M.LocalStorageStore({
+                    entities: entities
+                });
+            }
         },
     
         createMsgCollection: function(endpoint) {
-            var name = "msg-" + endpoint.channel;
-            var MsgCollection = M.Collection.extend({
-                model: M.Model.extend({ idAttribute: '_id' })
-            });
-            var messages  = new MsgCollection({
-                entity: name,
-                store: new M.LocalStorageStore()
-            });
-            messages.fetch();
-            return messages;
+            if (this.options.useOfflineChange && endpoint) {
+                var name = "msg-" + endpoint.channel;
+                var MsgCollection = M.Collection.extend({
+                    model: M.Model.extend({ idAttribute: '_id' })
+                });
+                var messages  = new MsgCollection({
+                    entity: name,
+                    store: new M.LocalStorageStore()
+                });
+                messages.fetch();
+                return messages;
+            }
         },
     
         createSocket: function(endpoint, collection) {
-            var url = M.Request.getLocation(endpoint.url);
-            var host = url.protocol + "//" +url.host;
-            var path = url.pathname;
-            var path = this.socketio_path || (path + (path.charAt(path.length-1) === '/' ? '' : '/' ) + 'live');
-            // remove leading /
-            var resource = (path && path.indexOf('/') == 0) ? path.substr(1) : path;
-            var that = this;
-            var socket = M.SocketIO.create({
-                host: host,
-                resource: resource,
-                connected: function() {
-                    that._bindChannel(socket, endpoint);
-                    that.sendMessages(endpoint, collection);
-                }
-            });
-            return socket;
+            if (this.options.useSocketNotify && this.option.socketPath && endpoint) {
+                var url = M.Request.getLocation(endpoint.url);
+                var host = url.protocol + "//" +url.host;
+                var path = url.pathname;
+                var path = this.options.socketPath || (path + (path.charAt(path.length-1) === '/' ? '' : '/' ) + 'live');
+                // remove leading /
+                var resource = (path && path.indexOf('/') == 0) ? path.substr(1) : path;
+                var that = this;
+                var socket = M.SocketIO.create({
+                    host: host,
+                    resource: resource,
+                    connected: function() {
+                        that._bindChannel(socket, endpoint);
+                        that.sendMessages(endpoint, collection);
+                    }
+                });
+                return socket;
+            }
         },
     
         _bindChannel: function(socket, endpoint) {
@@ -5186,10 +5180,6 @@ var M = (function( global, Backbone, _ ) {
                 channel: channel,
                 time:    time
             });
-            // do initial sync
-            // if (!this.getLastMessageTime(entity.channel)) {
-            //    this.sync("read", {}, { entity: entity.name, store: this });
-            //}
         },
     
         getLastMessageTime: function(channel) {
@@ -5271,6 +5261,8 @@ var M = (function( global, Backbone, _ ) {
                     that.addMessage(method, model,
                         this.localStore ? {} : options, // we don't need to call callbacks if an other store handle this
                         endpoint);
+                } else if (method == "read" && time) {
+                    that.fetchChanges(endpoint, time);
                 }
                 if (endpoint.localStore) {
                     options.store  = endpoint.localStore;
@@ -5328,7 +5320,7 @@ var M = (function( global, Backbone, _ ) {
             Backbone.sync(msg.method, model, {
                 url: url,
                 error: function(xhr, status) {
-                    if (!xhr.responseText && that.useOfflineChange) {
+                    if (!xhr.responseText && that.options.useOfflineChange) {
                         // this seams to be only a connection problem, so we keep the message an call success
                         that.handleCallback(options.success, msg.data);
                     } else {
@@ -5370,8 +5362,48 @@ var M = (function( global, Backbone, _ ) {
             });
         },
     
+        fetchChanges: function(endpoint, time) {
+            var that = this;
+            if (endpoint && endpoint.url && time) {
+                var changes = new M.Collection();
+                changes.fetch({
+                    url: endpoint.url + '/changes/' + time,
+                    success: function() {
+                       changes.each( function(msg) {
+                           if (msg.time && msg.method) {
+                               that.setLastMessageTime(endpoint.channel, msg.time);
+                               that.trigger(endpoint.channel, msg);
+                           }
+                       });
+                    }
+                });
+            }
+        },
+    
+        fetchServerInfo: function(endpoint) {
+            var that = this;
+            if (endpoint && endpoint.url) {
+                var info = new M.Model();
+                var time = that.getLastMessageTime(endpoint.channel);
+                info.fetch({
+                    url: endpoint. url + "/info",
+                    success: function() {
+                        if (!time && info.get('time')) {
+                            that.setLastMessageTime(endpoint.channel, info.get('time'));
+                        }
+                        if (!that.options.socketPath && info.get('socketPath')) {
+                            that.options.socketPath = info.get('socketPath');
+                            if (that.options.useSocketNotify) {
+                                that.createSocket(endpoint, endpoint.messages)
+                            }
+                        }
+                    }
+                });
+            }
+        },
+    
         sendMessages: function(endpoint, collection) {
-            if (endpoint && endpoint.messages) {
+            if (endpoint && endpoint.messages && collection) {
                 var that = this;
                 endpoint.messages.each( function(message) {
                     var msg;
