@@ -28,7 +28,8 @@ define([
             if( IndexController.CurrentContact ) {
                 return;
             }
-            if( !params.id ) {
+
+            if( !params || !params.id ) {
 
                 Addressbook.ContactCollection = ContactCollection.create();
                 Addressbook.ContactCollection.fetch({

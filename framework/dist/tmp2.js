@@ -4365,6 +4365,304 @@ var M = (function( global, Backbone, _ ) {
     
     });
     
+    M.SocketStore = M.Store.extend({
+    
+        _type: 'M.SocketStore',
+    
+        _transactionFailed: false,
+    
+        _selector: null,
+    
+        name: 'bikini',
+    
+        size: 1024 * 1024 * 5,
+    
+        version: '1.2',
+    
+        host:   '',
+    
+        path:   '',
+    
+        msgStore:  null,
+    
+        messages:  null,
+    
+        typeMapping: {
+            'binary':  'text',
+            'date':    'string'
+        },
+    
+        initialize: function( options ) {
+            M.Store.prototype.initialize.apply(this, arguments);
+    
+            var that  = this;
+            options   = options || {};
+    
+            this.host     = options.host || this.host;
+            this.path     = options.path || this.path;
+            this.resource = options.resource || this.resource;
+    
+            this._initStores();
+    
+            this._socket = M.SocketIO.create({
+                host: this.host,
+                path: this.path,
+                resource: this.resource,
+                connected: function() {
+                    that._initialized = true;
+                    if( that.entities ) {
+                        for( var name in that.entities ) {
+                            var entity = that.entities[name];
+                            that._bindEntity(entity);
+                        }
+                    }
+                    that.sendMessages();
+                }
+            });
+        },
+    
+        _initStores: function() {
+            var MsgCollection  = M.Collection.extend({
+                model: M.Model.extend({ idAttribute: '_id' })
+            });
+            this.msgStore = new M.LocalStorageStore({
+                entities: {
+                    messages: {
+                        collection: MsgCollection
+                    }
+                }
+            });
+            this.messages  = new MsgCollection();
+            this.messages.fetch();
+        },
+    
+        _bindEntity: function(entity) {
+            var that = this;
+            entity.channel = entity.channel || 'entity_' + entity.name;
+            var time = this.getLastMessageTime(entity.channel);
+            this._socket.on(entity.channel, function(msg) {
+                if (msg) {
+                    that.setLastMessageTime(entity.channel, msg.time);
+                    that.trigger(entity.channel, msg);
+                }
+            });
+            this._socket.emit('bind', {
+                 entity: entity.name,
+                 time:   time
+            });
+            // do initial sync
+            // if (!this.getLastMessageTime(entity.channel)) {
+                this.sync("read", {}, { entity: entity.name, store: this });
+            //}
+        },
+    
+        _isValidChannel: function(channel) {
+            return channel && channel.indexOf('entity_') === 0 && this.getEntity( channel.substr(7) );
+        },
+    
+        getLastMessageTime: function(channel) {
+            return localStorage.getItem('__'+ channel + 'last_msg_time') || 0;
+        },
+    
+        setLastMessageTime: function(channel, time) {
+            if (time) {
+                localStorage.setItem('__'+ channel + 'last_msg_time', time);
+            }
+        },
+    
+        onMessage: function(msg) {
+            if (msg && msg.method) {
+                var options = { store: this.lastStore, merge: true, fromMessage: true };
+                var attrs   = msg.data;
+                switch(msg.method) {
+                    case 'patch':
+                        options.patch = true;
+                    case 'update':
+                        var model = this.get(msg.id);
+                    case 'create':
+                        if (model) {
+                            model.save(attrs, options);
+                        } else {
+                            this.create(attrs, options);
+                        }
+                        break;
+    
+                    case 'delete':
+                        if (msg.id) {
+                            var model = this.get(msg.id);
+                            if (model) {
+                                model.destroy(options);
+                            }
+                        }
+                        break;
+    
+                    default:
+                        break;
+                }
+            }
+        },
+    
+        sync: function(method, model, options) {
+            var that   = options.store || this.store;
+            if (options.fromMessage) {
+                return that.handleCallback(options.success);
+            }
+            var entity = that.getEntity(model.entity || options.entity || this.entity);
+            if (that && entity) {
+                var channel = entity.channel;
+    
+                if ( M.isModel(model) && !model.id) {
+                    model.set(model.idAttribute, new M.ObjectID().toHexString());
+                }
+    
+                // connect collection with this channel
+                if ( M.isCollection(this) && channel && !this.channel) {
+                    this.channel = channel;
+                    this.listenTo(that, channel, that.onMessage, this);
+                }
+    
+                var time = that.getLastMessageTime(entity.channel);
+                // only send read messages if no other store can do this
+                // or for initial load
+                if (method !== "read" || !this.lastStore || !time) {
+                    that.addMessage(method, model,
+                        this.lastStore ? {} : options, // we don't need to call callbacks if an other store handle this
+                        entity);
+                }
+                if (this.lastStore) {
+                    options.store   = this.lastStore;
+                    this.lastStore.sync.apply(this, arguments);
+                }
+            }
+        },
+    
+        addMessage: function(method, model, options, entity) {
+            var that = this;
+            if (method && model) {
+                var changes = model.changedSinceSync;
+                var data = null;
+                var storeMsg = false;
+                switch (method) {
+                    case 'update':
+                    case 'create':
+                        data  = model.attributes;
+                        storeMsg = true;
+                        break;
+                    case 'patch':
+                        if ( _.isEmpty(changes)) return;
+                        data = changes;
+                        storeMsg = true;
+                        break;
+                    case 'delete':
+                        storeMsg = true;
+                        break;
+                }
+                var msg = {
+                    _id: model.id,
+                    id: model.id,
+                    method: method,
+                    data: data
+                };
+                var emit = function(channel, msg) {
+                if (that._initialized) {
+                        that.emitMessage(channel, msg, options);
+                    } else {
+                        that.handleCallback(options.success, msg.data);
+                    }
+                };
+                if (storeMsg) {
+                    this.storeMessage(entity.channel, msg, emit);
+                } else {
+                    emit(entity.channel, msg);
+                }
+            }
+        },
+    
+        emitMessage: function(channel, msg, options) {
+            var that = this;
+            console.log('emitMessage:'+msg.id);
+            this._socket.emit(channel, msg, function(msg, error) {
+                that.removeMessage(channel, msg, function(channel, msg) {
+                    if (error) {
+                        // Todo: revert changed data
+                        that.handleCallback(options.error, error);
+                    } else {
+                        if (options.success) {
+                            var resp = msg ? msg.data : null;
+                            that.handleCallback(options.success, resp);
+                        } else {
+                            that.setLastMessageTime(channel, msg.time);
+                            if (msg.method === 'read') {
+                                var array = _.isArray(msg.data) ? msg.data : [ msg.data ];
+                                for (var i=0; i < array.length; i++) {
+                                    var data = array[i];
+                                    if (data) {
+                                        that.trigger(channel, {
+                                            id: data._id,
+                                            method: 'update',
+                                            data: data
+                                        });
+                                        that.setLastMessageTime(channel, msg.time);
+                                    }
+                                }
+                            } else {
+                                that.trigger(channel, msg);
+                            }
+                        }
+                    }
+                });
+            });
+        },
+    
+        sendMessages: function() {
+            var that = this;
+            this.messages.each( function(message) {
+                var msg      = message.get('msg');
+                var channel  = message.get('channel');
+                var callback = message.get('callback');
+                if (that._isValidChannel(channel)) {
+                    if (callback) {
+                        callback(channel, msg);
+                    } else if (that._initialized) {
+                        that.emitMessage(channel, msg, {});
+                    }
+                } else {
+                    that.removeMessage(channel, msg);
+                }
+            });
+        },
+    
+        mergeMessages: function(data, id) {
+            return data;
+        },
+    
+        storeMessage: function(channel, msg, callback) {
+            var message = this.messages.get(msg._id);
+            if (message) {
+                message.save({
+                    msg: _.extend(message.get('msg'), msg)
+                });
+            } else {
+                this.messages.create({
+                    _id: msg._id,
+                    id:  msg.id,
+                    msg: msg,
+                    channel: channel,
+                    callback: callback
+                });
+            }
+            callback(channel, msg);
+        },
+    
+        removeMessage: function(channel, msg, callback) {
+            var message = this.messages.get(msg._id);
+            if (message) {
+                message.destroy();
+            }
+            callback(channel, msg);
+        }
+    
+    });
     M.LocalStorageStore = M.Store.extend({
     
         _type: 'M.LocalStorageStore',
@@ -5312,7 +5610,6 @@ var M = (function( global, Backbone, _ ) {
         emitMessage: function(endpoint, msg, options, model) {
             var channel = endpoint.channel;
             var that = this;
-            console.log('emitMessage:' + msg.method + (msg.id ? ' : ' + msg.id : '') );
             var url   = endpoint.url;
             if (msg.id && msg.method !== 'create') {
                 url += "/" + msg.id;
@@ -5457,122 +5754,6 @@ var M = (function( global, Backbone, _ ) {
     
 
     //////////////////////////
-    
-    _.mixin({
-        tmpl: function(text, data, settings) {
-            var render;
-            var escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
-            var idCounter = 0;
-            _.uniqueId = function(prefix) {
-                var id = ++idCounter + '';
-                return prefix ? prefix + id : id;
-            };
-    
-            // By default, Underscore uses ERB-style template delimiters, change the
-            // following template settings to use alternative delimiters.
-            _.templateSettings = {
-                evaluate    : /<%([\s\S]+?)%>/g,
-                interpolate : /<%=([\s\S]+?)%>/g,
-                escape      : /<%-([\s\S]+?)%>/g
-            };
-    
-            // When customizing `templateSettings`, if you don't want to define an
-            // interpolation, evaluation or escaping regex, we need one that is
-            // guaranteed not to match.
-            var noMatch = /(.)^/;
-    
-            // Certain characters need to be escaped so that they can be put into a
-            // string literal.
-            var escapes = {
-                "'":      "'",
-                '\\':     '\\',
-                '\r':     'r',
-                '\n':     'n',
-                '\t':     't',
-                '\u2028': 'u2028',
-                '\u2029': 'u2029'
-            };
-            settings = _.defaults({}, settings, _.templateSettings);
-    
-            // Combine delimiters into one regular expression via alternation.
-            var matcher = new RegExp([
-                (settings.escape || noMatch).source,
-                (settings.interpolate || noMatch).source,
-                (settings.evaluate || noMatch).source
-            ].join('|') + '|$', 'g');
-    
-            // Compile the template source, escaping string literals appropriately.
-            var index = 0;
-            var source = [];
-            source.push("__p+='");
-    
-            var stickitAttribute = settings.stickitAttribute || 'data-binding';
-    
-            text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
-                var sliced = text.slice(index, offset);
-    
-                if( interpolate && sliced.slice(-1) === '>' ){
-                    var before = sliced.slice(0,-1);
-                    sliced = before + ' ' + stickitAttribute + '="' + interpolate.trim() + '"' + '>';
-                    source.push(sliced.replace(escaper, function(match) {
-                        return '\\' + escapes[match];
-                    }));
-                } else if(interpolate && (sliced.slice(-7) === 'value="')){
-                    var before = sliced.slice(0,-7);
-                    sliced = before + stickitAttribute + '="' + interpolate.trim() + '" value="';
-                    source.push(sliced.replace(escaper, function(match) {
-                        return '\\' + escapes[match];
-                    }));
-                } else {
-                    source.push(sliced.replace(escaper, function(match) {
-                        return '\\' + escapes[match];
-                    }));
-                }
-    
-                if (escape) {
-                    source.push("'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'");
-                }
-                if (interpolate) {
-                    source.push("'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'");
-                }
-                if (evaluate) {
-                    source.push("';\n" + evaluate + "\n__p+='");
-                }
-                index = offset + match.length;
-    
-                return match;
-            });
-            source.push("';\n");
-            source = source.join('');
-    
-            // If a variable is not specified, place data values in local scope.
-            if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
-    
-            source = "var __t,__p='',__j=Array.prototype.join," +
-                "print=function(){__p+=__j.call(arguments,'');};\n" +
-                source + "return __p;\n";
-    
-            try {
-                render = new Function(settings.variable || 'obj', '_', source);
-            } catch (e) {
-                e.source = source;
-                throw e;
-            }
-    
-            if (data) return render(data, _);
-            var template = function(data) {
-                return render.call(this, data, _);
-            };
-    
-            // Provide the compiled function source as a convenience for precompilation.
-            template.source = 'function(' + (settings.variable || 'obj') + '){\n' + source + '}';
-    
-            return template;
-        }
-    });
-    
-    
-    
     
     
     //
@@ -5731,7 +5912,10 @@ var M = (function( global, Backbone, _ ) {
     
         _assignContentBinding: function() {
             if( this.contentBinding && this.contentBinding.target ) {
-                this.listenTo(this.contentBinding.target, this.contentBinding.property, this._setValue);
+                var that = this;
+                this.listenTo(this.contentBinding.target, this.contentBinding.property, function( model ){
+                    that._setValue( model );
+                });
             }
         },
     
@@ -5758,7 +5942,7 @@ var M = (function( global, Backbone, _ ) {
                     var options = {template: _.extend(M.TemplateManager[templateIdentifier], this.options.template)};
                     var template = M.TemplateManager.get.apply(options, ['template']);
                     if( template ) {
-                        this.template = _.template(template);
+                        this.template = _.tmpl(template);
                     } else {
                         console.warn('template not found');
                     }
@@ -5770,7 +5954,6 @@ var M = (function( global, Backbone, _ ) {
     
         //TODO... it is not setValue it is setModel
         _setValue: function( value, doNotRender ) {
-    
             this.model = value;
             if( !doNotRender ) {
                 this.render();
@@ -6561,7 +6744,13 @@ var M = (function( global, Backbone, _ ) {
                 } else if( view && typeof view === 'string' ) {
     
                     require([view], function( loadedView ) {
-                        that._viewDidLoad(domSelector, loadedView.create(), callback);
+                        if(loadedView.create){
+                            that._viewDidLoad(domSelector, loadedView.create(), callback);
+                        } else {
+    
+                            that._viewDidLoad(domSelector, new loadedView(), callback);
+                        }
+    
                     });
     
                 } else if( view && view.isView() ) {
@@ -6701,7 +6890,7 @@ var M = (function( global, Backbone, _ ) {
     
             contenteditable: true,
     
-            template: _.template(M.TemplateManager.get('buttonTemplates'))
+            template: _.tmpl(M.TemplateManager.get('buttonTemplates'))
     
         });
     
@@ -6709,7 +6898,7 @@ var M = (function( global, Backbone, _ ) {
     
             _type: 'M.Toolbar',
     
-            template: _.template(M.TemplateManager.get('toolbarTemplates')),
+            template: _.tmpl(M.TemplateManager.get('toolbarTemplates')),
     
             getTemplateIdentifier: function() {
     
@@ -6726,7 +6915,7 @@ var M = (function( global, Backbone, _ ) {
     
             _type: 'M.ContainerView',
     
-            template: _.template(M.TemplateManager.get('containerTemplates'))
+            template: _.tmpl(M.TemplateManager.get('containerTemplates'))
     
         });
     
@@ -6771,21 +6960,22 @@ var M = (function( global, Backbone, _ ) {
     
         M.ListView = M.View.extend({
     
-            template: _.template('<div></div>'),
+            template: _.tmpl('<div></div>'),
     
             //            events: {
             //                "click .add": "addEntry"
             //            },
     
+    
+    
+    
             initialize: function() {
                 M.View.prototype.initialize.apply(this, arguments);
                 this.listenTo(this.model, 'add', this.addOne);
-                this.listenTo(this.model, 'fetch', function() {
-                    this.addAll();
-                });
-    
-                this.listenToOnce(this.model, 'sync', function() {
-                    this.render();
+                this.listenTo(this.model, 'fetch', this.addAll);
+                var that = this;
+                this.listenToOnce(this.model, 'sync', function(){
+    //                that.render();
                 });
     
                 this.addAll.apply(this);
@@ -6806,8 +6996,8 @@ var M = (function( global, Backbone, _ ) {
             },
     
             addAll: function() {
-                this.model.each(function( model ) {
-                    this.addOne.apply(this, [model, false]);
+                _.each(this.model.models, function( model ) {
+                    this.addOne.apply(this, [model, true]);
                 }, this);
             },
     
@@ -6837,11 +7027,11 @@ var M = (function( global, Backbone, _ ) {
     
             },
     
-            bootstrap: function(){
+            bootstrap: function() {
     
                 FastClick.attach(document.body);
     
-                $(document).on('click', 'a[href^="#"]', function(e){
+                $(document).on('click', 'a[href^="#"]', function( e ) {
                     e.preventDefault();
                     e.stopPropagation();
                     return void 0;
@@ -6911,7 +7101,7 @@ var M = (function( global, Backbone, _ ) {
                     var args = router._extractParameters(route, fragment);
                     res = _.object(res, args);
                     args.unshift(!router.visitedRoutes[name]);
-                    router.callCallback(route, name, controller, res, function(){
+                    router.callCallback(route, name, controller, res, function() {
                         router.trigger.apply(router, ['route:' + name].concat(args));
                         router.trigger('route', name, args);
                         Backbone.history.trigger('route', router, name, args);
@@ -6926,8 +7116,6 @@ var M = (function( global, Backbone, _ ) {
         });
     
         M.Router.create = M.create;
-    
-    
     
     
     })();

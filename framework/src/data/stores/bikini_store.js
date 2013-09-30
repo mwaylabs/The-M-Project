@@ -274,7 +274,6 @@ M.BikiniStore = M.Store.extend({
     emitMessage: function(endpoint, msg, options, model) {
         var channel = endpoint.channel;
         var that = this;
-        console.log('emitMessage:' + msg.method + (msg.id ? ' : ' + msg.id : '') );
         var url   = endpoint.url;
         if (msg.id && msg.method !== 'create') {
             url += "/" + msg.id;

@@ -53,7 +53,13 @@ _.extend(Backbone.Layout.prototype, {
             } else if( view && typeof view === 'string' ) {
 
                 require([view], function( loadedView ) {
-                    that._viewDidLoad(domSelector, loadedView.create(), callback);
+                    if(loadedView.create){
+                        that._viewDidLoad(domSelector, loadedView.create(), callback);
+                    } else {
+
+                        that._viewDidLoad(domSelector, new loadedView(), callback);
+                    }
+
                 });
 
             } else if( view && view.isView() ) {

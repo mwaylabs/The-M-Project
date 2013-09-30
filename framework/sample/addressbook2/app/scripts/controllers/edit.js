@@ -1,7 +1,7 @@
 /*global define*/
 
 define([
-    'underscore', 'backbone', 'themproject', 'layouts/app-layout', 'controllers/index', 'data/contact_model', 'exports'
+    'underscore', 'backbone', 'themproject', 'layouts/app-layout', 'controllers/index', 'data/contacts', 'exports'
 ], function( _, Backbone, M, AppLayout, IndexController, ContactModel, exports ) {
     //    'use strict';
 
