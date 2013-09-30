@@ -132,15 +132,16 @@
         //                "click .add": "addEntry"
         //            },
 
+
+
+
         initialize: function() {
             M.View.prototype.initialize.apply(this, arguments);
             this.listenTo(this.model, 'add', this.addOne);
-            this.listenTo(this.model, 'fetch', function() {
-                this.addAll();
-            });
-
-            this.listenToOnce(this.model, 'sync', function() {
-                this.render();
+            this.listenTo(this.model, 'fetch', this.addAll);
+            var that = this;
+            this.listenToOnce(this.model, 'sync', function(){
+                that.render();
             });
 
             this.addAll.apply(this);
@@ -161,8 +162,8 @@
         },
 
         addAll: function() {
-            this.model.each(function( model ) {
-                this.addOne.apply(this, [model, false]);
+            _.each(this.model.models, function( model ) {
+                this.addOne.apply(this, [model, true]);
             }, this);
         },
 
@@ -192,11 +193,11 @@
 
         },
 
-        bootstrap: function(){
+        bootstrap: function() {
 
             FastClick.attach(document.body);
 
-            $(document).on('click', 'a[href^="#"]', function(e){
+            $(document).on('click', 'a[href^="#"]', function( e ) {
                 e.preventDefault();
                 e.stopPropagation();
                 return void 0;
@@ -266,7 +267,7 @@
                 var args = router._extractParameters(route, fragment);
                 res = _.object(res, args);
                 args.unshift(!router.visitedRoutes[name]);
-                router.callCallback(route, name, controller, res, function(){
+                router.callCallback(route, name, controller, res, function() {
                     router.trigger.apply(router, ['route:' + name].concat(args));
                     router.trigger('route', name, args);
                     Backbone.history.trigger('route', router, name, args);
@@ -281,8 +282,6 @@
     });
 
     M.Router.create = M.create;
-
-
 
 
 })();

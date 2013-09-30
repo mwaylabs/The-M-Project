@@ -273,7 +273,10 @@ _.extend(M.View.prototype, {
 
     _assignContentBinding: function() {
         if( this.contentBinding && this.contentBinding.target ) {
-            this.listenTo(this.contentBinding.target, this.contentBinding.property, this._setValue);
+            var that = this;
+            this.listenTo(this.contentBinding.target, this.contentBinding.property, function( model ){
+                that._setValue( model );
+            });
         }
     },
 
@@ -312,7 +315,6 @@ _.extend(M.View.prototype, {
 
     //TODO... it is not setValue it is setModel
     _setValue: function( value, doNotRender ) {
-
         this.model = value;
         if( !doNotRender ) {
             this.render();
