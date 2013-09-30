@@ -6,3 +6,4 @@ bin/
 framework/modules/themes/default/*.css
 node_modules
 npm-debug.log
+framework/dist/
