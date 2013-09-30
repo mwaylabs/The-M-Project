@@ -7,9 +7,9 @@ define([
         idAttribute: '_id'
     });
 
-    var host = 'http://nerds.mway.io:8200';
+    var host = 'http://localhost:8080/~hano/';
     var Contacts = M.Collection.extend({
-        url: host + '/bikini/contacts', // for rest usage
+        url: host + 'mock.json', // for rest usage
         model: Contact,
         store: RemoteStore,
         entity: 'contacts'
