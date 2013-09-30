@@ -2,8 +2,10 @@ define([
     'themproject'
 ], function( M ) {
 
-    var RemoteStore = new M.BikiniStore({
-         socketio_path: 'bikini/live'
+    var RemoteStore = M.BikiniStore.create({
+        // socketPath: 'bikini/live',
+        useSocketNotify: false,
+        useLocalStore: false
     });
 
     return RemoteStore;
