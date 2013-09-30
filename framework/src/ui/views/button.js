@@ -137,8 +137,8 @@
         initialize: function() {
             var that = this;
             M.View.prototype.initialize.apply(this, arguments);
-            this.listenTo(this.model, 'add', function(){
-                that.addOne();
+            this.listenTo(this.model, 'add', function( model ) {
+                that.addOne(model, true);
             });
             this.listenTo(this.model, 'fetch', this.addAll);
             this.listenTo(this.model, 'remove', this.removeOne);
