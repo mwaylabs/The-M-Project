@@ -5,7 +5,8 @@ exec('mongod run --config /usr/local/etc/mongod.conf', function(){});
 var express      = require('express');
 var server       = express();
 var http_server  = require('http').createServer(server);
-var sockets      = require('./bikini_live.js').listen(http_server);
+var socketPath   = '/bikini/live';
+var sockets      = require('./bikini_live.js').listen(http_server, socketPath);
 var rest         = require('./mongodb_rest.js').create("test");
 var PORT         = 8200;
 var path         = "/bikini";
@@ -43,6 +44,14 @@ server.use(function(req, res, next) {
     else {
         next();
     }
+});
+
+//Find documents
+server.get(path+"/:name/info", function(req, res) {
+    res.send({
+        time: new Date().getTime(),
+        socketPath: socketPath
+    });
 });
 
 //Find documents
