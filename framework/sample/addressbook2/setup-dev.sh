@@ -2,7 +2,7 @@
 
 read -p "Update npm dependencies (y/N)? " NPM
 read -p "Update bower dependencies (y/N)? " BOWER
-read -p "Build framework (Y/n)? " BUILD
+read -p "Build framewrok (Y/n)? " BUILD
 read -p "Create symlink (Y/n)? " SYMLINK
 
 # Update npm
