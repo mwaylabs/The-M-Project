@@ -38,16 +38,26 @@ define(['themproject', 'templates', 'controllers/index'], function( M, JST, Inde
 
             })
             ],
-            'footer': M.Button.extend({
-                value:'back',
-                events: {
-                    click: {
-                        action: function(){
-                            history.back();
+            'footer': [
+                M.Button.extend({
+                    value:'save',
+                    events: {
+                        click: {
+                            target: IndexController,
+                            action: 'saveContact'
                         }
                     }
-                }
-            })
+                }),
+                M.Button.extend({
+                    value:'back',
+                    events: {
+                        click: {
+                            action: function(){
+                                history.back();
+                            }
+                        }
+                    }
+                })]
         }
     });
 
