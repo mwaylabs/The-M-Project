@@ -112,7 +112,7 @@ M.BikiniStore = M.Store.extend({
     },
 
     createSocket: function(endpoint, collection) {
-        if (this.options.useSocketNotify && this.option.socketPath && endpoint) {
+        if (this.options.useSocketNotify && this.options.socketPath && endpoint) {
             var url = M.Request.getLocation(endpoint.url);
             var host = url.protocol + "//" +url.host;
             var path = url.pathname;
