@@ -55,7 +55,14 @@ define([
             Addressbook.layoutManager.navigate({
                 route: 'edit'
             });
+        },
+
+        saveContact: function(){
+            IndexController.CurrentContact.save();
+            this.CurrentContact
+            history.back();
         }
+
     });
 
 
