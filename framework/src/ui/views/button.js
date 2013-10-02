@@ -126,22 +126,41 @@
 
     M.ListView = M.View.extend({
 
-        template: _.tmpl('<div></div>'),
+        _type: 'M.ListView',
+
+        tagName: 'ul',
+
+        template: _.tmpl('<div data-child-view="list"></div>'),
 
         viewMapping: {},
 
         beforeRender: function() {
+            console.log('before list render');
+            if(this.hasRendered){
+                this.addAll();
+            }
 
         },
 
         initialize: function() {
             var that = this;
             M.View.prototype.initialize.apply(this, arguments);
-            this.listenTo(this.model, 'add', function( model ) {
+
+            this.listenTo(this.model, 'add', function( model, collection ) {
                 that.addOne(model, true);
             });
-            this.listenTo(this.model, 'fetch', this.addAll);
+
+            this.listenTo(this.model, 'fetch', function() {
+                console.log('fetch');
+                that.addAll();
+            });
             this.listenTo(this.model, 'remove', this.removeOne);
+
+            this.listenTo(this.model, 'sort', function() {
+                //remove all views and do a render update
+                that.removeView();
+                that.addAll(true);
+            });
 
             //            this.listenTo(this.model, 'sync', function( a, b, c ) {
             //                debugger;
@@ -153,7 +172,7 @@
             //                //                that.render();
             //            });
 
-            this.addAll.apply(this);
+            //            this.addAll.apply(this);
         },
 
         removeOne: function( removedObj, collection, xhr ) {
@@ -166,15 +185,9 @@
             return this;
         },
 
-        addEntry: function() {
-            app.layoutManager.navigate({
-                route: 'add'
-            });
-        },
-
-        addAll: function() {
+        addAll: function( render ) {
             _.each(this.model.models, function( model ) {
-                this.addOne.apply(this, [model, false]);
+                this.addOne.apply(this, [model, render]);
             }, this);
 
 
@@ -187,13 +200,13 @@
                 value: model
             });
 
-            this.insertView(view);
+            this.insertView('[data-child-view="list"]', view);
 
             if( render ) {
                 view.render();
             }
 
-            this._setViewMapping(view, model.cid);
+            //this._setViewMapping(view, model.cid);
         },
 
         _setViewMapping: function( view, cid ) {

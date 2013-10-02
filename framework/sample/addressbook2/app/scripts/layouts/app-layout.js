@@ -11,10 +11,17 @@ define([
 
             template: template,
 
-            __applyViews: function( views ) {
+            __applyViews: function( views, duplicates ) {
                 var myViews = {};
-                myViews['.right'] = views.right;
-                myViews['.left'] = views.left;
+
+//                if(duplicates[0] !== views.right){
+                    myViews['.right'] = views.right;
+//                }
+
+//                if(duplicates[0] !== views.left){
+                    myViews['.left'] = views.left;
+//                }
+
                 return myViews;
             }
         };

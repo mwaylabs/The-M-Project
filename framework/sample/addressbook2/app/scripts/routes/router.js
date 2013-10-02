@@ -4,8 +4,9 @@ define([
     'jquery',
     'backbone',
     'themproject',
-    'controllers/index'
-], function ($, Backbone, M, indexController) {
+    'controllers/index',
+    'controllers/edit'
+], function ($, Backbone, M, indexController, editController) {
     'use strict';
 
     // Defining the application router, you can attach sub routers here.
@@ -19,7 +20,7 @@ define([
 
         index: indexController,
 
-        edit: 'controllers/edit',
+        edit: editController,
 
         initialize: function() {
             M.Router.prototype.initialize.apply(this, arguments);

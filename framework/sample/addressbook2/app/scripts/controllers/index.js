@@ -1,27 +1,36 @@
 /*global define*/
 
 define([
-    'underscore', 'backbone', 'themproject', 'layouts/app-layout', 'data/contacts', 'data/contacts', 'exports', 'require'
-], function( _, Backbone, M, AppLayout, ContactCollection, exports, require ) {
+    'underscore', 'backbone', 'themproject', 'layouts/app-layout', 'data/contacts', 'exports', 'require', 'views/ContactAll'
+], function( _, Backbone, M, AppLayout, ContactCollection, exports, require, all ) {
     //    'use strict';
     var IndexController = M.Controller.create({
 
         CurrentContact: null,
 
+        AllContacts: null,
+
         applicationStart: function( params ) {
             console.timeEnd('asdf');
 
             IndexController.init(params);
-
             Addressbook.layoutManager.setLayout(new AppLayout());
-
             Addressbook.layoutManager.applyViews({
-                left: "views/ContactAll",
+                left: IndexController.AllContacts,
                 right: "views/ContactDetail"
             }, function() {
                 Addressbook.layoutManager.initialRenderProcess();
             });
 
+        },
+
+        show: function() {
+            Addressbook.layoutManager.applyViews({
+                left: IndexController.AllContacts,
+                right: "views/ContactDetail"
+            }, function() {
+
+            });
         },
 
         init: function( params ) {
@@ -30,25 +39,16 @@ define([
             }
 
             if( !params || !params.id ) {
-
                 Addressbook.ContactCollection = ContactCollection.create();
                 Addressbook.ContactCollection.fetch({
-                    success: function() {
+                    success: function(model, collection) {
                         IndexController.set('CurrentContact', Addressbook.ContactCollection.models[0]);
                     }
                 });
 
             }
-        },
 
-        show: function() {
-
-            Addressbook.layoutManager.applyViews({
-                left: "views/ContactAll",
-                right: "views/ContactDetail"
-            }, function() {
-
-            });
+            this.AllContacts = this.AllContacts || all.create();
         },
 
         editContact: function() {
@@ -59,8 +59,15 @@ define([
 
         saveContact: function(){
             IndexController.CurrentContact.save();
-            this.CurrentContact
             history.back();
+        },
+
+        sortContacts: function(){
+            var sorted = _.sortBy(Addressbook.ContactCollection.models, function(m){
+                return m.get('firstname');
+            });
+            Addressbook.ContactCollection.models = sorted;
+            Addressbook.ContactCollection.trigger('sort');
         }
 
     });

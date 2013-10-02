@@ -1,22 +1,21 @@
 /*global define*/
 
 define([
-    'underscore', 'backbone', 'themproject', 'layouts/app-layout', 'controllers/index', 'data/contacts', 'exports'
-], function( _, Backbone, M, AppLayout, IndexController, ContactModel, exports ) {
+    'underscore', 'backbone', 'themproject', 'layouts/app-layout', 'controllers/index', 'data/contacts', 'exports', 'views/ContactAll'
+], function( _, Backbone, M, AppLayout, IndexController, ContactModel, exports, all ) {
     //    'use strict';
 
     var DetailController = M.Controller.create({
 
         applicationStart: function( params ) {
-
+            alert('a');
             var ctrl = IndexController;
 
             ctrl.init(params);
 
             Addressbook.layoutManager.setLayout(new AppLayout());
-
             Addressbook.layoutManager.applyViews({
-                left: "views/ContactAll",
+                left: IndexController.AllContacts,
                 right: "views/ContactEdit"
             }, function(){
                 Addressbook.layoutManager.initialRenderProcess();
@@ -30,15 +29,14 @@ define([
         },
 
         show: function(params){
-
+//            $('.right').html('<a href="/">edit</a>');
             Addressbook.layoutManager.applyViews({
-                left: "views/ContactAll",
+                left: IndexController.AllContacts,
                 right: "views/ContactEdit"
+
             }, function(){
                 if(Object.keys(params).length){
                     IndexController.set('CurrentContact', ContactModel.create(params));
-                } else {
-                    IndexController.init();
                 }
             });
         }

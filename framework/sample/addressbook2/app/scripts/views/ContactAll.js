@@ -18,7 +18,12 @@ define([
 
         listItemView: M.View.extend({
 
-            template: _.tmpl('<div><div><%= firstname %></div><div><%= lastname %></div></div>'),
+            beforeRender:function(){
+
+                console.log('list item before item');
+            },
+
+            template: _.tmpl('<div class="contact"><div><%= firstname %></div><div><%= lastname %></div></div>'),
 
             events: {
                 click: function() {
