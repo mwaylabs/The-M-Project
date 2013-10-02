@@ -128,8 +128,6 @@
 
         _type: 'M.ListView',
 
-        tagName: 'ul',
-
         template: _.tmpl('<div data-child-view="list"></div>'),
 
         viewMapping: {},
