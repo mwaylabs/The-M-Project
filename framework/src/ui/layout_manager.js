@@ -18,7 +18,7 @@ _.extend(Backbone.Layout.prototype, {
         var that = this;
 
         var _settings = settings;
-        console.log('_settings', _settings);
+
 
         this._loadViews(settings, function( views ) {
            var duplicates = [];
@@ -39,7 +39,6 @@ _.extend(Backbone.Layout.prototype, {
             var doRender = true;
             _.each(viewsToRender, function(view, selector){
                 if(that.views[selector] !== view){
-                    console.log('adsf');
                     var view = that.setView(selector, view);
                     view.render();
                 } else {
