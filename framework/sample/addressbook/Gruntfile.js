@@ -209,14 +209,7 @@ module.exports = function (grunt) {
                     // http://requirejs.org/docs/errors.html#sourcemapcomments
                     preserveLicenseComments: false,
                     useStrict: true,
-                    wrap: true,
-                    logLevel: 1,
-                    onBuildRead: function (moduleName, path, contents) {
-                        //Always return a value.
-                        //This is just a contrived example.
-                        console.log('................................', path);
-                        return contents;
-                    }
+                    wrap: true
                     //uglify2: {} // https://github.com/mishoo/UglifyJS2
                 }
             }
@@ -388,12 +381,7 @@ module.exports = function (grunt) {
         'uglify',
         'copy',
         'rev',
-        'usemin'includeExcludedFiles
-    ]);
-
-    grunt.registerTask('build2', [
-        'build',
-        ''
+        'usemin'
     ]);
 
     grunt.registerTask('default', [
