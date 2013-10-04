@@ -21,6 +21,12 @@ exports.create = function(dbName) {
             return id; // parseInt(id) !== NaN ? parseInt(id) : id;
         },
 
+        toInt: function(s) {
+            try {
+                return parseInt(s);
+            }  catch(e) {}
+        },
+
         fromJson: function(json) {
              var obj;
              try {
@@ -35,10 +41,23 @@ exports.create = function(dbName) {
         //Find documents
         find: function(req, res) {
             var name    = req.params.name;
-            var query   = this.fromJson(req.query.query);   // has to be an object
-            var fields  = this.fromJson(req.query.fields);  // has to an array
+            var query   = this.fromJson(req.query.query);
+            var fields  = this.fromJson(req.query.fields);
+            var sort    = this.fromJson(req.query.sort);
+            var limit   = this.toInt(req.query.limit);
+            var offset  = this.toInt(req.query.offset);
             var collection = new mongodb.Collection(this.db, name);
-            collection.find(query, fields).toArray(function(err, docs) {
+            var cursor = collection.find(query, fields);
+            if (sort) {
+                cursor.sort(sort);
+            }
+            if (limit) {
+                cursor.limit(limit);
+            }
+            if (offset) {
+                cursor.skip(offset);
+            }
+            cursor.toArray(function(err, docs) {
                 if(err){
                     res.send(400, err);
                 } else {
