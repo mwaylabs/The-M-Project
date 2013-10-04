@@ -41,7 +41,6 @@ _.extend(Backbone.Layout.prototype, {
                 if(that.views[selector] !== view){
                     var view = that.setView(selector, view);
                     view.render();
-                } else {
                     doRender = false;
                 }
             });

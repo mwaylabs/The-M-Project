@@ -21,16 +21,19 @@ M.ListView = M.View.extend({
         M.View.prototype.initialize.apply(this, arguments);
 
         this.listenTo(this.model, 'add', function( model, collection ) {
-            that.addOne(model, true);
+            //that.addOne(model, true);
         });
 
         this.listenTo(this.model, 'fetch', function() {
             console.log('fetch');
-            that.addAll();
+            //that.addAll();
         });
         this.listenTo(this.model, 'remove', this.removeOne);
 
-        this.listenTo(this.model, 'sort', this._onSort);
+        this.listenTo(this.model, 'sort', function() {
+            console.log('sort');
+            that._onSort();
+        });
 
         //            this.listenTo(this.model, 'sync', function( a, b, c ) {
         //                debugger;
@@ -56,11 +59,14 @@ M.ListView = M.View.extend({
     },
 
     addAll: function( render ) {
+        console.time('a');
         this._lastDividerValue = null;
+        var template = _.tmpl(this.listItemTemplate);
+        var events = this.listItemEvents;
         _.each(this.model.models, function( model ) {
-            this._addDivider(model);
-            this.addOne.apply(this, [model, render]);
+            this.addOne({value: model, template: template, events: events}, render);
         }, this);
+        console.timeEnd('a');
 
 
     },
@@ -87,14 +93,25 @@ M.ListView = M.View.extend({
         dividerView.render();
     },
 
-    addOne: function( model, render ) {
-
-        var view = this.listItemView.create({
-            template: this.listItemView.template,
-            value: model
+    addOne: function( opt, render ) {
+        //a: 669.190ms
+        var view = M.View.create({
+            value: opt.value,
+            template: opt.template,
+            events: opt.events,
+            //SPEED UP!!
+//            afterRender: function() {
+//                return this;
+//            }
         });
+            //a: 439.951ms
+//        var view = new Backbone.View({
+//            model: opt.value,
+//            template: opt.template,
+//            events: opt.events
+//        });
 
-        this._addDivider(model);
+        this._addDivider(opt.value);
 
         this._insertView(view);
 

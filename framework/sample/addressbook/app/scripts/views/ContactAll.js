@@ -16,7 +16,7 @@ define([
 
         divider: function( model ) {
 
-//            return model.get('firstname').charAt().toUpperCase();
+            //            return model.get('firstname').charAt().toUpperCase();
 
             return M.View.create({
                 template: '<div class="all_contacts_divider"><%= value %></div>',
@@ -25,14 +25,17 @@ define([
 
         },
 
-        listItemView: M.View.extend({
+        listItemTemplate: '<div class="contact"><div><%= firstname %></div><div><%= lastname %></div></div>',
 
-            beforeRender: function() {
-                console.log('list item before item');
-            },
+        listItemEvents: {
+            click: function() {
+                var IndexController = require('controllers/index');
+                IndexController.set('CurrentContact', this.model);
+            }
+        },
 
+        listItem: Backbone.View.extend({
             template: '<div class="contact"><div><%= firstname %></div><div><%= lastname %></div></div>',
-
             events: {
                 click: function() {
                     var IndexController = require('controllers/index');
@@ -40,6 +43,22 @@ define([
                 }
             }
         })
+
+        //        listItemView: {
+        //
+        //            beforeRender: function() {
+        //                console.log('list item before render');
+        //            },
+        //
+        //            template: '<div class="contact"><div><%= firstname %></div><div><%= lastname %></div></div>',
+        //
+        //            events: {
+        //                click: function() {
+        //                    var IndexController = require('controllers/index');
+        //                    IndexController.set('CurrentContact', this.model);
+        //                }
+        //            }
+        //        }
     });
 
     return AllView;

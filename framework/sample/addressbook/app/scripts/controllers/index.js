@@ -11,15 +11,17 @@ define([
         AllContacts: null,
 
         applicationStart: function( params ) {
-            console.timeEnd('asdf');
+            console.timeEnd('Systemstart');
 
-            IndexController.init(params);
+            this.init(params);
+
             Addressbook.layoutManager.setLayout(new AppLayout());
             Addressbook.layoutManager.applyViews({
                 left: IndexController.AllContacts,
                 right: "views/ContactDetail"
             }, function() {
                 Addressbook.layoutManager.initialRenderProcess();
+                console.timeEnd('Rendering');
             });
 
         },

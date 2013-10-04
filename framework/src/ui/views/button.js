@@ -150,7 +150,7 @@
         controllerDidLoad: function( controller, res, callback ) {
 
             var _callback = this.getCallBack(controller);
-            _callback && _callback.apply(this, [res]);
+            _callback && _callback.apply(controller, [res]);
             callback();
         },
 
