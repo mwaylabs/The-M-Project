@@ -13,7 +13,7 @@ body, html{
     top:0;
     bottom: 0;
     position: absolute;
-    overflow: scroll;
+
 }
 
 .right{
@@ -40,6 +40,11 @@ body, html{
 .left .contact div:nth-child(2){
     font-weight: bold;
 }
+
+.all_contacts_divider{
+    background: powderblue;
+}
+
 
 #splashscreen{
     position: absolute;

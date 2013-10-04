@@ -27,7 +27,7 @@
             jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= value %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
         },
 
-        currentTemplate: 'jqm',
+        currentTemplate: 'topcoat',
 
         get: function( template ) {
             if( this[template] ) {
