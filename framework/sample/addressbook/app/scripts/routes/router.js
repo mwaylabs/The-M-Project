@@ -4,8 +4,7 @@ define([
     'jquery',
     'backbone',
     'themproject',
-    'controllers/index',
-    'controllers/edit'
+    'controllers/index'
 ], function ($, Backbone, M, indexController, editController) {
     'use strict';
 
@@ -20,7 +19,7 @@ define([
 
         index: indexController,
 
-        edit: editController,
+        edit: 'controllers/edit',
 
         initialize: function() {
             M.Router.prototype.initialize.apply(this, arguments);

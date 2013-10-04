@@ -51,6 +51,7 @@
         // @include ./ui/layouts/layout.js
         // @include ./ui/layout_manager.js
         // @include ./ui/views/button.js
+        // @include ./ui/views/list.js
 
         // @include ./ui/layouts/header-layout/header-layout.js
         // @include ./ui/layouts/bottom-bar-layout/bottom-bar-layout.js
