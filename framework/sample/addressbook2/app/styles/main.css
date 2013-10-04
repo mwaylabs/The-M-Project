@@ -1,7 +1,0 @@
-.right, .left{
-    width: 50%;
-    border: 1px solid black;
-    box-sizing: border-box;
-    float: left;
-    height: 100px;
-}

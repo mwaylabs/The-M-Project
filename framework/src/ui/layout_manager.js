@@ -16,11 +16,43 @@ _.extend(Backbone.Layout.prototype, {
 
     applyViews: function( settings, callback ) {
         var that = this;
-        this._loadViews(settings, function(views){
+
+        var _settings = settings;
+
+
+        this._loadViews(settings, function( views ) {
+           var duplicates = [];
+
             var viewsToRender = that.currentLayout.__applyViews(views);
-            that.children = viewsToRender;
-            that.setViews(viewsToRender);
-            that.render();
+
+            //that.children = viewsToRender;
+
+//            if(that.views && that.views['.left'] === viewsToRender['.left']){
+//                var view = that.setView('.right', viewsToRender['.right']);
+//                view.render();
+//
+//            } else {
+//                that.setViews(viewsToRender);
+//                that.render();
+//            }
+
+            var doRender = true;
+            _.each(viewsToRender, function(view, selector){
+                if(that.views[selector] !== view){
+                    var view = that.setView(selector, view);
+                    view.render();
+                } else {
+                    doRender = false;
+                }
+            });
+
+            if(doRender){
+                that.render();
+            }
+
+
+
+
             callback();
         });
     },
@@ -35,7 +67,7 @@ _.extend(Backbone.Layout.prototype, {
             callback(this._views);
         }
 
-   },
+    },
 
 
     _loadViews: function( views, callback ) {
@@ -44,7 +76,7 @@ _.extend(Backbone.Layout.prototype, {
         this.totalLayoutViews = Object.keys(views).length;
         this._views = {};
 
-        _.each(views, function( view, domSelector ){
+        _.each(views, function( view, domSelector ) {
 
             if( view && _.isFunction(view) ) {
 
@@ -53,7 +85,7 @@ _.extend(Backbone.Layout.prototype, {
             } else if( view && typeof view === 'string' ) {
 
                 require([view], function( loadedView ) {
-                    if(loadedView.create){
+                    if( loadedView.create ) {
                         that._viewDidLoad(domSelector, loadedView.create(), callback);
                     } else {
 
@@ -70,31 +102,31 @@ _.extend(Backbone.Layout.prototype, {
 
         });
 
-//        if( settings.left && _.isFunction(settings.left) ) {
-//            this.applyView('.left', settings.left.create(), callback);
-//        } else if( settings.left && typeof settings.left === 'string' ) {
-//            require([settings.left], function( left ) {
-//                that.applyView('.left', left.create(), callback);
-//            })
-//        } else if( settings.left && settings.left.isView() ) {
-//            this.applyView('.left', settings.left, callback);
-//        }
-//
-//        if( settings.right && _.isFunction(settings.right) ) {
-//            this.applyView('.right', settings.right.create(), callback);
-//        } else if( settings.right && typeof settings.right === 'string' ) {
-//            require([settings.right], function( right ) {
-//                that.applyView('.right', right.create(), callback);
-//            })
-//        } else if( settings.right && settings.right.isView() ) {
-//            this.applyView('.right', settings.right, callback);
-//        }
+        //        if( settings.left && _.isFunction(settings.left) ) {
+        //            this.applyView('.left', settings.left.create(), callback);
+        //        } else if( settings.left && typeof settings.left === 'string' ) {
+        //            require([settings.left], function( left ) {
+        //                that.applyView('.left', left.create(), callback);
+        //            })
+        //        } else if( settings.left && settings.left.isView() ) {
+        //            this.applyView('.left', settings.left, callback);
+        //        }
+        //
+        //        if( settings.right && _.isFunction(settings.right) ) {
+        //            this.applyView('.right', settings.right.create(), callback);
+        //        } else if( settings.right && typeof settings.right === 'string' ) {
+        //            require([settings.right], function( right ) {
+        //                that.applyView('.right', right.create(), callback);
+        //            })
+        //        } else if( settings.right && settings.right.isView() ) {
+        //            this.applyView('.right', settings.right, callback);
+        //        }
 
         return this;
-__    },
+    },
 
     initialRenderProcess: function() {
-//        this.render();
+        //        this.render();
         $('body').html(this.el);
         PageTransitions.init();
     },
