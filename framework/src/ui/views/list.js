@@ -6,9 +6,11 @@ M.ListView = M.View.extend({
 
     viewMapping: {},
 
+    _lastDividerValue: null,
+
     beforeRender: function() {
         console.log('before list render');
-        if(this.hasRendered){
+        if( this.hasRendered ) {
             this.addAll();
         }
 
@@ -28,9 +30,7 @@ M.ListView = M.View.extend({
         });
         this.listenTo(this.model, 'remove', this.removeOne);
 
-        this.listenTo(this.model, 'sort', function() {
-            that._renderUpdate();
-        });
+        this.listenTo(this.model, 'sort', this._onSort);
 
         //            this.listenTo(this.model, 'sync', function( a, b, c ) {
         //                debugger;
@@ -56,11 +56,35 @@ M.ListView = M.View.extend({
     },
 
     addAll: function( render ) {
+        this._lastDividerValue = null;
         _.each(this.model.models, function( model ) {
+            this._addDivider(model);
             this.addOne.apply(this, [model, render]);
         }, this);
 
 
+    },
+
+    _addDivider: function( model ) {
+        var _divider = this.divider(model);
+        var _dividerValue = _divider.options ? _divider.options.value : _divider;
+        if( this._lastDividerValue !== _dividerValue ) {
+            this._lastDividerValue = _dividerValue;
+            this._insertDivider(_divider);
+        }
+    },
+
+    _insertDivider: function( _divider ) {
+
+        var dividerView = _divider;
+        if( !(_.isObject(dividerView) && dividerView.isView()) ) {
+            dividerView = M.View.create({
+                value: _divider
+            });
+        }
+
+        this.insertView('[data-child-view="list"]', dividerView);
+        dividerView.render();
     },
 
     addOne: function( model, render ) {
@@ -70,13 +94,19 @@ M.ListView = M.View.extend({
             value: model
         });
 
-        this.insertView('[data-child-view="list"]', view);
+        this._addDivider(model);
+
+        this._insertView(view);
 
         if( render ) {
             view.render();
         }
 
         //this._setViewMapping(view, model.cid);
+    },
+
+    _insertView: function( view ) {
+        this.insertView('[data-child-view="list"]', view);
     },
 
     _setViewMapping: function( view, cid ) {
@@ -94,8 +124,13 @@ M.ListView = M.View.extend({
         delete this.viewMapping[cid];
     },
 
-    _renderUpdate: function(){
+    _renderUpdate: function() {
         this.removeView();
         this.addAll(true);
+    },
+
+    _onSort: function( collection ) {
+        console.log('SORT');
+        this._renderUpdate();
     }
 });

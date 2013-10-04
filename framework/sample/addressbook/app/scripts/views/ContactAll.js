@@ -1,10 +1,8 @@
 /*global define*/
 
 define([
-    'themproject',
-    'templates',
-    'exports'
-], function (M, ST, exports) {
+    'themproject', 'templates', 'exports'
+], function( M, ST, exports ) {
     'use strict';
 
     var exp = exports;
@@ -12,14 +10,24 @@ define([
 
     var AllView = M.ListView.extend({
 
-        value: function(){
+        value: function() {
             return Addressbook.ContactCollection;
+        },
+
+        divider: function( model ) {
+
+//            return model.get('firstname').charAt().toUpperCase();
+
+            return M.View.create({
+                template: _.tmpl('<div class="all_contacts_divider"><%= value %></div>'),
+                value: model.get('firstname').charAt(0).toUpperCase()
+            });
+
         },
 
         listItemView: M.View.extend({
 
-            beforeRender:function(){
-
+            beforeRender: function() {
                 console.log('list item before item');
             },
 
