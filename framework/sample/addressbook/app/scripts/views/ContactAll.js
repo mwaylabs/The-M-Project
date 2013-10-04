@@ -19,7 +19,7 @@ define([
 //            return model.get('firstname').charAt().toUpperCase();
 
             return M.View.create({
-                template: _.tmpl('<div class="all_contacts_divider"><%= value %></div>'),
+                template: '<div class="all_contacts_divider"><%= value %></div>',
                 value: model.get('firstname').charAt(0).toUpperCase()
             });
 
@@ -31,7 +31,7 @@ define([
                 console.log('list item before item');
             },
 
-            template: _.tmpl('<div class="contact"><div><%= firstname %></div><div><%= lastname %></div></div>'),
+            template: '<div class="contact"><div><%= firstname %></div><div><%= lastname %></div></div>',
 
             events: {
                 click: function() {

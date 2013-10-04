@@ -180,9 +180,12 @@ _.extend(M.View.prototype, {
 
     _assignTemplate: function() {
         if( this.options.template ) {
+
+            //if the options template is allready an template use this one
             if( _.isFunction(this.options.template) || _.isNodeList(this.options.template) ) {
                 this.template = this.options.template;
             } else if( _.isObject(this.options.template) ) {
+                // if the template is an object, then it is assumed the M.TemplateManager has an stored template for the given one
                 var templateIdentifier = this.getTemplateIdentifier();
                 var options = {template: _.extend(M.TemplateManager[templateIdentifier], this.options.template)};
                 var template = M.TemplateManager.get.apply(options, ['template']);
@@ -192,6 +195,9 @@ _.extend(M.View.prototype, {
                     console.warn('template not found');
                 }
 
+            } else if( typeof this.options.template === 'string' ) {
+                // if the template is just a string, it should be the template - so call _.tmpl on it.
+                this.template = _.tmpl(this.options.template);
             }
         }
     },

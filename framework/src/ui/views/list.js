@@ -2,7 +2,7 @@ M.ListView = M.View.extend({
 
     _type: 'M.ListView',
 
-    template: _.tmpl('<div data-child-view="list"></div>'),
+    template: '<div data-child-view="list"></div>',
 
     viewMapping: {},
 
