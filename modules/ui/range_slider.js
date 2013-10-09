@@ -12,7 +12,7 @@
  * @class
  *
  * This defines the prototype for a range slider view. It renders a touch-optimized range slider
- * that can be used to set a two numbers within a specified range.
+ * that can be used to set a range within a specified range.
  *
  * @extends M.View
  */
