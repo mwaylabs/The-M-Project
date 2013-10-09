@@ -11,12 +11,12 @@
 /**
  * @class
  *
- * This defines the prototype for a slider view. It renders a touch-optimized slider
- * that can be used to set a number within a specified range.
+ * This defines the prototype for a range slider view. It renders a touch-optimized range slider
+ * that can be used to set a two numbers within a specified range.
  *
  * @extends M.View
  */
-M.SliderView = M.View.extend(
+M.RangeSliderView = M.View.extend(
 /** @scope M.ButtonView.prototype */ {
 
     /**
@@ -24,19 +24,31 @@ M.SliderView = M.View.extend(
      *
      * @type String
      */
-    type: 'M.SliderView',
+    type: 'M.RangeSliderView',
 
     /**
-     * This property contains the slider's value.
+     * This property contains the slider's lower value.
      */
-    value: 0,
+    lowValue: 0,
 
     /**
-     * This property contains the slider's initial value.
+     * This property contains the slider's higher value.
+     */
+    highValue: 100,
+
+    /**
+     * This property contains the slider's initial lower value.
      *
      * @private
      */
-    initialValue: 0,
+    initialLowValue: 0,
+
+    /**
+     * This property contains the slider's initial higher value.
+     *
+     * @private
+     */
+    initialHighValue: 0,
 
     /**
      * This property specifies the min value of the slider.
@@ -67,12 +79,12 @@ M.SliderView = M.View.extend(
     isSliderOnly: NO,
 
     /**
-     * This property determines whether or not to visually highlight the left part of the slider. If
-     * this is set to YES, the track from the left edge to the slider handle will be highlighted.
+     * This property determines whether or not to visually highlight the range of the slider. If
+     * this is set to YES, the track from the lower slider handle to the higher slider handle will be highlighted.
      *
      * @type Boolean
      */
-    highlightLeftPart: NO,
+    highlight: YES,
 
     /**
      * This property specifies the recommended events for this type of view.
@@ -111,6 +123,9 @@ M.SliderView = M.View.extend(
      */
     render: function() {
         this.html = '';
+
+        this.html += '<div data-role="rangeslider">';
+
         if(this.label) {
             this.html += '<label for="' + this.id + '">' + this.label;
             if (this.hasAsteriskOnLabel) {
@@ -125,12 +140,16 @@ M.SliderView = M.View.extend(
         }
 
         this.html += '<div id="' + this.id + '_container" class="tmp-slider-container' + (this.isSliderOnly ? ' tmp-slider-is-slider-only' : '') + '">';
-        this.html += '<input id="' + this.id + '" type="range" data-highlight="' + this.highlightLeftPart + '" min="' + this.min + '" max="' + this.max + '" step="' + this.step + '" value="' + this.value + '"' + this.style() + '>';
+        this.html += '<input id="' + this.id + '" type="range" data-highlight="' + this.highlight + '" min="' + this.min + '" max="' + this.max + '" step="' + this.step + '" value="' + this.lowValue + '"' + this.style() + '>';
+        this.html += '<input id="' + this.id + '_b" type="range" data-highlight="' + this.highlight + '" min="' + this.min + '" max="' + this.max + '" step="' + this.step + '" value="' + this.highValue + '"' + this.style() + '>';
+
+        this.html += '</div>';
 
         this.html += '</div>';
 
         /* store value as initial value for later resetting */
-        this.initialValue = this.value;
+        this.initialLowValue = this.lowValue;
+        this.initialHighValue = this.highValue;
 
         return this.html;
     },
@@ -157,17 +176,28 @@ M.SliderView = M.View.extend(
      * @private
      */
     renderUpdate: function() {
-        /* check if the slider's value is numeric, otherwise use initial value */
-        if(isNaN(this.value)) {
-            this.value = this.initialValue;
+        /* check if the slider's lower value is numeric, otherwise use initial value */
+        if(isNaN(this.lowValue)) {
+            this.lowValue = this.initialLowValue;
         /* if it is a number, but out of bounds, use min/max */
-        } else if(this.value < this.min) {
-            this.value = this.min
-        } else if(this.value > this.max) {
-            this.value = this.max
+        } else if(this.lowValue < this.min) {
+            this.lowValue = this.min;
+        } else if(this.lowValue > this.max) {
+            this.lowValue = this.max;
         }
 
-        $('#' + this.id).val(this.value);
+        /* check if the slider's higher value is numeric, otherwise use initial value */
+        if(isNaN(this.highValue)) {
+            this.highValue = this.initialHighValue;
+        /* if it is a number, but out of bounds, use min/max */
+        } else if(this.highValue < this.min) {
+            this.highValue = this.min;
+        } else if(this.highValue > this.max) {
+            this.highValue = this.max;
+        }
+
+        $('#' + this.id).val(this.lowValue);
+        $('#' + this.id + '_b').val(this.highValue);
         $('#' + this.id).slider('refresh');
     },
 
@@ -183,7 +213,8 @@ M.SliderView = M.View.extend(
      * @param {Object} nextEvent The next event (external event), if specified.
      */
     setValueFromDOM: function(id, event, nextEvent) {
-        this.value = $('#' + this.id).val();
+        this.lowValue = $('#' + this.id).val();
+        this.highValue = $('#' + this.id + '_b').val();
 
         if(nextEvent) {
             M.EventDispatcher.callHandler(nextEvent, event, NO, [this.value, this.id]);
@@ -212,6 +243,7 @@ M.SliderView = M.View.extend(
     theme: function() {
         if(this.isSliderOnly) {
             $('#' + this.id).hide();
+            $('#' + this.id + '_b').hide();
         }
 
         if(!this.isEnabled) {
@@ -223,7 +255,8 @@ M.SliderView = M.View.extend(
      * This method resets the slider to its initial value.
      */
     resetSlider: function() {
-        this.value = this.initialValue;
+        this.lowValue = this.initialLowValue;
+        this.highValue = this.initialHighValue;
         this.renderUpdate();
     },
 
