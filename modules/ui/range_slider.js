@@ -123,9 +123,6 @@ M.RangeSliderView = M.View.extend(
      */
     render: function() {
         this.html = '';
-
-        this.html += '<div data-role="rangeslider">';
-
         if(this.label) {
             this.html += '<label for="' + this.id + '">' + this.label;
             if (this.hasAsteriskOnLabel) {
@@ -139,11 +136,9 @@ M.RangeSliderView = M.View.extend(
             }
         }
 
-        this.html += '<div id="' + this.id + '_container" class="tmp-slider-container' + (this.isSliderOnly ? ' tmp-slider-is-slider-only' : '') + '">';
+        this.html += '<div data-role="rangeslider" id="' + this.id + '_container" class="tmp-slider-container' + (this.isSliderOnly ? ' tmp-slider-is-slider-only' : '') + '">';
         this.html += '<input id="' + this.id + '" type="range" data-highlight="' + this.highlight + '" min="' + this.min + '" max="' + this.max + '" step="' + this.step + '" value="' + this.lowValue + '"' + this.style() + '>';
         this.html += '<input id="' + this.id + '_b" type="range" data-highlight="' + this.highlight + '" min="' + this.min + '" max="' + this.max + '" step="' + this.step + '" value="' + this.highValue + '"' + this.style() + '>';
-
-        this.html += '</div>';
 
         this.html += '</div>';
 
