@@ -80,7 +80,7 @@ M.Themes = M.Object.extend({
     }
 });
 
-M.Layout = Backbone.Layout.extend(/** @scope M.Layout.prototype */{
+M.Layout = Backbone.View.extend(/** @scope M.Layout.prototype */{
 
     //el: $(".m-perspective"),
 

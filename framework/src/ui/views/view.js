@@ -97,6 +97,7 @@ _.extend(M.View.prototype, {
     },
 
     afterRender: function() {
+        this._assignBinding();
         this.stickit();
         return this;
     },
@@ -117,9 +118,15 @@ _.extend(M.View.prototype, {
         this._assignValue();
 
         this._assignContentBinding();
+    },
 
-        this._assignBinding();
-
+    _assignContentBinding: function() {
+        if( this.contentBinding && this.contentBinding.target ) {
+            var that = this;
+            this.listenTo(this.contentBinding.target, this.contentBinding.property, function( model ){
+                that._setValue( model );
+            });
+        }
     },
 
     _assignBinding: function(){
@@ -137,6 +144,7 @@ _.extend(M.View.prototype, {
     _assignEvents: function() {
 
         var events = {};
+        //console.log(this.template());
 
         _.each(this.events, function( event, eventName ) {
 

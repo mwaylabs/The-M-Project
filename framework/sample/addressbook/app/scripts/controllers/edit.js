@@ -5,12 +5,12 @@ define([
 ], function( _, Backbone, M, AppLayout, IndexController, ContactModel, exports, all ) {
     //    'use strict';
 
-    alert('EDIT_CONTROLLER');
+    console.log('EDIT_CONTROLLER');
 
     var DetailController = M.Controller.create({
 
         applicationStart: function( params ) {
-            alert('a');
+            console.log('a');
             var ctrl = IndexController;
 
             ctrl.init(params);

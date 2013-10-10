@@ -14,9 +14,9 @@ M.Application = function(options) {
     this.initialize(options);
 };
 
-Backbone.Layout.configure({
-    manage: true
-});
+//Backbone.Layout.configure({
+//    manage: true
+//});
 
 M.Application.create = M.create;
 

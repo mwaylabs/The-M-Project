@@ -22,12 +22,12 @@ require.config({
             ],
             exports: 'StickIt'
         },
-        backboneLayoutManager: {
-            deps: [
-                'backbone'
-            ],
-            exports: 'BackboneLayoutManager'
-        },
+//        backboneLayoutManager: {
+//            deps: [
+//                'backbone'
+//            ],
+//            exports: 'BackboneLayoutManager'
+//        },
         FastClick: {
             deps: [],
             exports: 'FastClick'
@@ -42,7 +42,7 @@ require.config({
         themproject: {
             deps: [
                 'backbone',
-                'backboneLayoutManager',
+//                'backboneLayoutManager',
                 'text',
                 'FastClick',
                 'stickIt',
@@ -56,7 +56,7 @@ require.config({
         backbone: '../bower_components/backbone/backbone',
         underscore: '../bower_components/underscore/underscore',
         stickIt: '../bower_components/backbone.stickit/backbone.stickit',
-        backboneLayoutManager: '../bower_components/layoutmanager/backbone.layoutmanager',
+//        backboneLayoutManager: '../bower_components/layoutmanager/backbone.layoutmanager',
         text: '../bower_components/requirejs-text/text',
         themproject: '../bower_components/tmp2/tmp2',
         FastClick: '../bower_components/fastclick/lib/fastclick',

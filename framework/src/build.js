@@ -2,7 +2,7 @@
 
     // AMD
     if (typeof define === 'function' && define.amd) {
-        return define(['backbone', 'underscore', 'jquery', 'backboneLayoutManager', 'stickIt', 'tmpl'], factory);
+        return define(['backbone', 'underscore', 'jquery', 'stickIt', 'tmpl'], factory);
     }
 
     // Browser globals.
@@ -50,6 +50,8 @@
         // @include ./ui/pagetransitions.js
         // @include ./ui/layouts/layout.js
         // @include ./ui/layout_manager.js
+        // @include ./ui/views/template_manager.js
+        // @include ./ui/views/stuff.js
         // @include ./ui/views/button.js
         // @include ./ui/views/list.js
 

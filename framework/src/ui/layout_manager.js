@@ -1,4 +1,4 @@
-_.extend(Backbone.Layout.prototype, {
+_.extend(Backbone.View.prototype, {
 
     transition: null,
 
@@ -126,7 +126,7 @@ _.extend(Backbone.Layout.prototype, {
 
     initialRenderProcess: function() {
         //        this.render();
-        $('body').html(this.el);
+        $('body').append(this.el);
         PageTransitions.init();
     },
 
