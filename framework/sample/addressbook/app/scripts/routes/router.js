@@ -16,6 +16,7 @@ define([
             '': 'index',
             'edit': 'edit',
             'kitchensink/:ui': 'kitchensink',
+            'kitchensink': 'kitchensink',
             'edit/:firstname/:lastname': 'edit'
         },
 

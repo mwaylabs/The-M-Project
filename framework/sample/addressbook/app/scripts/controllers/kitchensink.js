@@ -110,21 +110,24 @@ define([
                 buttonGroup: [
                     TMP.ButtonView.design({
                         value: 'use bootstrap template',
-                        tagName: 'span',
+                        //IF THIS PROPERTY IS SET AND THERE IS AN UPDATE TEMPLATE CALL, ALL EVENTS ARE DELETED
+//                        tagName: 'span',
                         events: {
                             click: function() {
 //                                $('div').css('color', '#' + (function co( lor ) {
 //                                    return (lor += [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)]) && (lor.length == 6) ? lor : co(lor);
 //                                })(''));
+                                console.log('click bootstrap');
                                 TMP.TemplateManager._currentUI = 'bootstrap';
                                 kitchensinkApp.updateTemplate().render();
                             }
                         }
                     }), TMP.ButtonView.design({
-                        value: 'use url template',
+                        value: 'use topcoat template',
                         events: {
                             click: function(){
-                                TMP.TemplateManager._currentUI = params.ui;
+                                console.log('click topcoat');
+                                TMP.TemplateManager._currentUI = 'topcoat';
                                 kitchensinkApp.updateTemplate().render();
                             }
                         }
@@ -135,6 +138,7 @@ define([
 //                                $('div').css('color', '#' + (function co( lor ) {
 //                                    return (lor += [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)]) && (lor.length == 6) ? lor : co(lor);
 //                                })(''));
+                                console.log('click jqm');
                                 TMP.TemplateManager._currentUI = 'jqm';
                                 kitchensinkApp.updateTemplate().render();
                             }
@@ -143,12 +147,12 @@ define([
                 ],
                 right: [
                     TMP.ButtonView.design({
-                        value: 'override buttonGroup',
+                        value: 'use default template',
                         events: {
                             click: function(){
-                                TMP.TemplateManager._currentUI = params.ui;
+                                console.log('click button');
+                                TMP.TemplateManager._currentUI = "defaultTemplate";
                                 kitchensinkApp.updateTemplate().render();
-                                return void 0;
                             }
                         }
                     })
@@ -176,8 +180,8 @@ define([
             });
 
             var content =  TMP.View.design({
-                searchBar: TMP.TextfieldView.design({
-
+                searchBar: TMP.LabelView.design({
+                    value: TMP.I18N.get('HALLO STEFAN!!!!!')
                 }),
                 contactList: TMP.ListView.design({
                     value: ContactCollection,

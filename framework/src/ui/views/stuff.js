@@ -91,12 +91,12 @@
 
             FastClick.attach(document.body);
 
-            $(document).on('click', 'a[href^="#"]', function( e ) {
-                debugger;
-                e.preventDefault();
-                e.stopPropagation();
-                return void 0;
-            });
+//            $(document).on('click', 'a[href^="#"]', function( e ) {
+//                debugger;
+//                e.preventDefault();
+//                e.stopPropagation();
+//                return void 0;
+//            });
 
             window[window.TMP_APPLICATION_NAME].layoutManager = new (Backbone.View.extend());
         },

@@ -15,7 +15,6 @@
         template: _.tmpl('<div><%= value %><div data-childviews="CONTENT"></div></div>'),
 
         initialize: function() {
-            this._assignValue();
             this._assignComplexView();
             this._assignContentBinding();
             this.init();
@@ -34,8 +33,13 @@
         },
 
         _assignValue: function() {
+            console.log(this.options.value, this._type);
             if( Backbone.Model.prototype.isPrototypeOf(this.options.value) || Backbone.Collection.prototype.isPrototypeOf(this.options.value) ) {
                 this._setModel(this.options.value);
+            } else if( typeof this.options.value === 'function' ) {
+                this._setModel({
+                    value: this.options.value()
+                });
             } else if( this.options.value ) {
                 this._setModel({
                     value: this.options.value
@@ -75,6 +79,7 @@
         },
 
         render: function() {
+            this._assignValue();
             this._preRender();
             this._render();
             this._renderChildViews();
@@ -117,9 +122,9 @@
                 if( this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').length ) {
                     dom = this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]');
                 }
-                if( !_.isArray(child) ) {
+                if( typeof child['render'] === 'function' ) {
                     dom.append(child.render().el);
-                } else {
+                } else if( _.isArray(child) ) {
                     _.each(child, function( c ) {
                         dom.append(c.render().el);
                     })
@@ -238,7 +243,7 @@
     TMP.View.design = function( options, childViews ) {
         var opt = options;
         var elem = options[Object.keys(options)[0]];
-        if( TMP.View.prototype.isPrototypeOf(elem) || _.isArray(elem) || _.isFunction(elem) ) {
+        if( TMP.View.prototype.isPrototypeOf(elem) || _.isArray(elem) || (Object.keys(options)[0] !== 'value' && _.isFunction(elem)) ) {
             opt = {childViews: options};
         }
         if( childViews ) {
@@ -270,7 +275,7 @@
             defaultTemplate: '<div>Button: <div data-binding="value"<% if(value) {  } %>><%= value %></div></div>',
             topcoat: '<button class="topcoat-button--large" data-binding="value"><%= value %></button>',
             bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star" data-binding="value"></span><%= value %></button>',
-            jqm: '<a href="#" data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="value"><%= value %></span></span></a>'
+            jqm: '<a data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="value"><%= value %></span></span></a>'
         },
 
         "M.ToolbarView": {
@@ -374,7 +379,7 @@
         initialize: function() {
             var that = this;
             TMP.View.prototype.initialize.apply(this, arguments);
-
+            this._assignValue();
             this.listenTo(this.model, 'add', function( model, collection ) {
                 console.log('add');
             });
@@ -406,5 +411,13 @@
         _type: 'M.ModelView',
         template: _.tmpl(TMP.TemplateManager.get('M.ModelView'))
     });
+
+
+    TMP.I18N = {};
+    TMP.I18N.get = function( lang ){
+
+
+        return (function(){return new Date().getTime()})
+    };
 
 })(this);
