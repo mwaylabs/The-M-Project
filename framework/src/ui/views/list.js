@@ -248,60 +248,60 @@ M.ListView = M.View.extend({
 });
 
 
-test = function() {
-
-    var time = 0;
-    //    for(var i = 0; i<= 100; i++){
-    //        Addressbook.IndexController.AllContacts.removeView();
-    //        var startTime =  new Date().getTime();
-    //        Addressbook.IndexController.AllContacts.addAll_1(true);
-    //        time += (new Date().getTime() - startTime);
-    //    }
-    //    console.log(time);
-    //
-    //    var time = 0;
-    //
-    //    for(var i = 0; i<= 100; i++){
-    //        Addressbook.IndexController.AllContacts.remove();
-    //        var startTime =  new Date().getTime();
-    //        Addressbook.IndexController.AllContacts.addAll_2(false);
-    //        time += (new Date().getTime() - startTime);
-    //    }
-    //
-    //    console.log(time);
-    //
-    //    var time = 0;
-    //
-    //    for(var i = 0; i<= 100; i++){
-    //        Addressbook.IndexController.AllContacts.remove();
-    //        var startTime =  new Date().getTime();
-    //        Addressbook.IndexController.AllContacts.addAll_3(true);
-    //        time += (new Date().getTime() - startTime);
-    //    }
-    //
-    //    console.log(time);
-
-    var time = 0;
-
-    for( var i = 0; i <= 100; i++ ) {
-        var startTime = new Date().getTime();
-        Addressbook.IndexController.AllContacts.addAll_4(true);
-        time += (new Date().getTime() - startTime);
-    }
-
-    console.log(time);
-
-    var time = 0;
-
-    for( var i = 0; i <= 100; i++ ) {
-        var startTime = new Date().getTime();
-        Addressbook.IndexController.AllContacts.addAll_5(true);
-        time += (new Date().getTime() - startTime);
-    }
-
-    console.log(time);
-
-}
+//test = function() {
+//
+//    var time = 0;
+//    //    for(var i = 0; i<= 100; i++){
+//    //        Addressbook.IndexController.AllContacts.removeView();
+//    //        var startTime =  new Date().getTime();
+//    //        Addressbook.IndexController.AllContacts.addAll_1(true);
+//    //        time += (new Date().getTime() - startTime);
+//    //    }
+//    //    console.log(time);
+//    //
+//    //    var time = 0;
+//    //
+//    //    for(var i = 0; i<= 100; i++){
+//    //        Addressbook.IndexController.AllContacts.remove();
+//    //        var startTime =  new Date().getTime();
+//    //        Addressbook.IndexController.AllContacts.addAll_2(false);
+//    //        time += (new Date().getTime() - startTime);
+//    //    }
+//    //
+//    //    console.log(time);
+//    //
+//    //    var time = 0;
+//    //
+//    //    for(var i = 0; i<= 100; i++){
+//    //        Addressbook.IndexController.AllContacts.remove();
+//    //        var startTime =  new Date().getTime();
+//    //        Addressbook.IndexController.AllContacts.addAll_3(true);
+//    //        time += (new Date().getTime() - startTime);
+//    //    }
+//    //
+//    //    console.log(time);
+//
+//    var time = 0;
+//
+//    for( var i = 0; i <= 100; i++ ) {
+//        var startTime = new Date().getTime();
+//        Addressbook.IndexController.AllContacts.addAll_4(true);
+//        time += (new Date().getTime() - startTime);
+//    }
+//
+//    console.log(time);
+//
+//    var time = 0;
+//
+//    for( var i = 0; i <= 100; i++ ) {
+//        var startTime = new Date().getTime();
+//        Addressbook.IndexController.AllContacts.addAll_5(true);
+//        time += (new Date().getTime() - startTime);
+//    }
+//
+//    console.log(time);
+//
+//}
 
 
 //View = {

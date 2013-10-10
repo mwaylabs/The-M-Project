@@ -92,6 +92,7 @@
             FastClick.attach(document.body);
 
             $(document).on('click', 'a[href^="#"]', function( e ) {
+                debugger;
                 e.preventDefault();
                 e.stopPropagation();
                 return void 0;

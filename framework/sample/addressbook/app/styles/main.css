@@ -2,6 +2,10 @@ body, html{
     xoverflow: hidden;
 }
 
+body h2{
+    margin: 0;
+}
+
 .right,
 .left{
     width: 50%;

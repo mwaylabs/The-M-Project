@@ -15,7 +15,7 @@ define([
         routes: {
             '': 'index',
             'edit': 'edit',
-            'kitchensink': 'kitchensink',
+            'kitchensink/:ui': 'kitchensink',
             'edit/:firstname/:lastname': 'edit'
         },
 
