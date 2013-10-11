@@ -15,6 +15,7 @@
         template: _.tmpl('<div><%= value %><div data-childviews="CONTENT"></div></div>'),
 
         initialize: function() {
+            this._assignValue();
             this._assignComplexView();
             this._assignContentBinding();
             this.init();
@@ -434,6 +435,7 @@
         _type: 'M.ListItemView',
         template: _.tmpl(TMP.TemplateManager.get('M.ListItemView')),
         initialize: function(){
+            TMP.View.prototype.initialize.apply(this, arguments);
             if(this.templateExtend){
                 this.template = _.tmpl(this.template({value: this.templateExtend}));
             }

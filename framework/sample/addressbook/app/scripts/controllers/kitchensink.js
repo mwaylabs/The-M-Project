@@ -162,6 +162,10 @@ define([
                     value: mdl,
                     template: '<div><%= value %></div>'
                 }),
+                changeHeadline: TMP.View.design({
+                    value: mdl,
+                    template: '<div contenteditable="true"><%= value %></div>'
+                }),
                 lala: TMP.View.design({
                     value: 'ich habe kinder',
                     template: '<strong data-childviews="CONTENT"></strong>'
@@ -288,7 +292,7 @@ define([
                         }),
                         contactList: TMP.ListView.design({
                             value: ContactCollection,
-                            listItem: TMP.View.extend({
+                            listItem: TMP.ListItemView.extend({
                                 template: _.tmpl('<div><div><%= lastname %></div><div><%= firstname%></div></div>'),
                                 events: {
                                     click: function() {
