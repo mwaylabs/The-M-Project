@@ -179,6 +179,7 @@
             }, this);
 
             this.bindings = bindings;
+
             return this;
         },
         _preRender: function() {
@@ -327,7 +328,15 @@
             jqm: '<div contenteditable="true"><%= value %></div>'
         },
 
-        _currentUI: 'jqm',
+        "M.SearchfieldView": {
+            defaultTemplate: '<ul><%= value %></ul>',
+            bootstrap: '<div><%= value %></div>',
+            topcoat: '<div><%= value %></div>',
+            jqm: '<div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c ui-focus"><input type="text" data-type="search" name="password" id="search" value="" placeholder="<%= placeholder %>" class="ui-input-text ui-body-c"><%= value %><a class="ui-input-clear ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-fullsize ui-btn-icon-notext ui-input-clear-hidden" title="clear text" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="delete" data-iconpos="notext" data-theme="c" data-mini="false"><span class="ui-btn-inner"><span class="ui-btn-text">clear text</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a></div>',
+            jqm: '<div contenteditable="true"><%= value %></div>'
+        },
+
+        _currentUI: 'topcoat',
 
         get: function( template ) {
             if( this[template] ) {
@@ -377,6 +386,13 @@
         _type: 'M.TextfieldView',
         template: _.tmpl(TMP.TemplateManager.get('M.TextfieldView'))
     });
+
+    TMP.SearchfieldView = TMP.TextfieldView.extend({
+        _type: 'M.SearchfieldView',
+        template: _.tmpl(TMP.TemplateManager.get('M.SearchfieldView'))
+    });
+
+
     TMP.ListView = TMP.View.extend({
         _type: 'M.ListView',
         template: _.tmpl(TMP.TemplateManager.get('M.ListView')),

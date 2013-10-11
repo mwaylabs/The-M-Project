@@ -182,14 +182,21 @@ define([
             });
 
             var content =  TMP.View.design({
-                searchBar: TMP.LabelView.design({
-                    value: "TMP.I18N.get('HALLO STEFAN!!!!!')"
+                searchBar: TMP.SearchfieldView.design({
+                    value:'a',
+                    placeholder: "TMP.I18N.get('HALLO STEFAN!!!!!')",
+//                    events: {
+//                        keyup: function(){
+//                            console.log(this.model);
+//                            console.log(this.value);
+//                        }
+//                    }
                 }),
                 contactList: TMP.ListView.design({
                     value: ContactCollection,
 
                     listItem: TMP.ListItemView.extend({
-                        templateExtend: '<div><div><%= lastname %></div><div><%= firstname%></div></div>',
+                        template: '<div><div><%= lastname %></div><div><%= firstname%></div></div>',
                         events: {
                             click: function() {
                                 KitchenSink.set('CurrentContact', this.model);
