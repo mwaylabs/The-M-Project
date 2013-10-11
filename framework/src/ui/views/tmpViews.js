@@ -306,6 +306,13 @@
             jqm: '<div data-childviews="list"></div>'
         },
 
+        "M.ListItemView": {
+            defaultTemplate: '<div data-childviews="list"></div>',
+            bootstrap: '<div data-childviews="list"></div>',
+            topcoat: '<div data-childviews="list"></div>',
+            jqm: '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-first-child ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a class="ui-link-inherit"><%= value %></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>'
+        },
+
         "M.ModelView": {
             defaultTemplate: '<ul><%= value %></ul>',
             bootstrap: '<div><%= value %></div>',
@@ -320,7 +327,7 @@
             jqm: '<div contenteditable="true"><%= value %></div>'
         },
 
-        _currentUI: 'topcoat',
+        _currentUI: 'jqm',
 
         get: function( template ) {
             if( this[template] ) {
@@ -405,6 +412,15 @@
                 });
                 console.timeEnd('a');
             });
+        }
+    });
+    TMP.ListItemView = TMP.View.extend({
+        _type: 'M.ListItemView',
+        template: _.tmpl(TMP.TemplateManager.get('M.ListItemView')),
+        initialize: function(){
+            if(this.templateExtend){
+                this.template = _.tmpl(this.template({value: this.templateExtend}));
+            }
         }
     });
     TMP.ModelView = TMP.View.extend({

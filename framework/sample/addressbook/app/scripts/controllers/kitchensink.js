@@ -119,7 +119,7 @@ define([
 //                                })(''));
                                 console.log('click bootstrap');
                                 TMP.TemplateManager._currentUI = 'bootstrap';
-                                kitchensinkApp.updateTemplate().render();
+                                kitchensinkLayout.updateTemplate().render();
                             }
                         }
                     }), TMP.ButtonView.design({
@@ -128,7 +128,7 @@ define([
                             click: function(){
                                 console.log('click topcoat');
                                 TMP.TemplateManager._currentUI = 'topcoat';
-                                kitchensinkApp.updateTemplate().render();
+                                kitchensinkLayout.updateTemplate().render();
                             }
                         }
                     }), TMP.ButtonView.design({
@@ -140,7 +140,7 @@ define([
 //                                })(''));
                                 console.log('click jqm');
                                 TMP.TemplateManager._currentUI = 'jqm';
-                                kitchensinkApp.updateTemplate().render();
+                                kitchensinkLayout.updateTemplate().render();
                             }
                         }
                     })
@@ -152,7 +152,7 @@ define([
                             click: function(){
                                 console.log('click button');
                                 TMP.TemplateManager._currentUI = "defaultTemplate";
-                                kitchensinkApp.updateTemplate().render();
+                                kitchensinkLayout.updateTemplate().render();
                             }
                         }
                     })
@@ -165,11 +165,13 @@ define([
                 lala: TMP.View.design({
                     value: 'ich habe kinder',
                     template: '<strong data-childviews="CONTENT"></strong>'
-                }, {CONTENT: [TMP.View.design({
+                }, {
+                    CONTENT: [TMP.View.design({
                     value: 'ich bin ein kind'
                 }), TMP.View.design({
                     value: 'ich auch'
-                })]}),
+                })]
+                }),
                 settings: TMP.LabelView.design({
                     contentBinding: {
                         target: KitchenSink,
@@ -181,37 +183,40 @@ define([
 
             var content =  TMP.View.design({
                 searchBar: TMP.LabelView.design({
-                    value: TMP.I18N.get('HALLO STEFAN!!!!!')
+                    value: "TMP.I18N.get('HALLO STEFAN!!!!!')"
                 }),
                 contactList: TMP.ListView.design({
                     value: ContactCollection,
-                    listItem: TMP.View.extend({
-                        template: _.tmpl('<div><div><%= lastname %></div><div><%= firstname%></div></div>'),
+
+                    listItem: TMP.ListItemView.extend({
+                        templateExtend: '<div><div><%= lastname %></div><div><%= firstname%></div></div>',
                         events: {
                             click: function() {
                                 KitchenSink.set('CurrentContact', this.model);
                             }
                         }
                     }),
+
+
                     listItemDivider: TMP.View.design({
 
                     })
                 })
             });
 
-            var kitchensinkApp = TMP.Layout.design({
+            var kitchensinkLayout = TMP.Layout.design({
                 all: TMP.View.extend({
                     template: '<div class="all"><div class="header" data-childviews="header"></div><div class="content" data-childviews="content"></div></div>'
                 })
             });
 
-            kitchensinkApp.setView({
+            kitchensinkLayout.setView({
                 all:  {header: header, content: content}
             });
 
-            kitchensinkApp.render();
+            kitchensinkLayout.render();
 
-            window.appp = kitchensinkApp;
+            window.app = kitchensinkLayout;
 
             return;
 
