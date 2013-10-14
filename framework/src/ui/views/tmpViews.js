@@ -34,7 +34,6 @@
         },
 
         _assignValue: function() {
-            console.log(this.options.value, this._type);
             if( Backbone.Model.prototype.isPrototypeOf(this.options.value) || Backbone.Collection.prototype.isPrototypeOf(this.options.value) ) {
                 this._setModel(this.options.value);
             } else if( typeof this.options.value === 'function' ) {
@@ -80,7 +79,7 @@
         },
 
         render: function() {
-            this._assignValue();
+            //this._assignValue();
             this._preRender();
             this._render();
             this._renderChildViews();
@@ -95,6 +94,7 @@
             } else {
                 dom = this.template();
             }
+            // a complexView appends itself to the dom element. prevent to destroy events.
             if( this._complexView ) {
                 this.$el.append(dom);
             } else {
@@ -105,9 +105,7 @@
             var that = this;
 
             this.$el.find('[data-childviews]').each(function() {
-
                 var val = $(this).attr('data-childviews');
-                console.log(val);
                 $(this).attr('data-childviews', that.cid + '_' + val);
             })
             return this;
@@ -183,8 +181,17 @@
 
             return this;
         },
+
+        _emptyHTML: function() {
+            // in _render a complexView appends itself to the dom element. so don't distroy it
+            if( this._complexView ) {
+                this.$el.html('');
+            }
+
+        },
+
         _preRender: function() {
-            this.$el.empty();
+            this._emptyHTML();
             this._assignTemplate();
             this.preRender();
             return this;
@@ -211,7 +218,6 @@
         },
 
         updateTemplate: function( template ) {
-
             if( !template && this.options.template ) {
                 template = this.options.template;
             } else if( !template ) {
@@ -309,9 +315,9 @@
         },
 
         "M.ListItemView": {
-            defaultTemplate: '<div data-childviews="list"></div>',
-            bootstrap: '<div data-childviews="list"></div>',
-            topcoat: '<div data-childviews="list"></div>',
+            defaultTemplate: '<div data-childviews="list"><%= value %></div>',
+            bootstrap: '<div data-childviews="list"><%= value %></div>',
+            topcoat: '<div data-childviews="list"><%= value %></div>',
             jqm: '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-first-child ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a class="ui-link-inherit"><%= value %></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>'
         },
 
@@ -330,14 +336,27 @@
         },
 
         "M.SearchfieldView": {
+            defaultTemplate: '<div contenteditable="true"><%= value %></div>',
+            bootstrap: '<div contenteditable="true"><%= value %></div>',
+            topcoat: '<div contenteditable="true"><%= value %></div>',
+            jqm: '<div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c ui-focus"><input type="text" data-type="search" name="password" id="search" value="" placeholder="<%= placeholder %>" class="ui-input-text ui-body-c"><%= value %><a class="ui-input-clear ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-fullsize ui-btn-icon-notext ui-input-clear-hidden" title="clear text" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="delete" data-iconpos="notext" data-theme="c" data-mini="false"><span class="ui-btn-inner"><span class="ui-btn-text">clear text</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a></div>'
+        },
+
+        "M.AccordionView": {
             defaultTemplate: '<ul><%= value %></ul>',
             bootstrap: '<div><%= value %></div>',
             topcoat: '<div><%= value %></div>',
-            jqm: '<div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c ui-focus"><input type="text" data-type="search" name="password" id="search" value="" placeholder="<%= placeholder %>" class="ui-input-text ui-body-c"><%= value %><a class="ui-input-clear ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-fullsize ui-btn-icon-notext ui-input-clear-hidden" title="clear text" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="delete" data-iconpos="notext" data-theme="c" data-mini="false"><span class="ui-btn-inner"><span class="ui-btn-text">clear text</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a></div>',
-            jqm: '<div contenteditable="true"><%= value %></div>'
+            jqm: '<div data-role="collapsible-set" data-theme="c" data-content-theme="d" class="ui-collapsible-set ui-corner-all" data-childviews="list"></div>'
         },
 
-        _currentUI: 'topcoat',
+        "M.AccordionItemView": {
+            defaultTemplate: '<ul><%= value %></ul>',
+            bootstrap: '<div><%= value %></div>',
+            topcoat: '<div><%= value %></div>',
+            jqm: '<div data-role="collapsible-set" data-theme="c" data-content-theme="d" class="ui-collapsible-set ui-corner-all" data-childviews="list"></div>'
+        },
+
+        _currentUI: 'jqm',
 
         get: function( template ) {
             if( this[template] ) {
@@ -390,7 +409,10 @@
 
     TMP.SearchfieldView = TMP.TextfieldView.extend({
         _type: 'M.SearchfieldView',
-        template: _.tmpl(TMP.TemplateManager.get('M.SearchfieldView'))
+        template: _.tmpl(TMP.TemplateManager.get('M.SearchfieldView')),
+        initialize: function() {
+            TMP.View.prototype.initialize.apply(this, arguments);
+        }
     });
 
 
@@ -400,6 +422,11 @@
         _renderChildViews: function() {
 
         },
+
+        _renderChildViews: function() {
+            this.addItems(this.model.models);
+        },
+
         initialize: function() {
             var that = this;
             TMP.View.prototype.initialize.apply(this, arguments);
@@ -412,31 +439,44 @@
                 console.log('fetch');
                 //that.addAll();
             });
-            this.listenTo(this.model, 'remove', function() {
+            this.listenTo(this.model, 'change', function() {
+                console.log('change!');
+                //that.addAll();
+            });
+            this.listenTo(this.model, 'remove', function( model ) {
                 console.log('remove');
+                model.destroy();
+            });
+
+            this.listenTo(this.model, 'filter', function( models ) {
+                console.log('filter');
+                this.addItems(models);
             });
 
             this.listenTo(this.model, 'sort', function( collection ) {
-                console.log('sort');
-                console.time('a');
-                var that = this;
-                _.each(this.model.models, function( model ) {
-                    var view = that.options.listItem.design({
-                        value: model
-                    });
-                    var el = view.render().el;
-                    that.$el.append(el);
-                });
+                this.addItems(this.model.models);
                 console.timeEnd('a');
+            });
+        },
+
+        addItems: function( models ) {
+            var that = this;
+            that.$el.html('');
+            _.each(models, function( model ) {
+                var view = that.options.itemView.design({
+                    value: model
+                });
+                var el = view.render().el;
+                that.$el.append(el);
             });
         }
     });
     TMP.ListItemView = TMP.View.extend({
         _type: 'M.ListItemView',
         template: _.tmpl(TMP.TemplateManager.get('M.ListItemView')),
-        initialize: function(){
+        initialize: function() {
             TMP.View.prototype.initialize.apply(this, arguments);
-            if(this.templateExtend){
+            if( this.templateExtend ) {
                 this.template = _.tmpl(this.template({value: this.templateExtend}));
             }
         }
@@ -446,12 +486,18 @@
         template: _.tmpl(TMP.TemplateManager.get('M.ModelView'))
     });
 
+    TMP.AccordionView = TMP.ListView.extend({
+        template: _.tmpl(TMP.TemplateManager.get('M.AccordionView'))
+    });
+
 
     TMP.I18N = {};
-    TMP.I18N.get = function( lang ){
+    TMP.I18N.get = function( lang ) {
 
 
-        return (function(){return new Date().getTime()})
+        return (function() {
+            return new Date().getTime()
+        })
     };
 
 })(this);

@@ -12,6 +12,13 @@ define([
         }
     });
 
+//    KitchenSink.AccordionCollection = M.Collection.create({});
+//    KitchenSink.AccordionCollection.set(ContactCollection.filter(function( model ) {
+//        if( model.get('firstname').toLowerCase().indexOf('') === 0 ) {
+//            return model.get('firstname')
+//        }
+//    }));
+
 
     var ContactView = TMP.ModelView.extend({
 
@@ -27,6 +34,147 @@ define([
             var mdl = M.Model.create({
                 value: 'YEAH-HAW!'
             });
+
+
+            var header = TMP.ToolbarView.design({
+                buttonGroup: [
+                    TMP.ButtonView.design({
+                        value: 'use bootstrap template',
+                        //IF THIS PROPERTY IS SET AND THERE IS AN UPDATE TEMPLATE CALL, ALL EVENTS ARE DELETED
+                        //                        tagName: 'span',
+                        events: {
+                            click: function() {
+                                TMP.TemplateManager._currentUI = 'bootstrap';
+                                kitchensinkLayout.updateTemplate().render();
+                            }
+                        }
+                    }), TMP.ButtonView.design({
+                        value: 'use topcoat template',
+                        events: {
+                            click: function() {
+                                TMP.TemplateManager._currentUI = 'topcoat';
+                                kitchensinkLayout.updateTemplate().render();
+                            }
+                        }
+                    }), TMP.ButtonView.design({
+                        value: 'use jqm template',
+                        events: {
+                            click: function() {
+                                TMP.TemplateManager._currentUI = 'jqm';
+                                kitchensinkLayout.updateTemplate().render();
+                            }
+                        }
+                    })
+                ],
+                right: [
+                    TMP.ButtonView.design({
+                        value: 'use default template',
+                        events: {
+                            click: function() {
+                                console.log('click button');
+                                TMP.TemplateManager._currentUI = "defaultTemplate";
+                                kitchensinkLayout.updateTemplate().render();
+                            }
+                        }
+                    })
+                ],
+
+                headline: TMP.View.design({
+                    value: mdl,
+                    template: '<div><%= value %></div>'
+                }),
+                changeHeadline: TMP.View.design({
+                    value: mdl,
+                    template: '<div contenteditable="true"><%= value %></div>'
+                }),
+                lala: TMP.View.design({
+                    value: 'ich habe kinder',
+                    template: '<strong data-childviews="CONTENT"></strong>'
+                }, {
+                    CONTENT: [TMP.View.design({
+                        value: 'ich bin ein kind'
+                    }), TMP.View.design({
+                        value: 'ich auch'
+                    })]
+                }),
+                settings: TMP.LabelView.design({
+                    contentBinding: {
+                        target: KitchenSink,
+                        property: 'CurrentContact'
+                    },
+                    template: _.tmpl('<div><div contenteditable="true"><%= lastname %></div><div contenteditable="true"><%= firstname%></div></div>')
+                })
+            });
+
+            var content = TMP.View.design({
+                searchBar: TMP.SearchfieldView.design({
+                    value: M.Model.create({
+                        value: ''
+                    }),
+                    placeholder: "TMP.I18N.get('HALLO STEFAN!!!!!')",
+                    events: {
+                        keyup: function() {
+                            var that = this;
+                            ContactCollection.applyFilter(function( model ) {
+                                if( model.get('firstname').toLowerCase().indexOf(that.model.attributes.value.toLowerCase()) === 0 ) {
+                                    return model.get('firstname')
+                                }
+                            });
+
+                            //ContactCollection.set(found);
+                            //console.log(ContactCollection);
+                        }
+                    }
+                }),
+                contactList: TMP.ListView.design({
+                    value: ContactCollection,
+
+                    itemView: TMP.ListItemView.extend({
+                        templateExtend: '<div><div><%= lastname %></div><div><%= firstname%></div></div>',
+                        events: {
+                            click: function() {
+                                KitchenSink.set('CurrentContact', this.model);
+                            }
+                        }
+                    }),
+
+
+                    listItemDivider: TMP.View.design({
+
+                    })
+                })
+
+//                AccordionView: TMP.AccordionView.design({
+//                    itemView
+//                })
+            });
+
+            var kitchensinkLayout = TMP.Layout.design({
+                all: TMP.View.extend({
+                    template: '<div class="all"><div class="header" data-childviews="header"></div><div class="content" data-childviews="content"></div></div><div class="detail"></div>'
+                })
+            });
+
+            kitchensinkLayout.setView({
+                all: {header: header, content: content}
+            });
+
+            kitchensinkLayout.render();
+
+            window.app = kitchensinkLayout;
+            window.KitchenSink = KitchenSink;
+
+        },
+
+        show: function() {
+
+        }
+    });
+
+    return KitchenSink;
+});
+
+
 //                        var layout = {
 //                            "TMP.Layout": {
 //                                "all": {
@@ -105,232 +253,3 @@ define([
 //                                }
 //                            }
 //                        };
-
-            var header =  TMP.ToolbarView.design({
-                buttonGroup: [
-                    TMP.ButtonView.design({
-                        value: 'use bootstrap template',
-                        //IF THIS PROPERTY IS SET AND THERE IS AN UPDATE TEMPLATE CALL, ALL EVENTS ARE DELETED
-//                        tagName: 'span',
-                        events: {
-                            click: function() {
-//                                $('div').css('color', '#' + (function co( lor ) {
-//                                    return (lor += [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)]) && (lor.length == 6) ? lor : co(lor);
-//                                })(''));
-                                console.log('click bootstrap');
-                                TMP.TemplateManager._currentUI = 'bootstrap';
-                                kitchensinkLayout.updateTemplate().render();
-                            }
-                        }
-                    }), TMP.ButtonView.design({
-                        value: 'use topcoat template',
-                        events: {
-                            click: function(){
-                                console.log('click topcoat');
-                                TMP.TemplateManager._currentUI = 'topcoat';
-                                kitchensinkLayout.updateTemplate().render();
-                            }
-                        }
-                    }), TMP.ButtonView.design({
-                        value: 'use jqm template',
-                        events: {
-                            click: function() {
-//                                $('div').css('color', '#' + (function co( lor ) {
-//                                    return (lor += [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)]) && (lor.length == 6) ? lor : co(lor);
-//                                })(''));
-                                console.log('click jqm');
-                                TMP.TemplateManager._currentUI = 'jqm';
-                                kitchensinkLayout.updateTemplate().render();
-                            }
-                        }
-                    })
-                ],
-                right: [
-                    TMP.ButtonView.design({
-                        value: 'use default template',
-                        events: {
-                            click: function(){
-                                console.log('click button');
-                                TMP.TemplateManager._currentUI = "defaultTemplate";
-                                kitchensinkLayout.updateTemplate().render();
-                            }
-                        }
-                    })
-                ],
-
-                headline: TMP.View.design({
-                    value: mdl,
-                    template: '<div><%= value %></div>'
-                }),
-                changeHeadline: TMP.View.design({
-                    value: mdl,
-                    template: '<div contenteditable="true"><%= value %></div>'
-                }),
-                lala: TMP.View.design({
-                    value: 'ich habe kinder',
-                    template: '<strong data-childviews="CONTENT"></strong>'
-                }, {
-                    CONTENT: [TMP.View.design({
-                    value: 'ich bin ein kind'
-                }), TMP.View.design({
-                    value: 'ich auch'
-                })]
-                }),
-                settings: TMP.LabelView.design({
-                    contentBinding: {
-                        target: KitchenSink,
-                        property: 'CurrentContact'
-                    },
-                    template: _.tmpl('<div><div contenteditable="true"><%= lastname %></div><div contenteditable="true"><%= firstname%></div></div>')
-                })
-            });
-
-            var content =  TMP.View.design({
-                searchBar: TMP.SearchfieldView.design({
-                    value:'a',
-                    placeholder: "TMP.I18N.get('HALLO STEFAN!!!!!')",
-//                    events: {
-//                        keyup: function(){
-//                            console.log(this.model);
-//                            console.log(this.value);
-//                        }
-//                    }
-                }),
-                contactList: TMP.ListView.design({
-                    value: ContactCollection,
-
-                    listItem: TMP.ListItemView.extend({
-                        template: '<div><div><%= lastname %></div><div><%= firstname%></div></div>',
-                        events: {
-                            click: function() {
-                                KitchenSink.set('CurrentContact', this.model);
-                            }
-                        }
-                    }),
-
-
-                    listItemDivider: TMP.View.design({
-
-                    })
-                })
-            });
-
-            var kitchensinkLayout = TMP.Layout.design({
-                all: TMP.View.extend({
-                    template: '<div class="all"><div class="header" data-childviews="header"></div><div class="content" data-childviews="content"></div></div>'
-                })
-            });
-
-            kitchensinkLayout.setView({
-                all:  {header: header, content: content}
-            });
-
-            kitchensinkLayout.render();
-
-            window.app = kitchensinkLayout;
-
-            return;
-
-            var layout = TMP.Layout.design({
-                all: TMP.View.design({
-                    template: '<div class="all"><div class="header" data-childviews="header"></div><div class="content" data-childviews="content"></div></div>'
-                },{
-                    header: TMP.ToolbarView.design({
-                        buttonGroup: [
-                            TMP.ButtonView.design({
-                                value: 'close',
-                                tagName: 'span',
-                                events: {
-                                    click: function() {
-                                        $('div').css('color', '#' + (function co( lor ) {
-                                            return (lor += [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)]) && (lor.length == 6) ? lor : co(lor);
-                                        })(''));
-                                    }
-                                }
-                            }), TMP.ButtonView.design({
-                                value: 'hide'
-                            }), TMP.ButtonView.design({
-                                value: 'max',
-                                events: {
-                                    click: function() {
-                                        $('div').css('color', '#' + (function co( lor ) {
-                                            return (lor += [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f'][Math.floor(Math.random() * 16)]) && (lor.length == 6) ? lor : co(lor);
-                                        })(''));
-                                    }
-                                }
-                            })
-                        ],
-                        right: [
-                            TMP.ButtonView.design({
-                                value: 'override buttonGroup'
-                            })
-                        ],
-
-                        headline: TMP.View.design({
-                            value: mdl,
-                            template: '<div><%= value %></div>'
-                        }),
-                        lala: TMP.View.design({
-                            value: 'ich habe kinder',
-                            template: '<strong data-childviews="CONTENT"></strong>'
-                        }, {CONTENT: [TMP.View.design({
-                            value: 'ich bin ein kind'
-                        }), TMP.View.design({
-                            value: 'ich auch'
-                        })]}),
-                        settings: TMP.LabelView.design({
-                            contentBinding: {
-                                target: KitchenSink,
-                                property: 'CurrentContact'
-                            },
-                            template: _.tmpl('<div><div contenteditable="true"><%= lastname %></div><div contenteditable="true"><%= firstname%></div></div>')
-                        })
-                    }),
-                    CONTENT: TMP.View.design({
-                        searchBar: TMP.TextfieldView.design({
-
-                        }),
-                        contactList: TMP.ListView.design({
-                            value: ContactCollection,
-                            listItem: TMP.ListItemView.extend({
-                                template: _.tmpl('<div><div><%= lastname %></div><div><%= firstname%></div></div>'),
-                                events: {
-                                    click: function() {
-                                        KitchenSink.set('CurrentContact', this.model);
-                                    }
-                                }
-                            }),
-                            listItemDivider: TMP.View.design({
-
-                            })
-                        })
-                    })
-                }),
-                detail: TMP.View.design({
-
-                    contact: ContactView.design({
-                        tagName: 'h1',
-                        value: 'Detail'
-                    }),
-
-                    footer: [
-                        TMP.ButtonView.design({
-                            value: mdl
-                        }), TMP.ButtonView.design({
-                            value: mdl
-                        })
-                    ]
-
-                })
-            });
-            window.Layout = layout;
-            $('body').html(layout.render().$el);
-        },
-
-        show: function() {
-
-        }
-    });
-
-    return KitchenSink;
-});
