@@ -1,9 +1,10 @@
 /*global define*/
 
 define([
-    'underscore', 'backbone', 'themproject', 'data/contacts', 'exports', 'require', 'views/ContactAll'
+    'underscore', 'backbone', 'themproject', 'data/contacts', 'exports', 'require'
 ], function( _, Backbone, M, contacts ) {
     //    'use strict';
+
 
     window.ContactCollection = contacts.create();
     window.ContactCollection.fetch({
