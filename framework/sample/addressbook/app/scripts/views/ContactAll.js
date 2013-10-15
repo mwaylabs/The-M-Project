@@ -1,65 +1,47 @@
 /*global define*/
 
 define([
-    'themproject', 'templates', 'exports'
-], function( M, ST, exports ) {
+    'themproject', 'templates', 'exports', 'data/contacts'
+], function( M, ST, exports, contacts ) {
     'use strict';
 
-    var exp = exports;
-
-
-    var AllView = M.ListView.extend({
-
-        value: function() {
-            return Addressbook.ContactCollection;
-        },
-
-        divider: function( model ) {
-
-            //            return model.get('firstname').charAt().toUpperCase();
-
-            return M.View.create({
-                template: '<div class="all_contacts_divider"><%= value %></div>',
-                value: model.get('firstname').charAt(0).toUpperCase()
-            });
-
-        },
-
-        listItemTemplate: '<div class="contact"><div><%= firstname %></div><div><%= lastname %></div></div>',
-
-        listItemEvents: {
-            click: function() {
-                var IndexController = require('controllers/index');
-                IndexController.set('CurrentContact', this.model);
-            }
-        },
-
-        listItem: Backbone.View.extend({
-            template: '<div class="contact"><div><%= firstname %></div><div><%= lastname %></div></div>',
+    var content = TMP.View.design({
+        searchBar: TMP.SearchfieldView.design({
+            value: M.Model.create({
+                value: ''
+            }),
+            placeholder: "TMP.I18N.get('HALLO STEFAN!!!!!')",
             events: {
-                click: function() {
-                    var IndexController = require('controllers/index');
-                    IndexController.set('CurrentContact', this.model);
+                keyup: function() {
+                    var that = this;
+                    ContactCollection.applyFilter(function( model ) {
+                        if( model.get('firstname').toLowerCase().indexOf(that.model.attributes.value.toLowerCase()) === 0 ) {
+                            return model.get('firstname')
+                        }
+                    });
                 }
             }
-        })
+        }),
+        contactList: TMP.ListView.design({
+            value: 'a',
 
-        //        listItemView: {
-        //
-        //            beforeRender: function() {
-        //                console.log('list item before render');
-        //            },
-        //
-        //            template: '<div class="contact"><div><%= firstname %></div><div><%= lastname %></div></div>',
-        //
-        //            events: {
-        //                click: function() {
-        //                    var IndexController = require('controllers/index');
-        //                    IndexController.set('CurrentContact', this.model);
-        //                }
-        //            }
-        //        }
+            itemView: TMP.ListItemView.extend({
+                templateExtend: '<div><div><%= lastname %></div><div><%= firstname%></div></div>',
+                events: {
+                    click: function() {
+                        KitchenSink.set('CurrentContact', this.model);
+                        console.log('clicked model cid', this.model.cid);
+                        console.log('clicked model cid', this.model.attributes.firstname);
+                    }
+                }
+            }),
+
+
+            listItemDivider: TMP.View.design({
+
+            })
+        })
     });
 
-    return AllView;
+    return content;
 });

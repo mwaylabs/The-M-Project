@@ -23,15 +23,16 @@
         },
 
         _assignValue: function() {
-            if( Backbone.Model.prototype.isPrototypeOf(this.options.value) || Backbone.Collection.prototype.isPrototypeOf(this.options.value) ) {
-                this._setModel(this.options.value);
-            } else if( typeof this.options.value === 'function' ) {
+            var value = this.value || this.options.value;
+            if( Backbone.Model.prototype.isPrototypeOf(value) || Backbone.Collection.prototype.isPrototypeOf(value) ) {
+                this._setModel(value);
+            } else if( typeof value === 'function' ) {
                 this._setModel({
-                    value: this.options.value()
+                    value: value()
                 });
-            } else if( this.options.value ) {
+            } else if( value ) {
                 this._setModel({
-                    value: this.options.value
+                    value: value
                 });
             }
             return this;
@@ -212,9 +213,9 @@
         setView: function( options ) {
 
             _.each(options, function( viewOptions, name ) {
-                if( typeof this.options.childViews[name] === 'function' ) {
-                    var childView = this.options.childViews[name].design(viewOptions);
-                    this.options.childViews[name] = childView;
+                if( typeof this.childViews[name] === 'function' ) {
+                    var childView = this.childViews[name].design(viewOptions);
+                    this.childViews[name] = childView;
                 }
             }, this);
             return this;
@@ -255,12 +256,52 @@
         var opt = options;
         var elem = options[Object.keys(options)[0]];
         if( TMP.View.prototype.isPrototypeOf(elem) || _.isArray(elem) || (Object.keys(options)[0] !== 'value' && _.isFunction(elem)) ) {
-            opt = {childViews: options};
+            if(typeof childViews === 'function'){
+                opt = {childViews: options()};
+            } else {
+                opt = {childViews: options};
+            }
+
+        }
+        if( childViews ) {
+            if(typeof childViews === 'function'){
+                opt['childViews'] = childViews();
+            } else {
+                opt['childViews'] = childViews;
+            }
+
+        }
+        return this.extend(opt);
+    };
+
+    TMP.View.design2 = function( options, childViews ) {
+        var opt = options;
+        var elem = options[Object.keys(options)[0]];
+        if( TMP.View.prototype.isPrototypeOf(elem) || _.isArray(elem) || (Object.keys(options)[0] !== 'value' && _.isFunction(elem)) ) {
+                opt = {childViews: options};
         }
         if( childViews ) {
             opt['childViews'] = childViews;
         }
         return new this(opt);
+    };
+
+    TMP.View.create = function( options, childViews ) {
+        var that = new this();
+        if(that.childViews){
+            _.each(that.childViews, function( child, name ) {
+                if( typeof child['create'] === 'function' ) {
+                    var childView = child.create();
+                    that.childViews[name] = childView;
+                } else if( _.isArray(child) ) {
+                    _.each(child, function( c, cName ) {
+                        var childView = c.create();
+                        that.childViews[name][cName] = childView;
+                    })
+                }
+            }, that);
+        }
+        return that;
     };
 
     //    var a = location.hash.split('?');
@@ -439,8 +480,15 @@
             var that = this;
             TMP.View.prototype.initialize.apply(this, arguments);
             this._assignValue();
+            if(Backbone.Model.prototype.isPrototypeOf(this.model) || Backbone.Collection.prototype.isPrototypeOf(this.model)){
+                this._applyListener();
+            }
+        },
+
+        _applyListener: function(){
             this.listenTo(this.model, 'add', function( model, collection ) {
                 console.log('add');
+                this.addItem(model);
             });
 
             this.listenTo(this.model, 'fetch', function() {
@@ -468,15 +516,26 @@
         },
 
         addItems: function( models ) {
-            var that = this;
-            that.$el.html('');
+            this.$el.html('');
             _.each(models, function( model ) {
-                var view = that.options.itemView.design({
+                this.addItem(model);
+            }, this);
+        },
+
+        addItem: function( model ) {
+            var view = null;
+            if(this.itemView){
+                view = this.itemView.design({
                     value: model
-                });
-                var el = view.render().el;
-                that.$el.append(el);
-            });
+                }).create();
+            } else {
+                view = this.options.itemView.design2({
+                    value: model
+                })
+            }
+
+            var el = view.render().el;
+            this.$el.append(el);
         }
     });
 
