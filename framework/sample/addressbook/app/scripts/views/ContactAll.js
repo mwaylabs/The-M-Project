@@ -14,7 +14,7 @@ define([
             events: {
                 keyup: function() {
                     var that = this;
-                    ContactCollection.applyFilter(function( model ) {
+                    Addressbook.ContactCollection.applyFilter(function( model ) {
                         if( model.get('firstname').toLowerCase().indexOf(that.model.attributes.value.toLowerCase()) === 0 ) {
                             return model.get('firstname')
                         }
@@ -23,15 +23,15 @@ define([
             }
         }),
         contactList: TMP.ListView.design({
-            value: 'a',
-
+            contentBinding:{
+                target: Addressbook,
+                property: 'ContactCollection'
+            },
             itemView: TMP.ListItemView.extend({
                 templateExtend: '<div><div><%= lastname %></div><div><%= firstname%></div></div>',
                 events: {
                     click: function() {
-                        KitchenSink.set('CurrentContact', this.model);
-                        console.log('clicked model cid', this.model.cid);
-                        console.log('clicked model cid', this.model.attributes.firstname);
+                        Addressbook.IndexController.set('CurrentContact', this.model);
                     }
                 }
             }),

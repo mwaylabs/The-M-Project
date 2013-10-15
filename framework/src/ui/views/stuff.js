@@ -54,27 +54,6 @@
     //    M.Controller.create = M.create;
 
 
-    M.Controller = function() {
-        _.extend(this, arguments[0]);
-        this.initialize(arguments[0]);
-    };
-
-    M.Controller.create = M.create;
-
-
-    _.extend(M.Controller.prototype, Backbone.Events, {
-
-        _type: 'M.Controller',
-
-        initialize: function( options ) {
-            return this;
-        },
-
-        set: function( name, value ) {
-            this[name] = value;
-            this.trigger(name, value);
-        }
-    });
 
 
     M.Router = Backbone.Router.extend({
@@ -101,10 +80,10 @@
             window[window.TMP_APPLICATION_NAME].layoutManager = new (Backbone.View.extend());
         },
 
-        controllerDidLoad: function( controller, res, callback ) {
-
+        controllerDidLoad: function( name, controller, res, callback ) {
             var _callback = this.getCallBack(controller);
             _callback && _callback.apply(controller, [res]);
+            window[window.TMP_APPLICATION_NAME][name] = controller;
             callback();
         },
 
@@ -114,11 +93,11 @@
             var that = this;
             if( _.isString(controller) ) {
                 require([controller], function( ctrl ) {
-                    that.controllerDidLoad(ctrl, res, callback);
+                    that.controllerDidLoad(name, ctrl, res, callback);
                 });
             } else if( M.Controller.prototype.isPrototypeOf(controller) ) {
                 setTimeout(function() {
-                    that.controllerDidLoad(controller, res, callback);
+                    that.controllerDidLoad(name, controller, res, callback);
                 }, 0);
             }
 
@@ -136,7 +115,6 @@
         },
 
         route: function( route, name, controller ) {
-
             if( !_.isRegExp(route) ) {
                 route = this._routeToRegExp(route);
             }

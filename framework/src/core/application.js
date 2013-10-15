@@ -20,7 +20,7 @@ M.Application = function(options) {
 
 M.Application.create = M.create;
 
-_.extend(M.Application.prototype, Backbone.Events, {
+_.extend(M.Application.prototype, M.Controller.prototype, {
 
     _type: 'M.Application',
 
@@ -41,12 +41,24 @@ _.extend(M.Application.prototype, Backbone.Events, {
             console.warn('no router was given to the app start');
         }
 
-        this.router = options.router;
-        Backbone.history.start();
+        var that = this;
+        require([options.router], function(router){
+            that.router = router;
+            Backbone.history.start();
+        });
         return this;
     },
 
     initialRender: function(){
         this.layoutManager.initialRenderProcess();
+    },
+
+    _setControllers: function(){
+        _.each(this.router.routes, function( route ){
+
+            if(this.router[route] && M.Controller.prototype.isPrototypeOf(this.router[route])){
+                this[route] = this.router[route];
+            }
+        }, this);
     }
 });

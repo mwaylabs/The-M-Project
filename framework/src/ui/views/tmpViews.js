@@ -39,16 +39,24 @@
         },
 
         _assignComplexView: function() {
-            this._complexView = ( this.options.contentBinding || this.options.tagName || Backbone.Model.prototype.isPrototypeOf(this.model));
+            this._complexView = ( this.options.contentBinding || this.options.tagName || Backbone.Model.prototype.isPrototypeOf(this.model) || this.contentBinding || this.tagName || Backbone.Model.prototype.isPrototypeOf(this.model));
             return this;
         },
 
         _assignContentBinding: function() {
-            if( this.options.contentBinding && this.options.contentBinding.target ) {
+            if( this.options.contentBinding && this.options.contentBinding.target) {
                 var that = this;
                 this.listenTo(this.options.contentBinding.target, this.options.contentBinding.property, function( model ) {
                     that._setModel(model);
                     that.render();
+                });
+            }
+            if( this.contentBinding && this.contentBinding.target) {
+                var that = this;
+                this.listenTo(this.contentBinding.target, this.contentBinding.property, function( model ) {
+                    that._setModel(model);
+                    that.render();
+                    that._applyListener();
                 });
             }
             return this;
@@ -146,9 +154,7 @@
                     _.each(child, function( c ) {
                         dom.append(c.render().el);
                     })
-
                 }
-
             }, this);
             return this;
         },
@@ -218,6 +224,7 @@
                     this.childViews[name] = childView;
                 }
             }, this);
+
             return this;
         },
 
@@ -256,7 +263,7 @@
         var opt = options;
         var elem = options[Object.keys(options)[0]];
         if( TMP.View.prototype.isPrototypeOf(elem) || _.isArray(elem) || (Object.keys(options)[0] !== 'value' && _.isFunction(elem)) ) {
-            if(typeof childViews === 'function'){
+            if( typeof childViews === 'function' ) {
                 opt = {childViews: options()};
             } else {
                 opt = {childViews: options};
@@ -264,7 +271,7 @@
 
         }
         if( childViews ) {
-            if(typeof childViews === 'function'){
+            if( typeof childViews === 'function' ) {
                 opt['childViews'] = childViews();
             } else {
                 opt['childViews'] = childViews;
@@ -278,7 +285,7 @@
         var opt = options;
         var elem = options[Object.keys(options)[0]];
         if( TMP.View.prototype.isPrototypeOf(elem) || _.isArray(elem) || (Object.keys(options)[0] !== 'value' && _.isFunction(elem)) ) {
-                opt = {childViews: options};
+            opt = {childViews: options};
         }
         if( childViews ) {
             opt['childViews'] = childViews;
@@ -288,7 +295,7 @@
 
     TMP.View.create = function( options, childViews ) {
         var that = new this();
-        if(that.childViews){
+        if( that.childViews ) {
             _.each(that.childViews, function( child, name ) {
                 if( typeof child['create'] === 'function' ) {
                     var childView = child.create();
@@ -468,24 +475,28 @@
     TMP.ListView = TMP.View.extend({
         _type: 'M.ListView',
         template: _.tmpl(TMP.TemplateManager.get('M.ListView')),
-        _renderChildViews: function() {
 
+        _render: function() {
+            TMP.View.prototype._render.apply(this, arguments);
         },
 
         _renderChildViews: function() {
-            this.addItems(this.model.models);
+            if(this.model){
+                this.addItems(this.model.models);
+            }
+
         },
 
         initialize: function() {
             var that = this;
             TMP.View.prototype.initialize.apply(this, arguments);
             this._assignValue();
-            if(Backbone.Model.prototype.isPrototypeOf(this.model) || Backbone.Collection.prototype.isPrototypeOf(this.model)){
+            if( Backbone.Model.prototype.isPrototypeOf(this.model) || Backbone.Collection.prototype.isPrototypeOf(this.model) ) {
                 this._applyListener();
             }
         },
 
-        _applyListener: function(){
+        _applyListener: function() {
             this.listenTo(this.model, 'add', function( model, collection ) {
                 console.log('add');
                 this.addItem(model);
@@ -524,7 +535,7 @@
 
         addItem: function( model ) {
             var view = null;
-            if(this.itemView){
+            if( this.itemView ) {
                 view = this.itemView.design({
                     value: model
                 }).create();

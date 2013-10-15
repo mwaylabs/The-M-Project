@@ -3,31 +3,29 @@
 define([
     'jquery',
     'backbone',
-    'themproject',
-    'controllers/index'
-], function ($, Backbone, M, indexController) {
+    'themproject'
+], function ($, Backbone, M) {
     'use strict';
-
     // Defining the application router, you can attach sub routers here.
+
     var Router = M.Router.extend({
 
         routes: {
-            '': 'index',
-            'edit': 'edit',
-            'kitchensink/:ui': 'kitchensink',
-            'kitchensink': 'kitchensink',
-            'edit/:firstname/:lastname': 'edit'
+            '': 'IndexController',
+            'edit': 'EditController',
+            'kitchensink/:ui': 'KitchensinkController',
+            'kitchensink': 'KitchensinkController',
+            'edit/:firstname/:lastname': 'EditController'
         },
 
-        index: indexController,
+        IndexController: 'controllers/index',
 
-        kitchensink: 'controllers/kitchensink',
+        KitchensinkController: 'controllers/kitchensink',
 
-        edit: 'controllers/edit',
+        EditController: 'controllers/edit',
 
         initialize: function() {
             M.Router.prototype.initialize.apply(this, arguments);
-            Addressbook.IndexController = indexController;
         }
 
     });

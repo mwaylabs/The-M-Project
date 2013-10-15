@@ -1,33 +1,21 @@
-// ==========================================================================
-// Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-//            (c) 2013 panacoda GmbH. All rights reserved.
-// Creator:   Dominik
-// Date:      23.05.2013
-// License:   Dual licensed under the MIT or GPL Version 2 licenses.
-//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-// ==========================================================================
+M.Controller = function() {
+    _.extend(this, arguments[0]);
+    this.initialize(arguments[0]);
+};
 
-/**
- * @class
- * @extends M.Object
- */
-M.Controller = M.Object.extend(/** @scope M.Controller.prototype */{
+M.Controller.create = M.create;
 
-    /**
-     * The type of this object.
-     *
-     * @type String
-     */
+
+_.extend(M.Controller.prototype, Backbone.Events, {
+
     _type: 'M.Controller',
 
-    /**
-     * This method is called whenever the bound content did change. It overwrites the
-     * basic interface implementation of M.ContentBinding.
-     */
-    contentDidChange: function() {
+    initialize: function( options ) {
+        return this;
+    },
 
+    set: function( name, value ) {
+        this[name] = value;
+        this.trigger(name, value);
     }
-
-}).implement(M.ContentBinding);
+});
