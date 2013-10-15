@@ -15,7 +15,6 @@
         template: _.tmpl('<div><%= value %><div data-childviews="CONTENT"></div></div>'),
 
         initialize: function() {
-            console.log(this._type);
             this._assignValue();
             this._assignComplexView();
             this._assignContentBinding();
@@ -35,6 +34,10 @@
                 this._setModel({
                     value: value
                 });
+            } else if(this.options && this.options.contentBinding && this.options.contentBinding.target && this.options.contentBinding.property){
+                this._setModel(this.options.contentBinding.target[this.options.contentBinding.property]);
+            } else if(this.contentBinding && this.contentBinding.target && this.contentBinding.property){
+                this._setModel(this.contentBinding.target[this.contentBinding.property]);
             }
             return this;
         },
@@ -57,7 +60,7 @@
                 this.listenTo(this.contentBinding.target, this.contentBinding.property, function( model ) {
                     that._setModel(model);
                     that.render();
-                    that._applyListener();
+//                    that._applyListener();
                 });
             }
             return this;
@@ -220,8 +223,10 @@
         setView: function( options ) {
 
             _.each(options, function( child, name ) {
-
                 if(this.childViews[name]){
+                    if(typeof child === 'function'){
+                        this.childViews[name] = child.create();
+                    }
                     this.childViews[name] = child;
                 }
 

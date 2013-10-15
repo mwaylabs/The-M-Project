@@ -76,12 +76,24 @@ define([
 
                 that.content = ContactAll;
 
-                var settings = TMP.LabelView.design2({
-                    contentBinding: {
-                        target: Addressbook.IndexController,
-                        property: 'CurrentContact'
-                    },
-                    template: _.tmpl('<div><div contenteditable="true"><%= lastname %></div><div contenteditable="true"><%= firstname%></div></div>')
+                var settings = TMP.LabelView.design({
+                    model: TMP.View.design({
+                        contentBinding: {
+                            target: Addressbook.IndexController,
+                            property: 'CurrentContact'
+                        },
+                        template: _.tmpl('<div><div contenteditable="true"><%= lastname %></div><div contenteditable="true"><%= firstname%></div></div>')
+                    }),
+                    editBtn: TMP.ButtonView.design({
+                        value: 'edit',
+                        events: {
+                            click: function() {
+                                Addressbook.navigate({
+                                    route: 'edit'
+                                });
+                            }
+                        }
+                    })
                 });
 
                 Addressbook.layout = TMP.Layout.design({
@@ -109,12 +121,14 @@ define([
 
         show: function() {
 
-            var settings = TMP.LabelView.design2({
-                contentBinding: {
-                    target: Addressbook.IndexController,
-                    property: 'CurrentContact'
-                },
-                template: _.tmpl('<div><div contenteditable="true"><%= lastname %></div><div contenteditable="true"><%= firstname%></div></div>')
+            var settings = TMP.LabelView.design({
+                model: TMP.View.design({
+                    contentBinding: {
+                        target: Addressbook.IndexController,
+                        property: 'CurrentContact'
+                    },
+                    template: _.tmpl('<div><div contenteditable="true"><%= lastname %></div><div contenteditable="true"><%= firstname%></div></div>')
+                })
             });
 
             Addressbook.layout = TMP.Layout.design({
@@ -124,6 +138,7 @@ define([
                     header: header, content: this.content, footer: settings
                 })
             }).create();
+
 
             Addressbook.layout.render();
 
