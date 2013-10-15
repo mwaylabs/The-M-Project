@@ -63,15 +63,18 @@ define([
         ]
     });
 
-
     var KitchenSink = M.Controller.create({
 
         CurrentContact: null,
 
+        content: null,
+
         applicationStart: function( params ) {
 
+            var that = this;
             require(['views/ContactAll'], function( ContactAll ) {
-                var content = ContactAll.create();
+
+                that.content = ContactAll;
 
                 var settings = TMP.LabelView.design2({
                     contentBinding: {
@@ -81,17 +84,16 @@ define([
                     template: _.tmpl('<div><div contenteditable="true"><%= lastname %></div><div contenteditable="true"><%= firstname%></div></div>')
                 });
 
-                var kitchensinkLayout = TMP.Layout.design({
+                Addressbook.layout = TMP.Layout.design({
                     template: '<div class="all"><div class="header" data-childviews="header"></div><div class="content" data-childviews="content"></div><div class="footer" data-childviews="footer"></div>'
                 }, {
                     all: TMP.View.design({
-                        header: header, content: content, footer: settings
+                        header: header, content: that.content, footer: settings
                     })
                 }).create();
 
-                window.content = content;
-
-                kitchensinkLayout.render();
+                window.content = that.content;
+                Addressbook.layout.render();
 
                 Addressbook.ContactCollection.fetch({
                     success: function( collection ) {
@@ -106,6 +108,24 @@ define([
         },
 
         show: function() {
+
+            var settings = TMP.LabelView.design2({
+                contentBinding: {
+                    target: Addressbook.IndexController,
+                    property: 'CurrentContact'
+                },
+                template: _.tmpl('<div><div contenteditable="true"><%= lastname %></div><div contenteditable="true"><%= firstname%></div></div>')
+            });
+
+            Addressbook.layout = TMP.Layout.design({
+                template: '<div class="all"><div class="header" data-childviews="header"></div><div class="content" data-childviews="content"></div><div class="footer" data-childviews="footer"></div>'
+            }, {
+                all: TMP.View.design({
+                    header: header, content: this.content, footer: settings
+                })
+            }).create();
+
+            Addressbook.layout.render();
 
         }
     });

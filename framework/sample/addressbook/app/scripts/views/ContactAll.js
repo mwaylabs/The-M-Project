@@ -23,14 +23,14 @@ define([
             }
         }),
         contactList: TMP.ListView.design({
-            contentBinding:{
-                target: Addressbook,
-                property: 'ContactCollection'
-            },
+            value: Addressbook.ContactCollection,
             itemView: TMP.ListItemView.extend({
                 templateExtend: '<div><div><%= lastname %></div><div><%= firstname%></div></div>',
                 events: {
                     click: function() {
+                        Addressbook.navigate({
+                            route: 'edit'
+                        });
                         Addressbook.IndexController.set('CurrentContact', this.model);
                     }
                 }

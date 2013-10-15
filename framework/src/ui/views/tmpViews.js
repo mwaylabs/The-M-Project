@@ -15,6 +15,7 @@
         template: _.tmpl('<div><%= value %><div data-childviews="CONTENT"></div></div>'),
 
         initialize: function() {
+            console.log(this._type);
             this._assignValue();
             this._assignComplexView();
             this._assignContentBinding();
@@ -39,7 +40,7 @@
         },
 
         _assignComplexView: function() {
-            this._complexView = ( this.options.contentBinding || this.options.tagName || Backbone.Model.prototype.isPrototypeOf(this.model) || this.contentBinding || this.tagName || Backbone.Model.prototype.isPrototypeOf(this.model));
+            this._complexView = ( this.options.contentBinding || this.options.tagName || Backbone.Model.prototype.isPrototypeOf(this.model) || this.contentBinding || this.tagName || Backbone.Model.prototype.isPrototypeOf(this.model) || Backbone.Collection.prototype.isPrototypeOf(this.model));
             return this;
         },
 
@@ -160,7 +161,7 @@
         },
 
         _getChildViews: function() {
-            return this.options.childViews;
+            return this.childViews || this.options.childViews;
             var childViews = {};
             var opt = this.options;
             Object.keys(opt).forEach(function( child ) {
@@ -218,11 +219,12 @@
 
         setView: function( options ) {
 
-            _.each(options, function( viewOptions, name ) {
-                if( typeof this.childViews[name] === 'function' ) {
-                    var childView = this.childViews[name].design(viewOptions);
-                    this.childViews[name] = childView;
+            _.each(options, function( child, name ) {
+
+                if(this.childViews[name]){
+                    this.childViews[name] = child;
                 }
+
             }, this);
 
             return this;
@@ -231,6 +233,8 @@
         updateTemplate: function( template ) {
             if( !template && this.options.template ) {
                 template = this.options.template;
+            } else if( !template && this.template) {
+                template = this.template;
             } else if( !template ) {
                 template = TMP.TemplateManager.get(this._type);
             }
@@ -264,18 +268,20 @@
         var elem = options[Object.keys(options)[0]];
         if( TMP.View.prototype.isPrototypeOf(elem) || _.isArray(elem) || (Object.keys(options)[0] !== 'value' && _.isFunction(elem)) ) {
             if( typeof childViews === 'function' ) {
-                opt = {childViews: options()};
+                opt = {_childViews: options()};
             } else {
-                opt = {childViews: options};
+                opt = {_childViews: options};
             }
+            opt['childViews'] = {};
 
         }
         if( childViews ) {
             if( typeof childViews === 'function' ) {
-                opt['childViews'] = childViews();
+                opt['_childViews'] = childViews();
             } else {
-                opt['childViews'] = childViews;
+                opt['_childViews'] = childViews;
             }
+            opt['childViews'] = {};
 
         }
         return this.extend(opt);
@@ -285,18 +291,18 @@
         var opt = options;
         var elem = options[Object.keys(options)[0]];
         if( TMP.View.prototype.isPrototypeOf(elem) || _.isArray(elem) || (Object.keys(options)[0] !== 'value' && _.isFunction(elem)) ) {
-            opt = {childViews: options};
+            opt = {_childViews: options};
         }
         if( childViews ) {
-            opt['childViews'] = childViews;
+            opt['_childViews'] = childViews;
         }
         return new this(opt);
     };
 
     TMP.View.create = function( options, childViews ) {
         var that = new this();
-        if( that.childViews ) {
-            _.each(that.childViews, function( child, name ) {
+        if( that._childViews ) {
+            _.each(that._childViews, function( child, name ) {
                 if( typeof child['create'] === 'function' ) {
                     var childView = child.create();
                     that.childViews[name] = childView;
@@ -484,7 +490,6 @@
             if(this.model){
                 this.addItems(this.model.models);
             }
-
         },
 
         initialize: function() {
@@ -527,7 +532,7 @@
         },
 
         addItems: function( models ) {
-            this.$el.html('');
+            this._emptyHTML();
             _.each(models, function( model ) {
                 this.addItem(model);
             }, this);
