@@ -82,6 +82,10 @@ _.extend(M.Collection.prototype, {
 
     getUrlRoot: function() {
         return _.isFunction(this.url) ? this.url() : this.url;
+    },
+
+    applyFilter: function(callback){
+        this.trigger('filter', this.filter(callback));
     }
 
 });
