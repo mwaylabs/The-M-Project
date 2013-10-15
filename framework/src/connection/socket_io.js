@@ -147,10 +147,12 @@ M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
     _init: function() {
         if ( Object.getPrototypeOf(this) === M.SocketIO ) {
             this._initEvents();
-            var that = this;
-            require([this.script], function() {
-                that.ready();
-            });
+            var x = x || {};
+            if (typeof io === 'object') {
+                this.ready();
+            } else {
+                console.log("Socket.IO not present !!");
+            }
         }
     },
 

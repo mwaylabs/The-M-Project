@@ -50,7 +50,8 @@ server.use(function(req, res, next) {
 server.get(path+"/:name/info", function(req, res) {
     res.send({
         time: new Date().getTime(),
-        socketPath: socketPath
+        socketPath: socketPath,
+        entity: req.params.name
     });
 });
 

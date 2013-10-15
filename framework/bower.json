@@ -15,6 +15,7 @@
     "layoutmanager": "git://github.com/tbranyen/backbone.layoutmanager.git#~0.9.2",
     "fastclick": "git://github.com/ftlabs/fastclick.git#0.6.10",
     "modernizr": "git://github.com/Modernizr/Modernizr.git#2.6.2",
+    "socket.io-client": "~0.9.16",
     "tmpl": "git://github.com/mwaylabs/tmpl.git#~0.1.0"
   }
 }
