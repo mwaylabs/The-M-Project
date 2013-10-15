@@ -4,9 +4,8 @@ define([
     'jquery',
     'backbone',
     'themproject',
-    'controllers/index',
-    'controllers/kitchensink'
-], function ($, Backbone, M, indexController, kitchensink) {
+    'controllers/index'
+], function ($, Backbone, M, indexController) {
     'use strict';
 
     // Defining the application router, you can attach sub routers here.
@@ -22,7 +21,7 @@ define([
 
         index: indexController,
 
-        kitchensink: kitchensink,
+        kitchensink: 'controllers/kitchensink',
 
         edit: 'controllers/edit',
 
