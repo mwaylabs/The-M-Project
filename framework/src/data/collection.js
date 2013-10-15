@@ -28,16 +28,22 @@ _.extend(M.Collection.prototype, {
         this.store  = options.store  || this.store  || (this.model ? this.model.prototype.store : null);
         this.entity = options.entity || this.entity || (this.model ? this.model.prototype.entity : null);
 
+        var entity = this.entity || this.entityFromUrl(this.url);
+        if (entity) {
+            this.entity = M.Entity.from(entity, { model: this.model, typeMapping: options.typeMapping });
+        }
+
         if (this.store && _.isFunction(this.store.initCollection)) {
             this.store.initCollection(this, options);
         }
-        if (this.entity) {
-            this.entity = M.Entity.from(this.entity, { model: this.model, typeMapping: options.typeMapping });
-        } else if (this.url) {
+    },
+
+    entityFromUrl: function (url) {
+        if (url) {
             // extract last path part as entity name
             var parts = M.Request.getLocation(this.url).pathname.match(/([^\/]+)\/?$/);
             if (parts && parts.length > 1) {
-                this.entity = M.Entity.from(parts[1]);
+                return parts[1];
             }
         }
     },
@@ -63,22 +69,19 @@ _.extend(M.Collection.prototype, {
         if (store && _.isFunction(store.sync)) {
             return store.sync.apply(this, arguments);
         } else {
-            if (options && this.credentials) {
-                var credentials = this.credentials;
-                options.beforeSend = function(xhr) {
-                    M.Request.setAuthentication(xhr, credentials);
-                }
-            }
+            var that = this;
+            var args = arguments;
+            var options = options || {};
+            options.credentials = options.credentials || this.credentials;
+            M.Security.logon(options, function(result) {
+                return Backbone.sync.apply(that, args);
+            });
             return Backbone.sync.apply(this, arguments);
         }
     },
 
     getUrlRoot: function() {
         return _.isFunction(this.url) ? this.url() : this.url;
-    },
-
-    applyFilter: function(callback){
-        this.trigger('filter', this.filter(callback));
     }
 
 });

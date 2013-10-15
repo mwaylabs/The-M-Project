@@ -32,18 +32,18 @@ _.extend(M.Model.prototype, {
     },
 
     sync: function(method, model, options) {
-        var store = (options ? options.store : null) || this.store;
-        if (store && _.isFunction(store.sync)) {
-            return store.sync.apply(this, arguments);
-        } else {
-            if (options && this.credentials) {
-                var credentials = this.credentials;
-                options.beforeSend = function(xhr) {
-                    M.Request.setAuthentication(xhr, credentials);
-                }
-            }
-            return Backbone.sync.apply(this, arguments);
-        }
+         var store = (options ? options.store : null) || this.store;
+         if (store && _.isFunction(store.sync)) {
+             return store.sync.apply(this, arguments);
+         } else {
+             var that = this;
+             var args = arguments;
+             options = options || {};
+             options.credentials = options.credentials || this.credentials;
+             M.Security.logon(options, function(result) {
+                 return Backbone.sync.apply(that, args);
+             });
+         }
     },
 
     onChange: function(model, options) {

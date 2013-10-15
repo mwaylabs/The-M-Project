@@ -15,9 +15,7 @@ M.BikiniStore = M.Store.extend({
 
     options: null,
 
-    msgStore:  null,
-
-    messages:  null,
+    localStore: M.LocalStorageStore,
 
     useLocalStore: true,
 
@@ -48,31 +46,35 @@ M.BikiniStore = M.Store.extend({
         var url    = collection.getUrlRoot();
         var entity = this.getEntity(collection.entity);
         if (url && entity) {
-            var name    = entity.name;
-            var hash    = this._hashCode(url);
-            var channel = name + hash;
+            var name     = entity.name;
+            var hash     = this._hashCode(url);
+            var credentials = entity.credentials || collection.credentials;
+            var user     = credentials && credentials.username ?  credentials.username : "";
+            var channel  = name + user + hash;
             collection.channel = channel;
             // get or create endpoint for this url
-            var endpoint   = this.endpoints[hash];
+            var that     = this;
+            var endpoint = this.endpoints[hash];
             if (!endpoint) {
+                var href = M.Request.getLocation(url);
                 endpoint = {};
                 endpoint.url         = url;
+                endpoint.host        = href.protocol + "//" +href.host;
+                endpoint.path        = href.pathname;
                 endpoint.entity      = entity;
                 endpoint.channel     = channel;
-                endpoint.credentials = entity.credentials || collection.credentials;
+                endpoint.credentials = credentials;
+                endpoint.socketPath  = this.options.socketPath;
                 endpoint.localStore  = this.createLocalStore(endpoint);
                 endpoint.messages    = this.createMsgCollection(endpoint);
                 endpoint.socket      = this.createSocket(endpoint, collection);
-                endpoint.info        = this.fetchServerInfo(endpoint);
-                this.endpoints[hash] = endpoint;
+                endpoint.info        = this.fetchServerInfo(endpoint, collection);
+                that.endpoints[hash] = endpoint;
             }
-            collection.endpoint   = endpoint;
-            collection.localStore = endpoint.localStore;
-            collection.messages   = endpoint.messages;
-            collection.listenTo(this, channel, this.onMessage, collection);
-
+            collection.endpoint = endpoint;
+            collection.listenTo(this, endpoint.channel, this.onMessage, collection);
             if (endpoint.messages && !endpoint.socket) {
-                this.sendMessages(endpoint, collection);
+                that.sendMessages(endpoint, collection);
             }
         }
     },
@@ -90,7 +92,7 @@ M.BikiniStore = M.Store.extend({
             entities[endpoint.entity.name] = {
                 name: endpoint.channel
             };
-            return new M.LocalStorageStore({
+            return new this.localStore({
                 entities: entities
             });
         }
@@ -104,7 +106,7 @@ M.BikiniStore = M.Store.extend({
             });
             var messages  = new MsgCollection({
                 entity: name,
-                store: new M.LocalStorageStore()
+                store: new this.localStore()
             });
             messages.fetch();
             return messages;
@@ -112,16 +114,14 @@ M.BikiniStore = M.Store.extend({
     },
 
     createSocket: function(endpoint, collection) {
-        if (this.options.useSocketNotify && this.options.socketPath && endpoint) {
-            var url = M.Request.getLocation(endpoint.url);
-            var host = url.protocol + "//" +url.host;
-            var path = url.pathname;
-            var path = this.options.socketPath || (path + (path.charAt(path.length-1) === '/' ? '' : '/' ) + 'live');
+        if (this.options.useSocketNotify && endpoint.socketPath && endpoint) {
+            var path = endpoint.path;
+            path = endpoint.socketPath || (path + (path.charAt(path.length-1) === '/' ? '' : '/' ) + 'live');
             // remove leading /
             var resource = (path && path.indexOf('/') == 0) ? path.substr(1) : path;
             var that = this;
             var socket = M.SocketIO.create({
-                host: host,
+                host: endpoint.host,
                 resource: resource,
                 connected: function() {
                     that._bindChannel(socket, endpoint);
@@ -171,10 +171,10 @@ M.BikiniStore = M.Store.extend({
         return hash;
     },
 
-
     onMessage: function(msg) {
         if (msg && msg.method) {
-            var options = { store: this.localStore, merge: true, fromMessage: true, entity: this.entity.name };
+            var localStore = this.endpoint ? this.endpoint.localStore: null;
+            var options = { store: localStore, merge: true, fromMessage: true, entity: this.entity.name };
             var attrs   = msg.data;
             switch(msg.method) {
                 case 'patch':
@@ -224,10 +224,10 @@ M.BikiniStore = M.Store.extend({
             var time = that.getLastMessageTime(channel);
             // only send read messages if no other store can do this
             // or for initial load
-            if (method !== "read" || !this.localStore || !time) {
+            if (method !== "read" || !endpoint.localStore || !time) {
                 // do backbone rest
                 that.addMessage(method, model,
-                    this.localStore ? {} : options, // we don't need to call callbacks if an other store handle this
+                    endpoint.localStore ? {} : options, // we don't need to call callbacks if an other store handle this
                     endpoint);
             } else if (method == "read" && time) {
                 that.fetchChanges(endpoint, time);
@@ -284,7 +284,7 @@ M.BikiniStore = M.Store.extend({
         if (msg.id && msg.method !== 'create') {
             url += "/" + msg.id;
         }
-        Backbone.sync(msg.method, model, {
+        model.sync.apply(model, [msg.method, model, {
             url: url,
             error: function(xhr, status) {
                 if (!xhr.responseText && that.options.useOfflineChange) {
@@ -323,16 +323,14 @@ M.BikiniStore = M.Store.extend({
                     }
                 });
             },
-            beforeSend: function(xhr) {
-                M.Request.setAuthentication(xhr, endpoint.credentials);
-            }
-        });
+            store: {}
+        }]);
     },
 
     fetchChanges: function(endpoint, time) {
         var that = this;
         if (endpoint && endpoint.url && time) {
-            var changes = new M.Collection();
+            var changes = new M.Collection({});
             changes.fetch({
                 url: endpoint.url + '/changes/' + time,
                 success: function() {
@@ -342,29 +340,32 @@ M.BikiniStore = M.Store.extend({
                            that.trigger(endpoint.channel, msg);
                        }
                    });
-                }
+                },
+                credentials: endpoint.credentials
             });
         }
     },
 
-    fetchServerInfo: function(endpoint) {
+    fetchServerInfo: function(endpoint, collection) {
         var that = this;
         if (endpoint && endpoint.url) {
             var info = new M.Model();
             var time = that.getLastMessageTime(endpoint.channel);
             info.fetch({
-                url: endpoint. url + "/info",
+                url: endpoint.url + "/info",
                 success: function() {
                     if (!time && info.get('time')) {
                         that.setLastMessageTime(endpoint.channel, info.get('time'));
                     }
-                    if (!that.options.socketPath && info.get('socketPath')) {
-                        that.options.socketPath = info.get('socketPath');
+                    if (!endpoint.socketPath && info.get('socketPath')) {
+                        endpoint.socketPath = info.get('socketPath');
+                        endpoint.entity.name = info.get('entity') || endpoint.entity.name;
                         if (that.options.useSocketNotify) {
-                            that.createSocket(endpoint, endpoint.messages)
+                            that.createSocket(endpoint, collection);
                         }
                     }
-                }
+                },
+                credentials: endpoint.credentials
             });
         }
     },
