@@ -12,19 +12,6 @@ define([
         }
     });
 
-//    KitchenSink.AccordionCollection = M.Collection.create({});
-//    KitchenSink.AccordionCollection.set(ContactCollection.filter(function( model ) {
-//        if( model.get('firstname').toLowerCase().indexOf('') === 0 ) {
-//            return model.get('firstname')
-//        }
-//    }));
-
-
-    var ContactView = TMP.ModelView.extend({
-
-    });
-
-
     var KitchenSink = M.Controller.create({
 
         CurrentContact: null,
@@ -120,9 +107,6 @@ define([
                                     return model.get('firstname')
                                 }
                             });
-
-                            //ContactCollection.set(found);
-                            //console.log(ContactCollection);
                         }
                     }
                 }),

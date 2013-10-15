@@ -22,17 +22,6 @@
             return this;
         },
 
-        _assignContentBinding: function() {
-            if( this.options.contentBinding && this.options.contentBinding.target ) {
-                var that = this;
-                this.listenTo(this.options.contentBinding.target, this.options.contentBinding.property, function( model ) {
-                    that._setModel(model);
-                    that.render();
-                });
-            }
-            return this;
-        },
-
         _assignValue: function() {
             if( Backbone.Model.prototype.isPrototypeOf(this.options.value) || Backbone.Collection.prototype.isPrototypeOf(this.options.value) ) {
                 this._setModel(this.options.value);
@@ -46,6 +35,55 @@
                 });
             }
             return this;
+        },
+
+        _assignComplexView: function() {
+            this._complexView = ( this.options.contentBinding || this.options.tagName || Backbone.Model.prototype.isPrototypeOf(this.model));
+            return this;
+        },
+
+        _assignContentBinding: function() {
+            if( this.options.contentBinding && this.options.contentBinding.target ) {
+                var that = this;
+                this.listenTo(this.options.contentBinding.target, this.options.contentBinding.property, function( model ) {
+                    that._setModel(model);
+                    that.render();
+                });
+            }
+            return this;
+        },
+
+        _setModel: function( value ) {
+            this.model = value;
+            return this;
+        },
+
+        init: function() {
+            return this;
+        },
+
+        render: function() {
+            //this._assignValue();
+            this._preRender();
+            this._render();
+            this._renderChildViews();
+            this._postRender();
+            return this;
+        },
+
+        _preRender: function() {
+            this._emptyHTML();
+            this._assignTemplate();
+            this.preRender();
+            return this;
+
+        },
+
+        _emptyHTML: function() {
+            // in _render a complexView appends itself to the dom element. so don't distroy it
+            if( this._complexView ) {
+                this.$el.html('');
+            }
         },
 
         _assignTemplate: function( template ) {
@@ -64,26 +102,7 @@
             return this;
         },
 
-        _assignComplexView: function() {
-            this._complexView = ( this.options.contentBinding || this.options.tagName || Backbone.Model.prototype.isPrototypeOf(this.model));
-            return this;
-        },
-
-        _setModel: function( value ) {
-            this.model = value;
-            return this;
-        },
-
-        _getModel: function() {
-            return this.model;
-        },
-
-        render: function() {
-            //this._assignValue();
-            this._preRender();
-            this._render();
-            this._renderChildViews();
-            this._postRender();
+        preRender: function() {
             return this;
         },
 
@@ -112,7 +131,6 @@
         },
 
         _renderChildViews: function() {
-
             if( !this.childViews ) {
                 this.childViews = this._getChildViews();
             }
@@ -163,12 +181,6 @@
             return this;
         },
 
-        _switchViewToTemplate: function() {
-            this.setElement(this.$el);
-            this.delegateEvents();
-            return this;
-        },
-
         _assignBinding: function() {
             var bindings = {};
 
@@ -182,30 +194,21 @@
             return this;
         },
 
-        _emptyHTML: function() {
-            // in _render a complexView appends itself to the dom element. so don't distroy it
-            if( this._complexView ) {
-                this.$el.html('');
-            }
-
-        },
-
-        _preRender: function() {
-            this._emptyHTML();
-            this._assignTemplate();
-            this.preRender();
-            return this;
-
-        },
-        preRender: function() {
+        _switchViewToTemplate: function() {
+            this.setElement(this.$el);
+            this.delegateEvents();
             return this;
         },
+
         postRender: function() {
             return this;
         },
-        init: function() {
-            return this;
+
+
+        _getModel: function() {
+            return this.model;
         },
+
         setView: function( options ) {
 
             _.each(options, function( viewOptions, name ) {
@@ -386,22 +389,27 @@
             this.domParent.html(this.$el)
         }
     });
+
     TMP.LabelView = TMP.View.extend({
         _type: 'M.LabelView',
         template: _.tmpl(TMP.TemplateManager.get('M.LabelView'))
     });
+
     TMP.ButtonView = TMP.View.extend({
         _type: 'M.ButtonView',
         template: _.tmpl(TMP.TemplateManager.get('M.ButtonView'))
     });
+
     TMP.ToolbarView = TMP.View.extend({
         _type: 'M.ToolbarView',
         template: _.tmpl(TMP.TemplateManager.get('M.ToolbarView'))
     });
+
     TMP.ImageView = TMP.View.extend({
         _type: 'M.ImageView',
         template: _.tmpl(TMP.TemplateManager.get('M.ImageView'))
     });
+
     TMP.TextfieldView = TMP.View.extend({
         _type: 'M.TextfieldView',
         template: _.tmpl(TMP.TemplateManager.get('M.TextfieldView'))
@@ -471,6 +479,7 @@
             });
         }
     });
+
     TMP.ListItemView = TMP.View.extend({
         _type: 'M.ListItemView',
         template: _.tmpl(TMP.TemplateManager.get('M.ListItemView')),
@@ -481,6 +490,7 @@
             }
         }
     });
+
     TMP.ModelView = TMP.View.extend({
         _type: 'M.ModelView',
         template: _.tmpl(TMP.TemplateManager.get('M.ModelView'))
