@@ -28,7 +28,7 @@ define([
                 events: {
                     click: function() {
                         TMP.TemplateManager._currentUI = 'bootstrap';
-                        kitchensinkLayout.updateTemplate().render();
+                        Addressbook.layout.updateTemplate();
                     }
                 }
             }), TMP.ButtonView.design({
@@ -36,7 +36,7 @@ define([
                 events: {
                     click: function() {
                         TMP.TemplateManager._currentUI = 'topcoat';
-                        kitchensinkLayout.updateTemplate().render();
+                        Addressbook.layout.updateTemplate();
                     }
                 }
             }), TMP.ButtonView.design({
@@ -44,7 +44,7 @@ define([
                 events: {
                     click: function() {
                         TMP.TemplateManager._currentUI = 'jqm';
-                        kitchensinkLayout.updateTemplate().render();
+                        Addressbook.layout.updateTemplate();
                     }
                 }
             })
@@ -56,7 +56,7 @@ define([
                     click: function() {
                         console.log('click button');
                         TMP.TemplateManager._currentUI = "defaultTemplate";
-                        kitchensinkLayout.updateTemplate().render();
+                        Addressbook.layout.updateTemplate();
                     }
                 }
             })
@@ -100,7 +100,7 @@ define([
                     template: '<div class="all"><div class="header" data-childviews="header"></div><div class="content" data-childviews="content"></div><div class="footer" data-childviews="footer"></div>'
                 }, {
                     all: TMP.View.design({
-                        header: header, content: that.content, footer: settings
+                        header: footer, content: that.content, footer: settings
                     })
                 }).create();
 

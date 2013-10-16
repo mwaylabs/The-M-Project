@@ -268,16 +268,27 @@
         }
     });
 
+    /*
+    *
+    * cache childViews in _childViews if you overwrite them with the rendered once you loose information
+    *
+    * */
+
     TMP.View.design = function( options, childViews ) {
         var opt = options;
         var elem = options[Object.keys(options)[0]];
         if( TMP.View.prototype.isPrototypeOf(elem) || _.isArray(elem) || (Object.keys(options)[0] !== 'value' && _.isFunction(elem)) ) {
             if( typeof childViews === 'function' ) {
                 opt = {_childViews: options()};
+                opt['childViews'] = {};
+            } else if( _.isArray(elem)){
+                opt = {_childViews: options};
+                opt['childViews'] = [];
             } else {
                 opt = {_childViews: options};
+                opt['childViews'] = {};
             }
-            opt['childViews'] = {};
+
 
         }
         if( childViews ) {
@@ -314,7 +325,7 @@
                 } else if( _.isArray(child) ) {
                     _.each(child, function( c, cName ) {
                         var childView = c.create();
-                        that.childViews[name][cName] = childView;
+                        that.childViews.push(childView);
                     })
                 }
             }, that);
