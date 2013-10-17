@@ -26,13 +26,7 @@ _.extend(M.Application.prototype, M.Controller.prototype, {
 
     router: null,
 
-    initialize: function(options){
-        if(options && options.applicationName){
-            window.TMP_APPLICATION_NAME = options.applicationName;
-        }
-
-        window[window.TMP_APPLICATION_NAME] = this;
-
+    initialize: function(){
         return this;
     },
 
@@ -40,12 +34,8 @@ _.extend(M.Application.prototype, M.Controller.prototype, {
         if(!options.router){
             console.warn('no router was given to the app start');
         }
-
-        var that = this;
-        require([options.router], function(router){
-            that.router = router;
-            Backbone.history.start();
-        });
+        this.router =  new options.router();
+        Backbone.history.start();
         return this;
     },
 

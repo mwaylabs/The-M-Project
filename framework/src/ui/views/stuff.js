@@ -77,7 +77,7 @@
 //                return void 0;
 //            });
 
-            window[window.TMP_APPLICATION_NAME].layoutManager = new (Backbone.View.extend());
+            //window[window.TMP_APPLICATION_NAME].layoutManager = new (Backbone.View.extend());
         },
 
         controllerDidLoad: function( name, controller, res, callback ) {

@@ -1,6 +1,7 @@
 'use strict';
 var LIVERELOAD_PORT = 35729;
 var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
+var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 var mountFolder = function (connect, dir) {
     return connect.static(require('path').resolve(dir));
 };
@@ -17,7 +18,7 @@ module.exports = function (grunt) {
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
-    var cfg = require('./grunt.config.json');
+    var cfg = require('./grunt.config.js');
 
     // configurable paths
     var yeomanConfig = {
@@ -81,24 +82,33 @@ module.exports = function (grunt) {
                 port: defaultOption('port', cfg.server.port),
                 hostname: '0.0.0.0'
             },
+            proxies: cfg.server.proxies || [],
             livereload: {
                 options: {
                     middleware: function (connect) {
-                        return [
+                        var middleware = [
                             lrSnippet,
                             mountFolder(connect, '.tmp'),
                             mountFolder(connect, yeomanConfig.app)
                         ];
+                        if(cfg.server.proxies) {
+                            middleware.unshift(proxySnippet);
+                        }
+                        return middleware;
                     }
                 }
             },
             manualreload: {
                 options: {
                     middleware: function (connect) {
-                        return [
+                        var middleware = [
                             mountFolder(connect, '.tmp'),
                             mountFolder(connect, yeomanConfig.app)
                         ];
+                        if(cfg.server.proxies) {
+                            middleware.unshift(proxySnippet);
+                        }
+                        return middleware;
                     },
                     keepalive: true
                 }
@@ -192,28 +202,12 @@ module.exports = function (grunt) {
                 }
             }
         },
-        requirejs: {
-            dist: {
-                // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
-                options: {
-                    // `name` and `out` is set by grunt-usemin
-                    baseUrl: '<%= yeoman.app %>/scripts',
-                    optimize: 'none',
-                    paths: {
-                        'templates': '../../.tmp/scripts/templates'
-                    },
-                    // TODO: Figure out how to make sourcemaps work with grunt-usemin
-                    // https://github.com/yeoman/grunt-usemin/issues/30
-                    //generateSourceMaps: true,
-                    // required to support SourceMaps
-                    // http://requirejs.org/docs/errors.html#sourcemapcomments
-                    preserveLicenseComments: false,
-                    useStrict: true,
-                    wrap: true
-                    //uglify2: {} // https://github.com/mishoo/UglifyJS2
-                }
-            }
-        },
+        // not enabled since usemin task does concat and uglify
+        // check index.html to edit your build targets
+        // enable this task if you prefer defining your build targets here
+        /*uglify: {
+            dist: {}
+        },*/
         useminPrepare: {
             html: '<%= yeoman.app %>/index.html',
             options: {
@@ -290,9 +284,6 @@ module.exports = function (grunt) {
             }
         },
         tmpl: {
-            options: {
-                amd: true
-            },
             compile: {
                 files: {
                     '.tmp/scripts/templates.js': ['<%= yeoman.app %>/scripts/templates/*.ejs']
@@ -306,7 +297,7 @@ module.exports = function (grunt) {
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
                         '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
-                        '/styles/fonts/{,*/}*.*'
+                        '<%= yeoman.dist %>/styles/fonts/{,*/}*.*'
                     ]
                 }
             }
@@ -341,7 +332,8 @@ module.exports = function (grunt) {
             'coffee:dist',
             'createDefaultTemplate',
             'tmpl',
-//            'compass:server',
+            'compass:server',
+            'configureProxies',
             'connect:' + reloadType
         ];
 
@@ -361,7 +353,7 @@ module.exports = function (grunt) {
         'coffee',
         'createDefaultTemplate',
         'tmpl',
-//        'compass',
+        'compass',
         'connect:test',
         'mocha'
     ]);
@@ -371,9 +363,8 @@ module.exports = function (grunt) {
         'coffee',
         'createDefaultTemplate',
         'tmpl',
-//        'compass:dist',
+        'compass:dist',
         'useminPrepare',
-        'requirejs',
         'imagemin',
         'htmlmin',
         'concat',
