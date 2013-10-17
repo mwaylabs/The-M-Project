@@ -2,8 +2,7 @@
 
 Addressbook.Routers = Addressbook.Routers || {};
 
-(function () {
-    'use strict';
+(function() {
 
     Addressbook.Routers.MainRouter = Backbone.Router.extend({
         routes: {
@@ -11,13 +10,13 @@ Addressbook.Routers = Addressbook.Routers || {};
             'edit': 'editCtrl'
         },
 
-        indexCtrl: function () {
+        indexCtrl: function() {
             console.time('start');
 
             var collection = new Addressbook.Collections.ContactsCollection(dummy);
-            if (!dummy) {
+            if( !dummy ) {
                 collection.fetch({
-                    success: function () {
+                    success: function() {
                         listView.render();
                     }
                 });
@@ -37,9 +36,66 @@ Addressbook.Routers = Addressbook.Routers || {};
             $('#main').append(listView.render().$el);
 
             console.timeEnd('start');
+
+
+            Extended = TMP.View.extend({
+                value: 'extended'
+            }, {
+                button1: TMP.ButtonView.extend({
+                    value: 'button1',
+                    scopeValue: 'model',
+                    events: {
+                        click: 'onClick'
+                    }
+                }),
+                button2: TMP.ButtonView.extend({
+                    value: 'button2',
+                    scopeValue: 'model',
+                    events: {
+                        click: 'onClick'
+                    }
+                })
+            });
+
+            var scope = {model: 'HELLO MODEL', onClick: function() {
+                console.log('clock', this);
+            }};
+
+            ExtendedInstance = Extended.design(scope);
+
+            // VERSUS
+
+            Designed = TMP.View.design({
+                value: 'designed'
+            },{
+                button1: TMP.ButtonView.design({
+                    value: 'button1',
+                    scopeValue: scope.model,
+                    events: {
+                        click: scope.onClick
+                    }
+                }),
+                button2: TMP.ButtonView.design({
+                    value: 'button2',
+                    scopeValue: scope.value,
+                    events: {
+                        click: scope.onClick
+                    }
+                })
+            });
+
+            console.log(ExtendedInstance.value);
+            console.log(ExtendedInstance.childViews.button1.scope[ExtendedInstance.childViews.button1.scopeValue]);
+            console.log(ExtendedInstance.childViews.button2.scope[ExtendedInstance.childViews.button2.events.click]);
+            console.log(ExtendedInstance.childViews.button1.scope === ExtendedInstance.childViews.button1.options);
+            console.log('--------------');
+            console.log(Designed.options.value);
+            console.log(Designed.childViews.button1.options.scopeValue);
+            console.log(Designed.childViews.button2.options.events.click);
+            console.log(Designed.childViews.button1.scope === Designed.childViews.button1.options);
         },
 
-        editCtrl: function () {
+        editCtrl: function() {
 
         }
     });
