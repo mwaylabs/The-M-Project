@@ -6,7 +6,7 @@ Addressbook.Models = Addressbook.Models || {};
     'use strict';
 
     Addressbook.Models.ContactsModel = Backbone.Model.extend({
-
+         idAttribute: '_id'
     });
 
 })();

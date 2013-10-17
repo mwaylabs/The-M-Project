@@ -23,11 +23,11 @@ Addressbook.Views = Addressbook.Views || {};
 
         render: function () {
             this.$el.html(this.template(this.model.attributes));
-            this.stickit();
             return this;
         },
 
         clickHandler: function () {
+            this.stickit();
             Addressbook.detailView.model = this.model;
             Addressbook.detailView.render();
         }
