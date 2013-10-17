@@ -39,7 +39,8 @@ module.exports = function( grunt ) {
             },
             core: {
                 files: {
-                    'dist/tmp2.js': 'src/build.js'
+                    'dist/tmp2.js': 'src/build.js',
+                    'dist/tmp2.data.js': 'src/build.data.js',
                 }
             },
             css: {
