@@ -56,11 +56,16 @@
         if(f._childViews){
             f.childViews = {};
             _.each(f._childViews, function( childView, name ) {
+                // Hier bekommt doch jede childView noch zusätzlich
+                // den scope aus den args. Warum, Sinnvoll?
                 f.childViews[name] = childView.design(scope, null, false);
             });
         }
         if(childViews){
             f.childViews = f.childViews || {};
+                // Hier bekommt doch jede childView noch zusätzlich
+                // die childViews aus den args. Warum, Sinnvoll?
+            // Warum, Sinnvoll?
             _.each(childViews, function( childView, name ) {
                 f.childViews[name] = childView;
             });

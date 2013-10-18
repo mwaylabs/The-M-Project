@@ -41,6 +41,7 @@ Addressbook.Routers = Addressbook.Routers || {};
             Extended = TMP.View.extend({
                 value: 'extended'
             }, {
+                // Reihenfolge der childViews ist nicht garantiert.
                 button1: TMP.ButtonView.extend({
                     value: 'button1',
                     scopeValue: 'model',
@@ -60,6 +61,17 @@ Addressbook.Routers = Addressbook.Routers || {};
             var scope = {model: 'HELLO MODEL', onClick: function() {
                 console.log('clock', this);
             }};
+
+            // Wie kann ich einer childView mittels scope objekt
+            // ein event hinzufügen?
+            scope.childViews = {
+                button2: {
+                    events: {
+                        "click": function () {
+                        }
+                    }
+                }
+            }
 
             ExtendedInstance = Extended.design(scope);
 
