@@ -38,7 +38,7 @@
 
         "M.TextfieldView": {
             defaultTemplate: '<input value="<%= _value_ %>" />',
-            bootstrap: '<input value="<%= _value_ %>" />',
+            bootstrap: '<% if(label) {  %><label><%= label %></label><% } %><input class="form-control" value="<%= _value_ %>">',
             topcoat: '<input value="<%= _value_ %>"/>',
             jqm: '<input value="<%= _value_ %>" />'
         },
@@ -92,7 +92,7 @@
             jqm: '<div data-role="collapsible-set" data-theme="c" data-content-theme="d" class="ui-collapsible-set ui-corner-all" data-childviews="list"></div>'
         },
 
-        _currentUI: 'jqm',
+        _currentUI: 'bootstrap',
 
         get: function( template ) {
 
@@ -406,8 +406,19 @@
     });
 
     TMP.TextfieldView = TMP.View.extend({
+
         _type: 'M.TextfieldView',
-        _template: _.tmpl(TMP.TemplateManager.get('M.TextfieldView'))
+
+        label: null,
+
+        _template: _.tmpl(TMP.TemplateManager.get('M.TextfieldView')),
+
+        initialize: function( scope ) {
+            TMP.View.prototype.initialize.apply(this, [scope]);
+            this._templateData['label'] = this.label;
+            return this;
+        }
+
     });
 
 

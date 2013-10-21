@@ -14,25 +14,30 @@ Addressbook.Views = Addressbook.Views || {};
             test: 'headline'
         }),
 
-        firstname: TMP.View.extend({
+        firstname: TMP.TextfieldView.extend({
             scopeKey: 'firstname',
-            test: 'firstname'
+            label: 'Firstname'
         }),
 
+        lastname: TMP.TextfieldView.extend({
+            scopeKey: 'lastname',
+            label: 'Lastname'
+        }),
+
+//        lastname: TMP.View.extend({
+//            scopeKey: 'lastname',
+//            templateExtend: '<h3 contenteditable="true"><%= lastname %></h3>',
+//            test: 'lastname'
+//        }),
+
         value: TMP.View.extend({
-            value: 'asdfadsfaöskdjflkajdsf',
+            value: 'test test test test',
             template: {
                 defaultTemplate: '<div>VALUE<div style="color: #800080"><%= _value_ %></div></div>',
                 bootstrap: '<div>VALUE<div style="color: blue"><%= _value_ %></div></div>',
                 topcoat: '<div>VALUE<div style="color: red"><%= _value_ %></div></div>',
                 jqm: '<div>VALUE<div style="color: green"><%= _value_ %></div></div>'
             }
-        }),
-
-        lastname: TMP.View.extend({
-            scopeKey: 'lastname',
-            templateExtend: '<h3 contenteditable="true"><%= lastname %></h3>',
-            test: 'lastname'
         }),
 
         overview: TMP.View.extend({

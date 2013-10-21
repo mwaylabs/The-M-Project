@@ -18,6 +18,9 @@ Addressbook.Routers = Addressbook.Routers || {};
                 collection.fetch({
                     success: function() {
                         listView.render();
+//                        Addressbook.testModel.set('lastname', collection.models[0].get('lastname'));
+//                        Addressbook.testModel.set('firstname', collection.models[0].get('firstname'));
+//                        Addressbook.testModel.set('value', collection.models[0].get('firstname') + ' - ' + collection.models[0].get('lastname'));
                     }
                 });
             }
@@ -36,12 +39,11 @@ Addressbook.Routers = Addressbook.Routers || {};
             $('#main').append(editView.render().$el);
             $('#main').append(listView.render().$el);
 
-            Addressbook.testModel = new Backbone.Model({
+            Addressbook.testModel = new Addressbook.Models.ContactsModel({
                 value: '',
                 firstname: '',
                 lastname: ''
             });
-
 
             Addressbook.detailView = Addressbook.Views.DetailView.design({
 
@@ -56,6 +58,7 @@ Addressbook.Routers = Addressbook.Routers || {};
 
             $('#main').prepend('<hr>');
             $('#main').prepend(Addressbook.detailView.render().$el);
+
 
             console.timeEnd('start');
 
