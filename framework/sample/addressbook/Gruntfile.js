@@ -332,7 +332,7 @@ module.exports = function (grunt) {
             'coffee:dist',
             'createDefaultTemplate',
             'tmpl',
-            'compass:server',
+            //'compass:server',
             'configureProxies',
             'connect:' + reloadType
         ];

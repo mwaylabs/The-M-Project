@@ -22,21 +22,58 @@ Addressbook.Routers = Addressbook.Routers || {};
                 });
             }
 
-            var detailView = new Addressbook.Views.EditView();
+            var editView = new Addressbook.Views.EditView();
 
             var listView = new Addressbook.Views.ListView({
                 model: collection
             });
 
-            Addressbook.detailView = detailView;
+            Addressbook.editView = editView;
+
             Addressbook.listView = listView;
             Addressbook.contactCollection = collection;
 
-            $('#main').append(detailView.render().$el);
+            $('#main').append(editView.render().$el);
             $('#main').append(listView.render().$el);
 
-            console.timeEnd('start');
+            Addressbook.testModel = new Backbone.Model({
+                value: '',
+                firstname: '',
+                lastname: ''
+            });
 
+            Addressbook.detailView = Addressbook.Views.DetailView.design({
+
+                model: Addressbook.testModel,
+
+                removeHandler: function() {
+                    if( this.model ) {
+                        this.model.destroy({
+                            success: function() {
+                                Addressbook.detailView.model = null;
+                                Addressbook.detailView.render();
+                                Addressbook.listView.render();
+                            }
+                        });
+                    }
+                },
+
+                addHandler: function() {
+                    var model = new Addressbook.Models.ContactsModel({
+                        firstname: this.$('.firstname').val(),
+                        lastname: this.$('.lastname').val()
+                    });
+                    Addressbook.detailView.model = null;
+                    Addressbook.detailView.render();
+                    Addressbook.contactCollection.unshift(model);
+                    Addressbook.listView.render();
+                }
+            });
+
+            $('#main').prepend('<hr>');
+            $('#main').prepend(Addressbook.detailView.render().$el);
+
+            console.timeEnd('start');
 
             Extended = TMP.View.extend({
                 value: 'extended'
@@ -67,7 +104,7 @@ Addressbook.Routers = Addressbook.Routers || {};
             scope.childViews = {
                 button2: {
                     events: {
-                        "click": function () {
+                        "click": function() {
                         }
                     }
                 }
@@ -79,7 +116,7 @@ Addressbook.Routers = Addressbook.Routers || {};
 
             Designed = TMP.View.design({
                 value: 'designed'
-            },{
+            }, {
                 button1: TMP.ButtonView.design({
                     value: 'button1',
                     scopeValue: scope.model,
@@ -96,15 +133,17 @@ Addressbook.Routers = Addressbook.Routers || {};
                 })
             });
 
-            console.log(ExtendedInstance.value);
-            console.log(ExtendedInstance.childViews.button1.scope[ExtendedInstance.childViews.button1.scopeValue]);
-            console.log(ExtendedInstance.childViews.button2.scope[ExtendedInstance.childViews.button2.events.click]);
-            console.log(ExtendedInstance.childViews.button1.scope === ExtendedInstance.childViews.button1.options);
-            console.log('--------------');
-            console.log(Designed.options.value);
-            console.log(Designed.childViews.button1.options.scopeValue);
-            console.log(Designed.childViews.button2.options.events.click);
-            console.log(Designed.childViews.button1.scope === Designed.childViews.button1.options);
+
+//            console.log(ExtendedInstance.value);
+//            console.log(ExtendedInstance.childViews.button1.scope[ExtendedInstance.childViews.button1.scopeValue]);
+//            console.log(ExtendedInstance.childViews.button2.scope[ExtendedInstance.childViews.button2.events.click]);
+//            console.log(ExtendedInstance.childViews.button1.scope === ExtendedInstance.childViews.button1);
+//            console.log('--------------');
+//            console.log(Designed.scope.value);
+//            console.log(Designed.childViews.button1.scopeValue);
+//            console.log(Designed.childViews.button2.events.click);
+//            console.log(Designed.childViews.button1.scope === Designed.childViews.button1);
+
         },
 
         editCtrl: function() {

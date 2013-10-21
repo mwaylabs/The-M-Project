@@ -5,7 +5,7 @@ var config = {
     },
     server: {
         openBrowser: false,
-        autoReload: true,
+        autoReload: false,
         port: 9000,
 
         // We use grunt-connect-proxy for the proxy task.

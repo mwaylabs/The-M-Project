@@ -2,7 +2,7 @@
 
 Addressbook.Views = Addressbook.Views || {};
 
-(function () {
+(function() {
     'use strict';
 
     Addressbook.Views.ListItemView = Backbone.View.extend({
@@ -21,15 +21,18 @@ Addressbook.Views = Addressbook.Views || {};
             '.lastname': 'lastname'
         },
 
-        render: function () {
+        render: function() {
             this.$el.html(this.template(this.model.attributes));
             return this;
         },
 
-        clickHandler: function () {
+        clickHandler: function() {
             this.stickit();
             Addressbook.detailView.model = this.model;
-            Addressbook.detailView.render();
+            //Addressbook.detailView.render();
+            Addressbook.testModel.set('lastname', this.model.get('lastname'))
+            Addressbook.testModel.set('firstname', this.model.get('firstname'))
+            Addressbook.testModel.set('value', this.model.get('firstname') + ' - ' + this.model.get('lastname'))
         }
     });
 

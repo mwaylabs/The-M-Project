@@ -55,12 +55,15 @@
         // @include ./ui/pagetransitions.js
         // @include ./ui/layouts/layout.js
         // @include ./ui/layout_manager.js
+
+        // @ i nclude ./ui/views/stuff.js
+        // @ i nclude ./ui/views/button.js
+        // @ i nclude ./ui/views/list.js
+
         // @include ./ui/views/template_manager.js
-        // @include ./ui/views/stuff.js
-        // @include ./ui/views/button.js
-        // @include ./ui/views/list.js
 
         // @include ./ui/views/tmpViews.js
+
 
         // @include ./ui/layouts/header-layout/header-layout.js
         // @include ./ui/layouts/bottom-bar-layout/bottom-bar-layout.js
