@@ -12,35 +12,35 @@
     TMP.TemplateManager = M.Object.extend({
 
         "M.View": {
-            defaultTemplate: '<div><div data-binding="value" contenteditable="true"><%= value %></div><div data-child-view="main"></div>'
+            defaultTemplate: '<div><div data-binding="_value_" contenteditable="true"><%= _value_ %></div><div data-child-view="main"></div>'
         },
 
         "M.ButtonView": {
-            defaultTemplate: '<div>Button: <div data-binding="value"<% if(value) {  } %>><%= value %></div></div>',
-            topcoat: '<button class="topcoat-button--large" data-binding="value"><%= value %></button>',
-            bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star" data-binding="value"></span><%= value %></button>',
-            jqm: '<a data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="value"><%= value %></span></span></a>'
+            defaultTemplate: '<div>Button: <div data-binding="_value_"<% if(_value_) {  } %>><%= _value_ %></div></div>',
+            topcoat: '<button class="topcoat-button--large" data-binding="_value_"><%= _value_ %></button>',
+            bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star" data-binding="_value_"></span><%= _value_ %></button>',
+            jqm: '<a data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="_value_"><%= _value_ %></span></span></a>'
         },
 
         "M.ToolbarView": {
-            defaultTemplate: '<div>AAA<div data-child-view="left"></div> <div class="center" data-binding="value"><%= value %></div> <div data-child-view="right"></div></div>',
-            bootstrap: '<div class="page-header"><div data-child-view="left"></div><h1><%= value %></h1><div data-child-view="right"></div></div>',
-            topcoat: '<div><h2><%= value %></h2><div data-childviews="right"></div></div>',
-            jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= value %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
+            defaultTemplate: '<div>AAA<div data-child-view="left"></div> <div class="center" data-binding="_value_"><%= _value_ %></div> <div data-child-view="right"></div></div>',
+            bootstrap: '<div class="page-header"><div data-child-view="left"></div><h1><%= _value_ %></h1><div data-child-view="right"></div></div>',
+            topcoat: '<div><h2><%= _value_ %></h2><div data-childviews="right"></div></div>',
+            jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= _value_ %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
         },
 
         "M.ImageView": {
-            defaultTemplate: '<div><%= value %></div>',
-            bootstrap: '<div><%= value %></div>',
-            topcoat: '<div><%= value %></div>',
-            jqm: '<div><%= value %></div>'
+            defaultTemplate: '<div><%= _value_ %></div>',
+            bootstrap: '<div><%= _value_ %></div>',
+            topcoat: '<div><%= _value_ %></div>',
+            jqm: '<div><%= _value_ %></div>'
         },
 
         "M.TextfieldView": {
-            defaultTemplate: '<input value="<%= value %>" />',
-            bootstrap: '<input value="<%= value %>" />',
-            topcoat: '<input value="<%= value %>"/>',
-            jqm: '<input value="<%= value %>" />'
+            defaultTemplate: '<input value="<%= _value_ %>" />',
+            bootstrap: '<input value="<%= _value_ %>" />',
+            topcoat: '<input value="<%= _value_ %>"/>',
+            jqm: '<input value="<%= _value_ %>" />'
         },
 
         "M.ListView": {
@@ -51,44 +51,44 @@
         },
 
         "M.ListItemView": {
-            defaultTemplate: '<div data-childviews="list"><%= value %></div>',
-            bootstrap: '<div data-childviews="list"><%= value %></div>',
-            topcoat: '<div data-childviews="list"><%= value %></div>',
-            jqm: '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-first-child ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a class="ui-link-inherit"><%= value %></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>'
+            defaultTemplate: '<div data-childviews="list"><%= _value_ %></div>',
+            bootstrap: '<div data-childviews="list"><%= _value_ %></div>',
+            topcoat: '<div data-childviews="list"><%= _value_ %></div>',
+            jqm: '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-first-child ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a class="ui-link-inherit"><%= _value_ %></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>'
         },
 
         "M.ModelView": {
-            defaultTemplate: '<ul><%= value %></ul>',
-            bootstrap: '<div><%= value %></div>',
-            topcoat: '<div><%= value %></div>',
-            jqm: '<div><%= value %></div>'
+            defaultTemplate: '<ul><%= _value_ %></ul>',
+            bootstrap: '<div><%= _value_ %></div>',
+            topcoat: '<div><%= _value_ %></div>',
+            jqm: '<div><%= _value_ %></div>'
         },
 
         "M.LabelView": {
-            defaultTemplate: '<div contenteditable="true"><%= value %></div>',
-            bootstrap: '<div contenteditable="true"><%= value %></div>',
-            topcoat: '<div contenteditable="true"><%= value %></div>',
-            jqm: '<div contenteditable="true"><%= value %></div>'
+            defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>',
+            bootstrap: '<div contenteditable="true"><%= _value_ %></div>',
+            topcoat: '<div contenteditable="true"><%= _value_ %></div>',
+            jqm: '<div contenteditable="true"><%= _value_ %></div>'
         },
 
         "M.SearchfieldView": {
-            defaultTemplate: '<div contenteditable="true"><%= value %></div>',
-            bootstrap: '<div contenteditable="true"><%= value %></div>',
-            topcoat: '<div contenteditable="true"><%= value %></div>',
-            jqm: '<div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c ui-focus"><input type="text" data-type="search" name="password" id="search" value="" placeholder="<%= placeholder %>" class="ui-input-text ui-body-c"><%= value %><a class="ui-input-clear ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-fullsize ui-btn-icon-notext ui-input-clear-hidden" title="clear text" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="delete" data-iconpos="notext" data-theme="c" data-mini="false"><span class="ui-btn-inner"><span class="ui-btn-text">clear text</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a></div>'
+            defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>',
+            bootstrap: '<div contenteditable="true"><%= _value_ %></div>',
+            topcoat: '<div contenteditable="true"><%= _value_ %></div>',
+            jqm: '<div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c ui-focus"><input type="text" data-type="search" name="password" id="search" _value_="" placeholder="<%= placeholder %>" class="ui-input-text ui-body-c"><%= _value_ %><a class="ui-input-clear ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-fullsize ui-btn-icon-notext ui-input-clear-hidden" title="clear text" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="delete" data-iconpos="notext" data-theme="c" data-mini="false"><span class="ui-btn-inner"><span class="ui-btn-text">clear text</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a></div>'
         },
 
         "M.AccordionView": {
-            defaultTemplate: '<ul><%= value %></ul>',
-            bootstrap: '<div><%= value %></div>',
-            topcoat: '<div><%= value %></div>',
+            defaultTemplate: '<ul><%= _value_ %></ul>',
+            bootstrap: '<div><%= _value_ %></div>',
+            topcoat: '<div><%= _value_ %></div>',
             jqm: '<div data-role="collapsible-set" data-theme="c" data-content-theme="d" class="ui-collapsible-set ui-corner-all" data-childviews="list"></div>'
         },
 
         "M.AccordionItemView": {
-            defaultTemplate: '<ul><%= value %></ul>',
-            bootstrap: '<div><%= value %></div>',
-            topcoat: '<div><%= value %></div>',
+            defaultTemplate: '<ul><%= _value_ %></ul>',
+            bootstrap: '<div><%= _value_ %></div>',
+            topcoat: '<div><%= _value_ %></div>',
             jqm: '<div data-role="collapsible-set" data-theme="c" data-content-theme="d" class="ui-collapsible-set ui-corner-all" data-childviews="list"></div>'
         },
 
@@ -123,7 +123,7 @@
         /*
          * define a template based on the tmpl template engine
          */
-        template: _.tmpl('<div><%= value %></div>'),
+        template: _.tmpl('<div><%= _value_ %></div>'),
 
         /**
          * use this property to define which data are given to the template
@@ -132,7 +132,7 @@
 
 
         /**
-         * extend the default template with this one. It gets injected into the <%= value %> placeholder
+         * extend the default template with this one. It gets injected into the <%= _value_ %> placeholder
          */
         templateExtend: null,
 
@@ -140,6 +140,11 @@
          * Constructor
          * @returns {*}
          */
+
+        /**
+         * The Value of the view
+          */
+        _value_: null,
 
         initialize: function() {
             this._assignValue();
@@ -150,6 +155,10 @@
         },
 
         _assignValue: function() {
+            //don't write _value_ in the view definition - write value and here it gets assigned
+            if(this.value){
+                this._value_ = this.value;
+            }
 
             this._templateData = null;
             if( this.scopeKey && this.model && typeof this.model.get === 'function' ) {
@@ -157,13 +166,13 @@
                 if(this.templateExtend){
                     this._templateData[this.scopeKey] = this.model.get(this.scopeKey);
                 } else {
-                    this._templateData['value'] = this.model.get(this.scopeKey);
+                    this._templateData['_value_'] = this.model.get(this.scopeKey);
                 }
 
 
-            } else if( this.value ) {
+            } else if( this._value_ ) {
                 this._templateData = {};
-                this._templateData['value'] = this.value;
+                this._templateData['_value_'] = this._value_;
             } else if( this.model && this.model.attributes ) {
                 this._templateData = this.model.attributes;
             }
@@ -218,7 +227,7 @@
 
         _extendTemplate: function() {
             if( this.templateExtend ) {
-                this.template = _.tmpl(this.template({value: this.templateExtend}));
+                this.template = _.tmpl(this.template({_value_: this.templateExtend}));
             }
         },
 
@@ -258,8 +267,9 @@
         },
 
         _postRender: function() {
-            if( this.scopeKey || (this.model && !this.value) ) {
+            if( this.scopeKey || (this.model && !this._value_) ) {
                 this._assignBinding();
+                debugger;
                 this.stickit();
             } else {
 
@@ -274,7 +284,7 @@
 
             if(this.templateExtend === null && this.scopeKey){
                 console.log(this.scopeKey);
-                var selector = '[data-binding="value"]';
+                var selector = '[data-binding="_value_"]';
                 bindings[selector] = {observe: '' + this.scopeKey};
             } else {
                 _.each(this._templateData, function( value, key ) {
@@ -339,7 +349,7 @@
 
         _type: 'TMP.ButtonView',
 
-        template: '<button><%= value %></button>'
+        template: '<button><%= _value_ %></button>'
     });
 
     TMP.RedButtonView = TMP.ButtonView.extend({
