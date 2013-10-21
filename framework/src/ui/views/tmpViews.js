@@ -12,7 +12,7 @@
     TMP.TemplateManager = M.Object.extend({
 
         "M.View": {
-            defaultTemplate: '<div><div data-binding="_value_" contenteditable="true"><%= _value_ %></div><div data-child-view="main"></div>'
+            defaultTemplate: '<div><%= _value_ %></div>'
         },
 
         "M.ButtonView": {
@@ -25,7 +25,7 @@
         "M.ToolbarView": {
             defaultTemplate: '<div>AAA<div data-child-view="left"></div> <div class="center" data-binding="_value_"><%= _value_ %></div> <div data-child-view="right"></div></div>',
             bootstrap: '<div class="page-header"><div data-child-view="left"></div><h1><%= _value_ %></h1><div data-child-view="right"></div></div>',
-            topcoat: '<div><h2><%= _value_ %></h2><div data-childviews="right"></div></div>',
+            topcoat: '<div><h2><%= _value_ %></h2><div data-childview="right"></div></div>',
             jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= _value_ %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
         },
 
@@ -95,8 +95,10 @@
         _currentUI: 'jqm',
 
         get: function( template ) {
+
             if( this[template] ) {
-                var tpl = this[template][this._currentUI];
+                //use TMP.TemplateManager._currentUI because this function is called in another this context
+                var tpl = this[template][TMP.TemplateManager._currentUI];
                 if( !tpl ) {
                     return this[template]['defaultTemplate'];
                 } else {
@@ -118,12 +120,17 @@
         /**
          * The View type
          */
-        _type: 'TMP.View',
+        _type: 'M.View',
+
+        /*
+         * define a user template
+         */
+        template: null,
 
         /*
          * define a template based on the tmpl template engine
          */
-        template: _.tmpl('<div><%= _value_ %></div>'),
+        _template: _.tmpl(TMP.TemplateManager.get('M.View')),
 
         /**
          * use this property to define which data are given to the template
@@ -143,27 +150,38 @@
 
         /**
          * The Value of the view
-          */
+         */
         _value_: null,
 
-        initialize: function() {
+        _setModel: function( value ) {
+            this.model = value;
+            return this;
+        },
+
+        _getModel: function() {
+            return this.model;
+        },
+
+        initialize: function( scope ) {
             this._assignValue();
-//            this._assignComplexView();
-//            this._assignContentBinding();
-//            this.init();
+            this.mapEvents(scope);
+
+            //            this._assignComplexView();
+            //            this._assignContentBinding();
+            //            this.init();
             return this;
         },
 
         _assignValue: function() {
             //don't write _value_ in the view definition - write value and here it gets assigned
-            if(this.value){
+            if( this.value ) {
                 this._value_ = this.value;
             }
 
             this._templateData = null;
             if( this.scopeKey && this.model && typeof this.model.get === 'function' ) {
                 this._templateData = {};
-                if(this.templateExtend){
+                if( this.templateExtend ) {
                     this._templateData[this.scopeKey] = this.model.get(this.scopeKey);
                 } else {
                     this._templateData['_value_'] = this.model.get(this.scopeKey);
@@ -180,13 +198,21 @@
             return this;
         },
 
-        _setModel: function( value ) {
-            this.model = value;
-            return this;
-        },
+        mapEvents: function( scope ) {
+            if( this.events ) {
+                var events = [];
+                _.each(this.events, function( value, key ) {
+                    if( typeof value === 'string' ) {
+                        if( scope && typeof scope[value] === 'function' ) {
+                            events[key] = scope[value];
+                        }
+                    }
+                }, this);
+                if( events != [] ) {
+                    this.events = _.extend(this.events, events);
+                }
 
-        _getModel: function() {
-            return this.model;
+            }
         },
 
         /**
@@ -210,16 +236,15 @@
         },
 
         _assignTemplate: function( template ) {
-            if( !template ) {
-                template = this.template;
-            }
+            var template = template || this.template;
             if( template ) {
                 if( typeof template === 'function' ) {
-                    this.template = template;
+                    this._template = template;
 
                 } else if( _.isString(template) ) {
-                    this.template = _.tmpl(template);
-
+                    this._template = _.tmpl(template);
+                } else if( _.isObject(template) ) {
+                    this._template = _.tmpl(TMP.TemplateManager.get.apply(this, ['template']))
                 }
             }
             return this;
@@ -227,7 +252,7 @@
 
         _extendTemplate: function() {
             if( this.templateExtend ) {
-                this.template = _.tmpl(this.template({_value_: this.templateExtend}));
+                this._template = _.tmpl(this._template({_value_: this.templateExtend}));
             }
         },
 
@@ -236,7 +261,7 @@
         },
 
         _render: function() {
-            this.$el.html(this.template(this._templateData));
+            this.$el.html(this._template(this._templateData));
             return this;
         },
 
@@ -255,9 +280,11 @@
 
                 if( typeof child['render'] === 'function' ) {
                     dom.append(child.render().$el);
+                    child.delegateEvents();
                 } else if( _.isArray(child) ) {
                     _.each(child, function( c ) {
                         dom.append(c.render().$el);
+                        c.delegateEvents();
                     })
                 }
 
@@ -269,7 +296,6 @@
         _postRender: function() {
             if( this.scopeKey || (this.model && !this._value_) ) {
                 this._assignBinding();
-                debugger;
                 this.stickit();
             } else {
 
@@ -282,8 +308,7 @@
             var bindings = {};
             var data = this._templateData;
 
-            if(this.templateExtend === null && this.scopeKey){
-                console.log(this.scopeKey);
+            if( this.templateExtend === null && this.scopeKey ) {
                 var selector = '[data-binding="_value_"]';
                 bindings[selector] = {observe: '' + this.scopeKey};
             } else {
@@ -293,8 +318,6 @@
                 }, this);
             }
 
-            console.log(this.cid);
-
             this.bindings = bindings;
 
             return this;
@@ -302,6 +325,31 @@
 
         postRender: function() {
 
+        },
+
+        updateTemplate: function() {
+            var template = this.template || TMP.TemplateManager.get(this._type);
+            this._assignTemplate(template);
+            this._updateChildViewsTemplate();
+            return this;
+        },
+
+        _updateChildViewsTemplate: function() {
+
+            if( !this.childViews ) {
+                return;
+            }
+            _.each(this.childViews, function( child, name ) {
+                if( typeof child['updateTemplate'] === 'function' ) {
+                    child.updateTemplate();
+                } else if( _.isArray(child) ) {
+                    _.each(child, function( c ) {
+                        c.updateTemplate();
+                    });
+                }
+
+            }, this);
+            return this;
         }
 
     });
@@ -347,19 +395,19 @@
      */
     TMP.ButtonView = TMP.View.extend({
 
-        _type: 'TMP.ButtonView',
+        _type: 'M.ButtonView',
+        _template: _.tmpl(TMP.TemplateManager.get('M.ButtonView'))
 
-        template: '<button><%= _value_ %></button>'
     });
 
     TMP.RedButtonView = TMP.ButtonView.extend({
 
-        _type: 'TMP.RedButtonView'
+        _type: 'M.RedButtonView'
     });
 
     TMP.TextfieldView = TMP.View.extend({
         _type: 'M.TextfieldView',
-        template: TMP.TemplateManager.get('M.TextfieldView')
+        _template: _.tmpl(TMP.TemplateManager.get('M.TextfieldView'))
     });
 
 

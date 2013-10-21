@@ -42,31 +42,15 @@ Addressbook.Routers = Addressbook.Routers || {};
                 lastname: ''
             });
 
+
             Addressbook.detailView = Addressbook.Views.DetailView.design({
 
                 model: Addressbook.testModel,
 
-                removeHandler: function() {
-                    if( this.model ) {
-                        this.model.destroy({
-                            success: function() {
-                                Addressbook.detailView.model = null;
-                                Addressbook.detailView.render();
-                                Addressbook.listView.render();
-                            }
-                        });
-                    }
-                },
-
-                addHandler: function() {
-                    var model = new Addressbook.Models.ContactsModel({
-                        firstname: this.$('.firstname').val(),
-                        lastname: this.$('.lastname').val()
-                    });
-                    Addressbook.detailView.model = null;
+                topcoatTheme: function() {
+                    TMP.TemplateManager._currentUI = 'topcoat';
+                    Addressbook.detailView.updateTemplate();
                     Addressbook.detailView.render();
-                    Addressbook.contactCollection.unshift(model);
-                    Addressbook.listView.render();
                 }
             });
 
@@ -134,15 +118,15 @@ Addressbook.Routers = Addressbook.Routers || {};
             });
 
 
-//            console.log(ExtendedInstance.value);
-//            console.log(ExtendedInstance.childViews.button1.scope[ExtendedInstance.childViews.button1.scopeValue]);
-//            console.log(ExtendedInstance.childViews.button2.scope[ExtendedInstance.childViews.button2.events.click]);
-//            console.log(ExtendedInstance.childViews.button1.scope === ExtendedInstance.childViews.button1);
-//            console.log('--------------');
-//            console.log(Designed.scope.value);
-//            console.log(Designed.childViews.button1.scopeValue);
-//            console.log(Designed.childViews.button2.events.click);
-//            console.log(Designed.childViews.button1.scope === Designed.childViews.button1);
+            console.log(ExtendedInstance.value);
+            console.log(ExtendedInstance.childViews.button1.scope[ExtendedInstance.childViews.button1.scopeValue]);
+            console.log(ExtendedInstance.childViews.button2.scope[ExtendedInstance.childViews.button2.events.click]);
+            console.log(ExtendedInstance.childViews.button1.scope === ExtendedInstance.childViews.button1);
+            console.log('--------------');
+            console.log(Designed.scope.value);
+            console.log(Designed.childViews.button1.scopeValue);
+            console.log(Designed.childViews.button2.events.click);
+            console.log(Designed.childViews.button1.scope === Designed.childViews.button1);
 
         },
 

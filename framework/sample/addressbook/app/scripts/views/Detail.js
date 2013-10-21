@@ -20,8 +20,13 @@ Addressbook.Views = Addressbook.Views || {};
         }),
 
         value: TMP.View.extend({
-            scopeKey: 'value',
-            test: 'value'
+            value: 'asdfadsfaöskdjflkajdsf',
+            template: {
+                defaultTemplate: '<div>VALUE<div style="color: #800080"><%= _value_ %></div></div>',
+                bootstrap: '<div>VALUE<div style="color: blue"><%= _value_ %></div></div>',
+                topcoat: '<div>VALUE<div style="color: red"><%= _value_ %></div></div>',
+                jqm: '<div>VALUE<div style="color: green"><%= _value_ %></div></div>'
+            }
         }),
 
         lastname: TMP.View.extend({
@@ -32,24 +37,39 @@ Addressbook.Views = Addressbook.Views || {};
 
         overview: TMP.View.extend({
             template: '<div><span><%= lastname %></span>, <span><%= firstname %></span><div data-childviews="_firstname_"></div></div>',
-            test: 'overview'
+            type: 'Overview'
         }),
 
-        addButton: TMP.ButtonView.extend({
-            value: 'add',
+        bootstrap: TMP.ButtonView.extend({
+            value: 'Bootstrap',
             extendTemplate: '<div><%= value %></div>',
             events: {
-                click: 'addHandler'
+                click: function(){
+                    TMP.TemplateManager._currentUI = 'bootstrap';
+                    Addressbook.detailView.updateTemplate();
+                    Addressbook.detailView.render();
+                }
             },
             test: 'addButton'
         }),
 
-        deleteButton: TMP.ButtonView.extend({
-            value: 'delete',
+        jQmTheme: TMP.ButtonView.extend({
+            value: 'jQuery mobile',
             events: {
                 click: 'removeHandler'
             },
-            test: 'deleteButton'
+            removeHandler: function(){
+                TMP.TemplateManager._currentUI = 'jqm';
+                Addressbook.detailView.updateTemplate();
+                Addressbook.detailView.render();
+            }
+        }),
+
+        topcoatTheme: TMP.ButtonView.extend({
+            value: 'Topcoat',
+            events: {
+                click: 'topcoatTheme'
+            }
         })
     });
 
