@@ -1,7 +1,7 @@
 Addressbook.Views = Addressbook.Views || {};
 
 (function() {
-    'use strict';
+    //    'use strict';
 
     Addressbook.Views.DetailView = TMP.View.extend({
 
@@ -9,73 +9,85 @@ Addressbook.Views = Addressbook.Views || {};
 
     }, {
 
-        headline: TMP.View.extend({
-            value: 'Edit',
-            test: 'headline'
-        }),
+        //        headline: TMP.View.extend({
+        //            value: 'Edit',
+        //            test: 'headline'
+        //        }),
 
         firstname: TMP.TextfieldView.extend({
-            scopeKey: 'firstname',
+            scopeKey: 'editModel.firstname',
             label: 'Firstname'
         }),
 
         lastname: TMP.TextfieldView.extend({
-            scopeKey: 'lastname',
+            scopeKey: 'editModel.lastname',
             label: 'Lastname'
         }),
 
-//        lastname: TMP.View.extend({
-//            scopeKey: 'lastname',
-//            templateExtend: '<h3 contenteditable="true"><%= lastname %></h3>',
-//            test: 'lastname'
+        //        lastname: TMP.View.extend({
+        //            scopeKey: 'testModel.lastname',
+        //            templateExtend: '<h3 contenteditable="true"><%= lastname %></h3>',
+        //            test: 'lastname'
+        //        }),
+
+        //        value: TMP.View.extend({
+        //            value: 'test test test test',
+        //            template: {
+        //                defaultTemplate: '<div>VALUE<div style="color: #800080"><%= _value_ %></div></div>',
+        //                bootstrap: '<div>VALUE<div style="color: blue"><%= _value_ %></div></div>',
+        //                topcoat: '<div>VALUE<div style="color: red"><%= _value_ %></div></div>',
+        //                jqm: '<div>VALUE<div style="color: green"><%= _value_ %></div></div>'
+        //            }
+        //        }),
+
+//        overview: TMP.View.extend({
+//            template: '<div>Preview: <span><%= lastname %></span>, <span><%= firstname %></span><div data-childviews="_firstname_"></div></div>',
+//            type: 'Overview',
+//            scopeKey: 'editModel'
 //        }),
 
-        value: TMP.View.extend({
-            value: 'test test test test',
-            template: {
-                defaultTemplate: '<div>VALUE<div style="color: #800080"><%= _value_ %></div></div>',
-                bootstrap: '<div>VALUE<div style="color: blue"><%= _value_ %></div></div>',
-                topcoat: '<div>VALUE<div style="color: red"><%= _value_ %></div></div>',
-                jqm: '<div>VALUE<div style="color: green"><%= _value_ %></div></div>'
+        overview2: TMP.View.extend({
+            template: '<div>Original: <span><%= lastname %></span>, <span><%= firstname %></span><div data-childviews="_firstname_"></div></div>',
+            type: 'Overview',
+            scopeKey: 'currentModel'
+        }),
+
+        update: TMP.ButtonView.extend({
+            value: 'Update',
+            events: {
+                click: 'updateEntry'
             }
         }),
 
-        overview: TMP.View.extend({
-            template: '<div><span><%= lastname %></span>, <span><%= firstname %></span><div data-childviews="_firstname_"></div></div>',
-            type: 'Overview'
+        delete: TMP.ButtonView.extend({
+            value: 'Delete',
+            events: {
+                click: 'removeEntry'
+            }
         }),
 
-        bootstrap: TMP.ButtonView.extend({
-            value: 'Bootstrap',
+        add: TMP.ButtonView.extend({
+            value: 'Add',
             extendTemplate: '<div><%= value %></div>',
             events: {
-                click: function(){
-                    TMP.TemplateManager._currentUI = 'bootstrap';
-                    Addressbook.detailView.updateTemplate();
-                    Addressbook.detailView.render();
+                click: 'addEntry'
+            }
+        }),
+
+        contactList: TMP.ListView.extend({
+            scopeKey: 'contactCollection',
+            listItemView: TMP.ListItemView.extend({
+                template: '<div><span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span></div>',
+                events: {
+                    click: function(){
+                        this.scope.editModel.set('firstname', this.model.get('firstname'));
+                        this.scope.editModel.set('lastname', this.model.get('lastname'));
+                        this.scope.set('currentModel', this.model);
+                    }
                 }
-            },
-            test: 'addButton'
-        }),
-
-        jQmTheme: TMP.ButtonView.extend({
-            value: 'jQuery mobile',
-            events: {
-                click: 'removeHandler'
-            },
-            removeHandler: function(){
-                TMP.TemplateManager._currentUI = 'jqm';
-                Addressbook.detailView.updateTemplate();
-                Addressbook.detailView.render();
-            }
-        }),
-
-        topcoatTheme: TMP.ButtonView.extend({
-            value: 'Topcoat',
-            events: {
-                click: 'topcoatTheme'
-            }
+            })
         })
+
     });
 
 })();

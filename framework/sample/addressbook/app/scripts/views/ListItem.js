@@ -28,7 +28,7 @@ Addressbook.Views = Addressbook.Views || {};
 
         clickHandler: function() {
             //this.stickit();
-            Addressbook.detailView.model = this.model;
+            //Addressbook.detailView.model = this.model;
             //Addressbook.detailView.render();
             Addressbook.testModel.set('lastname', this.model.get('lastname'))
             Addressbook.testModel.set('firstname', this.model.get('firstname'))

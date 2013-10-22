@@ -1,7 +1,9 @@
-M.Controller = function() {
-    _.extend(this, arguments[0]);
-    this.initialize(arguments[0]);
-};
+//M.Controller = function() {
+//    _.extend(this, arguments[0]);
+//    this.initialize(arguments[0]);
+//};
+
+M.Controller = Backbone.View.extend(M.Object);
 
 M.Controller.create = M.create;
 

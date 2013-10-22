@@ -36,23 +36,24 @@
             jqm: '<div><%= _value_ %></div>'
         },
 
+        //TODO implement label for=""
         "M.TextfieldView": {
-            defaultTemplate: '<input value="<%= _value_ %>" />',
-            bootstrap: '<% if(label) {  %><label><%= label %></label><% } %><input class="form-control" value="<%= _value_ %>">',
+            defaultTemplate: '<% if(label) {  %><label><%= label %><% } %><input type="text" value="<%= _value_ %>"><% if(label) {  %></label><% } %>',
+            bootstrap: '<% if(label) {  %><label><%= label %></label><% } %><input type="text" class="form-control" value="<%= _value_ %>">',
             topcoat: '<input value="<%= _value_ %>"/>',
             jqm: '<input value="<%= _value_ %>" />'
         },
 
         "M.ListView": {
             defaultTemplate: '<div data-childviews="list"></div>',
-            bootstrap: '<div data-childviews="list"></div>',
+            bootstrap: '<ul class="list-group" data-childviews="list"></ul>',
             topcoat: '<div data-childviews="list"></div>',
             jqm: '<div data-childviews="list"></div>'
         },
 
         "M.ListItemView": {
             defaultTemplate: '<div data-childviews="list"><%= _value_ %></div>',
-            bootstrap: '<div data-childviews="list"><%= _value_ %></div>',
+            bootstrap: '<li><%= _value_ %></li>',
             topcoat: '<div data-childviews="list"><%= _value_ %></div>',
             jqm: '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-first-child ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a class="ui-link-inherit"><%= _value_ %></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>'
         },
@@ -162,43 +163,99 @@
             return this.model;
         },
 
-        initialize: function( scope ) {
-            this._assignValue();
-            this.mapEvents(scope);
+        getPropertyValue: function( propertyString, data ) {
+            var o = data;
+            _.each(propertyString.split('.'), function( key ) {
+                if( o[key] ) {
+                    o = o[key];
+                } else if( M.isModel(o) || M.isCollection(o) ) {
+                    //o = o.get(key);
+                    o = {
+                        model: o,
+                        attribute: key
+                    }
+                } else {
+                    o = null;
+                }
+            });
+            return o;
+        },
+
+        constructor: function( options ) {
+            this.cid = _.uniqueId('view');
+            options || (options = {});
+            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
+            _.extend(this, _.pick(options, viewOptions));
+            this._ensureElement();
+            this.initialize.apply(this, arguments);
+            this.delegateEvents();
+        },
+
+        initialize: function( options ) {
+
+            this._assignValue(options);
+            this._assignTemplateValues();
+            this._mapEvents(this.scope);
+            this._assignContentBinding();
 
             //            this._assignComplexView();
-            //            this._assignContentBinding();
             //            this.init();
             return this;
         },
 
-        _assignValue: function() {
+        _assignValue: function( options ) {
             //don't write _value_ in the view definition - write value and here it gets assigned
             if( this.value ) {
                 this._value_ = this.value;
+            } else if( this.scopeKey ) {
+                this._value_ = this.getPropertyValue(this.scopeKey, this.scope);
+            } else if( options && options.value ) {
+                this._value_ = options.value;
             }
 
-            this._templateData = null;
-            if( this.scopeKey && this.model && typeof this.model.get === 'function' ) {
-                this._templateData = {};
-                if( this.templateExtend ) {
-                    this._templateData[this.scopeKey] = this.model.get(this.scopeKey);
-                } else {
-                    this._templateData['_value_'] = this.model.get(this.scopeKey);
-                }
-
-
-            } else if( this._value_ ) {
-                this._templateData = {};
-                this._templateData['_value_'] = this._value_;
-            } else if( this.model && this.model.attributes ) {
-                this._templateData = this.model.attributes;
+            if( this._value_ && M.isModel(this._value_.model) ) {
+                this.model = this._value_.model;
+            } else if( this._value_ && M.isModel(this._value_) ) {
+                this.model = this._value_;
+            } else if( M.isCollection(this._value_) ) {
+                this.collection = this._value_;
             }
-
             return this;
         },
 
-        mapEvents: function( scope ) {
+        _assignTemplateValues: function() {
+
+            if( this.model ) {
+                if( M.isModel(this._value_) ) {
+                    this._templateData = this.model.attributes;
+                } else {
+                    this._templateData = {};
+                    this._templateData['_value_'] = this.model.get(this._value_.attribute);
+                }
+            } else if( this._value_ ) {
+                this._templateData = {};
+                this._templateData['_value_'] = this._value_;
+            }
+        },
+
+        _assignContentBinding: function() {
+            var that = this;
+            if( this.scopeKey && M.isModel(this._value_) ) {
+
+                this.listenTo(this.scope, this.scopeKey, function( model ) {
+                    that._setModel(model);
+                    that.render();
+                });
+            } else if( this.scopeKey && this._value_ && M.isModel(this._value_.model) && this._value_.attribute ) {
+
+                this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
+//                    that._value_.model.set(that._value_.attribute, model.get(that._value_.attribute));
+                });
+            }
+            return this;
+        },
+
+        _mapEvents: function( scope ) {
             if( this.events ) {
                 var events = [];
                 _.each(this.events, function( value, key ) {
@@ -294,7 +351,7 @@
         },
 
         _postRender: function() {
-            if( this.scopeKey || (this.model && !this._value_) ) {
+            if( this.model ) {
                 this._assignBinding();
                 this.stickit();
             } else {
@@ -308,7 +365,15 @@
             var bindings = {};
             var data = this._templateData;
 
-            if( this.templateExtend === null && this.scopeKey ) {
+            if( this.model && !M.isModel(this._value_) ) {
+                var selector = '[data-binding="_value_"]';
+                bindings[selector] = {observe: '' + this._value_.attribute};
+            } else if( this.model && M.isModel(this._value_) ) {
+                _.each(this.model.attributes, function( value, key ) {
+                    var selector = '[data-binding="' + key + '"]';
+                    bindings[selector] = {observe: '' + key};
+                }, this);
+            } else if( this.templateExtend === null && this.scopeKey ) {
                 var selector = '[data-binding="_value_"]';
                 bindings[selector] = {observe: '' + this.scopeKey};
             } else {
@@ -370,13 +435,13 @@
      * @param scope
      * @returns {this}
      */
-    TMP.View.design = function( scope, childViews ) {
-        var f = new this(scope);
-        f.scope = scope;
+    TMP.View.design = function( scope, childViews, isScope ) {
+        var _scope = isScope ? {scope: scope} : scope;
+        var f = new this(_scope);
         if( f._childViews ) {
             f.childViews = {};
             _.each(f._childViews, function( childView, name ) {
-                f.childViews[name] = childView.design(scope, null);
+                f.childViews[name] = childView.design(scope, null, true);
             });
         }
         if( childViews ) {
@@ -385,7 +450,6 @@
                 f.childViews[name] = childView;
             });
         }
-
         return f;
     };
 
@@ -413,12 +477,103 @@
 
         _template: _.tmpl(TMP.TemplateManager.get('M.TextfieldView')),
 
-        initialize: function( scope ) {
-            TMP.View.prototype.initialize.apply(this, [scope]);
+        _assignTemplateValues: function() {
+            TMP.View.prototype._assignTemplateValues.apply(this);
             this._templateData['label'] = this.label;
-            return this;
         }
 
+    });
+
+    TMP.ListView = TMP.View.extend({
+        _type: 'M.ListView',
+
+        _viewModelMapping: null,
+
+        template: _.tmpl(TMP.TemplateManager.get('M.ListView')),
+
+        _render: function() {
+            TMP.View.prototype._render.apply(this, arguments);
+        },
+
+        _renderChildViews: function() {
+            if( this.model ) {
+                this.addItems(this.model.models);
+            }
+        },
+
+        initialize: function( options ) {
+            var that = this;
+            TMP.View.prototype.initialize.apply(this, arguments);
+
+            if( this.collection ) {
+                this._applyListener();
+            }
+            this._viewModelMapping = {};
+        },
+
+        _applyListener: function() {
+
+//            this.listenTo(this.collection, 'all', function( a,b,c ) {
+//                console.log('ALLLLL', a,b,c);
+//            });
+
+            this.listenTo(this.collection, 'add', function( model, collection ) {
+                console.log('add');
+                this.addItem(model);
+            });
+
+            this.listenTo(this.collection, 'fetch', function() {
+                console.log('fetch');
+                //that.addAll();
+            });
+            this.listenTo(this.collection, 'change', function() {
+                console.log('change!');
+                //that.addAll();
+            });
+            this.listenTo(this.collection, 'remove', function( model ) {
+                this._viewModelMapping[model.cid].$el.remove();
+            });
+
+            this.listenTo(this.collection, 'filter', function( models ) {
+                console.log('filter');
+                //this.addItems(models);
+            });
+
+            this.listenTo(this.collection, 'sort', function( collection ) {
+                //this.addItems(this.collection.models);
+                console.timeEnd('a');
+            });
+        },
+
+        addItems: function( models ) {
+            _.each(models, function( model ) {
+                this.addItem(model);
+            }, this);
+        },
+
+        addItem: function( model ) {
+            var view = null;
+            if( this.listItemView ) {
+                view = this.listItemView.design({
+                    scope: this.scope,
+                    value: model
+                });
+                this._viewModelMapping[view.model.cid] = view;
+                var el = view.render().$el;
+                this.$el.append(el);
+            }
+        }
+    });
+
+    TMP.ListItemView = TMP.View.extend({
+        _type: 'M.ListItemView',
+        template: _.tmpl(TMP.TemplateManager.get('M.ListItemView')),
+        initialize: function() {
+            TMP.View.prototype.initialize.apply(this, arguments);
+            if( this.templateExtend ) {
+                this.template = _.tmpl(this.template({value: this.templateExtend}));
+            }
+        }
     });
 
 

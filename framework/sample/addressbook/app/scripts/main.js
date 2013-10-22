@@ -1,20 +1,23 @@
-/*global Addressbook, $*/
+(function(scope) {
 
-window.Addressbook = {
-    Models: {},
-    Collections: {},
-    Views: {},
-    Controllers: {},
-    Routers: {},
-    init: function () {
+    scope.Addressbook = {
+        Models: {},
+        Collections: {},
+        Views: {},
+        Controllers: {},
+        Routers: {},
+        init: function() {
+            'use strict';
+
+            new Addressbook.Routers.MainRouter();
+            Backbone.history.start();
+        }
+    };
+
+    $(document).ready(function() {
         'use strict';
+        Addressbook.init();
+    });
 
-        new Addressbook.Routers.MainRouter();
-        Backbone.history.start();
-    }
-};
+})(this);
 
-$(document).ready(function () {
-    'use strict';
-    Addressbook.init();
-});
