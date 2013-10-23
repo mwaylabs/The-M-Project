@@ -72,10 +72,15 @@ Addressbook.Views = Addressbook.Views || {};
         }),
 
         footer: M.ButtonView.extend({
-            value: 'clear local storage',
+            value: 'clear all data',
             events: {
                 click: function(){
                     localStorage.clear();
+                    var scope = this.scope;
+                    var db = openDatabase('bikini', '1.2', 'my first database', 2 * 1024 * 1024);
+                    db.transaction(function (tx) {
+                        tx.executeSql("DROP TABLE '" + scope.contactCollection.channel + "'");
+                    });
                 }
             }
         })
