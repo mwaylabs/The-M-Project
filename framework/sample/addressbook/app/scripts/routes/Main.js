@@ -44,15 +44,21 @@ Addressbook.Routers = Addressbook.Routers || {};
         },
 
         addEntry: function() {
-            this.scope.contactCollection.create(this.scope.editModel.attributes);
+            this.scope.set('currentModel', this.scope.contactCollection.create(this.scope.editModel.attributes));
         },
 
         removeEntry: function() {
-            this.scope.currentModel.destroy();
+            if (this.scope.currentModel) {
+                this.scope.currentModel.destroy();
+                this.scope.set('currentModel', null);
+            }
+            this.scope.editModel.clear();
         },
 
         updateEntry: function() {
-            this.scope.currentModel.save(this.scope.editModel.attributes);
+            if (this.scope.currentModel) {
+                this.scope.currentModel.save(this.scope.editModel.attributes);
+            }
         }
     });
 
