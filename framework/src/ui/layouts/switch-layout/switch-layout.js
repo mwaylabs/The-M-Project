@@ -22,9 +22,14 @@ M.SwitchLayout = M.Layout.extend({
             this.currentPage = 'content_page2';
         }
 
-        this.addChildView(this.currentPage, settings.content);
 
-        this.render();
+        if(!this.childViews[this.currentPage]){
+            this.addChildView(this.currentPage, settings.content);
+            this.$el.find('[data-childviews="' + this.currentPage + '"]').append(settings.content.render().$el);
+        }
+
+
+
 
 //        if(current.length < 1){
 //            selector = 'content_page1';

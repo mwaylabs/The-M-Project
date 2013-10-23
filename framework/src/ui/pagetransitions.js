@@ -1,5 +1,4 @@
-
-var PageTransitions = (function() {
+(function(scope) {
 
     var $main = null,
         $pages = null,
@@ -383,6 +382,6 @@ var PageTransitions = (function() {
     }
 
     //init();
-    return { init : init, next: switchToNextPage };
+    scope.PageTransitions = { init : init, next: switchToNextPage };
 
-})();
+})(this);

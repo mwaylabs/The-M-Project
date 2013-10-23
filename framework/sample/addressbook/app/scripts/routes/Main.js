@@ -12,7 +12,6 @@ Addressbook.Controllers = Addressbook.Controllers || {};
         contactCollection: null,
 
         applicationStart: function() {
-
             var that = this;
             var collection = new Addressbook.Collections.ContactsCollection(/*dummy*/);
             collection.fetch({
@@ -47,14 +46,16 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
             Addressbook.layout.applyViews({
                 content: this.detailView
-            });
+            }).render();
 
             $('#main').html(Addressbook.layout.$el);
+            PageTransitions.init();
 
         },
 
         show: function() {
-            $('#main').html(Addressbook.layout.render().$el);
+            console.log('show');
+            PageTransitions.next();
         },
 
         topcoatTheme: function() {
@@ -114,9 +115,12 @@ Addressbook.Controllers = Addressbook.Controllers || {};
                 }).design();
             },
             show: function() {
+
                 Addressbook.layout.applyViews({
                     content: this.view
                 });
+
+                PageTransitions.next();
             },
             applicationStart: function(){
                 $('#main').html(this.view.render().$el);
