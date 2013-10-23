@@ -18,8 +18,8 @@ M.Entity = function(options) {
     }
     this.typeMapping = options.typeMapping || this.typeMapping;
     this.collection  = options.collection  || this.collection;
-    this.idAttribute = options.idAttribute || this.idAttribute ||
-        (this.collection && this.collection.prototype.model ? this.collection.prototype.model.idAttribute : '');
+    var model = options.model || (this.collection ? this.collection.prototype.model : null);
+    this.idAttribute = options.idAttribute || this.idAttribute || (model ? model.prototype.idAttribute : '');
     this._updateFields(this.typeMapping);
     this.initialize.apply(this, arguments);
 };
@@ -148,11 +148,12 @@ _.extend(M.Entity.prototype, M.Object, {
         });
     },
 
-    toAttributes: function(data, id) {
-        if (data && !_.isEmpty(this.fields)) {
+    toAttributes: function(data, id, fields) {
+        fields = fields || this.fields;
+        if (data && !_.isEmpty(fields)) {
             // map field names
             var value, attributes = {};
-            _.each(this.fields, function(field, key) {
+            _.each(fields, function(field, key) {
                 value = _.isFunction(data.get) ? data.get(field.name) : data[field.name];
                 attributes[key] = value;
             });
@@ -161,10 +162,11 @@ _.extend(M.Entity.prototype, M.Object, {
         return data;
     },
 
-    fromAttributes: function(attrs) {
-        if (attrs && !_.isEmpty(this.fields)) {
+    fromAttributes: function(attrs, fields) {
+        fields = fields || this.fields;
+        if (attrs && !_.isEmpty(fields)) {
             var data = {};
-            _.each(this.fields, function(field, key) {
+            _.each(fields, function(field, key) {
                 var value = _.isFunction(attrs.get) ? attrs.get(key) : attrs[key];
                 value = field.transform(value);
                 if( !_.isUndefined(value) ) {

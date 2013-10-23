@@ -14,6 +14,10 @@ M.WebSqlStore = M.Store.extend({
 
     db: null,
 
+    dataField: { name: 'data', type: 'text', required: true },
+
+    idField:   { name: 'id', type: 'string', required: true },
+
     typeMapping: function() {
         var map = {};
         map [M.CONST.TYPE.OBJECTID] = M.CONST.TYPE.STRING;
@@ -193,7 +197,7 @@ M.WebSqlStore = M.Store.extend({
 
     _sqlPrimaryKey: function( entity, keys ) {
         if( keys && keys.length == 1 ) {
-            var column = entity.getField(keys[0]);
+            var column = this.getField(entity, keys[0]);
             if( column && column.type === M.CONST.TYPE.INTEGER ) {
                 return keys[0] + ' INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE';
             } else {
@@ -217,7 +221,7 @@ M.WebSqlStore = M.Store.extend({
         var constraint = keys.length > 1 ? this._sqlConstraint(entity, keys) : (entity.constraint || '');
 
         var columns = '';
-        var fields = entity.getFields();
+        var fields = this.getFields(entity);
         _.each(fields, function( field ) {
             // skip ID, it is defined manually above
             if( !primaryKey || field.name !== keys[0] ) {
@@ -229,7 +233,7 @@ M.WebSqlStore = M.Store.extend({
             }
         });
         if (!columns) {
-            columns = this._dbAttribute( { name: 'data', type: 'text', required: true });
+            columns = this._dbAttribute( this.dataField );
         }
 
         var sql = "CREATE TABLE IF NOT EXISTS '" + entity.name + "' (";
@@ -273,9 +277,9 @@ M.WebSqlStore = M.Store.extend({
         var ids     = [];
         if (data && entity && entity.idAttribute) {
             var id, key = entity.idAttribute;
-            var field   = entity.getField(key);
+            var field   = this.getField(entity, key);
             _.each(data, function(model) {
-                id = _.isFunction(model.get) ? model.get(key) : model[key];
+                id = _.isFunction(model.getId) ? model.getId() : model[key];
                 if (!_.isUndefined(id)) {
                     ids.push(that._sqlValue(id, field));
                 }
@@ -332,7 +336,7 @@ M.WebSqlStore = M.Store.extend({
     },
 
     _sqlValue: function( value, field ) {
-        var type = field && field.type ? field.type : M.DataField.detectType(value);
+        var type = field && field.type ? field.type : M.Field.prototype.detectType(value);
         if( type === M.CONST.TYPE.INTEGER || type === M.CONST.TYPE.FLOAT) {
             return value;
         } else if (type === M.CONST.TYPE.BOOLEAN) {
@@ -340,7 +344,7 @@ M.WebSqlStore = M.Store.extend({
         } else if (type === M.CONST.TYPE.NULL) {
             return 'NULL'
         }
-        value = M.DataField.transform(value, M.CONST.TYPE.STRING);
+        value = M.Field.prototype.transform(value, M.CONST.TYPE.STRING);
         value = value.replace(/"/g, '""'); // .replace(/;/g,',');
         return '"' + value + '"';
     },
@@ -507,12 +511,12 @@ M.WebSqlStore = M.Store.extend({
         }
     },
 
-    _delete: function(data, options) {
+    _delete: function(options) {
 
         var entity = this.getEntity(options);
 
         if( this._checkDb(options) && this._checkEntity(options, entity) ) {
-            var sql = this._sqlDelete(data, options, entity);
+            var sql = this._sqlDelete(options, entity);
             // reset flag
             this._transactionFailed = NO;
             this._executeTransaction(options, [sql]);
@@ -565,5 +569,21 @@ M.WebSqlStore = M.Store.extend({
             return false;
         }
         return true;
+    },
+
+    getFields: function(entity) {
+        if (!_.isEmpty(entity.fields)) {
+            return entity.fields;
+        } else {
+            var fields = {};
+            fields['data'] = this.dataField;
+            var idAttribute = entity.idAttribute || 'id';
+            fields[idAttribute] = this.idField;
+            return fields;
+        }
+    },
+
+    getField: function(entity, key) {
+        return this.getFields(entity)[key];
     }
 });

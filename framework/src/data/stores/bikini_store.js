@@ -15,8 +15,8 @@ M.BikiniStore = M.Store.extend({
 
     options: null,
 
-//    localStore: M.WebSqlStore,
-    localStore: M.LocalStorageStore,
+    localStore: M.WebSqlStore,
+//    localStore: M.LocalStorageStore,
 
     useLocalStore: true,
 
@@ -48,7 +48,8 @@ M.BikiniStore = M.Store.extend({
         var url    = collection.getUrlRoot();
         var entity = this.getEntity(collection.entity);
         if (url && entity) {
-            var name     = entity.name;
+            var name        = entity.name;
+            var idAttribute = entity.idAttribute;
             var hash     = this._hashCode(url);
             var credentials = entity.credentials || collection.credentials;
             var user     = credentials && credentials.username ?  credentials.username : "";
@@ -88,11 +89,12 @@ M.BikiniStore = M.Store.extend({
         }
     },
 
-    createLocalStore: function(endpoint) {
+    createLocalStore: function(endpoint, idAttribute) {
         if (this.options.useLocalStore && endpoint) {
             var entities = {};
             entities[endpoint.entity.name] = {
-                name: endpoint.channel
+                name: endpoint.channel,
+                idAttribute: idAttribute
             };
             return new this.options.localStore({
                 entities: entities
