@@ -13,7 +13,7 @@ Addressbook.Routers = Addressbook.Routers || {};
         initialize: function(){
 
             var that = this;
-            var collection = new Addressbook.Collections.ContactsCollection()
+            var collection = new Addressbook.Collections.ContactsCollection();
             collection.fetch({
                 success: function() {
                     //                        listView.render();

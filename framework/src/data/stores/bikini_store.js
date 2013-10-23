@@ -15,6 +15,7 @@ M.BikiniStore = M.Store.extend({
 
     options: null,
 
+//    localStore: M.WebSqlStore,
     localStore: M.LocalStorageStore,
 
     useLocalStore: true,
@@ -34,7 +35,8 @@ M.BikiniStore = M.Store.extend({
             useLocalStore:      this.useLocalStore,
             useSocketNotify:    this.useSocketNotify,
             useOfflineChanges:  this.useOfflineChanges,
-            socketPath:         this.socketPath
+            socketPath:         this.socketPath,
+            localStore:         this.localStore
         };
         _.extend(this.options, options || {});
     },
@@ -92,7 +94,7 @@ M.BikiniStore = M.Store.extend({
             entities[endpoint.entity.name] = {
                 name: endpoint.channel
             };
-            return new this.localStore({
+            return new this.options.localStore({
                 entities: entities
             });
         }
@@ -106,7 +108,7 @@ M.BikiniStore = M.Store.extend({
             });
             var messages  = new MsgCollection({
                 entity: name,
-                store: new this.localStore()
+                store: new this.options.localStore()
             });
             messages.fetch();
             return messages;

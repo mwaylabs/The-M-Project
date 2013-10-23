@@ -199,7 +199,8 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
 
     _checkEntity: function( obj, entity ) {
         if( !entity ) {
-            var error = M.Error.create(M.CONST.ERROR.VALIDATION_PRESENCE, "No valid entity passed.");
+            var error = "No valid entity passed.";
+            M.Logger.error(M.CONST.ERROR.VALIDATION_PRESENCE, error)
             this.handleCallback(obj.error, error);
             this.handleCallback(obj.finish, error);
             return false;
@@ -209,7 +210,8 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
 
     _checkData: function( obj, data ) {
         if( (!_.isArray(data) || data.length == 0) && !_.isObject(data) ) {
-            var error = M.Error.create(M.CONST.ERROR.VALIDATION_PRESENCE, "No data passed.");
+            var error = "No data passed.";
+            M.Logger.error(M.CONST.ERROR.VALIDATION_PRESENCE, error);
             this.handleCallback(obj.error, error);
             this.handleCallback(obj.finish, error);
             return false;
