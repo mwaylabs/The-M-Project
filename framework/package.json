@@ -1,15 +1,21 @@
 {
-    "name": "TMP2",
-    "version": "0.0.1",
-    "description": "",
-    "main": "Gruntfile.js",
-    "devDependencies": {
-        "grunt": "latest",
-        "grunt-jsonlint": "~1.0.0",
-        "grunt-contrib-jshint": "~0.6.4",
-        "grunt-preprocess": "~3.0.1",
-        "grunt-contrib-uglify": "~0.2.4",
-        "grunt-contrib-cssmin": "~0.6.1",
-        "grunt-contrib-watch": "~0.5.1"
-    }
+  "name": "TMP2",
+  "version": "0.0.1",
+  "description": "",
+  "main": "Gruntfile.js",
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-jsonlint": "~1.0.0",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-preprocess": "~3.0.1",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-contrib-cssmin": "~0.6.1",
+    "grunt-contrib-watch": "~0.5.1"
+  },
+  "dependencies": {
+    "mocha": "~1.13.0",
+    "chai": "~1.8.1",
+    "underscore": "~1.5.2",
+    "backbone": "~1.1.0"
+  }
 }
