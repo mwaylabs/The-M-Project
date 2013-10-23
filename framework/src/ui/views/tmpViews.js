@@ -53,7 +53,7 @@
 
         "M.ListItemView": {
             defaultTemplate: '<div data-childviews="list"><%= _value_ %></div>',
-            bootstrap: '<li><%= _value_ %></li>',
+            bootstrap: '<li class="list-group-item"><%= _value_ %></li>',
             topcoat: '<div data-childviews="list"><%= _value_ %></div>',
             jqm: '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-first-child ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a class="ui-link-inherit"><%= _value_ %></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>'
         },
@@ -308,8 +308,8 @@
         },
 
         _extendTemplate: function() {
-            if( this.templateExtend ) {
-                this._template = _.tmpl(this._template({_value_: this.templateExtend}));
+            if( this.extendTemplate ) {
+                this._template = _.tmpl(this._template({_value_: this.extendTemplate}));
             }
         },
 
@@ -560,7 +560,7 @@
                 });
                 this._viewModelMapping[view.model.cid] = view;
                 var el = view.render().$el;
-                this.$el.append(el);
+                this.$el.find('[data-childviews="list"]').append(el);
             }
         }
     });

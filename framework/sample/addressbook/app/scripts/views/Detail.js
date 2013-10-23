@@ -47,7 +47,7 @@ Addressbook.Views = Addressbook.Views || {};
 //        }),
 
         overview2: TMP.View.extend({
-            template: '<div>Original: <span><%= lastname %></span>, <span><%= firstname %></span><div data-childviews="_firstname_"></div></div>',
+            template: '<span><%= lastname %></span>, <span><%= firstname %></span>',
             type: 'Overview',
             scopeKey: 'currentModel'
         }),
@@ -77,7 +77,7 @@ Addressbook.Views = Addressbook.Views || {};
         contactList: TMP.ListView.extend({
             scopeKey: 'contactCollection',
             listItemView: TMP.ListItemView.extend({
-                template: '<div><span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span></div>',
+                extendTemplate: '<span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span>',
                 events: {
                     click: function(){
                         this.scope.editModel.set('firstname', this.model.get('firstname'));
