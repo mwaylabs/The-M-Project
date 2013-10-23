@@ -1,6 +1,6 @@
 (function(scope) {
 
-    scope.Addressbook = {
+    scope.Addressbook = M.Application.extend({
         Models: {},
         Collections: {},
         Views: {},
@@ -12,7 +12,7 @@
             new Addressbook.Routers.MainRouter();
             Backbone.history.start();
         }
-    };
+    }).create();
 
     $(document).ready(function() {
         'use strict';

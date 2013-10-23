@@ -4,22 +4,6 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
 (function() {
 
-    Addressbook.Routers.MainRouter = M.Router.extend({
-        routes: {
-            '': 'indexCtrl',
-            'edit': 'editCtrl'
-        },
-
-
-        indexCtrl: function() {
-            Addressbook.MainController = Addressbook.Controllers.MainController.create();
-            return Addressbook.MainController;
-        },
-
-        editCtrl: function() {
-
-        }
-    });
 
     Addressbook.Controllers.MainController = M.Controller.extend({
 
@@ -27,7 +11,7 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
         contactCollection: null,
 
-        applicationStart: function(){
+        applicationStart: function() {
 
             var that = this;
             var collection = new Addressbook.Collections.ContactsCollection(/*dummy*/);
@@ -51,8 +35,12 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
             this.detailView = Addressbook.Views.DetailView.design(this, null, true);
 
-            $('#main').prepend(this.detailView.render().$el);
+            $('#main').html(this.detailView.render().$el);
 
+        },
+
+        show: function() {
+            $('#main').html(this.detailView.render().$el);
         },
 
         topcoatTheme: function() {
@@ -66,7 +54,7 @@ Addressbook.Controllers = Addressbook.Controllers || {};
         },
 
         removeEntry: function() {
-            if (this.scope.currentModel) {
+            if( this.scope.currentModel ) {
                 this.scope.currentModel.destroy();
                 this.scope.set('currentModel', null);
             }
@@ -74,10 +62,50 @@ Addressbook.Controllers = Addressbook.Controllers || {};
         },
 
         updateEntry: function() {
-            if (this.scope.currentModel) {
+            if( this.scope.currentModel ) {
                 this.scope.currentModel.save(this.scope.editModel.attributes);
             }
         }
+    });
+
+    Addressbook.Routers.MainRouter = M.Router.extend({
+        routes: {
+            '': 'indexCtrl',
+            'edit': 'editCtrl'
+        },
+
+
+        initialize: function() {
+
+            M.Router.prototype.initialize.apply(this, arguments);
+            Addressbook.MainController = this.indexCtrl;
+            Addressbook.EditController = this.editCtrl;
+        },
+
+        indexCtrl: Addressbook.Controllers.MainController.create(),
+
+        editCtrl: M.Controller.extend({
+            initialize: function() {
+                M.Router.prototype.initialize.apply(this, arguments);
+                this.view = M.ButtonView.extend({
+
+                    value: 'back',
+                    events: {
+                        click: function() {
+                            Addressbook.navigate({
+                                route: '/'
+                            })
+                        }
+                    }
+                }).design();
+            },
+            show: function() {
+                $('#main').html(this.view.render().$el);
+            },
+            applicationStart: function(){
+                $('#main').html(this.view.render().$el);
+            }
+        }).create()
     });
 
 })();

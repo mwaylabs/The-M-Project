@@ -7,7 +7,6 @@ M.Controller = Backbone.View.extend(M.Object);
 
 M.Controller.create = M.create;
 
-
 _.extend(M.Controller.prototype, Backbone.Events, {
 
     _type: 'M.Controller',

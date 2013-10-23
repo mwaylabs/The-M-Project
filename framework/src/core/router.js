@@ -6,22 +6,22 @@
 
         initialize: function() {
 
-            this.bootstrap();
-
-        },
-
-        bootstrap: function() {
             FastClick.attach(document.body);
 
-            //            $(document).on('click', 'a[href^="#"]', function( e ) {
-            //                debugger;
-            //                e.preventDefault();
-            //                e.stopPropagation();
-            //                return void 0;
-            //            });
-
-            //window[window.TMP_APPLICATION_NAME].layoutManager = new (Backbone.View.extend());
         },
+
+//        bootstrap: function() {
+//
+//
+//            //            $(document).on('click', 'a[href^="#"]', function( e ) {
+//            //                debugger;
+//            //                e.preventDefault();
+//            //                e.stopPropagation();
+//            //                return void 0;
+//            //            });
+//
+//            //window[window.TMP_APPLICATION_NAME].layoutManager = new (Backbone.View.extend());
+//        },
 
         controllerDidLoad: function( name, controller, res, callback ) {
             var _callback = this.getCallBack(controller);
@@ -41,8 +41,6 @@
                 setTimeout(function() {
                     that.controllerDidLoad(name, controller, res, callback);
                 }, 0);
-            } else if(typeof controller === 'function'){
-                that.controllerDidLoad(name, controller(), res, callback);
             }
 
             return this;
