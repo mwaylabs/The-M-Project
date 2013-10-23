@@ -18,7 +18,7 @@
         "M.ButtonView": {
             defaultTemplate: '<div>Button: <div data-binding="_value_"<% if(_value_) {  } %>><%= _value_ %></div></div>',
             topcoat: '<button class="topcoat-button--large" data-binding="_value_"><%= _value_ %></button>',
-            bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star" data-binding="_value_"></span><%= _value_ %></button>',
+            bootstrap: '<button type="button" class="btn btn-default btn-lg"> <span class="glyphicon glyphicon-star"></span><%= _value_ %></button>',
             jqm: '<a data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="_value_"><%= _value_ %></span></span></a>'
         },
 

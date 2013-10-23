@@ -9,10 +9,10 @@ Addressbook.Views = Addressbook.Views || {};
 
     }, {
 
-        //        headline: TMP.View.extend({
-        //            value: 'Edit',
-        //            test: 'headline'
-        //        }),
+        headline: TMP.View.extend({
+            value: 'Edit',
+            test: 'headline'
+        }),
 
         firstname: TMP.TextfieldView.extend({
             scopeKey: 'editModel.firstname',
@@ -23,28 +23,6 @@ Addressbook.Views = Addressbook.Views || {};
             scopeKey: 'editModel.lastname',
             label: 'Lastname'
         }),
-
-        //        lastname: TMP.View.extend({
-        //            scopeKey: 'testModel.lastname',
-        //            templateExtend: '<h3 contenteditable="true"><%= lastname %></h3>',
-        //            test: 'lastname'
-        //        }),
-
-        //        value: TMP.View.extend({
-        //            value: 'test test test test',
-        //            template: {
-        //                defaultTemplate: '<div>VALUE<div style="color: #800080"><%= _value_ %></div></div>',
-        //                bootstrap: '<div>VALUE<div style="color: blue"><%= _value_ %></div></div>',
-        //                topcoat: '<div>VALUE<div style="color: red"><%= _value_ %></div></div>',
-        //                jqm: '<div>VALUE<div style="color: green"><%= _value_ %></div></div>'
-        //            }
-        //        }),
-
-//        overview: TMP.View.extend({
-//            template: '<div>Preview: <span><%= lastname %></span>, <span><%= firstname %></span><div data-childviews="_firstname_"></div></div>',
-//            type: 'Overview',
-//            scopeKey: 'editModel'
-//        }),
 
         overview2: TMP.View.extend({
             template: '<span><%= lastname %></span>, <span><%= firstname %></span>',
@@ -68,7 +46,7 @@ Addressbook.Views = Addressbook.Views || {};
 
         add: TMP.ButtonView.extend({
             value: 'Add',
-            extendTemplate: '<div><%= value %></div>',
+            extendTemplate: '<span><%= _value_ %></span>',
             events: {
                 click: 'addEntry'
             }
@@ -86,6 +64,15 @@ Addressbook.Views = Addressbook.Views || {};
                     }
                 }
             })
+        }),
+
+        clearLocalStorage: TMP.ButtonView.extend({
+            value: 'clear local storage',
+            events: {
+                click: function(){
+                    localStorage.clear();
+                }
+            }
         })
 
     });
