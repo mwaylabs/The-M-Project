@@ -5,7 +5,7 @@ Addressbook.Views = Addressbook.Views || {};
 
     Addressbook.Views.DetailView = M.View.extend({
 
-        template: '<form role="form"></form>'
+        template: '<div><div data-childviews="edit"></div><div data-childviews="content"></div></div>'
 
     }, {
 
@@ -25,7 +25,7 @@ Addressbook.Views = Addressbook.Views || {};
         }),
 
         overview2: M.View.extend({
-            template: '<span><%= lastname %></span>, <span><%= firstname %></span>',
+            template: '<div><span><%= lastname %></span>, <span><%= firstname %></span></div>',
             type: 'Overview',
             scopeKey: 'currentModel'
         }),

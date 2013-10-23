@@ -208,7 +208,10 @@
         },
 
         _render: function() {
-            this.$el.html(this._template(this._templateData));
+//            this.$el.html(this._template(this._templateData));
+//            return this;
+            var dom = this._template(this._templateData);
+            this.setElement(dom);
             return this;
         },
 

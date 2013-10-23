@@ -27,8 +27,8 @@ M.TemplateManager = M.Object.extend({
 
     //TODO implement label for=""
     "M.TextfieldView": {
-        defaultTemplate: '<% if(label) {  %><label><%= label %><% } %><input type="text" value="<%= _value_ %>"><% if(label) {  %></label><% } %>',
-        bootstrap: '<% if(label) {  %><label><%= label %></label><% } %><input type="text" class="form-control" value="<%= _value_ %>">',
+        defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><input type="text" value="<%= _value_ %>"><% if(label) {  %></label><% } %></div>',
+        bootstrap: '<div><% if(label) {  %><label><%= label %></label><% } %><input type="text" class="form-control" value="<%= _value_ %>"></div>',
         topcoat: '<input value="<%= _value_ %>"/>',
         jqm: '<input value="<%= _value_ %>" />'
     },

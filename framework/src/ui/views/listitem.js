@@ -9,7 +9,14 @@
             if( this.templateExtend ) {
                 this.template = _.tmpl(this.template({value: this.templateExtend}));
             }
-        }
+        },
+
+//        _render: function(){
+
+//            var dom = this._template(this._templateData);
+//            this.setElement(dom);
+//            return this;
+//        }
     });
 
 
