@@ -56,18 +56,34 @@ Addressbook.Views = Addressbook.Views || {};
             })
         }),
 
-        content: M.ListView.extend({
-            scopeKey: 'contactCollection',
-            listItemView: M.ListItemView.extend({
-                extendTemplate: '<span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span>',
-                events: {
+        content: M.View.extend({
+
+        }, {
+
+            navigation: M.ButtonView.extend({
+
+                value: 'next page',
+                events:{
                     click: function(){
-                        this.scope.editModel.set('firstname', this.model.get('firstname'));
-                        this.scope.editModel.set('lastname', this.model.get('lastname'));
-                        this.scope.set('currentModel', this.model);
-                        mainctrl.detailView.childViews.edit.$el.slideDown();
+                        Addressbook.navigate({
+                            route: '/edit'
+                        })
                     }
                 }
+            }),
+            contactList: M.ListView.extend({
+                scopeKey: 'contactCollection',
+                listItemView: M.ListItemView.extend({
+                    extendTemplate: '<span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span>',
+                    events: {
+                        click: function(){
+                            this.scope.editModel.set('firstname', this.model.get('firstname'));
+                            this.scope.editModel.set('lastname', this.model.get('lastname'));
+                            this.scope.set('currentModel', this.model);
+                            Addressbook.MainController.detailView.childViews.edit.$el.slideDown();
+                        }
+                    }
+                })
             })
         }),
 

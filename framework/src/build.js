@@ -27,6 +27,7 @@
         // @include ./core/view_manager.js
         // @include ./core/controller.js
         // @include ./core/application.js
+        // @include ./core/router.js
 
         // @include ./utility/i18n.js
         // @include ./utility/objectid.js
@@ -54,8 +55,8 @@
         // @include ./ui/views/template_manager.js
 
         // @include ./ui/views/view.js
-        // @ i nclude ./ui/pagetransitions.js
-        // @ i nclude ./ui/layouts/layout.js
+        // @include ./ui/pagetransitions.js
+        // @include ./ui/layouts/layout.js
         // @ i nclude ./ui/layout_manager.js
 
         // @include ./ui/views/textfield.js

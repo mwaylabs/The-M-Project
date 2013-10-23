@@ -7,7 +7,6 @@ M.Controller = Backbone.View.extend(M.Object);
 
 M.Controller.create = M.create;
 
-
 _.extend(M.Controller.prototype, Backbone.Events, {
 
     _type: 'M.Controller',
@@ -19,5 +18,14 @@ _.extend(M.Controller.prototype, Backbone.Events, {
     set: function( name, value ) {
         this[name] = value;
         this.trigger(name, value);
+    },
+
+    show: function(){
+
+    },
+
+    applicationStart: function(){
+
     }
+
 });
