@@ -496,8 +496,8 @@
         },
 
         _renderChildViews: function() {
-            if( this.model ) {
-                this.addItems(this.model.models);
+            if( this.collection ) {
+                this.addItems(this.collection.models);
             }
         },
 

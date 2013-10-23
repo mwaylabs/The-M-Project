@@ -50,7 +50,7 @@ M.WebSqlStore = M.Store.extend({
 
     _options: function(model, options, entity) {
         var opts = _.extend({}, options);
-        opts.entity = this.getEntity(model.entity || options.entity || this.entity);
+        opts.entity = this.getEntity(options.entity || model.entity || this.entity);
         opts.data   = this.getArray(model);
         return opts;
     },
@@ -111,9 +111,14 @@ M.WebSqlStore = M.Store.extend({
         if( !this.db ) {
             try {
                 if( !window.openDatabase ) {
-                    error = M.Error.create(M.CONST.ERROR.WEBSQL_NOT_SUPPORTED, 'Your browser does not support WebSQL databases.');
+                    error = 'Your browser does not support WebSQL databases.';
                 } else {
                     this.db = window.openDatabase(this.name, "", "", this.size);
+                    if (this.entities) {
+                        for (var entity in this.entities) {
+                            this._createTable({ entity: entity });
+                        }
+                    }
                 }
             } catch( e ) {
                 dbError = e;
@@ -130,7 +135,7 @@ M.WebSqlStore = M.Store.extend({
             this._updateDb(options);
         } else {
             if( !error && dbError ) {
-                error = M.Error.create(M.CONST.ERROR.WEBSQL_DATABASE, dbError.message, dbError);
+                error = dbError.message;
             }
             this.handleSuccess(options, error);
         }
@@ -151,17 +156,17 @@ M.WebSqlStore = M.Store.extend({
                         tx.executeSql(sql);
                     });
                 }, function( msg ) {
-                    var err = M.Error.create(M.CONST.ERROR.WEBSQL_SYNTAX, msg, arSql);
+                    var err =  msg;
                     that.handleError(options, err, lastSql);
                 }, function() {
                     that.handleSuccess(options);
                 });
             } catch( e ) {
-                error = M.Error.create(M.CONST.ERROR.WEBSQL_DATABASE, e.message, e);
+                error =  e.message;
                 M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'changeversion failed, DB-Version: ' + db.version)
             }
         } catch( e ) {
-            error = M.Error.create(M.CONST.ERROR.WEBSQL_DATABASE, e.message, e);
+            error = e.message;
         }
         if( error ) {
             this.handleError(options, error);
@@ -174,7 +179,7 @@ M.WebSqlStore = M.Store.extend({
         if( this.entities ) {
             for( var name in this.entities ) {
                 var entity = this.entities[name];
-                sql.push(this._sqlDropTable(name));
+                sql.push(this._sqlDropTable(entity.name));
                 sql.push(this._sqlCreateTable(entity));
             }
         }
@@ -223,6 +228,9 @@ M.WebSqlStore = M.Store.extend({
                 }
             }
         });
+        if (!columns) {
+            columns = this._dbAttribute( { name: 'data', type: 'text', required: true });
+        }
 
         var sql = "CREATE TABLE IF NOT EXISTS '" + entity.name + "' (";
         sql += primaryKey ? primaryKey + ', ' : '';
@@ -385,7 +393,7 @@ M.WebSqlStore = M.Store.extend({
      */
     _insertOrReplace: function( options ) {
 
-        var entity = options.entity;
+        var entity = this.getEntity(options);
         var data   = options.data;
 
         if( this._checkDb(options) && this._checkEntity(options, entity) && this._checkData(options, data) ) {
@@ -395,8 +403,14 @@ M.WebSqlStore = M.Store.extend({
             for( var i = 0; i < data.length; i++ ) {
                 var statement = ''; // the actual sql insert string with values
                 var value = entity.fromAttributes(data[i]);
-                var args = _.values(value);
-                var keys = _.keys(value);
+                var args, keys;
+                if ( !_.isEmpty(entity.fields)) {
+                    args = _.values(value);
+                    keys = _.keys(value);
+                } else {
+                    args = [ data[i].id,  JSON.stringify(value) ];
+                    keys = [ 'id', 'data'];
+                }
                 if( args.length > 0 ) {
                     var values = new Array(args.length).join('?,') + '?';
                     var columns = "'" + keys.join("','") + "'";
@@ -412,7 +426,7 @@ M.WebSqlStore = M.Store.extend({
 
     _updateOrReplace: function(options ) {
 
-        var entity = options.entity;
+        var entity = this.getEntity(options);
         var data   = options.data;
 
         if (this._checkDb(options) && this._checkEntity(options, entity) && this._checkData(options, data)) {
@@ -423,9 +437,16 @@ M.WebSqlStore = M.Store.extend({
             var sqlTemplate = "UPDATE OR REPLACE '" + entity.name + "' SET ";
             for( var i = 0; i < data.length; i++ ) {
                 var statement = ''; // the actual sql insert string with values
-                var value = entity.fromAttributes(data[i]);
-                var args  = _.values(value);
-                var keys  = _.keys  (value);
+                var value, args, keys;
+                if ( !_.isEmpty(entity.fields) ) {
+                    value = entity.fromAttributes(data[i]);
+                    args = _.values(value);
+                    keys = _.keys(value);
+                } else {
+                    value = data[i];
+                    args = [ entity.getId(data[i]),  JSON.stringify(value) ];
+                    keys = [ 'id', 'data'];
+                }
                 if (args.length > 0) {
                     var columns = "'" + keys.join("'=?,'") + "'=?";
                     statement += sqlTemplate + columns + where + ';';
@@ -440,7 +461,7 @@ M.WebSqlStore = M.Store.extend({
 
     _select: function(result, options) {
 
-        var entity = options.entity;
+        var entity = this.getEntity(options);
 
         if( this._checkDb(options) && this._checkEntity(options, entity)  ) {
             var lastStatement;
@@ -459,8 +480,13 @@ M.WebSqlStore = M.Store.extend({
                     var len = res.rows.length;//, i;
                     for( var i = 0; i < len; i++ ) {
                         var item  = res.rows.item(i);
-                        var attrs = entity.toAttributes(item);
-                        if( !that._selector || that._selector.matches(attrs) ) {
+                        var attrs;
+                        if ( !_.isEmpty(entity.fields) ) {
+                            attrs = entity.toAttributes(item);
+                        } else {
+                            try { attrs = JSON.parse(item['data']); } catch(e) {}
+                        }
+                        if( attrs && !that._selector || that._selector.matches(attrs) ) {
                             if (isCollection) {
                                 result.push(attrs);
                             } else {
@@ -473,8 +499,8 @@ M.WebSqlStore = M.Store.extend({
                     // M.Logger.log('Incorrect statement: ' + sql, M.ERR)
                 }); // callbacks: SQLStatementErrorCallback
             }, function( sqlError ) { // errorCallback
-                var err = M.Error.create(M.CONST.ERROR.WEBSQL_SYNTAX, sqlError);
-                that.handleError(options, err, lastStatement);
+                M.Logger.error(M.CONST.ERROR.WEBSQL_SYNTAX, "WebSql Syntax Error: " +sqlError);
+                that.handleError(options, sqlError, lastStatement);
             }, function() { // voidCallback (success)
                 that.handleSuccess(options, result);
             });
@@ -516,13 +542,13 @@ M.WebSqlStore = M.Store.extend({
                     });
                 }, function( sqlError ) { // errorCallback
                     that._transactionFailed = YES;
-                    var err = M.Error.create(M.CONST.ERROR.WEBSQL_SYNTAX, sqlError);
-                    that.handleError(options, err, lastStatement);
+                    M.Logger.error(M.CONST.ERROR.WEBSQL_SYNTAX, sqlError);
+                    that.handleError(options, sqlError, lastStatement);
                 }, function() {
                     that.handleSuccess(options);
                 });
             } catch( e ) {
-                error = M.Error.create(M.CONST.ERROR.WEBSQL_UNKNOWN, e.message, e);
+                M.Logger.error(M.CONST.ERROR.WEBSQL_UNKNOWN, e.message);
             }
         }
         if( error ) {
@@ -533,7 +559,8 @@ M.WebSqlStore = M.Store.extend({
     _checkDb: function(options) {
         // has to be initialized first
         if( !this.db ) {
-            var error = M.Error.create(M.CONST.ERROR.WEBSQL_NO_DBHANDLER, "db handler not initialized.");
+            var error = "db handler not initialized.";
+            M.Logger.error(M.CONST.ERROR.WEBSQL_NO_DBHANDLER, error);
             this.handleError(options, error);
             return false;
         }
