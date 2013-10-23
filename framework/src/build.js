@@ -69,10 +69,10 @@
 
 
 
-        // @i n clude ./ui/layouts/header-layout/header-layout.js
-        // @ i nclude ./ui/layouts/bottom-bar-layout/bottom-bar-layout.js
-        // @ i n clude ./ui/layouts/switch-layout/switch-layout.js
-        // @ i n clude ./ui/layouts/swipe-layout/swipe-layout.js
+        // @include ./ui/layouts/header-layout/header-layout.js
+        // @include ./ui/layouts/bottom-bar-layout/bottom-bar-layout.js
+        // @include ./ui/layouts/switch-layout/switch-layout.js
+        // @include ./ui/layouts/swipe-layout/swipe-layout.js
 
         return M;
     })(this, Backbone, _, $);

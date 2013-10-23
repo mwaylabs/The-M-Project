@@ -310,6 +310,10 @@
 
             }, this);
             return this;
+        },
+
+        addChildView: function(selector, view){
+            this.childViews[selector] = view;
         }
 
     });
@@ -321,7 +325,8 @@
      * @returns {*}
      */
     M.View.extend = function( options, childViews ) {
-        options._childViews = childViews;
+        options = options || {};
+        options._childViews = childViews || {};
         return Backbone.View.extend.apply(this, [options]);
     };
 

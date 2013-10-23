@@ -35,12 +35,26 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
             this.detailView = Addressbook.Views.DetailView.design(this, null, true);
 
-            $('#main').html(this.detailView.render().$el);
+            //$('#main').html(this.detailView.render().$el);
+
+//            Addressbook.layout = M.SwitchLayout.extend({},{
+//                content: Addressbook.Views.DetailView
+//            }).design(this, null, true);
+
+
+            Addressbook.layout = M.SwitchLayout.extend().design(this, null, true);
+
+
+            Addressbook.layout.applyViews({
+                content: this.detailView
+            });
+
+            $('#main').html(Addressbook.layout.$el);
 
         },
 
         show: function() {
-            $('#main').html(this.detailView.render().$el);
+            $('#main').html(Addressbook.layout.render().$el);
         },
 
         topcoatTheme: function() {
@@ -100,7 +114,9 @@ Addressbook.Controllers = Addressbook.Controllers || {};
                 }).design();
             },
             show: function() {
-                $('#main').html(this.view.render().$el);
+                Addressbook.layout.applyViews({
+                    content: this.view
+                });
             },
             applicationStart: function(){
                 $('#main').html(this.view.render().$el);
