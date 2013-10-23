@@ -223,9 +223,11 @@
             }
             _.each(this.childViews, function( child, name ) {
                 var dom = this.$el;
-
-                if( this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').length ) {
-                    dom = this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]');
+//                if( this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').addBack().length ) {
+//                    dom = this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').addBack();
+//                }
+                if( this.$el.find('[data-childviews="' + name + '"]').length ) {
+                    dom = this.$el.find('[data-childviews="' + name + '"]');
                 }
 
                 if( typeof child['render'] === 'function' ) {

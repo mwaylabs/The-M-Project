@@ -1,58 +1,62 @@
 Addressbook.Views = Addressbook.Views || {};
 
 (function() {
-    //    'use strict';
-
+    'use strict'
     Addressbook.Views.DetailView = M.View.extend({
 
-        template: '<div><div data-childviews="edit"></div><div data-childviews="content"></div></div>'
+        template: '<div><div data-childviews="edit"></div><div data-childviews="content"></div><div data-childviews="footer"></div></div>'
 
     }, {
-
-        headline: M.View.extend({
-            value: 'Edit',
-            test: 'headline'
-        }),
-
-        firstname: M.TextfieldView.extend({
-            scopeKey: 'editModel.firstname',
-            label: 'Firstname'
-        }),
-
-        lastname: M.TextfieldView.extend({
-            scopeKey: 'editModel.lastname',
-            label: 'Lastname'
-        }),
-
-        overview2: M.View.extend({
-            template: '<div><span><%= lastname %></span>, <span><%= firstname %></span></div>',
-            type: 'Overview',
-            scopeKey: 'currentModel'
-        }),
-
-        update: M.ButtonView.extend({
-            value: 'Update',
-            events: {
-                click: 'updateEntry'
+        edit: M.View.extend({
+            postRender: function(){
+                this.$el.hide();
             }
+        },{
+            headline: M.View.extend({
+                value: 'Edit',
+                test: 'headline'
+            }),
+
+            firstname: M.TextfieldView.extend({
+                scopeKey: 'editModel.firstname',
+                label: 'Firstname'
+            }),
+
+            lastname: M.TextfieldView.extend({
+                scopeKey: 'editModel.lastname',
+                label: 'Lastname'
+            }),
+
+            overview2: M.View.extend({
+                template: '<div><span><%= lastname %></span>, <span><%= firstname %></span></div>',
+                type: 'Overview',
+                scopeKey: 'currentModel'
+            }),
+
+            updateButton: M.ButtonView.extend({
+                value: 'Update',
+                events: {
+                    click: 'updateEntry'
+                }
+            }),
+
+            deleteButton: M.ButtonView.extend({
+                value: 'Delete',
+                events: {
+                    click: 'removeEntry'
+                }
+            }),
+
+            addButton: M.ButtonView.extend({
+                value: 'Add',
+                extendTemplate: '<span><%= _value_ %></span>',
+                events: {
+                    click: 'addEntry'
+                }
+            })
         }),
 
-        delete: M.ButtonView.extend({
-            value: 'Delete',
-            events: {
-                click: 'removeEntry'
-            }
-        }),
-
-        add: M.ButtonView.extend({
-            value: 'Add',
-            extendTemplate: '<span><%= _value_ %></span>',
-            events: {
-                click: 'addEntry'
-            }
-        }),
-
-        contactList: M.ListView.extend({
+        content: M.ListView.extend({
             scopeKey: 'contactCollection',
             listItemView: M.ListItemView.extend({
                 extendTemplate: '<span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span>',
@@ -61,12 +65,13 @@ Addressbook.Views = Addressbook.Views || {};
                         this.scope.editModel.set('firstname', this.model.get('firstname'));
                         this.scope.editModel.set('lastname', this.model.get('lastname'));
                         this.scope.set('currentModel', this.model);
+                        mainctrl.detailView.childViews.edit.$el.slideDown();
                     }
                 }
             })
         }),
 
-        clearLocalStorage: M.ButtonView.extend({
+        footer: M.ButtonView.extend({
             value: 'clear local storage',
             events: {
                 click: function(){
