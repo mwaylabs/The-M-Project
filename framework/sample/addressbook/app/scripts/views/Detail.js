@@ -3,48 +3,48 @@ Addressbook.Views = Addressbook.Views || {};
 (function() {
     //    'use strict';
 
-    Addressbook.Views.DetailView = TMP.View.extend({
+    Addressbook.Views.DetailView = M.View.extend({
 
         template: '<form role="form"></form>'
 
     }, {
 
-        headline: TMP.View.extend({
+        headline: M.View.extend({
             value: 'Edit',
             test: 'headline'
         }),
 
-        firstname: TMP.TextfieldView.extend({
+        firstname: M.TextfieldView.extend({
             scopeKey: 'editModel.firstname',
             label: 'Firstname'
         }),
 
-        lastname: TMP.TextfieldView.extend({
+        lastname: M.TextfieldView.extend({
             scopeKey: 'editModel.lastname',
             label: 'Lastname'
         }),
 
-        overview2: TMP.View.extend({
+        overview2: M.View.extend({
             template: '<span><%= lastname %></span>, <span><%= firstname %></span>',
             type: 'Overview',
             scopeKey: 'currentModel'
         }),
 
-        update: TMP.ButtonView.extend({
+        update: M.ButtonView.extend({
             value: 'Update',
             events: {
                 click: 'updateEntry'
             }
         }),
 
-        delete: TMP.ButtonView.extend({
+        delete: M.ButtonView.extend({
             value: 'Delete',
             events: {
                 click: 'removeEntry'
             }
         }),
 
-        add: TMP.ButtonView.extend({
+        add: M.ButtonView.extend({
             value: 'Add',
             extendTemplate: '<span><%= _value_ %></span>',
             events: {
@@ -52,9 +52,9 @@ Addressbook.Views = Addressbook.Views || {};
             }
         }),
 
-        contactList: TMP.ListView.extend({
+        contactList: M.ListView.extend({
             scopeKey: 'contactCollection',
-            listItemView: TMP.ListItemView.extend({
+            listItemView: M.ListItemView.extend({
                 extendTemplate: '<span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span>',
                 events: {
                     click: function(){
@@ -66,7 +66,7 @@ Addressbook.Views = Addressbook.Views || {};
             })
         }),
 
-        clearLocalStorage: TMP.ButtonView.extend({
+        clearLocalStorage: M.ButtonView.extend({
             value: 'clear local storage',
             events: {
                 click: function(){

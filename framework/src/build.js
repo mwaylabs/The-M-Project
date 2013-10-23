@@ -51,24 +51,27 @@
         // @include ./data/stores/web_sql.js
         // @include ./data/stores/bikini_store.js
 
-        // @include ./ui/views/view.js
-        // @include ./ui/pagetransitions.js
-        // @include ./ui/layouts/layout.js
-        // @include ./ui/layout_manager.js
-
-        // @ i nclude ./ui/views/stuff.js
-        // @ i nclude ./ui/views/button.js
-        // @ i nclude ./ui/views/list.js
-
         // @include ./ui/views/template_manager.js
 
-        // @include ./ui/views/tmpViews.js
+        // @include ./ui/views/view.js
+        // @ i nclude ./ui/pagetransitions.js
+        // @ i nclude ./ui/layouts/layout.js
+        // @ i nclude ./ui/layout_manager.js
+
+        // @include ./ui/views/textfield.js
+        // @include ./ui/views/listitem.js
+        // @include ./ui/views/button.js
+        // @include ./ui/views/list.js
 
 
-        // @include ./ui/layouts/header-layout/header-layout.js
-        // @include ./ui/layouts/bottom-bar-layout/bottom-bar-layout.js
-        // @include ./ui/layouts/switch-layout/switch-layout.js
-        // @include ./ui/layouts/swipe-layout/swipe-layout.js
+
+
+
+
+        // @i n clude ./ui/layouts/header-layout/header-layout.js
+        // @ i nclude ./ui/layouts/bottom-bar-layout/bottom-bar-layout.js
+        // @ i n clude ./ui/layouts/switch-layout/switch-layout.js
+        // @ i n clude ./ui/layouts/swipe-layout/swipe-layout.js
 
         return M;
     })(this, Backbone, _, $);

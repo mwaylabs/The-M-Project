@@ -40,7 +40,7 @@ Addressbook.Routers = Addressbook.Routers || {};
         },
 
         topcoatTheme: function() {
-            TMP.TemplateManager._currentUI = 'topcoat';
+            M.TemplateManager._currentUI = 'topcoat';
             Addressbook.detailView.updateTemplate();
             Addressbook.detailView.render();
         },
@@ -112,7 +112,7 @@ Addressbook.Routers = Addressbook.Routers || {};
                 contactCollection: Addressbook.contactCollection,
 
                 topcoatTheme: function() {
-                    TMP.TemplateManager._currentUI = 'topcoat';
+                    M.TemplateManager._currentUI = 'topcoat';
                     Addressbook.detailView.updateTemplate();
                     Addressbook.detailView.render();
                 },
