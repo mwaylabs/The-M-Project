@@ -27,6 +27,7 @@
         // @include ./core/view_manager.js
         // @include ./core/controller.js
         // @include ./core/application.js
+        // @include ./core/router.js
 
         // @include ./utility/i18n.js
         // @include ./utility/objectid.js

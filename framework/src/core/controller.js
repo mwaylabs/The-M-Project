@@ -19,5 +19,14 @@ _.extend(M.Controller.prototype, Backbone.Events, {
     set: function( name, value ) {
         this[name] = value;
         this.trigger(name, value);
+    },
+
+    show: function(){
+
+    },
+
+    applicationStart: function(){
+
     }
+
 });
