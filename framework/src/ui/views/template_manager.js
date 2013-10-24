@@ -18,13 +18,6 @@ M.TemplateManager = M.Object.extend({
         jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= _value_ %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
     },
 
-    "M.ImageView": {
-        defaultTemplate: '<div><%= _value_ %></div>',
-        bootstrap: '<div><%= _value_ %></div>',
-        topcoat: '<div><%= _value_ %></div>',
-        jqm: '<div><%= _value_ %></div>'
-    },
-
     //TODO implement label for=""
     "M.TextfieldView": {
         defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><input type="text" value="<%= _value_ %>"><% if(label) {  %></label><% } %></div>',
@@ -96,7 +89,14 @@ M.TemplateManager = M.Object.extend({
         jqm: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>'
     },
 
-    _currentUI: 'jqm',
+    "M.ImageView": {
+        defaultTemplate: '<img src="<%= _value_ %>" alt="<%= alt %>" />',
+        bootstrap: '<img src="<%= _value_ %>" alt="<%= alt %>" />',
+        topcoat: '<img src="<%= _value_ %>" alt="<%= alt %>" />',
+        jqm: '<img src="<%= _value_ %>" alt="<%= alt %>" />'
+    },
+
+    _currentUI: 'bootstrap',
 
     get: function( template ) {
 
