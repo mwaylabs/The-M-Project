@@ -97,9 +97,9 @@ M.TemplateManager = M.Object.extend({
     },
 
     "M.LoaderView": {
-        defaultTemplate: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>',
-        bootstrap: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>',
-        topcoat: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>',
+        defaultTemplate: '<div class="loader"><span class="loader-icon"></span><span class="loader-text">loading</span></div>',
+        bootstrap: '<div class="loader"><span class="loader-icon"></span><span class="loader-text">loading</span></div>',
+        topcoat: '<div class="loader"><span class="loader-icon"></span><span class="loader-text">loading<</span></div>',
         jqm: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>'
     },
 
