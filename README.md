@@ -13,6 +13,8 @@ cd bikini/framework
 
 sh init.sh
 
+git checkout master
+
 ```
 
 ---
