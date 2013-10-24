@@ -65,6 +65,17 @@ Addressbook.Views = Addressbook.Views || {};
                 second: M.ButtonView.extend({
                     value: 'btn2'
                 })
+            }),
+
+            loadingExample: M.LoaderView.extend({
+
+                value: 'Loading ...',
+                preRender: function(){
+
+                },
+                postRender: function(){
+
+                }
             })
 
         })
