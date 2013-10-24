@@ -29,9 +29,9 @@
 
             this.currentModel = this.editModel;
 
-            this.detailView = Addressbook.Views.DetailView.design(this, null, true);
+            this.detailView = Addressbook.Views.DetailView.create(this, null, true);
 
-            Addressbook.layout = M.SwitchLayout.extend().design(this, null, true);
+            Addressbook.layout = M.SwitchLayout.extend().create(this, null, true);
 
             Addressbook.layout.applyViews({
                 content: this.detailView
