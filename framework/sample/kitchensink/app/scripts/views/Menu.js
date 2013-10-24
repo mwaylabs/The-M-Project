@@ -87,6 +87,16 @@ Addressbook.Views = Addressbook.Views || {};
                 postRender: function(){
 
                 }
+            }),
+
+            loaderButtonExample: M.ButtonView.extend({
+
+                value: 'Toogle LoaderView',
+                events:{
+                    click: function() {
+                        this.scope.menu.childViews.content.childViews.loadingExample.show();
+                    }
+                }
             })
 
         })

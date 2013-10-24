@@ -89,6 +89,13 @@ M.TemplateManager = M.Object.extend({
         jqm: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>'
     },
 
+    "M.LoaderView": {
+        defaultTemplate: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>',
+        bootstrap: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>',
+        topcoat: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>',
+        jqm: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>'
+    },
+
     _currentUI: 'jqm',
 
     get: function( template ) {

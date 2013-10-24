@@ -17,6 +17,16 @@
             this._renderChildViews(settings);
             this._postRender(settings);
             return this;
+        },
+
+        show: function() {
+            $('html').addClass('ui-loading');
+            return this;
+        },
+
+        hide: function() {
+            $('html').removeClass('ui-loading');
+            return this;
         }
 
 
