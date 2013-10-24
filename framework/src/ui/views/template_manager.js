@@ -103,7 +103,7 @@ M.TemplateManager = M.Object.extend({
         jqm: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>'
     },
 
-    _currentUI: 'bootstrap',
+    _currentUI: 'jqm',
 
     get: function( template ) {
 
