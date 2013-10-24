@@ -89,35 +89,25 @@ M.TemplateManager = M.Object.extend({
         jqm: '<div class="ui-slider"><input type="number" data-type="range" name="slider-1" id="slider-1" min="0" max="100" value="50" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-slider-input"><div role="application" class="ui-slider-track ui-btn-down-c ui-btn-corner-all"><a href="#" class="ui-slider-handle ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="74" aria-valuetext="74" title="74" aria-labelledby="slider-1-label" style="left: 74%;"><span class="ui-btn-inner"><span class="ui-btn-text"></span></span></a></div></div>'
     },
 
+    "M.ToggleView": {
+        defaultTemplate: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>',
+        bootstrap: '<div><div data-childviews="first">first</div><div data-childviews="second">second</div></div>',
+        topcoat: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>',
+        jqm: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>'
+    },
+
     "M.DialogView": {
         defaultTemplate: '<div></div>',
-        bootstrap: '<div class="modal fade">'+
-          '<div class="modal-dialog">'+
-            '<div class="modal-content">'+
-              '<div class="modal-header">'+
-                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
-                '<h4 class="modal-title">Modal title</h4>'+
-              '</div>'+
-              '<div class="modal-body">'+
-                '<p>One fine body&hellip;</p>'+
-              '</div>'+
-              '<div class="modal-footer">'+
-                '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>'+
-                '<button type="button" class="btn btn-primary">Save changes</button>'+
-              '</div>'+
-            '</div><!-- /.modal-content -->'+
-          '</div><!-- /.modal-dialog -->'+
-        '</div><!-- /.modal -->',
+        bootstrap: '<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> <h4 class="modal-title" id="myModalLabel"><%= header %></h4> </div> <div class="modal-body"><%= message %></div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal"><%= cancel %></button> <button type="button" class="btn btn-primary"><%= ok %></button> </div> </div><!-- /.modal-content --> </div>',
         topcoat: '<input type="range">',
         jqm: '<div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">'+
-        		'<div data-role="header" data-theme="d" class="ui-header ui-bar-d" role="banner"><a href="#" class="ui-btn-left ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all ui-btn-icon-notext" data-icon="delete" data-iconpos="notext" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" title="Close"><span class="ui-btn-inner"><span class="ui-btn-text">Close</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a>'+
-        			'<h1 class="ui-title" role="heading" aria-level="1">Dialog</h1>'+
+        		'<div data-role="header" data-theme="d" class="ui-header ui-bar-d" role="banner"><a href="#" class="ui-btn-left ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all ui-btn-icon-notext" data-icon="delete" data-iconpos="notext" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" title="Close"><span class="ui-btn-inner"><span class="ui-btn-text"><%= close %></span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a>'+
+        			'<h1 class="ui-title" role="heading" aria-level="1"><%= header %></h1>'+
         		'</div>'+
         		'<div data-role="content" class="ui-content ui-body-c" role="main">'+
-        			'<h1>Delete page?</h1>'+
-        			'<p>This is a regular page, styled as a dialog. To create a dialog, just link to a normal page and include a transition and <code>data-rel="dialog"</code> attribute.</p>'+
-        			'<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text">Sounds good</span></span></a>'+
-        			'<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="c" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text">Cancel</span></span></a>'+
+        			'<p><%= message %></p>'+
+        			'<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text"><%= ok %></span></span></a>'+
+        			'<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="c" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= cancel %></span></span></a>'+
         		'</div>'+
         	  '</div>'
     },

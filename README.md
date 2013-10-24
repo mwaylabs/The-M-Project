@@ -3,6 +3,10 @@
 hint: run this presentation via `reveal-md README.md`
 ` git clone git@git.mwaysolutions.com:systeminfo-ios/bikini.git `
 
+- brew install node
+- npm install grunt-cli
+- npm install bower
+
 ---
 
 # Install TMPv2.0
@@ -45,7 +49,7 @@ open http://localhost:9000/
 ---
 
 
-## App stucture
+## App structure
 
 ```
 kitchensink/app/scripts
@@ -59,7 +63,7 @@ kitchensink/app/scripts
 │   │   └── MainController.js
 │   ├── main.js
 │   ├── models
-│   │   └── Contacts.js
+│   │   └── Contact.js
 │   ├── routes
 │   │   └── Main.js
 │   ├── templates
@@ -174,6 +178,10 @@ Here we go! Startpoint of the Application
 
 })(this);
 ```
+
+---
+
+
 - A View should always inherit from M.View - or another that is also a inheritance from M.View
 
 - use `M.View.extend` to build this inheritance
@@ -199,6 +207,8 @@ Here we go! Startpoint of the Application
 
 ```
 
+---
+
 ## Template Manager
 
 The template Manager is an object that stores every template. Every Application can be run with a different template. The template that is used is defined in `M.TemplateManager._currentUI`.
@@ -206,6 +216,9 @@ The template Manager is an object that stores every template. Every Application 
 At the moment the available options are `defaultTemplate`, `topcoat`, `bootstrap` and `jqm`.
 
 Profide a markup for every template engine.
+
+
+---
 
 
 ```
@@ -217,6 +230,9 @@ Profide a markup for every template engine.
     }
 ```
 
+---
+
+
 ### Add the file to the build process
 
 open `framework/src/build.js` and add your file:
@@ -225,6 +241,9 @@ open `framework/src/build.js` and add your file:
 // @include ./ui/views/slider.js
 
 ```
+
+---
+
 
 ** The ** `//` ** comments are absolutely essential **
 
@@ -236,12 +255,14 @@ Get the markup:
 - bootstrap: http://getbootstrap.com/components/
 
 
+---
+
+
+
 ### Add the View to your application
 
 
-
-
-
+---
 
 
 # Install Generator
