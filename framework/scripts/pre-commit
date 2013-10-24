@@ -1,4 +1,4 @@
 #!/bin/sh
 
 cd framework/
-grunt jshint
+grunt test

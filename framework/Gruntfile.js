@@ -74,13 +74,16 @@ module.exports = function( grunt ) {
             }
         },
         watch: {
-            scripts: {
-                files: ['src/**/*'],
-                tasks: ['default'],
+            framework: {
+                files: ['src/**/*', 'test/**/*.js'],
+                tasks: ['preprocess', 'dev'],
                 options: {
                     spawn: false
                 }
             }
+        },
+        mocha: {
+            all: ['test/test.html']
         }
     });
 
@@ -90,7 +93,11 @@ module.exports = function( grunt ) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-mocha');
 
     // TODO run jshint task
+    //grunt.registerTask('test', ['jshint', 'mocha']);
+    grunt.registerTask('test', ['mocha']);
+    grunt.registerTask('dev', ['test', 'watch']);
     grunt.registerTask('default', ['preprocess', 'uglify', 'cssmin']);
 };
