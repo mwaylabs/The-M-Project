@@ -89,6 +89,13 @@ M.TemplateManager = M.Object.extend({
         jqm: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>'
     },
 
+    "M.ImageView": {
+        defaultTemplate: '<img src="<%= _value_ %>" alt="<%= alt %>" />',
+        bootstrap: '<img src="<%= _value_ %>" alt="<%= alt %>" />',
+        topcoat: '<img src="<%= _value_ %>" alt="<%= alt %>" />',
+        jqm: '<img src="<%= _value_ %>" alt="<%= alt %>" />'
+    },
+
     "M.LoaderView": {
         defaultTemplate: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>',
         bootstrap: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>',
