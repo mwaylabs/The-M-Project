@@ -27,6 +27,14 @@
         hide: function() {
             $('html').removeClass('ui-loading');
             return this;
+        },
+
+        isShown: function() {
+            return $('html').hasClass('ui-loading');
+        },
+
+        toggle: function() {
+            this.isShown() ? this.hide() : this.show();
         }
 
 

@@ -80,10 +80,10 @@ Addressbook.Views = Addressbook.Views || {};
 
             loaderButtonExample: M.ButtonView.extend({
 
-                value: 'Toogle LoaderView',
+                value: 'Toggle LoaderView',
                 events:{
                     click: function() {
-                        this.scope.menu.childViews.content.childViews.loadingExample.show();
+                        this.scope.menu.childViews.content.childViews.loadingExample.toggle();
                     }
                 }
             })
