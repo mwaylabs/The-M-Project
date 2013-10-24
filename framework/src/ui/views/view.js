@@ -34,10 +34,10 @@
          */
         templateExtend: null,
 
-        /**
-         * Constructor
-         * @returns {*}
-         */
+
+        _firstRender: YES,
+
+        useElement: NO,
 
         /**
          * The Value of the view
@@ -71,6 +71,10 @@
             return o;
         },
 
+        /**
+         * Constructor
+         * @returns {*}
+         */
         constructor: function( options ) {
             this.cid = _.uniqueId('view');
             options || (options = {});
@@ -166,12 +170,12 @@
          * implement render function
          * @returns {this}
          */
-        render: function() {
+        render: function( settings ) {
             //this._assignValue();
-            this._preRender();
-            this._render();
-            this._renderChildViews();
-            this._postRender();
+            this._preRender(settings);
+            this._render(settings);
+            this._renderChildViews(settings);
+            this._postRender(settings);
             return this;
         },
 
@@ -207,11 +211,14 @@
 
         },
 
-        _render: function() {
-//            this.$el.html(this._template(this._templateData));
-//            return this;
+        _render: function( settings ) {
             var dom = this._template(this._templateData);
-            this.setElement(dom);
+            if( settings && settings.useSetElement ) {
+                this.setElement(dom);
+            } else {
+                this.$el.html(dom);
+            }
+            this._firstRender = NO;
             return this;
         },
 
@@ -223,19 +230,25 @@
             }
             _.each(this.childViews, function( child, name ) {
                 var dom = this.$el;
-//                if( this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').addBack().length ) {
-//                    dom = this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').addBack();
-//                }
+                //                if( this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').addBack().length ) {
+                //                    dom = this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').addBack();
+                //                }
                 if( this.$el.find('[data-childviews="' + name + '"]').length ) {
                     dom = this.$el.find('[data-childviews="' + name + '"]');
+                    dom.addClass(name);
                 }
+                debugger;
+                var settings = {
+                    useSetElement: this.useElement
+                };
+
 
                 if( typeof child['render'] === 'function' ) {
-                    dom.append(child.render().$el);
+                    dom.append(child.render(settings).$el);
                     child.delegateEvents();
                 } else if( _.isArray(child) ) {
                     _.each(child, function( c ) {
-                        dom.append(c.render().$el);
+                        dom.append(c.render(settings).$el);
                         c.delegateEvents();
                     })
                 }
@@ -246,6 +259,7 @@
         },
 
         _postRender: function() {
+            this._addClassNames()
             if( this.model ) {
                 this._assignBinding();
                 this.stickit();
@@ -254,6 +268,14 @@
             }
             this.postRender();
             return this;
+        },
+
+        _addClassNames: function() {
+
+            this.$el.addClass(this._type.split('.')[1].toLowerCase());
+            if( this.cssClass ) {
+                this.$el.addClass(this.cssClass);
+            }
         },
 
         _assignBinding: function() {
@@ -312,7 +334,7 @@
             return this;
         },
 
-        addChildView: function(selector, view){
+        addChildView: function( selector, view ) {
             this.childViews[selector] = view;
         }
 

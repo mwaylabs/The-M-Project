@@ -6,7 +6,7 @@ M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'swipe-layout', templ
 
 M.SwipeLayout = M.SwitchLayout.extend({
 
-    _type: 'swipe-layout',
+    _type: 'M.SwipeLayout',
 
     template: M.Themes.getTemplateByName('swipe-layout'),
 

@@ -1,0 +1,23 @@
+.pt-page{
+    padding: 15px;
+}
+
+.pt-page h2{
+    color: #05BCF7;
+    border-bottom: 1px solid #05BCF7;
+    width: 100%;
+    display: block;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0 0 8px 0;
+}
+
+.pt-page .edit .options{
+    padding: 10px 0;
+}
+
+.pt-page .edit .options .buttonview{
+    margin: 0 10px 0 0;
+    display: inline-block;
+}

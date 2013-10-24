@@ -48,19 +48,26 @@ _.extend(M.Collection.prototype, {
         }
     },
 
+    sort: function(options) {
+        if ( _.isObject(options && options.sort)) {
+            this.comparator = M.DataSelector.compileSort(options.sort);
+        }
+        Backbone.Collection.prototype.sort.apply(this, arguments);
+    },
+
     select: function(options) {
-        var selector   = options.where ? M.DataSelector.create(options.where) : null;
+        var selector   = options && options.query ? M.DataSelector.create(options.query) : null;
         var collection = M.Collection.create(null, { model: this.model });
 
-        _.each(this, function(model) {
+        if (options && options.sort) {
+            collection.comparator = M.DataSelector.compileSort(options.sort);
+        }
+
+        this.each(function(model) {
             if (!selector || selector.matches(model.attributes)) {
                 collection.add(model);
             }
         });
-
-        if (options.sort) {
-            collection.sortBy(M.DataSelector.compileSort(options.sort));
-        }
         return collection;
     },
 
