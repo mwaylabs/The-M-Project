@@ -67,6 +67,17 @@ Addressbook.Views = Addressbook.Views || {};
                 })
             }),
 
+            imageExample: M.ImageView.extend({
+                value: 'http://www.bhmpics.com/thumbs/success_kid-t2.jpg',
+                alt: 'success',
+
+                events: {
+                    click: function() {
+                        console.log('click auf bild!');
+                    }
+                }
+            }),
+
             loadingExample: M.LoaderView.extend({
 
                 value: 'Loading ...',
