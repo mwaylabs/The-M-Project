@@ -1,7 +1,7 @@
 # TMPv2.0
 
 hint: run this presentation via `reveal-md README.md`
-
+` git clone git@git.mwaysolutions.com:systeminfo-ios/bikini.git `
 
 ---
 
