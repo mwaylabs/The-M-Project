@@ -2,7 +2,7 @@ M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div
 
 M.SwitchLayout = M.Layout.extend({
 
-    _type: 'switch-layout',
+    _type: 'M.SwitchLayout',
 
     template: M.Themes.getTemplateByName('switch-layout'),
 
