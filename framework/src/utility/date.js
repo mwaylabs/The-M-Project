@@ -16,7 +16,7 @@
  * @extends M.Object
  */
 
-M.Date = M.Object.extend(/** @scope M.Date.prototype */{
+M.Date = {
 
     /**
      * This method is used to create a new instance of M.Date based on the data
@@ -25,7 +25,7 @@ M.Date = M.Object.extend(/** @scope M.Date.prototype */{
      * @returns {Object}
      */
     create: function() {
-        return this.extend(moment.apply(this, arguments));
+        var m = moment.apply(this, arguments);
+        return _.extend(m, this);
     }
-
-});
+};

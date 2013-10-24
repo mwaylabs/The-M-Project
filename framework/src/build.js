@@ -35,6 +35,7 @@
         // @include ./utility/base64.js
         // @include ./utility/sha256.js
         // @include ./utility/cypher.js
+        // @include ./utility/date.js
 
         // @include ./connection/request.js
         // @include ./connection/request_manager.js
