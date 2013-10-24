@@ -74,9 +74,9 @@ module.exports = function( grunt ) {
             }
         },
         watch: {
-            scripts: {
-                files: ['src/**/*'],
-                tasks: ['default'],
+            framework: {
+                files: ['src/**/*', 'test/**/*.js'],
+                tasks: ['preprocess', 'dev'],
                 options: {
                     spawn: false
                 }
