@@ -64,6 +64,7 @@
         // @include ./ui/views/listitem.js
         // @include ./ui/views/button.js
         // @include ./ui/views/list.js
+        // @include ./ui/views/slider.js
 
 
 

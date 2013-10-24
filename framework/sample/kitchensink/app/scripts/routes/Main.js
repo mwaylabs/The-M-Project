@@ -123,6 +123,10 @@ Addressbook.Controllers = Addressbook.Controllers || {};
                                         })
                                     }
                                 }
+                            }),
+
+                            slider: M.SliderView.extend({
+
                             })
                         }).create();
                     },
