@@ -1,4 +1,6 @@
-html, body { height: 100%; }
+html, body {
+    height: 100%;
+}
 
 .pt-perspective {
     position: relative;
@@ -44,11 +46,11 @@ html, body { height: 100%; }
 }
 
 .pt-page-1 {
-    background: #0ac2d2;
+    xbackground: #0ac2d2;
 }
 
 .pt-page-2 {
-    background: #7bb7fa;
+    xbackground: #7bb7fa;
 }
 
 .pt-page-3 {
@@ -101,7 +103,7 @@ html, body { height: 100%; }
     cursor: pointer;
     display: block;
     font-family: 'Lato', Calibri, Arial, sans-serif;
-    box-shadow: 0 3px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -120,7 +122,7 @@ html, body { height: 100%; }
 }
 
 .pt-touch-button:active {
-    box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .touch .pt-triggers .dl-menuwrapper {
@@ -164,6 +166,7 @@ html, body { height: 100%; }
         padding-top: 2px;
         padding-bottom: 2px;
     }
+
     .pt-triggers .dl-menuwrapper li.dl-back:after, .dl-menuwrapper li > a:not(:only-child):after {
         line-height: 24px;
     }
