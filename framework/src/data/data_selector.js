@@ -71,7 +71,7 @@ M.DataSelector = M.Object.extend({
         if( this._selectorIsId(selector) ) {
             return function( record ) {
                 var id = _.isFunction(record.getId) ? record.getId() : (record._id || record.id);
-                return M.DataField.equals(id, selector);
+                return M.Field.prototype.equals(id, selector);
             };
         }
 
@@ -85,7 +85,7 @@ M.DataSelector = M.Object.extend({
         }
 
         // Top level can't be an array or true or binary.
-        if( _.isBoolean(selector) || _.isArray(selector) || M.DataField.isBinary(selector) ) {
+        if( _.isBoolean(selector) || _.isArray(selector) || M.Field.prototype.isBinary(selector) ) {
             throw new Error("Invalid selector: " + selector);
         }
 
@@ -275,11 +275,11 @@ M.DataSelector = M.Object.extend({
 
     // deep equality test: use for literal document and array matches
     _equal: function( a, b ) {
-        return M.DataField._equals(a, b, true);
+        return M.Field.prototype._equals(a, b, true);
     },
 
     _cmp: function( a, b ) {
-        return M.DataField._cmp(a, b);
+        return M.Field.prototype._cmp(a, b);
     },
 
     LOGICAL_OPERATORS: {
@@ -441,7 +441,7 @@ M.DataSelector = M.Object.extend({
                     return false;
                 }
                 return M.DataSelector._anyIfArray(value, function( x ) {
-                    return M.DataField.detectType(x) === operand;
+                    return M.Field.prototype.detectType(x) === operand;
                 });
             };
         },
@@ -591,8 +591,8 @@ M.DataSelector = M.Object.extend({
         };
 
         return function( a, b ) {
-            a = _.isFunction(a.getData) ? a.getData() : a;
-            b = _.isFunction(b.getData) ? b.getData() : b;
+            a = a.attributes ? a.attributes : a;
+            b = b.attributes ? b.attributes : b;
             for( var i = 0; i < sortSpecParts.length; ++i ) {
                 var specPart = sortSpecParts[i];
                 var aValue = reduceValue(specPart.lookup(a), specPart.ascending);
