@@ -21,9 +21,15 @@
   <script src="../bower_components/chai/chai.js"></script>
   <script src="../bower_components/mocha/mocha.js"></script>
 
-  <script>mocha.setup('bdd')</script>
+  <script>
+      assert = chai.assert;
+      expect = chai.expect;
+      mocha.setup('bdd');
+  </script>
   <script src="test.js"></script>
   <script src="core/test.m.js"></script>
+  <script src="data/test.collection.js"></script>
+  <script src="data/test.data.js"></script>
   <script>
     mocha.checkLeaks();
     mocha.globals(['jQuery']);
