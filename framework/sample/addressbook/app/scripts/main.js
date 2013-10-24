@@ -8,7 +8,6 @@
         Routers: {},
         init: function() {
             'use strict';
-
             new Addressbook.Routers.MainRouter();
             Backbone.history.start();
         }

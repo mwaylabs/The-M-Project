@@ -28,18 +28,12 @@ Addressbook.Views = Addressbook.Views || {};
                 label: 'Lastname'
             }),
 
-            //            overview2: M.View.extend({
-            //                template: '<div><span><%= lastname %></span>, <span><%= firstname %></span></div>',
-            //                type: 'Overview',
-            //                scopeKey: 'currentModel'
-            //            }),
-
             options: M.View.extend({
                 cssClass: 'options',
                 useElement: YES
-            },{
+            }, {
                 updateButton: M.ButtonView.extend({
-                    cssClass:'btn-info',
+                    cssClass: 'btn-info',
                     value: 'Update',
                     events: {
                         click: 'updateEntry'
@@ -47,7 +41,7 @@ Addressbook.Views = Addressbook.Views || {};
                 }),
 
                 deleteButton: M.ButtonView.extend({
-                    cssClass:'btn-danger',
+                    cssClass: 'btn-danger',
                     value: 'Delete',
                     events: {
                         click: 'removeEntry'
@@ -55,7 +49,7 @@ Addressbook.Views = Addressbook.Views || {};
                 }),
 
                 addButton: M.ButtonView.extend({
-                    cssClass:'btn-success',
+                    cssClass: 'btn-success',
                     value: 'Add',
                     extendTemplate: '<span><%= _value_ %></span>',
                     events: {
@@ -63,7 +57,7 @@ Addressbook.Views = Addressbook.Views || {};
                     }
                 }),
                 hide: M.ButtonView.extend({
-                    cssClass:'btn-default',
+                    cssClass: 'btn-default',
                     value: 'Hide',
                     events: {
                         click: function() {
@@ -95,35 +89,7 @@ Addressbook.Views = Addressbook.Views || {};
                     }
                 })
             })
-        }),
-
-        navigation: M.View.extend({}, {
-            next: M.ButtonView.extend({
-
-                value: 'second page',
-                events: {
-                    click: function() {
-                        Addressbook.navigate({
-                            route: '/secondpage'
-                        })
-                    }
-                }
-            }),
-            clear: M.ButtonView.extend({
-                value: 'clear all data',
-                events: {
-                    click: function() {
-                        localStorage.clear();
-                        var scope = this.scope;
-                        var db = openDatabase('bikini', '1.2', 'my first database', 2 * 1024 * 1024);
-                        db.transaction(function( tx ) {
-                            tx.executeSql("DROP TABLE '" + scope.contactCollection.channel + "'");
-                        });
-                    }
-                }
-            })
         })
-
     });
 
 })();

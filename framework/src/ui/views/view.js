@@ -237,7 +237,7 @@
                     dom = this.$el.find('[data-childviews="' + name + '"]');
                     dom.addClass(name);
                 }
-                debugger;
+
                 var settings = {
                     useSetElement: this.useElement
                 };
