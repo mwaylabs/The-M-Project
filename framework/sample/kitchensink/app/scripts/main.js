@@ -8,8 +8,7 @@
         Routers: {},
         init: function() {
             'use strict';
-
-            new Addressbook.Routers.MainRouter();
+            new Addressbook.Routers.KitchensinkRouter();
             Backbone.history.start();
         }
     }).create();
