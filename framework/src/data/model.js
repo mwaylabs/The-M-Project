@@ -3,6 +3,8 @@ M.Model = Backbone.Model.extend(M.Object);
 
 M.Model.create = M.create;
 
+M.Model.design = M.design;
+
 _.extend(M.Model.prototype, {
 
     _type: 'M.Model',

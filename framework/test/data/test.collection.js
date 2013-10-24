@@ -29,12 +29,12 @@ describe('M.Collection', function() {
         TEST.Developers = TEST.DeveloperCollection.create();
 
         assert.ok(typeof TEST.Developers === 'object', 'Developer collection successfully created.');
-    });
+//    });
+//
+//    it('adding data', function() {
         /**
          * TEST: Adding records
          */
-
-    it('adding data', function() {
 
         TEST.Developers.add({
             sureName: 'Laubach',
@@ -62,9 +62,9 @@ describe('M.Collection', function() {
 
         assert.ok(TEST.Developer.prototype.isPrototypeOf(TEST.Developers.at(0)), 'Records successfully converted to model records.');
 
-    });
-
-    it('sorting data', function() {
+//    });
+//
+//    it('sorting data', function() {
 
         /**
          * TEST: Sorting
@@ -83,9 +83,9 @@ describe('M.Collection', function() {
         var p2 = TEST.Developers.at(0);
         assert.ok(p2.get('sureName') === 'Stierle', 'Records correctly sorted by passed in sort function');
 
-    });
-
-    it('filtering data', function() {
+//    });
+//
+//    it('filtering data', function() {
         /**
          * TEST: Filtering
          */
@@ -104,9 +104,9 @@ describe('M.Collection', function() {
 
         assert.ok(a2.length === 4, 'Records successfully filtered. One dev is younger than 27.');
 
-    });
-
-    it('finding data', function() {
+//    });
+//
+//    it('finding data', function() {
 
         /**
          * TEST: find

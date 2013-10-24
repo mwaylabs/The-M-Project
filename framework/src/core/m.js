@@ -23,6 +23,11 @@
         return new this(arguments);
     };
 
+    M.design = function(obj) {
+        var o = this.extend(obj);
+        return new o();
+    };
+
     M.isCollection = function (collection) {
         return Backbone.Collection.prototype.isPrototypeOf(collection);
     };
