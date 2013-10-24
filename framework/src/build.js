@@ -28,7 +28,6 @@
         // @include ./core/controller.js
         // @include ./core/application.js
         // @include ./core/router.js
-
         // @include ./utility/i18n.js
         // @include ./utility/objectid.js
         // @include ./utility/uuid.js
@@ -36,7 +35,6 @@
         // @include ./utility/sha256.js
         // @include ./utility/cypher.js
         // @include ./utility/date.js
-
         // @include ./connection/request.js
         // @include ./connection/request_manager.js
         // @include ./connection/socket_io.js
@@ -58,18 +56,12 @@
         // @include ./ui/views/view.js
         // @include ./ui/pagetransitions.js
         // @include ./ui/layouts/layout.js
-        // @ i nclude ./ui/layout_manager.js
 
         // @include ./ui/views/textfield.js
         // @include ./ui/views/listitem.js
         // @include ./ui/views/button.js
         // @include ./ui/views/list.js
         // @include ./ui/views/slider.js
-
-
-
-
-
 
         // @include ./ui/layouts/header-layout/header-layout.js
         // @include ./ui/layouts/bottom-bar-layout/bottom-bar-layout.js
