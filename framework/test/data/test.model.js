@@ -15,7 +15,7 @@ describe('M.Model', function() {
                     firstName:   { type: M.CONST.TYPE.STRING,  length: 200 },
                     sureName:    { type: M.CONST.TYPE.STRING,  required: YES, index: true },
                     birthDate:   { type: M.CONST.TYPE.DATE   },
-                    bmi:         { type: M.CONST.TYPE.FLOAT,   default: 0.0},
+                    bmi:         { type: M.CONST.TYPE.FLOAT,   defaultValue: 0.0},
                     notes:       { type: M.CONST.TYPE.TEXT   },
                     address:     { type: M.CONST.TYPE.OBJECT },
                     displayName: { type: M.CONST.TYPE.STRING, persistent: NO }
@@ -43,7 +43,7 @@ describe('M.Model', function() {
 
         assert.ok(p.get('sureName') === 'Mustermann', 'Field "sureName" is set.');
 
-      //  assert.ok(p.get('bmi') === 0.0, 'Field "bmi" has correct default value.');
+        assert.ok(p.get('bmi') === 0.0, 'Field "bmi" has correct default value.');
 
         assert.ok(p.get('notes') === 'Notes to this person', 'Field "note" has correct value.');
 

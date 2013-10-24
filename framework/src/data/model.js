@@ -13,6 +13,8 @@ _.extend(M.Model.prototype, {
 
     entity: null,
 
+    defaults: {},
+
     changedSinceSync: {},
 
     initialize: function(attributes, options) {
@@ -23,10 +25,16 @@ _.extend(M.Model.prototype, {
         if (this.store && _.isFunction(this.store.initModel)) {
             this.store.initModel(this, options);
         }
-        this.entity = this.entity || (this.collection ? this.collection.entity : null) || options.entity;
+        var defaults = this.defaults = this.defaults || {};
+        this.entity   = this.entity || (this.collection ? this.collection.entity : null) || options.entity;
         if (this.entity) {
             this.entity = M.Entity.from(this.entity, { typeMapping: options.typeMapping });
             this.idAttribute = this.entity.idAttribute || this.idAttribute;
+            _.each(this.entity.fields, function(field) {
+                if (!_.isUndefined(field.defaultValue)) {
+                    defaults[field.name] = field.defaultValue;
+                }
+            });
         }
         this.credentials = this.credentials || (this.collection ? this.collection.credentials : null) || options.credentials;
         this.on('change', this.onChange, this);
