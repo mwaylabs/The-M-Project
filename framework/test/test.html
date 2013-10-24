@@ -2,28 +2,30 @@
 <head>
   <meta charset="utf-8">
   <title>Mocha Tests</title>
-  <link rel="stylesheet" href="../bower_components/mocha/mocha.css" />
+  <link rel="stylesheet" href="css/mocha.css" />
 </head>
 <body>
   <div id="mocha"></div>
-  <!-- build:js scripts/vendor.js -->
-  <script src="../bower_components/jquery/jquery.js"></script>
-  <script src="../bower_components/underscore/underscore.js"></script>
-  <script src="../bower_components/backbone/backbone.js"></script>
-  <script src="../bower_components/modernizr/modernizr.js"></script>
-  <script src="../bower_components/backbone.stickit/backbone.stickit.js"></script>
-  <!--<script src="bower_components/layoutmanager/backbone.layoutmanager.js"></script>-->
-  <script src="../bower_components/tmpl/tmpl.js"></script>
+
+  <script src="js/chai.js"></script>
+  <script src="js/mocha.js"></script>
+  <script src="js/bridge.js"></script>
+
+  <script src="../app/bower_components/jquery/jquery.js"></script>
+  <script src="../app/bower_components/underscore/underscore.js"></script>
+  <script src="../app/bower_components/backbone/backbone.js"></script>
+  <script src="../app/bower_components/modernizr/modernizr.js"></script>
+  <script src="../app/bower_components/backbone.stickit/backbone.stickit.js"></script>
+  <script src="../app/bower_components/tmpl/tmpl.js"></script>
+  <script src="../app/bower_components/fastclick/lib/fastclick.js"></script>
+  <script src="../app/bower_components/socket.io-client/dist/socket.io.js"></script>
   <script src="../dist/tmp2.js"></script>
-  <script src="../bower_components/fastclick/lib/fastclick.js"></script>
-  <script src="../bower_components/socket.io-client/dist/socket.io.js"></script>
-  <!-- Test scripts -->
-  <script src="../bower_components/chai/chai.js"></script>
-  <script src="../bower_components/mocha/mocha.js"></script>
 
   <script>mocha.setup('bdd')</script>
+
   <script src="test.js"></script>
   <script src="core/test.m.js"></script>
+
   <script>
     mocha.checkLeaks();
     mocha.globals(['jQuery']);

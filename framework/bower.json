@@ -6,7 +6,7 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "scripts"
   ],
   "dependencies": {
     "backbone": "~1.1.0",
@@ -17,7 +17,9 @@
     "tmpl": "~0.1.6",
     "socket.io-client": "~0.9.16",
     "modernizr": "~2.6.2",
-    "momentjs": "~2.3.1",
+    "momentjs": "~2.3.1"
+  },
+  "devDependencies": {
     "mocha": "~1.13.0",
     "chai": "~1.8.1"
   }
