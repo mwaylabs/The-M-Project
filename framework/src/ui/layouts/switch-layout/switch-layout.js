@@ -1,4 +1,4 @@
-M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="pt-main" class="pt-perspective"> <div class="pt-page pt-page-1"> <div data-childviews="content_page1"></div> <div class="footer"></div> </div> <div class="pt-page pt-page-2"> <div data-childviews="content_page2"></div> <div class="footer"></div> </div> </div>');
+M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="m-main" class="m-perspective"> <div class="m-page m-page-1"> <div data-childviews="content_page1"></div> <div class="footer"></div> </div> <div class="m-page m-page-2"> <div data-childviews="content_page2"></div> <div class="footer"></div> </div> </div>');
 
 M.SwitchLayout = M.Layout.extend({
 
@@ -9,9 +9,9 @@ M.SwitchLayout = M.Layout.extend({
     currentPage: null,
 
     applyViews: function( settings ){
-        var current = $('.pt-page-current');
+        var current = $('.m-page-current');
 
-        var next = $('.pt-page:not(.pt-page-current)');
+        var next = $('.m-page:not(.m-page-current)');
 
         var selector = '';
 
