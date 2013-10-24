@@ -23,7 +23,7 @@ sh init.sh
 
 ```
 cd bikini/framework
-grunt watch
+grunt dev
 ```
 
 ## Start an application
