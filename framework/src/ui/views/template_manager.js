@@ -89,6 +89,13 @@ M.TemplateManager = M.Object.extend({
         jqm: '<div class="ui-slider"><input type="number" data-type="range" name="slider-1" id="slider-1" min="0" max="100" value="50" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-slider-input"><div role="application" class="ui-slider-track ui-btn-down-c ui-btn-corner-all"><a href="#" class="ui-slider-handle ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="74" aria-valuetext="74" title="74" aria-labelledby="slider-1-label" style="left: 74%;"><span class="ui-btn-inner"><span class="ui-btn-text"></span></span></a></div></div>'
     },
 
+    "M.ToggleView": {
+        defaultTemplate: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>',
+        bootstrap: '<div><div data-childviews="first">first</div><div data-childviews="second">second</div></div>',
+        topcoat: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>',
+        jqm: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>'
+    },
+
     _currentUI: 'bootstrap',
 
     get: function( template ) {

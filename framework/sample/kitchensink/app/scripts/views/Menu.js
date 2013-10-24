@@ -32,10 +32,47 @@ Addressbook.Views = Addressbook.Views || {};
                 })
             }),
 
+            buttonExample: M.ButtonView.extend({
+
+                value: 'Hello'
+            }),
+
             sliderExample: M.SliderView.extend({
 
+            }),
+
+            toggleExample: M.ToggleView.extend({
+
+                value: 'ICH BIN DER VALUE',
+                preRender: function(){
+
+                },
+                postRender: function(){
+                    console.log(this.$el, this.el);
+
+                }
+
+            },{
+                first: M.ButtonView.extend({
+                    value: 'btn1',
+                    events:{
+                        click: function(){
+                            console.log(this.scope);
+                            this.scope.hello();
+                        }
+                    }
+                }),
+                second: M.ButtonView.extend({
+                    value: 'btn2'
+                })
             })
+
         })
     });
 
 })();
+
+var options = {};
+var childViews = {}
+
+M.View.extend(options, childViews);
