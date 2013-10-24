@@ -27,11 +27,11 @@ Addressbook.Views = Addressbook.Views || {};
                 label: 'Lastname'
             }),
 
-            overview2: M.View.extend({
-                template: '<div><span><%= lastname %></span>, <span><%= firstname %></span></div>',
-                type: 'Overview',
-                scopeKey: 'currentModel'
-            }),
+//            overview2: M.View.extend({
+//                template: '<div><span><%= lastname %></span>, <span><%= firstname %></span></div>',
+//                type: 'Overview',
+//                scopeKey: 'currentModel'
+//            }),
 
             updateButton: M.ButtonView.extend({
                 value: 'Update',
@@ -62,11 +62,11 @@ Addressbook.Views = Addressbook.Views || {};
 
             navigation: M.ButtonView.extend({
 
-                value: 'next page',
+                value: 'second page',
                 events:{
                     click: function(){
                         Addressbook.navigate({
-                            route: '/edit'
+                            route: '/secondpage'
                         })
                     }
                 }

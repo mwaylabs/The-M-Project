@@ -74,9 +74,8 @@
                     scope: this.scope,
                     value: model
                 });
-
                 view.render();
-                this.$el.find('[data-childviews="list"]').addBack().append(view.$el);
+                this.$el.find('[data-childviews="list"]').append(view.$el);
                 this._viewModelMapping[view.model.cid] = view;
                 view.delegateEvents();
             }

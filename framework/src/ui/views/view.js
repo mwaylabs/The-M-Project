@@ -34,10 +34,8 @@
          */
         templateExtend: null,
 
-        /**
-         * Constructor
-         * @returns {*}
-         */
+
+        _firstRender: YES,
 
         /**
          * The Value of the view
@@ -71,6 +69,10 @@
             return o;
         },
 
+        /**
+         * Constructor
+         * @returns {*}
+         */
         constructor: function( options ) {
             this.cid = _.uniqueId('view');
             options || (options = {});
@@ -208,10 +210,14 @@
         },
 
         _render: function() {
-//            this.$el.html(this._template(this._templateData));
-//            return this;
             var dom = this._template(this._templateData);
-            this.setElement(dom);
+//            if(this._firstRender){
+//                this.setElement(dom);
+//            } else {
+//                this.$el.html(dom);
+//            }
+            this._firstRender = NO;
+            this.$el.html(dom);
             return this;
         },
 

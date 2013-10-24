@@ -34,15 +34,7 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
             this.detailView = Addressbook.Views.DetailView.design(this, null, true);
 
-            //$('#main').html(this.detailView.render().$el);
-
-//            Addressbook.layout = M.SwitchLayout.extend({},{
-//                content: Addressbook.Views.DetailView
-//            }).design(this, null, true);
-
-
             Addressbook.layout = M.SwitchLayout.extend().design(this, null, true);
-
 
             Addressbook.layout.applyViews({
                 content: this.detailView
@@ -54,7 +46,10 @@ Addressbook.Controllers = Addressbook.Controllers || {};
         },
 
         show: function() {
-            console.log('show');
+            Addressbook.layout.applyViews({
+                content: this.detailView
+            });
+
             PageTransitions.next();
         },
 
@@ -86,7 +81,8 @@ Addressbook.Controllers = Addressbook.Controllers || {};
     Addressbook.Routers.MainRouter = M.Router.extend({
         routes: {
             '': 'indexCtrl',
-            'edit': 'editCtrl'
+            'secondpage': 'secondpageCtrl',
+            'thirdpage': 'thirdpageCtrl'
         },
 
 
@@ -99,19 +95,22 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
         indexCtrl: Addressbook.Controllers.MainController.create(),
 
-        editCtrl: M.Controller.extend({
+        secondpageCtrl: M.Controller.extend({
             initialize: function() {
                 M.Router.prototype.initialize.apply(this, arguments);
-                this.view = M.ButtonView.extend({
-
-                    value: 'back',
-                    events: {
-                        click: function() {
-                            Addressbook.navigate({
-                                route: '/'
-                            })
+                this.view = M.View.extend({
+                    value: 'Second Page'
+                }, {
+                    btn: M.ButtonView.extend({
+                        value: 'third',
+                        events: {
+                            click: function() {
+                                Addressbook.navigate({
+                                    route: '/thirdpage'
+                                })
+                            }
                         }
-                    }
+                    })
                 }).design();
             },
             show: function() {
@@ -122,8 +121,42 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
                 PageTransitions.next();
             },
-            applicationStart: function(){
-                $('#main').html(this.view.render().$el);
+            applicationStart: function() {
+                Addressbook.navigate({
+                    route: '/'
+                });
+            }
+        }).create(),
+
+        thirdpageCtrl: M.Controller.extend({
+            initialize: function() {
+                M.Router.prototype.initialize.apply(this, arguments);
+                this.view = M.View.extend({
+                    value: 'Third Page'
+                }, {
+                    btn: M.ButtonView.extend({
+                        value: 'first',
+                        events: {
+                            click: function() {
+                                Addressbook.navigate({
+                                    route: '/'
+                                })
+                            }
+                        }
+                    })
+                }).design();
+            },
+            show: function() {
+                Addressbook.layout.applyViews({
+                    content: this.view
+                });
+
+                PageTransitions.next();
+            },
+            applicationStart: function() {
+                Addressbook.navigate({
+                    route: '/'
+                });
             }
         }).create()
     });
