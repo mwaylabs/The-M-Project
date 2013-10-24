@@ -357,13 +357,13 @@
      * @param scope
      * @returns {this}
      */
-    M.View.design = function( scope, childViews, isScope ) {
+    M.View.create = function( scope, childViews, isScope ) {
         var _scope = isScope ? {scope: scope} : scope;
         var f = new this(_scope);
         if( f._childViews ) {
             f.childViews = {};
             _.each(f._childViews, function( childView, name ) {
-                f.childViews[name] = childView.design(scope, null, true);
+                f.childViews[name] = childView.create(scope, null, true);
             });
         }
         if( childViews ) {

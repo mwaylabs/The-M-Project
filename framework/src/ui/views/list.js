@@ -70,7 +70,7 @@
         addItem: function( model ) {
             var view = null;
             if( this.listItemView ) {
-                view = this.listItemView.design({
+                view = this.listItemView.create({
                     scope: this.scope,
                     value: model
                 });
