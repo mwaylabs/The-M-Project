@@ -97,14 +97,20 @@ Addressbook.Views = Addressbook.Views || {};
             })
         }),
 
-        navigation: M.View.extend({}, {
+        navigation: M.View.extend({
+            events: {
+                "touchy-swipe": function(){
+                    console.log('jho');
+                }
+            }
+        }, {
             next: M.ButtonView.extend({
 
                 value: 'second page',
                 events: {
                     click: function() {
                         Addressbook.navigate({
-                            route: '/secondpage'
+                            route: this.scope.nextPage
                         })
                     }
                 }

@@ -4,8 +4,17 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
 (function() {
 
+    Addressbook.nextPage = '/secondpage';
+
+    Addressbook.swipeNext = function(){
+        Addressbook.navigate({
+            route: Addressbook.nextPage
+        })
+    };
 
     Addressbook.Controllers.MainController = M.Controller.extend({
+
+        nextPage: '/secondpage',
 
         testModel: null,
 
@@ -45,12 +54,13 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
         },
 
-        show: function() {
+        show: function(settings) {
             Addressbook.layout.applyViews({
                 content: this.detailView
             });
 
             PageTransitions.next();
+            Addressbook.nextPage = this.nextPage;
         },
 
         topcoatTheme: function() {
@@ -76,6 +86,7 @@ Addressbook.Controllers = Addressbook.Controllers || {};
                 this.scope.currentModel.save(this.scope.editModel.attributes);
             }
         }
+
     });
 
     Addressbook.Routers.MainRouter = M.Router.extend({
@@ -95,42 +106,48 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
         indexCtrl: Addressbook.Controllers.MainController.create(),
 
-        secondpageCtrl: M.Controller.extend({
-            initialize: function() {
-                M.Router.prototype.initialize.apply(this, arguments);
-                this.view = M.View.extend({
-                    value: 'Second Page'
-                }, {
-                    btn: M.ButtonView.extend({
-                        value: 'third',
-                        events: {
-                            click: function() {
-                                Addressbook.navigate({
-                                    route: '/thirdpage'
-                                })
-                            }
-                        }
-                    })
-                }).design();
-            },
-            show: function() {
+                secondpageCtrl: M.Controller.extend({
+                    nextPage: '/thirdpage',
+                    initialize: function() {
+                        var nextPage = this.nextPage;
+                        M.Router.prototype.initialize.apply(this, arguments);
+                        this.view = M.View.extend({
+                            value: 'Second Page'
+                        }, {
+                            btn: M.ButtonView.extend({
+                                value: 'third',
+                                events: {
+                                    click: function() {
+                                        Addressbook.navigate({
+                                            route: nextPage
+                                        })
+                                    }
+                                }
+                            })
+                        }).design();
+                    },
+                    show: function() {
+                        Addressbook.layout.applyViews({
+                            content: this.view
+                        });
 
-                Addressbook.layout.applyViews({
-                    content: this.view
-                });
-
-                PageTransitions.next();
-            },
-            applicationStart: function() {
-                Addressbook.navigate({
-                    route: '/'
-                });
-            }
-        }).create(),
+                        PageTransitions.next();
+                        Addressbook.nextPage = this.nextPage;
+                    },
+                    applicationStart: function() {
+                        Addressbook.navigate({
+                            route: this.nextPage
+                        });
+                    }
+                }).create(),
 
         thirdpageCtrl: M.Controller.extend({
+
+            nextPage: '/',
+
             initialize: function() {
                 M.Router.prototype.initialize.apply(this, arguments);
+                var nextPage = this.nextPage;
                 this.view = M.View.extend({
                     value: 'Third Page'
                 }, {
@@ -139,7 +156,7 @@ Addressbook.Controllers = Addressbook.Controllers || {};
                         events: {
                             click: function() {
                                 Addressbook.navigate({
-                                    route: '/'
+                                    route: nextPage
                                 })
                             }
                         }
@@ -152,6 +169,7 @@ Addressbook.Controllers = Addressbook.Controllers || {};
                 });
 
                 PageTransitions.next();
+                Addressbook.nextPage = this.nextPage;
             },
             applicationStart: function() {
                 Addressbook.navigate({
