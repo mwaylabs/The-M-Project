@@ -96,7 +96,7 @@ M.TemplateManager = M.Object.extend({
         jqm: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>'
     },
 
-    _currentUI: 'bootstrap',
+    _currentUI: 'jqm',
 
     get: function( template ) {
 
