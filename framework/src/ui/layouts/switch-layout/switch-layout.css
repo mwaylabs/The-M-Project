@@ -2,7 +2,7 @@ html, body {
     height: 100%;
 }
 
-.pt-perspective {
+.m-perspective {
     position: relative;
     width: 100%;
     height: 100%;
@@ -11,7 +11,7 @@ html, body {
     perspective: 1200px;
 }
 
-.pt-page {
+.m-page {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -31,8 +31,8 @@ html, body {
     transform-style: preserve-3d;
 }
 
-.pt-page-current,
-.no-js .pt-page {
+.m-page-current,
+.no-js .m-page {
     visibility: visible;
     z-index: 1;
 }
@@ -41,37 +41,37 @@ html, body {
     overflow: auto;
 }
 
-.pt-page-ontop {
+.m-page-ontop {
     z-index: 999;
 }
 
-.pt-page-1 {
+.m-page-1 {
     background: #ffffff;
 }
 
-.pt-page-2 {
+.m-page-2 {
     background: #ffffff;
 }
 
-.pt-page-3 {
+.m-page-3 {
     background: #60d7a9;
 }
 
-.pt-page-4 {
+.m-page-4 {
     background: #fdc162;
 }
 
-.pt-page-5 {
+.m-page-5 {
     background: #fd6a62;
 }
 
-.pt-page-6 {
+.m-page-6 {
     background: #f68dbb;
 }
 
 /* Triggers (menu and button) */
 
-.pt-triggers {
+.m-triggers {
     position: absolute;
     width: 300px;
     z-index: 999999;
@@ -84,12 +84,12 @@ html, body {
     transform: translateX(-50%);
 }
 
-.no-js .pt-triggers {
+.no-js .m-triggers {
     display: none;
 }
 
-.pt-triggers .dl-menuwrapper button,
-.pt-touch-button {
+.m-triggers .dl-menuwrapper button,
+.m-touch-button {
     border: none;
     font-size: 13px;
     font-weight: 700;
@@ -112,24 +112,24 @@ html, body {
     user-select: none;
 }
 
-.pt-touch-button {
+.m-touch-button {
     background: #fff;
     color: #aaa;
 }
 
-.pt-triggers .dl-menuwrapper button {
+.m-triggers .dl-menuwrapper button {
     margin-bottom: 0;
 }
 
-.pt-touch-button:active {
+.m-touch-button:active {
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
-.touch .pt-triggers .dl-menuwrapper {
+.touch .m-triggers .dl-menuwrapper {
     display: none;
 }
 
-.pt-message {
+.m-message {
     display: none;
     position: absolute;
     z-index: 99999;
@@ -141,39 +141,39 @@ html, body {
     text-align: center;
 }
 
-.pt-message p {
+.m-message p {
     margin: 0;
     line-height: 60px;
     font-size: 26px;
 }
 
-.no-cssanimations .pt-message {
+.no-cssanimations .m-message {
     display: block;
 }
 
 @media screen and (max-width: 47.4375em) {
-    .pt-page h1 {
+    .m-page h1 {
         font-size: 3em;
     }
 
-    .pt-triggers .dl-menuwrapper {
+    .m-triggers .dl-menuwrapper {
         display: none;
     }
 }
 
 @media screen and (max-height: 45.9em) {
-    .pt-triggers .dl-menuwrapper li a {
+    .m-triggers .dl-menuwrapper li a {
         padding-top: 2px;
         padding-bottom: 2px;
     }
 
-    .pt-triggers .dl-menuwrapper li.dl-back:after, .dl-menuwrapper li > a:not(:only-child):after {
+    .m-triggers .dl-menuwrapper li.dl-back:after, .dl-menuwrapper li > a:not(:only-child):after {
         line-height: 24px;
     }
 }
 
 @media screen and (max-height: 38em) {
-    .pt-triggers .dl-menuwrapper {
+    .m-triggers .dl-menuwrapper {
         display: none;
     }
 }

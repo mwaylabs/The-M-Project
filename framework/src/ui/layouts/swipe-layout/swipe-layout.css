@@ -4,7 +4,7 @@
     height: 100%;
 }
 
-#pt-main {
+#m-main {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -190,7 +190,7 @@
 }
 
 .template-bottom,
-#pt-main {
+#m-main {
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
     -ms-transform: translate3d(0, 0, 0);
