@@ -64,6 +64,7 @@
         // @include ./ui/views/slider.js
         // @include ./ui/views/toggle.js
         // @include ./ui/views/image.js
+        // @include ./ui/views/loader.js
 
         // @include ./ui/layouts/header-layout/header-layout.js
         // @include ./ui/layouts/bottom-bar-layout/bottom-bar-layout.js

@@ -76,6 +76,17 @@ Addressbook.Views = Addressbook.Views || {};
                         console.log('click auf bild!');
                     }
                 }
+            }),
+
+            loadingExample: M.LoaderView.extend({
+
+                value: 'Loading ...',
+                preRender: function(){
+
+                },
+                postRender: function(){
+
+                }
             })
 
         })
