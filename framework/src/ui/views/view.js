@@ -39,6 +39,18 @@
 
         useElement: NO,
 
+
+        /**
+         * external events for the users
+         */
+        events: null,
+
+
+        /**
+         * internal framework events
+         */
+        _events: null,
+
         /**
          * The Value of the view
          */
@@ -89,9 +101,9 @@
 
             this._assignValue(options);
             this._assignTemplateValues();
-            this._mapEvents(this.scope);
+            this._mapEventsToScope(this.scope);
+            this._registerEvents();
             this._assignContentBinding();
-
             //            this._assignComplexView();
             //            this.init();
             return this;
@@ -148,9 +160,12 @@
             return this;
         },
 
-        _mapEvents: function( scope ) {
+        _mapEventsToScope: function( scope ) {
             if( this.events ) {
                 var events = [];
+                if(this.events['click'] && !this.events['tap']){
+                    this.events['tap'] = this.events['click'];
+                }
                 _.each(this.events, function( value, key ) {
                     if( typeof value === 'string' ) {
                         if( scope && typeof scope[value] === 'function' ) {
@@ -158,9 +173,26 @@
                         }
                     }
                 }, this);
-                if( events != [] ) {
-                    this.events = _.extend(this.events, events);
-                }
+            }
+        },
+
+        _registerEvents: function() {
+            if( this.events ) {
+
+                var that = this;
+                _.each(this.events, function( callback, eventName ) {
+                    Hammer(this.el, {
+                        prevent_default: true,
+                        no_mouseevents: true
+                    });
+
+                    //                        .on(eventName, function(){
+                    //                            console.log(eventName);
+                    //                            callback.apply(that, arguments);
+                    //                        });
+
+                }, this);
+
 
             }
         },

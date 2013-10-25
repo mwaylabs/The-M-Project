@@ -308,4 +308,12 @@ If the View is Called `M.AwesomeView` the file would be `awesome.js`. Lowercase,
 ---
 
 
+# Add a plugin to the framework
+
+** Example for hammer.js **
+
+1. cd framework
+2. bower install hammerjs --save
+3.
+
  

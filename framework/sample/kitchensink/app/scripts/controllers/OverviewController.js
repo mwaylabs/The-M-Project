@@ -29,6 +29,8 @@
             //create the menu
             this.menu = Addressbook.Views.MenuView.create(this, null, true);
 
+            menu = this.menu;
+
             //set a layout
             //            Addressbook.layout = M.SwitchLayout.extend().create(this, null, true);
 

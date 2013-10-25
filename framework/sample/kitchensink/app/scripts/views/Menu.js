@@ -47,10 +47,6 @@ Addressbook.Views = Addressbook.Views || {};
                 value: ''
             }),
 
-            searchfieldExample: M.SearchfieldView.extend({
-                label: 'Label',
-                value: ''
-            }),
 
             toggleExample: M.ToggleView.extend({
 
@@ -83,10 +79,30 @@ Addressbook.Views = Addressbook.Views || {};
                 alt: 'success',
 
                 events: {
-                    click: function() {
-                        console.log('click auf bild!');
+                    tap: function() {
+                        //this.$el.append('click');
+                        var that = this;
+                        this.$el.hide();
+
+                        setTimeout(function(){
+                            that.$el.show();
+                        }, 2000);
+                    },
+                    swipe: function() {
+                        this.$el.append('swipe');
+                    },
+                    swiperight: function() {
+                        this.$el.append('swiperight');
+                    },
+                    swipeleft: function() {
+                        this.$el.append('left');
                     }
                 }
+            }),
+
+            searchfieldExample: M.SearchfieldView.extend({
+                label: 'Label',
+                value: ''
             }),
 
             loadingExample: M.LoaderView.extend({

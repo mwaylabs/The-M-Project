@@ -6,8 +6,6 @@
 
         initialize: function() {
 
-            FastClick.attach(document.body);
-
         },
 
 //        bootstrap: function() {
