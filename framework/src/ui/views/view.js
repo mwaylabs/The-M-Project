@@ -217,19 +217,19 @@
             return this;
         },
 
-        _assignTemplate: function( template ) {
-            var template = template || this.template;
-            if( template ) {
-                if( typeof template === 'function' ) {
-                    this._template = template;
-
-                } else if( _.isString(template) ) {
-                    this._template = _.tmpl(template);
-                } else if( _.isObject(template) ) {
-                    this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']))
+        _assignTemplateValues: function() {
+            this._templateData = {};
+            if( this.model ) {
+                if( M.isModel(this._value_) ) {
+                    this._templateData = this.model.attributes;
+                } else {
+                    this._templateData['_value_'] = this.model.get(this._value_.attribute);
                 }
+            } else if( typeof this._value_ === 'string' ) {
+                this._templateData['_value_'] = this._value_;
+            } else if( this._value_ !== null     && typeof this._value_ === 'object' ) {
+                this._templateData = this._value_;
             }
-            return this;
         },
 
         _extendTemplate: function() {
