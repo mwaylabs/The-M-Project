@@ -211,7 +211,7 @@
         },
 
         _preRender: function() {
-            this._assignTemplate();
+            this._assignTemplateValues();
             this._extendTemplate();
             this.preRender();
             return this;
