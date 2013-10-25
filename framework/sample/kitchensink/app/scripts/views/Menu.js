@@ -41,6 +41,12 @@ Addressbook.Views = Addressbook.Views || {};
 
             }),
 
+            textfieldExample: M.TextfieldView.extend({
+
+                label: 'Label',
+                value: ''
+            }),
+
             toggleExample: M.ToggleView.extend({
 
                 value: 'ICH BIN DER VALUE',

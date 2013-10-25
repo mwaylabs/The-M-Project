@@ -118,16 +118,15 @@
         },
 
         _assignTemplateValues: function() {
-
+            this._templateData = {};
             if( this.model ) {
                 if( M.isModel(this._value_) ) {
                     this._templateData = this.model.attributes;
                 } else {
-                    this._templateData = {};
+
                     this._templateData['_value_'] = this.model.get(this._value_.attribute);
                 }
             } else if( this._value_ ) {
-                this._templateData = {};
                 this._templateData['_value_'] = this._value_;
             }
         },
