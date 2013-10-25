@@ -71,7 +71,45 @@ Addressbook.Views = Addressbook.Views || {};
                 second: M.ButtonView.extend({
                     value: 'btn2'
                 })
+            }),
+
+            imageExample: M.ImageView.extend({
+                value: 'http://www.bhmpics.com/thumbs/success_kid-t2.jpg',
+                alt: 'success',
+
+                events: {
+                    click: function() {
+                        console.log('click auf bild!');
+                    }
+                }
+            }),
+
+            loadingExample: M.LoaderView.extend({
+                value: 'Loading ...',
+                preRender: function(){
+                },
+                postRender: function(){
+                }
+            }),
+
+            loaderButtonExample: M.ButtonView.extend({
+                value: 'Toggle LoaderView',
+                events:{
+                    click: function() {
+                        this.scope.menu.childViews.content.childViews.loadingExample.toggle();
+                    }
+                }
+            }),
+
+            dialogExample: M.DialogView.extend({
+                value: new M.Model({
+                    'header': 'Header Text',
+                    'message': 'Dialog Message',
+                    'cancel' : 'Abbrechen',
+                    'ok' : 'Ok'
+                })
             })
+
 
         })
     });
