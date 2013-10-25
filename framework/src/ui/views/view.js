@@ -163,7 +163,7 @@
         _mapEventsToScope: function( scope ) {
             if( this.events ) {
                 var events = [];
-                if(this.events['click'] && !this.events['tap']){
+                if( this.events['click'] && !this.events['tap'] ) {
                     this.events['tap'] = this.events['click'];
                 }
                 _.each(this.events, function( value, key ) {
@@ -227,7 +227,7 @@
                 }
             } else if( typeof this._value_ === 'string' ) {
                 this._templateData['_value_'] = this._value_;
-            } else if( this._value_ !== null     && typeof this._value_ === 'object' ) {
+            } else if( this._value_ !== null && typeof this._value_ === 'object' ) {
                 this._templateData = this._value_;
             }
         },
@@ -394,7 +394,7 @@
         if( f._childViews ) {
             f.childViews = {};
             _.each(f._childViews, function( childView, name ) {
-                f.childViews[name] = childView.create(scope, null, true);
+                f.childViews[name] = childView.create(scope || f, null, true);
             });
         }
         if( childViews ) {
