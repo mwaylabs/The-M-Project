@@ -4,27 +4,43 @@ M.Application = M.Controller.extend({
 
     router: null,
 
-    initialize: function(){
+
+    Models: null,
+
+    Collections: null,
+
+    Views: null,
+
+    Controllers: null,
+
+    Routers: null,
+
+    initialize: function() {
+        this.Models = {};
+        this.Collections = {};
+        this.Views = {};
+        this.Controllers = {};
+        this.Routers = {};
         return this;
     },
 
     start: function( options ) {
-        if(!options.router){
+        if( !options.router ) {
             console.warn('no router was given to the app start');
         }
-        this.router =  new options.router();
+        this.router = options.router;
         Backbone.history.start();
         return this;
     },
 
-    initialRender: function(){
+    initialRender: function() {
         this.layoutManager.initialRenderProcess();
     },
 
-    _setControllers: function(){
-        _.each(this.router.routes, function( route ){
+    _setControllers: function() {
+        _.each(this.router.routes, function( route ) {
 
-            if(this.router[route] && M.Controller.prototype.isPrototypeOf(this.router[route])){
+            if( this.router[route] && M.Controller.prototype.isPrototypeOf(this.router[route]) ) {
                 this[route] = this.router[route];
             }
         }, this);
