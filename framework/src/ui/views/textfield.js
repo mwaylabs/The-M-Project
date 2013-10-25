@@ -23,11 +23,19 @@
 
         _type: 'M.SearchfieldView',
 
-        _template: _.tmpl(M.TemplateManager.get('M.TextfieldView')),
+        placeholder: 'Search',
+
+        _template: _.tmpl(M.TemplateManager.get('M.SearchfieldView')),
 
         initialize: function() {
             M.View.prototype.initialize.apply(this);
+        },
+
+        _assignTemplateValues: function() {
+            M.TextfieldView.prototype._assignTemplateValues.apply(this);
+            this._templateData['placeholder'] = this.placeholder || '';
         }
+
 
     });
 
