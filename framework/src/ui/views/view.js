@@ -102,7 +102,7 @@
             this._assignValue(options);
             this._assignTemplateValues();
             this._mapEventsToScope(this.scope);
-            this._registerEvents();
+            //this._registerEvents();
             this._assignContentBinding();
             //            this._assignComplexView();
             //            this.init();
@@ -163,33 +163,34 @@
         _mapEventsToScope: function( scope ) {
             if( this.events ) {
                 var events = [];
-                if( this.events['click'] && !this.events['tap'] ) {
-                    this.events['tap'] = this.events['click'];
-                }
                 _.each(this.events, function( value, key ) {
                     if( typeof value === 'string' ) {
                         if( scope && typeof scope[value] === 'function' ) {
                             events[key] = scope[value];
                         }
+                    } else {
+                        events[key] = value;
                     }
                 }, this);
+
+                this._events = events;
             }
         },
 
         _registerEvents: function() {
-            if( this.events ) {
-
+            if( this._events ) {
                 var that = this;
-                _.each(this.events, function( callback, eventName ) {
-                    Hammer(this.el, {
+                Object.keys(this._events).forEach(function( eventName ) {
+                    if(typeof this._events[eventName] === 'function'){
+                        console.log(that.el);
+                    }
+                    Hammer(that.el, {
                         prevent_default: true,
                         no_mouseevents: true
-                    });
-
-                    //                        .on(eventName, function(){
-                    //                            console.log(eventName);
-                    //                            callback.apply(that, arguments);
-                    //                        });
+                    }).on(eventName, function() {
+                            console.log(eventName);
+                            that._events[eventName].apply(that, arguments);
+                        });
 
                 }, this);
 
@@ -290,7 +291,8 @@
         },
 
         _postRender: function() {
-            this._addClassNames()
+            this._registerEvents();
+            this._addClassNames();
             if( this.model ) {
                 this._assignBinding();
                 this.stickit();
