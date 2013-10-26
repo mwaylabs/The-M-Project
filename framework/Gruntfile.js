@@ -39,13 +39,13 @@ module.exports = function( grunt ) {
             },
             core: {
                 files: {
-                    'dist/tmp2.js': 'src/build.js',
-                    'dist/tmp2.data.js': 'src/build.data.js',
+                    'dist/themproject.js': 'src/themproject.js',
+                    'dist/themproject.bd.js': 'src/themproject.bd.js'
                 }
             },
             css: {
                 files: {
-                    'dist/tmp2.css': 'src/build.css'
+                    'dist/themproject.css': 'src/themproject.css'
                 }
             }
         },
@@ -54,11 +54,20 @@ module.exports = function( grunt ) {
                 banner: '<%= meta.banner %>'
             },
             core: {
-                src: 'dist/tmp2.js',
-                dest: 'dist/tmp2.min.js',
+                src: 'dist/themproject.js',
+                dest: 'dist/themproject.min.js',
                 options: {
-                    sourceMap: 'dist/tmp2.map',
-                    sourceMappingURL: 'tmp2.map',
+                    sourceMap: 'dist/themproject.map',
+                    sourceMappingURL: 'themproject.map',
+                    sourceMapPrefix: 1
+                }
+            },
+            bd: {
+                src: 'dist/themproject.bd.js',
+                dest: 'dist/themproject.bd.min.js',
+                options: {
+                    sourceMap: 'dist/themproject.bd.map',
+                    sourceMappingURL: 'themproject.bd.map',
                     sourceMapPrefix: 1
                 }
             }
@@ -69,7 +78,7 @@ module.exports = function( grunt ) {
                     banner: '<%= meta.bannerCSS %>'
                 },
                 files: {
-                    'dist/tmp2.min.css': ['dist/tmp2.css']
+                    'dist/themproject.min.css': ['dist/themproject.css']
                 }
             }
         },
