@@ -29,8 +29,32 @@ M.Application = M.Controller.extend({
             console.warn('no router was given to the app start');
         }
         this.router = options.router;
-        Backbone.history.start();
+
+        this.initLocale(options).then(function() {
+             Backbone.history.start();
+        });
+
         return this;
+    },
+
+    initLocale: function(options) {
+        var defer = $.Deferred();
+
+        M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function(e) {
+
+            console.log(M.I18N.locale +' >> '+M.I18N.get('global.button.back', {count:'5'}))
+            defer.resolve();
+        });
+
+        if( options.locales ) {
+            M.I18N.setLocales(options.locales);
+            //M.I18N.setLocale(moment.lang());
+            M.I18N.setLocale('a');
+        }else{
+            defer.resolve();
+        }
+
+        return defer.promise();
     },
 
     initialRender: function() {

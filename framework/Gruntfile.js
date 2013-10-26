@@ -87,9 +87,9 @@ module.exports = function( grunt ) {
             }
         },
         watch: {
-            scripts: {
-                files: ['src/**/*'],
-                tasks: ['default'],
+            dev: {
+                files: ['src/**/*','test/**/*'],
+                tasks: ['preprocess:core','test'],
                 options: {
                     spawn: false
                 }
@@ -111,7 +111,7 @@ module.exports = function( grunt ) {
     // TODO run jshint task
     //grunt.registerTask('test', ['jshint', 'mocha']);
     grunt.registerTask('test', ['mocha']);
-    grunt.registerTask('dev', ['preprocess:core', 'watch']);
+    grunt.registerTask('dev', ['preprocess:core','watch:dev']);
     grunt.registerTask('default', ['preprocess']);
     grunt.registerTask('release', ['preprocess', 'uglify', 'cssmin']);
 };

@@ -1,0 +1,11 @@
+{
+    "common": {
+        "appName": "Kitchensink DE",
+        "close": "Close"
+    },
+    "errors": {
+        "isRequired": "is <strong>required</strong>",
+        "greaterThan": "has to be greater than {{count}}",
+        "lowerThan": "has to be lower than {{count}}"
+    }
+}
