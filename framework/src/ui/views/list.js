@@ -5,7 +5,7 @@
 
         _viewModelMapping: null,
 
-        template: _.tmpl(M.TemplateManager.get('M.ListView')),
+        _template: _.tmpl(M.TemplateManager.get('M.ListView')),
 
         _render: function() {
             M.View.prototype._render.apply(this, arguments);
