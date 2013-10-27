@@ -39,6 +39,10 @@ M.CONST = {
         TAG_ALL: ''
     },
 
+    I18N: {
+        LOCALE_CHANGED: 'locale-changed'
+    },
+
     /***
      * Data type Constants.
      */

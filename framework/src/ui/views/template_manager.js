@@ -121,7 +121,7 @@ M.TemplateManager = M.Object.extend({
     },
 
 
-    _currentUI: 'bootstrap',
+    _currentUI: (typeof m_config !== 'undefined' && typeof m_config.ui !== 'undefined') ? m_config.ui : 'bootstrap',
 
     get: function( template ) {
 

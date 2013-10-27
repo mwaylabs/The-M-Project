@@ -4,27 +4,67 @@ M.Application = M.Controller.extend({
 
     router: null,
 
-    initialize: function(){
+
+    Models: null,
+
+    Collections: null,
+
+    Views: null,
+
+    Controllers: null,
+
+    Routers: null,
+
+    initialize: function() {
+        this.Models = {};
+        this.Collections = {};
+        this.Views = {};
+        this.Controllers = {};
+        this.Routers = {};
         return this;
     },
 
     start: function( options ) {
-        if(!options.router){
+        if( !options.router ) {
             console.warn('no router was given to the app start');
         }
-        this.router =  new options.router();
-        Backbone.history.start();
+        this.router = options.router;
+
+        this.initLocale(options).then(function() {
+             Backbone.history.start();
+        });
+
         return this;
     },
 
-    initialRender: function(){
+    initLocale: function(options) {
+        var defer = $.Deferred();
+
+        M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function(e) {
+
+            console.log(M.I18N.locale +' >> '+M.I18N.get('global.button.back', {count:'5'}))
+            defer.resolve();
+        });
+
+        if( options.locales ) {
+            M.I18N.setLocales(options.locales);
+            //M.I18N.setLocale(moment.lang());
+            M.I18N.setLocale('a');
+        }else{
+            defer.resolve();
+        }
+
+        return defer.promise();
+    },
+
+    initialRender: function() {
         this.layoutManager.initialRenderProcess();
     },
 
-    _setControllers: function(){
-        _.each(this.router.routes, function( route ){
+    _setControllers: function() {
+        _.each(this.router.routes, function( route ) {
 
-            if(this.router[route] && M.Controller.prototype.isPrototypeOf(this.router[route])){
+            if( this.router[route] && M.Controller.prototype.isPrototypeOf(this.router[route]) ) {
                 this[route] = this.router[route];
             }
         }, this);

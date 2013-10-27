@@ -1,4 +1,16 @@
 /**
+ * Defines the general namespace
+ *
+ * @type {Object}
+ */
+var M;
+if (typeof exports !== 'undefined') {
+    M = exports;
+} else {
+    M = global.M = {};
+}
+
+/**
  * Version number of current release
  * @type {String}
  */

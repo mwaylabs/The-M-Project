@@ -102,7 +102,7 @@
             this._assignValue(options);
             this._assignTemplateValues();
             this._mapEventsToScope(this.scope);
-            this._registerEvents();
+            //this._registerEvents();
             this._assignContentBinding();
             //            this._assignComplexView();
             //            this.init();
@@ -163,33 +163,34 @@
         _mapEventsToScope: function( scope ) {
             if( this.events ) {
                 var events = [];
-                if(this.events['click'] && !this.events['tap']){
-                    this.events['tap'] = this.events['click'];
-                }
                 _.each(this.events, function( value, key ) {
                     if( typeof value === 'string' ) {
                         if( scope && typeof scope[value] === 'function' ) {
                             events[key] = scope[value];
                         }
+                    } else {
+                        events[key] = value;
                     }
                 }, this);
+
+                this._events = events;
             }
         },
 
         _registerEvents: function() {
-            if( this.events ) {
-
+            if( this._events ) {
                 var that = this;
-                _.each(this.events, function( callback, eventName ) {
-                    Hammer(this.el, {
+                Object.keys(this._events).forEach(function( eventName ) {
+                    if(typeof this._events[eventName] === 'function'){
+                        console.log(that.el);
+                    }
+                    Hammer(that.el, {
                         prevent_default: true,
                         no_mouseevents: true
-                    });
-
-                    //                        .on(eventName, function(){
-                    //                            console.log(eventName);
-                    //                            callback.apply(that, arguments);
-                    //                        });
+                    }).on(eventName, function() {
+                            console.log(eventName);
+                            that._events[eventName].apply(that, arguments);
+                        });
 
                 }, this);
 
@@ -211,25 +212,25 @@
         },
 
         _preRender: function() {
-            this._assignTemplate();
+            this._assignTemplateValues();
             this._extendTemplate();
             this.preRender();
             return this;
         },
 
-        _assignTemplate: function( template ) {
-            var template = template || this.template;
-            if( template ) {
-                if( typeof template === 'function' ) {
-                    this._template = template;
-
-                } else if( _.isString(template) ) {
-                    this._template = _.tmpl(template);
-                } else if( _.isObject(template) ) {
-                    this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']))
+        _assignTemplateValues: function() {
+            this._templateData = {};
+            if( this.model ) {
+                if( M.isModel(this._value_) ) {
+                    this._templateData = this.model.attributes;
+                } else {
+                    this._templateData['_value_'] = this.model.get(this._value_.attribute);
                 }
+            } else if( typeof this._value_ === 'string' ) {
+                this._templateData['_value_'] = this._value_;
+            } else if( this._value_ !== null && typeof this._value_ === 'object' ) {
+                this._templateData = this._value_;
             }
-            return this;
         },
 
         _extendTemplate: function() {
@@ -290,7 +291,8 @@
         },
 
         _postRender: function() {
-            this._addClassNames()
+            this._registerEvents();
+            this._addClassNames();
             if( this.model ) {
                 this._assignBinding();
                 this.stickit();
@@ -394,7 +396,7 @@
         if( f._childViews ) {
             f.childViews = {};
             _.each(f._childViews, function( childView, name ) {
-                f.childViews[name] = childView.create(scope, null, true);
+                f.childViews[name] = childView.create(scope || f, null, true);
             });
         }
         if( childViews ) {
