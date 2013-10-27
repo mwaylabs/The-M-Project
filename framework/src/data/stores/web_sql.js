@@ -119,8 +119,8 @@ M.WebSqlStore = M.Store.extend({
                 } else {
                     this.db = window.openDatabase(this.name, "", "", this.size);
                     if (this.entities) {
-                        for (var entity in this.entities) {
-                            this._createTable({ entity: entity });
+                        for (var key in this.entities) {
+                            this._createTable({ entity: this.entities[key] });
                         }
                     }
                 }
@@ -279,7 +279,7 @@ M.WebSqlStore = M.Store.extend({
             var id, key = entity.idAttribute;
             var field   = this.getField(entity, key);
             _.each(data, function(model) {
-                id = _.isFunction(model.getId) ? model.getId() : model[key];
+                id = (_.isFunction(model.get) ? model.get(key) : model[key]) || model.id;
                 if (!_.isUndefined(id)) {
                     ids.push(that._sqlValue(id, field));
                 }
@@ -369,7 +369,7 @@ M.WebSqlStore = M.Store.extend({
 
         var entity = this.getEntity(options);
 
-        if( this._checkDb(options) && this._checkEntity(entity, options) ) {
+        if( this._checkDb(options) && this._checkEntity(options, entity) ) {
             var sql = this._sqlDropTable(entity.name);
             // reset flag
             this._transactionFailed = NO;
@@ -381,7 +381,7 @@ M.WebSqlStore = M.Store.extend({
 
         var entity = this.getEntity(options);
 
-        if( this._checkDb(options) && this._checkEntity(entity, options) ) {
+        if( this._checkDb(options) && this._checkEntity(options, entity) ) {
             var sql = this._sqlCreateTable(entity);
             // reset flag
             this._transactionFailed = NO;

@@ -60,9 +60,8 @@ _.extend(M.Model.prototype, {
     // For each `set` attribute, update or delete the current value.
         var attrs = model.changedAttributes();
         if ( _.isObject(attrs)) {
-            for (attr in attrs) {
-                val = attrs[attr];
-                this.changedSinceSync[attr] = val;
+            for (var attr in attrs) {
+                this.changedSinceSync[attr] = attrs[attr];
             }
         }
     },

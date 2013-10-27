@@ -14,8 +14,8 @@ M.Store = function() {
 };
 
 M.Store.extend = Backbone.Model.extend;
-
 M.Store.create = M.create;
+M.Store.design = M.design;
 
 // Attach all inheritable methods to the Connector prototype.
 _.extend(M.Store.prototype, Backbone.Events, M.Object, {
@@ -198,7 +198,7 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
     },
 
     _checkEntity: function( obj, entity ) {
-        if( !entity ) {
+        if( !M.isEntity(entity)) {
             var error = "No valid entity passed.";
             M.Logger.error(M.CONST.ERROR.VALIDATION_PRESENCE, error)
             this.handleCallback(obj.error, error);

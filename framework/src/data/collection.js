@@ -32,6 +32,7 @@ _.extend(M.Collection.prototype, {
         if (entity) {
             this.entity = M.Entity.from(entity, { model: this.model, typeMapping: options.typeMapping });
         }
+        this._updateUrl();
 
         if (this.store && _.isFunction(this.store.initCollection)) {
             this.store.initCollection(this, options);
@@ -87,8 +88,48 @@ _.extend(M.Collection.prototype, {
         }
     },
 
+    _updateUrl: function() {
+        var params = this.getUrlParams();
+        this.url = this.getUrlRoot();
+        if (this.query) {
+            params["query"] = encodeURIComponent(JSON.stringify(this.query));
+        }
+        if (this.fields) {
+            params["fields"] = encodeURIComponent(JSON.stringify(this.fields));
+        }
+        if (this.sort) {
+            params["sort"] = encodeURIComponent(JSON.stringify(this.sort));
+        }
+        if (!_.isEmpty(params)) {
+            this.url += "?";
+            var a = [];
+            for (var k in params) {
+                a.push(k + (params[k] ? '=' + params[k] : ''));
+            }
+            this.url += a.join('&');
+        }
+    },
+
+    getUrlParams: function(url) {
+        var url = url || this.getUrl();
+        var m = url.match(/\?([^#]*)/);
+        var params = {};
+        if (m && m.length > 1) {
+            _.each(m[1].split('&'), function (p) {
+                var a = p.split('=');
+                params[a[0]] = a[1];
+            });
+        }
+        return params;
+    },
+
+    getUrl: function(collection) {
+        return (_.isFunction(this.url) ? this.url() : this.url) || '';
+    },
+
     getUrlRoot: function() {
-        return _.isFunction(this.url) ? this.url() : this.url;
+        var url = this.getUrl();
+        return url ? ( url.indexOf('?') >=0 ? url.substr(0, url.indexOf('?')) : url) : '';
     },
 
     applyFilter: function(callback){

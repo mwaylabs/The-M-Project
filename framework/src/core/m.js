@@ -30,6 +30,10 @@ M.isModel = function (model) {
     return Backbone.Model.prototype.isPrototypeOf(model);
 };
 
+M.isEntity = function (entity) {
+    return M.Entity.prototype.isPrototypeOf(entity);
+};
+
 //    M.create = function() {
 //        return this.apply(this, arguments);
 //    };

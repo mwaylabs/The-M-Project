@@ -62,7 +62,7 @@
         // @include ./ui/views/button.js
         // @include ./ui/views/list.js
         // @include ./ui/views/slider.js
-	// @include ./ui/views/dialog.js
+	    // @include ./ui/views/dialog.js
         // @include ./ui/views/toggle.js
         // @include ./ui/views/image.js
         // @include ./ui/views/loader.js

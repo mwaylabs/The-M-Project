@@ -61,7 +61,8 @@ M.BikiniStore = M.Store.extend({
             if (!endpoint) {
                 var href = M.Request.getLocation(url);
                 endpoint = {};
-                endpoint.url         = url;
+                endpoint.baseUrl     = url;
+                endpoint.readUrl     = collection.getUrl();
                 endpoint.host        = href.protocol + "//" +href.host;
                 endpoint.path        = href.pathname;
                 endpoint.entity      = entity;
@@ -231,7 +232,8 @@ M.BikiniStore = M.Store.extend({
             if (method !== "read" || !endpoint.localStore || !time) {
                 // do backbone rest
                 that.addMessage(method, model,
-                    endpoint.localStore ? {} : options, // we don't need to call callbacks if an other store handle this
+                    // we don't need to call callbacks if an other store handle this
+                    endpoint.localStore ? {} : options,
                     endpoint);
             } else if (method == "read" && time) {
                 that.fetchChanges(endpoint, time);
@@ -284,7 +286,7 @@ M.BikiniStore = M.Store.extend({
     emitMessage: function(endpoint, msg, options, model) {
         var channel = endpoint.channel;
         var that = this;
-        var url   = endpoint.url;
+        var url  = msg.method !== 'read' ? endpoint.baseUrl : endpoint.readUrl;
         if (msg.id && msg.method !== 'create') {
             url += "/" + msg.id;
         }
@@ -333,10 +335,10 @@ M.BikiniStore = M.Store.extend({
 
     fetchChanges: function(endpoint, time) {
         var that = this;
-        if (endpoint && endpoint.url && time) {
+        if (endpoint && endpoint.baseUrl && time) {
             var changes = new M.Collection({});
             changes.fetch({
-                url: endpoint.url + '/changes/' + time,
+                url: endpoint.baseUrl + '/changes/' + time,
                 success: function() {
                    changes.each( function(msg) {
                        if (msg.time && msg.method) {
@@ -352,11 +354,11 @@ M.BikiniStore = M.Store.extend({
 
     fetchServerInfo: function(endpoint, collection) {
         var that = this;
-        if (endpoint && endpoint.url) {
+        if (endpoint && endpoint.baseUrl) {
             var info = new M.Model();
             var time = that.getLastMessageTime(endpoint.channel);
             info.fetch({
-                url: endpoint.url + "/info",
+                url: endpoint.baseUrl + "/info",
                 success: function() {
                     if (!time && info.get('time')) {
                         that.setLastMessageTime(endpoint.channel, info.get('time'));
