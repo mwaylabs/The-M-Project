@@ -15,6 +15,24 @@ Addressbook.Views = Addressbook.Views || {};
                 tagName: 'h2',
                 value: 'The-M-Project Kitchensink'
             }),
+
+            eventTest: M.View.extend({
+                scopeKey: 'consoleModel',
+                cssClass: 'box',
+                events: {
+                    hold: 'eventDidHappen',
+                    tap: 'eventDidHappen',
+                    doubletap: 'eventDidHappen',
+                    drag: 'eventDidHappen',
+                    swipe: 'eventDidHappen',
+                    transform: 'eventDidHappen',
+                    rotate: 'eventDidHappen',
+                    pinch: 'eventDidHappen',
+                    touch: 'eventDidHappen'
+//                    release: 'eventDidHappen'
+                }
+            }),
+
             listExample: M.ListView.extend({
 
                 scopeKey: 'tmpViews',
@@ -34,11 +52,18 @@ Addressbook.Views = Addressbook.Views || {};
 
             buttonExample: M.ButtonView.extend({
 
-                value: 'Hello'
+                value: 'Hello',
+                events: {
+                    tap: 'eventDidHappen'
+                }
             }),
 
             sliderExample: M.SliderView.extend({
-
+                events: {
+                    change: function(event, element){
+                        console.log(element.$el);
+                    }
+                }
             }),
 
             textfieldExample: M.TextfieldView.extend({
@@ -48,31 +73,30 @@ Addressbook.Views = Addressbook.Views || {};
             }),
 
 
-            toggleExample: M.ToggleView.extend({
-
-                value: 'ICH BIN DER VALUE',
-                preRender: function(){
-
-                },
-                postRender: function(){
-                    console.log(this.$el, this.el);
-
-                }
-
-            },{
-                first: M.ButtonView.extend({
-                    value: 'btn1',
-                    events:{
-                        click: function(){
-                            console.log(this.scope);
-                            this.scope.hello();
-                        }
-                    }
-                }),
-                second: M.ButtonView.extend({
-                    value: 'btn2'
-                })
-            }),
+//            toggleExample: M.ToggleView.extend({
+//
+//                value: 'ICH BIN DER VALUE',
+//                preRender: function(){
+//
+//                },
+//                postRender: function(){
+//                    console.log(this.$el, this.el);
+//
+//                }
+//
+//            },{
+//                first: M.ButtonView.extend({
+//                    value: 'btn1',
+//                    events:{
+//                        tap: function(event, element){
+//                            console.log(element);
+//                        }
+//                    }
+//                }),
+//                second: M.ButtonView.extend({
+//                    value: 'btn2'
+//                })
+//            }),
 
             imageExample: M.ImageView.extend({
                 value: 'http://www.bhmpics.com/thumbs/success_kid-t2.jpg',
@@ -88,15 +112,9 @@ Addressbook.Views = Addressbook.Views || {};
                             that.$el.show();
                         }, 2000);
                     },
-                    swipe: function() {
-                        this.$el.append('swipe');
-                    },
-                    swiperight: function() {
-                        this.$el.append('swiperight');
-                    },
-                    swipeleft: function() {
-                        this.$el.append('left');
-                    }
+                    swipe: 'eventDidHappen',
+                    swiperight: 'eventDidHappen',
+                    swipeleft: 'eventDidHappen'
                 }
             }),
 
@@ -117,7 +135,7 @@ Addressbook.Views = Addressbook.Views || {};
                 value: 'Toggle LoaderView',
                 events:{
                     click: function() {
-                        this.scope.menu.childViews.content.childViews.loadingExample.toggle();
+                        //this.scope.menu.childViews.content.childViews.loadingExample.toggle();
                     }
                 }
             }),

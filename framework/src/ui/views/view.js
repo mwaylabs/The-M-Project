@@ -174,22 +174,30 @@
                 }, this);
 
                 this._events = events;
+                this.originalEvents = this.events;
+                //backbone should not bind events so set it to null
+                this.events = null;
             }
+        },
+
+        _getEventOptions: function() {
+            return {
+                prevent_default: true,
+                no_mouseevents: true
+            };
         },
 
         _registerEvents: function() {
             if( this._events ) {
                 var that = this;
                 Object.keys(this._events).forEach(function( eventName ) {
-                    if(typeof this._events[eventName] === 'function'){
+                    if( typeof this._events[eventName] === 'function' ) {
                         console.log(that.el);
                     }
-                    Hammer(that.el, {
-                        prevent_default: true,
-                        no_mouseevents: true
-                    }).on(eventName, function() {
-                            console.log(eventName);
-                            that._events[eventName].apply(that, arguments);
+                    Hammer(that.el, that._getEventOptions()).on(eventName, function() {
+                            var args = Array.prototype.slice.call(arguments);
+                            args.push(that);
+                            that._events[eventName].apply(that.scope, args);
                         });
 
                 }, this);

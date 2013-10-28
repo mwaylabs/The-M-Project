@@ -9,6 +9,17 @@
 
     Addressbook.Controllers.OverviewController = M.Controller.extend({
 
+        consoleModel: M.Model.create({
+            _value_: ''
+        }),
+
+        eventDidHappen: function( ev, elem ) {
+
+//            var val = this.consoleModel.get('_value_');
+            var val = elem._type + ' ' + ev.type + ' ' + elem.value;
+            this.consoleModel.set('_value_', val);
+        },
+
         tmpViews: null,
 
         menu: null,

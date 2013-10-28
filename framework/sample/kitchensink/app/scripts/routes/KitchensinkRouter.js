@@ -9,6 +9,7 @@
         initialize: function() {
 
             M.Router.prototype.initialize.apply(this, arguments);
+            OverviewController = this.overviewController;
         },
 
         overviewController: Addressbook.Controllers.OverviewController.create()
