@@ -1,8 +1,8 @@
 describe('M.I18N', function () {
 
     var testLocales = [
-        {locale: 'en'},
-        {locale: 'de'}
+        {_activeLocale: 'en'},
+        {_activeLocale: 'de'}
     ];
 
     var localeStyle1 = {
@@ -34,7 +34,7 @@ describe('M.I18N', function () {
     }
 
     var testI18NStyles = function (translations) {
-        M.I18N._assignDictionary(translations);
+        M.I18N._setDictionary(translations);
         assert.equal(M.I18N.l('global.button.save'), 'Save document');
         assert.equal(M.I18N.l('global.button.emptyTrash', {count: 5}), 'Empty Trash (5)');
         assert.equal(M.I18N.l('global.error.permissionDenied'), 'Permission denied');
@@ -59,11 +59,11 @@ describe('M.I18N', function () {
     it('properties', function () {
         assert.isDefined(M.I18N._availableLocales);
         assert.isDefined(M.I18N._dictionary);
-        assert.isDefined(M.I18N.locale);
+        assert.isDefined(M.I18N._activeLocale);
 
         assert.isArray(M.I18N._availableLocales);
         assert.isArray(M.I18N._dictionary);
-        assert.isNull(M.I18N.locale);
+        assert.isNull(M.I18N._activeLocale);
     });
 
     it('methods', function () {
@@ -72,7 +72,7 @@ describe('M.I18N', function () {
         assert.isDefined(M.I18N.loadFileForLocale);
         assert.isDefined(M.I18N.l);
         assert.isDefined(M.I18N._parseObject);
-        assert.isDefined(M.I18N._assignDictionary);
+        assert.isDefined(M.I18N._setDictionary);
         assert.isDefined(M.I18N._triggerLocaleChangedEvent);
         assert.isDefined(M.I18N.on);
         assert.isDefined(M.I18N.off);
@@ -83,28 +83,28 @@ describe('M.I18N', function () {
         assert.isFunction(M.I18N.loadFileForLocale);
         assert.isFunction(M.I18N.l);
         assert.isFunction(M.I18N._parseObject);
-        assert.isFunction(M.I18N._assignDictionary);
+        assert.isFunction(M.I18N._setDictionary);
         assert.isFunction(M.I18N._triggerLocaleChangedEvent);
         assert.isFunction(M.I18N.on);
         assert.isFunction(M.I18N.off);
         assert.isFunction(M.I18N.trigger);
     });
 
-    it('set locale to en', function (done) {
+    it('set _activeLocale to en', function (done) {
         assert.isTrue(M.I18N.setLocales(testLocales), 'Set locales');
         assert.equal(testLocales, M.I18N._availableLocales);
 
         M.I18N.once(M.CONST.I18N.LOCALE_CHANGED, function (e) {
-            assert.equal(M.I18N.locale, 'en');
+            assert.equal(M.I18N._activeLocale, 'en');
             done();
         });
         M.I18N.setLocale('en');
 
     });
 
-    it('set locale to de', function (done) {
+    it('set _activeLocale to de', function (done) {
         M.I18N.once(M.CONST.I18N.LOCALE_CHANGED, function (e) {
-            assert.equal(M.I18N.locale, 'de');
+            assert.equal(M.I18N._activeLocale, 'de');
             assert.equal(M.I18N.l('global.button.save'), 'Dokument speichern');
             done();
         });
@@ -113,7 +113,7 @@ describe('M.I18N', function () {
 
     it('switch back to en', function () {
         M.I18N.setLocale('en');
-        assert.equal(M.I18N.locale, 'en');
+        assert.equal(M.I18N._activeLocale, 'en');
         assert.equal(M.I18N.l('global.button.save'), 'Save document');
     });
 

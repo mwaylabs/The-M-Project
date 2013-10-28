@@ -50,7 +50,7 @@ Kitchensink.Views = Kitchensink.Views || {};
                 value: M.I18N.get('global.switchLanguage'),
                 events: {
                     tap: function() {
-                        if(M.I18N.locale == 'de') {
+                        if(M.I18N._activeLocale == 'de') {
                             M.I18N.setLocale('en');
                         } else {
                             M.I18N.setLocale('de');

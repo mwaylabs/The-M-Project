@@ -7,11 +7,39 @@
  */
 M.I18N = _.extend(Backbone.Events, M.Object.extend({
 
+    /**
+     * The type of this object.
+     *
+     * @private
+     */
     _type: 'M.I18N',
+
+    /**
+     * List of available locales.
+     *
+     * @private
+     */
     _availableLocales: [],
-    locale: null,
+
+    /**
+     * The current active locale
+     *
+     * @private
+     */
+    _activeLocale: null,
+
+    /**
+     * List of loaded dictionaries
+     *
+     * @private
+     */
     _dictionary: [],
 
+    /**
+     * Set all available locales.
+     *
+     * @returns {Array}
+     */
     setLocales: function (locales) {
         if (locales && _.isArray(locales) && locales.length > 0) {
             this._availableLocales = locales;
@@ -22,65 +50,61 @@ M.I18N = _.extend(Backbone.Events, M.Object.extend({
         }
     },
 
+    /**
+     * Returns all available locales.
+     *
+     * @returns {Array}
+     */
+    getLocales: function () {
+        return this._availableLocales;
+    },
+
+    /**
+     * Changes the active locale.
+     *
+     * @param {String}
+     */
     setLocale: function (locale) {
-        this.locale = locale;
+        this._activeLocale = locale;
         this.loadFileForLocale();
         // TODO store locale
     },
 
+    /**
+     * Returns the active locale
+     *
+     * @returns {String}
+     */
     getLocale: function () {
-        return this.locale;
+        return this._activeLocale;
     },
 
     /**
-     * Loads file and puts it into dictionary
+     * This is just a shorthand for M.I18NItem.create
+     *
+     * @param key
+     * @param placeholder
+     * @returns {key|*}
      */
-    loadFileForLocale: function () {
-        var fileUrl = 'i18n/' + this.locale + '.json';
-
-        // set locale for moment.js
-        moment.lang(this.locale.substr(0, 2));
-        var that = this;
-
-        // Load file only if it's not yet available
-        if (this._dictionary[that.locale] === undefined) {
-            $.getJSON(fileUrl)
-                .success(function (response) {
-                    that._assignDictionary(response);
-                })
-                .error(function () {
-                    // TODO handle error
-                    console.log('locale for ' + that.locale + ' not found');
-                });
-        }
-        else {
-            this._triggerLocaleChangedEvent();
-        }
-    },
-
-    _assignDictionary: function (locales) {
-        this._dictionary[this.locale] = this._parseObject(locales);
-        this._triggerLocaleChangedEvent();
-    },
-
-    _triggerLocaleChangedEvent: function () {
-        this.trigger(M.CONST.I18N.LOCALE_CHANGED, this.locale);
-    },
-
     get: function (key, placeholder) {
         return M.I18NItem.create(key, placeholder);
     },
 
     /**
-     * translates key into current locale, given placeholders in {{placeholderName}} are replaced
+     * Translates key into current locale, given
+     * placeholders in {{placeholderName}} are replaced.
+     *
+     * @param key
+     * @param placeholder
+     * @returns {*}
      */
     l: function (key, placeholder) {
-        if (this._dictionary[this.locale] === undefined || key === undefined || key === '' || key === null) {
+        if (this._dictionary[this._activeLocale] === undefined || key === undefined || key === '' || key === null) {
             debugger;
             return '';
         }
 
-        var translation = this._dictionary[this.locale];
+        var translation = this._dictionary[this._activeLocale];
         translation = translation[key];
 
         if (translation) {
@@ -93,13 +117,67 @@ M.I18N = _.extend(Backbone.Events, M.Object.extend({
                 });
             }
         } else {
-            translation = 'MISSING TRANSLATION ' + this.locale + ': ' + key;
+            translation = 'MISSING TRANSLATION ' + this._activeLocale + ': ' + key;
             console.log(translation);
         }
 
         return translation;
     },
 
+    /**
+     * Loads the locale file and puts it into dictionary
+     */
+    loadFileForLocale: function () {
+        var fileUrl = 'i18n/' + this._activeLocale + '.json';
+
+        // set locale for moment.js
+        moment.lang(this._activeLocale.substr(0, 2));
+        var that = this;
+
+        // Load file only if it's not yet available
+        if (this._dictionary[that._activeLocale] === undefined) {
+            $.getJSON(fileUrl)
+                .success(function (response) {
+                    that._setDictionary(response);
+                })
+                .error(function () {
+                    // TODO handle error
+                    console.log('_activeLocale for ' + that._activeLocale + ' not found');
+                });
+        }
+        else {
+            this._triggerLocaleChangedEvent();
+        }
+    },
+
+    /**
+     * Keeps the given keys in the dictionary.
+     *
+     * @param {Object}
+     * @private
+     */
+    _setDictionary: function (locales) {
+        var parsed = this._parseObject(locales);
+        this._dictionary[this._activeLocale] = parsed;
+        this._triggerLocaleChangedEvent();
+    },
+
+    /**
+     * Triggers the locale changed event.
+     *
+     * @private
+     */
+    _triggerLocaleChangedEvent: function () {
+        this.trigger(M.CONST.I18N.LOCALE_CHANGED, this._activeLocale);
+    },
+
+    /**
+     * Return a flattened version of an object.
+     *
+     * @param {Object}
+     * @returns {Object}
+     * @private
+     */
     _parseObject: function (obj) {
         var result = {};
         for (var key in obj) {
