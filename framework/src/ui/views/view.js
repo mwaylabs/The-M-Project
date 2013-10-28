@@ -190,7 +190,8 @@
         _getEventOptions: function() {
             return {
                 prevent_default: true,
-                no_mouseevents: true
+                no_mouseevents: true,
+                stop_browser_behavior: false
             };
         },
 
@@ -202,10 +203,10 @@
 //                        console.log(that.el);
 //                    }
                     Hammer(that.el, that._getEventOptions()).on(eventName, function() {
-                            var args = Array.prototype.slice.call(arguments);
-                            args.push(that);
-                            that._events[eventName].apply(that.scope, args);
-                        });
+                        var args = Array.prototype.slice.call(arguments);
+                        args.push(that);
+                        that._events[eventName].apply(that.scope, args);
+                    });
 
                 }, this);
 
