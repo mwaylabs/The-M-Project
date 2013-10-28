@@ -56,6 +56,11 @@ describe('M.View', function () {
         assert.isUndefined(M.View.extend({},{'__test_childview__': M.View.extend()}).extend({},{}).create().childViews[CHILD]);
     });
 
+    it('M.View events', function(){
+
+
+    })
+
 
 
 

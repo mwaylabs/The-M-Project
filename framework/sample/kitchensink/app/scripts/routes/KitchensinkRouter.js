@@ -1,6 +1,7 @@
 (function() {
 
     Kitchensink.Routers.KitchensinkRouter = M.Router.extend({
+
         routes: {
             '': 'overviewController',
             'page2': 'page2Controller',

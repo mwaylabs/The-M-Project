@@ -76,7 +76,6 @@ M.I18N = _.extend(Backbone.Events, M.Object.extend({
      */
     l: function (key, placeholder) {
         if (this._dictionary[this.locale] === undefined || key === undefined || key === '' || key === null) {
-            debugger;
             return '';
         }
 

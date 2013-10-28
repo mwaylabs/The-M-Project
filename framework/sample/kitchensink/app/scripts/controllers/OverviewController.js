@@ -54,6 +54,7 @@
          * The application start (after reload)
          */
         applicationStart: function() {
+            debugger;
             console.log('application start');
 
             //Init the collection

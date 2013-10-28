@@ -37,8 +37,8 @@
                 content: this.detailView
             }).render();
 
-            $('#main').html(Addressbook.layout.$el);
-            PageTransitions.init();
+            $('#main').html(this.detailView.render().$el);
+            //M.PageTransitions.init();
 
         },
 
@@ -47,7 +47,7 @@
                 content: this.detailView
             });
 
-            PageTransitions.next();
+            M.PageTransitions.next();
             Addressbook.nextPage = this.nextPage;
         },
 
@@ -57,21 +57,21 @@
             Addressbook.detailView.render();
         },
 
-        addEntry: function() {
-            this.scope.set('currentModel', this.scope.contactCollection.create(this.scope.editModel.attributes));
+        addEntry: function(event, element) {
+            element.scope.set('currentModel', element.scope.contactCollection.create(element.scope.editModel.attributes));
         },
 
-        removeEntry: function() {
-            if( this.scope.currentModel ) {
-                this.scope.currentModel.destroy();
-                this.scope.set('currentModel', null);
+        removeEntry: function(event, element) {
+            if( element.scope.currentModel ) {
+                element.scope.currentModel.destroy();
+                element.scope.set('currentModel', null);
             }
-            this.scope.editModel.clear();
+            element.scope.editModel.clear();
         },
 
-        updateEntry: function() {
-            if( this.scope.currentModel ) {
-                this.scope.currentModel.save(this.scope.editModel.attributes);
+        updateEntry: function(event, element) {
+            if( element.scope.currentModel ) {
+                element.scope.currentModel.save(element.scope.editModel.attributes);
             }
         }
 
