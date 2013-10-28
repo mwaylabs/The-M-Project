@@ -7,6 +7,7 @@
 // @include ./core/controller.js
 // @include ./core/application.js
 // @include ./core/router.js
+// @include ./utility/i18n_item.js
 // @include ./utility/i18n.js
 // @include ./utility/objectid.js
 // @include ./utility/uuid.js

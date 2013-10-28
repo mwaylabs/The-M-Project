@@ -13,7 +13,7 @@ Addressbook.Views = Addressbook.Views || {};
 
             headline: M.View.extend({
                 tagName: 'h2',
-                value: 'The-M-Project Kitchensink'
+                value: M.I18N.get('global.appName', {aka: 'Absinth'})
             }),
             listExample: M.ListView.extend({
 
@@ -33,8 +33,17 @@ Addressbook.Views = Addressbook.Views || {};
             }),
 
             buttonExample: M.ButtonView.extend({
-
-                value: 'Hello'
+                value: M.I18N.get('global.switchLanguage'),
+                events: {
+                    click: function() {
+                        console.log("click lang");
+                        /*if(M.I18N.locale == 'de') {
+                            M.I18N.setLocale('en');
+                        } else {
+                            M.I18N.setLocale('de');
+                        }*/
+                    }
+                }
             }),
 
             sliderExample: M.SliderView.extend({

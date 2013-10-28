@@ -5,7 +5,7 @@
  * The M-Project. It is used to set and get the application's language and to
  * localize any string within an application.
  */
-M.I18N = _.extend(Backbone.Events, {
+M.I18N = _.extend(Backbone.Events, M.Object.extend({
 
     _type: 'M.I18N',
     _availableLocales: [],
@@ -26,6 +26,10 @@ M.I18N = _.extend(Backbone.Events, {
         this.locale = locale;
         this.loadFileForLocale();
         // TODO store locale
+    },
+
+    getLocale: function () {
+        return this.locale;
     },
 
     /**
@@ -63,15 +67,16 @@ M.I18N = _.extend(Backbone.Events, {
         this.trigger(M.CONST.I18N.LOCALE_CHANGED, this.locale);
     },
 
-    l: function (key, placeholder) {
-        return this.get(key, placeholder).toString();
+    get: function (key, placeholder) {
+        return M.I18NItem.create(key, placeholder);
     },
 
     /**
      * translates key into current locale, given placeholders in {{placeholderName}} are replaced
      */
-    get: function (key, placeholder) {
+    l: function (key, placeholder) {
         if (this._dictionary[this.locale] === undefined || key === undefined || key === '' || key === null) {
+            debugger;
             return '';
         }
 
@@ -89,12 +94,10 @@ M.I18N = _.extend(Backbone.Events, {
             }
         } else {
             translation = 'MISSING TRANSLATION ' + this.locale + ': ' + key;
+            console.log(translation);
         }
 
-        var result = new String(translation);
-        result.key = result;
-        result.placeholder = placeholder;
-        return result;
+        return translation;
     },
 
     _parseObject: function (obj) {
@@ -117,4 +120,5 @@ M.I18N = _.extend(Backbone.Events, {
         }
         return result;
     }
-});
+}));
+

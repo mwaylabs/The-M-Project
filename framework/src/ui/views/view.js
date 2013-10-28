@@ -125,6 +125,10 @@
                 this.model = this._value_;
             } else if( M.isCollection(this._value_) ) {
                 this.collection = this._value_;
+            } else if( M.isI18NItem(this._value_) ) {
+                M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
+                    this.render();
+                }, this);
             }
             return this;
         },
@@ -182,7 +186,7 @@
                 var that = this;
                 Object.keys(this._events).forEach(function( eventName ) {
                     if(typeof this._events[eventName] === 'function'){
-                        console.log(that.el);
+                        //console.log(that.el);
                     }
                     Hammer(that.el, {
                         prevent_default: true,
@@ -226,6 +230,8 @@
                 } else {
                     this._templateData['_value_'] = this.model.get(this._value_.attribute);
                 }
+            } else if( M.isI18NItem(this._value_) ) {
+                this._templateData['_value_'] = M.I18N.l(this._value_.key, this._value_.placeholder);
             } else if( typeof this._value_ === 'string' ) {
                 this._templateData['_value_'] = this._value_;
             } else if( this._value_ !== null && typeof this._value_ === 'object' ) {

@@ -30,22 +30,22 @@ describe('M.I18N', function () {
         }
     }
 
-    it('M.I18N', function () {
-
-        // Basic
+    it('M.I18N basic', function () {
         assert.isDefined(M.I18N);
         assert.isDefined(M.I18N._type);
 
         assert.isObject(M.I18N);
         assert.isString(M.I18N._type);
         assert.equal(M.I18N._type, 'M.I18N');
+    });
 
-        // CONST
+    it('M.I18N const', function () {
         assert.isDefined(M.CONST.I18N.LOCALE_CHANGED);
         assert.isString(M.CONST.I18N.LOCALE_CHANGED);
         assert.equal(M.CONST.I18N.LOCALE_CHANGED, 'locale-changed');
+    });
 
-        // METHODS
+    it('M.I18N methods', function () {
         assert.isDefined(M.I18N.setLocale);
         assert.isDefined(M.I18N.setLocales);
         assert.isDefined(M.I18N.loadFileForLocale);
@@ -67,8 +67,9 @@ describe('M.I18N', function () {
         assert.isFunction(M.I18N.on);
         assert.isFunction(M.I18N.off);
         assert.isFunction(M.I18N.trigger);
+    });
 
-        // PROPERTIES
+    it('M.I18N properties', function () {
         assert.isDefined(M.I18N._availableLocales);
         assert.isDefined(M.I18N._dictionary);
         assert.isDefined(M.I18N.locale);
@@ -77,7 +78,9 @@ describe('M.I18N', function () {
         assert.isArray(M.I18N._dictionary);
         assert.isNull(M.I18N.locale);
 
-        // CALLS
+    });
+
+    it('M.I18N translate', function () {
         assert.isTrue(M.I18N.setLocales(testLocales), 'Set locales');
         assert.equal(testLocales, M.I18N._availableLocales);
 
@@ -96,6 +99,11 @@ describe('M.I18N', function () {
         M.I18N.setLocale('en');
         assert.equal(M.I18N.l('global.button.save'), 'Save document');
 
+        assert.equal(M.I18N.l('foo.bar'), 'MISSING TRANSLATION en: foo.bar');
+    });
+
+    it('M.I18N styles', function () {
+
         var testI18NStyles = function (translations) {
             M.I18N._assignDictionary(translations);
             assert.equal(M.I18N.l('global.button.save'), 'Save document');
@@ -104,8 +112,5 @@ describe('M.I18N', function () {
         testI18NStyles(localeEn);
         testI18NStyles(localeStyle2);
         testI18NStyles(localeStyle3);
-
-        assert.equal(M.I18N.l('foo.bar'), 'MISSING TRANSLATION en: foo.bar');
     });
-
 });
