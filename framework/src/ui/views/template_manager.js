@@ -27,6 +27,13 @@ M.TemplateManager = M.Object.extend({
         jqm: '<% if(label) {  %><label for="text-1" class="ui-input-text"><%= label %></label><% } %><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" name="text-1" id="text-1" value="" class="ui-input-text ui-body-c"></div>'
     },
 
+    "M.SearchfieldView": {
+        defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>',
+        bootstrap: '<div><% if(label) {  %><label><%= label %></label><% } %><input type="text" class="form-control" placeholder="<%= placeholder %>"></div>',
+        topcoat: '<div contenteditable="true"><%= _value_ %></div>',
+        jqm: '<% if(label) {  %><label for="text-1" class="ui-input-text"><%= label %></label><% } %><div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c"><input type="text" data-type="search" name="search-1" id="search-1" value="" class="ui-input-text ui-body-c"><a href="#" class="ui-input-clear ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-fullsize ui-btn-icon-notext ui-input-clear-hidden" title="clear text" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="delete" data-iconpos="notext" data-theme="c" data-mini="false"><span class="ui-btn-inner"><span class="ui-btn-text">clear text</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a></div>'
+    },
+
     "M.ListView": {
         defaultTemplate: '<div data-childviews="list"></div>',
         bootstrap: '<ul class="list-group" data-childviews="list"></ul>',
@@ -53,13 +60,6 @@ M.TemplateManager = M.Object.extend({
         bootstrap: '<div contenteditable="true"><%= _value_ %></div>',
         topcoat: '<div contenteditable="true"><%= _value_ %></div>',
         jqm: '<div contenteditable="true"><%= _value_ %></div>'
-    },
-
-    "M.SearchfieldView": {
-        defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>',
-        bootstrap: '<div><% if(label) {  %><label><%= label %></label><% } %><input type="text" class="form-control" placeholder="<%= placeholder %>"></div>',
-        topcoat: '<div contenteditable="true"><%= _value_ %></div>',
-        jqm: '<% if(label) {  %><label for="text-1" class="ui-input-text"><%= label %></label><% } %><div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c"><input type="text" data-type="search" name="search-1" id="search-1" value="" class="ui-input-text ui-body-c"><a href="#" class="ui-input-clear ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-fullsize ui-btn-icon-notext ui-input-clear-hidden" title="clear text" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="delete" data-iconpos="notext" data-theme="c" data-mini="false"><span class="ui-btn-inner"><span class="ui-btn-text">clear text</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a></div>'
     },
 
     "M.AccordionView": {

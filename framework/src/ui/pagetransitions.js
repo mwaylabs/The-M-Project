@@ -382,6 +382,6 @@
     }
 
     //init();
-    scope.PageTransitions = { init : init, next: switchToNextPage };
+    M.PageTransitions = { init : init, next: switchToNextPage };
 
 })(this);

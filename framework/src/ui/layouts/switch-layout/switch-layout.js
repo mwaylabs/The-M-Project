@@ -33,5 +33,13 @@ M.SwitchLayout = M.Layout.extend({
         }
 
         return this;
-    }
+    },
+
+    _postRender: function(){
+        if(this._firstRender){
+            M.PageTransitions.init();
+        }
+    },
+
+    next: function(){}
 });

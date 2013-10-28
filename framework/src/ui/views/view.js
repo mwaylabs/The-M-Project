@@ -28,7 +28,6 @@
          */
         _templateData: null,
 
-
         /**
          * extend the default template with this one. It gets injected into the <%= _value_ %> placeholder
          */
@@ -63,6 +62,14 @@
 
         _getModel: function() {
             return this.model;
+        },
+
+        getValue: function(){
+            if(this.model){
+                return JSON.stringify(this._getModel().attributes);
+            } else {
+                return this._value_;
+            }
         },
 
         getPropertyValue: function( propertyString, data ) {
@@ -102,7 +109,7 @@
             this._assignValue(options);
             this._assignTemplateValues();
             this._mapEventsToScope(this.scope);
-            //this._registerEvents();
+            this._registerEvents();
             this._assignContentBinding();
             //            this._assignComplexView();
             //            this.init();
@@ -178,23 +185,32 @@
                 }, this);
 
                 this._events = events;
+                this.originalEvents = this.events;
+                //backbone should not bind events so set it to null
+                this.events = null;
             }
+        },
+
+        _getEventOptions: function() {
+            return {
+                prevent_default: true,
+                no_mouseevents: true,
+                stop_browser_behavior: false
+            };
         },
 
         _registerEvents: function() {
             if( this._events ) {
                 var that = this;
                 Object.keys(this._events).forEach(function( eventName ) {
-                    if(typeof this._events[eventName] === 'function'){
-                        //console.log(that.el);
-                    }
-                    Hammer(that.el, {
-                        prevent_default: true,
-                        no_mouseevents: true
-                    }).on(eventName, function() {
-                            console.log(eventName);
-                            that._events[eventName].apply(that, arguments);
-                        });
+//                    if( typeof this._events[eventName] === 'function' ) {
+//                        console.log(that.el);
+//                    }
+                    Hammer(that.el, that._getEventOptions()).on(eventName, function() {
+                        var args = Array.prototype.slice.call(arguments);
+                        args.push(that);
+                        that._events[eventName].apply(that.scope, args);
+                    });
 
                 }, this);
 
@@ -297,7 +313,7 @@
         },
 
         _postRender: function() {
-            this._registerEvents();
+//            this._registerEvents();
             this._addClassNames();
             if( this.model ) {
                 this._assignBinding();
@@ -387,7 +403,9 @@
      */
     M.View.extend = function( options, childViews ) {
         options = options || {};
-        options._childViews = childViews || {};
+        if(childViews){
+            options._childViews = childViews;
+        }
         return Backbone.View.extend.apply(this, [options]);
     };
 

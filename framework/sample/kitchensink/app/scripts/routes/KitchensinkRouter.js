@@ -1,17 +1,58 @@
-(function(){
+(function() {
 
-    Addressbook.Routers.KitchensinkRouter = M.Router.extend({
+    Kitchensink.Routers.KitchensinkRouter = M.Router.extend({
         routes: {
-            '': 'overviewController'
+            '': 'overviewController',
+            'page2': 'page2Controller',
+            'page3': 'page3Controller'
         },
 
 
         initialize: function() {
 
             M.Router.prototype.initialize.apply(this, arguments);
+            OverviewController = this.overviewController;
         },
 
-        overviewController: Addressbook.Controllers.OverviewController.create()
+        overviewController: Kitchensink.Controllers.OverviewController.create(),
+
+        page2Controller: M.Controller.extend({
+            show: function() {
+
+                var html = M.ButtonView.extend({
+                    value: 'page 3',
+                    events: {
+                        tap: 'nextPage'
+                    }
+                });
+
+                html = html.create(OverviewController, null, true);
+
+                debugger;
+                Kitchensink.layout.applyViews({
+                    content: html
+                }).render();
+
+                //$('#main').html(html.render().$el);
+            }
+        }).create(),
+
+        page3Controller: M.Controller.extend({
+            show: function() {
+                var html = M.ButtonView.extend({
+                    value: 'page 1',
+                    events: {
+                        tap: 'nextPage'
+                    }
+                })
+//                    .create(OverviewController, null, true);
+                //$('#main').html(html.render().$el);
+
+                Kitchensink.layout.applyViews({
+                    content: html
+                }).render();
+            }
+        }).create()
 
     });
 

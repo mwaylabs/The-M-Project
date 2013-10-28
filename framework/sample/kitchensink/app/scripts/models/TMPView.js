@@ -1,11 +1,11 @@
-/*global Addressbook, Backbone*/
+/*global Kitchensink, Backbone*/
 
-Addressbook.Models = Addressbook.Models || {};
+Kitchensink.Models = Kitchensink.Models || {};
 
 (function() {
     'use strict';
 
-    Addressbook.Models.TMPView = M.Model.extend({
+    Kitchensink.Models.TMPView = M.Model.extend({
         idAttribute: '_id'
     });
 
