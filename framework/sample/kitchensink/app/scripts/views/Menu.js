@@ -1,8 +1,8 @@
-Addressbook.Views = Addressbook.Views || {};
+Kitchensink.Views = Kitchensink.Views || {};
 
 (function() {
     'use strict'
-    Addressbook.Views.MenuView = M.View.extend({
+    Kitchensink.Views.MenuView = M.View.extend({
 
         template: '<div><div data-childviews="content"></div></div>'
 
@@ -41,20 +41,16 @@ Addressbook.Views = Addressbook.Views || {};
 
                     events: {
 
-                        click: function() {
-
-                            console.log(this);
-
-                        }
+                        click: 'eventDidHappen'
                     }
                 })
             }),
 
             buttonExample: M.ButtonView.extend({
 
-                value: 'Hello',
+                value: 'Next Page',
                 events: {
-                    tap: 'eventDidHappen'
+                    tap: 'nextPage'
                 }
             }),
 

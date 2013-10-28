@@ -3,11 +3,17 @@
 
     var views = [
         {
-            _value_: 'SliderView'
+            _value_: 'M.View'
+
+        },
+        {
+            _value_: 'M.SliderView'
         }
     ];
 
-    Addressbook.Controllers.OverviewController = M.Controller.extend({
+    Kitchensink.Controllers.OverviewController = M.Controller.extend({
+
+        _nextPage: '/',
 
         consoleModel: M.Model.create({
             _value_: ''
@@ -16,7 +22,7 @@
         eventDidHappen: function( ev, elem ) {
 
 //            var val = this.consoleModel.get('_value_');
-            var val = elem._type + ' ' + ev.type + ' ' + elem.value;
+            var val = elem._type + ' ' + ev.type + ' ' + elem.getValue();
             this.consoleModel.set('_value_', val);
         },
 
@@ -28,6 +34,20 @@
             console.log('hello');
         },
 
+        nextPage: function(){
+            if(this._nextPage === 'page2'){
+                this._nextPage = 'page3'
+            } else if(this._nextPage === 'page3'){
+                this._nextPage = '/'
+            } else if(this._nextPage === '/'){
+                this._nextPage = 'page2'
+            }
+
+            Kitchensink.navigate({
+                route: this._nextPage
+            });
+        },
+
         /**
          * The application start (after reload)
          */
@@ -35,28 +55,28 @@
             console.log('application start');
 
             //Init the collection
-            this.tmpViews = new Addressbook.Collections.TMPViewCollection(views);
+            this.tmpViews = new Kitchensink.Collections.TMPViewCollection(views);
 
             //create the menu
-            this.menu = Addressbook.Views.MenuView.create(this, null, true);
+            this.menu = Kitchensink.Views.MenuView.create(this, null, true);
 
             menu = this.menu;
 
             //set a layout
-            //            Addressbook.layout = M.SwitchLayout.extend().create(this, null, true);
+            //            Kitchensink.layout = M.SwitchLayout.extend().create(this, null, true);
 
             //fill the layout with a view and render it
-            //            Addressbook.layout.applyViews({
+            //            Kitchensink.layout.applyViews({
             //                content: this.menu
             //            }).render();
 
             $('#main').html(this.menu.render().$el);
 
-            //$('#main').html(Addressbook.layout.$el);
+            //$('#main').html(Kitchensink.layout.$el);
         },
 
         show: function( settings ) {
-            console.log('show');
+            $('#main').html(this.menu.render().$el);
         }
     });
 

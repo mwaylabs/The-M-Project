@@ -1,12 +1,12 @@
-/*global Addressbook, Backbone*/
+/*global Kitchensink, Backbone*/
 
-Addressbook.Collections = Addressbook.Collections || {};
+Kitchensink.Collections = Kitchensink.Collections || {};
 
 (function () {
     'use strict';
 
-    Addressbook.Collections.TMPViewCollection = M.Collection.extend({
-        model: Addressbook.Models.TMPView
+    Kitchensink.Collections.TMPViewCollection = M.Collection.extend({
+        model: Kitchensink.Models.TMPView
     });
 
 
