@@ -28,7 +28,12 @@
 
                 html = html.create(OverviewController, null, true);
 
-                $('#main').html(html.render().$el);
+                debugger;
+                Kitchensink.layout.applyViews({
+                    content: html
+                }).render();
+
+                //$('#main').html(html.render().$el);
             }
         }).create(),
 
@@ -39,8 +44,13 @@
                     events: {
                         tap: 'nextPage'
                     }
-                }).create(OverviewController, null, true);
-                $('#main').html(html.render().$el);
+                })
+//                    .create(OverviewController, null, true);
+                //$('#main').html(html.render().$el);
+
+                Kitchensink.layout.applyViews({
+                    content: html
+                }).render();
             }
         }).create()
 

@@ -397,7 +397,9 @@
      */
     M.View.extend = function( options, childViews ) {
         options = options || {};
-        options._childViews = childViews || {};
+        if(childViews){
+            options._childViews = childViews;
+        }
         return Backbone.View.extend.apply(this, [options]);
     };
 
