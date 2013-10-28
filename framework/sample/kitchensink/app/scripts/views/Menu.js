@@ -41,7 +41,7 @@ Kitchensink.Views = Kitchensink.Views || {};
 
                     events: {
 
-                        click: 'eventDidHappen'
+                        tap: 'eventDidHappen'
                     }
                 })
             }),
@@ -49,8 +49,7 @@ Kitchensink.Views = Kitchensink.Views || {};
             buttonExample: M.ButtonView.extend({
                 value: M.I18N.get('global.switchLanguage'),
                 events: {
-                    click: function() {
-                        console.log("click lang");
+                    tap: function() {
                         if(M.I18N.locale == 'de') {
                             M.I18N.setLocale('en');
                         } else {
@@ -136,7 +135,7 @@ Kitchensink.Views = Kitchensink.Views || {};
             loaderButtonExample: M.ButtonView.extend({
                 value: 'Toggle LoaderView',
                 events:{
-                    click: function() {
+                    tap: function() {
                         //this.scope.menu.childViews.content.childViews.loadingExample.toggle();
                     }
                 }
