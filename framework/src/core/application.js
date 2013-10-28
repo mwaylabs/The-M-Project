@@ -41,15 +41,12 @@ M.Application = M.Controller.extend({
         var defer = $.Deferred();
 
         M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function(e) {
-
-            console.log(M.I18N.locale +' >> '+M.I18N.get('global.button.back', {count:'5'}))
             defer.resolve();
         });
 
         if( options.locales ) {
             M.I18N.setLocales(options.locales);
-            //M.I18N.setLocale(moment.lang());
-            M.I18N.setLocale('a');
+            M.I18N.setLocale(moment.lang());
         }else{
             defer.resolve();
         }

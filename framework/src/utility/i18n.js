@@ -45,6 +45,7 @@ M.I18N = _.extend(Backbone.Events, {
                     that._assignDictionary(response);
                 })
                 .error(function () {
+                    // TODO handle error
                     console.log('locale for ' + that.locale + ' not found');
                 });
         }
