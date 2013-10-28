@@ -58,8 +58,12 @@ M.I18N = _.extend(Backbone.Events, {
         this._triggerLocaleChangedEvent();
     },
 
-    _triggerLocaleChangedEvent: function() {
+    _triggerLocaleChangedEvent: function () {
         this.trigger(M.CONST.I18N.LOCALE_CHANGED, this.locale);
+    },
+
+    l: function (key, placeholder) {
+        return this.get(key, placeholder).toString();
     },
 
     /**
@@ -82,10 +86,14 @@ M.I18N = _.extend(Backbone.Events, {
                     translation = translation.replace('{{' + key + '}}', value);
                 });
             }
-            return translation;
         } else {
-            return 'MISSING TRANSLATION ' + this.locale + ': ' + key;
+            translation = 'MISSING TRANSLATION ' + this.locale + ': ' + key;
         }
+
+        var result = new String(translation);
+        result.key = result;
+        result.placeholder = placeholder;
+        return result;
     },
 
     _parseObject: function (obj) {
