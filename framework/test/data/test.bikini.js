@@ -31,7 +31,7 @@ describe('M.BikiniStore', function() {
             }
         });
 
-        assert.ok(typeof TEST.TestModel === 'function', 'TestModel model successfully extended.');
+        assert.typeOf(TEST.TestModel, 'function', 'TestModel model successfully extended.');
 
         TEST.url = 'http://nerds.mway.io:8200/bikini/test';
 
@@ -44,7 +44,7 @@ describe('M.BikiniStore', function() {
             query: { age : { $gte : 25  } }
         });
 
-        assert.ok(typeof TEST.TestModelCollection === 'function', 'Test collection successfully extended.');
+        assert.typeOf(TEST.TestModelCollection, 'function', 'Test collection successfully extended.');
 
         TEST.Test = TEST.TestModelCollection.create();
 
@@ -123,15 +123,15 @@ describe('M.BikiniStore', function() {
         if (TEST.Test.length === 0) {
             done();
         } else {
-            TEST.Test.on('all', function() {
-                if (TEST.Test.length == 0) {
+            TEST.Test.on('all', function(event) {
+                if (event === 'destroy' && TEST.Test.length == 0) {
                     done();
                 }
             });
-            while (var model = TEST.Test.first()) {
+            var model;
+            while (model = TEST.Test.first()) {
               model.destroy();
             }
         }
     });
-
 });
