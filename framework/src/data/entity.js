@@ -179,15 +179,21 @@ _.extend(M.Entity.prototype, M.Object, {
     },
 
     setId: function(attrs, id) {
-        if (attrs && id && this.idAttribute) {
-            attrs[this.idAttribute] = id;
+        if (attrs && id) {
+            var key = this.getKey() || attrs.idAttribute;
+            if (key) {
+                _.isFunction(attrs.set) ? attrs.set(key, id) : (attrs[key] = id);
+            }
         }
         return attrs;
     },
 
     getId: function(attrs) {
-        if (attrs && this.idAttribute) {
-            return attrs[this.idAttribute];
+        if (attrs) {
+            var key = this.getKey() || attrs.idAttribute;
+            if (key) {
+                return _.isFunction(attrs.get) ? attrs.get(key) : attrs[key];
+            }
         }
     }
 });

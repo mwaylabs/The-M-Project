@@ -1,22 +1,19 @@
-describe('M.BikiniStore', function() {
+describe('M.LocalStorageStore', function() {
 
     var TEST = {};
 
-    it('creating bikini store', function() {
+    it('creating local storage store', function() {
 
-        assert.isFunction(M.BikiniStore, 'M.BikiniStore is defined');
+        assert.typeOf(M.LocalStorageStore, 'function', 'M.LocalStorageStore is defined');
 
-        TEST.store = M.BikiniStore.design({
-            useLocalStore: true,
-            useSocketNotify: false
-        });
+        TEST.store = M.LocalStorageStore.design();
 
-        assert.isObject(TEST.store, 'store successfully created.');
+        assert.typeOf(TEST.store, 'object', 'store successfully created.');
     });
 
     it('creating collection', function() {
 
-        assert.isFunction(M.Collection, 'M.Collection is defined');
+        assert.typeOf(M.Collection, 'function', 'M.Collection is defined');
 
         TEST.TestModel = M.Model.extend({
             idAttribute: '_id',
@@ -31,54 +28,39 @@ describe('M.BikiniStore', function() {
             }
         });
 
-        assert.isFunction(TEST.TestModel, 'TestModel model successfully extended.');
-
-        TEST.url = 'http://nerds.mway.io:8200/bikini/test';
+        assert.typeOf(TEST.TestModel, 'function', 'TestModel model successfully extended.');
 
         TEST.TestModelCollection = M.Collection.extend({
             model: TEST.TestModel,
-            url: TEST.url,
-            store: TEST.store,
-            sort: { lastname: 1 },
-            fields: { lastname: 1, age : 1 },
-            query: { age : { $gte : 25  } }
+            store: TEST.store
         });
 
-        assert.isFunction(TEST.TestModelCollection, 'Test collection successfully extended.');
+        assert.typeOf(TEST.TestModelCollection, 'function', 'Test collection successfully extended.');
 
         TEST.Test = TEST.TestModelCollection.create();
 
-        assert.isObject(TEST.Test, 'Test collection successfully created.');
+        assert.typeOf(TEST.Test, 'object', 'Test collection successfully created.');
 
-        assert.equal(TEST.Test.store, TEST.store, 'Test collection has the correct store.');
-
-        var url = TEST.Test.getUrl();
-
-        assert.ok(url !== TEST.url, 'The base url has been extended.');
-
-        assert.equal(url.indexOf(TEST.url), 0, 'the new url starts with the set url.');
-
-        assert.ok(url.indexOf('query=')>0, 'query is part of the url.');
-
-        assert.ok(url.indexOf('fields=')>0, 'fields is part of the url.');
-
-        assert.ok(url.indexOf('sort=')>0, 'sort is part of the url.');
+        assert.ok(TEST.Test.store === TEST.store, 'Test collection has the correct store.');
 
     });
 
     it('create record', function(done) {
-        TEST.Test.create({
-                firstName: 'Max',
-                sureName: 'Mustermann',
-                age: 33
-            },
+        TEST.data = {
+            firstName: 'Max',
+            sureName: 'Mustermann',
+            age: 33
+        };
+
+        TEST.Test.create(TEST.data,
             {
                 success: function(model) {
-                    assert.isObject(model, 'new record created successfully.');
+                    assert.ok(model, 'new record created successfully.');
 
                     TEST.id = model.id;
 
                     assert.ok(TEST.id, 'new record has an id.');
+
                     done();
                 },
                 error: function() {
@@ -87,6 +69,46 @@ describe('M.BikiniStore', function() {
                 }
             }
         );
+    });
+
+    it('read record', function() {
+        var model = TEST.Test.get(TEST.id);
+
+        assert.ok(model, "record found");
+
+        assert.equal(model.get('firstName'), TEST.data.firstName, "found record has the correct 'firstname' value");
+        assert.equal(model.get('sureName'), TEST.data.sureName, "found record has the correct 'sureName' value");
+        assert.equal(model.get('age'), TEST.data.age, "found record has the correct 'age' value");
+
+    });
+
+    it('fetching data with new model', function(done) {
+
+        TEST.TestModel2 = M.Model.extend({
+            idAttribute: '_id',
+            store: TEST.store,
+            entity: {
+                name: 'test'
+            }
+        });
+
+        var model = TEST.TestModel2.create({ _id:  TEST.id });
+
+        assert.isObject(model, "new model created");
+
+        model.fetch({
+            success: function() {
+                assert.ok(true, 'model has been fetched.');
+                assert.equal(model.get('firstName'), TEST.data.firstName, "found record has the correct 'firstname' value");
+                assert.equal(model.get('USERNAME'), TEST.data.sureName, "found record has the correct 'USERNAME' value");
+                assert.equal(model.get('age'), TEST.data.age, "found record has the correct 'age' value");
+                done();
+            },
+            error: function(error) {
+                assert.ok(false, 'model has been fetched.');
+                done();
+            }
+        })
     });
 
     it('delete record', function(done) {

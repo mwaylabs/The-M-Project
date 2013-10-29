@@ -25,10 +25,10 @@ _.extend(M.Model.prototype, {
         if (this.store && _.isFunction(this.store.initModel)) {
             this.store.initModel(this, options);
         }
-        var defaults = this.defaults = this.defaults || {};
+        var defaults = this.defaults || {};
         this.entity   = this.entity || (this.collection ? this.collection.entity : null) || options.entity;
         if (this.entity) {
-            this.entity = M.Entity.from(this.entity, { typeMapping: options.typeMapping });
+            this.entity = M.Entity.from(this.entity, { model: this.constructor, typeMapping: options.typeMapping });
             this.idAttribute = this.entity.idAttribute || this.idAttribute;
             _.each(this.entity.fields, function(field) {
                 if (!_.isUndefined(field.defaultValue)) {

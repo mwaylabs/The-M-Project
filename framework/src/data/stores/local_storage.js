@@ -2,8 +2,6 @@ M.LocalStorageStore = M.Store.extend({
 
     _type: 'M.LocalStorageStore',
 
-    name: '',
-
     ids: {},
 
     sync: function( method, model, options ) {
@@ -19,6 +17,9 @@ M.LocalStorageStore = M.Store.extend({
                     var data = that._getItem(entity, id) || {};
                     attrs = _.extend(data, attrs);
                 case 'create':
+                    if (model.id !== id && model.idAttribute) {
+                        model.set(model.idAttribute, id);
+                    }
                     that._setItem(entity, id, attrs);
                     break;
                 case 'delete' :

@@ -7,16 +7,11 @@ M.BikiniStore = M.Store.extend({
 
     _selector: null,
 
-    name: 'bikini',
-
     endpoints: {},
-
-    version: '1.2',
 
     options: null,
 
     localStore: M.WebSqlStore,
-//    localStore: M.LocalStorageStore,
 
     useLocalStore: true,
 
@@ -31,13 +26,13 @@ M.BikiniStore = M.Store.extend({
 
     initialize: function( options ) {
         M.Store.prototype.initialize.apply(this, arguments);
-        this.options = {
-            useLocalStore:      this.useLocalStore,
-            useSocketNotify:    this.useSocketNotify,
-            useOfflineChanges:  this.useOfflineChanges,
-            socketPath:         this.socketPath,
-            localStore:         this.localStore
-        };
+        this.options = this.options || {};
+        this.options.useLocalStore      = this.useLocalStore;
+        this.options.useSocketNotify    = this.useSocketNotify;
+        this.options.useOfflineChanges  = this.useOfflineChanges;
+        this.options.socketPath         = this.socketPath;
+        this.options.localStore         = this.localStore;
+        this.options.typeMapping        = this.typeMapping;
         _.extend(this.options, options || {});
     },
 

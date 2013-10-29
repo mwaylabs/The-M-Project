@@ -2,15 +2,15 @@ M.WebSqlStore = M.Store.extend({
 
     _type: 'M.WebSqlStore',
 
-    _transactionFailed: false,
-
     _selector: null,
 
-    name: 'bikini',
+    options: null,
 
-    size: 1024 * 1024 * 5,
+    name: 'themproject',
 
-    version: '1.2',
+    size: 1024 * 1024 * 1, // 1 MB
+
+    version: '1.0',
 
     db: null,
 
@@ -30,21 +30,27 @@ M.WebSqlStore = M.Store.extend({
 
     sqlTypeMapping: function() {
         var map = {};
-        map [M.CONST.TYPE.STRING] = 'varchar(255)';
-        map [M.CONST.TYPE.TEXT] = 'text';
-        map [M.CONST.TYPE.OBJECT] = 'text';
-        map [M.CONST.TYPE.ARRAY] = 'text';
-        map [M.CONST.TYPE.FLOAT] = 'float';
-        map [M.CONST.TYPE.INTEGER] = 'integer';
-        map [M.CONST.TYPE.DATE] = 'varchar(255)';
-        map [M.CONST.TYPE.BOOLEAN] = 'boolean';
+        map [M.CONST.TYPE.STRING]   = 'varchar(255)';
+        map [M.CONST.TYPE.TEXT]     = 'text';
+        map [M.CONST.TYPE.OBJECT]   = 'text';
+        map [M.CONST.TYPE.ARRAY]    = 'text';
+        map [M.CONST.TYPE.FLOAT]    = 'float';
+        map [M.CONST.TYPE.INTEGER]  = 'integer';
+        map [M.CONST.TYPE.DATE]     = 'varchar(255)';
+        map [M.CONST.TYPE.BOOLEAN]  = 'boolean';
         return map;
     }(),
 
     initialize: function( options ) {
         M.Store.prototype.initialize.apply(this, arguments);
+        this.options = this.options || {};
+        this.options.name            = this.name;
+        this.options.size            = this.size;
+        this.options.version         = this.version;
+        this.options.typeMapping     = this.typeMapping;
+        this.options.sqlTypeMapping  = this.sqlTypeMapping;
+        _.extend(this.options, options || {});
 
-        this.version = options.version || this.version;
         this._openDb({
             error: function( msg ) {
                 M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, msg);
@@ -64,12 +70,12 @@ M.WebSqlStore = M.Store.extend({
         var options = that._options(model, options, this.entity);
         switch( method ) {
             case 'create':
-                that._insertOrReplace(options);
+                that._checkTable(options, that._insertOrReplace);
                 break;
 
             case 'update':
             case 'patch':
-                that._insertOrReplace(options);
+                that._checkTable(options, that._insertOrReplace);
                 // that._updateOrReplace(options);
                 break;
 
@@ -116,8 +122,9 @@ M.WebSqlStore = M.Store.extend({
             try {
                 if( !window.openDatabase ) {
                     error = 'Your browser does not support WebSQL databases.';
+                    throw new Error(error);
                 } else {
-                    this.db = window.openDatabase(this.name, "", "", this.size);
+                    this.db = window.openDatabase(this.options.name, "", "", this.options.size);
                     if (this.entities) {
                         for (var key in this.entities) {
                             this._createTable({ entity: this.entities[key] });
@@ -129,7 +136,7 @@ M.WebSqlStore = M.Store.extend({
             }
         }
         if( this.db ) {
-            if( this.version && this.db.version != this.version ) {
+            if( this.options.version && this.db.version != this.options.version ) {
                 this._updateDb(options);
             } else {
                 this.handleSuccess(options, this.db);
@@ -139,8 +146,9 @@ M.WebSqlStore = M.Store.extend({
             this._updateDb(options);
         } else {
             if( !error && dbError ) {
-                error = dbError.message;
+                error = dbError;
             }
+            throw new Error('dbError '+ error);
             this.handleSuccess(options, error);
         }
     },
@@ -150,10 +158,10 @@ M.WebSqlStore = M.Store.extend({
         var lastSql;
         var that = this;
         try {
-            var db = window.openDatabase(this.name, "", "", this.size);
+            var db = window.openDatabase(this.options.name, "", "", this.options.size);
             try {
-                var arSql = this._sqlUpdateDatabase(db.version, this.version);
-                db.changeVersion(db.version, this.version, function( tx ) {
+                var arSql = this._sqlUpdateDatabase(db.version, this.options.version);
+                db.changeVersion(db.version, this.options.version, function( tx ) {
                     _.each(arSql, function( sql ) {
                         M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, "SQL-Statement: " + sql);
                         lastSql = sql;
@@ -195,10 +203,16 @@ M.WebSqlStore = M.Store.extend({
         return sql;
     },
 
+    _isAutoincrementKey: function(entity, key) {
+        if (entity && key) {
+            var column = this.getField(entity, key);
+            return column && column.type === M.CONST.TYPE.INTEGER;
+        }
+    },
+
     _sqlPrimaryKey: function( entity, keys ) {
         if( keys && keys.length == 1 ) {
-            var column = this.getField(entity, keys[0]);
-            if( column && column.type === M.CONST.TYPE.INTEGER ) {
+            if( this._isAutoincrementKey(entity, keys[0]) ) {
                 return keys[0] + ' INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE';
             } else {
                 return keys[0] + ' PRIMARY KEY ASC UNIQUE';
@@ -357,7 +371,7 @@ M.WebSqlStore = M.Store.extend({
      */
     _dbAttribute: function( field ) {
         if( field && field.name ) {
-            var type = this.sqlTypeMapping[field.type];
+            var type = this.options.sqlTypeMapping[field.type];
             var isReqStr = field.required ? ' NOT NULL' : '';
             if( type ) {
                 return field.name + ' ' + type.toUpperCase() + isReqStr;
@@ -368,11 +382,11 @@ M.WebSqlStore = M.Store.extend({
     _dropTable: function( options ) {
 
         var entity = this.getEntity(options);
+        entity.db  = null;
 
-        if( this._checkDb(options) && this._checkEntity(options, entity) ) {
+        if( this._checkDb(options) && entity ) {
             var sql = this._sqlDropTable(entity.name);
             // reset flag
-            this._transactionFailed = NO;
             this._executeTransaction(options, [sql]);
         }
     },
@@ -380,14 +394,34 @@ M.WebSqlStore = M.Store.extend({
     _createTable: function( options ) {
 
         var entity = this.getEntity(options);
+        entity.db  = this.db;
 
         if( this._checkDb(options) && this._checkEntity(options, entity) ) {
             var sql = this._sqlCreateTable(entity);
             // reset flag
-            this._transactionFailed = NO;
             this._executeTransaction(options, [sql]);
         }
     },
+
+    _checkTable: function(options, action) {
+        var entity = this.getEntity(options);
+        var that = this;
+        if (entity && !entity.db) {
+            this._createTable( {
+                success: function() {
+                    action.apply(that, [options]);
+                },
+                error: function(error) {
+                    throw new Error('create table failed: '+error);
+                    this.handleError(options, error);
+                },
+                entity: entity
+            } );
+        } else {
+            action.apply(that, arguments);
+        }
+    },
+
 
     /**
      *
@@ -402,11 +436,16 @@ M.WebSqlStore = M.Store.extend({
 
         if( this._checkDb(options) && this._checkEntity(options, entity) && this._checkData(options, data) ) {
 
-            var statements = [];
+            var isAutoInc   = this._isAutoincrementKey(entity, entity.getKey());
+            var statements  = [];
             var sqlTemplate = "INSERT OR REPLACE INTO '" + entity.name + "' (";
             for( var i = 0; i < data.length; i++ ) {
+                var attrs     = data[i];
                 var statement = ''; // the actual sql insert string with values
-                var value = entity.fromAttributes(data[i]);
+                if (!isAutoInc && !entity.getId(attrs)) {
+                    entity.setId(attrs, new M.ObjectID().toHexString());
+                }
+                var value = entity.fromAttributes(attrs);
                 var args, keys;
                 if ( !_.isEmpty(entity.fields)) {
                     args = _.values(value);
@@ -422,8 +461,6 @@ M.WebSqlStore = M.Store.extend({
                     statements.push({ statement: statement, arguments: args });
                 }
             }
-            // reset flag
-            this._transactionFailed = NO;
             this._executeTransaction(options, statements);
         }
     },
@@ -457,8 +494,6 @@ M.WebSqlStore = M.Store.extend({
                     statements.push( { statement: statement, arguments: args } );
                 }
             }
-            // reset flag
-            this._transactionFailed = NO;
             this._executeTransaction(options, statements);
         }
     },
@@ -485,12 +520,12 @@ M.WebSqlStore = M.Store.extend({
                     for( var i = 0; i < len; i++ ) {
                         var item  = res.rows.item(i);
                         var attrs;
-                        if ( !_.isEmpty(entity.fields) ) {
+                        if ( !_.isEmpty(entity.fields) || !that._hasDefaultFields(item)) {
                             attrs = entity.toAttributes(item);
                         } else {
                             try { attrs = JSON.parse(item['data']); } catch(e) {}
                         }
-                        if( attrs && !that._selector || that._selector.matches(attrs) ) {
+                        if( attrs && (!that._selector || that._selector.matches(attrs)) ) {
                             if (isCollection) {
                                 result.push(attrs);
                             } else {
@@ -503,8 +538,8 @@ M.WebSqlStore = M.Store.extend({
                     // M.Logger.log('Incorrect statement: ' + sql, M.ERR)
                 }); // callbacks: SQLStatementErrorCallback
             }, function( sqlError ) { // errorCallback
-                M.Logger.error(M.CONST.ERROR.WEBSQL_SYNTAX, "WebSql Syntax Error: " +sqlError);
-                that.handleError(options, sqlError, lastStatement);
+                M.Logger.error(M.CONST.ERROR.WEBSQL_SYNTAX, "WebSql Syntax Error: " +sqlError.message);
+                that.handleError(options, sqlError.message, lastStatement);
             }, function() { // voidCallback (success)
                 that.handleSuccess(options, result);
             });
@@ -512,13 +547,10 @@ M.WebSqlStore = M.Store.extend({
     },
 
     _delete: function(options) {
-
         var entity = this.getEntity(options);
-
         if( this._checkDb(options) && this._checkEntity(options, entity) ) {
             var sql = this._sqlDelete(options, entity);
             // reset flag
-            this._transactionFailed = NO;
             this._executeTransaction(options, [sql]);
         }
     },
@@ -545,9 +577,8 @@ M.WebSqlStore = M.Store.extend({
                         t.executeSql(statement, arguments);
                     });
                 }, function( sqlError ) { // errorCallback
-                    that._transactionFailed = YES;
-                    M.Logger.error(M.CONST.ERROR.WEBSQL_SYNTAX, sqlError);
-                    that.handleError(options, sqlError, lastStatement);
+                    M.Logger.error(M.CONST.ERROR.WEBSQL_SYNTAX, sqlError.message);
+                    that.handleError(options, sqlError.message, lastStatement);
                 }, function() {
                     that.handleSuccess(options);
                 });
@@ -558,6 +589,10 @@ M.WebSqlStore = M.Store.extend({
         if( error ) {
             this.handleCallback(options.error, error, lastSql);
         }
+    },
+
+    _hasDefaultFields: function(item) {
+        return item && item.length === 2 && this.idField.name in item && this.dataField.name in item;
     },
 
     _checkDb: function(options) {
