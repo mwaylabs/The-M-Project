@@ -208,8 +208,7 @@
                     //                    if( typeof this._events[eventName] === 'function' ) {
                     //                        console.log(that.el);
                     //                    }
-                    console.log(that.el);
-                    Hammer(that.el, that._getEventOptions()).on(eventName, function() {
+                    this.hammertime = Hammer(that.el, that._getEventOptions()).on(eventName, function() {
                         var args = Array.prototype.slice.call(arguments);
                         args.push(that);
                         that._events[eventName].apply(that.scope, args);

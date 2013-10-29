@@ -13,7 +13,12 @@ Kitchensink.Views = Kitchensink.Views || {};
 
             headline: M.View.extend({
                 tagName: 'h2',
-                value: M.I18N.get('global.appName', {aka: 'Absinth'})
+                value: M.I18N.get('global.appName', {aka: 'Absinth'}),
+                events:{
+                    tap: function(){
+                        console.log('tap');
+                    }
+                }
             }),
 
             eventTest: M.View.extend({
