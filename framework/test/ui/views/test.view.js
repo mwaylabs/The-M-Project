@@ -56,13 +56,45 @@ describe('M.View', function () {
         assert.isUndefined(M.View.extend({},{'__test_childview__': M.View.extend()}).extend({},{}).create().childViews[CHILD]);
     });
 
-    it('M.View events', function(){
+    it.skip('events', function () {
+        var clickCount = 0;
+        var ClickView = M.View.extend({
+            events: {
+                click: function() {
+                    clickCount++;
+                }
+            }
+        });
+        var view = new ClickView();
+        view.$el.trigger('click');
+        assert.equal(clickCount, 1);
 
+        view.$el.trigger('click');
+        assert.equal(clickCount, 2);
+    });
 
+    it('delegate', function () {
+        var clickCount = 0;
+        var ClickView = M.View.extend();
+        var view = new ClickView();
+
+        view.clickHandler = function() {
+            clickCount++;
+        };
+
+        var events = {'click': 'clickHandler'};
+        view.delegateEvents(events);
+
+        view.$el.trigger('click');
+        assert.equal(clickCount, 1);
+
+        view.$el.trigger('click');
+        assert.equal(clickCount, 2);
+
+        view.undelegateEvents(events);
+        view.$el.trigger('click');
+        assert.equal(clickCount, 2);
     })
-
-
-
 
 //    M.View.extend = function( options, childViews ) {
 //        options = options || {};
