@@ -35,6 +35,7 @@
         },
 
         nextPage: function(){
+
             if(this._nextPage === 'page2'){
                 this._nextPage = 'page3'
             } else if(this._nextPage === 'page3'){
@@ -72,10 +73,11 @@
         },
 
         show: function( settings ) {
+            this._nextPage = '/';
             Kitchensink.layout.applyViews({
                 content: this.menu
-            }).render();
-            Kitchensink.layout.next();
+            });
+            Kitchensink.layout.startTransition();
         }
     });
 

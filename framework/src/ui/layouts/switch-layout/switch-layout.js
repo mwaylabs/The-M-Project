@@ -29,9 +29,7 @@ M.SwitchLayout = M.Layout.extend({
             this.addChildView(this.currentPage, settings.content);
         }
 
-        if(!this._firstRender){
-            this.$el.find('[data-childviews="' + this.currentPage + '"]').html(settings.content.render().$el);
-        }
+        this.$el.find('[data-childviews="' + this.currentPage + '"]').html(settings.content.render().$el);
 
         return this;
     },
@@ -49,7 +47,7 @@ M.SwitchLayout = M.Layout.extend({
         }
     },
 
-    next: function(){
-        M.PageTransitions.next();
+    startTransition: function(){
+        M.PageTransitions.startTransition();
     }
 })

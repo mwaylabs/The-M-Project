@@ -31,10 +31,8 @@
 
                 Kitchensink.layout.applyViews({
                     content: html
-                }).render();
-
-                Kitchensink.layout.next();
-                //$('#main').html(html.render().$el);
+                });
+                Kitchensink.layout.startTransition();
             }
         }).create(),
 
@@ -49,8 +47,8 @@
 
                 Kitchensink.layout.applyViews({
                     content: html
-                }).render();
-                Kitchensink.layout.next();
+                });
+                Kitchensink.layout.startTransition();
             }
         }).create()
 
