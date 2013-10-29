@@ -91,8 +91,8 @@ M.I18N = _.extend(Backbone.Events, M.Object.extend({
     },
 
     /**
-     * Translates key into current locale, given
-     * placeholders in {{placeholderName}} are replaced.
+     * Translates key into current locale, given placeholders
+     * in {{placeholderName}} are replaced with the appropriate value.
      *
      * @param key
      * @param placeholder
