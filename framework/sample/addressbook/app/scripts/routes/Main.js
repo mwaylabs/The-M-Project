@@ -6,15 +6,17 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
     Addressbook.Routers.MainRouter = M.Router.extend({
         routes: {
-            '': 'indexCtrl'
+            '': 'indexCtrl',
+            'detail/:id': 'detailCtrl'
         },
 
         initialize: function() {
             M.Router.prototype.initialize.apply(this, arguments);
-            Addressbook.MainController = this.indexCtrl;
+            Addressbook.ListController = this.indexCtrl;
         },
 
-        indexCtrl: Addressbook.Controllers.MainController.create()
+        indexCtrl: Addressbook.Controllers.ListController.create(),
+        detailCtrl: Addressbook.Controllers.DetailController.create()
     });
 
 })();

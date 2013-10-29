@@ -2,9 +2,6 @@ M.Application = M.Controller.extend({
 
     _type: 'M.Application',
 
-    router: null,
-
-
     Models: null,
 
     Collections: null,
@@ -25,10 +22,6 @@ M.Application = M.Controller.extend({
     },
 
     start: function( options ) {
-        if( !options.router ) {
-            console.warn('no router was given to the app start');
-        }
-        this.router = options.router;
 
         this.initLocale(options).then(function() {
              Backbone.history.start();
@@ -44,7 +37,7 @@ M.Application = M.Controller.extend({
             defer.resolve();
         });
 
-        if( options.locales ) {
+        if( options && options.locales ) {
             M.I18N.setLocales(options.locales);
             M.I18N.setLocale(moment.lang());
         }else{
@@ -56,15 +49,6 @@ M.Application = M.Controller.extend({
 
     initialRender: function() {
         this.layoutManager.initialRenderProcess();
-    },
-
-    _setControllers: function() {
-        _.each(this.router.routes, function( route ) {
-
-            if( this.router[route] && M.Controller.prototype.isPrototypeOf(this.router[route]) ) {
-                this[route] = this.router[route];
-            }
-        }, this);
     },
 
     navigate: function( settings ) {

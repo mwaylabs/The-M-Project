@@ -4,8 +4,9 @@
 
     $(document).ready(function() {
         'use strict';
+
+        Kitchensink.Routers.KitchensinkRouter.create();
         Kitchensink.start({
-            router: Kitchensink.Routers.KitchensinkRouter.create(),
             locales: [
                 { name: 'English', locale: 'en'},
                 { name: 'Deutsch', locale: 'de'}
