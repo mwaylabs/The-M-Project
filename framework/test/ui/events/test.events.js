@@ -30,7 +30,6 @@ describe('All Events', function () {
             }, null, true).render();
 
         _.each(all_events, function( key ) {
-            console.log(key);
             elem.hammertime.trigger(key, {});
         });
     });
@@ -65,7 +64,6 @@ describe('All Events', function () {
             }, null, true);
 
         _.each(all_events, function( key ) {
-            console.log(key);
             elem.hammertime.trigger(key, {});
         });
     });
@@ -102,7 +100,6 @@ describe('All Events', function () {
             }, null, true).render();
 
         _.each(all_events, function( key ) {
-            console.log(key);
             elem.hammertime.trigger(key, {});
         });
     });
@@ -135,7 +132,6 @@ describe('All Events', function () {
         }).create({}, null, true).render();
 
         _.each(all_events, function( key ) {
-            console.log(key);
             elem.hammertime.trigger(key, {});
         });
     });
@@ -168,7 +164,6 @@ describe('All Events', function () {
         }).create({}, null, true).render();
 
         _.each(all_events, function( key ) {
-            console.log(key);
             elem.hammertime.trigger(key, {});
         });
     });
