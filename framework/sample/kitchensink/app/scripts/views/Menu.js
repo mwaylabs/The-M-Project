@@ -46,8 +46,21 @@ Kitchensink.Views = Kitchensink.Views || {};
                 })
             }),
 
-            buttonExample: M.ButtonView.extend({
+            localizationExample: M.ButtonView.extend({
                 value: M.I18N.get('global.switchLanguage'),
+                events: {
+                    tap: function() {
+                        if(M.I18N._activeLocale == 'de') {
+                            M.I18N.setLocale('en');
+                        } else {
+                            M.I18N.setLocale('de');
+                        }
+                    }
+                }
+            }),
+
+            pageswitchExample: M.ButtonView.extend({
+                value: M.I18N.get('global.pageswitch'),
                 events: {
                     tap: function() {
                         if(M.I18N._activeLocale == 'de') {

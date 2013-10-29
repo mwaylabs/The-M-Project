@@ -1,6 +1,7 @@
 {
     "global": {
         "appName": "DE Kitchensink {{aka}}",
-        "switchLanguage": "Sprachwechsel"
+        "switchLanguage": "Sprachwechsel",
+        "pageswitch": "Seitenwechsel"
     }
 }
