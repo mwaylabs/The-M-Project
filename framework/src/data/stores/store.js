@@ -22,9 +22,11 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
 
     _type: 'M.Store',
 
-    name: '',
-
     entities: null,
+
+    options: null,
+
+    name: '',
 
     typeMapping: function() {
         var map = {};
@@ -34,30 +36,32 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         return map;
     }(),
 
-    initialize: function( config ) {
-        config = config || {};
-        this.name = config.name || this.name;
-        this.typeMapping = config.typeMapping || this.typeMapping;
+    initialize: function( options ) {
+        options = options || {};
+        this.options = this.options || {};
+        this.options.name         = this.name;
+        this.options.typeMapping  = this.typeMapping;
+        this.options.entities     = this.entities;
+        _.extend(this.options, options || {});
 
-        var entities = config.entities || this.entities || {};
+        this._setEntities(options.entities || {});
+    },
+
+    _setEntities: function(entities) {
         this.entities = {};
         for( var name in entities ) {
             var entity = M.Entity.from(entities[name], {
                 store: this,
-                typeMapping: this.typeMapping
+                typeMapping: this.options.typeMapping
             });
             entity.name = entity.name || name;
 
             // connect collection and model to this store
             var collection = entity.collection || M.Collection.extend({ model: M.Model.extend({}) });
             var model      = collection.prototype.model;
-            // keep old entity and store
-            collection.prototype.lastEntity = model.prototype.lastEntity = collection.prototype.entity;
-            collection.prototype.lastStore  = model.prototype.lastStore  = collection.prototype.store;
             // set new entity and name
             collection.prototype.entity = model.prototype.entity = name;
             collection.prototype.store  = model.prototype.store  = this;
-
             entity.idAttribute = entity.idAttribute || model.prototype.idAttribute;
             this.entities[name] = entity;
         }

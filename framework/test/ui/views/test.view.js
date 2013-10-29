@@ -56,23 +56,6 @@ describe('M.View', function () {
         assert.isUndefined(M.View.extend({},{'__test_childview__': M.View.extend()}).extend({},{}).create().childViews[CHILD]);
     });
 
-    it.skip('events', function () {
-        var clickCount = 0;
-        var ClickView = M.View.extend({
-            events: {
-                click: function() {
-                    clickCount++;
-                }
-            }
-        });
-        var view = new ClickView();
-        view.$el.trigger('click');
-        assert.equal(clickCount, 1);
-
-        view.$el.trigger('click');
-        assert.equal(clickCount, 2);
-    });
-
     it('delegate', function () {
         var clickCount = 0;
         var ClickView = M.View.extend();

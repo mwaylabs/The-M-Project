@@ -97,6 +97,9 @@ module.exports = function( grunt ) {
             }
         },
         mocha: {
+            options: {
+                "reporter": "Spec"
+            },
             all: ['test/test.html']
         }
     });
