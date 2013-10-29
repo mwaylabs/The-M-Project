@@ -64,8 +64,8 @@
             return this.model;
         },
 
-        getValue: function(){
-            if(this.model){
+        getValue: function() {
+            if( this.model ) {
                 return JSON.stringify(this._getModel().attributes);
             } else {
                 return this._value_;
@@ -109,7 +109,9 @@
             this._assignValue(options);
             this._assignTemplateValues();
             this._mapEventsToScope(this.scope);
-            this._registerEvents();
+            if( !this.useElement ) {
+                this._registerEvents();
+            }
             this._assignContentBinding();
             //            this._assignComplexView();
             //            this.init();
@@ -132,6 +134,10 @@
                 this.model = this._value_;
             } else if( M.isCollection(this._value_) ) {
                 this.collection = this._value_;
+            } else if( M.isI18NItem(this._value_) ) {
+                M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
+                    this.render();
+                }, this);
             }
             return this;
         },
@@ -169,7 +175,7 @@
 
         _mapEventsToScope: function( scope ) {
             if( this.events ) {
-                var events = [];
+                var events = {};
                 _.each(this.events, function( value, key ) {
                     if( typeof value === 'string' ) {
                         if( scope && typeof scope[value] === 'function' ) {
@@ -199,10 +205,10 @@
             if( this._events ) {
                 var that = this;
                 Object.keys(this._events).forEach(function( eventName ) {
-//                    if( typeof this._events[eventName] === 'function' ) {
-//                        console.log(that.el);
-//                    }
-                    Hammer(that.el, that._getEventOptions()).on(eventName, function() {
+                    //                    if( typeof this._events[eventName] === 'function' ) {
+                    //                        console.log(that.el);
+                    //                    }
+                    this.hammertime = Hammer(that.el, that._getEventOptions()).on(eventName, function() {
                         var args = Array.prototype.slice.call(arguments);
                         args.push(that);
                         that._events[eventName].apply(that.scope, args);
@@ -218,19 +224,34 @@
          * implement render function
          * @returns {this}
          */
-        render: function( settings ) {
+        render: function() {
             //this._assignValue();
-            this._preRender(settings);
-            this._render(settings);
-            this._renderChildViews(settings);
-            this._postRender(settings);
+            this._preRender();
+            this._render();
+            this._renderChildViews();
+            this._postRender();
             return this;
         },
 
         _preRender: function() {
+            this._assignTemplate();
             this._assignTemplateValues();
             this._extendTemplate();
             this.preRender();
+            return this;
+        },
+
+        _assignTemplate: function( template ) {
+            var template = template || this.template;
+            if( template ) {
+                if( typeof template === 'function' ) {
+                    this._template = template;
+                } else if( _.isString(template) ) {
+                    this._template = _.tmpl(template);
+                } else if( _.isObject(template) ) {
+                    this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']))
+                }
+            }
             return this;
         },
 
@@ -242,6 +263,8 @@
                 } else {
                     this._templateData['_value_'] = this.model.get(this._value_.attribute);
                 }
+            } else if( M.isI18NItem(this._value_) ) {
+                this._templateData['_value_'] = M.I18N.l(this._value_.key, this._value_.placeholder);
             } else if( typeof this._value_ === 'string' ) {
                 this._templateData['_value_'] = this._value_;
             } else if( this._value_ !== null && typeof this._value_ === 'object' ) {
@@ -259,14 +282,13 @@
 
         },
 
-        _render: function( settings ) {
+        _render: function() {
             var dom = this._template(this._templateData);
-            if( settings && settings.useSetElement ) {
+            if( this.useElement ) {
                 this.setElement(dom);
             } else {
                 this.$el.html(dom);
             }
-            this._firstRender = NO;
             return this;
         },
 
@@ -286,17 +308,12 @@
                     dom.addClass(name);
                 }
 
-                var settings = {
-                    useSetElement: this.useElement
-                };
-
-
                 if( typeof child['render'] === 'function' ) {
-                    dom.append(child.render(settings).$el);
+                    dom.append(child.render().$el);
                     child.delegateEvents();
                 } else if( _.isArray(child) ) {
                     _.each(child, function( c ) {
-                        dom.append(c.render(settings).$el);
+                        dom.append(c.render().$el);
                         c.delegateEvents();
                     })
                 }
@@ -307,15 +324,20 @@
         },
 
         _postRender: function() {
-//            this._registerEvents();
+            //use element can be given from the parent element
+            if( this.useElement ) {
+                this._registerEvents();
+            }
             this._addClassNames();
             if( this.model ) {
                 this._assignBinding();
                 this.stickit();
-            } else {
-
+            }
+            if(this.model && this.useElement){
+                //console.warn('be aware that stickit only works if you define useElement with NO');
             }
             this.postRender();
+            this._firstRender = NO;
             return this;
         },
 
@@ -397,7 +419,9 @@
      */
     M.View.extend = function( options, childViews ) {
         options = options || {};
-        options._childViews = childViews || {};
+        if( childViews ) {
+            options._childViews = childViews;
+        }
         return Backbone.View.extend.apply(this, [options]);
     };
 
@@ -422,6 +446,10 @@
             });
         }
         return f;
+    };
+
+    M.View.design = M.View.prototype.design = function() {
+        return this.extend().create();
     };
 
 })(this);

@@ -1,6 +1,7 @@
 (function() {
 
     Kitchensink.Routers.KitchensinkRouter = M.Router.extend({
+
         routes: {
             '': 'overviewController',
             'page2': 'page2Controller',
@@ -28,7 +29,10 @@
 
                 html = html.create(OverviewController, null, true);
 
-                $('#main').html(html.render().$el);
+                Kitchensink.layout.applyViews({
+                    content: html
+                });
+                Kitchensink.layout.startTransition();
             }
         }).create(),
 
@@ -40,7 +44,11 @@
                         tap: 'nextPage'
                     }
                 }).create(OverviewController, null, true);
-                $('#main').html(html.render().$el);
+
+                Kitchensink.layout.applyViews({
+                    content: html
+                });
+                Kitchensink.layout.startTransition();
             }
         }).create()
 

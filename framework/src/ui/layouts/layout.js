@@ -99,6 +99,8 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
      */
     isMLayout: YES,
 
-    template: '<div></div>'
+    template: '<div></div>',
+
+    childViews: {}
 
 });

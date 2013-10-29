@@ -13,7 +13,12 @@ Kitchensink.Views = Kitchensink.Views || {};
 
             headline: M.View.extend({
                 tagName: 'h2',
-                value: 'The-M-Project Kitchensink'
+                value: M.I18N.get('global.appName', {aka: 'Absinth'}),
+                events:{
+                    tap: function(){
+                        console.log('tap');
+                    }
+                }
             }),
 
             eventTest: M.View.extend({
@@ -41,14 +46,26 @@ Kitchensink.Views = Kitchensink.Views || {};
 
                     events: {
 
-                        click: 'eventDidHappen'
+                        tap: 'eventDidHappen'
                     }
                 })
             }),
 
-            buttonExample: M.ButtonView.extend({
+            localizationExample: M.ButtonView.extend({
+                value: M.I18N.get('global.switchLanguage'),
+                events: {
+                    tap: function() {
+                        if(M.I18N._activeLocale == 'de') {
+                            M.I18N.setLocale('en');
+                        } else {
+                            M.I18N.setLocale('de');
+                        }
+                    }
+                }
+            }),
 
-                value: 'Next Page',
+            pageswitchExample: M.ButtonView.extend({
+                value: M.I18N.get('global.pageswitch'),
                 events: {
                     tap: 'nextPage'
                 }
@@ -130,7 +147,7 @@ Kitchensink.Views = Kitchensink.Views || {};
             loaderButtonExample: M.ButtonView.extend({
                 value: 'Toggle LoaderView',
                 events:{
-                    click: function() {
+                    tap: function() {
                         //this.scope.menu.childViews.content.childViews.loadingExample.toggle();
                     }
                 }

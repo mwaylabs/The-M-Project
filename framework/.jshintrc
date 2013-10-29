@@ -18,5 +18,11 @@
     "strict": true,
     "trailing": true,
     "smarttabs": true,
-    "jquery": true
+    "jquery": true,
+    "globals" : {
+        "M": false,
+        "Backbone": false,
+        "_": false,
+        "moment": false
+    }
 }

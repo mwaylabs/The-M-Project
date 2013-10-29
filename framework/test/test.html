@@ -17,10 +17,12 @@
   <script src="../bower_components/modernizr/modernizr.js"></script>
   <script src="../bower_components/backbone.stickit/backbone.stickit.js"></script>
   <script src="../bower_components/tmpl/tmpl.js"></script>
-  <script src="../bower_components/fastclick/lib/fastclick.js"></script>
+  <script src="../bower_components/hammerjs/dist/hammer.js"></script>
   <script src="../bower_components/socket.io-client/dist/socket.io.js"></script>
   <script src="../bower_components/momentjs/moment.js"></script>
   <script src="../dist/themproject.js"></script>
+
+  <script src="../node_modules/faketouches/dist/faketouches.js"></script>
 
   <script>
       assert = chai.assert;
@@ -30,12 +32,20 @@
 
   <script src="test.js"></script>
   <script src="core/test.m.js"></script>
+  <script src="core/test.i18n_item.js"></script>
   <script src="core/test.i18n.js"></script>
   <script src="data/test.model.js"></script>
   <script src="data/test.collection.js"></script>
   <script src="data/test.local_storage.js"></script>
   <script src="data/test.websql.js"></script>
   <script src="data/test.bikini.js"></script>
+
+  <script src="ui/views/test.view.js"></script>
+  <script src="ui/views/test.button.js"></script>
+
+  <script src="ui/events/test.events.tap.js"></script>
+  <script src="ui/events/test.events.swipe.js"></script>
+  <script src="ui/events/test.events.js"></script>
 
   <script>
     mocha.checkLeaks();

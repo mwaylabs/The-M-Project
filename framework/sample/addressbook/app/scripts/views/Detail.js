@@ -29,38 +29,41 @@ Addressbook.Views = Addressbook.Views || {};
             }),
 
             options: M.View.extend({
-                cssClass: 'options',
-                useElement: YES
+                cssClass: 'options'
             }, {
                 updateButton: M.ButtonView.extend({
                     cssClass: 'btn-info',
                     value: 'Update',
+                    useElement: YES,
                     events: {
-                        click: 'updateEntry'
+                        tap: 'updateEntry'
                     }
                 }),
 
                 deleteButton: M.ButtonView.extend({
                     cssClass: 'btn-danger',
                     value: 'Delete',
+                    useElement: YES,
                     events: {
-                        click: 'removeEntry'
+                        tap: 'removeEntry'
                     }
                 }),
 
                 addButton: M.ButtonView.extend({
                     cssClass: 'btn-success',
                     value: 'Add',
+                    useElement: YES,
                     extendTemplate: '<span><%= _value_ %></span>',
                     events: {
-                        click: 'addEntry'
+                        tap: 'addEntry'
                     }
                 }),
                 hide: M.ButtonView.extend({
                     cssClass: 'btn-default',
                     value: 'Hide',
+                    useElement: YES,
                     events: {
-                        click: function() {
+                        tap: function() {
                             Addressbook.MainController.detailView.childViews.edit.$el.slideUp();
                         }
                     }
@@ -83,13 +86,15 @@ Addressbook.Views = Addressbook.Views || {};
 
                     extendTemplate: '<span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span>',
 
+                    useElement: YES,
+
                     events: {
 
-                        click: function() {
+                        tap: function(event, element) {
 
-                            this.scope.editModel.set('firstname', this.model.get('firstname'));
-                            this.scope.editModel.set('lastname', this.model.get('lastname'));
-                            this.scope.set('currentModel', this.model);
+                            element.scope.editModel.set('firstname', element.model.get('firstname'));
+                            element.scope.editModel.set('lastname', element.model.get('lastname'));
+                            element.scope.set('currentModel', element.model);
                             Addressbook.MainController.detailView.childViews.edit.$el.slideDown();
 
                         }

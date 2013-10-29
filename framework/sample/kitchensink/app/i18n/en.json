@@ -1,11 +1,7 @@
 {
-    "common": {
-        "appName": "Kitchensink EN",
-        "close": "Close"
-    },
-    "errors": {
-        "isRequired": "is <strong>required</strong>",
-        "greaterThan": "has to be greater than {{count}}",
-        "lowerThan": "has to be lower than {{count}}"
+    "global": {
+        "appName": "EN Kitchensink {{aka}}",
+        "switchLanguage": "Switch language",
+        "pageswitch": "page switch"
     }
 }

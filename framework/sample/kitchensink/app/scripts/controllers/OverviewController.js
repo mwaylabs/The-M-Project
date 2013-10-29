@@ -20,7 +20,6 @@
         }),
 
         eventDidHappen: function( ev, elem ) {
-
 //            var val = this.consoleModel.get('_value_');
             this.consoleModel.set('_value_', '');
             var val = elem._type + ' ' + ev.type + ' ' + elem.getValue();
@@ -36,6 +35,7 @@
         },
 
         nextPage: function(){
+
             if(this._nextPage === 'page2'){
                 this._nextPage = 'page3'
             } else if(this._nextPage === 'page3'){
@@ -61,23 +61,23 @@
             //create the menu
             this.menu = Kitchensink.Views.MenuView.create(this, null, true);
 
-            menu = this.menu;
+//            $('#main').html(this.menu.render().$el);
 
             //set a layout
-            //            Kitchensink.layout = M.SwitchLayout.extend().create(this, null, true);
+            Kitchensink.layout = M.SwitchLayout.extend().create(this, null, true);
 
             //fill the layout with a view and render it
-            //            Kitchensink.layout.applyViews({
-            //                content: this.menu
-            //            }).render();
-
-            $('#main').html(this.menu.render().$el);
-
-            //$('#main').html(Kitchensink.layout.$el);
+            Kitchensink.layout.applyViews({
+                content: this.menu
+            }).render();
         },
 
         show: function( settings ) {
-            $('#main').html(this.menu.render().$el);
+            this._nextPage = '/';
+            Kitchensink.layout.applyViews({
+                content: this.menu
+            });
+            Kitchensink.layout.startTransition();
         }
     });
 

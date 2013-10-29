@@ -2,7 +2,6 @@
 // @include ./ui/views/template_manager.js
 
 // @include ./ui/views/view.js
-// @include ./ui/pagetransitions.js
 // @include ./ui/layouts/layout.js
 
 // @include ./ui/views/textfield.js

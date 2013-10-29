@@ -7,6 +7,7 @@
 // @include ./core/controller.js
 // @include ./core/application.js
 // @include ./core/router.js
+// @include ./utility/i18n_item.js
 // @include ./utility/i18n.js
 // @include ./utility/objectid.js
 // @include ./utility/uuid.js
@@ -29,3 +30,7 @@
 // @include ./data/stores/local_storage.js
 // @include ./data/stores/web_sql.js
 // @include ./data/stores/bikini_store.js
+
+// @include ./interfaces/interface.js
+// @include ./interfaces/pagetransitions.js
+
