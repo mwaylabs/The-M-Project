@@ -246,7 +246,6 @@
             if( template ) {
                 if( typeof template === 'function' ) {
                     this._template = template;
-
                 } else if( _.isString(template) ) {
                     this._template = _.tmpl(template);
                 } else if( _.isObject(template) ) {
@@ -290,7 +289,6 @@
             } else {
                 this.$el.html(dom);
             }
-            this._firstRender = NO;
             return this;
         },
 
@@ -339,6 +337,7 @@
                 //console.warn('be aware that stickit only works if you define useElement with NO');
             }
             this.postRender();
+            this._firstRender = NO;
             return this;
         },
 

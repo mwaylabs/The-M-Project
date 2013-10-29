@@ -36,7 +36,6 @@
         },
 
         nextPage: function(){
-            return;
             if(this._nextPage === 'page2'){
                 this._nextPage = 'page3'
             } else if(this._nextPage === 'page3'){
@@ -62,8 +61,8 @@
             //create the menu
             this.menu = Kitchensink.Views.MenuView.create(this, null, true);
 
-            $('#main').html(this.menu.render().$el);
-            return;
+//            $('#main').html(this.menu.render().$el);
+
             //set a layout
             Kitchensink.layout = M.SwitchLayout.extend().create(this, null, true);
 
@@ -71,12 +70,13 @@
             Kitchensink.layout.applyViews({
                 content: this.menu
             }).render();
-
-            $('#main').html(Kitchensink.layout.$el);
         },
 
         show: function( settings ) {
-            $('#main').html(Kitchensink.layout.$el);
+            Kitchensink.layout.applyViews({
+                content: this.menu
+            }).render();
+            Kitchensink.layout.next();
         }
     });
 

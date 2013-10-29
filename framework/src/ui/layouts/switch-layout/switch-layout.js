@@ -9,6 +9,7 @@ M.SwitchLayout = M.Layout.extend({
     currentPage: null,
 
     applyViews: function( settings ){
+
         var current = $('.m-page-current');
 
         var next = $('.m-page:not(.m-page-current)');
@@ -35,11 +36,20 @@ M.SwitchLayout = M.Layout.extend({
         return this;
     },
 
+    _render: function(){
+        M.Layout.prototype._render.apply(this, arguments);
+        if(this._firstRender){
+            $('body').html(this.$el);
+        }
+    },
+
     _postRender: function(){
         if(this._firstRender){
             M.PageTransitions.init();
         }
     },
 
-    next: function(){}
+    next: function(){
+        M.PageTransitions.next();
+    }
 });

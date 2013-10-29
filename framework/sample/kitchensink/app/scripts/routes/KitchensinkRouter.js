@@ -29,11 +29,11 @@
 
                 html = html.create(OverviewController, null, true);
 
-                debugger;
                 Kitchensink.layout.applyViews({
                     content: html
                 }).render();
 
+                Kitchensink.layout.next();
                 //$('#main').html(html.render().$el);
             }
         }).create(),
@@ -45,13 +45,12 @@
                     events: {
                         tap: 'nextPage'
                     }
-                })
-//                    .create(OverviewController, null, true);
-                //$('#main').html(html.render().$el);
+                }).create(OverviewController, null, true);
 
                 Kitchensink.layout.applyViews({
                     content: html
                 }).render();
+                Kitchensink.layout.next();
             }
         }).create()
 
