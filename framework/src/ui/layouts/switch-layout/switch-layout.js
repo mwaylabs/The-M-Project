@@ -52,4 +52,4 @@ M.SwitchLayout = M.Layout.extend({
     next: function(){
         M.PageTransitions.next();
     }
-});
+})
