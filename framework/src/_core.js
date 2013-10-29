@@ -30,3 +30,7 @@
 // @include ./data/stores/local_storage.js
 // @include ./data/stores/web_sql.js
 // @include ./data/stores/bikini_store.js
+
+// @include ./interfaces/interface.js
+// @include ./interfaces/pagetransitions.js
+
