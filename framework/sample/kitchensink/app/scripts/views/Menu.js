@@ -35,6 +35,14 @@ Kitchensink.Views = Kitchensink.Views || {};
 
             }),
 
+            bindingTestAttributeA: M.View.extend({
+                scopeKey: 'bindingTestModel.a'
+            }),
+
+            bindingTestAttributeB: M.View.extend({
+                scopeKey: 'bindingTestModel.b'
+            }),
+
             eventTest: M.View.extend({
                 scopeKey: 'consoleModel',
                 cssClass: 'box',
