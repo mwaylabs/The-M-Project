@@ -1,11 +1,36 @@
-#!/bin/sh
+#!/usr/bin/env bash
+#
+# Script to initialize the repo
+# - install required node packages
+# - install required bower packages
+# - install git hooks
 
-echo "run bower install"
-bower install
+node=`which node 2>&1`
+if [ $? -ne 0 ]; then
+  echo "Please install NodeJS."
+  echo "http://nodejs.org/"
+  exit 1
+fi
 
-echo "run npm install"
+npm=`which npm 2>&1`
+if [ $? -ne 0 ]; then
+  echo "Please install NPM."
+fi
+
+bower=`which bower 2>&1`
+if [ $? -ne 0 ]; then
+  echo "Installing Bower..."
+  npm install -g bower
+fi
+
+
+echo "Installing required npm packages..."
 npm install
 
-echo "copy pre commit hook"
+
+echo "Installing required bower packages..."
+bower install
+
+
+echo "Installing git hooks..."
 cp scripts/pre-commit ../.git/hooks/pre-commit
-chmod +x ../.git/hooks/pre-commit
