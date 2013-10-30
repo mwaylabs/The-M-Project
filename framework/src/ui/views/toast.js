@@ -11,13 +11,13 @@
         initialize: function( settings ){
             var that = this;
             that.id = _.uniqueId();
-            that.text = settings.text || 'Text';
+            that.text = settings.text || M.Toast.TEXT;
             $('body').append(this.render().$el);
 
             setTimeout(function(){
                 console.log(that);
                 that.remove();
-            }, settings.timeout || 2000);
+            }, settings.timeout || M.Toast.MEDIUM);
         },
 
         _assignTemplateValues: function(){
@@ -30,12 +30,13 @@
     });
 
     M.Toast.show = function(settings){
-        var toast = M.Toast.create(settings);
+        return M.Toast.create(settings);
     };
 
     M.Toast.RAW = 500;
     M.Toast.MEDIUM = 2000;
     M.Toast.CRISPY = 4000;
+    M.Toast.TEXT = '';
 
 
 })(this);
