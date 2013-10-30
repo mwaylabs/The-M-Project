@@ -1,6 +1,6 @@
 Addressbook.Views = Addressbook.Views || {};
 
-(function () {
+(function() {
     'use strict'
     Addressbook.Views.ListView = M.View.extend({
 
@@ -21,22 +21,24 @@ Addressbook.Views = Addressbook.Views || {};
 
                 listItemView: M.ListItemView.extend({
 
-                    extendTemplate: '<span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span>',
+                    extendTemplate: '<span class="lastname"><%= lastname %></span><span class="firstname"><%= firstname %></span>',
 
                     useElement: YES,
 
                     events: {
 
-                        tap: function (event, element) {
+                        tap: function( event, element ) {
+                            var userModel = element.model;
+
                             var id = element.model.get('_id');
                             Addressbook.navigate({
                                 route: 'detail/' + id
                             });
 
-//                            element.scope.editModel.set('firstname', element.model.get('firstname'));
-//                            element.scope.editModel.set('lastname', element.model.get('lastname'));
-//                            element.scope.set('currentModel', element.model);
-//                            Addressbook.ListController.listView.childViews.edit.$el.slideDown();
+                            //                            element.scope.editModel.set('firstname', element.model.get('firstname'));
+                            //                            element.scope.editModel.set('lastname', element.model.get('lastname'));
+                            //                            element.scope.set('currentModel', element.model);
+                            //                            Addressbook.ListController.listView.childViews.edit.$el.slideDown();
 
                         }
                     }

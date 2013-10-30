@@ -90,7 +90,7 @@ module.exports = function( grunt ) {
         watch: {
             dev: {
                 files: ['src/**/*','test/**/*'],
-                tasks: ['preprocess:core','test'],
+                tasks: ['preprocess:core'],
                 options: {
                     spawn: false
                 }

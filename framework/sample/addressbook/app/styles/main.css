@@ -21,3 +21,11 @@
     margin: 0 10px 0 0;
     display: inline-block;
 }
+
+.lastname{
+    margin-right: 4px;
+}
+
+.lastname:after{
+    content: ','
+}

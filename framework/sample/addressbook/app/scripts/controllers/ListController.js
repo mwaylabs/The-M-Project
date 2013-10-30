@@ -10,6 +10,8 @@
 
         listView: null,
 
+        editModel: M.Model.create(),
+
         applicationStart: function () {
 
             this.listView = this._initView();
@@ -50,9 +52,9 @@
 
 
         topcoatTheme: function() {
-            M.TemplateManager._currentUI = 'topcoat';
-            Addressbook.listView.updateTemplate();
-            Addressbook.listView.render();
+//            M.TemplateManager._currentUI = 'topcoat';
+//            Addressbook.listView.updateTemplate();
+//            Addressbook.listView.render();
         }
 
 
