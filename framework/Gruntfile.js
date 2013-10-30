@@ -56,7 +56,7 @@ module.exports = function( grunt ) {
         },
         uglify: {
             options: {
-                banner: '<%= meta.banner %>'
+                preamble:'<%= meta.banner %>'
             },
             core: {
                 src: 'dist/themproject.js',
@@ -88,9 +88,9 @@ module.exports = function( grunt ) {
             }
         },
         watch: {
-            dev: {
+            core: {
                 files: ['src/**/*','test/**/*'],
-                tasks: ['preprocess:core'],
+                tasks: ['preprocess:core','preprocess:css'],
                 options: {
                     spawn: false
                 }
@@ -115,7 +115,7 @@ module.exports = function( grunt ) {
     // TODO run jshint task
     //grunt.registerTask('test', ['jshint', 'mocha']);
     grunt.registerTask('test', ['mocha']);
-    grunt.registerTask('dev', ['preprocess:core','watch:dev']);
-    grunt.registerTask('default', ['preprocess']);
-    grunt.registerTask('release', ['preprocess', 'uglify', 'cssmin']);
+    grunt.registerTask('dev', ['preprocess:core','preprocess:css','watch:core']);
+    //grunt.registerTask('default', ['jshint', 'preprocess', 'uglify', 'cssmin']);
+    grunt.registerTask('default', ['preprocess', 'uglify', 'cssmin']);
 };
