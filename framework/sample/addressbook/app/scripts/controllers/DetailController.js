@@ -8,7 +8,7 @@
 
         applicationStart: function (settings) {
             this.detailView = this._initView(settings);
-            Addressbook.layout = M.SwitchLayout.extend().create(this, null, true);
+            Addressbook.layout = M.AppLayout.extend().create(this, null, true);
 
             Addressbook.layout.applyViews({
                 content: this.detailView
@@ -63,11 +63,19 @@
 
         addEntry: function (event, element) {
             element.scope.set('currentModel', element.scope.contactCollection.create(element.scope.editModel.attributes));
+            M.Toast.show({text: 'Successfully added', timeout: M.Toast.MEDIUM});
         },
 
         removeEntry: function (event, element) {
             if (element.scope.currentModel) {
-                element.scope.currentModel.destroy();
+                element.scope.currentModel.destroy({
+                    success: function(){
+                        M.Toast.show({text: 'Successfully deleted', timeout: M.Toast.MEDIUM});
+                    },
+                    error: function(){
+                        M.Toast.show({text: 'Could not delete', timeout: M.Toast.MEDIUM});
+                    }
+                });
                 element.scope.set('currentModel', null);
             }
             element.scope.editModel.clear();
@@ -76,7 +84,16 @@
         updateEntry: function (event, element) {
             if (this.currentModel) {
                 this.currentModel.set(this.editModel.attributes);
-                this.currentModel.save();
+
+                this.currentModel.save(null, {
+                    success: function(){
+                        M.Toast.show({text: 'Successfully updated', timeout: M.Toast.MEDIUM});
+                    },
+                    error: function(){
+                        M.Toast.show({text: 'Error on update', timeout: M.Toast.MEDIUM});
+                    }
+                });
+
             }
         }
 

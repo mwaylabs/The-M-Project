@@ -101,6 +101,10 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
 
     template: '<div></div>',
 
-    childViews: {}
+    childViews: {},
+
+    applyViews: function(){
+
+    }
 
 });

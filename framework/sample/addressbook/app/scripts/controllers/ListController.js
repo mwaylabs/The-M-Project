@@ -15,9 +15,10 @@
         applicationStart: function () {
 
             this.listView = this._initView();
-            Addressbook.layout = M.SwitchLayout.extend().create(this, null, true);
+            Addressbook.layout = M.AppLayout.extend().create(this, null, true);
 
             Addressbook.layout.applyViews({
+
                 content: this.listView
             }).render();
         },
