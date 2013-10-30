@@ -19,6 +19,11 @@
             _value_: ''
         }),
 
+        bindingTestModel: M.Model.create({
+            a: 'first attribute',
+            b: 'second attribute'
+        }),
+
         eventDidHappen: function( ev, elem ) {
 //            var val = this.consoleModel.get('_value_');
             this.consoleModel.set('_value_', '');

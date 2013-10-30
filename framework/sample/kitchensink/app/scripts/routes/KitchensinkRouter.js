@@ -12,29 +12,32 @@
         initialize: function() {
 
             M.Router.prototype.initialize.apply(this, arguments);
-            OverviewController = this.overviewController;
+            Kitchensink.overviewController = this.overviewController;
+            Kitchensink.page2Controller = this.page2Controller;
         },
 
         overviewController: Kitchensink.Controllers.OverviewController.create(),
 
-        page2Controller: M.Controller.extend({
-            show: function() {
+        page2Controller: Kitchensink.Controllers.Page2Controller.create(),
 
-                var html = M.ButtonView.extend({
-                    value: 'page 3',
-                    events: {
-                        tap: 'nextPage'
-                    }
-                });
-
-                html = html.create(OverviewController, null, true);
-
-                Kitchensink.layout.applyViews({
-                    content: html
-                });
-                Kitchensink.layout.startTransition();
-            }
-        }).create(),
+//        page2Controller: M.Controller.extend({
+//            show: function() {
+//
+//                var html = M.ButtonView.extend({
+//                    value: 'page 3',
+//                    events: {
+//                        tap: 'nextPage'
+//                    }
+//                });
+//
+//                html = html.create(OverviewController, null, true);
+//
+//                Kitchensink.layout.applyViews({
+//                    content: html
+//                });
+//                Kitchensink.layout.startTransition();
+//            }
+//        }).create(),
 
         page3Controller: M.Controller.extend({
             show: function() {
@@ -43,7 +46,7 @@
                     events: {
                         tap: 'nextPage'
                     }
-                }).create(OverviewController, null, true);
+                }).create(Kitchensink.overviewController, null, true);
 
                 Kitchensink.layout.applyViews({
                     content: html

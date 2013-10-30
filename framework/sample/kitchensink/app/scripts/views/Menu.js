@@ -21,6 +21,20 @@ Kitchensink.Views = Kitchensink.Views || {};
                 }
             }),
 
+            bindingTestInput: M.View.extend({
+
+                scopeKey: 'bindingTestModel',
+                template: '<div><input value="<%= a %>"/> <input value="<%= b %>" /></div>'
+
+            }),
+
+            bindingTestOutput: M.View.extend({
+
+                scopeKey: 'bindingTestModel',
+                template: '<div><input value="<%= a %>"/> <input value="<%= b %>" /></div>'
+
+            }),
+
             eventTest: M.View.extend({
                 scopeKey: 'consoleModel',
                 cssClass: 'box',
