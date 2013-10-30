@@ -16,6 +16,7 @@ M.Field = function(options) {
 M.Field.extend = Backbone.Model.extend;
 
 M.Field.create = M.create;
+M.Field.create = M.design;
 
 _.extend(M.Field.prototype, M.Object, {
 
@@ -42,7 +43,7 @@ _.extend(M.Field.prototype, M.Object, {
     },
 
     create: function( config ) {
-        var field = this.extend({
+        return this.extend({
             name:           config.name,
             type:           config.type,
             defaultValue:   config.defaultValue,
@@ -50,7 +51,6 @@ _.extend(M.Field.prototype, M.Object, {
             required:       config.required,
             persistent:     config.persistent
         });
-        return field;
     },
 
     merge: function(obj) {

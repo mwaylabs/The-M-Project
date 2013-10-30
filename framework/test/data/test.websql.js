@@ -1,6 +1,12 @@
 describe('M.WebSqlStore', function() {
 
-    var TEST = {};
+    var TEST = {
+        data : {
+            firstName: 'Max',
+            sureName: 'Mustermann',
+            age: 33
+        }
+    };
 
     it('creating websql store', function() {
 
@@ -12,12 +18,25 @@ describe('M.WebSqlStore', function() {
 
         assert.typeOf(TEST.store, 'object', 'store successfully created.');
 
+    });
+
+    TEST.dropTableTest = function (done) {
         TEST.store.dropTable({
             entity: {
                 name: 'test'
+            },
+            success: function() {
+                assert.ok(true, 'drop table test');
+                done();
+            },
+            error: function(error) {
+                assert.ok(false, 'drop table test: ' + error);
+                done();
             }
         });
-    });
+    };
+
+    it('drop table', TEST.dropTableTest);
 
     it('creating collection', function() {
 
@@ -45,22 +64,17 @@ describe('M.WebSqlStore', function() {
 
         assert.typeOf(TEST.TestModelCollection, 'function', 'Test collection successfully extended.');
 
-        TEST.Test = TEST.TestModelCollection.create();
+        TEST.Tests = TEST.TestModelCollection.create();
 
-        assert.typeOf(TEST.Test, 'object', 'Test collection successfully created.');
+        assert.typeOf(TEST.Tests, 'object', 'Test collection successfully created.');
 
-        assert.ok(TEST.Test.store === TEST.store, 'Test collection has the correct store.');
+        assert.ok(TEST.Tests.store === TEST.store, 'Test collection has the correct store.');
 
     });
 
     it('create record', function(done) {
-        TEST.data = {
-            firstName: 'Max',
-            sureName: 'Mustermann',
-            age: 33
-        };
 
-        TEST.Test.create(TEST.data,
+        TEST.Tests.create(TEST.data,
             {
                 success: function(model) {
                     assert.ok(model, 'new record exists.');
@@ -80,7 +94,7 @@ describe('M.WebSqlStore', function() {
     });
 
     it('read record', function() {
-        var model = TEST.Test.get(TEST.id);
+        var model = TEST.Tests.get(TEST.id);
 
         assert.ok(model, "record found");
 
@@ -120,7 +134,7 @@ describe('M.WebSqlStore', function() {
     });
 
     it('delete record', function(done) {
-        TEST.Test.get(TEST.id).destroy(
+        TEST.Tests.get(TEST.id).destroy(
             {
                 success: function(model) {
                     assert.ok(true, 'record has been deleted.');
@@ -135,10 +149,10 @@ describe('M.WebSqlStore', function() {
     });
 
     it('fetching collection', function(done) {
-        TEST.Test.fetch({
+        TEST.Tests.fetch({
             success: function(collection) {
                 assert.ok(true, 'Test collection fetched successfully.');
-                TEST.count = TEST.Test.length;
+                TEST.count = TEST.Tests.length;
                 done();
             },
             error: function() {
@@ -150,19 +164,68 @@ describe('M.WebSqlStore', function() {
 
     it('cleanup records', function(done) {
 
-        if (TEST.Test.length === 0) {
+        if (TEST.Tests.length === 0) {
             done();
         } else {
-            TEST.Test.on('all', function(event) {
-                if (event === 'destroy' && TEST.Test.length == 0) {
+            TEST.Tests.on('all', function(event) {
+                if (event === 'destroy' && TEST.Tests.length == 0) {
                     done();
                 }
             });
             var model;
-            while (model = TEST.Test.first()) {
+            while (model = TEST.Tests.first()) {
               model.destroy();
             }
         }
     });
+
+    it('drop table', TEST.dropTableTest);
+
+    it('create record (no schema)', function(done) {
+
+        TEST.Tests2 = M.Collection.design({
+             model: TEST.TestModel2,
+             store: TEST.store
+        });
+
+        assert.isObject(TEST.Tests2, "M.Collection.design created a new collection");
+
+        TEST.data = {
+            firstName: 'Max',
+            sureName: 'Mustermann',
+            age: 33
+        };
+
+        TEST.Tests2.create(TEST.data,
+            {
+                success: function(model) {
+                    assert.ok(model, 'new record exists.');
+
+                    TEST.id = model.id;
+
+                    assert.ok(TEST.id, 'new record has an id.');
+
+                    done();
+                },
+                error: function(error) {
+                    assert.ok(false, 'new record created: ' + error);
+                    done();
+                }
+            }
+        );
+    });
+
+    it('read record', function() {
+        var model = TEST.Tests2.get(TEST.id);
+
+        assert.ok(model, "record found");
+
+        assert.equal(model.get('firstName'), TEST.data.firstName, "found record has the correct 'firstname' value");
+        assert.equal(model.get('sureName'), TEST.data.sureName, "found record has the correct 'sureName' value");
+        assert.equal(model.get('age'), TEST.data.age, "found record has the correct 'age' value");
+
+    });
+
+    it('drop table', TEST.dropTableTest);
 
 });

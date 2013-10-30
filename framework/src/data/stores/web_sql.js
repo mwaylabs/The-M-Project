@@ -8,7 +8,7 @@ M.WebSqlStore = M.Store.extend({
 
     name: 'themproject',
 
-    size: 1024 * 1024 * 1, // 1 MB
+    size: 1024 * 1024, // 1 MB
 
     version: '1.0',
 
@@ -66,28 +66,28 @@ M.WebSqlStore = M.Store.extend({
     },
 
     sync: function( method, model, options ) {
-        var that    = options.store || this.store;
-        var options = that._options(model, options, this.entity);
+        var that = options.store || this.store;
+        var opts = that._options(model, options, this.entity);
         switch( method ) {
             case 'create':
-                that._checkTable(options, that._insertOrReplace);
+                that._checkTable(opts, that._insertOrReplace);
                 break;
 
             case 'update':
             case 'patch':
-                that._checkTable(options, that._insertOrReplace);
+                that._checkTable(opts, that._insertOrReplace);
                 // that._updateOrReplace(options);
                 break;
 
             case 'delete':
-                that._delete(options);
+                that._delete(opts);
                 break;
 
             case 'read':
                 if ( M.isCollection(this)) {
-                    options.data = null;
+                    opts.data = null;
                 }
-                that._select(model, options);
+                that._select(model, opts);
                 break;
 
             default:
@@ -122,7 +122,6 @@ M.WebSqlStore = M.Store.extend({
             try {
                 if( !window.openDatabase ) {
                     error = 'Your browser does not support WebSQL databases.';
-                    throw new Error(error);
                 } else {
                     this.db = window.openDatabase(this.options.name, "", "", this.options.size);
                     if (this.entities) {
@@ -148,7 +147,6 @@ M.WebSqlStore = M.Store.extend({
             if( !error && dbError ) {
                 error = dbError;
             }
-            throw new Error('dbError '+ error);
             this.handleSuccess(options, error);
         }
     },
@@ -168,8 +166,7 @@ M.WebSqlStore = M.Store.extend({
                         tx.executeSql(sql);
                     });
                 }, function( msg ) {
-                    var err =  msg;
-                    that.handleError(options, err, lastSql);
+                    that.handleError(options, msg, lastSql);
                 }, function() {
                     that.handleSuccess(options);
                 });
@@ -199,8 +196,7 @@ M.WebSqlStore = M.Store.extend({
     },
 
     _sqlDropTable: function( name ) {
-        var sql = "DROP TABLE IF EXISTS '" + name + "'";
-        return sql;
+        return "DROP TABLE IF EXISTS '" + name + "'";
     },
 
     _isAutoincrementKey: function(entity, key) {
@@ -272,7 +268,7 @@ M.WebSqlStore = M.Store.extend({
     },
 
     _sqlWhere: function(options) {
-        var entity  = options.entity
+        var entity  = options.entity;
         this._selector = null;
         var sql = '';
         if( _.isString(options.where) ) {
@@ -287,7 +283,7 @@ M.WebSqlStore = M.Store.extend({
     _sqlWhereFromData: function(options) {
         var that    = this;
         var data    = options.data;
-        var entity  = options.entity
+        var entity  = options.entity;
         var ids     = [];
         if (data && entity && entity.idAttribute) {
             var id, key = entity.idAttribute;
@@ -363,12 +359,6 @@ M.WebSqlStore = M.Store.extend({
         return '"' + value + '"';
     },
 
-    /**
-     * @private
-     * Creates the column definitions from the meta data of the table
-     * @param {Object}
-     * @returns {String} The string used for db create to represent this property.
-     */
     _dbAttribute: function( field ) {
         if( field && field.name ) {
             var type = this.options.sqlTypeMapping[field.type];
@@ -412,7 +402,6 @@ M.WebSqlStore = M.Store.extend({
                     action.apply(that, [options]);
                 },
                 error: function(error) {
-                    throw new Error('create table failed: '+error);
                     this.handleError(options, error);
                 },
                 entity: entity
@@ -422,13 +411,6 @@ M.WebSqlStore = M.Store.extend({
         }
     },
 
-
-    /**
-     *
-     * @param {options} options
-     * @param {Array} of models or a collection, or a single model
-     * @param {Number} transactionSize
-     */
     _insertOrReplace: function( options ) {
 
         var entity = this.getEntity(options);
@@ -587,12 +569,14 @@ M.WebSqlStore = M.Store.extend({
             }
         }
         if( error ) {
-            this.handleCallback(options.error, error, lastSql);
+            this.handleCallback(options.error, error, lastStatement);
         }
     },
 
     _hasDefaultFields: function(item) {
-        return item && item.length === 2 && this.idField.name in item && this.dataField.name in item;
+        return _.every(_.keys(item), function(key) {
+           return key === this.idField.name || key === this.dataField.name;
+        }, this);
     },
 
     _checkDb: function(options) {

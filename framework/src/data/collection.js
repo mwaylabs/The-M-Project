@@ -12,6 +12,7 @@
 M.Collection = Backbone.Collection.extend(M.Object);
 
 M.Collection.create = M.create;
+M.Collection.design = M.design;
 
 _.extend(M.Collection.prototype, {
 
@@ -79,7 +80,7 @@ _.extend(M.Collection.prototype, {
         } else {
             var that = this;
             var args = arguments;
-            var options = options || {};
+            options = options || {};
             options.credentials = options.credentials || this.credentials;
             M.Security.logon(options, function(result) {
                 return Backbone.sync.apply(that, args);
@@ -111,7 +112,7 @@ _.extend(M.Collection.prototype, {
     },
 
     getUrlParams: function(url) {
-        var url = url || this.getUrl();
+        url = url || this.getUrl();
         var m = url.match(/\?([^#]*)/);
         var params = {};
         if (m && m.length > 1) {

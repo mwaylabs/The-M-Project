@@ -2,7 +2,6 @@
 M.Model = Backbone.Model.extend(M.Object);
 
 M.Model.create = M.create;
-
 M.Model.design = M.design;
 
 _.extend(M.Model.prototype, {
@@ -60,8 +59,8 @@ _.extend(M.Model.prototype, {
     // For each `set` attribute, update or delete the current value.
         var attrs = model.changedAttributes();
         if ( _.isObject(attrs)) {
-            for (var attr in attrs) {
-                this.changedSinceSync[attr] = attrs[attr];
+            for (var key in attrs) {
+                this.changedSinceSync[key] = attrs[key];
             }
         }
     },

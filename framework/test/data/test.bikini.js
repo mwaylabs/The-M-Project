@@ -1,6 +1,12 @@
 describe('M.BikiniStore', function() {
 
-    var TEST = {};
+    var TEST = {
+        data : {
+            firstName: 'Max',
+            sureName: 'Mustermann',
+            age: 33
+        }
+    };
 
     it('creating bikini store', function() {
 
@@ -18,7 +24,7 @@ describe('M.BikiniStore', function() {
 
         assert.isFunction(M.Collection, 'M.Collection is defined');
 
-        TEST.TestModel = M.Model.extend({
+        TEST.TestsModel = M.Model.extend({
             idAttribute: '_id',
             entity: {
                 name: 'test',
@@ -31,12 +37,12 @@ describe('M.BikiniStore', function() {
             }
         });
 
-        assert.isFunction(TEST.TestModel, 'TestModel model successfully extended.');
+        assert.isFunction(TEST.TestsModel, 'TestModel model successfully extended.');
 
         TEST.url = 'http://nerds.mway.io:8200/bikini/test';
 
-        TEST.TestModelCollection = M.Collection.extend({
-            model: TEST.TestModel,
+        TEST.TestsModelCollection = M.Collection.extend({
+            model: TEST.TestsModel,
             url: TEST.url,
             store: TEST.store,
             sort: { lastname: 1 },
@@ -44,15 +50,15 @@ describe('M.BikiniStore', function() {
             query: { age : { $gte : 25  } }
         });
 
-        assert.isFunction(TEST.TestModelCollection, 'Test collection successfully extended.');
+        assert.isFunction(TEST.TestsModelCollection, 'Test collection successfully extended.');
 
-        TEST.Test = TEST.TestModelCollection.create();
+        TEST.Tests = TEST.TestsModelCollection.create();
 
-        assert.isObject(TEST.Test, 'Test collection successfully created.');
+        assert.isObject(TEST.Tests, 'Test collection successfully created.');
 
-        assert.equal(TEST.Test.store, TEST.store, 'Test collection has the correct store.');
+        assert.equal(TEST.Tests.store, TEST.store, 'Test collection has the correct store.');
 
-        var url = TEST.Test.getUrl();
+        var url = TEST.Tests.getUrl();
 
         assert.ok(url !== TEST.url, 'The base url has been extended.');
 
@@ -67,11 +73,7 @@ describe('M.BikiniStore', function() {
     });
 
     it('create record', function(done) {
-        TEST.Test.create({
-                firstName: 'Max',
-                sureName: 'Mustermann',
-                age: 33
-            },
+        TEST.Tests.create(TEST.data,
             {
                 success: function(model) {
                     assert.isObject(model, 'new record created successfully.');
@@ -89,26 +91,55 @@ describe('M.BikiniStore', function() {
         );
     });
 
-    it('delete record', function(done) {
-        TEST.Test.get(TEST.id).destroy(
-            {
-                success: function(model) {
-                    assert.ok(true, 'record has been deleted.');
-                    done();
-                },
-                error: function() {
-                    assert.ok(false, 'record has been deleted.');
-                    done();
-                }
-            }
-        );
-    });
+    it('read record', function() {
+        var model = TEST.Tests.get(TEST.id);
 
+        assert.ok(model, "record found");
+
+        assert.equal(model.get('firstName'), TEST.data.firstName, "found record has the correct 'firstname' value");
+        assert.equal(model.get('sureName'), TEST.data.sureName, "found record has the correct 'sureName' value");
+        assert.equal(model.get('age'), TEST.data.age, "found record has the correct 'age' value");
+
+    });
+/*
+    it('fetching data with new model', function(done) {
+
+        TEST.TestModel2 = M.Model.extend({
+            url : TEST.url,
+            idAttribute: '_id',
+            store: TEST.store,
+            entity: {
+                name: 'test'
+            }
+        });
+
+        var model = TEST.TestModel2.create({ _id:  TEST.id });
+
+        assert.isObject(model, "new model created");
+
+        model.fetch({
+            success: function() {
+                assert.ok(true, 'model has been fetched.');
+                assert.equal(model.get('firstName'), TEST.data.firstName, "found record has the correct 'firstname' value");
+                assert.equal(model.get('USERNAME'), TEST.data.sureName, "found record has the correct 'USERNAME' value");
+                assert.equal(model.get('age'), TEST.data.age, "found record has the correct 'age' value");
+                done();
+            },
+            error: function(error) {
+                assert.ok(false, 'model has been fetched.');
+                done();
+            }
+        })
+    });
+*/
     it('fetching collection', function(done) {
-        TEST.Test.fetch({
+        TEST.Tests.reset();
+        assert.equal(TEST.Tests.length, 0, 'reset has cleared the collection.');
+
+        TEST.Tests.fetch({
             success: function(collection) {
                 assert.ok(true, 'Test collection fetched successfully.');
-                TEST.count = TEST.Test.length;
+                TEST.count = TEST.Tests.length;
                 done();
             },
             error: function() {
@@ -118,18 +149,47 @@ describe('M.BikiniStore', function() {
         });
     });
 
+    it('read record', function() {
+        var model = TEST.Tests.get(TEST.id);
+
+        assert.ok(model, "record found");
+
+        assert.equal(model.get('firstName'), TEST.data.firstName, "found record has the correct 'firstname' value");
+        assert.equal(model.get('sureName'), TEST.data.sureName, "found record has the correct 'sureName' value");
+        assert.equal(model.get('age'), TEST.data.age, "found record has the correct 'age' value");
+
+    });
+
+
+    it('delete record', function(done) {
+         TEST.Tests.get(TEST.id).destroy(
+             {
+                 success: function(model) {
+                     assert.ok(true, 'record has been deleted.');
+                     done();
+                 },
+                 error: function() {
+                     assert.ok(false, 'record has been deleted.');
+                     done();
+                 }
+             }
+         );
+     });
+
+
     it('cleanup records', function(done) {
 
-        if (TEST.Test.length === 0) {
+        if (TEST.Tests.length === 0) {
             done();
         } else {
-            TEST.Test.on('all', function(event) {
-                if (event === 'destroy' && TEST.Test.length == 0) {
+            TEST.Tests.on('all', function(event) {
+                if (event === 'destroy' && TEST.Tests.length == 0) {
+                    assert.equal(TEST.Tests.length, 0, 'collection is empty');
                     done();
                 }
             });
             var model;
-            while (model = TEST.Test.first()) {
+            while (model = TEST.Tests.first()) {
               model.destroy();
             }
         }

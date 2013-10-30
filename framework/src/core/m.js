@@ -30,7 +30,7 @@ M.create = function (arguments) {
 };
 
 M.design = function (obj) {
-    var o = this.extend(obj);
+    var o = this.extend(obj || {});
     return new o();
 };
 
