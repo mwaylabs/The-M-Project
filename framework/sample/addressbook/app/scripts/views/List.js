@@ -15,15 +15,6 @@ Addressbook.Views = Addressbook.Views || {};
                 tagName: 'h2',
                 value: 'Contacts'
             }),
-            firstname: M.TextfieldView.extend({
-                scopeKey: 'editModel.firstname',
-                label: 'Firstname'
-            }),
-
-            lastname: M.TextfieldView.extend({
-                scopeKey: 'editModel.lastname',
-                label: 'Lastname'
-            }),
             contactList: M.ListView.extend({
 
                 scopeKey: 'contactCollection',
@@ -38,17 +29,11 @@ Addressbook.Views = Addressbook.Views || {};
 
                         tap: function( event, element ) {
                             var userModel = element.model;
-                            element.scope.currentModel = userModel;
-                            element.scope.editModel.set('firstname', userModel.get('firstname'));
-                            element.scope.editModel.set('lastname', userModel.get('lastname'));
 
-                            xxx.detailCtrl.editModel.set('firstname', userModel.get('firstname'));
-                            xxx.detailCtrl.editModel.set('lastname', userModel.get('lastname'));
-
-//                            var id = element.model.get('_id');
-//                            Addressbook.navigate({
-//                                route: 'detail/' + id
-//                            });
+                            var id = element.model.get('_id');
+                            Addressbook.navigate({
+                                route: 'detail/' + id
+                            });
 
                             //                            element.scope.editModel.set('firstname', element.model.get('firstname'));
                             //                            element.scope.editModel.set('lastname', element.model.get('lastname'));

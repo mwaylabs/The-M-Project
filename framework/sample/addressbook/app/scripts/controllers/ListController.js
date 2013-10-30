@@ -19,7 +19,7 @@
 
             Addressbook.layout.applyViews({
                 content: this.listView
-            });
+            }).render();
         },
 
         show: function () {
