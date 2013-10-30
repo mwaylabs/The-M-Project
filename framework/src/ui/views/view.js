@@ -66,7 +66,10 @@
 
         getValue: function() {
             if( this.model ) {
-                return JSON.stringify(this._getModel().attributes);
+                if(this._value_.hasOwnProperty('attribute') && this._value_.hasOwnProperty('model')){
+                    return this._value_.model.get(this._value_.attribute);
+                }
+                return this._getModel().attributes;
             } else {
                 return this._value_;
             }
