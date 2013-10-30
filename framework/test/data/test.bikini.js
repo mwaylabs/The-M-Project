@@ -162,20 +162,40 @@ describe('M.BikiniStore', function() {
 
 
     it('delete record', function(done) {
-         TEST.Tests.get(TEST.id).destroy(
-             {
-                 success: function(model) {
-                     assert.ok(true, 'record has been deleted.');
-                     done();
-                 },
-                 error: function() {
-                     assert.ok(false, 'record has been deleted.');
-                     done();
-                 }
-             }
-         );
-     });
+        var model = TEST.Tests.get(TEST.id);
 
+        assert.isObject(model, 'model found in collection');
+
+        assert.equal(model.id, TEST.id, 'model has the correct id');
+
+        model.destroy(
+        {
+            success: function(model) {
+                assert.ok(true, 'record has been deleted.');
+                done();
+            },
+            error: function() {
+                assert.ok(false, 'record has been deleted.');
+                done();
+            }
+        });
+    });
+
+    it('fetching collection again', function(done) {
+        TEST.Tests.reset();
+        assert.equal(TEST.Tests.length, 0, 'reset has cleared the collection.');
+
+        TEST.Tests.fetch({
+            success: function(collection) {
+                assert.isUndefined(TEST.Tests.get(TEST.id), 'The model is gone');
+                done();
+            },
+            error: function() {
+                assert.ok(false, 'Test collection fetched successfully.');
+                done();
+            }
+        });
+    });
 
     it('cleanup records', function(done) {
 
