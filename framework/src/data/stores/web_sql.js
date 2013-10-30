@@ -58,36 +58,30 @@ M.WebSqlStore = M.Store.extend({
         });
     },
 
-    _options: function(model, options, entity) {
-        var opts = _.extend({}, options);
-        opts.entity = this.getEntity(options.entity || model.entity || this.entity);
-        opts.data   = this.getArray(model);
-        return opts;
-    },
-
     sync: function( method, model, options ) {
-        var that = options.store || this.store;
-        var opts = that._options(model, options, this.entity);
+        var that   = options.store || this.store;
+        var models = M.isCollection(model) ? model.models : [ model ];
+        options.entity = options.entity || this.entity;
         switch( method ) {
             case 'create':
-                that._checkTable(opts, that._insertOrReplace);
+                that._checkTable(options, function () {
+                    that._insertOrReplace(models, options)
+                });
                 break;
 
             case 'update':
             case 'patch':
-                that._checkTable(opts, that._insertOrReplace);
-                // that._updateOrReplace(options);
+                that._checkTable(options, function () {
+                    that._insertOrReplace(models, options)
+                });
                 break;
 
             case 'delete':
-                that._delete(opts);
+                that._delete(models, options);
                 break;
 
             case 'read':
-                if ( M.isCollection(this)) {
-                    opts.data = null;
-                }
-                that._select(model, opts);
+                that._select(this, options);
                 break;
 
             default:
@@ -96,7 +90,7 @@ M.WebSqlStore = M.Store.extend({
     },
 
     select: function( options ) {
-        this._select(options);
+        this._select(null, options);
     },
 
     dropTable: function( options ) {
@@ -254,21 +248,18 @@ M.WebSqlStore = M.Store.extend({
         return sql;
     },
 
-    _sqlDelete: function(options, entity) {
+    _sqlDelete: function(models, options, entity) {
 
         var sql = "DELETE FROM '" + entity.name + "'";
-        var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(options, entity);
+        var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(models, entity);
         if (where) {
             sql += ' WHERE ' + where;
         }
-
         sql += options.and ? ' AND ' + options.and : '';
-
         return sql;
     },
 
-    _sqlWhere: function(options) {
-        var entity  = options.entity;
+    _sqlWhere: function(options, entity) {
         this._selector = null;
         var sql = '';
         if( _.isString(options.where) ) {
@@ -280,16 +271,14 @@ M.WebSqlStore = M.Store.extend({
         return sql;
     },
 
-    _sqlWhereFromData: function(options) {
+    _sqlWhereFromData: function(models, entity) {
         var that    = this;
-        var data    = options.data;
-        var entity  = options.entity;
         var ids     = [];
-        if (data && entity && entity.idAttribute) {
+        if (models && entity && entity.idAttribute) {
             var id, key = entity.idAttribute;
             var field   = this.getField(entity, key);
-            _.each(data, function(model) {
-                id = (_.isFunction(model.get) ? model.get(key) : model[key]) || model.id;
+            _.each(models, function(model) {
+                id = model.id;
                 if (!_.isUndefined(id)) {
                     ids.push(that._sqlValue(id, field));
                 }
@@ -301,9 +290,7 @@ M.WebSqlStore = M.Store.extend({
         return '';
     },
 
-    _sqlSelect: function(options) {
-
-        var entity = options.entity;
+    _sqlSelect: function(options, entity) {
 
         var sql = 'SELECT ';
         if( options.fields ) {
@@ -325,7 +312,7 @@ M.WebSqlStore = M.Store.extend({
             sql += ' LEFT JOIN ' + options.leftJoin;
         }
 
-        var where = this._sqlWhere(options) || this._sqlWhereFromData(options);
+        var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(options, entity);
         if (where) {
             sql += ' WHERE ' + where;
         }
@@ -393,13 +380,13 @@ M.WebSqlStore = M.Store.extend({
         }
     },
 
-    _checkTable: function(options, action) {
+    _checkTable: function(options, callback) {
         var entity = this.getEntity(options);
         var that = this;
         if (entity && !entity.db) {
             this._createTable( {
                 success: function() {
-                    action.apply(that, [options]);
+                    callback();
                 },
                 error: function(error) {
                     this.handleError(options, error);
@@ -407,33 +394,32 @@ M.WebSqlStore = M.Store.extend({
                 entity: entity
             } );
         } else {
-            action.apply(that, arguments);
+            callback();
         }
     },
 
-    _insertOrReplace: function( options ) {
+    _insertOrReplace: function(models, options ) {
 
         var entity = this.getEntity(options);
-        var data   = options.data;
 
-        if( this._checkDb(options) && this._checkEntity(options, entity) && this._checkData(options, data) ) {
+        if( this._checkDb(options) && this._checkEntity(options, entity) && this._checkData(options, models) ) {
 
             var isAutoInc   = this._isAutoincrementKey(entity, entity.getKey());
             var statements  = [];
             var sqlTemplate = "INSERT OR REPLACE INTO '" + entity.name + "' (";
-            for( var i = 0; i < data.length; i++ ) {
-                var attrs     = data[i];
+            for( var i = 0; i < models.length; i++ ) {
+                var model     = models[i];
                 var statement = ''; // the actual sql insert string with values
-                if (!isAutoInc && !entity.getId(attrs)) {
-                    entity.setId(attrs, new M.ObjectID().toHexString());
+                if (!isAutoInc && !model.id && model.idAttribute) {
+                    model.set(model.idAttribute, new M.ObjectID().toHexString());
                 }
-                var value = entity.fromAttributes(attrs);
+                var value = entity.fromAttributes(model.attributes);
                 var args, keys;
                 if ( !_.isEmpty(entity.fields)) {
                     args = _.values(value);
                     keys = _.keys(value);
                 } else {
-                    args = [ data[i].id,  JSON.stringify(value) ];
+                    args = [ model.id, JSON.stringify(value) ];
                     keys = [ 'id', 'data'];
                 }
                 if( args.length > 0 ) {
@@ -447,51 +433,18 @@ M.WebSqlStore = M.Store.extend({
         }
     },
 
-    _updateOrReplace: function(options ) {
-
-        var entity = this.getEntity(options);
-        var data   = options.data;
-
-        if (this._checkDb(options) && this._checkEntity(options, entity) && this._checkData(options, data)) {
-
-            data  = _.isArray(data) ? data : [ data ];
-            var where = this._sqlWhere(options);
-            var statements  = [];
-            var sqlTemplate = "UPDATE OR REPLACE '" + entity.name + "' SET ";
-            for( var i = 0; i < data.length; i++ ) {
-                var statement = ''; // the actual sql insert string with values
-                var value, args, keys;
-                if ( !_.isEmpty(entity.fields) ) {
-                    value = entity.fromAttributes(data[i]);
-                    args = _.values(value);
-                    keys = _.keys(value);
-                } else {
-                    value = data[i];
-                    args = [ entity.getId(data[i]),  JSON.stringify(value) ];
-                    keys = [ 'id', 'data'];
-                }
-                if (args.length > 0) {
-                    var columns = "'" + keys.join("'=?,'") + "'=?";
-                    statement += sqlTemplate + columns + where + ';';
-                    statements.push( { statement: statement, arguments: args } );
-                }
-            }
-            this._executeTransaction(options, statements);
-        }
-    },
-
     _select: function(result, options) {
 
         var entity = this.getEntity(options);
 
         if( this._checkDb(options) && this._checkEntity(options, entity)  ) {
             var lastStatement;
-            var stm  = this._sqlSelect(options);
-            var that = this;
             var isCollection = M.isCollection(result);
             if (isCollection) {
                 result = [];
             }
+            var stm  = this._sqlSelect(options, entity);
+            var that = this;
             this.db.readTransaction(function( t ) {
                 var statement = stm.statement || stm;
                 var arguments = stm.arguments;
@@ -528,10 +481,10 @@ M.WebSqlStore = M.Store.extend({
         }
     },
 
-    _delete: function(options) {
+    _delete: function(models, options) {
         var entity = this.getEntity(options);
         if( this._checkDb(options) && this._checkEntity(options, entity) ) {
-            var sql = this._sqlDelete(options, entity);
+            var sql = this._sqlDelete(models, options, entity);
             // reset flag
             this._executeTransaction(options, [sql]);
         }
