@@ -196,4 +196,70 @@ describe('M.View Bindings', function() {
         checkPropertiesAfter(app);
     });
 
+    it('multiple html $el', function() {
+        var app = getTestApplication();
+        checkProperties(app);
+        app.view.render();
+        var secondDOM = $('<div></div>');
+        secondDOM.html(app.view.$el);
+        secondDOM.html(app.view.$el);
+        assert.isTrue(app.view.el === secondDOM.find('.view')[0]);
+
+        assert.isTrue(secondDOM.find('input[data-binding="a"]').first()[0] === app.view.$el.find('input[data-binding="a"]').first()[0]);
+        secondDOM.find('input[data-binding="a"]').first().trigger('change');
+        assert.isTrue(secondDOM.find('input[data-binding="a"]').first()[0] === app.view.$el.find('input[data-binding="a"]').first()[0]);
+        app.view.$el.find('input[data-binding="a"]').first().trigger('change');
+        assert.isTrue(secondDOM.find('input[data-binding="a"]').first()[0] === app.view.$el.find('input[data-binding="a"]').first()[0]);
+        app.view.$el.find('input[data-binding="a"]').first().val(TEST_ATTRIBUTE_3);
+        app.view.$el.find('input[data-binding="a"]').first().trigger('change');
+        assert.isTrue(secondDOM.find('input[data-binding="a"]').first()[0] === app.view.$el.find('input[data-binding="a"]').first()[0]);
+    });
+
+    it('single $el set with hmlt change ', function() {
+        var app = getTestApplication();
+        checkProperties(app);
+        app.view.render();
+        var secondDOM = $('<div></div>');
+        secondDOM.html(app.view.$el);
+        var jInput = secondDOM.find('input[data-binding="a"]').first();
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_1);
+        app.model.set('a', TEST_ATTRIBUTE_2);
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_2);
+        jInput.val(TEST_ATTRIBUTE_3);
+        jInput.trigger('change');
+        assert.isTrue(app.model.get('a') === TEST_ATTRIBUTE_3);
+    });
+
+    it('multiple $el set with hmlt change ', function() {
+        var app = getTestApplication();
+        checkProperties(app);
+        app.view.render();
+        var secondDOM = $('<div></div>');
+        secondDOM.append(app.view.$el);
+        secondDOM.append(app.view.$el);
+        var jInput = secondDOM.find('input[data-binding="a"]').first();
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_1);
+        app.model.set('a', TEST_ATTRIBUTE_2);
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_2);
+        jInput.val(TEST_ATTRIBUTE_3);
+        jInput.trigger('change');
+        assert.isTrue(app.model.get('a') === TEST_ATTRIBUTE_3);
+    });
+
+    it('multiple $el set with hmlt change', function() {
+        var app = getTestApplication();
+        checkProperties(app);
+        app.view.render();
+        var secondDOM = $('<div></div>');
+        secondDOM.html(app.view.$el);
+        secondDOM.html(app.view.$el);
+        var jInput = secondDOM.find('input[data-binding="a"]').first();
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_1);
+        app.model.set('a', TEST_ATTRIBUTE_2);
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_2);
+        jInput.val(TEST_ATTRIBUTE_3);
+        jInput.trigger('change');
+        assert.isFalse(app.model.get('a') === TEST_ATTRIBUTE_3);
+    });
+
 });
