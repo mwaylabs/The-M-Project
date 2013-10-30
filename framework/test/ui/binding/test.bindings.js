@@ -262,4 +262,29 @@ describe('M.View Bindings', function() {
         assert.isFalse(app.model.get('a') === TEST_ATTRIBUTE_3);
     });
 
+    it('multiple $el set with hmlt change #2', function() {
+        var app = getTestApplication();
+        checkProperties(app);
+        app.view.render();
+        var secondDOM = $('<div></div>');
+        secondDOM.html(app.view.$el);
+        var jInput = secondDOM.find('input[data-binding="a"]').first();
+
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_1);
+        app.model.set('a', TEST_ATTRIBUTE_2);
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_2);
+        jInput.val(TEST_ATTRIBUTE_3);
+        jInput.trigger('change');
+        assert.isTrue(app.model.get('a') === TEST_ATTRIBUTE_3);
+
+        secondDOM.html(app.view.$el);
+
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_3);
+        app.model.set('a', TEST_ATTRIBUTE_2);
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_2);
+        jInput.val(TEST_ATTRIBUTE_3);
+        jInput.trigger('change');
+        assert.isFalse(app.model.get('a') === TEST_ATTRIBUTE_3);
+    });
+
 });
