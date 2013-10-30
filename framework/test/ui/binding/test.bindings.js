@@ -246,7 +246,7 @@ describe('M.View Bindings', function() {
         assert.isTrue(app.model.get('a') === TEST_ATTRIBUTE_3);
     });
 
-    it('multiple $el set with hmlt change', function() {
+    it('multiple $el set with html', function() {
         var app = getTestApplication();
         checkProperties(app);
         app.view.render();
@@ -262,7 +262,7 @@ describe('M.View Bindings', function() {
         assert.isFalse(app.model.get('a') === TEST_ATTRIBUTE_3);
     });
 
-    it('multiple $el set with hmlt change #2', function() {
+    it('multiple $el set with html late', function() {
         var app = getTestApplication();
         checkProperties(app);
         app.view.render();
@@ -285,6 +285,39 @@ describe('M.View Bindings', function() {
         jInput.val(TEST_ATTRIBUTE_3);
         jInput.trigger('change');
         assert.isFalse(app.model.get('a') === TEST_ATTRIBUTE_3);
+    });
+
+    it('multiple $el set with html with render call', function() {
+        var app = getTestApplication();
+        checkProperties(app);
+        app.view.render();
+        var secondDOM = $('<div></div>');
+        secondDOM.html(app.view.render().$el);
+        secondDOM.html(app.view.render().$el);
+        var jInput = secondDOM.find('input[data-binding="a"]').first();
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_1);
+        app.model.set('a', TEST_ATTRIBUTE_2);
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_2);
+        jInput.val(TEST_ATTRIBUTE_3);
+        jInput.trigger('change');
+        assert.isFalse(app.model.get('a') === TEST_ATTRIBUTE_3);
+    });
+
+    it('multiple $el set with html clear html before', function() {
+        var app = getTestApplication();
+        checkProperties(app);
+        app.view.render();
+        var secondDOM = $('<div></div>');
+        secondDOM.html(app.view.render().$el);
+        secondDOM.html('');
+        secondDOM.html(app.view.render().$el);
+        var jInput = secondDOM.find('input[data-binding="a"]').first();
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_1);
+        app.model.set('a', TEST_ATTRIBUTE_2);
+        assert.isTrue(jInput.val() === TEST_ATTRIBUTE_2);
+        jInput.val(TEST_ATTRIBUTE_3);
+        jInput.trigger('change');
+        assert.isTrue(app.model.get('a') === TEST_ATTRIBUTE_3);
     });
 
 });

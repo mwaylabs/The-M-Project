@@ -29,7 +29,10 @@ M.SwitchLayout = M.Layout.extend({
             this.addChildView(this.currentPage, settings.content);
         }
 
-        this.$el.find('[data-childviews="' + this.currentPage + '"]').append(settings.content.render().$el);
+        //clear the dom before inserting the view
+        this.$el.find('[data-childviews="' + this.currentPage + '"]').html('');
+        //insert the view
+        this.$el.find('[data-childviews="' + this.currentPage + '"]').html(settings.content.render().$el);
 
         return this;
     },
