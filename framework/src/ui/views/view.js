@@ -198,7 +198,7 @@
 
         _getEventOptions: function() {
             return {
-                prevent_default: true,
+                prevent_default: false,
                 no_mouseevents: true,
                 stop_browser_behavior: false
             };
