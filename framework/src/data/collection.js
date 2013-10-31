@@ -85,7 +85,6 @@ _.extend(M.Collection.prototype, {
             M.Security.logon(options, function(result) {
                 return Backbone.sync.apply(that, args);
             });
-            return Backbone.sync.apply(this, arguments);
         }
     },
 
