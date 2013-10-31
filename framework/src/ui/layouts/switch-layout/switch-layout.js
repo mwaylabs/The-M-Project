@@ -16,7 +16,7 @@ M.SwitchLayout = M.Layout.extend({
 
         var selector = '';
 
-        if(this.currentPage === null || this.currentPage === 'content_page2'){
+        if(this.currentPage === null || this.currentPage === undefined || this.currentPage === 'content_page2'){
             this.currentPage = 'content_page1';
 
         } else if(this.currentPage === 'content_page1'){
@@ -24,30 +24,37 @@ M.SwitchLayout = M.Layout.extend({
         }
 
         if(!this.childViews[this.currentPage]){
-            this.addChildView(this.currentPage, settings.content);
+            if(settings.content){
+                this.addChildView(this.currentPage, settings.content);
+            }
+
         } else if(this.childViews[this.currentPage] !== settings.content){
-            this.addChildView(this.currentPage, settings.content);
+            if(settings.content){
+                this.addChildView(this.currentPage, settings.content);
+            }
+
         }
 
-        //clear the dom before inserting the view
-        this.$el.find('[data-childviews="' + this.currentPage + '"]').html('');
-        //insert the view
-        this.$el.find('[data-childviews="' + this.currentPage + '"]').html(settings.content.render().$el);
+        if(!this._firstRender){
+            //clear the dom before inserting the view
+            this.$el.find('[data-childviews="' + this.currentPage + '"]').html('');
+            //insert the view
+            this.$el.find('[data-childviews="' + this.currentPage + '"]').html(settings.content.render().$el);
+        }
+
 
         return this;
     },
 
     _render: function(){
         M.Layout.prototype._render.apply(this, arguments);
-        if(this._firstRender){
-            $('body').html(this.$el);
-        }
     },
 
     _postRender: function(){
         if(this._firstRender){
-            M.PageTransitions.init();
+            M.PageTransitions.init(this.$el);
         }
+        M.Layout.prototype._postRender.apply(this, arguments);
     },
 
     startTransition: function(){

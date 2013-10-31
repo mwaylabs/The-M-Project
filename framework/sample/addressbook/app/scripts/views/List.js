@@ -11,17 +11,13 @@ Addressbook.Views = Addressbook.Views || {};
         content: M.View.extend({
 
         }, {
-            headline: M.View.extend({
-                tagName: 'h2',
-                value: 'Contacts'
-            }),
             contactList: M.ListView.extend({
 
                 scopeKey: 'contactCollection',
 
                 listItemView: M.ListItemView.extend({
 
-                    extendTemplate: '<span class="lastname"><%= lastname %></span><span class="firstname"><%= firstname %></span>',
+                    extendTemplate: '<span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span>',
 
                     useElement: YES,
 
@@ -34,11 +30,6 @@ Addressbook.Views = Addressbook.Views || {};
                             Addressbook.navigate({
                                 route: 'detail/' + id
                             });
-
-                            //                            element.scope.editModel.set('firstname', element.model.get('firstname'));
-                            //                            element.scope.editModel.set('lastname', element.model.get('lastname'));
-                            //                            element.scope.set('currentModel', element.model);
-                            //                            Addressbook.ListController.listView.childViews.edit.$el.slideDown();
 
                         }
                     }

@@ -4,80 +4,82 @@
 
         detailView: null,
 
-        editModel: M.Model.create(),
+        currentModel: M.Model.create(),
 
         applicationStart: function (settings) {
-            this.detailView = this._initView(settings);
-            Addressbook.layout = M.SwitchLayout.extend().create(this, null, true);
+            Addressbook.layout = M.AppLayout.extend().create(this, null, true);
 
+            this._initView(settings);
             Addressbook.layout.applyViews({
+                header: this.header,
                 content: this.detailView
-            }).render();
+            });
+
+            Addressbook.layout.render();
+
+            $('body').html(Addressbook.layout.$el);
         },
 
         show: function (settings) {
-            content = this._initView(settings);
+            this._initView(settings);
 
             Addressbook.layout.applyViews({
-                content: content
+                header: this.header,
+                content: this.detailView
             });
             Addressbook.layout.startTransition();
         },
 
-        nextPage: function () {
-            Addressbook.navigate({
-                route: '/'
+        gotoEditPage: function(){
+             Addressbook.navigate({
+                route: 'edit/' + this.currentModel.id
             });
         },
 
         _initView: function (settings) {
-//            var that = this;
-//            var userId = settings.id;
-//            var userModel = null;
-//
-//            if (!Addressbook.contactCollection) {
-//
-//                Addressbook.contactCollection = new Addressbook.Collections.ContactsCollection(/*dummy*/);
-//                Addressbook.contactCollection.fetch({
-//                    success: function () {
-//                        that._setModel(userId);
-//                    }
-//                });
-//            } else {
-//                this._setModel(userId);
-//            }
+            var that = this;
+            var userId = settings.id;
 
-            this._setModel(settings.id);
+            if (Addressbook.contactCollection && Addressbook.contactCollection.models.length > 1) {
+                this._setModel(userId);
+            } else {
+                Addressbook.contactCollection = new Addressbook.Collections.ContactsCollection(/*dummy*/);
+                Addressbook.contactCollection.fetch({
+                    success: function () {
+                        that._setModel(userId);
+                    }
+                });
+            }
+
             if (!this.detailView) {
                 this.detailView = Addressbook.Views.DetailView.create(this, null, true);
             }
-            return this.detailView;
+
+            if( !this.header ) {
+                this.header = M.ToolbarView.extend({
+                    value: 'Detail'
+                },{
+                    second: M.View.extend({},{
+                        btn: M.ButtonView.extend({
+                            value: 'edit',
+                            events: {
+                                tap: 'gotoEditPage'
+                            }
+                        })
+                    })
+                });
+                this.header = this.header.create(this, null, true);
+            }
         },
 
         _setModel: function (userId) {
             var userModel = Addressbook.contactCollection.get(userId);
-            this.currentModel = userModel;
-            this.editModel.set('firstname', userModel.get('firstname'));
-            this.editModel.set('lastname', userModel.get('lastname'));
-        },
-
-        addEntry: function (event, element) {
-            element.scope.set('currentModel', element.scope.contactCollection.create(element.scope.editModel.attributes));
-        },
-
-        removeEntry: function (event, element) {
-            if (element.scope.currentModel) {
-                element.scope.currentModel.destroy();
-                element.scope.set('currentModel', null);
+            if(userModel){
+//                this.currentModel.set('firstname', userModel.get('firstname'));
+//                this.currentModel.set('lastname', userModel.get('lastname'));
+                this.set('currentModel', userModel);
             }
-            element.scope.editModel.clear();
-        },
 
-        updateEntry: function (event, element) {
-            if (this.currentModel) {
-                this.currentModel.set(this.editModel.attributes);
-                this.currentModel.save();
-            }
         }
 
     });

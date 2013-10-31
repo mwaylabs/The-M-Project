@@ -4,16 +4,20 @@
         <meta charset="utf-8">
         <title></title>
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,width=device-width">
-        <link rel="stylesheet" href="styles/main.css">
+
         <!-- build:js scripts/vendor/modernizr.js -->
         <script src="bower_components/modernizr/modernizr.js"></script>
         <!-- endbuild -->
 
         <!-- build:css styles/bootstrap.css -->
-        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">-->
         <!-- endbuild -->
 
         <link rel="stylesheet" href="bower_components/tmp2/themproject.css">
+
+        <link rel="stylesheet" href="scripts/layouts/AppLayout.css">
+
+        <link rel="stylesheet" href="styles/main.css">
     </head>
     <body>
         <main role="main" class="container" id="main"></main>
@@ -33,14 +37,19 @@
 
         <!-- build:js({.tmp,app}) scripts/main.js -->
         <script src="scripts/main.js"></script>
+
+        <script src="scripts/layouts/AppLayout.js"></script>
+
         <script src="scripts/controllers/ListController.js"></script>
         <script src="scripts/controllers/DetailController.js"></script>
+        <script src="scripts/controllers/EditController.js"></script>
         <script src="scripts/templates.js"></script>
         <script src="scripts/models/Contacts.js"></script>
         <script src="scripts/collections/Contacts.js"></script>
 
         <script src="scripts/views/List.js"></script>
         <script src="scripts/views/Detail.js"></script>
+        <script src="scripts/views/Edit.js"></script>
 
 
         <script src="scripts/routes/Main.js"></script>

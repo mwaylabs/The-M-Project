@@ -5,17 +5,17 @@ M.TemplateManager = M.Object.extend({
     },
 
     "M.ButtonView": {
-        defaultTemplate: '<div>Button: <div data-binding="_value_"<% if(_value_) {  } %>><%= _value_ %></div></div>',
+        defaultTemplate: '<div class="button"><div data-binding="_value_"<% if(_value_) {  } %>><%= _value_ %></div></div>',
         topcoat: '<button class="topcoat-button--large" data-binding="_value_"><%= _value_ %></button>',
         bootstrap: '<button type="button" class="btn btn-lg"><%= _value_ %></button>',
         jqm: '<a data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="_value_"><%= _value_ %></span></span></a>'
     },
 
     "M.ToolbarView": {
-        defaultTemplate: '<div>AAA<div data-child-view="left"></div> <div class="center" data-binding="_value_"><%= _value_ %></div> <div data-child-view="right"></div></div>',
-        bootstrap: '<div class="page-header"><div data-child-view="left"></div><h1><%= _value_ %></h1><div data-child-view="right"></div></div>',
-        topcoat: '<div><h2><%= _value_ %></h2><div data-childview="right"></div></div>',
-        jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= _value_ %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
+        defaultTemplate: '<div><div data-childviews="first"></div> <div class="center" data-binding="_value_"><%= _value_ %></div> <div data-childviews="second"></div></div>',
+        bootstrap: '<div class="page-header"><div data-childviews="first"></div><h1><%= _value_ %></h1><div data-childviews="second"></div></div>',
+        topcoat: '<div><div data-childviews="first"></div><h2><%= _value_ %></h2><div data-childviews="second"></div></div>',
+        jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-childviews="first" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= _value_ %></h1><div data-childviews="second" class="ui-btn-right"></div></div>'
     },
 
 
@@ -35,14 +35,14 @@ M.TemplateManager = M.Object.extend({
     },
 
     "M.ListView": {
-        defaultTemplate: '<div data-childviews="list"></div>',
+        defaultTemplate: '<ul data-childviews="list"></ul>',
         bootstrap: '<ul class="list-group" data-childviews="list"></ul>',
         topcoat: '<div data-childviews="list"></div>',
         jqm: '<div data-childviews="list"></div>'
     },
 
     "M.ListItemView": {
-        defaultTemplate: '<div data-childviews="list"><%= _value_ %></div>',
+        defaultTemplate: '<li><%= _value_ %></li>',
         bootstrap: '<li class="list-group-item"><%= _value_ %></li>',
         topcoat: '<div data-childviews="list"><%= _value_ %></div>',
         jqm: '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-first-child ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a class="ui-link-inherit"><%= _value_ %></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>'
@@ -121,13 +121,15 @@ M.TemplateManager = M.Object.extend({
     },
 
 
-    _currentUI: (typeof m_config !== 'undefined' && typeof m_config.ui !== 'undefined') ? m_config.ui : 'bootstrap',
+    _currentUI: (typeof m_config !== 'undefined' && typeof m_config.ui !== 'undefined') ? m_config.ui : 'defaultTemplate',
 
-    get: function( template ) {
+    get: function( template, ui ) {
+
+        ui = ui || M.TemplateManager._currentUI;
 
         if( this[template] ) {
             //use TMP.TemplateManager._currentUI because this function is called in another this context
-            var tpl = this[template][M.TemplateManager._currentUI];
+            var tpl = this[template][ui];
             if( !tpl ) {
                 return this[template]['defaultTemplate'];
             } else {

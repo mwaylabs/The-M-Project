@@ -1,4 +1,4 @@
-(function(scope){
+(function( scope ) {
 
     Addressbook.Controllers.ListController = M.Controller.extend({
 
@@ -12,51 +12,53 @@
 
         editModel: M.Model.create(),
 
-        applicationStart: function () {
+        applicationStart: function() {
 
-            this.listView = this._initView();
-            Addressbook.layout = M.SwitchLayout.extend().create(this, null, true);
+            this._initView();
+            Addressbook.layout = M.AppLayout.extend().create(this, null, true);
 
             Addressbook.layout.applyViews({
+                header: this.header,
                 content: this.listView
             }).render();
+            $('body').html(Addressbook.layout.$el);
         },
 
-        show: function () {
+        show: function() {
+
+            this._initView();
             Addressbook.layout.applyViews({
-                content: this._initView()
+                header: this.header,
+                content: this.listView
             });
             Addressbook.layout.startTransition();
         },
 
-        nextPage: function () {
+        nextPage: function() {
             Addressbook.navigate({
                 route: '/'
             });
         },
 
-        _initView: function (settings) {
+        _initView: function( settings ) {
 
-            if (!this.contactCollection) {
+            if( !this.contactCollection ) {
                 Addressbook.contactCollection = this.contactCollection = new Addressbook.Collections.ContactsCollection();
                 this.contactCollection.fetch();
             }
 
-            if (!this.listView) {
+            if( !this.listView ) {
                 this.listView = Addressbook.Views.ListView.create(this, null, true);
             }
-            return this.listView;
-        },
+
+            if( !this.header ) {
+                this.header = M.ToolbarView.extend({
+                    value: 'Contacts'
+                }).create();
+            }
 
 
-
-
-        topcoatTheme: function() {
-//            M.TemplateManager._currentUI = 'topcoat';
-//            Addressbook.listView.updateTemplate();
-//            Addressbook.listView.render();
         }
-
 
 
     });

@@ -92,13 +92,8 @@ define([
             },
 
             routes: {
-<<<<<<< HEAD
                 '': 'index',
                 'detail/:id': 'details',
-=======
-                '': 'contacts',
-                'detail/:id': 'detail',
->>>>>>> master
                 'add': 'add',
                 'contacts': 'contacts'
             },
