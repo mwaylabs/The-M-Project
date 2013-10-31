@@ -40,7 +40,7 @@ Addressbook.Views = Addressbook.Views || {};
                             })
                         },
 
-                        drag: function(event, element){
+                        dragleft: function(event, element){
                             M.Toast.show({
                                 text: element.model.get('firstname') + ' ' + element.model.get('lastname')
                             })

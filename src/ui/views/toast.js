@@ -29,6 +29,11 @@
     });
 
     M.Toast.show = function(settings){
+        if(typeof settings === 'string'){
+            settings = {
+                text: settings
+            }
+        }
         return M.Toast.create(settings);
     };
 

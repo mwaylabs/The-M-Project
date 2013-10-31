@@ -59,7 +59,13 @@
 
             if( !this.header ) {
                 this.header = M.ToolbarView.extend({
-                    value: 'Contacts'
+                    value: 'Contacts',
+                    events:{
+                        hold: function(){
+                            localStorage.clear();
+                            M.Toast.show('cleared local stoage')
+                        }
+                    }
                 },{
                     second: M.View.extend({},{
 
