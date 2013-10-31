@@ -1,0 +1,18 @@
+.listview{
+
+}
+
+.listview ul{
+    margin: 0;
+    padding: 0;
+}
+
+.listview ul li{
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-bottom: 0;
+    list-style: none;
+    cursor: pointer;
+}
