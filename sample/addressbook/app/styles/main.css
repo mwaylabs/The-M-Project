@@ -24,3 +24,46 @@
     background-color: #06AEF3;
     border-color: #46b8da;
 }
+
+.button{
+    margin: 0 0 0 8px;
+}
+
+.company-logo{
+
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 3px;
+    background: #dddddd;
+    height: 35px;
+    width: 35px;
+    border-radius: 35px;
+    background-size: cover;
+}
+
+.detail-page .company-logo{
+    height: 150px;
+    width: 100%;
+    border-radius: 0;
+    position: relative;
+    right: auto;
+    top: auto;
+    background-size: 90%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.Consulting{
+
+    background-image: url("../ressources/mwayconsulting.png");
+
+}
+
+.Solutions{
+    background-image: url("../ressources/mway.png");
+}
+
+.Agero{
+    background-image: url("../ressources/agero.png");
+}

@@ -11,13 +11,14 @@ Addressbook.Views = Addressbook.Views || {};
         content: M.View.extend({
 
         }, {
+
             contactList: M.ListView.extend({
 
                 scopeKey: 'contactCollection',
 
                 listItemView: M.ListItemView.extend({
 
-                    extendTemplate: '<span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span>',
+                    extendTemplate: '<div><span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span> <div class="company-logo <%= company %>"></div></div>',
 
                     useElement: YES,
 
@@ -31,6 +32,18 @@ Addressbook.Views = Addressbook.Views || {};
                                 route: 'detail/' + id
                             });
 
+                        },
+
+                        hold: function(event, element){
+                            M.Toast.show({
+                                text: element.model.get('firstname') + ' ' + element.model.get('lastname')
+                            })
+                        },
+
+                        drag: function(event, element){
+                            M.Toast.show({
+                                text: element.model.get('firstname') + ' ' + element.model.get('lastname')
+                            })
                         }
                     }
                 })

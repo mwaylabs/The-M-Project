@@ -4,19 +4,25 @@ Addressbook.Views = Addressbook.Views || {};
     'use strict'
     Addressbook.Views.DetailView = M.View.extend({
 
-        scopeKey: 'currentModel'
+        scopeKey: 'currentModel',
+        cssClass: 'detail-page'
 
     }, {
 
-        firstname: M.View.extend({
-            tagName: 'h2',
-            extendTemplate: '<div><%= firstname %></div>'
+        company: M.View.extend({
+            scopeKey: 'currentModel',
+            template: '<div class="company-logo <%= company %>"></div>'
         }),
 
-        lastname: M.View.extend({
-            tagName: 'h2',
-            extendTemplate: '<div><%= lastname %></div>'
-        }),
+//        firstname: M.View.extend({
+//            tagName: 'h2',
+//            extendTemplate: '<div><%= firstname %></div>'
+//        }),
+//
+//        lastname: M.View.extend({
+//            tagName: 'h2',
+//            extendTemplate: '<div><%= lastname %></div>'
+//        }),
 
         options: M.View.extend({
             cssClass: 'options'

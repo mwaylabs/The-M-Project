@@ -57,7 +57,8 @@
 
             if( !this.header ) {
                 this.header = M.ToolbarView.extend({
-                    value: 'Detail'
+                    scopeKey: 'currentModel',
+                    extendTemplate: '<span><%= firstname %></span> <span><%= lastname %></span>'
                 },{
                     second: M.View.extend({},{
                         btn: M.ButtonView.extend({
