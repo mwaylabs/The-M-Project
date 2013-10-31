@@ -8,6 +8,7 @@ describe('M.Model', function() {
 
         var Person = M.Model.extend({
             idAttribute: 'id',
+            defaults: { bmi: 0.0 },
             entity: {
                 name:   'person',
                 fields:  {
@@ -15,7 +16,7 @@ describe('M.Model', function() {
                     firstName:   { type: M.CONST.TYPE.STRING,  length: 200 },
                     sureName:    { type: M.CONST.TYPE.STRING,  required: YES, index: true },
                     birthDate:   { type: M.CONST.TYPE.DATE   },
-                    bmi:         { type: M.CONST.TYPE.FLOAT,   defaultValue: 0.0},
+                    bmi:         { type: M.CONST.TYPE.FLOAT },
                     notes:       { type: M.CONST.TYPE.TEXT   },
                     address:     { type: M.CONST.TYPE.OBJECT },
                     displayName: { type: M.CONST.TYPE.STRING, persistent: NO }

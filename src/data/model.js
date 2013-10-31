@@ -1,10 +1,15 @@
 
-M.Model = Backbone.Model.extend(M.Object);
+M.Model = Backbone.Model.extend({
+    constructor: function(attributes, options) {
+        this.init(attributes, options);
+        Backbone.Model.apply(this, arguments);
+    }
+});
 
 M.Model.create = M.create;
 M.Model.design = M.design;
 
-_.extend(M.Model.prototype, {
+_.extend(M.Model.prototype, M.Object, {
 
     _type: 'M.Model',
 
@@ -16,24 +21,20 @@ _.extend(M.Model.prototype, {
 
     changedSinceSync: {},
 
-    initialize: function(attributes, options) {
+
+    init: function(attributes, options) {
          options = options || {};
 
+        this.collection  = options.collection  || this.collection;
         this.idAttribute = options.idAttribute || this.idAttribute;
         this.store = this.store || (this.collection ? this.collection.store : null) || options.store;
         if (this.store && _.isFunction(this.store.initModel)) {
             this.store.initModel(this, options);
         }
-        var defaults = this.defaults || {};
         this.entity   = this.entity || (this.collection ? this.collection.entity : null) || options.entity;
         if (this.entity) {
             this.entity = M.Entity.from(this.entity, { model: this.constructor, typeMapping: options.typeMapping });
             this.idAttribute = this.entity.idAttribute || this.idAttribute;
-            _.each(this.entity.fields, function(field) {
-                if (!_.isUndefined(field.defaultValue)) {
-                    defaults[field.name] = field.defaultValue;
-                }
-            });
         }
         this.credentials = this.credentials || (this.collection ? this.collection.credentials : null) || options.credentials;
         this.on('change', this.onChange, this);
@@ -43,6 +44,7 @@ _.extend(M.Model.prototype, {
     sync: function(method, model, options) {
          var store = (options ? options.store : null) || this.store;
          if (store && _.isFunction(store.sync)) {
+            // Ensure that we have the appropriate request data.
              return store.sync.apply(this, arguments);
          } else {
              var that = this;
@@ -81,6 +83,24 @@ _.extend(M.Model.prototype, {
             }
             return url;
         }
+    },
+
+    toJSON: function(options) {
+        options = options || {};
+        var entity = options.entity || this.entity;
+        if ( M.isEntity(entity)) {
+            return entity.fromAttributes(options.attrs || this.attributes);
+        }
+        return options.attrs || _.clone(this.attributes);
+    },
+
+    parse: function(resp, options) {
+        options = options || {};
+        var entity = options.entity || this.entity;
+        if ( M.isEntity(entity)) {
+            return entity.toAttributes(resp);
+        }
+        return resp;
     }
 
-});
+ });

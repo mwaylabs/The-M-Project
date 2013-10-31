@@ -2,16 +2,40 @@ describe('M.Collection', function() {
 
     var TEST = {};
 
+    TEST.url = 'http://nerds.mway.io:8200/bikini/developers';
+    TEST.data = [{
+        sureName: 'Laubach',
+        firstName: 'Dominik',
+        age: 27
+    },{
+        sureName: 'Hanowski',
+        firstName: 'Marco',
+        age: 27
+    },{
+        sureName: 'Stierle',
+        firstName: 'Frank',
+        age: 43
+    },{
+        sureName: 'Werler',
+        firstName: 'Sebastian',
+        age: 30
+    },{
+        sureName: 'Buck',
+        firstName: 'Stefan',
+        age: 26
+    }];
+
     it('creating collection', function() {
 
         assert.typeOf(M.Collection, 'function', 'M.Collection is defined');
 
         TEST.Developer = M.Model.extend({
-            idAttribute: 'id',
+            idAttribute: '_id',
             entity: {
                 name: 'Developer',
                 fields:  {
-                    sureName:    { type: M.CONST.TYPE.STRING,  required: YES, index: true },
+                    _id:         { type: M.CONST.TYPE.STRING },
+                    sureName:    { name: 'lastName', type: M.CONST.TYPE.STRING,  required: YES, index: true },
                     firstName:   { type: M.CONST.TYPE.STRING,  length: 200 },
                     age:         { type: M.CONST.TYPE.INTEGER }
                 }
@@ -21,54 +45,31 @@ describe('M.Collection', function() {
         assert.ok(typeof TEST.Developer === 'function', 'Developer model successfully extended.');
 
         TEST.DeveloperCollection = M.Collection.extend({
+            url: TEST.url,
             model: TEST.Developer
         });
 
         assert.ok(typeof TEST.DeveloperCollection === 'function', 'Developer collection successfully extended.');
 
-        TEST.Developers = TEST.DeveloperCollection.create();
+        TEST.Developers = new TEST.DeveloperCollection();
 
         assert.ok(typeof TEST.Developers === 'object', 'Developer collection successfully created.');
     });
 
     it('adding data', function() {
-        /**
-         * TEST: Adding records
-         */
+        TEST.Developers.add(TEST.data);
 
-        TEST.Developers.add([{
-            sureName: 'Laubach',
-            firstName: 'Dominik',
-            age: 27
-        },{
-            sureName: 'Hanowski',
-            firstName: 'Marco',
-            age: 27
-        },{
-            sureName: 'Stierle',
-            firstName: 'Frank',
-            age: 43
-        },{
-            sureName: 'Werler',
-            firstName: 'Sebastian',
-            age: 30
-        },{
-            sureName: 'Buck',
-            firstName: 'Stefan',
-            age: 26
-        }]);
+        assert.equal(TEST.Developers.length, 5, 'All records were added.');
 
-        assert.ok(TEST.Developers.length === 5, 'All records were added.');
+        assert.equal(TEST.Developers.at(2).get('sureName'), TEST.data[2].sureName, 'sureName of 3. model has correct value');
+        assert.equal(TEST.Developers.at(3).get('firstName'), TEST.data[3].firstName, 'firstName of 4. model has correct value');
+        assert.equal(TEST.Developers.at(4).get('age'), TEST.data[4].age, 'age of 5. model has correct value');
 
         assert.ok(TEST.Developer.prototype.isPrototypeOf(TEST.Developers.at(0)), 'Records successfully converted to model records.');
 
     });
 
     it('sorting data', function() {
-
-        /**
-         * TEST: Sorting
-         */
 
         TEST.Developers.sort({ 'sort' : { 'sureName': -1 } } );
 
@@ -86,18 +87,14 @@ describe('M.Collection', function() {
     });
 
     it('filtering data', function() {
-        /**
-         * TEST: Filtering
-         */
-
-        /* filter all devs older or equal to 26 */
+        // filter all devs older or equal to 26
         var a1 = TEST.Developers.filter(function(rec) {
             return rec.get('age') >= 26;
         });
 
         assert.ok(a1.length === 5, 'Records successfully filtered. Everyone is 26 or older.');
 
-        /* filter all devs older than 26 */
+        // filter all devs older than 26
         var a2 = TEST.Developers.filter(function(rec) {
             return rec.get('age') > 26;
         });
@@ -108,31 +105,8 @@ describe('M.Collection', function() {
 
     it('finding data', function() {
 
-        /**
-         * TEST: find
-         */
         TEST.Developers.reset();
-        TEST.Developers.add([{
-            sureName: 'Laubach',
-            firstName: 'Dominik',
-            age: 27
-        },{
-            sureName: 'Hanowski',
-            firstName: 'Marco',
-            age: 27
-        },{
-            sureName: 'Stierle',
-            firstName: 'Frank',
-            age: 43
-        },{
-            sureName: 'Werler',
-            firstName: 'Sebastian',
-            age: 30
-        },{
-            sureName: 'Buck',
-            firstName: 'Stefan',
-            age: 26
-        }]);
+        TEST.Developers.add(TEST.data);
 
         var result = TEST.Developers.select({
             query: { sureName: 'Stierle' }
@@ -180,6 +154,70 @@ describe('M.Collection', function() {
         var d3 = result.at(2); // has to be Frank Stierle
         assert.equal(d3.get('sureName'), 'Stierle', 'The third developer field "sureName" has correct value.');
 
+    });
+
+    it('creating data (on server)', function(done) {
+        TEST.Developers.reset();
+        assert.equal(TEST.Developers.length, 0, 'All records were removed.');
+
+        TEST.Developers.create(TEST.data[0], {
+            success: function(model) {
+                assert.isObject(model, 'data created on server');
+                assert.equal(model.get('sureName'), TEST.data[0].sureName, 'sureName of created model has correct value');
+                assert.equal(model.get('firstName'), TEST.data[0].firstName, 'firstName of created model has correct value');
+                assert.equal(model.get('age'), TEST.data[0].age, 'age of created model has correct value');
+                assert.ok(model.id, 'id of created model has been created');
+                TEST.id = model.id;
+                done();
+            },
+            error: function(error) {
+                assert.ok(false, 'creating data on server: ' + error);
+                done();
+            }
+        });
+
+    });
+
+    it('fetching data (from server)', function(done) {
+
+        this.timeout(10000);
+
+        TEST.Developers.reset();
+        assert.equal(TEST.Developers.length, 0, 'All records were removed.');
+
+        TEST.Developers.fetch({
+            success: function(collection) {
+                assert.isObject(collection, 'collection returned in success');
+                var model = collection.get(TEST.id);
+                assert.isObject(model, 'data found on server');
+                assert.equal(model.get('sureName'), TEST.data[0].sureName, 'sureName of created model has correct value');
+                assert.equal(model.get('firstName'), TEST.data[0].firstName, 'firstName of created model has correct value');
+                assert.equal(model.get('age'), TEST.data[0].age, 'age of created model has correct value');
+                done();
+            },
+            error: function(error) {
+                assert.ok(false, 'collection fetched: ' + error);
+                done();
+            }
+        });
+    });
+
+    it('delete records (on server)', function(done) {
+
+        if (TEST.Developers.length === 0) {
+            done();
+        } else {
+            TEST.Developers.on('destroy', function(event) {
+                if (TEST.Developers.length == 0) {
+                    assert.equal(TEST.Developers.length, 0, 'collection is empty');
+                    done();
+                }
+            });
+            var model;
+            while (model = TEST.Developers.first()) {
+                model.destroy();
+            }
+        }
     });
 
 });
