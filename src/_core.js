@@ -26,7 +26,6 @@
 // @include ./data/data_selector.js
 // @include ./data/sql_selector.js
 // @include ./data/stores/store.js
-// @include ./data/stores/socket.js
 // @include ./data/stores/local_storage.js
 // @include ./data/stores/web_sql.js
 // @include ./data/stores/bikini_store.js

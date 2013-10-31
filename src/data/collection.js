@@ -9,12 +9,18 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-M.Collection = Backbone.Collection.extend(M.Object);
+M.Collection = Backbone.Collection.extend({
+
+    constructor: function(options) {
+        this.init(options);
+        Backbone.Collection.apply(this, arguments);
+    }
+});
 
 M.Collection.create = M.create;
 M.Collection.design = M.design;
 
-_.extend(M.Collection.prototype, {
+_.extend(M.Collection.prototype, M.Object, {
 
     _type: 'M.Collection',
 
@@ -24,10 +30,13 @@ _.extend(M.Collection.prototype, {
 
     entity: null,
 
-    initialize: function(options) {
+    options: null,
+
+    init: function(options) {
         options = options || {};
-        this.store  = options.store  || this.store  || (this.model ? this.model.prototype.store : null);
-        this.entity = options.entity || this.entity || (this.model ? this.model.prototype.entity : null);
+        this.store   = options.store   || this.store  || (this.model ? this.model.prototype.store : null);
+        this.entity  = options.entity  || this.entity || (this.model ? this.model.prototype.entity : null);
+        this.options = options.options || this.options;
 
         var entity = this.entity || this.entityFromUrl(this.url);
         if (entity) {
@@ -90,23 +99,25 @@ _.extend(M.Collection.prototype, {
 
     _updateUrl: function() {
         var params = this.getUrlParams();
-        this.url = this.getUrlRoot();
-        if (this.query) {
-            params["query"] = encodeURIComponent(JSON.stringify(this.query));
-        }
-        if (this.fields) {
-            params["fields"] = encodeURIComponent(JSON.stringify(this.fields));
-        }
-        if (this.sort) {
-            params["sort"] = encodeURIComponent(JSON.stringify(this.sort));
-        }
-        if (!_.isEmpty(params)) {
-            this.url += "?";
-            var a = [];
-            for (var k in params) {
-                a.push(k + (params[k] ? '=' + params[k] : ''));
+        if (this.options) {
+            this.url = this.getUrlRoot();
+            if (this.options.query) {
+                params["query"] = encodeURIComponent(JSON.stringify(this.options.query));
             }
-            this.url += a.join('&');
+            if (this.options.fields) {
+                params["fields"] = encodeURIComponent(JSON.stringify(this.options.fields));
+            }
+            if (this.options.sort) {
+                params["sort"] = encodeURIComponent(JSON.stringify(this.options.sort));
+            }
+            if (!_.isEmpty(params)) {
+                this.url += "?";
+                var a = [];
+                for (var k in params) {
+                    a.push(k + (params[k] ? '=' + params[k] : ''));
+                }
+                this.url += a.join('&');
+            }
         }
     },
 

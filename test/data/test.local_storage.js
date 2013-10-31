@@ -60,6 +60,9 @@ describe('M.LocalStorageStore', function() {
                     TEST.id = model.id;
 
                     assert.ok(TEST.id, 'new record has an id.');
+                    assert.equal(model.get('firstName'), TEST.data.firstName, "created record has the correct 'firstname' value");
+                    assert.equal(model.get('sureName'), TEST.data.sureName, "created record has the correct 'sureName' value");
+                    assert.equal(model.get('age'), TEST.data.age, "created record has the correct 'age' value");
 
                     done();
                 },

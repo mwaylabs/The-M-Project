@@ -413,7 +413,7 @@ M.WebSqlStore = M.Store.extend({
                 if (!isAutoInc && !model.id && model.idAttribute) {
                     model.set(model.idAttribute, new M.ObjectID().toHexString());
                 }
-                var value = entity.fromAttributes(model.attributes);
+                var value = options.attrs || model.toJSON();
                 var args, keys;
                 if ( !_.isEmpty(entity.fields)) {
                     args = _.values(value);
@@ -456,7 +456,7 @@ M.WebSqlStore = M.Store.extend({
                         var item  = res.rows.item(i);
                         var attrs;
                         if ( !_.isEmpty(entity.fields) || !that._hasDefaultFields(item)) {
-                            attrs = entity.toAttributes(item);
+                            attrs = item;
                         } else {
                             try { attrs = JSON.parse(item['data']); } catch(e) {}
                         }

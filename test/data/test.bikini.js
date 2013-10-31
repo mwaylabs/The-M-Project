@@ -24,7 +24,7 @@ describe('M.BikiniStore', function() {
 
         assert.isFunction(M.Collection, 'M.Collection is defined');
 
-        TEST.TestsModel = M.Model.extend({
+        TEST.TestModel = M.Model.extend({
             idAttribute: '_id',
             entity: {
                 name: 'test',
@@ -37,17 +37,19 @@ describe('M.BikiniStore', function() {
             }
         });
 
-        assert.isFunction(TEST.TestsModel, 'TestModel model successfully extended.');
+        assert.isFunction(TEST.TestModel, 'TestModel model successfully extended.');
 
         TEST.url = 'http://nerds.mway.io:8200/bikini/test';
 
         TEST.TestsModelCollection = M.Collection.extend({
-            model: TEST.TestsModel,
+            model: TEST.TestModel,
             url: TEST.url,
             store: TEST.store,
-            sort: { lastname: 1 },
-            fields: { lastname: 1, age : 1 },
-            query: { age : { $gte : 25  } }
+            options: {
+                sort: { sureName: 1 },
+                fields: { USERNAME: 1, sureName: 1, firstName: 1, age : 1 },
+                query: { age : { $gte : 25  } }
+            }
         });
 
         assert.isFunction(TEST.TestsModelCollection, 'Test collection successfully extended.');
@@ -101,7 +103,7 @@ describe('M.BikiniStore', function() {
         assert.equal(model.get('age'), TEST.data.age, "found record has the correct 'age' value");
 
     });
-/*
+
     it('fetching data with new model', function(done) {
 
         TEST.TestModel2 = M.Model.extend({
@@ -113,9 +115,12 @@ describe('M.BikiniStore', function() {
             }
         });
 
-        var model = TEST.TestModel2.create({ _id:  TEST.id });
+        var data  = { _id:  TEST.id };
+        var model = TEST.TestModel2.create(data);
 
         assert.isObject(model, "new model created");
+
+        assert.ok(_.isEqual(model.attributes, data), "new model holds correct data attributes");
 
         model.fetch({
             success: function() {
@@ -131,15 +136,14 @@ describe('M.BikiniStore', function() {
             }
         })
     });
-*/
+
     it('fetching collection', function(done) {
         TEST.Tests.reset();
         assert.equal(TEST.Tests.length, 0, 'reset has cleared the collection.');
 
         TEST.Tests.fetch({
             success: function(collection) {
-                assert.ok(true, 'Test collection fetched successfully.');
-                TEST.count = TEST.Tests.length;
+                assert.isObject(TEST.Tests.get(TEST.id), 'The model is still there');
                 done();
             },
             error: function() {
@@ -148,6 +152,7 @@ describe('M.BikiniStore', function() {
             }
         });
     });
+
 
     it('read record', function() {
         var model = TEST.Tests.get(TEST.id);
@@ -159,7 +164,6 @@ describe('M.BikiniStore', function() {
         assert.equal(model.get('age'), TEST.data.age, "found record has the correct 'age' value");
 
     });
-
 
     it('delete record', function(done) {
         var model = TEST.Tests.get(TEST.id);
