@@ -10,7 +10,7 @@ M.LocalStorageStore = M.Store.extend({
         var entity = that.getEntity(model.entity || options.entity || this.entity);
         if( that && entity && model ) {
             var id = model.id || (method === 'create' ? new M.ObjectID().toHexString() : null);
-            var attrs = options.attrs || model.attributes;
+            var attrs = options.attrs || model.toJSON(options);
             switch( method ) {
                 case 'patch':
                 case 'update':
@@ -18,7 +18,7 @@ M.LocalStorageStore = M.Store.extend({
                     attrs = _.extend(data, attrs);
                 case 'create':
                     if (model.id !== id && model.idAttribute) {
-                        model.set(model.idAttribute, id);
+                        attrs[model.idAttribute] = id;
                     }
                     that._setItem(entity, id, attrs);
                     break;
@@ -58,9 +58,8 @@ M.LocalStorageStore = M.Store.extend({
         var attrs;
         if( entity && id ) {
             try {
-                var data = JSON.parse(localStorage.getItem(this._getKey(entity, id)));
-                if( data ) {
-                    attrs = entity.toAttributes(data);
+                var attrs = JSON.parse(localStorage.getItem(this._getKey(entity, id)));
+                if( attrs ) {
                     entity.setId(attrs, id); // fix id
                 } else {
                     this._delItemId(id);
@@ -75,8 +74,7 @@ M.LocalStorageStore = M.Store.extend({
     _setItem: function( entity, id, attrs ) {
         if( entity && id && attrs ) {
             try {
-                var data = entity.fromAttributes(attrs);
-                localStorage.setItem(this._getKey(entity, id), JSON.stringify(data));
+                localStorage.setItem(this._getKey(entity, id), JSON.stringify(attrs));
                 this._addItemId(entity, id);
             } catch( e ) {
                 M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while saving data to local storage: ', e);

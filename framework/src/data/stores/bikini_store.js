@@ -249,12 +249,12 @@ M.BikiniStore = M.Store.extend({
             switch (method) {
                 case 'update':
                 case 'create':
-                    data  = model.attributes;
+                    data = options.attrs || model.toJSON();
                     storeMsg = true;
                     break;
                 case 'patch':
                     if ( _.isEmpty(changes)) return;
-                    data = changes;
+                    data = model.toJSON({ attrs: changes });
                     storeMsg = true;
                     break;
                 case 'delete':
@@ -281,7 +281,7 @@ M.BikiniStore = M.Store.extend({
     emitMessage: function(endpoint, msg, options, model) {
         var channel = endpoint.channel;
         var that = this;
-        var url  = msg.method !== 'read' ? endpoint.baseUrl : endpoint.readUrl;
+        var url  = M.isModel(model) || msg.method !== 'read' ? endpoint.baseUrl : endpoint.readUrl;
         if (msg.id && msg.method !== 'create') {
             url += "/" + msg.id;
         }
