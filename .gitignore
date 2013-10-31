@@ -1,10 +1,9 @@
-.DS_STORE
-.svn/
-bin/
-.settings
-.idea
-framework/modules/themes/default/*.css
 node_modules
-npm-debug.log
-framework/dist/
 bower_components
+.sass-cache
+.tmp
+.idea
+.DS_STORE
+npm-debug.log
+
+dist
