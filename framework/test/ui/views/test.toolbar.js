@@ -11,10 +11,14 @@ describe('M.ToolbarView', function () {
 
 
         for(var template in uiTemplates){
-            var toolbarTemplate = M.TemplateManager.get('M.ToggleView', uiTemplates[template]);
-            var regex = /first/gi;
-            assert.isTrue(regex.exec(toolbarTemplate).length === 1 );
-            regex = /second/gi;
+            var toolbarTemplate = M.TemplateManager.get('M.ToolbarView', uiTemplates[template]);
+
+            var regex = /data-childviews="first"/gi;
+            var test = regex.exec(toolbarTemplate)
+            console.log(uiTemplates[template], test);
+            assert.isTrue(test.length === 1, uiTemplates[template]);
+
+            regex = /data-childviews="second"/gi;
             assert.isTrue(regex.exec(toolbarTemplate).length === 1 );
         }
 

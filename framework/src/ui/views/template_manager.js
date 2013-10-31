@@ -12,10 +12,10 @@ M.TemplateManager = M.Object.extend({
     },
 
     "M.ToolbarView": {
-        defaultTemplate: '<div><div data-child-view="left"></div> <div class="center" data-binding="_value_"><%= _value_ %></div> <div data-child-view="right"></div></div>',
-        bootstrap: '<div class="page-header"><div data-child-view="left"></div><h1><%= _value_ %></h1><div data-child-view="right"></div></div>',
-        topcoat: '<div><h2><%= _value_ %></h2><div data-childview="right"></div></div>',
-        jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-child-view="left" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= _value_ %></h1><div data-child-view="right" class="ui-btn-right"></div></div>'
+        defaultTemplate: '<div><div data-childviews="first"></div> <div class="center" data-binding="_value_"><%= _value_ %></div> <div data-childviews="second"></div></div>',
+        bootstrap: '<div class="page-header"><div data-childviews="first"></div><h1><%= _value_ %></h1><div data-childviews="second"></div></div>',
+        topcoat: '<div><div data-childviews="first"></div><h2><%= _value_ %></h2><div data-childviews="second"></div></div>',
+        jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-childviews="first" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= _value_ %></h1><div data-childviews="second" class="ui-btn-right"></div></div>'
     },
 
 
