@@ -8,7 +8,8 @@ Addressbook.Controllers = Addressbook.Controllers || {};
         routes: {
             '': 'indexCtrl',
             'detail/:id': 'detailCtrl',
-            'edit/:id': 'editCtrl'
+            'edit/:id': 'editCtrl',
+            'add': 'addCtrl'
 
         },
 
@@ -19,7 +20,8 @@ Addressbook.Controllers = Addressbook.Controllers || {};
 
         indexCtrl: Addressbook.Controllers.ListController.create(),
         detailCtrl: Addressbook.Controllers.DetailController.create(),
-        editCtrl: Addressbook.Controllers.EditController.create()
+        editCtrl: Addressbook.Controllers.EditController.create(),
+        addCtrl: Addressbook.Controllers.AddController.create()
     });
 
 })();

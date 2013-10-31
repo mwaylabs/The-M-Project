@@ -40,6 +40,12 @@
             });
         },
 
+        gotoAddPage: function() {
+            Addressbook.navigate({
+                route: '/add'
+            });
+        },
+
         _initView: function( settings ) {
 
             if( !this.contactCollection ) {
@@ -54,7 +60,19 @@
             if( !this.header ) {
                 this.header = M.ToolbarView.extend({
                     value: 'Contacts'
-                }).create();
+                },{
+                    second: M.View.extend({},{
+
+                        addButton: M.ButtonView.extend({
+                            cssClass: 'btn-success',
+                            value: 'Add',
+                            useElement: YES,
+                            events: {
+                                tap: 'gotoAddPage'
+                            }
+                        })
+                    })
+                }).create(this, null, true);
             }
 
 

@@ -1,6 +1,6 @@
 (function (scope) {
 
-    Addressbook.Controllers.EditController = M.Controller.extend({
+    Addressbook.Controllers.AddController = M.Controller.extend({
 
         detailView: null,
 
@@ -30,8 +30,10 @@
         },
 
         back: function () {
+            this.editModel.set('firstname', '');
+            this.editModel.set('lastname', '');
             Addressbook.navigate({
-                route: 'detail/' + this.currentModel.id
+                route: '/'
             });
         },
 
@@ -61,21 +63,12 @@
                 },{
                     second: M.View.extend({},{
 
-                        deleteButton: M.ButtonView.extend({
-                            cssClass: 'btn-danger',
-                            value: 'Delete',
-                            useElement: YES,
-                            events: {
-                                tap: 'removeEntry'
-                            }
-                        }),
-
                         updateButton: M.ButtonView.extend({
                             cssClass: 'btn-success',
                             value: 'Save',
                             useElement: YES,
                             events: {
-                                tap: 'updateEntry'
+                                tap: 'addEntry'
                             }
                         })
                     })
@@ -93,38 +86,9 @@
 
         },
 
-        removeEntry: function (event, element) {
-            if (element.scope.currentModel) {
-                element.scope.currentModel.destroy({
-                    success: function(){
-                        M.Toast.show({text: 'Successfully deleted', timeout: M.Toast.MEDIUM});
-                        Addressbook.navigate({
-                            route: '/'
-                        });
-                    },
-                    error: function(){
-                        M.Toast.show({text: 'Could not delete', timeout: M.Toast.MEDIUM});
-                    }
-                });
-                element.scope.set('currentModel', null);
-            }
-            element.scope.editModel.clear();
-        },
-
-        updateEntry: function (event, element) {
-            if (this.currentModel) {
-                this.currentModel.set(this.editModel.attributes);
-
-                this.currentModel.save(null, {
-                    success: function(){
-                        M.Toast.show({text: 'Successfully updated', timeout: M.Toast.MEDIUM});
-                    },
-                    error: function(){
-                        M.Toast.show({text: 'Error on update', timeout: M.Toast.MEDIUM});
-                    }
-                });
-
-            }
+        addEntry: function (event, element) {
+            element.scope.set('currentModel', Addressbook.contactCollection.create(element.scope.editModel.attributes));
+            M.Toast.show({text: 'Successfully added', timeout: M.Toast.MEDIUM});
         }
 
     });

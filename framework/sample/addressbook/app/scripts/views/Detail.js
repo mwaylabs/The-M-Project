@@ -9,13 +9,13 @@ Addressbook.Views = Addressbook.Views || {};
     }, {
 
         firstname: M.View.extend({
-            extendTemplate: '<div><%= firstname %></div>',
-            label: 'Firstname'
+            tagName: 'h2',
+            extendTemplate: '<div><%= firstname %></div>'
         }),
 
         lastname: M.View.extend({
-            extendTemplate: '<div><%= lastname %></div>',
-            label: 'Lastname'
+            tagName: 'h2',
+            extendTemplate: '<div><%= lastname %></div>'
         }),
 
         options: M.View.extend({
