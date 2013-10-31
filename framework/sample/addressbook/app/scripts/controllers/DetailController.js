@@ -10,16 +10,20 @@
             this.detailView = this._initView(settings);
             Addressbook.layout = M.AppLayout.extend().create(this, null, true);
 
+            this._initView(settings);
+
             Addressbook.layout.applyViews({
+                header: this.header,
                 content: this.detailView
             }).render();
         },
 
         show: function (settings) {
-            content = this._initView(settings);
+            this._initView(settings);
 
             Addressbook.layout.applyViews({
-                content: content
+                header: this.header,
+                content: this.detailView
             });
             Addressbook.layout.startTransition();
         },
@@ -31,34 +35,41 @@
         },
 
         _initView: function (settings) {
-//            var that = this;
-//            var userId = settings.id;
-//            var userModel = null;
-//
-//            if (!Addressbook.contactCollection) {
-//
-//                Addressbook.contactCollection = new Addressbook.Collections.ContactsCollection(/*dummy*/);
-//                Addressbook.contactCollection.fetch({
-//                    success: function () {
-//                        that._setModel(userId);
-//                    }
-//                });
-//            } else {
-//                this._setModel(userId);
-//            }
+            var that = this;
+            var userId = settings.id;
+            var userModel = null;
 
-            this._setModel(settings.id);
+            if (Addressbook.contactCollection && Addressbook.contactCollection.models.length > 1) {
+                this._setModel(userId);
+            } else {
+                Addressbook.contactCollection = new Addressbook.Collections.ContactsCollection(/*dummy*/);
+                Addressbook.contactCollection.fetch({
+                    success: function () {
+                        that._setModel(userId);
+                    }
+                });
+            }
+
             if (!this.detailView) {
                 this.detailView = Addressbook.Views.DetailView.create(this, null, true);
             }
-            return this.detailView;
+
+            if( !this.header ) {
+                this.header = M.View.extend({
+                    tagName: 'h2',
+                    value: 'Detail'
+                }).create();
+            }
         },
 
         _setModel: function (userId) {
             var userModel = Addressbook.contactCollection.get(userId);
-            this.currentModel = userModel;
-            this.editModel.set('firstname', userModel.get('firstname'));
-            this.editModel.set('lastname', userModel.get('lastname'));
+            if(userModel){
+                this.currentModel = userModel;
+                this.editModel.set('firstname', userModel.get('firstname'));
+                this.editModel.set('lastname', userModel.get('lastname'));
+            }
+
         },
 
         addEntry: function (event, element) {

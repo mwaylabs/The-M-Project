@@ -7,13 +7,13 @@ h2.view {
     overflow: hidden;
 }
 
-.content_page2,
-.content_page1{
+[data-childviews="content_page2"],
+[data-childviews="content_page1"]{
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
     top: 50px;
     bottom: 0;
-    right: 100px;
+    right: 0px;
     left: 0;
     position: absolute;
 }
