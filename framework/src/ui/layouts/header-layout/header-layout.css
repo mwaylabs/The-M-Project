@@ -1,15 +1,7 @@
 .header {
     height: 50px;
     width: 100%;
-    background: #06AEF3;
+    background: red;
     position: absolute;
     top: 0;
-}
-
-.header .center {
-    font-size: 1.5em;
-    color: #ffffff;
-    text-align: center;
-    font-weight: bold;
-    padding: 7px 0 0 0;
 }
