@@ -55,8 +55,7 @@
             }
 
             if( !this.header ) {
-                this.header = M.View.extend({
-                    tagName: 'h2',
+                this.header = M.ToolbarView.extend({
                     value: 'Detail'
                 }).create();
             }

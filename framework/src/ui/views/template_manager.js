@@ -123,11 +123,13 @@ M.TemplateManager = M.Object.extend({
 
     _currentUI: (typeof m_config !== 'undefined' && typeof m_config.ui !== 'undefined') ? m_config.ui : 'bootstrap',
 
-    get: function( template ) {
+    get: function( template, ui ) {
+
+        ui = ui || M.TemplateManager._currentUI;
 
         if( this[template] ) {
             //use TMP.TemplateManager._currentUI because this function is called in another this context
-            var tpl = this[template][M.TemplateManager._currentUI];
+            var tpl = this[template][ui];
             if( !tpl ) {
                 return this[template]['defaultTemplate'];
             } else {
