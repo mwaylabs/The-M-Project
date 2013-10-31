@@ -15,7 +15,6 @@
             $('body').append(this.render().$el);
 
             setTimeout(function(){
-                console.log(that);
                 that.remove();
             }, settings.timeout || M.Toast.MEDIUM);
         },

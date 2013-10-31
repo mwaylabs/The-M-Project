@@ -21,6 +21,7 @@
                 header: this.header,
                 content: this.listView
             }).render();
+            $('body').html(Addressbook.layout.$el);
         },
 
         show: function() {

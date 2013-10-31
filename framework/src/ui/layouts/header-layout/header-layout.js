@@ -11,7 +11,7 @@ M.HeaderLayout = M.Layout.extend({
 
         var ident = 'header';
 
-        if(!this.childViews['header']){
+        if(!this.childViews['header'] && settings.header){
             this.addChildView('header', settings.header);
         }
 

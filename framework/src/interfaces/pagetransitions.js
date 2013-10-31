@@ -24,9 +24,9 @@
 
         support: Modernizr.cssanimations,
 
-        init: function() {
+        init: function(main) {
             this.animEndEventName = this.animEndEventNames[ Modernizr.prefixed('animation') ];
-            this.main = $('#m-main');
+            this.main = main ? main.find('#m-main') : $('#m-main');
             this.pages = this.main.children('div.m-page');
             this.pagesCount = this.pages.length;
 

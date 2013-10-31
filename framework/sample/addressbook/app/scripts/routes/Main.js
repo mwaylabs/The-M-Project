@@ -7,7 +7,9 @@ Addressbook.Controllers = Addressbook.Controllers || {};
     Addressbook.Routers.MainRouter = M.Router.extend({
         routes: {
             '': 'indexCtrl',
-            'detail/:id': 'detailCtrl'
+            'detail/:id': 'detailCtrl',
+            'edit/:id': 'editCtrl'
+
         },
 
         initialize: function() {
@@ -16,7 +18,8 @@ Addressbook.Controllers = Addressbook.Controllers || {};
         },
 
         indexCtrl: Addressbook.Controllers.ListController.create(),
-        detailCtrl: Addressbook.Controllers.DetailController.create()
+        detailCtrl: Addressbook.Controllers.DetailController.create(),
+        editCtrl: Addressbook.Controllers.EditController.create()
     });
 
 })();

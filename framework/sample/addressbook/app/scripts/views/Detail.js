@@ -4,54 +4,24 @@ Addressbook.Views = Addressbook.Views || {};
     'use strict'
     Addressbook.Views.DetailView = M.View.extend({
 
-    }, {
-        headline: M.View.extend({
-            tagName: 'h2',
-            value: 'Edit',
-            test: 'headline'
-        }),
+        scopeKey: 'currentModel'
 
-        firstname: M.TextfieldView.extend({
-            scopeKey: 'editModel.firstname',
+    }, {
+
+        firstname: M.View.extend({
+            extendTemplate: '<div><%= firstname %></div>',
             label: 'Firstname'
         }),
 
-        lastname: M.TextfieldView.extend({
-            scopeKey: 'editModel.lastname',
+        lastname: M.View.extend({
+            extendTemplate: '<div><%= lastname %></div>',
             label: 'Lastname'
         }),
 
         options: M.View.extend({
             cssClass: 'options'
         }, {
-            updateButton: M.ButtonView.extend({
-                cssClass: 'btn-info',
-                value: 'Update',
-                useElement: YES,
-                events: {
-                    tap: 'updateEntry'
-                }
-            }),
-
-            deleteButton: M.ButtonView.extend({
-                cssClass: 'btn-danger',
-                value: 'Delete',
-                useElement: YES,
-                events: {
-                    tap: 'removeEntry'
-                }
-            }),
-
-            addButton: M.ButtonView.extend({
-                cssClass: 'btn-success',
-                value: 'Add',
-                useElement: YES,
-                extendTemplate: '<span><%= _value_ %></span>',
-                events: {
-                    tap: 'addEntry'
-                }
-            }),
-            hide: M.ButtonView.extend({
+            back: M.ButtonView.extend({
                 cssClass: 'btn-default',
                 value: 'Back',
                 useElement: YES,
