@@ -15,6 +15,7 @@
 // @include ./ui/views/loader.js
 // @include ./ui/views/toast.js
 // @include ./ui/views/toolbar.js
+// @include ./ui/views/selectionlist.js
 
 // @include ./ui/layouts/header-layout/header-layout.js
 // @include ./ui/layouts/bottom-bar-layout/bottom-bar-layout.js

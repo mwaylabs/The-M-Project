@@ -24,6 +24,8 @@
             b: 'second attribute'
         }),
 
+        selectionListModel: M.Model.create({water:'evian'}),
+
         eventDidHappen: function( ev, elem ) {
 //            var val = this.consoleModel.get('_value_');
             this.consoleModel.set('_value_', '');
@@ -75,6 +77,8 @@
             Kitchensink.layout.applyViews({
                 content: this.menu
             }).render();
+
+            $('body').html(Kitchensink.layout.$el);
         },
 
         show: function( settings ) {

@@ -14,6 +14,7 @@
             M.Router.prototype.initialize.apply(this, arguments);
             Kitchensink.overviewController = this.overviewController;
             Kitchensink.page2Controller = this.page2Controller;
+
         },
 
         overviewController: Kitchensink.Controllers.OverviewController.create(),

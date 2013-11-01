@@ -28,10 +28,10 @@
             if( this.model ) {
                 if( M.isModel(this._value_) ) {
                 } else {
-                    this._templateData['alt'] = this.model.get(this.alt.attribute);
+                    this._templateValues['alt'] = this.model.get(this.alt.attribute);
                 }
             } else if( this._value_ ) {
-                this._templateData['alt'] = this.alt;
+                this._templateValues['alt'] = this.alt;
             }
             return this;
         }

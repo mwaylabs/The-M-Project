@@ -37,3 +37,37 @@
     text-align: center;
     font-size: 20px;
 }
+
+
+/*SELECTION LIST*/
+
+select {
+    background: transparent;
+    width: 100%;
+    padding: 5px;
+    border-radius: 0;
+    font-size: 16px;
+    border: none;
+    height: 34px;
+    outline: 0;
+    -webkit-appearance: none;
+    -moz-appearance:    none;
+    appearance:         none;
+}
+
+.selectionlistview{
+    position: relative;
+    border: 1px solid #999;
+    margin: 10px;
+}
+
+.selectionlistview:after{
+    content: "";
+    width: 0;
+    height: 0;
+    border: 7px solid transparent;
+    border-color: #05BCF7 transparent transparent transparent;
+    position: absolute;
+    top: 16px;
+    right: 10px;
+}

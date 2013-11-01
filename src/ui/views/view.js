@@ -26,7 +26,7 @@
         /**
          * use this property to define which data are given to the template
          */
-        _templateData: null,
+        _templateValues: null,
 
         /**
          * extend the default template with this one. It gets injected into the <%= _value_ %> placeholder
@@ -146,16 +146,16 @@
         },
 
         _assignTemplateValues: function() {
-            this._templateData = {};
+            this._templateValues = {};
             if( this.model ) {
                 if( M.isModel(this._value_) ) {
-                    this._templateData = this.model.attributes;
+                    this._templateValues = this.model.attributes;
                 } else {
 
-                    this._templateData['_value_'] = this.model.get(this._value_.attribute);
+                    this._templateValues['_value_'] = this.model.get(this._value_.attribute);
                 }
             } else if( this._value_ ) {
-                this._templateData['_value_'] = this._value_;
+                this._templateValues['_value_'] = this._value_;
             }
         },
 
@@ -259,19 +259,19 @@
         },
 
         _assignTemplateValues: function() {
-            this._templateData = {};
+            this._templateValues = {};
             if( this.model ) {
                 if( M.isModel(this._value_) ) {
-                    this._templateData = this.model.attributes;
+                    this._templateValues = this.model.attributes;
                 } else {
-                    this._templateData['_value_'] = this.model.get(this._value_.attribute);
+                    this._templateValues['_value_'] = this.model.get(this._value_.attribute);
                 }
             } else if( M.isI18NItem(this._value_) ) {
-                this._templateData['_value_'] = M.I18N.l(this._value_.key, this._value_.placeholder);
+                this._templateValues['_value_'] = M.I18N.l(this._value_.key, this._value_.placeholder);
             } else if( typeof this._value_ === 'string' ) {
-                this._templateData['_value_'] = this._value_;
+                this._templateValues['_value_'] = this._value_;
             } else if( this._value_ !== null && typeof this._value_ === 'object' ) {
-                this._templateData = this._value_;
+                this._templateValues = this._value_;
             }
         },
 
@@ -286,7 +286,7 @@
         },
 
         _render: function() {
-            var dom = this._template(this._templateData);
+            var dom = this._template(this._templateValues);
             if( this.useElement ) {
                 this.setElement(dom);
             } else {
@@ -354,11 +354,14 @@
 
         _assignBinding: function() {
             var bindings = {};
-            var data = this._templateData;
+            var data = this._templateValues;
 
             if( this.model && !M.isModel(this._value_) ) {
                 var selector = '[data-binding="_value_"]';
                 bindings[selector] = {observe: '' + this._value_.attribute};
+            } else if( this.collection ) {
+                var selector = '[data-binding="_value_"]';
+                bindings[selector] = {observe: "_value_"};
             } else if( this.model && M.isModel(this._value_) ) {
                 _.each(this.model.attributes, function( value, key ) {
                     var selector = '[data-binding="' + key + '"]';
@@ -368,7 +371,7 @@
                 var selector = '[data-binding="_value_"]';
                 bindings[selector] = {observe: '' + this.scopeKey};
             } else {
-                _.each(this._templateData, function( value, key ) {
+                _.each(this._templateValues, function( value, key ) {
                     var selector = '[data-binding="' + key + '"]';
                     bindings[selector] = {observe: '' + key};
                 }, this);

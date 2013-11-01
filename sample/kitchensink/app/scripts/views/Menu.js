@@ -24,7 +24,7 @@ Kitchensink.Views = Kitchensink.Views || {};
             bindingTestInput: M.View.extend({
 
                 scopeKey: 'bindingTestModel',
-                template: '<div><input value="<%= a %>"/> <input value="<%= b %>" /></div>'
+                templateExtend: '<div><input value="<%= a %>"/> <input value="<%= b %>" /></div>'
 
             }),
 
@@ -182,9 +182,17 @@ Kitchensink.Views = Kitchensink.Views || {};
                     'cancel' : 'Abbrechen',
                     'ok' : 'Ok'
                 })
+            }),
+
+            selectionlistExample: M.SelectionListView.extend({
+                scopeKey: 'selectionListModel.water',
+                selectOptions: {
+                    collection: [{id:1,name:'fountain'}, {id:2,name:'evian'}, {id:3,name:'dasina'}],
+                    labelPath: 'name',
+                    valuePath: 'name'
+                }
+
             })
-
-
         })
     });
 

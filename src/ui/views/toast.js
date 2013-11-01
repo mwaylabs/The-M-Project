@@ -20,7 +20,7 @@
         },
 
         _assignTemplateValues: function(){
-            this._templateData = {
+            this._templateValues = {
                 id: this.id,
                 text: this.text
             };

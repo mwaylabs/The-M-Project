@@ -10,7 +10,7 @@
 
         _assignTemplateValues: function() {
             M.View.prototype._assignTemplateValues.apply(this);
-            this._templateData['label'] = this.label || '';
+            this._templateValues['label'] = this.label || '';
         },
 
         initialize: function() {
@@ -33,7 +33,7 @@
 
         _assignTemplateValues: function() {
             M.TextfieldView.prototype._assignTemplateValues.apply(this);
-            this._templateData['placeholder'] = this.placeholder || '';
+            this._templateValues['placeholder'] = this.placeholder || '';
         }
 
 
