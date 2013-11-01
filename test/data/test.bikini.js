@@ -1,4 +1,4 @@
-describe('M.BikiniStore', function() {
+describe.skip('M.BikiniStore', function() {
 
     var TEST = {
         data : {
