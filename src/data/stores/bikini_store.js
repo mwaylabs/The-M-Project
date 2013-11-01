@@ -192,7 +192,13 @@ M.BikiniStore = M.Store.extend({
                 case 'delete':
                     if (msg.id) {
                         if (msg.id === 'all') {
-                            this.reset();
+                            while (model = this.first()) {
+                                if (localStore) {
+                                    localStore.sync.apply(this, ["delete", model, { store: localStore, fromMessage: true } ]);
+                                }
+                                this.remove(model);
+                            };
+                            this.store.setLastMessageTime(this.endpoint.channel, '');
                         } else {
                             var model = this.get(msg.id);
                             if (model) {
