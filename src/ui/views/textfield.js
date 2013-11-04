@@ -10,7 +10,12 @@
 
         _assignTemplateValues: function() {
             M.View.prototype._assignTemplateValues.apply(this);
-            this._templateValues['label'] = this.label || '';
+            if( M.isI18NItem(this.label)){
+                this._templateValues['label'] = M.I18N.l(this.label.key, this.label.placeholder);
+            } else {
+                this._templateValues['label'] = this.label || '';
+            }
+
         },
 
         initialize: function() {
