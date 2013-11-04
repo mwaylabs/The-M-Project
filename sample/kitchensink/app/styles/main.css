@@ -39,7 +39,7 @@
 }
 
 
-/*SELECTION LIST*/
+/*SELECTION LOST*/
 
 select {
     background: transparent;
@@ -55,12 +55,14 @@ select {
     appearance:         none;
 }
 
+.mulitpleselectionlistview,
 .selectionlistview{
     position: relative;
     border: 1px solid #999;
     margin: 10px;
 }
 
+.mulitpleselectionlistview:after,
 .selectionlistview:after{
     content: "";
     width: 0;

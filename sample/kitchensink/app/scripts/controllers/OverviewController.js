@@ -25,6 +25,7 @@
         }),
 
         selectionListModel: M.Model.create({water:'evian'}),
+        multipleSelectionListModel: M.Model.create({water: ['evian']}),
 
         eventDidHappen: function( ev, elem ) {
 //            var val = this.consoleModel.get('_value_');
