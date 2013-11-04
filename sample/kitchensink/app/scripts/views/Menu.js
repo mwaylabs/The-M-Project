@@ -192,6 +192,16 @@ Kitchensink.Views = Kitchensink.Views || {};
                     valuePath: 'name'
                 }
 
+            }),
+
+            mulitpleSelectionListViewExample: M.MulitpleSelectionListView.extend({
+                scopeKey: 'multipleSelectionListModel.water',
+                selectOptions: {
+                    collection: [{id:1,name:'fountain'}, {id:2,name:'evian'}, {id:3,name:'dasina'}],
+                    labelPath: 'name',
+                    valuePath: 'name'
+                }
+
             })
         })
     });

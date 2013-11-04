@@ -131,13 +131,12 @@ M.TemplateManager = M.Object.extend({
         jqm: '<select><%= _value_ %></select>'
     },
 
-    "M.SelectionListOptionsView": {
-        defaultTemplate: '<option value="<%= _value_ %>"><%= key %></option>',
-        bootstrap: '<option value="<%= _value_ %>"><%= key %></option>',
-        topcoat: '<option value="<%= _value_ %>"><%= key %></option>',
-        jqm: '<option value="<%= _value_ %>"><%= key %></option>'
+    "M.MulitpleSelectionListView": {
+        defaultTemplate: '<select multiple><%= _value_ %></select>',
+        bootstrap: '<select multiple><%= _value_ %></select>',
+        topcoat: '<select multiple><%= _value_ %></select>',
+        jqm: '<select multiple><%= _value_ %></select>'
     },
-
 
     _currentUI: (typeof m_config !== 'undefined' && typeof m_config.ui !== 'undefined') ? m_config.ui : 'defaultTemplate',
 
