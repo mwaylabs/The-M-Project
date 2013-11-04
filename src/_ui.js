@@ -5,6 +5,8 @@
 // @include ./ui/layouts/layout.js
 
 // @include ./ui/views/textfield.js
+// @include ./ui/views/searchfield.js
+// @include ./ui/views/textarea.js
 // @include ./ui/views/listitem.js
 // @include ./ui/views/button.js
 // @include ./ui/views/list.js

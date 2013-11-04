@@ -27,6 +27,10 @@ M.TemplateManager = M.Object.extend({
         jqm: '<% if(label) {  %><label for="text-1" class="ui-input-text"><%= label %></label><% } %><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" name="text-1" id="text-1" value="" class="ui-input-text ui-body-c"></div>'
     },
 
+    "M.TextareaView": {
+        defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><textarea><%= _value_ %></textarea><% if(label) {  %></label><% } %></div>'
+    },
+
     "M.SearchfieldView": {
         defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>',
         bootstrap: '<div><% if(label) {  %><label><%= label %></label><% } %><input type="text" class="form-control" placeholder="<%= placeholder %>"></div>',
