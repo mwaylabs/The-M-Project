@@ -32,6 +32,10 @@ describe('M.Controller', function () {
     it('set value', function() {
         ctrlInstance.set('a','b');
         assert.equal(ctrlInstance.a, 'b');
+    })  ;
+
+    it('get value', function() {
+        assert.equal(ctrlInstance.get('a'), 'b');
     })
 
 
