@@ -38,6 +38,8 @@
 
         useElement: NO,
 
+        _hasI18NListener: NO,
+
 
         /**
          * external events for the users
@@ -66,7 +68,7 @@
 
         getValue: function() {
             if( this.model ) {
-                if(this._value_.hasOwnProperty('attribute') && this._value_.hasOwnProperty('model')){
+                if( this._value_.hasOwnProperty('attribute') && this._value_.hasOwnProperty('model') ) {
                     return this._value_.model.get(this._value_.attribute);
                 }
                 return this._getModel().attributes;
@@ -100,7 +102,7 @@
         constructor: function( options ) {
             this.cid = _.uniqueId('view');
             options || (options = {});
-            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
+            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey'];
             _.extend(this, _.pick(options, viewOptions));
             this._ensureElement();
             this.initialize.apply(this, arguments);
@@ -112,6 +114,7 @@
             this._assignValue(options);
             this._assignTemplateValues();
             this._mapEventsToScope(this.scope);
+            this._addCustomEvents(this.scope);
             if( !this.useElement ) {
                 this._registerEvents();
             }
@@ -123,9 +126,11 @@
 
         _assignValue: function( options ) {
             //don't write _value_ in the view definition - write value and here it gets assigned
+
             if( this.value ) {
                 this._value_ = this.value;
             } else if( this.scopeKey ) {
+
                 this._value_ = this.getPropertyValue(this.scopeKey, this.scope);
             } else if( options && options.value ) {
                 this._value_ = options.value;
@@ -141,6 +146,16 @@
                 M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
                     this.render();
                 }, this);
+                this._hasI18NListener = YES
+            } else if( _.isObject(this._value_) ) {
+                if( _.find(this._value_, function( val ) {
+                    return M.isI18NItem(val);
+                }, this) ) {
+                    M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
+                        this.render();
+                    }, this);
+                    this._hasI18NListener = YES;
+                }
             }
             return this;
         },
@@ -194,6 +209,30 @@
                 //backbone should not bind events so set it to null
                 this.events = null;
             }
+        },
+
+        _addCustomEvents: function(){
+            if(!this._events){
+                return;
+            }
+            var that = this;
+            var customEvents = {
+                enter: {
+                    'origin': 'keyup',
+                    'callback': function(event){
+                        if(event.keyCode === 13){
+                            that._events['enter'].apply(that.scope, arguments);
+                        }
+
+                    }
+                }
+            };
+            for(var event in this._events){
+                if(customEvents.hasOwnProperty(event)){
+                    this._events[customEvents[event].origin] = customEvents[event].callback
+                }
+            }
+
         },
 
         _getEventOptions: function() {
@@ -254,6 +293,8 @@
                 } else if( _.isObject(template) ) {
                     this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']))
                 }
+            } else if(this._template){
+                this.template = this._template;
             }
             return this;
         },
@@ -270,14 +311,18 @@
                 this._templateValues['_value_'] = M.I18N.l(this._value_.key, this._value_.placeholder);
             } else if( typeof this._value_ === 'string' ) {
                 this._templateValues['_value_'] = this._value_;
-            } else if( this._value_ !== null && typeof this._value_ === 'object' ) {
+            } else if( this._value_ !== null && typeof this._value_ === 'object' && this._hasI18NListener === NO ) {
                 this._templateValues = this._value_;
+            } else if( this._hasI18NListener && _.isObject(this._value_) ) {
+                _.each(this._value_, function( value, key ) {
+                    this._templateValues[key] = M.I18N.l(value.key, value.placeholder);
+                }, this);
             }
         },
 
         _extendTemplate: function() {
             if( this.extendTemplate ) {
-                this._template = _.tmpl(this._template({_value_: this.extendTemplate}));
+                this._template = _.tmpl(this.template({_value_: this.extendTemplate}));
             }
         },
 
@@ -336,7 +381,7 @@
                 this._assignBinding();
                 this.stickit();
             }
-            if(this.model && this.useElement){
+            if( this.model && this.useElement ) {
                 //console.warn('be aware that stickit only works if you define useElement with NO');
             }
             this.postRender();
@@ -437,12 +482,18 @@
      * @returns {this}
      */
     M.View.create = function( scope, childViews, isScope ) {
+
         var _scope = isScope ? {scope: scope} : scope;
         var f = new this(_scope);
         if( f._childViews ) {
             f.childViews = {};
             _.each(f._childViews, function( childView, name ) {
-                f.childViews[name] = childView.create(scope || f, null, true);
+                var _scope = scope;
+                if( f.useAsScope === YES){
+                    _scope = f;
+
+                }
+                f.childViews[name] = childView.create(_scope || f, null, true);
             });
         }
         if( childViews ) {

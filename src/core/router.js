@@ -45,6 +45,7 @@
         },
 
         getCallBack: function( controller ) {
+
             var _callback = null;
             if( Object.keys(this.visitedRoutes).length === 0 ) {
                 _callback = controller.applicationStart;
@@ -55,6 +56,7 @@
         },
 
         route: function( route, name, controller ) {
+
             if( !_.isRegExp(route) ) {
                 route = this._routeToRegExp(route);
             }
