@@ -15,17 +15,20 @@ _.extend(M.Controller.prototype, Backbone.Events, {
         return this;
     },
 
-    set: function( name, value ) {
-        this[name] = value;
-        this.trigger(name, value);
-    },
-
     show: function(){
 
     },
 
     applicationStart: function(){
 
-    }
+    },
 
+    set: function( name, value ) {
+        this[name] = value;
+        this.trigger(name, value);
+    },
+
+    get: function( name ) {
+        return this[name];
+    }
 });

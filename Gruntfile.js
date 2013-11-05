@@ -85,6 +85,13 @@ module.exports = function( grunt ) {
                 options: {
                     spawn: false
                 }
+            },
+            test: {
+                files: ['src/**/*','test/**/*'],
+                tasks: ['preprocess:dev', 'test'],
+                options: {
+                    spawn: false
+                }
             }
         },
         compass: {
