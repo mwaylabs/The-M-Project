@@ -198,7 +198,7 @@
 
         _getEventOptions: function() {
             return {
-                prevent_default: false,
+                prevent_default: true, // To prevent the ghost click
                 no_mouseevents: true,
                 stop_browser_behavior: false
             };
