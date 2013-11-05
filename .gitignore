@@ -5,5 +5,5 @@ bower_components
 .idea
 .DS_STORE
 npm-debug.log
-sample/teaser/
+sample/teaser
 dist
