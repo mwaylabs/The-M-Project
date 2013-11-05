@@ -6,6 +6,7 @@ describe('M.PageTransitions', function () {
     });
 
     it('const', function () {
+        assert.isDefined(M.PageTransitions.NONE);
         assert.isDefined(M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT);
         assert.isDefined(M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT);
         assert.isDefined(M.PageTransitions.MOVE_TO_TOP_FROM_BOTTOM);
@@ -74,6 +75,7 @@ describe('M.PageTransitions', function () {
         assert.isDefined(M.PageTransitions.SIDES);
         assert.isDefined(M.PageTransitions.SLIDE);
 
+        assert.isString(M.PageTransitions.NONE);
         assert.isString(M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT);
         assert.isString(M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT);
         assert.isString(M.PageTransitions.MOVE_TO_TOP_FROM_BOTTOM);
@@ -142,6 +144,7 @@ describe('M.PageTransitions', function () {
         assert.isString(M.PageTransitions.SIDES);
         assert.isString(M.PageTransitions.SLIDE);
 
+        assert.equal(M.PageTransitions.NONE, 'none');
         assert.equal(M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT, 'm-page-moveToLeft|m-page-moveFromRight');
         assert.equal(M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT, 'm-page-moveToRight|m-page-moveFromLeft');
         assert.equal(M.PageTransitions.MOVE_TO_TOP_FROM_BOTTOM, 'm-page-moveToTop|m-page-moveFromBottom');

@@ -6,6 +6,7 @@
 
     M.PageTransitions = M.Object.extend({
 
+        NONE : 'none',
         MOVE_TO_LEFT_FROM_RIGHT : 'm-page-moveToLeft|m-page-moveFromRight',
         MOVE_TO_RIGHT_FROM_LEFT : 'm-page-moveToRight|m-page-moveFromLeft',
         MOVE_TO_TOP_FROM_BOTTOM : 'm-page-moveToTop|m-page-moveFromBottom',
@@ -121,10 +122,14 @@
 
             var nextPage = this._pages.eq(this._current).addClass('m-page-current');
 
+            if( !this._support || options.transition === M.PageTransitions.NONE ) {
+                this._onEndAnimation(currPage, nextPage);
+                return;
+            }
+
             var transitionClasses = options.transition.split('|');
             var outClass = transitionClasses[0];
             var inClass = transitionClasses[1];
-
             var that = this;
 
             $(currPage[0]).on(that._animEndEventName, function() {
@@ -149,10 +154,6 @@
             $(document).on(this._animEndEventName, function( ev ) {
                 that._onEndAnimation(currPage, nextPage);
             });
-
-            if( !this._support ) {
-                this._onEndAnimation(currPage, nextPage);
-            }
         },
 
         _onEndAnimation: function(outpage, inpage){
