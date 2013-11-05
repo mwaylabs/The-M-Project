@@ -26,12 +26,13 @@
                 header: this.header,
                 content: this.detailView
             });
-            Addressbook.layout.startTransition();
+            Addressbook.startTransition();
         },
 
         back: function () {
             Addressbook.navigate({
-                route: 'detail/' + this.currentModel.id
+                route: 'detail/' + this.currentModel.id,
+                transition: M.PageTransitions.MOVE_TO_TOP_FROM_BOTTOM
             });
         },
 

@@ -26,7 +26,7 @@
                 header: this.header,
                 content: this.detailView
             });
-            Addressbook.layout.startTransition();
+            Addressbook.startTransition();
         },
 
         back: function () {

@@ -31,7 +31,7 @@
                 header: this.header,
                 content: this.listView
             });
-            Addressbook.layout.startTransition();
+            Addressbook.startTransition();
         },
 
         nextPage: function() {

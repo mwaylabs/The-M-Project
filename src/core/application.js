@@ -12,6 +12,8 @@ M.Application = M.Controller.extend({
 
     Routers: null,
 
+    _transition: '',
+
     initialize: function() {
         this.Models = {};
         this.Collections = {};
@@ -60,11 +62,28 @@ M.Application = M.Controller.extend({
             url += '/';
         }
         var options = settings.options || true;
+        if(!settings.transition) {
+            settings.transition = M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT;
+        }
 
-        //this.setTransition(settings.transition);
+        this._setTransition(settings.transition);
 
         this.isFirstLoad = false;
 
         Backbone.history.navigate(url + path, options);
+    },
+
+    startTransition: function() {
+        this.layout.startTransition({
+            transition: this._getTransition()
+        });
+    },
+
+    _setTransition: function(name) {
+        this._transition = name;
+    },
+
+    _getTransition: function() {
+        return this._transition;
     }
 });

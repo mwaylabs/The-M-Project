@@ -34,7 +34,8 @@ Addressbook.Views = Addressbook.Views || {};
                 events: {
                     tap: function () {
                         Addressbook.navigate({
-                            route: '/'
+                            route: '/',
+                            transition: M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT
                         })
                     }
                 }

@@ -27,12 +27,13 @@
                 header: this.header,
                 content: this.detailView
             });
-            Addressbook.layout.startTransition();
+            Addressbook.startTransition();
         },
 
         gotoEditPage: function(){
              Addressbook.navigate({
-                route: 'edit/' + this.currentModel.id
+                route: 'edit/' + this.currentModel.id,
+                transition: M.PageTransitions.MOVE_TO_BOTTOM_FROM_TOP
             });
         },
 
