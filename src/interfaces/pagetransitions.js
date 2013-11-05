@@ -6,10 +6,77 @@
 
     M.PageTransitions = M.Object.extend({
 
+        MOVE_TO_LEFT_FROM_RIGHT : 'm-page-moveToLeft|m-page-moveFromRight',
+        MOVE_TO_RIGHT_FROM_LEFT : 'm-page-moveToRight|m-page-moveFromLeft',
+        MOVE_TO_TOP_FROM_BOTTOM : 'm-page-moveToTop|m-page-moveFromBottom',
+        MOVE_TO_BOTTOM_FROM_TOP : 'm-page-moveToBottom|m-page-moveFromTop',
+        FADE_FROM_RIGHT: 'm-page-fade|m-page-moveFromRight m-page-ontop',
+        FADE_FROM_LEFT: 'm-page-fade|m-page-moveFromLeft m-page-ontop',
+        FADE_FROM_BOTTOM: 'm-page-fade|m-page-moveFromBottom m-page-ontop',
+        FADE_FROM_TOP: 'm-page-fade|m-page-moveFromTop m-page-ontop',
+        FADE_LEFT_FADE_RIGHT: 'm-page-moveToLeftFade|m-page-moveFromRightFade',
+        FADE_RIGHT_FADE_LEFT: 'm-page-moveToRightFade|m-page-moveFromLeftFade',
+        FADE_TOP_FADE_BOTTOM: 'm-page-moveToTopFade|m-page-moveFromBottomFade',
+        FADE_BOTTOM_FADE_TOP: 'm-page-moveToBottomFade|m-page-moveFromTopFade',
+        DIFFERENT_EASING_FROM_RIGHT: 'm-page-moveToLeftEasing m-page-ontop|m-page-moveFromRight',
+        DIFFERENT_EASING_FROM_LEFT: 'm-page-moveToRightEasing m-page-ontop|m-page-moveFromLeft',
+        DIFFERENT_EASING_FROM_BOTTOM: 'm-page-moveToTopEasing m-page-ontop|m-page-moveFromBottom',
+        DIFFERENT_EASING_FROM_TOP: 'm-page-moveToBottomEasing m-page-ontop|m-page-moveFromTop',
+        SCALE_DOWN_FROM_RIGHT: 'm-page-scaleDown|m-page-moveFromRight m-page-ontop',
+        SCALE_DOWN_FROM_LEFT: 'm-page-scaleDown|m-page-moveFromLeft m-page-ontop',
+        SCALE_DOWN_FROM_BOTTOM: 'm-page-scaleDown|m-page-moveFromBottom m-page-ontop',
+        SCALE_DOWN_FROM_TOP: 'm-page-scaleDown|m-page-moveFromTop m-page-ontop',
+        SCALE_DOWN_SCALE_DOWN: 'm-page-scaleDown|m-page-scaleUpDown m-page-delay300',
+        SCALE_UP_SCALE_UP: 'm-page-scaleDownUp|m-page-scaleUp m-page-delay300',
+        MOVE_TO_LEFT_SCALE_UP: 'm-page-moveToLeft m-page-ontop|m-page-scaleUp',
+        MOVE_TO_RIGHT_SCALE_UP: 'm-page-moveToRight m-page-ontop|m-page-scaleUp',
+        MOVE_TO_TOP_SCALE_UP: 'm-page-moveToTop m-page-ontop|m-page-scaleUp',
+        MOVE_TO_BOTTOM_SCALE_UP: 'm-page-moveToBottom m-page-ontop|m-page-scaleUp',
+        SCALE_DOWN_SCALE_UP: 'm-page-scaleDownCenter|m-page-scaleUpCenter m-page-delay400',
+        GLUE_LEFT_FROM_RIGHT: 'm-page-rotateRightSideFirst|m-page-moveFromRight m-page-delay200 m-page-ontop',
+        GLUE_RIGHT_FROM_LEFT: 'm-page-rotateLeftSideFirst|m-page-moveFromLeft m-page-delay200 m-page-ontop',
+        GLUE_BOTTOM_FROM_TOP: 'm-page-rotateTopSideFirst|m-page-moveFromTop m-page-delay200 m-page-ontop',
+        GLUE_TOP_FROM_BOTTOM: 'm-page-rotateBottomSideFirst|m-page-moveFromBottom m-page-delay200 m-page-ontop',
+        FLIP_RIGHT: 'm-page-flipOutRight|m-page-flipInLeft m-page-delay500',
+        FLIP_LEFT: 'm-page-flipOutLeft|m-page-flipInRight m-page-delay500',
+        FLIP_TOP: 'm-page-flipOutTop|m-page-flipInBottom m-page-delay500',
+        FLIP_BOTTOM: 'm-page-flipOutBottom|m-page-flipInTop m-page-delay500',
+        FALL: 'm-page-rotateFall m-page-ontop|m-page-scaleUp',
+        NEWSPAPER: 'm-page-rotateOutNewspaper|m-page-rotateInNewspaper m-page-delay500',
+        PUSH_LEFT_FROM_RIGHT: 'm-page-rotatePushLeft|m-page-moveFromRight',
+        PUSH_RIGHT_FROM_LEFT: 'm-page-rotatePushRight|m-page-moveFromLeft',
+        PUSH_TOP_FROM_BOTTOM: 'm-page-rotatePushTop|m-page-moveFromBottom',
+        PUSH_BOTTOM_FROM_TOP: 'm-page-rotatePushBottom|m-page-moveFromTop',
+        PUSH_LEFT_PULL_RIGHT: 'm-page-rotatePushLeft|m-page-rotatePullRight m-page-delay180',
+        PUSH_RIGHT_PULL_LEFT: 'm-page-rotatePushRight|m-page-rotatePullLeft m-page-delay180',
+        PUSH_TOP_PULL_BOTTOM: 'm-page-rotatePushTop|m-page-rotatePullBottom m-page-delay180',
+        PUSH_BOTTOM_PULL_TOP: 'm-page-rotatePushBottom|m-page-rotatePullTop m-page-delay180',
+        FOLD_LEFT_FROM_RIGHT: 'm-page-rotateFoldLeft|m-page-moveFromRightFade',
+        FOLD_RIGHT_FROM_LEFT: 'm-page-rotateFoldRight|m-page-moveFromLeftFade',
+        FOLD_TOP_FROM_BOTTOM: 'm-page-rotateFoldTop|m-page-moveFromBottomFade',
+        FOLD_BOTTOM_FROM_TOP: 'm-page-rotateFoldBottom|m-page-moveFromTopFade',
+        MOVE_TO_RIGHT_UNFOLD_LEFT: 'm-page-moveToRightFade|m-page-rotateUnfoldLeft',
+        MOVE_TO_LEFT_UNFOLD_RIGHT: 'm-page-moveToLeftFade|m-page-rotateUnfoldRight',
+        MOVE_TO_BOTTOM_UNFOLD_TOP: 'm-page-moveToBottomFade|m-page-rotateUnfoldTop',
+        MOVE_TO_TOP_UNFOLD_BOTTOM: 'm-page-moveToTopFade|m-page-rotateUnfoldBottom',
+        ROOM_TO_LEFT: 'm-page-rotateRoomLeftOut m-page-ontop|m-page-rotateRoomLeftIn',
+        ROOM_TO_RIGHT: 'm-page-rotateRoomRightOut m-page-ontop|m-page-rotateRoomRightIn',
+        ROOM_TO_TOP: 'm-page-rotateRoomTopOut m-page-ontop|m-page-rotateRoomTopIn',
+        ROOM_TO_BOTTOM: 'm-page-rotateRoomBottomOut m-page-ontop|m-page-rotateRoomBottomIn',
+        CUBE_TO_LEFT: 'm-page-rotateCubeLeftOut m-page-ontop|m-page-rotateCubeLeftIn',
+        CUBE_TO_RIGHT: 'm-page-rotateCubeRightOut m-page-ontop|m-page-rotateCubeRightIn',
+        CUBE_TO_TOP: 'm-page-rotateCubeTopOut m-page-ontop|m-page-rotateCubeTopIn',
+        CUBE_TO_BOTTOM: 'm-page-rotateCubeBottomOut m-page-ontop|m-page-rotateCubeBottomIn',
+        CAROUSEL_TO_LEFT: 'm-page-rotateCarouselLeftOut m-page-ontop|m-page-rotateCarouselLeftIn',
+        CAROUSEL_TO_RIGHT: 'm-page-rotateCarouselRightOut m-page-ontop|m-page-rotateCarouselRightIn',
+        CAROUSEL_TO_TOP: 'm-page-rotateCarouselTopOut m-page-ontop|m-page-rotateCarouselTopIn',
+        CAROUSEL_TO_BOTTOM: 'm-page-rotateCarouselBottomOut m-page-ontop|m-page-rotateCarouselBottomIn',
+        SIDES: 'm-page-rotateSidesOut|m-page-rotateSidesIn m-page-delay200',
+        SLIDE: 'm-page-rotateSlideOut|m-page-rotateSlideIn',
+
         main: null,
         iterate: null,
         pages: null,
-        animcursor: 1,
         pagesCount: 0,
         current: 0,
         isAnimating: false,
@@ -38,18 +105,7 @@
             this.pages.eq(this.current).addClass('m-page-current');
         },
 
-        switchToNextPage: function() {
-            if( this.isAnimating ) {
-                return false;
-            }
-            if( this.animcursor > 67 ) {
-                this.animcursor = 1;
-            }
-            this.nextPage(this.animcursor);
-            this.animcursor += 1;
-        },
-
-        nextPage: function(animation) {
+        nextPage: function(options) {
             if( this.isAnimating ) {
                 return false;
             }
@@ -64,279 +120,11 @@
                 this.current = 0;
             }
 
-            var nextPage = this.pages.eq(this.current).addClass('m-page-current'), outClass = '', inClass = '';
+            var nextPage = this.pages.eq(this.current).addClass('m-page-current');
 
-            switch( animation ) {
-
-                case 1:
-                    outClass = 'm-page-moveToLeft';
-                    inClass = 'm-page-moveFromRight';
-                    break;
-                case 2:
-                    outClass = 'm-page-moveToRight';
-                    inClass = 'm-page-moveFromLeft';
-                    break;
-                case 3:
-                    outClass = 'm-page-moveToTop';
-                    inClass = 'm-page-moveFromBottom';
-                    break;
-                case 4:
-                    outClass = 'm-page-moveToBottom';
-                    inClass = 'm-page-moveFromTop';
-                    break;
-                case 5:
-                    outClass = 'm-page-fade';
-                    inClass = 'm-page-moveFromRight m-page-ontop';
-                    break;
-                case 6:
-                    outClass = 'm-page-fade';
-                    inClass = 'm-page-moveFromLeft m-page-ontop';
-                    break;
-                case 7:
-                    outClass = 'm-page-fade';
-                    inClass = 'm-page-moveFromBottom m-page-ontop';
-                    break;
-                case 8:
-                    outClass = 'm-page-fade';
-                    inClass = 'm-page-moveFromTop m-page-ontop';
-                    break;
-                case 9:
-                    outClass = 'm-page-moveToLeftFade';
-                    inClass = 'm-page-moveFromRightFade';
-                    break;
-                case 10:
-                    outClass = 'm-page-moveToRightFade';
-                    inClass = 'm-page-moveFromLeftFade';
-                    break;
-                case 11:
-                    outClass = 'm-page-moveToTopFade';
-                    inClass = 'm-page-moveFromBottomFade';
-                    break;
-                case 12:
-                    outClass = 'm-page-moveToBottomFade';
-                    inClass = 'm-page-moveFromTopFade';
-                    break;
-                case 13:
-                    outClass = 'm-page-moveToLeftEasing m-page-ontop';
-                    inClass = 'm-page-moveFromRight';
-                    break;
-                case 14:
-                    outClass = 'm-page-moveToRightEasing m-page-ontop';
-                    inClass = 'm-page-moveFromLeft';
-                    break;
-                case 15:
-                    outClass = 'm-page-moveToTopEasing m-page-ontop';
-                    inClass = 'm-page-moveFromBottom';
-                    break;
-                case 16:
-                    outClass = 'm-page-moveToBottomEasing m-page-ontop';
-                    inClass = 'm-page-moveFromTop';
-                    break;
-                case 17:
-                    outClass = 'm-page-scaleDown';
-                    inClass = 'm-page-moveFromRight m-page-ontop';
-                    break;
-                case 18:
-                    outClass = 'm-page-scaleDown';
-                    inClass = 'm-page-moveFromLeft m-page-ontop';
-                    break;
-                case 19:
-                    outClass = 'm-page-scaleDown';
-                    inClass = 'm-page-moveFromBottom m-page-ontop';
-                    break;
-                case 20:
-                    outClass = 'm-page-scaleDown';
-                    inClass = 'm-page-moveFromTop m-page-ontop';
-                    break;
-                case 21:
-                    outClass = 'm-page-scaleDown';
-                    inClass = 'm-page-scaleUpDown m-page-delay300';
-                    break;
-                case 22:
-                    outClass = 'm-page-scaleDownUp';
-                    inClass = 'm-page-scaleUp m-page-delay300';
-                    break;
-                case 23:
-                    outClass = 'm-page-moveToLeft m-page-ontop';
-                    inClass = 'm-page-scaleUp';
-                    break;
-                case 24:
-                    outClass = 'm-page-moveToRight m-page-ontop';
-                    inClass = 'm-page-scaleUp';
-                    break;
-                case 25:
-                    outClass = 'm-page-moveToTop m-page-ontop';
-                    inClass = 'm-page-scaleUp';
-                    break;
-                case 26:
-                    outClass = 'm-page-moveToBottom m-page-ontop';
-                    inClass = 'm-page-scaleUp';
-                    break;
-                case 27:
-                    outClass = 'm-page-scaleDownCenter';
-                    inClass = 'm-page-scaleUpCenter m-page-delay400';
-                    break;
-                case 28:
-                    outClass = 'm-page-rotateRightSideFirst';
-                    inClass = 'm-page-moveFromRight m-page-delay200 m-page-ontop';
-                    break;
-                case 29:
-                    outClass = 'm-page-rotateLeftSideFirst';
-                    inClass = 'm-page-moveFromLeft m-page-delay200 m-page-ontop';
-                    break;
-                case 30:
-                    outClass = 'm-page-rotateTopSideFirst';
-                    inClass = 'm-page-moveFromTop m-page-delay200 m-page-ontop';
-                    break;
-                case 31:
-                    outClass = 'm-page-rotateBottomSideFirst';
-                    inClass = 'm-page-moveFromBottom m-page-delay200 m-page-ontop';
-                    break;
-                case 32:
-                    outClass = 'm-page-flipOutRight';
-                    inClass = 'm-page-flipInLeft m-page-delay500';
-                    break;
-                case 33:
-                    outClass = 'm-page-flipOutLeft';
-                    inClass = 'm-page-flipInRight m-page-delay500';
-                    break;
-                case 34:
-                    outClass = 'm-page-flipOutTop';
-                    inClass = 'm-page-flipInBottom m-page-delay500';
-                    break;
-                case 35:
-                    outClass = 'm-page-flipOutBottom';
-                    inClass = 'm-page-flipInTop m-page-delay500';
-                    break;
-                case 36:
-                    outClass = 'm-page-rotateFall m-page-ontop';
-                    inClass = 'm-page-scaleUp';
-                    break;
-                case 37:
-                    outClass = 'm-page-rotateOutNewspaper';
-                    inClass = 'm-page-rotateInNewspaper m-page-delay500';
-                    break;
-                case 38:
-                    outClass = 'm-page-rotatePushLeft';
-                    inClass = 'm-page-moveFromRight';
-                    break;
-                case 39:
-                    outClass = 'm-page-rotatePushRight';
-                    inClass = 'm-page-moveFromLeft';
-                    break;
-                case 40:
-                    outClass = 'm-page-rotatePushTop';
-                    inClass = 'm-page-moveFromBottom';
-                    break;
-                case 41:
-                    outClass = 'm-page-rotatePushBottom';
-                    inClass = 'm-page-moveFromTop';
-                    break;
-                case 42:
-                    outClass = 'm-page-rotatePushLeft';
-                    inClass = 'm-page-rotatePullRight m-page-delay180';
-                    break;
-                case 43:
-                    outClass = 'm-page-rotatePushRight';
-                    inClass = 'm-page-rotatePullLeft m-page-delay180';
-                    break;
-                case 44:
-                    outClass = 'm-page-rotatePushTop';
-                    inClass = 'm-page-rotatePullBottom m-page-delay180';
-                    break;
-                case 45:
-                    outClass = 'm-page-rotatePushBottom';
-                    inClass = 'm-page-rotatePullTop m-page-delay180';
-                    break;
-                case 46:
-                    outClass = 'm-page-rotateFoldLeft';
-                    inClass = 'm-page-moveFromRightFade';
-                    break;
-                case 47:
-                    outClass = 'm-page-rotateFoldRight';
-                    inClass = 'm-page-moveFromLeftFade';
-                    break;
-                case 48:
-                    outClass = 'm-page-rotateFoldTop';
-                    inClass = 'm-page-moveFromBottomFade';
-                    break;
-                case 49:
-                    outClass = 'm-page-rotateFoldBottom';
-                    inClass = 'm-page-moveFromTopFade';
-                    break;
-                case 50:
-                    outClass = 'm-page-moveToRightFade';
-                    inClass = 'm-page-rotateUnfoldLeft';
-                    break;
-                case 51:
-                    outClass = 'm-page-moveToLeftFade';
-                    inClass = 'm-page-rotateUnfoldRight';
-                    break;
-                case 52:
-                    outClass = 'm-page-moveToBottomFade';
-                    inClass = 'm-page-rotateUnfoldTop';
-                    break;
-                case 53:
-                    outClass = 'm-page-moveToTopFade';
-                    inClass = 'm-page-rotateUnfoldBottom';
-                    break;
-                case 54:
-                    outClass = 'm-page-rotateRoomLeftOut m-page-ontop';
-                    inClass = 'm-page-rotateRoomLeftIn';
-                    break;
-                case 55:
-                    outClass = 'm-page-rotateRoomRightOut m-page-ontop';
-                    inClass = 'm-page-rotateRoomRightIn';
-                    break;
-                case 56:
-                    outClass = 'm-page-rotateRoomTopOut m-page-ontop';
-                    inClass = 'm-page-rotateRoomTopIn';
-                    break;
-                case 57:
-                    outClass = 'm-page-rotateRoomBottomOut m-page-ontop';
-                    inClass = 'm-page-rotateRoomBottomIn';
-                    break;
-                case 58:
-                    outClass = 'm-page-rotateCubeLeftOut m-page-ontop';
-                    inClass = 'm-page-rotateCubeLeftIn';
-                    break;
-                case 59:
-                    outClass = 'm-page-rotateCubeRightOut m-page-ontop';
-                    inClass = 'm-page-rotateCubeRightIn';
-                    break;
-                case 60:
-                    outClass = 'm-page-rotateCubeTopOut m-page-ontop';
-                    inClass = 'm-page-rotateCubeTopIn';
-                    break;
-                case 61:
-                    outClass = 'm-page-rotateCubeBottomOut m-page-ontop';
-                    inClass = 'm-page-rotateCubeBottomIn';
-                    break;
-                case 62:
-                    outClass = 'm-page-rotateCarouselLeftOut m-page-ontop';
-                    inClass = 'm-page-rotateCarouselLeftIn';
-                    break;
-                case 63:
-                    outClass = 'm-page-rotateCarouselRightOut m-page-ontop';
-                    inClass = 'm-page-rotateCarouselRightIn';
-                    break;
-                case 64:
-                    outClass = 'm-page-rotateCarouselTopOut m-page-ontop';
-                    inClass = 'm-page-rotateCarouselTopIn';
-                    break;
-                case 65:
-                    outClass = 'm-page-rotateCarouselBottomOut m-page-ontop';
-                    inClass = 'm-page-rotateCarouselBottomIn';
-                    break;
-                case 66:
-                    outClass = 'm-page-rotateSidesOut';
-                    inClass = 'm-page-rotateSidesIn m-page-delay200';
-                    break;
-                case 67:
-                    outClass = 'm-page-rotateSlideOut';
-                    inClass = 'm-page-rotateSlideIn';
-                    break;
-            }
+            var transitionClasses = options.transition.split('|');
+            var outClass = transitionClasses[0];
+            var inClass = transitionClasses[1];
 
             var that = this;
 
@@ -381,10 +169,9 @@
             inpage.attr('class', inpage.data('originalClassList') + ' m-page-current');
         },
 
-        startTransition: function(){
-            this.switchToNextPage();
+        startTransition: function(options){
+            this.nextPage(options);
         }
-
     });
 
 })(this);

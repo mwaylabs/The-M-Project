@@ -57,7 +57,7 @@ M.SwitchLayout = M.Layout.extend({
         M.Layout.prototype._postRender.apply(this, arguments);
     },
 
-    startTransition: function(){
-        M.PageTransitions.startTransition();
+    startTransition: function(options){
+        M.PageTransitions.startTransition(options);
     }
 })
