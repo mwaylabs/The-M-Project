@@ -74,53 +74,52 @@
         SIDES: 'm-page-rotateSidesOut|m-page-rotateSidesIn m-page-delay200',
         SLIDE: 'm-page-rotateSlideOut|m-page-rotateSlideIn',
 
-        main: null,
-        iterate: null,
-        pages: null,
-        pagesCount: 0,
-        current: 0,
-        isAnimating: false,
-        endCurrPage: false,
-        endNextPage: false,
-        animEndEventNames: {
+        _main: null,
+        _iterate: null,
+        _pages: null,
+        _pagesCount: 0,
+        _current: 0,
+        _isAnimating: false,
+        _endCurrPage: false,
+        _endNextPage: false,
+        _support: Modernizr.cssanimations,
+        _animEndEventNames: {
             'WebkitAnimation': 'webkitAnimationEnd',
             'OAnimation': 'oAnimationEnd',
             'msAnimation': 'MSAnimationEnd',
             'animation': 'animationend'
         },
 
-        support: Modernizr.cssanimations,
-
         init: function(main) {
-            this.animEndEventName = this.animEndEventNames[ Modernizr.prefixed('animation') ];
-            this.main = main ? main.find('#m-main') : $('#m-main');
-            this.pages = this.main.children('div.m-page');
-            this.pagesCount = this.pages.length;
+            this._animEndEventName = this._animEndEventNames[ Modernizr.prefixed('animation') ];
+            this._main = main ? main.find('#m-main') : $('#m-main');
+            this._pages = this._main.children('div.m-page');
+            this._pagesCount = this._pages.length;
 
-            this.pages.each(function() {
+            this._pages.each(function() {
                 var page = $(this);
                 page.data('originalClassList', page.attr('class'));
             });
 
-            this.pages.eq(this.current).addClass('m-page-current');
+            this._pages.eq(this._current).addClass('m-page-current');
         },
 
-        nextPage: function(options) {
-            if( this.isAnimating ) {
+        startTransition: function(options) {
+            if( this._isAnimating ) {
                 return false;
             }
 
-            this.isAnimating = true;
+            this._isAnimating = true;
 
-            var currPage = this.pages.eq(this.current);
+            var currPage = this._pages.eq(this._current);
 
-            if( this.current < this.pagesCount - 1 ) {
-                this.current += 1;
+            if( this._current < this._pagesCount - 1 ) {
+                this._current += 1;
             } else {
-                this.current = 0;
+                this._current = 0;
             }
 
-            var nextPage = this.pages.eq(this.current).addClass('m-page-current');
+            var nextPage = this._pages.eq(this._current).addClass('m-page-current');
 
             var transitionClasses = options.transition.split('|');
             var outClass = transitionClasses[0];
@@ -128,49 +127,45 @@
 
             var that = this;
 
-            $(currPage[0]).on(that.animEndEventName, function() {
-                currPage.off(that.animEndEventName);
-                that.endCurrPage = true;
-                if( that.endNextPage ) {
-                    that.onEndAnimation(currPage, nextPage);
+            $(currPage[0]).on(that._animEndEventName, function() {
+                currPage.off(that._animEndEventName);
+                that._endCurrPage = true;
+                if( that._endNextPage ) {
+                    that._onEndAnimation(currPage, nextPage);
                 }
             });
             currPage.addClass(outClass);
 
-            $(nextPage[0]).on(that.animEndEventName, function() {
-                nextPage.off(that.animEndEventName);
-                that.endNextPage = true;
-                if( that.endCurrPage ) {
-                    that.onEndAnimation(currPage, nextPage);
+            $(nextPage[0]).on(that._animEndEventName, function() {
+                nextPage.off(that._animEndEventName);
+                that._endNextPage = true;
+                if( that._endCurrPage ) {
+                    that._onEndAnimation(currPage, nextPage);
                 }
             });
             nextPage.addClass(inClass);
 
 
-            $(document).on(this.animEndEventName, function( ev ) {
-                that.onEndAnimation(currPage, nextPage);
+            $(document).on(this._animEndEventName, function( ev ) {
+                that._onEndAnimation(currPage, nextPage);
             });
 
-            if( !this.support ) {
-                this.onEndAnimation(currPage, nextPage);
+            if( !this._support ) {
+                this._onEndAnimation(currPage, nextPage);
             }
         },
 
-        onEndAnimation: function(outpage, inpage){
-            this.endCurrPage = false;
-            this.endNextPage = false;
+        _onEndAnimation: function(outpage, inpage){
+            this._endCurrPage = false;
+            this._endNextPage = false;
 
-            this.resetPage(outpage, inpage);
-            this.isAnimating = false;
+            this._resetPage(outpage, inpage);
+            this._isAnimating = false;
         },
 
-        resetPage: function(outpage, inpage){
+        _resetPage: function(outpage, inpage){
             outpage.attr('class', outpage.data('originalClassList'));
             inpage.attr('class', inpage.data('originalClassList') + ' m-page-current');
-        },
-
-        startTransition: function(options){
-            this.nextPage(options);
         }
     });
 

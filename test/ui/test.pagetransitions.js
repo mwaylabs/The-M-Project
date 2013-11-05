@@ -211,4 +211,38 @@ describe('M.PageTransitions', function () {
         assert.equal(M.PageTransitions.SLIDE, 'm-page-rotateSlideOut|m-page-rotateSlideIn');
     });
 
+    it('properties', function () {
+        assert.isDefined(M.PageTransitions._main);
+        assert.isDefined(M.PageTransitions._pages);
+        assert.isDefined(M.PageTransitions._pagesCount);
+        assert.isDefined(M.PageTransitions._current);
+        assert.isDefined(M.PageTransitions._isAnimating);
+        assert.isDefined(M.PageTransitions._endCurrPage);
+        assert.isDefined(M.PageTransitions._endNextPage);
+        assert.isDefined(M.PageTransitions._support);
+        assert.isDefined(M.PageTransitions._animEndEventNames);
+
+        assert.isNull(M.PageTransitions._main);
+        assert.isNull(M.PageTransitions._pages);
+        assert.isNumber(M.PageTransitions._pagesCount);
+        assert.isNumber(M.PageTransitions._current);
+        assert.isBoolean(M.PageTransitions._isAnimating);
+        assert.isBoolean(M.PageTransitions._endCurrPage);
+        assert.isBoolean(M.PageTransitions._endNextPage);
+        assert.isBoolean(M.PageTransitions._support);
+        assert.isObject(M.PageTransitions._animEndEventNames);
+    });
+
+    it('methods', function () {
+        assert.isDefined(M.PageTransitions.init);
+        assert.isDefined(M.PageTransitions.startTransition);
+        assert.isDefined(M.PageTransitions._onEndAnimation);
+        assert.isDefined(M.PageTransitions._resetPage);
+
+        assert.isFunction(M.PageTransitions.init);
+        assert.isFunction(M.PageTransitions.startTransition);
+        assert.isFunction(M.PageTransitions._onEndAnimation);
+        assert.isFunction(M.PageTransitions._resetPage);
+    });
+
 });
