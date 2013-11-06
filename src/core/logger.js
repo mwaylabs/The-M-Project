@@ -17,7 +17,7 @@
  *
  * @extends M.Object
  */
-M.Logger = M.Object.extend(/** @scope M.Logger.prototype */ {
+M.Logger = M.Object.design123(/** @scope M.Logger.prototype */ {
 
     /**
      * Specifies which tags are displayed in the console.

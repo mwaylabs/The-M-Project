@@ -1,4 +1,4 @@
-M.TemplateManager = M.Object.extend({
+M.TemplateManager = M.Object.design123({
 
     "M.View": {
         defaultTemplate: '<div><%= _value_ %></div>'

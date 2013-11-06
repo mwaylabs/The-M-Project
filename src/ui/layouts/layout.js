@@ -14,7 +14,7 @@
  * @extends M.View
  */
 
-M.Themes = M.Object.extend({
+M.Themes = M.Object.design123({
     DEFAULT_THEME: 'basic',
 
     basic: {},

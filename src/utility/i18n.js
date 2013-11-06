@@ -5,7 +5,7 @@
  * The M-Project. It is used to set and get the application's language and to
  * localize any string within an application.
  */
-M.I18N = _.extend(Backbone.Events, M.Object.extend({
+M.I18N = _.extend(Backbone.Events, M.Object.design123({
 
     /**
      * The type of this object.

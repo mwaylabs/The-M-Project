@@ -17,7 +17,7 @@
  *
  * @extends M.Object
  */
-M.Cypher = M.Object.extend(/** @scope M.Cypher.prototype */ {
+M.Cypher = M.Object.design123(/** @scope M.Cypher.prototype */ {
 
         /**
          * The type of this object.

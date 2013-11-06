@@ -9,7 +9,7 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-M.SqlSelector = M.DataSelector.extend({
+M.SqlSelector = M.DataSelector.design123({
 
     _type: 'M.SqlSelector',
 

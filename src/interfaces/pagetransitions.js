@@ -4,7 +4,7 @@
 
 (function( scope ) {
 
-    M.PageTransitions = M.Object.extend({
+    M.PageTransitions = M.Object.design123({
 
         NONE : 'none',
         MOVE_TO_LEFT_FROM_RIGHT : 'm-page-moveToLeft|m-page-moveFromRight',

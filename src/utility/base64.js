@@ -18,7 +18,7 @@
  *
  * @extends M.Object
  */
-M.Base64 = M.Object.extend(/** @scope M.Base64.prototype */ {
+M.Base64 = M.Object.design123(/** @scope M.Base64.prototype */ {
 
         /**
          * The type of this object.

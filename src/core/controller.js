@@ -3,9 +3,16 @@
 //    this.initialize(arguments[0]);
 //};
 
-M.Controller = Backbone.View.extend(M.Object);
+M.Controller = function (options) {
+    this.options = options || {};
+    if (_.isFunction(this.initialize)) {
+        this.initialize(this.options);
+    }
+};
 
+M.Controller.extend = Backbone.Model.extend;
 M.Controller.create = M.create;
+M.Controller.design = M.design;
 
 _.extend(M.Controller.prototype, Backbone.Events, {
 

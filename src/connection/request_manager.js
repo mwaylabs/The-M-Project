@@ -13,7 +13,7 @@
  * @class
  * @extends M.Object
  */
-M.RequestManager = M.Object.extend(/** @scope M.RequestManager.prototype */{
+M.RequestManager = M.Object.design123(/** @scope M.RequestManager.prototype */{
 
     /**
      * The type of this object.
