@@ -3,7 +3,6 @@
 // @include ./core/const.js
 // @include ./core/object.js
 // @include ./core/logger.js
-// @include ./core/view_manager.js
 // @include ./core/controller.js
 // @include ./core/application.js
 // @include ./core/router.js
