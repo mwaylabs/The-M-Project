@@ -5,7 +5,7 @@ M.BackgroundImageView = M.View.extend({
 
 M.ClearView = M.View.extend({
     _type: 'M.ClearView',
-    template: '<div><p><%= _value_ %></p><div data-childviews="children"></div><div class="clear"></div></div>'
+    template: '<div><h3><%= _value_ %></h3><div data-childviews="children"></div><div class="clear"></div></div>'
 });
 
 M.FooterView = M.View.extend({
@@ -25,6 +25,8 @@ M.AnkerView = M.View.extend({
     }
 });
 
+
+/* TWITTER thanks to bchanx from http://www.bchanx.com/logos-in-pure-css-demo */
 M.TwitterView = M.View.extend({
     _type: 'M.TwitterView',
     template: '<div class="logo-twitter-small"> <div class="body"></div> <div class="body-none"></div> <div class="beak-bottom"></div> <div class="beak-bottom-none"></div> <div class="wing-bottom"></div> <div class="wing-bottom-none"></div> <div class="wing-middle"></div> <div class="wing-middle-none"></div> <div class="wing-top"></div> <div class="wing-top-none"></div> <div class="beak-top"></div> <div class="beak-top-none"></div> <div class="head"></div> </div>'

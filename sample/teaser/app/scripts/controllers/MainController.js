@@ -7,7 +7,7 @@
         content: null,
 
         client: M.Model.create({
-            mail: 'e@mail.com'
+            mail: 'E-Mail'
         }),
 
         applicationStart: function() {
@@ -22,10 +22,6 @@
 
                 cssClass: 'button-container'
             }, {
-
-//                intro: M.ButtonView.extend({
-//                    value: M.I18NItem.create('global.intro')
-//                }),
 
                 whatsnew: M.ButtonView.extend({
                     value: M.I18NItem.create('global.whats_new'),
@@ -64,7 +60,16 @@
 
         signUp: function( event, element ) {
             if( this.validateEmail(this.client.get('mail')) ) {
-                M.Toast.show(M.I18N.l('global.thanks_for_signup') + ' ' + this.client.get('mail'));
+                var that = this;
+                $.ajax('http://www.the-m-project.org/signup.php?mail=' + this.client.get('mail'), {
+                    success: function() {
+                        M.Toast.show(M.I18N.l('global.thanks_for_signup') + ' ' + that.client.get('mail'));
+                    },
+                    error: function() {
+                        M.Toast.show(M.I18N.l('global.thanks_for_signup') + ' ' + that.client.get('mail'));
+                    }
+                });
+
             } else {
                 M.Toast.show(M.I18N.l('global.not_valid'));
             }

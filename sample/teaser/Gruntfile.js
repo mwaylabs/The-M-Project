@@ -369,10 +369,8 @@ module.exports = function (grunt) {
         'htmlmin',
         'concat',
         'cssmin',
-        'uglify',
         'copy',
-        'rev',
-        'usemin'
+        'rev'
     ]);
 
     grunt.registerTask('default', [

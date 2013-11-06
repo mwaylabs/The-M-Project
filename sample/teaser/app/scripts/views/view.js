@@ -6,7 +6,7 @@ Teaser.Views = Teaser.Views || {};
     'use strict';
 
     Teaser.Views.ApplicationView = M.View.extend({
-        //        template: '<div><div data-childviews="toolbar"></div><div data-childviews="header"></div><div data-childviews="content"></div></div>',
+
     }, {
 
         header: M.View.extend({
@@ -91,17 +91,17 @@ Teaser.Views = Teaser.Views || {};
                 value: M.I18NItem.create('global.create')
             }),
 
-            intro: M.LeftTextRightImage.extend({
-                headline: M.I18NItem.create('global.intro_tmp2'),
-                text: 'asldkfgnkladmsfkj alksdjfkljasdflkj',
-                image: 'ressources/screensimg@2x.png'
-            }),
-
             v2: M.LeftImageRightText.extend({
                 headline: M.I18NItem.create('global.v2'),
-                text: 'asldkfgnkladmsfkj alksdjfkljasdflkj',
+                text: M.I18NItem.create('global.v2text'),
                 image: 'ressources/v2absinthimg@2x.png'
             }, null, true),
+
+            intro: M.LeftTextRightImage.extend({
+                headline: M.I18NItem.create('global.intro_tmp2'),
+                text: M.I18NItem.create('global.intro_tmp2_text'),
+                image: 'ressources/screensimg@2x.png'
+            }),
 
             //                        newUIFramework: M.View.extend({
             //                            tagName: 'h2',
@@ -112,25 +112,20 @@ Teaser.Views = Teaser.Views || {};
             //                            value: M.I18NItem.create('global.newUIFrameworkText')
             //                        }),
 
-            businessdata: M.LeftTextRightImage.extend({
+            businessdata: M.LeftImageRightText.extend({
                 headline: M.I18NItem.create('global.businessdata'),
-                text: 'asldkfgnkladmsfkj alksdjfkljasdflkj',
+                text: M.I18NItem.create('global.bd_text'),
                 image: 'ressources/bikiniimg@2x.png'
-            }),
+            })
 
-            //            roadmap: M.View.extend({
-            //                value: M.I18NItem.create('global.roadmap')
-            //            }),
 
-            //            togo: M.View.extend({
-            //                tagName: 'h2',
-            //                value: M.I18NItem.create('global.togo')
-            //            }),
+        }),
 
-            //            togoText: M.View.extend({
-            //                value: M.I18NItem.create('global.togoText')
-            //            }),
+        logosContainer: M.View.extend({
 
+            cssClass:'content-banner logos'
+
+        },{
             tmp_coming_soon: M.View.extend({
 
                 tagName: 'h2',
@@ -138,21 +133,63 @@ Teaser.Views = Teaser.Views || {};
                 value: M.I18NItem.create('global.tmp_coming_soon')
             }),
 
-            logos: M.ClearView.extend({
+            logosWebTechnologie: M.ClearView.extend({
+
                 cssClass: 'logos',
 
-                value: M.I18NItem.create('global.logos')
+                value: M.I18NItem.create('global.logosWebTechnologie')
 
             }, {
 
                 children: M.View.extend({}, {
-                    backbone: M.BackgroundImageView.extend({
-                        value: 'stack'
-                    }),
 
                     html: M.BackgroundImageView.extend({
                         value: 'html5'
                     }),
+
+                    javascript: M.BackgroundImageView.extend({
+                        value: 'javascript'
+                    }),
+
+                    css3: M.BackgroundImageView.extend({
+                        value: 'css3'
+                    })
+                })
+
+            }),
+
+            logosTechnologie: M.ClearView.extend({
+                cssClass: 'logos',
+
+                value: M.I18NItem.create('global.logosTechnologie')
+
+            }, {
+
+                children: M.View.extend({}, {
+
+                    bikini: M.BackgroundImageView.extend({
+                        value: 'bikini'
+                    }),
+
+                    backbone: M.BackgroundImageView.extend({
+                        value: 'stack'
+                    }),
+
+                    jquerymobile: M.BackgroundImageView.extend({
+                        value: 'jquerymobile'
+                    })
+                })
+
+            }),
+
+            logosToolchain: M.ClearView.extend({
+                cssClass: 'logos',
+
+                value: M.I18NItem.create('global.logosToolchain')
+
+            }, {
+
+                children: M.View.extend({}, {
 
                     grunt: M.BackgroundImageView.extend({
                         value: 'grunt'
@@ -164,10 +201,22 @@ Teaser.Views = Teaser.Views || {};
 
                     yeoman: M.BackgroundImageView.extend({
                         value: 'yeoman'
-                    }),
+                    })
+                })
 
-                    jquerymobile: M.BackgroundImageView.extend({
-                        value: 'jquerymobile'
+            }),
+
+            logosTools: M.ClearView.extend({
+                cssClass: 'logos',
+
+                value: M.I18NItem.create('global.logosTools')
+
+            }, {
+
+                children: M.View.extend({}, {
+
+                    opensource: M.BackgroundImageView.extend({
+                        value: 'opensource'
                     }),
 
                     github: M.BackgroundImageView.extend({
@@ -180,7 +229,6 @@ Teaser.Views = Teaser.Views || {};
                 })
 
             })
-
         }),
 
         contentBanner: M.View.extend({
@@ -213,10 +261,12 @@ Teaser.Views = Teaser.Views || {};
             }),
             "footer-center": M.View.extend({}, {
                 google: M.View.extend({
-                    cssClass: 'google'
+                    cssClass: 'google',
+                    extendTemplate: '<a href="https://groups.google.com/forum/#!forum/themproject"><%= _value_ %></a>'
                 }),
                 twitter: M.View.extend({
-                    cssClass: 'twitter'
+                    cssClass: 'twitter',
+                    extendTemplate: '<a href="https://twitter.com/_themproject"><%= _value_ %></a>'
                 }),
                 copyright: M.View.extend({
                     value: M.I18NItem.create('global.copyright')

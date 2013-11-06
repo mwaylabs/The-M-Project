@@ -1,4 +1,3 @@
-/*global Addressbook, Backbone*/
 Teaser.Routers = Teaser.Routers || {};
 Teaser.Controllers = Teaser.Controllers || {};
 
