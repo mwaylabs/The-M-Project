@@ -18,14 +18,14 @@
 //
 // ===========================================================================
 
-M.DataSelector = M.Object.design123({
+M.DataSelector = M.Object.design({
 
     _type: 'M.DataSelector',
 
     _selector: null,
 
     create: function( docSelector ) {
-        var selector = this.design123({
+        var selector = this.design({
             _selector: null
         });
         selector.init(docSelector);

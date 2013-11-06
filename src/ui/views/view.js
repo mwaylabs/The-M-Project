@@ -7,6 +7,21 @@
      * @type {*}
      */
     M.View = Backbone.View.extend({
+        constructor: function (options) {
+            this.cid = _.uniqueId('view');
+            options || (options = {});
+            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey'];
+            _.extend(this, _.pick(options, viewOptions));
+            this._ensureElement();
+            this.initialize.apply(this, arguments);
+            this.delegateEvents();
+        }
+    });
+
+    M.View.create = M.create;
+    M.View.design = M.design;
+
+    _.extend(M.View.prototype, M.Object, {
 
         /**
          * The View type
@@ -99,15 +114,6 @@
          * Constructor
          * @returns {*}
          */
-        constructor: function( options ) {
-            this.cid = _.uniqueId('view');
-            options || (options = {});
-            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey'];
-            _.extend(this, _.pick(options, viewOptions));
-            this._ensureElement();
-            this.initialize.apply(this, arguments);
-            this.delegateEvents();
-        },
 
         initialize: function( options ) {
 

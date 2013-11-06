@@ -13,7 +13,7 @@
  * @class
  * @extends M.Object
  */
-M.Interface = M.Object.design123(/** @scope M.Interface.prototype */{
+M.Interface = M.Object.design(/** @scope M.Interface.prototype */{
 
     /**
      * The type of this object.

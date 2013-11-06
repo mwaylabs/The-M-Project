@@ -72,7 +72,7 @@ M.Object = {
      *
      * @param {Object} properties The properties to be included into the given object.
      */
-    design123: function( properties ) {
+    design: function( properties ) {
         /* create the new object */
         // var obj = M.Object._create(this);
         var obj = this._create(this);

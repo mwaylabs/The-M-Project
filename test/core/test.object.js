@@ -18,7 +18,7 @@ describe('M.Object', function () {
     it('methods', function () {
         assert.isDefined(M.Object._create);
         assert.isDefined(M.Object.include);
-        assert.isDefined(M.Object.design123);
+        assert.isDefined(M.Object.design);
         assert.isDefined(M.Object.implement);
         assert.isDefined(M.Object.hasInterfaceImplementation);
         assert.isDefined(M.Object._create);
@@ -30,7 +30,7 @@ describe('M.Object', function () {
 
         assert.isFunction(M.Object._create);
         assert.isFunction(M.Object.include);
-        assert.isFunction(M.Object.design123);
+        assert.isFunction(M.Object.design);
         assert.isFunction(M.Object.implement);
         assert.isFunction(M.Object.hasInterfaceImplementation);
         assert.isFunction(M.Object.bindToCaller);

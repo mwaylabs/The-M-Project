@@ -18,7 +18,7 @@
  *
  * @extends M.Object
  */
-M.SHA256 = M.Object.design123(/** @scope M.SHA256.prototype */ {
+M.SHA256 = M.Object.design(/** @scope M.SHA256.prototype */ {
 
         /**
          * The type of this object.
