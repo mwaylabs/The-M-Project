@@ -25,6 +25,25 @@ describe('M.Collection', function() {
         age: 26
     }];
 
+    it('basic', function () {
+        assert.isDefined(M.Collection);
+        assert.isDefined(M.Collection.design);
+        assert.isDefined(M.Collection.create);
+        assert.isDefined(M.Collection.extend);
+
+        assert.isFunction(M.Collection);
+        assert.isFunction(M.Collection.design);
+        assert.isFunction(M.Collection.create);
+        assert.isFunction(M.Collection.extend);
+
+        var instance = M.Collection.create();
+        assert.isDefined(instance);
+        assert.isObject(instance);
+        assert.isDefined(instance._type);
+        assert.isString(instance._type);
+        assert.equal(instance._type, 'M.Collection');
+    });
+
     it('creating collection', function() {
 
         assert.typeOf(M.Collection, 'function', 'M.Collection is defined');

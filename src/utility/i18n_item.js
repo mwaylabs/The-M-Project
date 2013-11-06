@@ -1,4 +1,4 @@
-M.I18NItem = M.Object.extend({
+M.I18NItem = M.Object.design({
 
     /**
      * The type of this object.

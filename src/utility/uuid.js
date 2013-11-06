@@ -13,7 +13,7 @@
 
 // m_require('core/foundation/object.js');
 
-M.UniqueId = M.Object.extend({
+M.UniqueId = M.Object.design({
     uuid: function(len, radix) {
         // based on Robert Kieffer's randomUUID.js at http://www.broofa.com
         var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');

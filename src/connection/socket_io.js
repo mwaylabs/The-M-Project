@@ -13,7 +13,7 @@
  * @class
  * @extends M.Object
  */
-M.SocketIO = M.Object.extend(/** @scope M.SocketIO.prototype */{
+M.SocketIO = M.Object.design(/** @scope M.SocketIO.prototype */{
 
     /**
      * The type of this object.

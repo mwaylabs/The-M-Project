@@ -13,6 +13,6 @@
         "grunt-contrib-watch": "~0.5.3",
         "grunt-contrib-compass": "~0.6.0",
         "grunt-mocha": "~0.4.1",
-        "faketouches": "~0.0.2"
+        "faketouches": "~0.0.4"
     }
 }

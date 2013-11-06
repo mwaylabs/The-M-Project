@@ -1,6 +1,12 @@
 (function(scope){
 
-    M.Router = Backbone.Router.extend({
+    M.Router = Backbone.Router.extend();
+    M.Router.create = M.create;
+    M.Router.design = M.design;
+
+    _.extend(M.Router.prototype, M.Object, {
+
+        _type: 'M.Router',
 
         visitedRoutes: {},
 
@@ -95,8 +101,5 @@
         }
 
     });
-
-    M.Router.create = M.create;
-
 
 })(this)

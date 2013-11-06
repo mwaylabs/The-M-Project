@@ -2,6 +2,24 @@ describe('M.Model', function() {
 
     var TEST = {};
 
+    it('basic', function () {
+        assert.isDefined(M.Model);
+        assert.isDefined(M.Model.design);
+        assert.isDefined(M.Model.create);
+        assert.isDefined(M.Model.extend);
+
+        assert.isFunction(M.Model.design);
+        assert.isFunction(M.Model.create);
+        assert.isFunction(M.Model.extend);
+
+        var instance = M.Model.create();
+        assert.isDefined(instance);
+        assert.isObject(instance);
+        assert.isDefined(instance._type);
+        assert.isString(instance._type);
+        assert.equal(instance._type, 'M.Model');
+    });
+
     it ('creating model', function() {
         
         assert.typeOf(M.Model, 'function', 'M.Model is defined.');

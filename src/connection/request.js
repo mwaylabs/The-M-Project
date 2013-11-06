@@ -13,7 +13,7 @@
  * @class
  * @extends M.Object
  */
-M.Request = M.Object.extend(/** @scope M.Request.prototype */{
+M.Request = M.Object.design(/** @scope M.Request.prototype */{
 
     /**
      * The type of this object.

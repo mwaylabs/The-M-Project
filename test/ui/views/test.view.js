@@ -1,12 +1,23 @@
 describe('M.View', function () {
 
-    it('M.View general', function () {
-
-        // Basic
+    it('basic', function () {
         assert.isDefined(M.View);
-        assert.isFunction(M.View);
-        assert.isTrue(Backbone.View.prototype.isPrototypeOf(M.View.create()));
+        assert.isDefined(M.View.design);
+        assert.isDefined(M.View.create);
+        assert.isDefined(M.View.extend);
 
+        assert.isFunction(M.View);
+        assert.isFunction(M.View.design);
+        assert.isFunction(M.View.create);
+        assert.isFunction(M.View.extend);
+
+        var instance = M.View.create();
+        assert.isDefined(instance);
+        assert.isObject(instance);
+        assert.isDefined(instance._type);
+        assert.isString(instance._type);
+        assert.equal(instance._type, 'M.View');
+        assert.isTrue(Backbone.View.prototype.isPrototypeOf(M.View.create()));
     });
 
     it('M.View.extend', function () {

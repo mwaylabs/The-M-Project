@@ -31,14 +31,6 @@ M.Object = {
     _type: 'M.Object',
 
     /**
-     * This property is used internally in combination with the callFromSuper method.
-     *
-     * @private
-     * @type Object
-     */
-    _lastThis: null,
-
-    /**
      * This property contains an array of interfaces the object implements. This
      * is used internally for initializing the object properly.
      *
@@ -80,7 +72,7 @@ M.Object = {
      *
      * @param {Object} properties The properties to be included into the given object.
      */
-    extend: function( properties ) {
+    design: function( properties ) {
         /* create the new object */
         // var obj = M.Object._create(this);
         var obj = this._create(this);
@@ -208,77 +200,6 @@ M.Object = {
             }
         }
     },
-
-    /**
-     * This method returns the prototype implementation of a certain function but binds
-     * it to the 'this' pointer.
-     *
-     * @param functionName
-     * @param {Array} params
-     * @return {Function} The context bound function.
-     */
-    callFromSuper: function( functionName, params ) {
-        var bind = Object.getPrototypeOf(this);
-        if( M.Object._lastThis === this ) {
-            bind = Object.getPrototypeOf(bind);
-        } else {
-            M.Object._lastThis = this;
-        }
-        return this.bindToCaller(this, bind[functionName], _.isArray(params) ? params : [params])();
-    },
-
-    /**
-     * Define hidden property
-     * @param {String} name
-     * @param {Mixed} value
-     */
-    defineHiddenProperty: function( name, value ) {
-        this.defineProperty(name, value, {
-            writable: YES,
-            enumerable: NO,
-            configurable: YES
-        });
-    },
-
-    /**
-     * Define readonly property on object
-     *
-     * @param {String} name
-     * @param {Mixed} value
-     */
-    defineReadonlyProperty: function( name, value ) {
-        this.defineProperty(name, value, {
-            writable: NO,
-            enumerable: YES,
-            configurable: YES
-        });
-    },
-
-    /**
-     * Define new property on object and set hidden/readonly flags.
-     *
-     * @param {String} name
-     * @param {Mixed} value
-     * @param {Object} config
-     */
-    defineProperty: function( name, value, config ) {
-        config = config || {};
-        Object.defineProperty(this, name, {
-            writable: !!config.writable,
-            enumerable: !!config.enumerable,
-            configurable: !!config.configurable,
-            value: value
-        });
-    },
-
-    /**
-     * Returns an array of keys of the objects public own properties.
-     *
-     * @return {Array}
-     */
-//    keys: function() {
-//        return Object.keys(this);
-//    },
 
     /**
      * Returns the type of the object.
