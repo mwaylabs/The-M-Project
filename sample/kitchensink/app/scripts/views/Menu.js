@@ -14,8 +14,8 @@ Kitchensink.Views = Kitchensink.Views || {};
             headline: M.View.extend({
                 tagName: 'h2',
                 value: M.I18N.get('global.appName', {aka: 'Absinth'}),
-                events:{
-                    tap: function(){
+                events: {
+                    tap: function() {
                         console.log('tap');
                     }
                 }
@@ -56,7 +56,7 @@ Kitchensink.Views = Kitchensink.Views || {};
                     rotate: 'eventDidHappen',
                     pinch: 'eventDidHappen',
                     touch: 'eventDidHappen'
-//                    release: 'eventDidHappen'
+                    //                    release: 'eventDidHappen'
                 }
             }),
 
@@ -77,7 +77,7 @@ Kitchensink.Views = Kitchensink.Views || {};
                 value: M.I18N.get('global.switchLanguage'),
                 events: {
                     tap: function() {
-                        if(M.I18N._activeLocale == 'de') {
+                        if( M.I18N._activeLocale == 'de' ) {
                             M.I18N.setLocale('en');
                         } else {
                             M.I18N.setLocale('de');
@@ -95,7 +95,7 @@ Kitchensink.Views = Kitchensink.Views || {};
 
             sliderExample: M.SliderView.extend({
                 events: {
-                    change: function(event, element){
+                    change: function( event, element ) {
                         console.log(element.$el);
                     }
                 }
@@ -108,30 +108,30 @@ Kitchensink.Views = Kitchensink.Views || {};
             }),
 
 
-//            toggleExample: M.ToggleView.extend({
-//
-//                value: 'ICH BIN DER VALUE',
-//                preRender: function(){
-//
-//                },
-//                postRender: function(){
-//                    console.log(this.$el, this.el);
-//
-//                }
-//
-//            },{
-//                first: M.ButtonView.extend({
-//                    value: 'btn1',
-//                    events:{
-//                        tap: function(event, element){
-//                            console.log(element);
-//                        }
-//                    }
-//                }),
-//                second: M.ButtonView.extend({
-//                    value: 'btn2'
-//                })
-//            }),
+            //            toggleExample: M.ToggleView.extend({
+            //
+            //                value: 'ICH BIN DER VALUE',
+            //                preRender: function(){
+            //
+            //                },
+            //                postRender: function(){
+            //                    console.log(this.$el, this.el);
+            //
+            //                }
+            //
+            //            },{
+            //                first: M.ButtonView.extend({
+            //                    value: 'btn1',
+            //                    events:{
+            //                        tap: function(event, element){
+            //                            console.log(element);
+            //                        }
+            //                    }
+            //                }),
+            //                second: M.ButtonView.extend({
+            //                    value: 'btn2'
+            //                })
+            //            }),
 
             imageExample: M.ImageView.extend({
                 value: 'http://www.bhmpics.com/thumbs/success_kid-t2.jpg',
@@ -143,7 +143,7 @@ Kitchensink.Views = Kitchensink.Views || {};
                         var that = this;
                         this.$el.hide();
 
-                        setTimeout(function(){
+                        setTimeout(function() {
                             that.$el.show();
                         }, 2000);
                     },
@@ -160,15 +160,15 @@ Kitchensink.Views = Kitchensink.Views || {};
 
             loadingExample: M.LoaderView.extend({
                 value: 'Loading ...',
-                preRender: function(){
+                preRender: function() {
                 },
-                postRender: function(){
+                postRender: function() {
                 }
             }),
 
             loaderButtonExample: M.ButtonView.extend({
                 value: 'Toggle LoaderView',
-                events:{
+                events: {
                     tap: function() {
                         //this.scope.menu.childViews.content.childViews.loadingExample.toggle();
                     }
@@ -179,15 +179,19 @@ Kitchensink.Views = Kitchensink.Views || {};
                 value: new M.Model({
                     'header': 'Header Text',
                     'message': 'Dialog Message',
-                    'cancel' : 'Abbrechen',
-                    'ok' : 'Ok'
+                    'cancel': 'Abbrechen',
+                    'ok': 'Ok'
                 })
             }),
 
             selectionlistExample: M.SelectionListView.extend({
                 scopeKey: 'selectionListModel.water',
                 selectOptions: {
-                    collection: [{id:1,name:'fountain'}, {id:2,name:'evian'}, {id:3,name:'dasina'}],
+                    collection: [
+                        {id: 1, name: 'fountain'},
+                        {id: 2, name: 'evian'},
+                        {id: 3, name: 'dasina'}
+                    ],
                     labelPath: 'name',
                     valuePath: 'name'
                 }
@@ -197,11 +201,44 @@ Kitchensink.Views = Kitchensink.Views || {};
             mulitpleSelectionListViewExample: M.MulitpleSelectionListView.extend({
                 scopeKey: 'multipleSelectionListModel.water',
                 selectOptions: {
-                    collection: [{id:1,name:'fountain'}, {id:2,name:'evian'}, {id:3,name:'dasina'}],
+                    collection: [
+                        {id: 1, name: 'fountain'},
+                        {id: 2, name: 'evian'},
+                        {id: 3, name: 'dasina'}
+                    ],
                     labelPath: 'name',
                     valuePath: 'name'
                 }
 
+            }),
+
+            birthday: M.View.extend({
+                value: 'Birthday:'
+            }),
+
+            egon: M.TextfieldView.extend({
+                scopeKey: 'person.birthday',
+                type:'date',
+                formater: function( value ) {
+                    var date= M.Date.create(parseInt(value)).format('MM/DD/YYYY');
+                                debugger;
+                    return date;
+                },
+                parser: function( value ) {
+                    console.log(value);
+                }
+            }),
+
+            egon2: M.TextfieldView.extend({
+                scopeKey: 'person',
+                template: '<input type="date" value="<%= birthday %" />',
+                formater: function( value ) {
+                    value.birthday = M.Date.create(value.birthday).format('MM/DD/YYYY');
+                    return value;
+                },
+                parser: function( value ) {
+                    console.log(value);
+                }
             })
         })
     });

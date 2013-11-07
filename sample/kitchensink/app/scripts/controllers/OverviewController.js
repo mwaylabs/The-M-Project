@@ -15,6 +15,11 @@
 
         _nextPage: '/',
 
+        person: M.Model.create({
+            name: 'egon',
+            birthday: '1383751054966'
+        }),
+
         consoleModel: M.Model.create({
             _value_: ''
         }),
@@ -62,6 +67,8 @@
          */
         applicationStart: function() {
             console.log('application start');
+
+            egon = this.person;
 
             //Init the collection
             this.tmpViews = new Kitchensink.Collections.TMPViewCollection(views);

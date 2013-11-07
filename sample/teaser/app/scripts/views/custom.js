@@ -17,9 +17,9 @@ M.AnkerView = M.View.extend({
     _type: 'M.AnkerView',
     template: '<div><a name="<%= anker %>"></a><div><%= _value_ %></div></div>',
 
-    _assignTemplateValues: function(){
+    _assignTemplateValues: function() {
         M.View.prototype._assignTemplateValues.apply(this, arguments);
-        if(this.anker){
+        if( this.anker ) {
             this._templateValues['anker'] = this.anker;
         }
     }
@@ -36,7 +36,22 @@ M.LeftRightView = M.View.extend({
 
     _type: 'M.LeftRightView',
 
-    template: '<div><div class="leftrightview-first"><div data-childviews="headline"></div><div data-childviews="text"></div></div><div class="leftrightview-second"><div data-childviews="image"></div></div></div>'
+    template: '<div><div class="leftrightview-first"><div data-childviews="headline"></div><div data-childviews="text"></div></div><div class="leftrightview-second"><div data-childviews="image"></div></div></div>',
+
+    postRender: function() {
+        var that = this;
+        setTimeout(function() {
+            try {
+                var height = that.$el.height() / 2;
+                var imageHeight = that.$el.find('img').height() / 2;
+                that.$el.find('img').css('margin-top', parseInt(height - imageHeight) + 'px');
+            } catch( e ) {
+
+            }
+
+        }, 20)
+
+    }
 
 }, {});
 
@@ -84,8 +99,6 @@ M.LeftTextRightImage = M.LeftRightView.extend({
     })
 
 });
-
-
 
 
 //M.Test = M.View.extend({}, {c1: M.View.extend()})
