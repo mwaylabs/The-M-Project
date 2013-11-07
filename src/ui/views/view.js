@@ -7,10 +7,10 @@
      * @type {*}
      */
     M.View = Backbone.View.extend({
-        constructor: function (options) {
+        constructor: function( options ) {
             this.cid = _.uniqueId('view');
             options || (options = {});
-            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey'];
+            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue'];
             _.extend(this, _.pick(options, viewOptions));
             this._ensureElement();
             this.initialize.apply(this, arguments);
@@ -55,6 +55,10 @@
 
         _hasI18NListener: NO,
 
+        formater: function( value ) {
+            return value;
+        },
+
 
         /**
          * external events for the users
@@ -90,6 +94,15 @@
             } else {
                 return this._value_;
             }
+        },
+
+        _getValue: function() {
+            return this._value_;
+        },
+
+        _setValue: function( value ) {
+
+            this._value_ = value;
         },
 
         getPropertyValue: function( propertyString, data ) {
@@ -134,27 +147,31 @@
             //don't write _value_ in the view definition - write value and here it gets assigned
 
             if( this.value ) {
-                this._value_ = this.value;
+                this._setValue(this.value);
             } else if( this.scopeKey ) {
-
-                this._value_ = this.getPropertyValue(this.scopeKey, this.scope);
+                this._setValue(this.getPropertyValue(this.scopeKey, this.scope));
             } else if( options && options.value ) {
-                this._value_ = options.value;
+                this._setValue(options.value);
             }
 
-            if( this._value_ && M.isModel(this._value_.model) ) {
-                this.model = this._value_.model;
-            } else if( this._value_ && M.isModel(this._value_) ) {
-                this.model = this._value_;
-            } else if( M.isCollection(this._value_) ) {
-                this.collection = this._value_;
-            } else if( M.isI18NItem(this._value_) ) {
+            var _value_ = this._getValue();
+            if( !_value_ ) {
+                return this;
+            }
+
+            if( M.isModel(_value_.model) ) {
+                this._setModel(_value_.model);
+            } else if( M.isModel(_value_) ) {
+                this._setModel(_value_);
+            } else if( M.isCollection(_value_) ) {
+                this.collection = _value_;
+            } else if( M.isI18NItem(_value_) ) {
                 M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
                     this.render();
                 }, this);
                 this._hasI18NListener = YES
-            } else if( _.isObject(this._value_) ) {
-                if( _.find(this._value_, function( val ) {
+            } else if( _.isObject(_value_) ) {
+                if( _.find(_value_, function( val ) {
                     return M.isI18NItem(val);
                 }, this) ) {
                     M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
@@ -166,29 +183,15 @@
             return this;
         },
 
-        _assignTemplateValues: function() {
-            this._templateValues = {};
-            if( this.model ) {
-                if( M.isModel(this._value_) ) {
-                    this._templateValues = this.model.attributes;
-                } else {
-
-                    this._templateValues['_value_'] = this.model.get(this._value_.attribute);
-                }
-            } else if( this._value_ ) {
-                this._templateValues['_value_'] = this._value_;
-            }
-        },
-
         _assignContentBinding: function() {
             var that = this;
-            if( this.scopeKey && M.isModel(this._value_) ) {
-
+            var _value_ = this._getValue();
+            if( this.scopeKey && M.isModel(_value_) ) {
                 this.listenTo(this.scope, this.scopeKey, function( model ) {
                     that._setModel(model);
                     that.render();
                 });
-            } else if( this.scopeKey && this._value_ && M.isModel(this._value_.model) && this._value_.attribute ) {
+            } else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
 
                 this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
                     //                    that._value_.model.set(that._value_.attribute, model.get(that._value_.attribute));
@@ -217,24 +220,24 @@
             }
         },
 
-        _addCustomEvents: function(){
-            if(!this._events){
+        _addCustomEvents: function() {
+            if( !this._events ) {
                 return;
             }
             var that = this;
             var customEvents = {
                 enter: {
                     'origin': 'keyup',
-                    'callback': function(event){
-                        if(event.keyCode === 13){
+                    'callback': function( event ) {
+                        if( event.keyCode === 13 ) {
                             that._events['enter'].apply(that.scope, arguments);
                         }
 
                     }
                 }
             };
-            for(var event in this._events){
-                if(customEvents.hasOwnProperty(event)){
+            for( var event in this._events ) {
+                if( customEvents.hasOwnProperty(event) ) {
                     this._events[customEvents[event].origin] = customEvents[event].callback
                 }
             }
@@ -299,7 +302,7 @@
                 } else if( _.isObject(template) ) {
                     this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']))
                 }
-            } else if(this._template){
+            } else if( this._template ) {
                 this.template = this._template;
             }
             return this;
@@ -307,20 +310,22 @@
 
         _assignTemplateValues: function() {
             this._templateValues = {};
+            var _value_ = this._getValue();
+
             if( this.model ) {
-                if( M.isModel(this._value_) ) {
-                    this._templateValues = this.model.attributes;
+                if( M.isModel(_value_) ) {
+                    this._templateValues = this.formater(this.model.attributes);
                 } else {
-                    this._templateValues['_value_'] = this.model.get(this._value_.attribute);
+                    this._templateValues['_value_'] = this.formater(this.model.get(_value_.attribute));
                 }
-            } else if( M.isI18NItem(this._value_) ) {
-                this._templateValues['_value_'] = M.I18N.l(this._value_.key, this._value_.placeholder);
-            } else if( typeof this._value_ === 'string' ) {
-                this._templateValues['_value_'] = this._value_;
-            } else if( this._value_ !== null && typeof this._value_ === 'object' && this._hasI18NListener === NO ) {
-                this._templateValues = this._value_;
-            } else if( this._hasI18NListener && _.isObject(this._value_) ) {
-                _.each(this._value_, function( value, key ) {
+            } else if( M.isI18NItem(_value_) ) {
+                this._templateValues['_value_'] = this.formater(M.I18N.l(_value_.key, _value_.placeholder));
+            } else if( typeof _value_ === 'string' ) {
+                this._templateValues['_value_'] = this.formater(_value_);
+            } else if( _value_ !== null && typeof _value_ === 'object' && this._hasI18NListener === NO ) {
+                this._templateValues = _value_;
+            } else if( this._hasI18NListener && _.isObject(_value_) ) {
+                _.each(_value_, function( value, key ) {
                     this._templateValues[key] = M.I18N.l(value.key, value.placeholder);
                 }, this);
             }
@@ -407,13 +412,15 @@
             var bindings = {};
             var data = this._templateValues;
 
-            if( this.model && !M.isModel(this._value_) ) {
+            var _value_ = this._getValue();
+
+            if( this.model && !M.isModel(_value_) ) {
                 var selector = '[data-binding="_value_"]';
-                bindings[selector] = {observe: '' + this._value_.attribute};
+                bindings[selector] = {observe: '' + _value_.attribute};
             } else if( this.collection ) {
                 var selector = '[data-binding="_value_"]';
                 bindings[selector] = {observe: "_value_"};
-            } else if( this.model && M.isModel(this._value_) ) {
+            } else if( this.model && M.isModel(_value_) ) {
                 _.each(this.model.attributes, function( value, key ) {
                     var selector = '[data-binding="' + key + '"]';
                     bindings[selector] = {observe: '' + key};
@@ -495,7 +502,7 @@
             f.childViews = {};
             _.each(f._childViews, function( childView, name ) {
                 var _scope = scope;
-                if( f.useAsScope === YES){
+                if( f.useAsScope === YES ) {
                     _scope = f;
 
                 }
