@@ -44,7 +44,7 @@ M.LeftRightView = M.View.extend({
             try {
                 var height = that.$el.height() / 2;
                 var imageHeight = that.$el.find('img').height() / 2;
-                that.$el.find('img').css('margin-top', parseInt(height - imageHeight) + 'px');
+                that.$el.find('img').css('margin-top', parseInt((height - imageHeight)/2) + 'px');
             } catch( e ) {
 
             }

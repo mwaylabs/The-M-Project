@@ -378,7 +378,7 @@ a {
     padding: 0;
     margin: 0 auto;
     margin-top: 0;
-    padding: 100px 0;
+    padding: 100px 20px;
 }
 
 .content-banner.logos h2{
@@ -522,6 +522,10 @@ a {
 
     .contact-form {
         width: 80%;
+    }
+
+    .content_page1_header .button-container{
+        text-align: center;
     }
 
     .contact-form .textfieldview {
