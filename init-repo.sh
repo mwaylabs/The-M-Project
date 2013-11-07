@@ -32,6 +32,9 @@ echo "Installing required bower packages ..."
 bower install
 
 
-echo "Installing git hooks ..."
-cp scripts/pre-commit .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
+# Don't need git hooks in travis-ci
+if [ -z "${TRAVIS}" ]; then
+    echo "Installing git hooks ..."
+    cp scripts/pre-commit .git/hooks/pre-commit
+    chmod +x .git/hooks/pre-commit
+fi
