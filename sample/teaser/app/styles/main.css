@@ -59,7 +59,7 @@ a {
     background: #32BBEB;
     height: 75px;
     width: 100%;
-    padding: 20px 0;
+    padding: 20px;
     min-width: 420px;
 }
 
@@ -103,6 +103,7 @@ a {
 .content-content {
     max-width: 1280px;
     min-width: 400px;
+    padding-left: 20px;
 }
 
 .content-header {
@@ -134,7 +135,7 @@ a {
 .content-header-content,
 .content-header-bg {
     text-align: center;
-    padding: 179px 0 0 0;
+    padding: 179px 20px 0 20px;
     position: relative;
     margin: 0 0 0px 0;
     overflow: hidden;
@@ -153,8 +154,8 @@ a {
     height: 50px;
     overflow: hidden;
     color: #ffffff;
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 14px;
+    line-height: 18px;
     position: absolute;
     left: 50%;
     margin-left: -40px;
@@ -327,8 +328,8 @@ a {
     background-image: url('../ressources/yeoman@2x.png');
 }
 
-.jquerymobile {
-    background-image: url('../ressources/jquery@2x.png');
+.phonegap {
+    background-image: url('../ressources/phonegap@2x.png');
 }
 
 .javascript {
@@ -377,7 +378,7 @@ a {
     padding: 0;
     margin: 0 auto;
     margin-top: 0;
-    padding: 100px 0;
+    padding: 100px 20px;
 }
 
 .content-banner.logos h2{
@@ -397,6 +398,10 @@ a {
     margin-top: 20px;
     padding-bottom: 44px;
     overflow: hidden;
+}
+
+.footerview a{
+    color: #000000;
 }
 
 .footer-left {
@@ -454,16 +459,18 @@ a {
 .contact-form {
     margin: 0 auto;
     background-color: rgba(255, 255, 255, 0.7);
-    width: 80%;
+    width: 900px;
     overflow: hidden;
-    padding: 7px 0 1px 0;
+    padding: 7px 14px 7px 14px;
 }
 
 .contact-form .textfieldview {
-    width: 80%;
+    width: 717px;
     overflow: hidden;
     display: block;
     float: left;
+    text-align: left;
+    padding: 8px 8px 0 0;
 }
 
 .contact-form .textfieldview label {
@@ -471,22 +478,25 @@ a {
     width: 100%;
     font-size: 20px;
     font-weight: normal;
+    padding:0;
+    margin: 0;
 }
 
 .contact-form .textfieldview label input {
     display: inline-block;
     width: 50%;
-    margin-left: 20px;
+    padding: 0;
+    margin: -7px 0 0 0;
     border: none;
     height: 42px;
     line-height: 40px;
     font-size: 18px;
-
+    float: right;
 }
 
 .contact-form .buttonview {
-    width: 20%;
-    float: left;
+    width: 155px;
+    float: right;
     display: block;
 }
 
@@ -503,19 +513,31 @@ a {
     clear: both;
 }
 
+
 @media (max-width: 820px) {
 
+    .content-header-content{
+        padding: 74px 20px 0 20px;
+    }
+
     .contact-form {
+        width: 80%;
+    }
+
+    .content_page1_header .button-container{
+        text-align: center;
     }
 
     .contact-form .textfieldview {
         width: auto;
         float: none;
+        text-align: center;
     }
 
     .contact-form .buttonview {
         width: auto;
         float: none;
+        margin-top: 10px;
     }
 
     .contact-form .textfieldview label input {

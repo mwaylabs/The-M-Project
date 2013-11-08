@@ -175,8 +175,8 @@ Teaser.Views = Teaser.Views || {};
                         value: 'stack'
                     }),
 
-                    jquerymobile: M.BackgroundImageView.extend({
-                        value: 'jquerymobile'
+                    phonegap: M.BackgroundImageView.extend({
+                        value: 'phonegap'
                     })
                 })
 
@@ -270,6 +270,10 @@ Teaser.Views = Teaser.Views || {};
                 }),
                 copyright: M.View.extend({
                     value: M.I18NItem.create('global.copyright')
+                }),
+                imprint: M.View.extend({
+                    value: M.I18NItem.create('global.imprint'),
+                    extendTemplate: '<a href="http://www.the-m-project.org/impressum.html"><%= _value_ %></a>'
                 })
 
             }),

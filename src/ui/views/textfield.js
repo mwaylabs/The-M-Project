@@ -6,6 +6,8 @@
 
         label: null,
 
+        type: 'text',
+
         _template: _.tmpl(M.TemplateManager.get('M.TextfieldView')),
 
         _assignTemplateValues: function() {
@@ -15,6 +17,8 @@
             } else {
                 this._templateValues['label'] = this.label || '';
             }
+
+            this._templateValues['type'] = this.type;
 
         },
 

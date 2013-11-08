@@ -1,0 +1,39 @@
+{
+    "global": {
+        "whats_new": "Was ist neu?",
+        "contact": "Google Groups",
+        "themprojectorg": "the-m-project.org",
+        "highlight": "Diesen Winter – ",
+        "subline": "Enterprise ready mobile Webapps",
+        "tmp": "The-M-Project ist ein auf mobile abgestimmtes HTML5 JavaScript Framework.<br/>Großartige mobile Web Apps einfach und schnell erstellen.",
+        "sign_up": "E-Mail Addresse eintragen um über Releastände informiert zu werden",
+        "email": "E-Mail",
+        "sign_up_now": "Jetzt registrieren!",
+        "scoll_down_please": "Bitte scrollen",
+        "create": "Mobile Apps mit Webtechnologien erstellen, die nativen in nichts nachstehen.",
+        "intro_tmp2": "Geräte- und Plattformunabhängigkeit",
+        "intro_tmp2_text": "Wir glauben an Geräte- und Plattformunabhängigkeit und bieten eine stabile Basis um auf den wichtigsten Plattformen tolle Applikationen zu bauen.",
+        "v2": "The-M-Project v2.0 Absinthe",
+        "v2text": "Wir sind glücklich eine neue Version des The-M-Projects vorzustellen. Die gewonnen Erkenntnisse der jetzigen Version werden genutzt um The-M-Project besser zu machen. Hierfür haben wir bestehende Konzepte hinterfragt und überdacht. Bleiben Sie dran, um zu sehen, wie Sie von der neuen Version profitieren.",
+        "businessdata": "Business Data",
+        "bd_text": "Ohne Aufwand für den Entwickler werden Daten vom Server mit dem Client synchronisiert. Änderungen werden an alle verbundene Clients Live übertragen, sind offline verfügbar und veränderbar, und durch die Beschränkung der Übertragung auf geänderte Datensätze werden Ladezeiten und Traffic optimiert.",
+        "tmp_coming_soon": "Best of Breed – Web Technologien auf Mobilen Geräten",
+        "join": "Join our community. Spread the word: twitter.com/_themproject",
+        "de": "DE",
+        "en": "EN",
+        "copyright": "Copyright © 2013 M-Way Solutions GmbH All rights reserved.",
+        "love": "Mit ♥ aus Stuttgart",
+        "welcome_coder": "Hallo Nerd! Willst du eine Vorschau? Dann schau doch einfach den Sourcecode an - diese Webseite ist mit einer fühen Version des The-M-Project v2.0 entickelt worden",
+        "logosWebTechnologie": "The-M-Project basiert auf Web Technologien und läuft in jedem Evergreen Browser.",
+        "logosTechnologie": "Enterprise ready - Durch den Einsatz mehrfach bewährter Technologien.",
+        "logosToolchain": "Fokus auf mobile – Die Espresso Funktionalität baut auf State of the Art Tools auf.",
+        "logosTools": "The-M-Project ist Open Source und kann hervoragend mit dieser Software verwendet werden.",
+        "imprint": "Impressum",
+
+
+        "thanks_for_signup": "Vielen Dank für das Interesse!",
+        "not_valid": "Es scheint, als ob die E-Mail Adresse nicht valide ist.",
+
+        "undefined": "undefined"
+    }
+}

@@ -35,7 +35,7 @@
 
                 tmp: M.ButtonView.extend({
                     value: M.I18NItem.create('global.themprojectorg'),
-                    extendTemplate: '<a href="http://the-m-project.org"><%= _value_ %></a>'
+                    extendTemplate: '<a href="themproject1x.html"><%= _value_ %></a>'
                 })
             }).create(this, null, true);
 
