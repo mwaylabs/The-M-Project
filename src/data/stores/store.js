@@ -13,7 +13,7 @@ M.Store = function() {
     this.initialize.apply(this, arguments);
 };
 
-M.Store.extend = Backbone.Model.extend;
+M.Store.extend = M.extend;
 M.Store.create = M.create;
 M.Store.design = M.design;
 

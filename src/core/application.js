@@ -14,7 +14,7 @@ M.Application = M.Controller.extend({
 
     _transition: '',
 
-    initialize: function() {
+    initialize: function () {
         this.Models = {};
         this.Collections = {};
         this.Views = {};
@@ -23,67 +23,61 @@ M.Application = M.Controller.extend({
         return this;
     },
 
-    start: function( options ) {
+    start: function (options) {
 
-        this.initLocale(options).then(function() {
-             Backbone.history.start();
+        this._initLocale(options).then(function () {
+            Backbone.history.start();
         });
 
         return this;
     },
 
-    initLocale: function(options) {
+    navigate: function (settings) {
+
+        var url = settings.route;
+        var path = '';
+        if (settings.params) {
+            path = _.isArray(settings.params) ? settings.params.join('/') : settings.params;
+            url += '/';
+        }
+        if (!settings.transition) {
+            settings.transition = M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT;
+        }
+
+        this._setTransition(settings.transition);
+
+        var options = settings.options || true;
+        Backbone.history.navigate(url + path, options);
+    },
+
+    startTransition: function () {
+        this.layout.startTransition({
+            transition: this._getTransition()
+        });
+    },
+
+    _initLocale: function (options) {
         var defer = $.Deferred();
 
-        M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function(e) {
+        M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function (e) {
             defer.resolve();
         });
 
-        if( options && options.locales ) {
+        if (options && options.locales) {
             M.I18N.setLocales(options.locales);
             M.I18N.setLocale(moment.lang());
-        }else{
+        } else {
             defer.resolve();
         }
 
         return defer.promise();
     },
 
-    initialRender: function() {
-        this.layoutManager.initialRenderProcess();
-    },
-
-    navigate: function( settings ) {
-
-        var url = settings.route;
-        var path = '';
-        if( settings.params ) {
-            path = _.isArray(settings.params) ? settings.params.join('/') : settings.params;
-            url += '/';
-        }
-        var options = settings.options || true;
-        if(!settings.transition) {
-            settings.transition = M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT;
-        }
-
-        this._setTransition(settings.transition);
-
-        this.isFirstLoad = false;
-
-        Backbone.history.navigate(url + path, options);
-    },
-
-    startTransition: function() {
-        this.layout.startTransition({
-            transition: this._getTransition()
-        });
-    },
-
-    _setTransition: function(name) {
+    _setTransition: function (name) {
         this._transition = name;
     },
 
-    _getTransition: function() {
+    _getTransition: function () {
         return this._transition;
     }
 });

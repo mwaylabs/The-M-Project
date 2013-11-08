@@ -34,6 +34,8 @@ M.design = function (obj) {
     return new o();
 };
 
+M.extend = Backbone.Model.extend;
+
 M.isCollection = function (collection) {
     return Backbone.Collection.prototype.isPrototypeOf(collection);
 };
@@ -49,10 +51,6 @@ M.isEntity = function (entity) {
 M.isI18NItem = function (entity) {
     return (entity && entity._type && entity._type === 'M.I18NItem');
 };
-
-//    M.create = function() {
-//        return this.apply(this, arguments);
-//    };
 
 /**
  * Readable alias for true

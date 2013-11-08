@@ -47,8 +47,7 @@ M.Entity.from = function(entity, options) {
     return entity;
 };
 
-M.Entity.extend = Backbone.Model.extend;
-
+M.Entity.extend = M.extend;
 M.Entity.create = M.create;
 M.Entity.design = M.design;
 

@@ -13,8 +13,7 @@ M.Field = function(options) {
     this.initialize.apply(this, arguments);
 };
 
-M.Field.extend = Backbone.Model.extend;
-
+M.Field.extend = M.extend;
 M.Field.create = M.create;
 M.Field.create = M.design;
 

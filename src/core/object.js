@@ -1,27 +1,3 @@
-// ==========================================================================
-// Project:   The M-Project - Mobile HTML5 Application Framework
-// Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-//            (c) 2013 panacoda GmbH. All rights reserved.
-// Creator:   Marco
-// Date:      08.01.2013
-// License:   Dual licensed under the MIT or GPL Version 2 licenses.
-//            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-//            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-// ==========================================================================
-
-//M.Object = function() {};
-//
-//M.Object.extend = Backbone.Model.extend;
-//
-//M.Object.create = function(properties) {
-//    var f = this.extend(properties);
-//    return new f();
-//};
-
-/**
- * @class
- */
-// _.extend(M.Object.prototype, /** @scope M.Object.prototype */{
 M.Object = {
     /**
      * The type of this object.
