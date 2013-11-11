@@ -4,15 +4,19 @@ Kitchensink.Views = Kitchensink.Views || {};
     'use strict'
     Kitchensink.Views.MenuView = M.View.extend({
 
-        template: '<div><div data-childviews="content"></div></div>'
+        template: '<div><div data-childviews="content"></div></div>',
+        grid: 'container'
+
 
     }, {
         content: M.View.extend({
-            cssClass:'lalalalal'
+            cssClass:'lalalalal',
+            grid: 'row'
         }, {
 
             headline: M.View.extend({
                 tagName: 'h2',
+                grid: 'col-md-12',
                 value: M.I18N.get('global.appName', {aka: 'Absinth'}),
                 events: {
                     tap: function() {
@@ -243,6 +247,27 @@ Kitchensink.Views = Kitchensink.Views || {};
                     return M.Date.create(value).unix() * 1000;
                 }
             })
+        }),
+
+        gridStuff: M.View.extend({
+            grid: 'row'
+        }, {
+
+            red: M.View.extend({
+                cssClass: 'btn-danger',
+                grid: 'col-xs-1 col-md-1'
+            }),
+
+            green: M.View.extend({
+                cssClass: 'btn-success',
+                grid: 'col-xs-1 col-md-1 col-md-offset-1'
+            }),
+
+            blue: M.View.extend({
+                cssClass: 'btn-info',
+                grid: 'col-xs-1 col-md-3 col-md-offset-6'
+            })
+
         })
     });
 

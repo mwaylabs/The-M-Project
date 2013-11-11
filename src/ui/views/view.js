@@ -109,6 +109,11 @@
         onGet: null,
 
         /**
+         * Bootstrap css classes for a grid implementation
+         */
+        grid: null,
+
+        /**
          * external events for the users
          */
         events: null,
@@ -467,6 +472,9 @@
             this.$el.addClass(this._type.split('.')[1].toLowerCase());
             if( this.cssClass ) {
                 this.$el.addClass(this.cssClass);
+            }
+            if( this.grid ) {
+                this.$el.addClass(this.grid);
             }
         },
 

@@ -70,6 +70,13 @@ module.exports = function( grunt ) {
             }
         },
         cssmin: {
+            vendor: {
+                expand: true,
+                cwd: 'resources/vendor/',
+                src: ['*.css'],
+                dest: 'dist/',
+                ext: '.min.css'
+            },
             minify: {
                 expand: true,
                 cwd: 'dist/',
