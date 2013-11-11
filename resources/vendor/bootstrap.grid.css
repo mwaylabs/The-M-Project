@@ -1212,4 +1212,5 @@ hr {
 
 .floatnone {
     float: none !important;
+    overflow: hidden;
 }

@@ -25,6 +25,35 @@ Kitchensink.Views = Kitchensink.Views || {};
                 }
             }),
 
+            buttongroupExample: M.ButtonGroupView.extend({
+                grid: 'floatnone'
+            },{
+
+                firstButton: M.ButtonView.extend({
+                    value:'first button',
+                    cssClass: 'btn-success',
+                    grid: 'col-xs-3'
+                }),
+
+                secondButton: M.ButtonView.extend({
+                    value:'second button',
+                    grid: 'col-xs-2'
+                }),
+
+                thirdButton: M.ButtonView.extend({
+                    value:'third button',
+                    cssClass: 'btn-info',
+                    grid: 'col-xs-2'
+                }),
+
+                fourthButton: M.ButtonView.extend({
+                    value:'fourth button',
+                    cssClass: 'btn-danger',
+                    grid: 'col-xs-2'
+                })
+
+            }),
+
             bindingTestInput: M.View.extend({
 
                 scopeKey: 'bindingTestModel',

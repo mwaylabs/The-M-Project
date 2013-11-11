@@ -31,6 +31,10 @@ M.TemplateManager = M.Object.design({
         defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><textarea><%= _value_ %></textarea><% if(label) {  %></label><% } %></div>'
     },
 
+    "M.ButtonGroupView": {
+        defaultTemplate: '<div data-childviews="buttons"></div>'
+    },
+
     "M.SearchfieldView": {
         defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>',
         bootstrap: '<div><% if(label) {  %><label><%= label %></label><% } %><input type="text" class="form-control" placeholder="<%= placeholder %>"></div>',
