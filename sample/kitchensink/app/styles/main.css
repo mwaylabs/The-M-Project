@@ -85,7 +85,7 @@ select {
 .col-md-10,
 .col-md-11,
 .col-md-12{
-    height: 100px !important;
+    height: 100px;
 }
 
 .btn-success {

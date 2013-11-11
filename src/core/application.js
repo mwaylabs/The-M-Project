@@ -24,7 +24,6 @@ M.Application = M.Controller.extend({
     },
 
     start: function (options) {
-
         this._initLocale(options).then(function () {
             Backbone.history.start();
         });
@@ -79,5 +78,10 @@ M.Application = M.Controller.extend({
 
     _getTransition: function () {
         return this._transition;
+    },
+
+    _initReady: function(){
+        //TODO: implment this in config
+        $('body').append(M.DebugView.design().render().$el);
     }
 });

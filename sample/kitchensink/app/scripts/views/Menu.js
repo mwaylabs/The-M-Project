@@ -254,12 +254,12 @@ Kitchensink.Views = Kitchensink.Views || {};
         }, {
 
             red: M.View.extend({
-                cssClass: 'btn-danger',
+                cssClass: 'btn-success',
                 grid: 'col-xs-1 col-md-1'
             }),
 
             green: M.View.extend({
-                cssClass: 'btn-success',
+                cssClass: 'btn-danger',
                 grid: 'col-xs-1 col-md-1 col-md-offset-1'
             }),
 

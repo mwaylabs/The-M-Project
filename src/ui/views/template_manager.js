@@ -66,6 +66,10 @@ M.TemplateManager = M.Object.design({
         jqm: '<div contenteditable="true"><%= _value_ %></div>'
     },
 
+    "M.DebugView": {
+        defaultTemplate: '<div><div data-childviews="debug-menu"></div><div data-childviews="debug-grid"></div></div>'
+    },
+
     "M.AccordionView": {
         defaultTemplate: '<ul><%= _value_ %></ul>',
         bootstrap: '<div><%= _value_ %></div>',

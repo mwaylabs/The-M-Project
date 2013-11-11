@@ -17,6 +17,7 @@ _.extend(M.Router.prototype, M.Object, {
         var _callback = this.getCallBack(controller);
         _callback && _callback.apply(controller, [res]);
         callback();
+        global[M.APPLICATION_NAME]._initReady();
     },
 
     callCallback: function( route, name, controller, res, callback ) {

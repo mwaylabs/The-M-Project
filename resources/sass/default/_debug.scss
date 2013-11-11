@@ -1,0 +1,31 @@
+.debugview {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  .debug-grid{
+    height: 100%;
+    display: none;
+  }
+
+  .debug-menu{
+    position: fixed;
+  }
+
+  .row{
+    height: 100%;
+
+    .col-xs-1 {
+      background: rgba(0, 255, 0, 0.5);
+      height: 100%;
+    }
+
+    .col-xs-1:nth-child(2n+1) {
+      background: rgba(00, 255, 255, 0.5);
+    }
+  }
+
+}
+

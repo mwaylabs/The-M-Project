@@ -1,5 +1,7 @@
 (function(scope) {
 
+    M.APPLICATION_NAME = 'Kitchensink';
+
     scope.Kitchensink = M.Application.extend().create();
 
     $(document).ready(function() {
