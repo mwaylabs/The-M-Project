@@ -1,16 +1,19 @@
 (function( scope ) {
 
     /**
-     *
      * M.View inherits from Backbone.View
-     *
      * @type {*}
      */
     M.View = Backbone.View.extend({
+
+        /**
+         * @constructor
+         * @param {options} Attributes for the current Instance
+         */
         constructor: function( options ) {
             this.cid = _.uniqueId('view');
             options || (options = {});
-            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'formatter', 'parse'];
+            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'onSet', 'onGet'];
             _.extend(this, _.pick(options, viewOptions));
             this._ensureElement();
             this.initialize.apply(this, arguments);
@@ -18,12 +21,33 @@
         }
     });
 
+    /**
+     *
+     * Extend M.View with the M.create function. You can use this function to create an M.View with the create function. Instances from Backbone are generated with new. This function wrapps the new.
+     *
+     * @type {Function}
+     */
+
     M.View.create = M.create;
+
+    /**
+     *
+     * Extend M.View with the M.design function. With the design you can extend an object and get an instance at once.
+     *
+     * @type {Function}
+     */
+
     M.View.design = M.design;
+
+
+    /**
+     * Extend the M.View also from M.Object
+     */
 
     _.extend(M.View.prototype, M.Object, {
 
         /**
+         * @private
          * The View type
          */
         _type: 'M.View',
@@ -34,11 +58,13 @@
         template: null,
 
         /*
+         * @private
          * define a template based on the tmpl template engine
          */
         _template: _.tmpl(M.TemplateManager.get('M.View')),
 
         /**
+         * @private
          * use this property to define which data are given to the template
          */
         _templateValues: null,
@@ -48,23 +74,44 @@
          */
         templateExtend: null,
 
-
+        /**
+         * @private
+         * Indicates if this is the view was rendered before
+         *
+         */
         _firstRender: YES,
 
+        /**
+         * Specify if the View has an surrounding DOM-Element or not
+         */
         useElement: NO,
 
+        /**
+         * @private
+         * Has the View a localization listener
+         */
         _hasI18NListener: NO,
 
-        formater: function( value ) {
-            return value;
-        },
+        /**
+         * Model data to view value transformation.
+         * Change the display value of a view. Use this if the model has another data format as the view representation accepts it.
+         * @param value The value of a view
+         * @returns {*} The value of a view
+         */
+        onSet: null,
 
+        /**
+         * View value to model data transformation.
+         * Change the display value of a view back to the model data. Use this if the view has another data format as the model accepts it.
+         * @param value The value of a view
+         * @returns {*} The value of a view
+         */
+        onGet: null,
 
         /**
          * external events for the users
          */
         events: null,
-
 
         /**
          * internal framework events
@@ -76,15 +123,32 @@
          */
         _value_: null,
 
+        /**
+         * Set the model of the view
+         * @param { M.Model } The Model to be set
+         * @returns {View}
+         * @private
+         */
         _setModel: function( value ) {
             this.model = value;
             return this;
         },
 
+
+        /**
+         * Get the Model for the View
+         * @returns {M.Model}
+         * @private
+         */
         _getModel: function() {
             return this.model;
         },
 
+
+        /**
+         * Get the value of a view. If the value is a M.Model return its attributes.
+         * @returns {*}
+         */
         getValue: function() {
             if( this.model ) {
                 if( this._value_.hasOwnProperty('attribute') && this._value_.hasOwnProperty('model') ) {
@@ -124,7 +188,7 @@
         },
 
         /**
-         * Constructor
+         *
          * @returns {*}
          */
 
@@ -132,7 +196,6 @@
 
             this._assignValue(options);
             this._assignTemplateValues();
-            this._runFormatter();
             this._mapEventsToScope(this.scope);
             this._addCustomEvents(this.scope);
             if( !this.useElement ) {
@@ -157,7 +220,7 @@
 
             var _value_ = this._getValue();
 
-            if(_value_) {
+            if( _value_ ) {
                 if( M.isModel(_value_.model) ) {
                     this._setModel(_value_.model);
                 } else if( M.isModel(_value_) ) {
@@ -167,8 +230,8 @@
                 }
             }
 
-            if ( this._reactOnLocaleChanged()) {
-                M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function () {
+            if( this._reactOnLocaleChanged() ) {
+                M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
                     this.render();
                 }, this);
                 this._hasI18NListener = YES;
@@ -181,11 +244,6 @@
             return (this.value || this.label);
         },
 
-        _runFormatter: function() {
-            if(this.formatter) {
-                this._templateValues = this.formatter(this._templateValues);
-            }
-        },
 
         _assignContentBinding: function() {
             var that = this;
@@ -291,7 +349,6 @@
         _preRender: function() {
             this._assignTemplate();
             this._assignTemplateValues();
-            this._runFormatter();
             this._extendTemplate();
             this.preRender();
             return this;
@@ -319,14 +376,14 @@
 
             if( this.model ) {
                 if( M.isModel(_value_) ) {
-                    this._templateValues = this.formater(this.model.attributes);
+                    this._templateValues = this.model.attributes;
                 } else {
-                    this._templateValues['_value_'] = this.formater(this.model.get(_value_.attribute));
+                    this._templateValues['_value_'] = this.model.get(_value_.attribute);
                 }
             } else if( M.isI18NItem(_value_) ) {
-                this._templateValues['_value_'] = this.formater(M.I18N.l(_value_.key, _value_.placeholder));
+                this._templateValues['_value_'] = M.I18N.l(_value_.key, _value_.placeholder);
             } else if( typeof _value_ === 'string' ) {
-                this._templateValues['_value_'] = this.formater(_value_);
+                this._templateValues['_value_'] = _value_;
             } else if( _value_ !== null && typeof _value_ === 'object' && this._hasI18NListener === NO ) {
                 this._templateValues = _value_;
             } else if( this._hasI18NListener && _.isObject(_value_) ) {
@@ -439,6 +496,22 @@
                     bindings[selector] = {observe: '' + key};
                 }, this);
             }
+
+            _.each(bindings, function( value, key ) {
+                if(typeof this.onGet === 'function'){
+                    bindings[key]['onGet'] = function( value, options ) {
+                        var ret = this.onGet(value);
+                        return ret;
+                    }
+                }
+
+                if(typeof this.onSet === 'function'){
+                    bindings[key]['onSet'] = function( value, options ) {
+                        var ret = this.onSet(value);
+                        return ret;
+                    }
+                }
+            }, this);
 
             this.bindings = bindings;
 

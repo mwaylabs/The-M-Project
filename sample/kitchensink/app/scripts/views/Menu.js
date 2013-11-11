@@ -216,28 +216,31 @@ Kitchensink.Views = Kitchensink.Views || {};
                 value: 'Birthday:'
             }),
 
+            birthdayPlain: M.View.extend({
+                scopeKey: 'person.birthday'
+            }),
+
             egon: M.TextfieldView.extend({
                 scopeKey: 'person.birthday',
                 type:'date',
-                formater: function( value ) {
-                    var date= M.Date.create(parseInt(value)).format('MM/DD/YYYY');
-                                debugger;
+                onGet: function( value ) {
+                    var date= M.Date.create(parseInt(value)).format('YYYY-MM-DD');
                     return date;
                 },
-                parser: function( value ) {
-                    console.log(value);
+                onSet: function( value ) {
+                    return M.Date.create(value).unix() * 1000;
                 }
             }),
 
             egon2: M.TextfieldView.extend({
                 scopeKey: 'person',
-                template: '<input type="date" value="<%= birthday %" />',
-                formater: function( value ) {
-                    value.birthday = M.Date.create(value.birthday).format('MM/DD/YYYY');
-                    return value;
+                template: '<input type="date" value="<%= birthday %>" />',
+                onGet: function( value ) {
+                    var date= M.Date.create(parseInt(value)).format('YYYY-MM-DD');
+                    return date;
                 },
-                parser: function( value ) {
-                    console.log(value);
+                onSet: function( value ) {
+                    return M.Date.create(value).unix() * 1000;
                 }
             })
         })
