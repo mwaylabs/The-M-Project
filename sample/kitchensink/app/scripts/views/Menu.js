@@ -8,7 +8,7 @@ Kitchensink.Views = Kitchensink.Views || {};
 
     }, {
         content: M.View.extend({
-
+            cssClass:'lalalalal'
         }, {
 
             headline: M.View.extend({

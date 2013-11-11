@@ -103,6 +103,10 @@ describe('M.TemplateManager', function() {
             }
         });
 
+        it('get a not defined template', function() {
+            assert.isTrue(M.TemplateManager.get('IamNotDefined') === M.TemplateManager.get('M.View'));
+        });
+
         after(function() {
             delete M.TemplateManager[TEMPLATE_VIEW_NAME];
             assert.isUndefined(M.TemplateManager[TEMPLATE_VIEW_NAME]);

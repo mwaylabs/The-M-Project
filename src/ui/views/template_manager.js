@@ -112,16 +112,7 @@ M.TemplateManager = M.Object.design({
         defaultTemplate: '<div></div>',
         bootstrap: '<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> <h4 class="modal-title" id="myModalLabel"><%= header %></h4> </div> <div class="modal-body"><%= message %></div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal"><%= cancel %></button> <button type="button" class="btn btn-primary"><%= ok %></button> </div> </div><!-- /.modal-content --> </div>',
         topcoat: '<input type="range">',
-        jqm: '<div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">'+
-        		'<div data-role="header" data-theme="d" class="ui-header ui-bar-d" role="banner"><a href="#" class="ui-btn-left ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all ui-btn-icon-notext" data-icon="delete" data-iconpos="notext" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" title="Close"><span class="ui-btn-inner"><span class="ui-btn-text"><%= close %></span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a>'+
-        			'<h1 class="ui-title" role="heading" aria-level="1"><%= header %></h1>'+
-        		'</div>'+
-        		'<div data-role="content" class="ui-content ui-body-c" role="main">'+
-        			'<p><%= message %></p>'+
-        			'<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text"><%= ok %></span></span></a>'+
-        			'<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="c" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= cancel %></span></span></a>'+
-        		'</div>'+
-        	  '</div>'
+        jqm: '<div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">' + '<div data-role="header" data-theme="d" class="ui-header ui-bar-d" role="banner"><a href="#" class="ui-btn-left ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all ui-btn-icon-notext" data-icon="delete" data-iconpos="notext" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" title="Close"><span class="ui-btn-inner"><span class="ui-btn-text"><%= close %></span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a>' + '<h1 class="ui-title" role="heading" aria-level="1"><%= header %></h1>' + '</div>' + '<div data-role="content" class="ui-content ui-body-c" role="main">' + '<p><%= message %></p>' + '<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text"><%= ok %></span></span></a>' + '<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="c" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= cancel %></span></span></a>' + '</div>' + '</div>'
     },
 
     "M.SelectionListView": {
@@ -143,6 +134,10 @@ M.TemplateManager = M.Object.design({
     get: function( template, ui ) {
 
         ui = ui || M.TemplateManager._currentUI;
+
+        if( !this[template] ) {
+            template = 'M.View';
+        }
 
         if( this[template] ) {
             //use TMP.TemplateManager._currentUI because this function is called in another this context

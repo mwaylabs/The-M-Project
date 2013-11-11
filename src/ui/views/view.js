@@ -407,7 +407,7 @@
             var dom = this._template(this._templateValues);
             if( this.useElement ) {
                 this.setElement(dom);
-            } else {
+            } else if(this.getValue()){
                 this.$el.html(dom);
             }
             return this;
