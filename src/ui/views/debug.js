@@ -30,7 +30,7 @@
 
         "debug-grid": M.View.extend({
             useElement: YES,
-            template: '<div class="container debug-grid"><div class="row"> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> </div></div>'
+            template: '<div class="debug-container"><div class="container debug-grid"><div class="row"> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> <div class="col-xs-1"></div> </div></div></div>'
         })
     });
 
