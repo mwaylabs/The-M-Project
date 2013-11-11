@@ -10,7 +10,7 @@
         constructor: function( options ) {
             this.cid = _.uniqueId('view');
             options || (options = {});
-            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue'];
+            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'formatter', 'parse'];
             _.extend(this, _.pick(options, viewOptions));
             this._ensureElement();
             this.initialize.apply(this, arguments);
@@ -132,6 +132,7 @@
 
             this._assignValue(options);
             this._assignTemplateValues();
+            this._runFormatter();
             this._mapEventsToScope(this.scope);
             this._addCustomEvents(this.scope);
             if( !this.useElement ) {
@@ -155,32 +156,35 @@
             }
 
             var _value_ = this._getValue();
-            if( !_value_ ) {
-                return this;
-            }
 
-            if( M.isModel(_value_.model) ) {
-                this._setModel(_value_.model);
-            } else if( M.isModel(_value_) ) {
-                this._setModel(_value_);
-            } else if( M.isCollection(_value_) ) {
-                this.collection = _value_;
-            } else if( M.isI18NItem(_value_) ) {
-                M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
-                    this.render();
-                }, this);
-                this._hasI18NListener = YES
-            } else if( _.isObject(_value_) ) {
-                if( _.find(_value_, function( val ) {
-                    return M.isI18NItem(val);
-                }, this) ) {
-                    M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
-                        this.render();
-                    }, this);
-                    this._hasI18NListener = YES;
+            if(_value_) {
+                if( M.isModel(_value_.model) ) {
+                    this._setModel(_value_.model);
+                } else if( M.isModel(_value_) ) {
+                    this._setModel(_value_);
+                } else if( M.isCollection(_value_) ) {
+                    this.collection = _value_;
                 }
             }
+
+            if ( this._reactOnLocaleChanged()) {
+                M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function () {
+                    this.render();
+                }, this);
+                this._hasI18NListener = YES;
+            }
+
             return this;
+        },
+
+        _reactOnLocaleChanged: function() {
+            return (this.value || this.label);
+        },
+
+        _runFormatter: function() {
+            if(this.formatter) {
+                this._templateValues = this.formatter(this._templateValues);
+            }
         },
 
         _assignContentBinding: function() {
@@ -287,6 +291,7 @@
         _preRender: function() {
             this._assignTemplate();
             this._assignTemplateValues();
+            this._runFormatter();
             this._extendTemplate();
             this.preRender();
             return this;
