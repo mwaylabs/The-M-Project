@@ -43,36 +43,37 @@ Kitchensink.Views = Kitchensink.Views || {};
                 thirdButton: M.ButtonView.extend({
                     value:'third button',
                     cssClass: 'btn-info',
-                    grid: 'col-xs-2'
+                    grid: 'col-xs-3'
                 }),
 
                 fourthButton: M.ButtonView.extend({
                     value:'fourth button',
                     cssClass: 'btn-danger',
-                    grid: 'col-xs-2'
+                    grid: 'col-xs-4'
                 })
 
             }),
 
             bindingTestInput: M.View.extend({
-
                 scopeKey: 'bindingTestModel',
-                templateExtend: '<div><input value="<%= a %>"/> <input value="<%= b %>" /></div>'
-
+                grid:'floatnone',
+                extendTemplate: '<div><input class="col-xs-2" value="<%= a %>"/> <input class="col-xs-2" value="<%= b %>" /></div>'
             }),
 
             bindingTestOutput: M.View.extend({
-
                 scopeKey: 'bindingTestModel',
-                template: '<div><input value="<%= a %>"/> <input value="<%= b %>" /></div>'
+                grid: 'floatnone',
+                template: '<div class=""><input class="col-xs-4" value="<%= a %>"/> <input class="col-xs-4" value="<%= b %>" /></div>'
 
             }),
 
             bindingTestAttributeA: M.View.extend({
+                grid: 'col-xs-3 floatnone',
                 scopeKey: 'bindingTestModel.a'
             }),
 
             bindingTestAttributeB: M.View.extend({
+                grid: 'col-xs-3 floatnone',
                 scopeKey: 'bindingTestModel.b'
             }),
 
@@ -170,7 +171,7 @@ Kitchensink.Views = Kitchensink.Views || {};
             imageExample: M.ImageView.extend({
                 value: 'http://www.bhmpics.com/thumbs/success_kid-t2.jpg',
                 alt: 'success',
-
+                grid: 'col-xs-2',
                 events: {
                     tap: function() {
                         //this.$el.append('click');
