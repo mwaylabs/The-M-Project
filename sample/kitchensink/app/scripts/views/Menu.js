@@ -50,6 +50,7 @@ Kitchensink.Views = Kitchensink.Views || {};
             eventTest: M.View.extend({
                 scopeKey: 'consoleModel',
                 cssClass: 'box',
+                grid: 'col-xs-6 col-xs-offset-3 floatnone',
                 events: {
                     hold: 'eventDidHappen',
                     tap: 'eventDidHappen',

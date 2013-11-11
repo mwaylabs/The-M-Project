@@ -24,11 +24,9 @@
 
 
 .box{
-    width: 300px;
     height: 300px;
     background: #999999;
     border: 1px solid #000000;
-    display: table;
 }
 
 .box div{
@@ -59,7 +57,6 @@ select {
 .selectionlistview{
     position: relative;
     border: 1px solid #999;
-    margin: 10px;
 }
 
 .mulitpleselectionlistview:after,
