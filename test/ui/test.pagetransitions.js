@@ -1,5 +1,20 @@
 describe('M.PageTransitions', function () {
 
+    var $stage;
+    var testLayout;
+    var ctrl;
+
+    before(function () {
+        $stage = $('<div style="opacity: 0"></div>');
+        $('body').append($stage);
+    });
+
+    after(function () {
+        if ($stage) {
+            $stage.remove();
+        }
+    });
+
     it('basic', function () {
         assert.isDefined(M.PageTransitions);
         assert.isObject(M.PageTransitions);
@@ -247,5 +262,54 @@ describe('M.PageTransitions', function () {
         assert.isFunction(M.PageTransitions._onEndAnimation);
         assert.isFunction(M.PageTransitions._resetPage);
     });
+
+    it('init layout', function () {
+
+        var page1 = M.View.create({
+            value: 'TestPageAContent'
+        });
+
+        var page2 = M.View.create({
+            value: 'TestPageBContent'
+        });
+
+        ctrl = M.Controller.design({
+            applicationStart: function () {
+                testLayout = M.SwitchLayout.extend().create(this, null, true);
+                testLayout.applyViews({
+                    content: page1
+                }).render();
+                $stage.html(testLayout.$el);
+            },
+            show: function () {
+                testLayout.applyViews({
+                    content: page2
+                });
+                testLayout.startTransition({
+                    transition: M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT
+                });
+            }
+        });
+        ctrl.applicationStart();
+
+        assert.lengthOf($('.m-page', $stage), 2);
+        assert.lengthOf($('.m-page-current', $stage), 1);
+        assert.equal($(".m-page-current [data-binding='_value_']", $stage).html(), 'TestPageAContent');
+    });
+
+    it('make transition', function (done) {
+
+        $('.m-page-2', $stage).on("animationend webkitAnimationEnd", function () {
+            setTimeout(function () {
+                assert.lengthOf($('.m-page', $stage), 2);
+                assert.lengthOf($('.m-page-current', $stage), 1);
+                assert.equal($(".m-page-current [data-binding='_value_']", $stage).html(), 'TestPageBContent');
+
+                done();
+            }, 10)
+        });
+
+        ctrl.show();
+    })
 
 });
