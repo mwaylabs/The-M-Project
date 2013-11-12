@@ -204,6 +204,7 @@
             this._assignValue(options);
             this._assignTemplateValues();
             this._mapEventsToScope(this.scope);
+            this._addInternalEvents();
             this._addCustomEvents(this.scope);
             if( !this.useElement ) {
                 this._registerEvents();
@@ -292,6 +293,10 @@
                 this.events = null;
             }
 
+            return this;
+        },
+
+        _addInternalEvents: function() {
             //Map the internalEvents, if there are any, to the _event object
             if( this._internalEvents ) {
                 //loop over the internal events
@@ -311,22 +316,19 @@
                         //if there is no events object defined add it here
                         this._events = {};
                     }
-
                     //add the internal events to the swap element
                     if( _.isFunction(this._internalEvents[type]) ) {
                         //if it is a single function just add it
                         swapEventType.push(this._internalEvents[type]);
                     } else if( _.isArray(this._internalEvents[type]) ) {
                         //if there are several internal events add them all
-                        swapEventType.push.apply( swapEventType, this._internalEvents[type] );
+                        swapEventType.push.apply(swapEventType, this._internalEvents[type]);
                     }
                     //assign the cached events back to the object _events
                     this._events[type] = swapEventType;
 
                 }, this);
             }
-
-            return this;
         },
 
         _addCustomEvents: function() {
