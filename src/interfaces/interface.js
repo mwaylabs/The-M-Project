@@ -39,7 +39,9 @@ M.Interface = M.Object.design(/** @scope M.Interface.prototype */{
      * @returns {Object}
      */
     getInterface: function() {
-        throw M.Exception.GET_INTERFACE_NOT_IMPLEMENTED.getException();
+        return void null;
     }
 
 });
+
+

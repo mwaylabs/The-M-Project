@@ -39,6 +39,11 @@
 
     M.View.design = M.design;
 
+    M.View.implements = function( interfaces ) {
+        this.prototype._implementedInterfaces = interfaces;
+        return this;
+    };
+
 
     /**
      * Extend the M.View also from M.Object
@@ -199,6 +204,7 @@
 
         initialize: function( options ) {
 
+            this._addInterfaces();
             this._assignValue(options);
             this._assignTemplateValues();
             this._mapEventsToScope(this.scope);
@@ -211,6 +217,7 @@
             //            this.init();
             return this;
         },
+
 
         _assignValue: function( options ) {
             //don't write _value_ in the view definition - write value and here it gets assigned
@@ -412,7 +419,7 @@
             var dom = this._template(this._templateValues);
             if( this.useElement ) {
                 this.setElement(dom);
-            } else if(this.getValue()){
+            } else if( this.getValue() ) {
                 this.$el.html(dom);
             }
             return this;
@@ -506,14 +513,14 @@
             }
 
             _.each(bindings, function( value, key ) {
-                if(typeof this.onGet === 'function'){
+                if( typeof this.onGet === 'function' ) {
                     bindings[key]['onGet'] = function( value, options ) {
                         var ret = this.onGet(value);
                         return ret;
                     }
                 }
 
-                if(typeof this.onSet === 'function'){
+                if( typeof this.onSet === 'function' ) {
                     bindings[key]['onSet'] = function( value, options ) {
                         var ret = this.onSet(value);
                         return ret;
