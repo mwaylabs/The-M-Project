@@ -94,7 +94,7 @@
             Kitchensink.layout.applyViews({
                 content: this.menu
             });
-            Kitchensink.layout.startTransition();
+            Kitchensink.startTransition();
         }
     });
 

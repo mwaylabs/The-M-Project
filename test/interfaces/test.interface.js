@@ -44,6 +44,7 @@ describe('Interface implementation', function() {
                 };
             }
         });
+
         general(TestInterface);
         assert.isDefined(TestInterface.getInterface().ta1);
         assert.isDefined(TestInterface.getInterface().ta2);
