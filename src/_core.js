@@ -31,4 +31,5 @@
 
 // @include ./interfaces/interface.js
 // @include ./interfaces/pagetransitions.js
+// @include ./interfaces/contentbinding.js
 

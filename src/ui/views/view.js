@@ -39,6 +39,7 @@
 
     M.View.design = M.design;
 
+    M.View.implements = M.implements;
 
     /**
      * Extend the M.View also from M.Object
@@ -198,7 +199,7 @@
          */
 
         initialize: function( options ) {
-
+            this._addInterfaces();
             this._assignValue(options);
             this._assignTemplateValues();
             this._mapEventsToScope(this.scope);

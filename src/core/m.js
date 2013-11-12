@@ -53,6 +53,16 @@ M.isI18NItem = function (entity) {
 };
 
 /**
+ * Extend a function with the given interfaces
+ * @param interfaces
+ * @returns {M}
+ */
+M.implements = function( interfaces ) {
+    this.prototype._implementedInterfaces = interfaces;
+    return this;
+};
+
+/**
  * Readable alias for true
  *
  * @type {Boolean}
