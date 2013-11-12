@@ -14,6 +14,8 @@ M.Application = M.Controller.extend({
 
     _transition: '',
 
+    _isReady: NO,
+
     initialize: function () {
         this.Models = {};
         this.Collections = {};
@@ -81,7 +83,13 @@ M.Application = M.Controller.extend({
     },
 
     _initReady: function(){
+        if(this._isReady) {
+            return;
+        }
+
         //TODO: implment this in config
         $('body').append(M.DebugView.design().render().$el);
+
+        this._isReady = YES;
     }
 });

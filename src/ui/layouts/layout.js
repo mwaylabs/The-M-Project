@@ -23,16 +23,16 @@ M.Themes = M.Object.design({
 
     _themes: {},
 
-    registerTemplateForTheme: function( themeName, templateName, template, override ) {
+    registerTemplateForTheme: function (themeName, templateName, template, override) {
         override = override || false;
 
         var theme = this._getThemeByName(themeName);
-        if( !theme ) {
-            this._createThemeWithName( themeName );
+        if (!theme) {
+            this._createThemeWithName(themeName);
         }
 
         var exists = this._getTemplateByNameForTheme(themeName, templateName) !== '';
-        if( !exists || override ) {
+        if (!exists || override) {
             this._themes[ themeName ][ templateName ] = template;
             return true;
         }
@@ -41,39 +41,39 @@ M.Themes = M.Object.design({
         return false;
     },
 
-    getTemplateByName: function( templateName ) {
+    getTemplateByName: function (templateName) {
 
         var template = this.getTemplateByNameForTheme(this._currentThemeName, templateName);
-        if( template == '' && this._currentThemeName != this.DEFAULT_THEME) {
-            console.log( 'Template "' + templateName + '" not defined for theme "' + this._currentThemeName + '", switched to default theme "' + this.DEFAULT_THEME + '"');
+        if (template == '' && this._currentThemeName != this.DEFAULT_THEME) {
+            console.log('Template "' + templateName + '" not defined for theme "' + this._currentThemeName + '", switched to default theme "' + this.DEFAULT_THEME + '"');
             template = this.getTemplateByNameForTheme(this.DEFAULT_THEME, templateName);
         }
         return template;
     },
 
-    getTemplateByNameForTheme: function( themeName, templateName ) {
+    getTemplateByNameForTheme: function (themeName, templateName) {
         var template = this._getTemplateByNameForTheme(themeName, templateName);
-        if( template ) {
+        if (template) {
             return template;
         }
-        console.warn( 'Template "' + templateName + '" not defined for theme "' + themeName + '"');
+        console.warn('Template "' + templateName + '" not defined for theme "' + themeName + '"');
         return '';
     },
 
-    _getTemplateByNameForTheme: function( themeName, templateName ) {
+    _getTemplateByNameForTheme: function (themeName, templateName) {
         var theme = this._getThemeByName(themeName);
-        if( theme && theme[templateName] ) {
+        if (theme && theme[templateName]) {
             return theme[templateName];
         }
         return '';
     },
 
-    _createThemeWithName: function( name ) {
+    _createThemeWithName: function (name) {
         this._themes[ name ] = {};
     },
 
-    _getThemeByName: function( name ) {
-        if(this._themes[ name ]) {
+    _getThemeByName: function (name) {
+        if (this._themes[ name ]) {
             return this._themes[ name ];
         }
         return null;
@@ -103,8 +103,11 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
 
     childViews: {},
 
-    applyViews: function(){
+    applyViews: function () {
 
+    },
+
+    _attachToDom: function() {
+        return YES
     }
-
 });

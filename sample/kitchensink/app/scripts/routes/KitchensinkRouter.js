@@ -52,7 +52,7 @@
                 Kitchensink.layout.applyViews({
                     content: html
                 });
-                Kitchensink.layout.startTransition();
+                Kitchensink.startTransition();
             }
         }).create()
 

@@ -24,7 +24,7 @@
             Kitchensink.layout.applyViews({
                 content: this.view
             });
-            Kitchensink.layout.startTransition();
+            Kitchensink.startTransition();
         }
     });
 

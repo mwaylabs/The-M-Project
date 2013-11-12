@@ -410,12 +410,25 @@
 
         _render: function() {
             var dom = this._template(this._templateValues);
+
             if( this.useElement ) {
                 this.setElement(dom);
-            } else if(this.getValue()){
+            } else if(this._attachToDom()){
                 this.$el.html(dom);
+            }else {
+                this.$el.html('');
             }
             return this;
+        },
+
+        /**
+         * Specify if the template needs to be attached to the element or not.
+         *
+         * @returns {boolean}
+         * @private
+         */
+        _attachToDom: function() {
+            return this.getValue() != null;
         },
 
         _renderChildViews: function() {
