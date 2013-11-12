@@ -199,6 +199,7 @@
          */
 
         initialize: function( options ) {
+            this._registerView();
             this._addInterfaces();
             this._assignValue(options);
             this._assignTemplateValues();
@@ -211,6 +212,10 @@
             //            this._assignComplexView();
             //            this.init();
             return this;
+        },
+
+        _registerView: function() {
+            M.ViewManager.registerView(this);
         },
 
         _assignValue: function( options ) {
@@ -286,6 +291,42 @@
                 //backbone should not bind events so set it to null
                 this.events = null;
             }
+
+            //Map the internalEvents, if there are any, to the _event object
+            if( this._internalEvents ) {
+                //loop over the internal events
+                _.each(this._internalEvents, function( event, type ) {
+                    //a swap for the event
+                    var swapEventType = [];
+                    //if the object has allready events, swap them
+                    if( this._events && this._events[type] ) {
+                        if( _.isFunction(this._events[type]) ) {
+                            //if the event is a single function add it to the swap array
+                            swapEventType.push(this._events[type]);
+                        } else if( _.isArray(this._events[type]) ) {
+                            //if the event is an array assign it directly
+                            swapEventType = this._events[type];
+                        }
+                    } else {
+                        //if there is no events object defined add it here
+                        this._events = {};
+                    }
+
+                    //add the internal events to the swap element
+                    if( _.isFunction(this._internalEvents[type]) ) {
+                        //if it is a single function just add it
+                        swapEventType.push(this._internalEvents[type]);
+                    } else if( _.isArray(this._internalEvents[type]) ) {
+                        //if there are several internal events add them all
+                        swapEventType.push.apply( swapEventType, this._internalEvents[type] );
+                    }
+                    //assign the cached events back to the object _events
+                    this._events[type] = swapEventType;
+
+                }, this);
+            }
+
+            return this;
         },
 
         _addCustomEvents: function() {
@@ -324,19 +365,48 @@
             if( this._events ) {
                 var that = this;
                 Object.keys(this._events).forEach(function( eventName ) {
-                    //                    if( typeof this._events[eventName] === 'function' ) {
-                    //                        console.log(that.el);
-                    //                    }
                     this.hammertime = Hammer(that.el, that._getEventOptions()).on(eventName, function() {
                         var args = Array.prototype.slice.call(arguments);
                         args.push(that);
-                        that._events[eventName].apply(that.scope, args);
+                        //args[0] is the event. every child view registers itself on this event
+                        //                        if(!args[0]['tmpViewStack']){
+                        //                            args[0]['tmpViewStack'] = [];
+                        //                        }
+                        //                        args[0]['tmpViewStack'].push(that);
+
+                        if( _.isFunction(that._events[eventName]) ) {
+                            // if there is only one callback applied and it is an function call that one
+                            that._events[eventName].apply(that.scope, args);
+                        } else if( _.isArray(that._events[eventName]) ) {
+                            // you can add multiple functions for a single event. if the type is an array call all of them
+                            _.each(that._events[eventName], function( func ) {
+                                func.apply(that.scope, args);
+                            });
+                        }
+
+
                     });
 
                 }, this);
-
-
             }
+        },
+
+        /**
+         * Disable all events on this element. Events are still bound but not triggered. Wrapper for hammer.js.
+         * See hammer.js docu: https://github.com/EightMedia/hammer.js/wiki/Instance-methods#hammertimeoffgesture-handler
+         * @private
+         */
+        _disableEvents: function() {
+            this.hammertime.enable(NO);
+        },
+
+        /**
+         * Enable all events on this element when they where disabled. Wrapper for hammer.js.
+         * See hammer.js docu: https://github.com/EightMedia/hammer.js/wiki/Instance-methods#hammertimeoffgesture-handler
+         * @private
+         */
+        _enableEvents: function() {
+            this.hammertime.enable(YES);
         },
 
         /**
@@ -414,9 +484,9 @@
 
             if( this.useElement ) {
                 this.setElement(dom);
-            } else if(this._attachToDom()){
+            } else if( this._attachToDom() ) {
                 this.$el.html(dom);
-            }else {
+            } else {
                 this.$el.html('');
             }
             return this;
@@ -520,14 +590,14 @@
             }
 
             _.each(bindings, function( value, key ) {
-                if(typeof this.onGet === 'function'){
+                if( typeof this.onGet === 'function' ) {
                     bindings[key]['onGet'] = function( value, options ) {
                         var ret = this.onGet(value);
                         return ret;
                     }
                 }
 
-                if(typeof this.onSet === 'function'){
+                if( typeof this.onSet === 'function' ) {
                     bindings[key]['onSet'] = function( value, options ) {
                         var ret = this.onSet(value);
                         return ret;
@@ -571,6 +641,10 @@
 
         addChildView: function( selector, view ) {
             this.childViews[selector] = view;
+        },
+
+        getView: function( searchstring ) {
+
         }
 
     });
