@@ -48,17 +48,38 @@
         },
 
         nextPage: function(){
+            var transition = M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT;
 
             if(this._nextPage === 'page2'){
-                this._nextPage = 'page3'
+                this._nextPage = 'page3';
+                transition = M.PageTransitions.NONE;
             } else if(this._nextPage === 'page3'){
-                this._nextPage = '/'
+                this._nextPage = '/';
             } else if(this._nextPage === '/'){
-                this._nextPage = 'page2'
+                this._nextPage = 'page2';
             }
 
             Kitchensink.navigate({
-                route: this._nextPage
+                route: this._nextPage,
+                transition: transition
+            });
+        },
+
+        backPage: function(){
+            var transition = M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT;
+
+            if(this._nextPage === 'page3'){
+                this._nextPage = 'page2';
+                transition = M.PageTransitions.NONE;
+            } else if(this._nextPage === 'page2'){
+                this._nextPage = 'page1';
+            } else if(this._nextPage === 'page1'){
+                this._nextPage = '/';
+            }
+
+            Kitchensink.navigate({
+                route: this._nextPage,
+                transition: transition
             });
         },
 

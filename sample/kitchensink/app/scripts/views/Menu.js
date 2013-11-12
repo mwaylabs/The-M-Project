@@ -58,7 +58,6 @@ Kitchensink.Views = Kitchensink.Views || {};
                         }]
                     }
                 })
-
             }),
 
             bindingTestInput: M.View.extend({
@@ -82,6 +81,12 @@ Kitchensink.Views = Kitchensink.Views || {};
             bindingTestAttributeB: M.View.extend({
                 grid: 'col-xs-3 floatnone',
                 scopeKey: 'bindingTestModel.b'
+            }),
+
+           textarea: M.TextareaView.extend({
+                scopeKey: 'bindingTestModel.b',
+                cssClass: 'btn-danger',
+                grid: 'col-xs-12'
             }),
 
             eventTest: M.View.extend({

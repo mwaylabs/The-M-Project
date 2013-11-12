@@ -174,7 +174,7 @@ M.BikiniStore = M.Store.extend({
     onMessage: function(msg) {
         if (msg && msg.method) {
             var localStore = this.endpoint ? this.endpoint.localStore: null;
-            var options = { store: localStore, merge: true, fromMessage: true, entity: this.entity.name };
+            var options = { store: localStore, merge: true, fromMessage: true, entity: this.entity, parse: true };
             var attrs   = msg.data;
             switch(msg.method) {
                 case 'patch':

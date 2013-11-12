@@ -450,6 +450,9 @@ M.WebSqlStore = M.Store.extend({
                 var arguments = stm.arguments;
                 lastStatement = statement;
                 M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, "SQL-Statement: " + statement);
+                if (arguments) {
+                    M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, "    Arguments: " + JSON.stringify(arguments));
+                }
                 t.executeSql(statement, arguments, function( tx, res ) {
                     var len = res.rows.length;//, i;
                     for( var i = 0; i < len; i++ ) {
@@ -464,7 +467,7 @@ M.WebSqlStore = M.Store.extend({
                             if (isCollection) {
                                 result.push(attrs);
                             } else {
-                                result.set(attrs);
+                                result = attrs;
                                 break;
                             }
                         }
@@ -509,6 +512,9 @@ M.WebSqlStore = M.Store.extend({
                         var arguments = stm.arguments;
                         lastStatement = statement;
                         M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, "SQL-Statement: " + statement);
+                        if (arguments) {
+                            M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, "    Arguments: " + JSON.stringify(arguments));
+                        }
                         t.executeSql(statement, arguments);
                     });
                 }, function( sqlError ) { // errorCallback
