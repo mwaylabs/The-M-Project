@@ -1,4 +1,4 @@
-(function() {
+(function () {
 
     Kitchensink.Routers.KitchensinkRouter = M.Router.extend({
 
@@ -8,8 +8,7 @@
             'page3': 'page3Controller'
         },
 
-
-        initialize: function() {
+        initialize: function () {
 
             M.Router.prototype.initialize.apply(this, arguments);
             Kitchensink.overviewController = this.overviewController;
@@ -21,32 +20,30 @@
 
         page2Controller: Kitchensink.Controllers.Page2Controller.create(),
 
-//        page2Controller: M.Controller.extend({
-//            show: function() {
-//
-//                var html = M.ButtonView.extend({
-//                    value: 'page 3',
-//                    events: {
-//                        tap: 'nextPage'
-//                    }
-//                });
-//
-//                html = html.create(OverviewController, null, true);
-//
-//                Kitchensink.layout.applyViews({
-//                    content: html
-//                });
-//                Kitchensink.layout.startTransition();
-//            }
-//        }).create(),
-
         page3Controller: M.Controller.extend({
-            show: function() {
-                var html = M.ButtonView.extend({
-                    value: 'page 1',
-                    events: {
-                        tap: 'nextPage'
-                    }
+            show: function () {
+
+                var html = M.View.extend({
+
+                }, {
+                    btnBack: M.ButtonView.extend({
+                        value: 'page 2',
+                        grid: 'col-xs-6',
+                        events: {
+                            tap: 'backPage'
+                        }
+                    }),
+                    btnNext: M.ButtonView.extend({
+                        value: 'page 1',
+                        grid: 'col-xs-6',
+                        events: {
+                            tap: 'nextPage'
+                        }
+                    }),
+                    tf: M.TextareaView.extend({
+                        grid: 'col-xs-4'
+                    })
+
                 }).create(Kitchensink.overviewController, null, true);
 
                 Kitchensink.layout.applyViews({

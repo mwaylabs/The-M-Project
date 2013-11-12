@@ -88,7 +88,7 @@ M.Application = M.Controller.extend({
         }
 
         //TODO: implment this in config
-        $('body').append(M.DebugView.design().render().$el);
+        //$('body').append(M.DebugView.design().render().$el);
 
         this._isReady = YES;
     }

@@ -24,8 +24,11 @@
 
         initialize: function() {
             M.View.prototype.initialize.apply(this);
-        }
+        },
 
+        _attachToDom: function() {
+            return YES;
+        }
     });
 
 })(this);

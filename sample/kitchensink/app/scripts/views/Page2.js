@@ -16,6 +16,7 @@ Kitchensink.Views = Kitchensink.Views || {};
             }),
 
             pageswitchExample: M.ButtonView.extend({
+                className: 'col-xs-4',
                 value: M.I18N.get('global.pageswitch'),
                 events: {
                     tap: 'nextPage'
