@@ -7,7 +7,7 @@
     $(document).ready(function() {
         'use strict';
 
-        Kitchensink.Routers.KitchensinkRouter.create();
+        scope.Kitchensink.ApplicationRouter =  Kitchensink.Routers.KitchensinkRouter.create();
         Kitchensink.start({
             locales: [
                 { name: 'English', locale: 'en'},
