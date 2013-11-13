@@ -321,7 +321,6 @@ M.BikiniStore = M.Store.extend({
                                         method: 'update',
                                         data: data
                                     });
-                                    //that.setLastMessageTime(channel, msg.time);
                                 }
                             }
                         } else {
@@ -427,5 +426,22 @@ M.BikiniStore = M.Store.extend({
             }
         }
         callback(endpoint, msg);
+    },
+
+    clear: function(collection) {
+        if (collection) {
+            var endpoint = this.getEndpoint(collection.getUrlRoot());
+            if (endpoint) {
+                if (endpoint.localStore) {
+                    endpoint.localStore.destroy();
+                }
+                if (endpoint.messages) {
+                    endpoint.messages.destroy();
+                }
+                collection.reset();
+                this.setLastMessageTime(endpoint.channel, '');
+            }
+        }
     }
+
 });
