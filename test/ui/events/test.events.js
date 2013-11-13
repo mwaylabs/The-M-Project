@@ -26,7 +26,7 @@ describe('All Events', function() {
             }, null, true).render();
 
         _.each(all_events, function( key ) {
-            elem.hammertime.trigger(key, {});
+            elem._hammertime.trigger(key, {});
         });
     });
 
@@ -56,7 +56,7 @@ describe('All Events', function() {
             }, null, true);
 
         _.each(all_events, function( key ) {
-            elem.hammertime.trigger(key, {});
+            elem._hammertime.trigger(key, {});
         });
     });
 
@@ -88,7 +88,7 @@ describe('All Events', function() {
             }, null, true).render();
 
         _.each(all_events, function( key ) {
-            elem.hammertime.trigger(key, {});
+            elem._hammertime.trigger(key, {});
         });
     });
 
@@ -116,7 +116,7 @@ describe('All Events', function() {
         }).create({}, null, true).render();
 
         _.each(all_events, function( key ) {
-            elem.hammertime.trigger(key, {});
+            elem._hammertime.trigger(key, {});
         });
     });
 
@@ -144,7 +144,7 @@ describe('All Events', function() {
         }).create({}, null, true).render();
 
         _.each(all_events, function( key ) {
-            elem.hammertime.trigger(key, {});
+            elem._hammertime.trigger(key, {});
         });
     });
 
@@ -161,7 +161,7 @@ describe('All Events', function() {
         });
 
         var view = TestView.create().render();
-        view.hammertime.trigger('tap', {});
+        view._hammertime.trigger('tap', {});
         assert.equal(tapCount, 2);
 
     });
@@ -187,7 +187,7 @@ describe('All Events', function() {
                 }]
             }
         }).render();
-        view.hammertime.trigger('tap', {});
+        view._hammertime.trigger('tap', {});
         assert.equal(tapCount, 4);
     });
 
@@ -208,8 +208,88 @@ describe('All Events', function() {
                 }
             }
         }).render();
-        view.hammertime.trigger('tap', {});
+        view._hammertime.trigger('tap', {});
         assert.equal(tapCount, 2);
+    });
+
+    it('unbind Events function', function() {
+
+        var tapCount = 0;
+        var view = M.View.create({
+            events: {
+                tap: function() {
+                    tapCount++;
+                }
+            }
+        }).render();
+
+        view._hammertime.trigger('tap', {});
+        assert.equal(tapCount, 1);
+        view._unbindEvent('tap');
+        view._hammertime.trigger('tap', {});
+        assert.equal(tapCount, 1);
+    });
+
+    it('unbind multipple Events function - first in first out', function() {
+
+        var tapCount = 0;
+        var doubletapCount = 0;
+        var view = M.View.create({
+            events: {
+                tap: function() {
+                    tapCount++;
+                },
+                doubletap: function() {
+                    doubletapCount++;
+                }
+            }
+        }).render();
+
+        view._hammertime.trigger('tap', {});
+        view._hammertime.trigger('doubletap', {});
+        assert.equal(tapCount, 1);
+        assert.equal(doubletapCount, 1);
+        view._unbindEvent('tap');
+        view._hammertime.trigger('tap', {});
+        view._hammertime.trigger('doubletap', {});
+        assert.equal(tapCount, 1);
+        assert.equal(doubletapCount, 2);
+        view._unbindEvent('doubletap');
+        view._hammertime.trigger('tap', {});
+        view._hammertime.trigger('doubletap', {});
+        assert.equal(tapCount, 1);
+        assert.equal(doubletapCount, 2);
+    });
+
+    it('unbind multipple Events function - first in last out', function() {
+
+        var tapCount = 0;
+        var doubletapCount = 0;
+        var view = M.View.create({
+            events: {
+                tap: function() {
+                    tapCount++;
+                },
+                doubletap: function() {
+                    doubletapCount++;
+                }
+            }
+        }).render();
+
+        view._hammertime.trigger('tap', {});
+        view._hammertime.trigger('doubletap', {});
+        assert.equal(tapCount, 1);
+        assert.equal(doubletapCount, 1);
+        view._unbindEvent('doubletap');
+        view._hammertime.trigger('tap', {});
+        view._hammertime.trigger('doubletap', {});
+        assert.equal(tapCount, 2);
+        assert.equal(doubletapCount, 1);
+        view._unbindEvent('tap');
+        view._hammertime.trigger('tap', {});
+        view._hammertime.trigger('doubletap', {});
+        assert.equal(tapCount, 2);
+        assert.equal(doubletapCount, 1);
     });
 
 });

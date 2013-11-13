@@ -10,7 +10,7 @@ describe('Swipe Events', function () {
             }
         }).create();
         elem.render();
-        elem.hammertime.trigger('swipe', {});
+        elem._hammertime.trigger('swipe', {});
     });
 
     it('Swipe without render', function (done) {
@@ -22,7 +22,7 @@ describe('Swipe Events', function () {
                 }
             }
         }).create();
-        elem.hammertime.trigger('swipe', {});
+        elem._hammertime.trigger('swipe', {});
     });
 
     it('Swipe with render and useElement set to YES', function (done) {
@@ -36,7 +36,7 @@ describe('Swipe Events', function () {
             }
         }).create();
         elem.render();
-        elem.hammertime.trigger('swipe', {});
+        elem._hammertime.trigger('swipe', {});
     });
 
     it('Event is bound to the correct dom element', function () {
@@ -51,10 +51,10 @@ describe('Swipe Events', function () {
         }).create();
         var before = elem.el;
         elem.render();
-        assert.isTrue(elem.hammertime.element === elem.el);
+        assert.isTrue(elem._hammertime.element === elem.el);
     });
 
-    it('Swipe without render and useElement set to YES -> hammertime should be undefined', function () {
+    it('Swipe without render and useElement set to YES -> _hammertime should be undefined', function () {
 
         var elem = M.View.extend({
             useElement: YES,
@@ -65,7 +65,7 @@ describe('Swipe Events', function () {
             }
         }).create();
 
-        assert.isUndefined(elem.hammertime);
+        assert.isNull(elem._hammertime);
     });
 
     it('Swipe a function from the scope', function (done) {
@@ -80,7 +80,7 @@ describe('Swipe Events', function () {
                 }
             }, null, true);
 
-        elem.hammertime.trigger('swipe', {});
+        elem._hammertime.trigger('swipe', {});
     });
 
     it('Swipe a function from the scope with render call', function (done) {
@@ -95,7 +95,7 @@ describe('Swipe Events', function () {
                 }
             }, null, true).render();
 
-        elem.hammertime.trigger('swipe', {});
+        elem._hammertime.trigger('swipe', {});
     });
 
     it('Swipe a function from the scope with useElement', function (done) {
@@ -111,7 +111,7 @@ describe('Swipe Events', function () {
                 }
             }, null, true).render();
 
-        elem.hammertime.trigger('swipe', {});
+        elem._hammertime.trigger('swipe', {});
     });
 
     it('Syncronous event trigger calls', function (done) {
@@ -136,8 +136,8 @@ describe('Swipe Events', function () {
                 }
             }, null, true).render();
 
-        elem.hammertime.trigger('tap', {});
-        elem.hammertime.trigger('swipe', {});
+        elem._hammertime.trigger('tap', {});
+        elem._hammertime.trigger('swipe', {});
 
     });
 
@@ -158,8 +158,8 @@ describe('Swipe Events', function () {
                 }
             }, null, true).render();
 
-        elem.hammertime.trigger('swipe', {});
-        elem.hammertime.trigger('tap', {});
+        elem._hammertime.trigger('swipe', {});
+        elem._hammertime.trigger('tap', {});
     });
 
     it('Swipe not called with swipeleft', function (done) {
@@ -179,8 +179,8 @@ describe('Swipe Events', function () {
                 }
             }, null, true).render();
 
-        elem.hammertime.trigger('swipeleft', {});
-        elem.hammertime.trigger('tap', {});
+        elem._hammertime.trigger('swipeleft', {});
+        elem._hammertime.trigger('tap', {});
     });
 
     it('Swipe not called with swipeleft and swiperight', function (done) {
@@ -206,8 +206,8 @@ describe('Swipe Events', function () {
                 }
             }, null, true).render();
 
-        elem.hammertime.trigger('swipeleft', {});
-        elem.hammertime.trigger('swiperight', {});
+        elem._hammertime.trigger('swipeleft', {});
+        elem._hammertime.trigger('swiperight', {});
     });
 
     it('Swipeleft or swiperight not called with swipe', function (done) {
@@ -227,6 +227,6 @@ describe('Swipe Events', function () {
                 }
             }, null, true).render();
 
-        elem.hammertime.trigger('swipe', {});
+        elem._hammertime.trigger('swipe', {});
     });
 });

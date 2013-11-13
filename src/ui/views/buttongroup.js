@@ -27,15 +27,19 @@
                             that.setActive(element);
                         },
                             function( events, element ) {
-                                console.log('WHOHOOO');
+                                console.log('tap');
+                            }]
+                        ,
+                        doubletap: [function( events, element ) {
+
+                        },
+                            function( events, element ) {
+                                console.log('doubletap');
                             }]
                     }
                 })
             }, this);
         }
-
-
-
     });
 
 })(this);
