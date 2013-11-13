@@ -5,7 +5,8 @@
         routes: {
             '': 'overviewController',
             'page2': 'page2Controller',
-            'page3': 'page3Controller'
+            'page3': 'page3Controller',
+            'page4': 'page4Controller'
         },
 
         initialize: function () {
@@ -51,7 +52,9 @@
                 });
                 Kitchensink.startTransition();
             }
-        }).create()
+        }).create(),
+
+        page4Controller: Kitchensink.Controllers.Page4Controller.create()
 
     });
 
