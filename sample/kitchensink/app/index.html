@@ -1,46 +1,49 @@
 <!doctype html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name="viewport"
-          content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,width=device-width">
-    <link rel="stylesheet" href="styles/main.css">
-    <!-- build:js scripts/vendor/modernizr.js -->
-    <script src="bower_components/modernizr/modernizr.js"></script>
-    <!-- endbuild -->
+<html manifest="cache.manifest">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,width=device-width">
 
-    <!-- build:css styles/bootstrap.css -->
-    <link rel="stylesheet" href="bower_components/tmp2/themproject.css">
-    <link rel="stylesheet" href="bower_components/tmp2/bootstrap.min.css">
-    <link rel="stylesheet" href="bower_components/tmp2/themproject.theme.default.css">
-    <!-- endbuild -->
+        <!-- build:css styles/vendor.css -->
+        <link rel="stylesheet" href="bower_components/tmp2/bootstrap_custom.css">
+        <link rel="stylesheet" href="bower_components/tmp2/themproject.css">
+        <link rel="stylesheet" href="bower_components/tmp2/themproject_theme.css">
+        <!-- endbuild -->
 
-    <link rel="stylesheet" href="bower_components/tmp2/themproject.css">
-</head>
-<body>
+        <!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+
+        <!-- build:js scripts/vendor/modernizr.js -->
+        <script src="bower_components/modernizr/modernizr.js"></script>
+        <!-- endbuild -->
+    </head>
+    <body>
+        <main role="main" id="main"></main>
+
+        <!-- build:js scripts/vendor.js -->
+        <script src="bower_components/jquery/jquery.js"></script>
+        <script src="bower_components/underscore/underscore.js"></script>
+        <script src="bower_components/backbone/backbone.js"></script>
+        <script src="bower_components/backbone.stickit/backbone.stickit.js"></script>
+        <script src="bower_components/tmpl/tmpl.js"></script>
+        <script src="bower_components/hammerjs/dist/hammer.js"></script>
+        <script src="bower_components/socket.io-client/dist/socket.io.js"></script>
+        <script src="bower_components/momentjs/min/moment-with-langs.js"></script>
+        <script src="bower_components/tmp2/themproject.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/main.js -->
+        <script src="scripts/main.js"></script>
+        <script src="scripts/templates.js"></script>
+        <script src="scripts/controllers/OverviewController.js"></script>
+        <script src="scripts/controllers/Page2Controller.js"></script>
+        <script src="scripts/models/TMPView.js"></script>
+        <script src="scripts/collections/TMPViews.js"></script>
+        <script src="scripts/views/Menu.js"></script>
+        <script src="scripts/views/Page2.js"></script>
+        <script src="scripts/routes/KitchensinkRouter.js"></script>
+        <!-- endbuild -->
 </body>
-<!-- build:js scripts/vendor.js -->
-<script src="bower_components/jquery/jquery.js"></script>
-<script src="bower_components/underscore/underscore.js"></script>
-<script src="bower_components/backbone/backbone.js"></script>
-<script src="bower_components/backbone.stickit/backbone.stickit.js"></script>
-<script src="bower_components/tmpl/tmpl.js"></script>
-<script src="bower_components/tmp2/themproject.js"></script>
-<script src="bower_components/socket.io-client/dist/socket.io.js"></script>
-<script src="bower_components/hammerjs/dist/hammer.js"></script>
-<script src="bower_components/momentjs/min/moment-with-langs.js"></script>
-<!-- endbuild -->
-
-<!-- build:js({.tmp,app}) scripts/main.js -->
-<script src="scripts/main.js"></script>
-<script src="scripts/templates.js"></script>
-<script src="scripts/controllers/OverviewController.js"></script>
-<script src="scripts/controllers/Page2Controller.js"></script>
-<script src="scripts/models/TMPView.js"></script>
-<script src="scripts/collections/TMPViews.js"></script>
-<script src="scripts/views/Menu.js"></script>
-<script src="scripts/views/Page2.js"></script>
-<script src="scripts/routes/KitchensinkRouter.js"></script>
-<!-- endbuild -->
 </html>
