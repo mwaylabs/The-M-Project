@@ -115,12 +115,12 @@
         grid: null,
 
         /**
-         * external events for the users
+         * Store events from outside the framework here. Developer should use this to bind events on their views like they know it from backbone.
          */
         events: null,
 
         /**
-         * internal framework events
+         * internal framework events. This is used to store every event till the _registerEvents is called. _registerEvents binds only the events stored inside this attribute
          */
         _events: null,
 
@@ -274,59 +274,56 @@
             return this;
         },
 
+        /**
+         *
+         * Prepares the events. Loops over all defined events and searchs for the callback function for every element. If the event is a string, search in the given scope for the callback function.
+         * The event attribute of every object is also used by backbone. The event handling is done by hammer.js so we map the events to an internal used _events object delete the events.
+         * Before that we store the events in an internal _originalEvents so the information isn't lost.
+         * Every event type e.q. tap is an array to handle more than one callback function.
+         *
+         * @param scope
+         * @returns {View}
+         * @private
+         */
         _mapEventsToScope: function( scope ) {
+            // A swap object for the given events to assign it later to the _events object.
+            var events = {};
             if( this.events ) {
-                var events = {};
                 _.each(this.events, function( value, key ) {
-                    if( typeof value === 'string' ) {
-                        if( scope && typeof scope[value] === 'function' ) {
-                            events[key] = scope[value];
-                        }
-                    } else {
-                        events[key] = value;
+                    var callback = value;
+                    // If the event callback type is an string, search in the given scope for a function
+                    if( typeof value === 'string' && scope && typeof scope[value] === 'function' ) {
+                        callback = scope[value];
                     }
+                    // Create an array for the specific eventtype
+                    events[key] = _.isArray(callback) ? callback : [callback];
                 }, this);
 
-                this._events = events;
-                this.originalEvents = this.events;
-                //backbone should not bind events so set it to null
+                // Store the events object to not loose the information
+                this._originalEvents = this.events;
+                // backbone should not bind events so set it to null
                 this.events = null;
             }
+            // events should be an object
+            this._events = events;
 
             return this;
         },
 
-        _addInternalEvents: function() {
-            //Map the internalEvents, if there are any, to the _event object
-            if( this._internalEvents ) {
-                //loop over the internal events
-                _.each(this._internalEvents, function( event, type ) {
-                    //a swap for the event
-                    var swapEventType = [];
-                    //if the object has allready events, swap them
-                    if( this._events && this._events[type] ) {
-                        if( _.isFunction(this._events[type]) ) {
-                            //if the event is a single function add it to the swap array
-                            swapEventType.push(this._events[type]);
-                        } else if( _.isArray(this._events[type]) ) {
-                            //if the event is an array assign it directly
-                            swapEventType = this._events[type];
-                        }
-                    } else {
-                        //if there is no events object defined add it here
-                        this._events = {};
-                    }
-                    //add the internal events to the swap element
-                    if( _.isFunction(this._internalEvents[type]) ) {
-                        //if it is a single function just add it
-                        swapEventType.push(this._internalEvents[type]);
-                    } else if( _.isArray(this._internalEvents[type]) ) {
-                        //if there are several internal events add them all
-                        swapEventType.push.apply(swapEventType, this._internalEvents[type]);
-                    }
-                    //assign the cached events back to the object _events
-                    this._events[type] = swapEventType;
 
+        /**
+         * Merge the internal events with the external ones.
+         * @private
+         */
+        _addInternalEvents: function() {
+            if( this._internalEvents ) {
+                _.each(this._internalEvents, function( internalEvent, eventType ) {
+                    //if the _internalEvents isn't an array create one
+                    var internal = _.isArray(internalEvent) ? internalEvent : [internalEvent];
+                    //if the object has no _events or the object is not an array create one
+                    this._events[eventType] = _.isArray(this._events[eventType]) ? this._events[eventType] : [];
+                    //merge the interanl and external events
+                    this._events[eventType] = this._events[eventType].concat(internal);
                 }, this);
             }
         },
@@ -363,6 +360,11 @@
             };
         },
 
+        /**
+         * Register events via hammer.js
+         *
+         * @private
+         */
         _registerEvents: function() {
             if( this._events ) {
                 var that = this;
@@ -376,16 +378,9 @@
                         //                        }
                         //                        args[0]['tmpViewStack'].push(that);
 
-                        if( _.isFunction(that._events[eventName]) ) {
-                            // if there is only one callback applied and it is an function call that one
-                            that._events[eventName].apply(that.scope, args);
-                        } else if( _.isArray(that._events[eventName]) ) {
-                            // you can add multiple functions for a single event. if the type is an array call all of them
-                            _.each(that._events[eventName], function( func ) {
-                                func.apply(that.scope, args);
-                            });
-                        }
-
+                        _.each(that._events[eventName], function( func ) {
+                            func.apply(that.scope, args);
+                        });
 
                     });
 
