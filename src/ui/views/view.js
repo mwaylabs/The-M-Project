@@ -1,3 +1,7 @@
+tesst = function() {
+    console.log('lala');
+};
+
 (function( scope ) {
 
     /**
@@ -128,6 +132,17 @@
          * The Value of the view
          */
         _value_: null,
+
+
+        /**
+         * The hammer.js event object
+         */
+        _hammertime: null,
+
+        /**
+         * Store the given events inside this attribute. The events object is set to null to prefent backbone of setting events. To not loose the information it gets stored.
+         */
+        _originalEvents: null,
 
         /**
          * Set the model of the view
@@ -368,21 +383,20 @@
         _registerEvents: function() {
             if( this._events ) {
                 var that = this;
+
+                this._eventCallback = {};
                 Object.keys(this._events).forEach(function( eventName ) {
-                    this.hammertime = Hammer(that.el, that._getEventOptions()).on(eventName, function() {
+
+                    this._hammertime = Hammer(that.el, that._getEventOptions());
+
+                    this._eventCallback[eventName] = function( event ) {
                         var args = Array.prototype.slice.call(arguments);
                         args.push(that);
-                        //args[0] is the event. every child view registers itself on this event
-                        //                        if(!args[0]['tmpViewStack']){
-                        //                            args[0]['tmpViewStack'] = [];
-                        //                        }
-                        //                        args[0]['tmpViewStack'].push(that);
-
-                        _.each(that._events[eventName], function( func ) {
+                        _.each(that._events[event.type], function( func ) {
                             func.apply(that.scope, args);
-                        });
-
-                    });
+                        }, that);
+                    };
+                    this._hammertime.on(eventName, this._eventCallback[eventName]);
 
                 }, this);
             }
@@ -394,7 +408,7 @@
          * @private
          */
         _disableEvents: function() {
-            this.hammertime.enable(NO);
+            this._hammertime.enable(NO);
         },
 
         /**
@@ -403,7 +417,7 @@
          * @private
          */
         _enableEvents: function() {
-            this.hammertime.enable(YES);
+            this._hammertime.enable(YES);
         },
 
         /**
@@ -640,8 +654,31 @@
             this.childViews[selector] = view;
         },
 
-        getView: function( searchstring ) {
-
+        /**
+         * Remove all events to the given eventtype
+         * @param String
+         * @private
+         * @todo removing an event by its name removes all bound event callbacks. At the moment it isn't possible to remove a single eventype function.
+         * @example
+         *
+         * //Create a view with an tap event
+         * var view = M.View.extend({
+         *   events: {
+         *      tap: function(){console.log('tap did happen')}
+         *   }
+         * }).create().render();
+         *
+         * //Log all bound events (Chrome provides the getEventListeners function to log all event on an DOM object)
+         * getEventListeners(view.el); // Object {touchstart: Array[1], mousedown: Array[1], tap: Array[1]}
+         *
+         * //Remove all tap events
+         * view._unbindEvent('tap');
+         *
+         * //Log again
+         * getEventListeners(view.el); //Object {touchstart: Array[1], mousedown: Array[1]}
+         */
+        _unbindEvent: function( eventtype ) {
+            this._hammertime.off(eventtype, this._eventCallback[eventtype]);
         }
 
     });
