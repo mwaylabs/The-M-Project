@@ -128,7 +128,7 @@ module.exports = function( grunt ) {
 
     // TODO run jshint task
     grunt.registerTask('test', ['mocha']);
-    grunt.registerTask('dev', ['build','watch:dev']);
+    grunt.registerTask('dev', ['default','watch:dev']);
     grunt.registerTask('release', ['default', 'preprocess:bd', 'uglify', 'cssmin']);
     grunt.registerTask('default', ['preprocess:core', 'compass', 'copy']);
 };

@@ -10,7 +10,7 @@ describe('Tap Events', function () {
             }
         }).create();
         elem.render();
-        elem.hammertime.trigger('tap', {});
+        elem._hammertime.trigger('tap', {});
     });
 
     it('Tap without render', function (done) {
@@ -22,7 +22,7 @@ describe('Tap Events', function () {
                 }
             }
         }).create();
-        elem.hammertime.trigger('tap', {});
+        elem._hammertime.trigger('tap', {});
     });
 
     it('Tap with render and useElement set to YES', function (done) {
@@ -36,7 +36,7 @@ describe('Tap Events', function () {
             }
         }).create();
         elem.render();
-        elem.hammertime.trigger('tap', {});
+        elem._hammertime.trigger('tap', {});
     });
 
     it('Event is bound to the correct dom element', function () {
@@ -51,10 +51,10 @@ describe('Tap Events', function () {
         }).create();
         var before = elem.el;
         elem.render();
-        assert.isTrue(elem.hammertime.element === elem.el);
+        assert.isTrue(elem._hammertime.element === elem.el);
     });
 
-    it('Tap without render and useElement set to YES -> hammertime should be undefined', function () {
+    it('Tap without render and useElement set to YES -> _hammertime should be undefined', function () {
 
         var elem = M.View.extend({
             useElement: YES,
@@ -65,7 +65,7 @@ describe('Tap Events', function () {
             }
         }).create();
 
-        assert.isUndefined(elem.hammertime);
+        assert.isNull(elem._hammertime);
     });
 
     it('Tap a function from the scope', function (done) {
@@ -80,7 +80,7 @@ describe('Tap Events', function () {
                 }
             }, null, true);
 
-        elem.hammertime.trigger('tap', {});
+        elem._hammertime.trigger('tap', {});
     });
 
     it('Tap a function from the scope with render call', function (done) {
@@ -95,7 +95,7 @@ describe('Tap Events', function () {
                 }
             }, null, true).render();
 
-        elem.hammertime.trigger('tap', {});
+        elem._hammertime.trigger('tap', {});
     });
 
     it('Tap a function from the scope with useElement', function (done) {
@@ -111,6 +111,6 @@ describe('Tap Events', function () {
                 }
             }, null, true).render();
 
-        elem.hammertime.trigger('tap', {});
+        elem._hammertime.trigger('tap', {});
     });
 });
