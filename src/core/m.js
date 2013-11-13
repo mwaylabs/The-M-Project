@@ -53,6 +53,16 @@ M.isI18NItem = function (entity) {
 };
 
 /**
+ *
+ * Check if the given object is a M.View
+ * @param {Object} Check this property if it inherits from M.View
+ * @returns {boolean}
+ */
+M.isView = function (view) {
+    return M.View.prototype.isPrototypeOf(view);
+};
+
+/**
  * Extend a function with the given interfaces
  * @param interfaces
  * @returns {M}

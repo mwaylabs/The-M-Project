@@ -109,4 +109,47 @@ describe('M.View', function() {
         assert.equal(clickCount, 2);
     });
 
+    it('_getChildView', function() {
+
+        var testView = M.View.extend({}, {
+            child1: M.View.extend({value: 'child1'}),
+            child2: M.View.extend({value: 'child2'})
+        }).create();
+
+        assert.equal(testView._getChildView('child1'), testView.childViews.child1);
+        assert.equal(testView._getChildView('child2'), testView.childViews.child2);
+        assert.equal(testView._getChildView('child2').getValue(), 'child2');
+        assert.equal(testView._getChildView(0), testView.childViews.child1);
+        assert.isUndefined(testView._getChildView('0'));
+        assert.equal(testView._getChildView(1), testView.childViews.child2);
+        assert.isUndefined(testView._getChildView('1'));
+
+        assert.isUndefined(testView._getChildView(10));
+        assert.isUndefined(testView._getChildView('10'));
+
+        testView = null;
+
+    });
+
+    it('_getChildView when childs are array', function() {
+
+        var testView = M.View.extend({}, [
+                M.View.extend({value: 'child1'}),
+                M.View.extend({value: 'child2'})
+            ]
+        ).create();
+
+        assert.isUndefined(testView._getChildView('child1'), testView.childViews.child1);
+        assert.isUndefined(testView._getChildView('child2'), testView.childViews.child2);
+        assert.equal(testView._getChildView(0), testView.childViews[0]);
+        assert.equal(testView._getChildView('0'),testView.childViews[0]);
+        assert.equal(testView._getChildView(1), testView.childViews[1]);
+        assert.equal(testView._getChildView('1'), testView.childViews[1]);
+
+        assert.isUndefined(testView._getChildView(10));
+        assert.isUndefined(testView._getChildView('10'));
+
+        testView = null;
+    });
+
 });

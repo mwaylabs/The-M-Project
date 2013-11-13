@@ -1,7 +1,3 @@
-tesst = function() {
-    console.log('lala');
-};
-
 (function( scope ) {
 
     /**
@@ -656,7 +652,7 @@ tesst = function() {
 
         /**
          * Remove all events to the given eventtype
-         * @param String
+         * @param {String} The eventtype e.q. tap
          * @private
          * @todo removing an event by its name removes all bound event callbacks. At the moment it isn't possible to remove a single eventype function.
          * @example
@@ -679,6 +675,31 @@ tesst = function() {
          */
         _unbindEvent: function( eventtype ) {
             this._hammertime.off(eventtype, this._eventCallback[eventtype]);
+        },
+
+
+        /**
+         *
+         * Returns a childview of an object either by the name or the index of the childview
+         * @param {(string|number)} the index or name of the childview
+         * @private
+         * @example
+         *
+         * v
+         * var testView = M.View.extend({}, {
+         *    child1: M.View.extend({value: 'child 1 value'}),
+         *    child2: M.View.extend({value: 'child 2 value'})
+         * }).create();
+         *
+         * testView._getChildView(0);  //child1
+         * testView._getChildView(1);  //child2
+         * testView._getChildView('child1');  //child1
+         * testView._getChildView('child2');  //child2
+         * testView._getChildView('child2');  //child2
+         */
+        _getChildView: function( identifier ) {
+            var childName = _.isNumber(identifier) ? Object.keys(this.childViews)[identifier] : identifier;
+            return this.childViews[childName];
         }
 
     });

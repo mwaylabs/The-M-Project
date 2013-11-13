@@ -47,6 +47,71 @@ describe('M Namespace', function () {
         localStorage.clear();
         assert.equal(localStorage.length, 0, 'localStorage.clear() is implemented as anticipated in the spec');
     
-    });    
+    });
+
+    it('M.isCollection', function () {
+
+        assert.isFalse(M.isCollection());
+        assert.isFalse(M.isCollection(''));
+        assert.isFalse(M.isCollection(0));
+        assert.isFalse(M.isCollection(1));
+        assert.isFalse(M.isCollection({}));
+        assert.isFalse(M.isCollection([]));
+        assert.isFalse(M.isCollection(M.Collection));
+        assert.isTrue(M.isCollection(M.Collection.create()));
+        assert.isTrue(M.isCollection(M.Collection.extend().create()));
+        assert.isFalse(M.isCollection(M.Model));
+        assert.isFalse(M.isCollection(M.Model.create()));
+        assert.isFalse(M.isCollection(M.Model.extend().create()));
+        assert.isFalse(M.isCollection(M.View));
+        assert.isFalse(M.isCollection(M.View.create()));
+        assert.isFalse(M.isCollection(M.View.extend().create()));
+        assert.isFalse(M.isCollection(M.View.extend({_type:''}).create()));
+
+    });
+
+    it('M.isModel', function () {
+
+        assert.isFalse(M.isModel());
+        assert.isFalse(M.isModel(''));
+        assert.isFalse(M.isModel(0));
+        assert.isFalse(M.isModel(1));
+        assert.isFalse(M.isModel({}));
+        assert.isFalse(M.isModel([]));
+        assert.isFalse(M.isModel(M.Collection));
+        assert.isFalse(M.isModel(M.Collection.create()));
+        assert.isFalse(M.isModel(M.Collection.extend().create()));
+        assert.isFalse(M.isModel(M.Model));
+        assert.isTrue(M.isModel(M.Model.create()));
+        assert.isTrue(M.isModel(M.Model.extend().create()));
+        assert.isFalse(M.isModel(M.View));
+        assert.isFalse(M.isModel(M.View.create()));
+        assert.isFalse(M.isModel(M.View.extend().create()));
+        assert.isFalse(M.isModel(M.View.extend({_type:''}).create()));
+
+    });
+
+
+
+    it('M.isView', function () {
+
+        assert.isFalse(M.isView());
+        assert.isFalse(M.isView(''));
+        assert.isFalse(M.isView(0));
+        assert.isFalse(M.isView(1));
+        assert.isFalse(M.isView({}));
+        assert.isFalse(M.isView([]));
+        assert.isFalse(M.isView(M.Collection));
+        assert.isFalse(M.isView(M.Collection.create()));
+        assert.isFalse(M.isView(M.Collection.extend().create()));
+        assert.isFalse(M.isView(M.Model));
+        assert.isFalse(M.isView(M.Model.create()));
+        assert.isFalse(M.isView(M.Model.extend().create()));
+        assert.isFalse(M.isView(M.View));
+        assert.isTrue(M.isView(M.View.create()));
+        assert.isTrue(M.isView(M.View.extend().create()));
+        assert.isTrue(M.isView(M.View.extend({_type:''}).create()));
+
+    });
 
 });

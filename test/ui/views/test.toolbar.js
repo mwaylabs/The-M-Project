@@ -15,7 +15,6 @@ describe('M.ToolbarView', function () {
 
             var regex = /data-childviews="first"/gi;
             var test = regex.exec(toolbarTemplate)
-            console.log(uiTemplates[template], test);
             assert.isTrue(test.length === 1, uiTemplates[template]);
 
             regex = /data-childviews="second"/gi;

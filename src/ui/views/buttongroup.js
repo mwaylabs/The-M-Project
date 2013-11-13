@@ -6,10 +6,12 @@
         _template: _.tmpl(M.TemplateManager.get('M.ButtonGroupView')),
 
         setActive: function( view ) {
+
+            var setActiveView = M.isView(view) ? view : this._getChildView(view);
             _.each(this.childViews, function( child ) {
                 child.deactivate();
             }, this);
-            view.activate();
+            setActiveView.activate();
         },
 
         getActive: function() {
@@ -19,23 +21,14 @@
         },
 
         initialize: function() {
+            M.View.prototype.initialize.apply(this, arguments);
             var that = this;
             _.each(this._childViews, function( child, key ) {
                 this._childViews[key] = child.extend({
                     _internalEvents: {
                         tap: [function( events, element ) {
                             that.setActive(element);
-                        },
-                            function( events, element ) {
-                                console.log('tap');
-                            }]
-                        ,
-                        doubletap: [function( events, element ) {
-
-                        },
-                            function( events, element ) {
-                                console.log('doubletap');
-                            }]
+                        }]
                     }
                 })
             }, this);

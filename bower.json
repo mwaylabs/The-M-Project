@@ -17,7 +17,8 @@
     "socket.io-client": "~0.9.16",
     "modernizr": "~2.6.2",
     "momentjs": "~2.4.0",
-    "hammerjs": "~1.0.5"
+    "hammerjs": "~1.0.5",
+    "detectizr": "*"
   },
   "devDependencies": {
     "mocha": "~1.13.0",

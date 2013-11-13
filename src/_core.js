@@ -7,6 +7,7 @@
 // @include ./core/application.js
 // @include ./core/router.js
 // @include ./core/viewmanager.js
+// @include ./core/environment.js
 
 
 // @include ./utility/i18n_item.js

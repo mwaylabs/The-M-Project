@@ -17,6 +17,7 @@
         },
 
         switchToTab: function( index ) {
+            this._tabMenu.setActive(index);
             this.$el.find('.m-tab.m-page-current').removeClass('m-page-current');
             this.childViews['tab-content'][index].$el.addClass('m-page-current');
             Kitchensink.navigate({
