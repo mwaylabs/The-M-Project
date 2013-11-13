@@ -1,27 +1,26 @@
 <!doctype html>
-    <html>
+<html manifest="cache.manifest">
     <head>
         <meta charset="utf-8">
         <title></title>
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,width=device-width">
 
+        <!-- build:css styles/vendor.css -->
+        <link rel="stylesheet" href="bower_components/tmp2/bootstrap_custom.css">
+        <link rel="stylesheet" href="bower_components/tmp2/themproject.css">
+        <link rel="stylesheet" href="bower_components/tmp2/themproject_theme.css">
+        <!-- endbuild -->
+
+        <!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+
         <!-- build:js scripts/vendor/modernizr.js -->
         <script src="bower_components/modernizr/modernizr.js"></script>
         <!-- endbuild -->
-
-        <!-- build:css styles/bootstrap.css -->
-        <!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">-->
-        <!-- endbuild -->
-
-        <link rel="stylesheet" href="bower_components/tmp2/themproject.css">
-        <link rel="stylesheet" href="bower_components/tmp2/bootstrap.min.css">
-        <link rel="stylesheet" href="bower_components/tmp2/themproject.theme.default.css">
-
-        <link rel="stylesheet" href="scripts/layouts/AppLayout.css">
-        <link rel="stylesheet" href="styles/main.css">
     </head>
     <body>
-        <main role="main" class="container" id="main"></main>
+        <main role="main" id="main"></main>
 
         <!-- build:js scripts/vendor.js -->
         <script src="bower_components/jquery/jquery.js"></script>
@@ -29,36 +28,28 @@
         <script src="bower_components/backbone/backbone.js"></script>
         <script src="bower_components/backbone.stickit/backbone.stickit.js"></script>
         <script src="bower_components/tmpl/tmpl.js"></script>
-        <script src="bower_components/tmp2/themproject.js"></script>
-
-        <script src="bower_components/socket.io-client/dist/socket.io.js"></script>
         <script src="bower_components/hammerjs/dist/hammer.js"></script>
+        <script src="bower_components/socket.io-client/dist/socket.io.js"></script>
         <script src="bower_components/momentjs/min/moment-with-langs.js"></script>
+        <script src="bower_components/tmp2/themproject.js"></script>
         <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/main.js -->
         <script src="scripts/main.js"></script>
-
+        <script src="scripts/templates.js"></script>
         <script src="scripts/layouts/AppLayout.js"></script>
-
         <script src="scripts/controllers/ListController.js"></script>
         <script src="scripts/controllers/DetailController.js"></script>
         <script src="scripts/controllers/EditController.js"></script>
         <script src="scripts/controllers/AddController.js"></script>
-
         <script src="scripts/templates.js"></script>
         <script src="scripts/models/Contacts.js"></script>
         <script src="scripts/collections/Contacts.js"></script>
-
         <script src="scripts/views/Image.js"></script>
         <script src="scripts/views/List.js"></script>
         <script src="scripts/views/Detail.js"></script>
         <script src="scripts/views/Edit.js"></script>
-
-
         <script src="scripts/routes/Main.js"></script>
-
-        <!--<script src="scripts/views/tmpViews.js"></script>-->
         <!-- endbuild -->
 </body>
 </html>
