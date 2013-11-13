@@ -1,9 +1,8 @@
-.debug-menu{
+.debug-menu {
   position: fixed;
   z-index: 1;
   position: absolute;
-  top:0;
-  height: 70px;
+  top: 0;
   left: 0;
   right: 0;
 }
@@ -16,21 +15,22 @@
   right: 0;
   display: none;
 
-  .debug-grid{
+  .debug-grid {
     height: 100%;
 
   }
 
-  .row{
+  .row {
     height: 100%;
 
     .col-xs-1 {
-      background: rgba(0, 255, 0, 0.5);
-      height: 100%;
-    }
-
-    .col-xs-1:nth-child(2n+1) {
       background: rgba(00, 255, 255, 0.5);
+      height: 100%;
+
+      .inner {
+        background: rgba(0, 255, 0, 0.5);
+        height: 100%;
+      }
     }
   }
 

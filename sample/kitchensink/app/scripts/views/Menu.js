@@ -49,9 +49,15 @@ Kitchensink.Views = Kitchensink.Views || {};
                 fourthButton: M.ButtonView.extend({
                     value:'fourth button',
                     cssClass: 'btn-danger',
-                    grid: 'col-xs-4'
+                    grid: 'col-xs-4',
+                    events: {
+                        tap: [function() {
+                            console.log('tap1');
+                        }, function() {
+                            console.log('tap2');
+                        }]
+                    }
                 })
-
             }),
 
             bindingTestInput: M.View.extend({
@@ -75,6 +81,12 @@ Kitchensink.Views = Kitchensink.Views || {};
             bindingTestAttributeB: M.View.extend({
                 grid: 'col-xs-3 floatnone',
                 scopeKey: 'bindingTestModel.b'
+            }),
+
+           textarea: M.TextareaView.extend({
+                scopeKey: 'bindingTestModel.b',
+                cssClass: 'btn-danger',
+                grid: 'col-xs-12'
             }),
 
             eventTest: M.View.extend({
@@ -291,12 +303,12 @@ Kitchensink.Views = Kitchensink.Views || {};
 
             green: M.View.extend({
                 cssClass: 'btn-danger',
-                grid: 'col-xs-1 col-md-1 col-md-offset-1'
+                grid: 'col-xs-1 col-md-1 col-xs-offset-1'
             }),
 
             blue: M.View.extend({
                 cssClass: 'btn-info',
-                grid: 'col-xs-1 col-md-3 col-md-offset-6'
+                grid: 'col-xs-3 col-md-3 col-xs-offset-6'
             })
 
         })

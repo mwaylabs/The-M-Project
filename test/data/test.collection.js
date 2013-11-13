@@ -1,31 +1,50 @@
 describe('M.Collection', function() {
 
+    var testConnection = function( callback ) {
+        $.ajax({
+            dataType: "json",
+            url: 'http://nerds.mway.io:8200/bikini/test/info',
+            success: function() {
+                callback();
+            },
+            error: function() {
+                assert.isTrue(YES);
+            }
+        });
+    }
+
     var TEST = {};
 
     TEST.url = 'http://nerds.mway.io:8200/bikini/developers';
-    TEST.data = [{
-        sureName: 'Laubach',
-        firstName: 'Dominik',
-        age: 27
-    },{
-        sureName: 'Hanowski',
-        firstName: 'Marco',
-        age: 27
-    },{
-        sureName: 'Stierle',
-        firstName: 'Frank',
-        age: 43
-    },{
-        sureName: 'Werler',
-        firstName: 'Sebastian',
-        age: 30
-    },{
-        sureName: 'Buck',
-        firstName: 'Stefan',
-        age: 26
-    }];
+    TEST.data = [
+        {
+            sureName: 'Laubach',
+            firstName: 'Dominik',
+            age: 27
+        },
+        {
+            sureName: 'Hanowski',
+            firstName: 'Marco',
+            age: 27
+        },
+        {
+            sureName: 'Stierle',
+            firstName: 'Frank',
+            age: 43
+        },
+        {
+            sureName: 'Werler',
+            firstName: 'Sebastian',
+            age: 30
+        },
+        {
+            sureName: 'Buck',
+            firstName: 'Stefan',
+            age: 26
+        }
+    ];
 
-    it('basic', function () {
+    it('basic', function() {
         assert.isDefined(M.Collection);
         assert.isDefined(M.Collection.design);
         assert.isDefined(M.Collection.create);
@@ -52,11 +71,11 @@ describe('M.Collection', function() {
             idAttribute: '_id',
             entity: {
                 name: 'Developer',
-                fields:  {
-                    _id:         { type: M.CONST.TYPE.STRING },
-                    sureName:    { name: 'lastName', type: M.CONST.TYPE.STRING,  required: YES, index: true },
-                    firstName:   { type: M.CONST.TYPE.STRING,  length: 200 },
-                    age:         { type: M.CONST.TYPE.INTEGER }
+                fields: {
+                    _id: { type: M.CONST.TYPE.STRING },
+                    sureName: { name: 'lastName', type: M.CONST.TYPE.STRING, required: YES, index: true },
+                    firstName: { type: M.CONST.TYPE.STRING, length: 200 },
+                    age: { type: M.CONST.TYPE.INTEGER }
                 }
             }
         });
@@ -90,12 +109,12 @@ describe('M.Collection', function() {
 
     it('sorting data', function() {
 
-        TEST.Developers.sort({ 'sort' : { 'sureName': -1 } } );
+        TEST.Developers.sort({ 'sort': { 'sureName': -1 } });
 
         var p1 = TEST.Developers.at(0);
         assert.ok(p1.get('sureName') === 'Werler', 'Records correctly sorted descending by "sureName".');
 
-        TEST.Developers.comparator = function(m1, m2) {
+        TEST.Developers.comparator = function( m1, m2 ) {
             return m2.get('age') - m1.get('age');
         };
         TEST.Developers.sort();
@@ -107,14 +126,14 @@ describe('M.Collection', function() {
 
     it('filtering data', function() {
         // filter all devs older or equal to 26
-        var a1 = TEST.Developers.filter(function(rec) {
+        var a1 = TEST.Developers.filter(function( rec ) {
             return rec.get('age') >= 26;
         });
 
         assert.ok(a1.length === 5, 'Records successfully filtered. Everyone is 26 or older.');
 
         // filter all devs older than 26
-        var a2 = TEST.Developers.filter(function(rec) {
+        var a2 = TEST.Developers.filter(function( rec ) {
             return rec.get('age') > 26;
         });
 
@@ -155,7 +174,8 @@ describe('M.Collection', function() {
         result = TEST.Developers.select({
             query: { $or: [
                 { sureName: /.?er/ }, // should match 'Stierle' and 'Werler'
-                { age: { $gt: 25, $lte: 26 } } ] // should match Stefan Buck '26'
+                { age: { $gt: 25, $lte: 26 } }
+            ] // should match Stefan Buck '26'
             },
             sort: ['age']
         });
@@ -175,68 +195,79 @@ describe('M.Collection', function() {
 
     });
 
-    it('creating data (on server)', function(done) {
+    it('creating data (on server)', function( done ) {
         TEST.Developers.reset();
         assert.equal(TEST.Developers.length, 0, 'All records were removed.');
 
-        TEST.Developers.create(TEST.data[0], {
-            success: function(model) {
-                assert.isObject(model, 'data created on server');
-                assert.equal(model.get('sureName'), TEST.data[0].sureName, 'sureName of created model has correct value');
-                assert.equal(model.get('firstName'), TEST.data[0].firstName, 'firstName of created model has correct value');
-                assert.equal(model.get('age'), TEST.data[0].age, 'age of created model has correct value');
-                assert.ok(model.id, 'id of created model has been created');
-                TEST.id = model.id;
-                done();
-            },
-            error: function(error) {
-                assert.ok(false, 'creating data on server: ' + error);
-                done();
-            }
-        });
 
-    });
-
-    it('fetching data (from server)', function(done) {
-
-        this.timeout(10000);
-
-        TEST.Developers.reset();
-        assert.equal(TEST.Developers.length, 0, 'All records were removed.');
-
-        TEST.Developers.fetch({
-            success: function(collection) {
-                assert.isObject(collection, 'collection returned in success');
-                var model = collection.get(TEST.id);
-                assert.isObject(model, 'data found on server');
-                assert.equal(model.get('sureName'), TEST.data[0].sureName, 'sureName of created model has correct value');
-                assert.equal(model.get('firstName'), TEST.data[0].firstName, 'firstName of created model has correct value');
-                assert.equal(model.get('age'), TEST.data[0].age, 'age of created model has correct value');
-                done();
-            },
-            error: function(error) {
-                assert.ok(false, 'collection fetched: ' + error);
-                done();
-            }
-        });
-    });
-
-    it('delete records (on server)', function(done) {
-
-        if (TEST.Developers.length === 0) {
-            done();
-        } else {
-            TEST.Developers.on('destroy', function(event) {
-                if (TEST.Developers.length == 0) {
-                    assert.equal(TEST.Developers.length, 0, 'collection is empty');
+        var callback = function(){
+            TEST.Developers.create(TEST.data[0], {
+                success: function( model ) {
+                    assert.isObject(model, 'data created on server');
+                    assert.equal(model.get('sureName'), TEST.data[0].sureName, 'sureName of created model has correct value');
+                    assert.equal(model.get('firstName'), TEST.data[0].firstName, 'firstName of created model has correct value');
+                    assert.equal(model.get('age'), TEST.data[0].age, 'age of created model has correct value');
+                    assert.ok(model.id, 'id of created model has been created');
+                    TEST.id = model.id;
+                    done();
+                },
+                error: function( error ) {
+                    assert.ok(false, 'creating data on server: ' + error);
                     done();
                 }
             });
-            var model;
-            while (model = TEST.Developers.first()) {
-                model.destroy();
+        };
+
+        testConnection(callback);
+
+
+    });
+
+    it('fetching data (from server)', function( done ) {
+        var callback = function(){
+            TEST.Developers.reset();
+            assert.equal(TEST.Developers.length, 0, 'All records were removed.');
+
+            TEST.Developers.fetch({
+                success: function( collection ) {
+                    assert.isObject(collection, 'collection returned in success');
+                    var model = collection.get(TEST.id);
+                    assert.isObject(model, 'data found on server');
+                    assert.equal(model.get('sureName'), TEST.data[0].sureName, 'sureName of created model has correct value');
+                    assert.equal(model.get('firstName'), TEST.data[0].firstName, 'firstName of created model has correct value');
+                    assert.equal(model.get('age'), TEST.data[0].age, 'age of created model has correct value');
+                    done();
+                },
+                error: function( error ) {
+                    assert.ok(false, 'collection fetched: ' + error);
+                    done();
+                }
+            });
+        }
+        testConnection(callback);
+    });
+
+    it('delete records (on server)', function( done ) {
+
+        var callback = function(){
+            if( TEST.Developers.length === 0 ) {
+                done();
+            } else {
+                TEST.Developers.on('destroy', function( event ) {
+                    if( TEST.Developers.length == 0 ) {
+                        assert.equal(TEST.Developers.length, 0, 'collection is empty');
+                        done();
+                    }
+                });
+                var model;
+                while( model = TEST.Developers.first() ) {
+                    model.destroy();
+                }
             }
         }
+
+        testConnection(callback);
+
     });
 
 });

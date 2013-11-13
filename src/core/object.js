@@ -81,12 +81,14 @@ M.Object = {
     implement: function( obj ) {
         if( obj && obj.isMInterface ) {
             var i = obj.getInterface();
+
             _.each(i, function( value, key ) {
-                if( _.contains(this.keys(), key) ) {
+                if( this[key] ) {
                     i[key] = null;
                     delete i[key];
                 }
             }, this);
+
             this.include(i);
 
             this._implementedInterfaces = this._implementedInterfaces || [];
@@ -184,6 +186,17 @@ M.Object = {
      */
     getObjectType: function() {
         return this._type;
+    },
+
+    /**
+     * Loops over the registered interfaces and bind them to itself
+     * @private
+     */
+
+    _addInterfaces: function(){
+        _.each(this._implementedInterfaces, function( value ) {
+            this.implement(value);
+        }, this);
     }
 
 };

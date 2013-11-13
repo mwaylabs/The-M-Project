@@ -107,12 +107,6 @@ describe('M.View', function() {
         view.undelegateEvents(events);
         view.$el.trigger('click');
         assert.equal(clickCount, 2);
-    })
-
-    //    M.View.extend = function( options, childViews ) {
-    //        options = options || {};
-    //        options._childViews = childViews || {};
-    //        return Backbone.View.extend.apply(this, [options]);
-    //    };
+    });
 
 });

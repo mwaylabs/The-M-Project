@@ -162,7 +162,7 @@ describe('M.WebSqlStore', function() {
         });
     });
 
-    it('cleanup records', function(done) {
+    it('cleanup records websql', function(done) {
 
         if (TEST.Tests.length === 0) {
             done();

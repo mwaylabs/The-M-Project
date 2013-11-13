@@ -334,9 +334,37 @@ hr {
     clear: both;
 }
 
+.container:before,
+.container:after {
+    content: " ";
+    /* 1 */
+
+    display: table;
+    /* 2 */
+
+}
+
+.container:after {
+    clear: both;
+}
+
 .row {
     margin-left: -15px;
     margin-right: -15px;
+}
+
+.row:before,
+.row:after {
+    content: " ";
+    /* 1 */
+
+    display: table;
+    /* 2 */
+
+}
+
+.row:after {
+    clear: both;
 }
 
 .row:before,

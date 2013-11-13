@@ -110,6 +110,7 @@
                 return false;
             }
 
+            // TODO dispatch a custom animation-start event.
             this._isAnimating = true;
 
             var currPage = this._pages.eq(this._current);
@@ -157,6 +158,8 @@
         },
 
         _onEndAnimation: function(outpage, inpage){
+            // TODO dispatch a custom animation-end event.
+
             this._endCurrPage = false;
             this._endNextPage = false;
 

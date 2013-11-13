@@ -37,14 +37,13 @@ module.exports = function( grunt ) {
                     DEBUG: false
                 }
             },
-            dev: {
-                files: {
-                    'dist/themproject.js': 'src/themproject.js'
-                }
-            },
-            dist: {
+            core: {
                 files: {
                     'dist/themproject.js': 'src/themproject.js',
+                }
+            },
+            bd: {
+                files: {
                     'dist/themproject.bd.js': 'src/themproject.bd.js'
                 }
             }
@@ -70,13 +69,6 @@ module.exports = function( grunt ) {
             }
         },
         cssmin: {
-            vendor: {
-                expand: true,
-                cwd: 'resources/vendor/',
-                src: ['*.css'],
-                dest: 'dist/',
-                ext: '.min.css'
-            },
             minify: {
                 expand: true,
                 cwd: 'dist/',
@@ -85,17 +77,25 @@ module.exports = function( grunt ) {
                 ext: '.min.css'
             }
         },
+        copy: {
+            minify: {
+                expand: true,
+                cwd: 'resources/vendor/',
+                src: '*{css,js}',
+                dest: 'dist/'
+            }
+        },
         watch: {
             dev: {
-                files: ['src/**/*','test/**/*','resources/sass/{,*/}*.{scss,sass}'],
-                tasks: ['preprocess:dev', 'compass'],
+                files: ['src/**/*','test/**/*','resources/{,*/}*.{scss,sass,css}'],
+                tasks: ['default'],
                 options: {
                     spawn: false
                 }
             },
             test: {
                 files: ['src/**/*','test/**/*'],
-                tasks: ['preprocess:dev', 'test'],
+                tasks: ['default', 'test'],
                 options: {
                     spawn: false
                 }
@@ -123,10 +123,12 @@ module.exports = function( grunt ) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-compass');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-mocha');
 
     // TODO run jshint task
     grunt.registerTask('test', ['mocha']);
-    grunt.registerTask('dev', ['preprocess:dev','compass','watch:dev']);
-    grunt.registerTask('default', ['preprocess:dist', 'compass:dist', 'uglify', 'cssmin']);
+    grunt.registerTask('dev', ['default','watch:dev']);
+    grunt.registerTask('release', ['default', 'preprocess:bd', 'uglify', 'cssmin']);
+    grunt.registerTask('default', ['preprocess:core', 'compass', 'copy']);
 };

@@ -1,4 +1,4 @@
-describe.skip('M.BikiniStore', function() {
+describe('M.BikiniStore', function() {
 
     var TEST = {
         data : {
@@ -71,6 +71,9 @@ describe.skip('M.BikiniStore', function() {
         assert.ok(url.indexOf('fields=')>0, 'fields is part of the url.');
 
         assert.ok(url.indexOf('sort=')>0, 'sort is part of the url.');
+
+        // try to clean everything
+        TEST.store.clear(TEST.Tests);
 
     });
 
@@ -185,36 +188,26 @@ describe.skip('M.BikiniStore', function() {
         });
     });
 
-    it('fetching collection again', function(done) {
-        TEST.Tests.reset();
-        assert.equal(TEST.Tests.length, 0, 'reset has cleared the collection.');
-
-        TEST.Tests.fetch({
-            success: function(collection) {
-                assert.isUndefined(TEST.Tests.get(TEST.id), 'The model is gone');
-                done();
-            },
-            error: function() {
-                assert.ok(false, 'Test collection fetched successfully.');
-                done();
-            }
-        });
-    });
-
-    it('cleanup records', function(done) {
+    it('cleanup records bikini', function(done) {
 
         if (TEST.Tests.length === 0) {
             done();
         } else {
-            TEST.Tests.on('all', function(event) {
-                if (event === 'destroy' && TEST.Tests.length == 0) {
-                    assert.equal(TEST.Tests.length, 0, 'collection is empty');
-                    done();
-                }
-            });
-            var model;
-            while (model = TEST.Tests.first()) {
-              model.destroy();
+            var model, hasError = false;
+            while ((model = TEST.Tests.first()) && !hasError) {
+              model.destroy({
+                  success: function() {
+                      if (TEST.Tests.length == 0) {
+                          assert.equal(TEST.Tests.length, 0, 'collection is empty');
+                          done();
+                      }
+                  },
+                  error: function() {
+                      assert.ok(false, 'cleanup records bikini error');
+                      hasError = true;
+                      done();
+                  }
+              });
             }
         }
     });

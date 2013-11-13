@@ -143,7 +143,7 @@ describe('M.LocalStorageStore', function() {
         });
     });
 
-    it('cleanup records', function(done) {
+    it('cleanup records local storage', function(done) {
 
         if (TEST.Test.length === 0) {
             done();

@@ -6,6 +6,9 @@
 // @include ./core/controller.js
 // @include ./core/application.js
 // @include ./core/router.js
+// @include ./core/viewmanager.js
+
+
 // @include ./utility/i18n_item.js
 // @include ./utility/i18n.js
 // @include ./utility/objectid.js
@@ -14,9 +17,13 @@
 // @include ./utility/sha256.js
 // @include ./utility/cypher.js
 // @include ./utility/date.js
+
+
 // @include ./connection/request.js
 // @include ./connection/request_manager.js
 // @include ./connection/socket_io.js
+
+
 // @include ./data/field.js
 // @include ./data/entity.js
 // @include ./data/security.js
@@ -29,6 +36,8 @@
 // @include ./data/stores/web_sql.js
 // @include ./data/stores/bikini_store.js
 
+
 // @include ./interfaces/interface.js
 // @include ./interfaces/pagetransitions.js
+// @include ./interfaces/viewenablestate.js
 

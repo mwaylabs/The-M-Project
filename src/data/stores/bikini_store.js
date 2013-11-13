@@ -174,7 +174,7 @@ M.BikiniStore = M.Store.extend({
     onMessage: function(msg) {
         if (msg && msg.method) {
             var localStore = this.endpoint ? this.endpoint.localStore: null;
-            var options = { store: localStore, merge: true, fromMessage: true, entity: this.entity.name };
+            var options = { store: localStore, merge: true, fromMessage: true, entity: this.entity, parse: true };
             var attrs   = msg.data;
             switch(msg.method) {
                 case 'patch':
@@ -321,7 +321,6 @@ M.BikiniStore = M.Store.extend({
                                         method: 'update',
                                         data: data
                                     });
-                                    //that.setLastMessageTime(channel, msg.time);
                                 }
                             }
                         } else {
@@ -427,5 +426,22 @@ M.BikiniStore = M.Store.extend({
             }
         }
         callback(endpoint, msg);
+    },
+
+    clear: function(collection) {
+        if (collection) {
+            var endpoint = this.getEndpoint(collection.getUrlRoot());
+            if (endpoint) {
+                if (endpoint.localStore) {
+                    endpoint.localStore.destroy();
+                }
+                if (endpoint.messages) {
+                    endpoint.messages.destroy();
+                }
+                collection.reset();
+                this.setLastMessageTime(endpoint.channel, '');
+            }
+        }
     }
+
 });
