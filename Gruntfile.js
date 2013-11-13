@@ -40,6 +40,10 @@ module.exports = function( grunt ) {
             core: {
                 files: {
                     'dist/themproject.js': 'src/themproject.js',
+                }
+            },
+            bd: {
+                files: {
                     'dist/themproject.bd.js': 'src/themproject.bd.js'
                 }
             }
@@ -124,6 +128,7 @@ module.exports = function( grunt ) {
 
     // TODO run jshint task
     grunt.registerTask('test', ['mocha']);
-    grunt.registerTask('dev', ['default','watch:dev']);
-    grunt.registerTask('default', ['preprocess', 'compass', 'copy', 'uglify', 'cssmin']);
+    grunt.registerTask('dev', ['build','watch:dev']);
+    grunt.registerTask('release', ['default', 'preprocess:bd', 'uglify', 'cssmin']);
+    grunt.registerTask('default', ['preprocess:core', 'compass', 'copy']);
 };
