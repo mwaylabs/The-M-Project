@@ -1,17 +1,13 @@
-describe('All Events', function () {
+describe('All Events', function() {
 
-    it('Bind and Trigger all event', function (done) {
+    it('Bind and Trigger all event', function( done ) {
 
         var counter = 0;
 
-        var all_events = ["touch", "release", "hold", "tap", "doubletap",
-            "dragstart", "drag", "dragend", "dragleft", "dragright",
-            "dragup", "dragdown", "swipe", "swipeleft", "swiperight",
-            "swipeup", "swipedown", "transformstart", "transform",
-            "transformend", "rotate", "pinch", "pinchin", "pinchout"];
+        var all_events = ["touch", "release", "hold", "tap", "doubletap", "dragstart", "drag", "dragend", "dragleft", "dragright", "dragup", "dragdown", "swipe", "swipeleft", "swiperight", "swipeup", "swipedown", "transformstart", "transform", "transformend", "rotate", "pinch", "pinchin", "pinchout"];
 
         var events = {};
-        _.each(all_events, function(key){
+        _.each(all_events, function( key ) {
 
             events[key] = 'scopefunction';
         });
@@ -19,8 +15,8 @@ describe('All Events', function () {
         var elem = M.View.extend({
             events: events
         }).create({
-                scopefunction: function(){
-                    if(counter === all_events.length-1){
+                scopefunction: function() {
+                    if( counter === all_events.length - 1 ) {
                         done();
                     } else {
                         ++counter;
@@ -34,18 +30,14 @@ describe('All Events', function () {
         });
     });
 
-    it('Bind and Trigger all event without render', function (done) {
+    it('Bind and Trigger all event without render', function( done ) {
 
         var counter = 0;
 
-        var all_events = ["touch", "release", "hold", "tap", "doubletap",
-            "dragstart", "drag", "dragend", "dragleft", "dragright",
-            "dragup", "dragdown", "swipe", "swipeleft", "swiperight",
-            "swipeup", "swipedown", "transformstart", "transform",
-            "transformend", "rotate", "pinch", "pinchin", "pinchout"];
+        var all_events = ["touch", "release", "hold", "tap", "doubletap", "dragstart", "drag", "dragend", "dragleft", "dragright", "dragup", "dragdown", "swipe", "swipeleft", "swiperight", "swipeup", "swipedown", "transformstart", "transform", "transformend", "rotate", "pinch", "pinchin", "pinchout"];
 
         var events = {};
-        _.each(all_events, function(key){
+        _.each(all_events, function( key ) {
 
             events[key] = 'scopefunction';
         });
@@ -53,8 +45,8 @@ describe('All Events', function () {
         var elem = M.View.extend({
             events: events
         }).create({
-                scopefunction: function(){
-                    if(counter === all_events.length-1){
+                scopefunction: function() {
+                    if( counter === all_events.length - 1 ) {
                         done();
                     } else {
                         ++counter;
@@ -69,18 +61,14 @@ describe('All Events', function () {
     });
 
 
-    it('Bind and Trigger all event with useElement', function (done) {
+    it('Bind and Trigger all event with useElement', function( done ) {
 
         var counter = 0;
 
-        var all_events = ["touch", "release", "hold", "tap", "doubletap",
-            "dragstart", "drag", "dragend", "dragleft", "dragright",
-            "dragup", "dragdown", "swipe", "swipeleft", "swiperight",
-            "swipeup", "swipedown", "transformstart", "transform",
-            "transformend", "rotate", "pinch", "pinchin", "pinchout"];
+        var all_events = ["touch", "release", "hold", "tap", "doubletap", "dragstart", "drag", "dragend", "dragleft", "dragright", "dragup", "dragdown", "swipe", "swipeleft", "swiperight", "swipeup", "swipedown", "transformstart", "transform", "transformend", "rotate", "pinch", "pinchin", "pinchout"];
 
         var events = {};
-        _.each(all_events, function(key){
+        _.each(all_events, function( key ) {
 
             events[key] = 'scopefunction';
         });
@@ -89,8 +77,8 @@ describe('All Events', function () {
             useElement: YES,
             events: events
         }).create({
-                scopefunction: function(){
-                    if(counter === all_events.length-1){
+                scopefunction: function() {
+                    if( counter === all_events.length - 1 ) {
                         done();
                     } else {
                         ++counter;
@@ -104,21 +92,17 @@ describe('All Events', function () {
         });
     });
 
-    it('Bind and Trigger all event without useElement and not scope function', function (done) {
+    it('Bind and Trigger all event without useElement and not scope function', function( done ) {
 
         var counter = 0;
 
-        var all_events = ["touch", "release", "hold", "tap", "doubletap",
-            "dragstart", "drag", "dragend", "dragleft", "dragright",
-            "dragup", "dragdown", "swipe", "swipeleft", "swiperight",
-            "swipeup", "swipedown", "transformstart", "transform",
-            "transformend", "rotate", "pinch", "pinchin", "pinchout"];
+        var all_events = ["touch", "release", "hold", "tap", "doubletap", "dragstart", "drag", "dragend", "dragleft", "dragright", "dragup", "dragdown", "swipe", "swipeleft", "swiperight", "swipeup", "swipedown", "transformstart", "transform", "transformend", "rotate", "pinch", "pinchin", "pinchout"];
 
         var events = {};
-        _.each(all_events, function(key){
+        _.each(all_events, function( key ) {
 
-            events[key] = function(){
-                if(counter === all_events.length-1){
+            events[key] = function() {
+                if( counter === all_events.length - 1 ) {
                     done();
                 } else {
                     ++counter;
@@ -136,21 +120,17 @@ describe('All Events', function () {
         });
     });
 
-    it('Bind and Trigger all event with useElement and not scope function', function (done) {
+    it('Bind and Trigger all event with useElement and not scope function', function( done ) {
 
         var counter = 0;
 
-        var all_events = ["touch", "release", "hold", "tap", "doubletap",
-            "dragstart", "drag", "dragend", "dragleft", "dragright",
-            "dragup", "dragdown", "swipe", "swipeleft", "swiperight",
-            "swipeup", "swipedown", "transformstart", "transform",
-            "transformend", "rotate", "pinch", "pinchin", "pinchout"];
+        var all_events = ["touch", "release", "hold", "tap", "doubletap", "dragstart", "drag", "dragend", "dragleft", "dragright", "dragup", "dragdown", "swipe", "swipeleft", "swiperight", "swipeup", "swipedown", "transformstart", "transform", "transformend", "rotate", "pinch", "pinchin", "pinchout"];
 
         var events = {};
-        _.each(all_events, function(key){
+        _.each(all_events, function( key ) {
 
-            events[key] = function(){
-                if(counter === all_events.length-1){
+            events[key] = function() {
+                if( counter === all_events.length - 1 ) {
                     done();
                 } else {
                     ++counter;
@@ -167,4 +147,69 @@ describe('All Events', function () {
             elem.hammertime.trigger(key, {});
         });
     });
+
+    it('Events array', function() {
+        var tapCount = 0;
+        var TestView = M.View.extend({
+            events: {
+                tap: [function() {
+                    tapCount++;
+                }, function() {
+                    tapCount++;
+                }]
+            }
+        });
+
+        var view = TestView.create().render();
+        view.hammertime.trigger('tap', {});
+        assert.equal(tapCount, 2);
+
+    });
+
+    it('internal Events array', function() {
+
+        var tapCount = 0;
+        var TestView = M.View.extend({
+            _internalEvents: {
+                tap: [function() {
+                    tapCount++;
+                }, function() {
+                    tapCount++;
+                }]
+            }
+        });
+        var view = TestView.create({
+            events: {
+                tap: [function() {
+                    tapCount++;
+                }, function() {
+                    tapCount++;
+                }]
+            }
+        }).render();
+        view.hammertime.trigger('tap', {});
+        assert.equal(tapCount, 4);
+    });
+
+    it('internal Events function', function() {
+
+        var tapCount = 0;
+        var TestView = M.View.extend({
+            _internalEvents: {
+                tap: function() {
+                    tapCount++;
+                }
+            }
+        });
+        var view = TestView.create({
+            events: {
+                tap: function() {
+                    tapCount++;
+                }
+            }
+        }).render();
+        view.hammertime.trigger('tap', {});
+        assert.equal(tapCount, 2);
+    });
+
 });

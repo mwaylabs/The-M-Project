@@ -107,5 +107,40 @@ describe('Interface implementation', function() {
         TestInterface = null;
     });
 
+    it('Mulitple implements', function() {
+
+
+        var interfaceA = M.Interface.design({
+            getInterface: function() {
+                return {
+                    c: true,
+                    d: true,
+                    a: false
+                }
+            }
+        });
+
+        var interfaceB = M.Interface.design({
+            getInterface: function() {
+                return {
+                    e: true,
+                    f: true,
+                    b: false
+                }
+            }
+        });
+        var testView = M.View.extend({
+            a: true,
+            b: true
+        }).implements([interfaceA, interfaceB]).create();
+
+        assert.isTrue(testView.a);
+        assert.isTrue(testView.b);
+        assert.isTrue(testView.c);
+        assert.isTrue(testView.d);
+        assert.isTrue(testView.e);
+        assert.isTrue(testView.f);
+    });
+
 
 });
