@@ -3,9 +3,9 @@
     Kitchensink.Routers.KitchensinkRouter = M.Router.extend({
 
         routes: {
-//            '': 'overviewController',
-//            'page2': 'page2Controller',
-//            'page3': 'page3Controller',
+            '': 'overviewController',
+            'page2': 'page2Controller',
+            'page3': 'page3Controller',
             'page4(/:tab)': 'page4Controller',
             'page4/:tab': 'page4Controller'
         },

@@ -1,6 +1,6 @@
 Kitchensink.Views = Kitchensink.Views || {};
 
-(function() {
+(function () {
     'use strict'
     Kitchensink.Views.MenuView = M.View.extend({
 
@@ -10,7 +10,6 @@ Kitchensink.Views = Kitchensink.Views || {};
 
     }, {
         content: M.View.extend({
-            cssClass:'lalalalal',
             grid: 'row'
         }, {
 
@@ -19,80 +18,80 @@ Kitchensink.Views = Kitchensink.Views || {};
                 grid: 'col-md-12',
                 value: M.I18N.get('global.appName', {aka: 'Absinth'}),
                 events: {
-                    tap: function() {
+                    tap: function () {
                         console.log('tap');
                     }
                 }
             }),
 
             buttongroupExample: M.ButtonGroupView.extend({
-                grid: 'floatnone'
-            },{
+
+            }, {
 
                 firstButton: M.ButtonView.extend({
-                    value:'first button',
-                    cssClass: 'btn-success',
-                    grid: 'col-xs-3'
+                    value: 'first button',
+                    gri1d: 'col-xs-3'
                 }),
 
                 secondButton: M.ButtonView.extend({
-                    value:'second button',
-                    grid: 'col-xs-2'
+                    value: 'second button',
+                    grid1: 'col-xs-2'
                 }),
 
                 thirdButton: M.ButtonView.extend({
-                    value:'third button',
-                    cssClass: 'btn-info',
-                    grid: 'col-xs-3'
+                    value: 'third button',
+                    gri1d: 'col-xs-3'
                 }),
 
                 fourthButton: M.ButtonView.extend({
-                    value:'fourth button',
-                    cssClass: 'btn-danger',
-                    grid: 'col-xs-4',
+                    value: 'fourth button',
+                    gri1d: 'col-xs-4',
                     events: {
-                        tap: [function() {
+                        tap: [function () {
                             console.log('tap1');
-                        }, function() {
+                        }, function () {
                             console.log('tap2');
                         }]
                     }
                 })
-            }),
+            })
+        }),
+
+        contentBinding: M.View.extend({
+            grid: 'row'
+        }, {
 
             bindingTestInput: M.View.extend({
                 scopeKey: 'bindingTestModel',
-                grid:'floatnone',
-                extendTemplate: '<div><input class="col-xs-2" value="<%= a %>"/> <input class="col-xs-2" value="<%= b %>" /></div>'
+                grid: 'col-xs-4 clearfix',
+                extendTemplate: '<div><input value="<%= a %>"/> <input value="<%= b %>" /></div>'
             }),
 
             bindingTestOutput: M.View.extend({
                 scopeKey: 'bindingTestModel',
-                grid: 'floatnone',
-                template: '<div class=""><input class="col-xs-4" value="<%= a %>"/> <input class="col-xs-4" value="<%= b %>" /></div>'
-
+                grid: 'col-xs-4 clearfix',
+                template: '<div class=""><input value="<%= a %>"/> <input value="<%= b %>" /></div>'
             }),
 
             bindingTestAttributeA: M.View.extend({
-                grid: 'col-xs-3 floatnone',
+                grid: 'col-xs-3',
                 scopeKey: 'bindingTestModel.a'
             }),
 
             bindingTestAttributeB: M.View.extend({
-                grid: 'col-xs-3 floatnone',
+                grid: 'col-xs-3',
                 scopeKey: 'bindingTestModel.b'
-            }),
+            })
 
-           textarea: M.TextareaView.extend({
-                scopeKey: 'bindingTestModel.b',
-                cssClass: 'btn-danger',
-                grid: 'col-xs-12'
-            }),
+        }),
+        eventsRow: M.View.extend({
+            grid: 'row'
+        }, {
 
             eventTest: M.View.extend({
                 scopeKey: 'consoleModel',
                 cssClass: 'box',
-                grid: 'col-xs-6 col-xs-offset-3 floatnone',
+                grid: 'col-xs-6 col-xs-offset-3',
                 events: {
                     hold: 'eventDidHappen',
                     tap: 'eventDidHappen',
@@ -105,10 +104,14 @@ Kitchensink.Views = Kitchensink.Views || {};
                     touch: 'eventDidHappen'
                     //                    release: 'eventDidHappen'
                 }
-            }),
+            })
+        }),
 
+        eventsRow2: M.View.extend({
+            grid: 'row'
+        }, {
             listExample: M.ListView.extend({
-
+                grid: 'col-xs-12',
                 scopeKey: 'tmpViews',
 
                 listItemView: M.ListItemView.extend({
@@ -118,13 +121,19 @@ Kitchensink.Views = Kitchensink.Views || {};
                         tap: 'eventDidHappen'
                     }
                 })
-            }),
+            })
+        }),
 
+        localeRow: M.View.extend({
+            grid: 'row'
+        }, {
             localizationExample: M.ButtonView.extend({
+                grid: 'col-xs-4',
+                cssClass: 'btn-info',
                 value: M.I18N.get('global.switchLanguage'),
                 events: {
-                    tap: function() {
-                        if( M.I18N._activeLocale == 'de' ) {
+                    tap: function () {
+                        if (M.I18N._activeLocale == 'de') {
                             M.I18N.setLocale('en');
                         } else {
                             M.I18N.setLocale('de');
@@ -134,6 +143,7 @@ Kitchensink.Views = Kitchensink.Views || {};
             }),
 
             pageswitchExample: M.ButtonView.extend({
+                grid: 'col-xs-6 clear',
                 value: M.I18N.get('global.pageswitch'),
                 events: {
                     tap: 'nextPage'
@@ -142,18 +152,17 @@ Kitchensink.Views = Kitchensink.Views || {};
 
             sliderExample: M.SliderView.extend({
                 events: {
-                    change: function( event, element ) {
+                    change: function (event, element) {
                         console.log(element.$el);
                     }
                 }
             }),
 
             textfieldExample: M.TextfieldView.extend({
-
+                grid: 'col-xs-12',
                 label: 'Label',
                 value: ''
             }),
-
 
             //            toggleExample: M.ToggleView.extend({
             //
@@ -183,14 +192,14 @@ Kitchensink.Views = Kitchensink.Views || {};
             imageExample: M.ImageView.extend({
                 value: 'http://www.bhmpics.com/thumbs/success_kid-t2.jpg',
                 alt: 'success',
-                grid: 'col-xs-2',
+                grid: 'col-xs-12',
                 events: {
-                    tap: function() {
+                    tap: function () {
                         //this.$el.append('click');
                         var that = this;
                         this.$el.hide();
 
-                        setTimeout(function() {
+                        setTimeout(function () {
                             that.$el.show();
                         }, 2000);
                     },
@@ -201,22 +210,25 @@ Kitchensink.Views = Kitchensink.Views || {};
             }),
 
             searchfieldExample: M.SearchfieldView.extend({
+                grid: 'col-xs-12',
                 label: 'Label',
                 value: ''
             }),
 
             loadingExample: M.LoaderView.extend({
+                grid: 'col-xs-12',
                 value: 'Loading ...',
-                preRender: function() {
+                preRender: function () {
                 },
-                postRender: function() {
+                postRender: function () {
                 }
             }),
 
             loaderButtonExample: M.ButtonView.extend({
+                grid: 'col-xs-12',
                 value: 'Toggle LoaderView',
                 events: {
-                    tap: function() {
+                    tap: function () {
                         //this.scope.menu.childViews.content.childViews.loadingExample.toggle();
                     }
                 }
@@ -229,9 +241,14 @@ Kitchensink.Views = Kitchensink.Views || {};
                     'cancel': 'Abbrechen',
                     'ok': 'Ok'
                 })
-            }),
+            })
+        }),
 
+        selectRow: M.View.extend({
+            grid: 'row'
+        }, {
             selectionlistExample: M.SelectionListView.extend({
+                grid: 'col-xs-12',
                 scopeKey: 'selectionListModel.water',
                 selectOptions: {
                     collection: [
@@ -242,10 +259,15 @@ Kitchensink.Views = Kitchensink.Views || {};
                     labelPath: 'name',
                     valuePath: 'name'
                 }
+            })
+        }),
 
-            }),
-
-            mulitpleSelectionListViewExample: M.MulitpleSelectionListView.extend({
+        multiSelectRow: M.View.extend({
+            grid: 'row'
+        }, {
+            mulitpleSelectionListViewExample: M.SelectionListView.extend({
+                isMultiple: YES,
+                grid: 'col-xs-12',
                 scopeKey: 'multipleSelectionListModel.water',
                 selectOptions: {
                     collection: [
@@ -260,57 +282,40 @@ Kitchensink.Views = Kitchensink.Views || {};
             }),
 
             birthday: M.View.extend({
+                grid: 'col-xs-12',
                 value: 'Birthday:'
             }),
 
             birthdayPlain: M.View.extend({
+                grid: 'col-xs-12',
                 scopeKey: 'person.birthday'
             }),
 
             egon: M.TextfieldView.extend({
+                grid: 'col-xs-12',
                 scopeKey: 'person.birthday',
-                type:'date',
-                onGet: function( value ) {
-                    var date= M.Date.create(parseInt(value)).format('YYYY-MM-DD');
+                type: 'date',
+                onGet: function (value) {
+                    var date = M.Date.create(parseInt(value)).format('YYYY-MM-DD');
                     return date;
                 },
-                onSet: function( value ) {
+                onSet: function (value) {
                     return M.Date.create(value).unix() * 1000;
                 }
             }),
 
             egon2: M.TextfieldView.extend({
+                grid: 'col-xs-12',
                 scopeKey: 'person',
                 template: '<input type="date" value="<%= birthday %>" />',
-                onGet: function( value ) {
-                    var date= M.Date.create(parseInt(value)).format('YYYY-MM-DD');
+                onGet: function (value) {
+                    var date = M.Date.create(parseInt(value)).format('YYYY-MM-DD');
                     return date;
                 },
-                onSet: function( value ) {
+                onSet: function (value) {
                     return M.Date.create(value).unix() * 1000;
                 }
             })
-        }),
-
-        gridStuff: M.View.extend({
-            grid: 'row'
-        }, {
-
-            red: M.View.extend({
-                cssClass: 'btn-success',
-                grid: 'col-xs-1 col-md-1'
-            }),
-
-            green: M.View.extend({
-                cssClass: 'btn-danger',
-                grid: 'col-xs-1 col-md-1 col-xs-offset-1'
-            }),
-
-            blue: M.View.extend({
-                cssClass: 'btn-info',
-                grid: 'col-xs-3 col-md-3 col-xs-offset-6'
-            })
-
         })
     });
 
