@@ -20,8 +20,10 @@
 
         initialize: function() {
             var that = this;
+            var gridSize = M.CONST.GRID.COLUMNS / Object.keys(this._childViews).length;
             _.each(this._childViews, function( child, key ) {
                 this._childViews[key] = child.extend({
+                    grid: 'col-xs-'+gridSize,
                     _internalEvents: {
                         tap: [function( events, element ) {
                             that.setActive(element);

@@ -402,5 +402,9 @@ M.CONST = {
          * @type {String}
          */
         WEEK: 'week'
+    },
+
+    GRID: {
+        COLUMNS: 12
     }
 };

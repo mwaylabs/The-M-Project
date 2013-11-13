@@ -87,7 +87,7 @@ module.exports = function( grunt ) {
         },
         watch: {
             dev: {
-                files: ['src/**/*','test/**/*','resources/{,*/}*.{scss,sass,css}'],
+                files: ['src/**/*','test/**/*','resources/**/*.{scss,sass,css}'],
                 tasks: ['default'],
                 options: {
                     spawn: false

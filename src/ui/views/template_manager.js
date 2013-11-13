@@ -124,17 +124,7 @@ M.TemplateManager = M.Object.design({
     },
 
     "M.SelectionListView": {
-        defaultTemplate: '<select><%= _value_ %></select>',
-        bootstrap: '<select><%= _value_ %></select>',
-        topcoat: '<select><%= _value_ %></select>',
-        jqm: '<select><%= _value_ %></select>'
-    },
-
-    "M.MulitpleSelectionListView": {
-        defaultTemplate: '<select multiple><%= _value_ %></select>',
-        bootstrap: '<select multiple><%= _value_ %></select>',
-        topcoat: '<select multiple><%= _value_ %></select>',
-        jqm: '<select multiple><%= _value_ %></select>'
+        defaultTemplate: '<div class="selection-list<% if(isMultiple){ %> multiple<% } %>"><select<% if(isMultiple){ %> multiple<% } %>><%= _value_ %></select></div>'
     },
 
     _currentUI: (typeof m_config !== 'undefined' && typeof m_config.ui !== 'undefined') ? m_config.ui : 'defaultTemplate',
