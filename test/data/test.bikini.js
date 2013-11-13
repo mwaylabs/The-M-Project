@@ -72,6 +72,9 @@ describe('M.BikiniStore', function() {
 
         assert.ok(url.indexOf('sort=')>0, 'sort is part of the url.');
 
+        // try to clean everything
+        TEST.store.clear(TEST.Tests);
+
     });
 
     it('create record', function(done) {
@@ -104,7 +107,7 @@ describe('M.BikiniStore', function() {
 
     });
 
-    it.skip('fetching data with new model', function(done) {
+    it('fetching data with new model', function(done) {
 
         TEST.TestModel2 = M.Model.extend({
             url : TEST.url,

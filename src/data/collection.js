@@ -82,6 +82,24 @@ _.extend(M.Collection.prototype, M.Object, {
         return collection;
     },
 
+    destroy: function(options) {
+        var model;
+        var success = options.success;
+        if (this.length > 0) {
+            options.success = function () {
+                if (this.length == 0 && success) {
+                    success();
+                }
+            };
+            while (model = this.first()) {
+                this.sync("delete", model, options );
+                this.remove(model);
+            }
+        } else if (success) {
+            success();
+        }
+    },
+
     sync: function(method, model, options) {
         var store = (options ? options.store : null) || this.store;
         if (store && _.isFunction(store.sync)) {
