@@ -153,7 +153,7 @@ describe('M.View', function() {
     });
 
 
-    it('addChildView array', function() {
+    it.skip('addChildView array', function() {
 
         var test = function(testView){
             assert.isTrue(M.isView(testView.childViews[0]));

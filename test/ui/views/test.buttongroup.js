@@ -5,7 +5,7 @@ describe('M.ButtonGroupView', function() {
         // Basic
         assert.isDefined(M.ButtonGroupView);
         assert.isFunction(M.ButtonGroupView);
-        assert.isTrue(M.View.prototype.isPrototypeOf(M.ButtonGroupView.create()));
+        assert.isTrue(M.View.prototype.isPrototypeOf(M.ButtonGroupView.create({})));
 
     });
 
