@@ -58,7 +58,7 @@ M.RequestManager = M.Object.design(/** @scope M.RequestManager.prototype */{
     _requests: null,
 
     /**
-     * This method is based on M.Object's extend() but adds some request manager specific
+     * This method is based on M.Object's design() but adds some request manager specific
      * features. It creates a new instance of M.RequestManager based on the given
      * configuration properties.
      *
@@ -66,13 +66,13 @@ M.RequestManager = M.Object.design(/** @scope M.RequestManager.prototype */{
      * @returns {M.RequestManager}
      */
     init: function( obj ) {
-        return this.extend(obj);
+        return this.design(obj);
     },
 
     /**
      * This method is used internally to process the configuration object for the request
-     * manager before handing it to the extend method. The job of this method is to make
-     * sure that the configuration object fits the requirements of the extend process.
+     * manager before handing it to the design method. The job of this method is to make
+     * sure that the configuration object fits the requirements of the design process.
      *
      * @param obj
      * @returns Object

@@ -75,7 +75,7 @@ M.Request = M.Object.design(/** @scope M.Request.prototype */{
      * @returns {M.Request}
      */
     init: function( obj ) {
-        return this.extend(obj);
+        return this.design(obj);
     },
 
     /**
