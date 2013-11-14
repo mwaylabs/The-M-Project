@@ -204,32 +204,32 @@ M.Request = M.Object.design(/** @scope M.Request.prototype */{
         this.cancel();
     },
 
-    setAuthentication: function(xhr, credentials) {
-        if (credentials && credentials.username && xhr && M.Base64) {
-            var basicAuth = M.Base64.encode(encodeURIComponent(credentials.username + ":" + (credentials.password || '')));
+    setAuthentication: function( xhr, credentials ) {
+        if( credentials && credentials.username && xhr && M.Base64 ) {
+            var basicAuth = M.Base64.encode(encodeURIComponent(credentials.username + ':' + (credentials.password || '')));
             xhr.setRequestHeader('Authorization', 'Basic ' + basicAuth);
         }
     },
 
-     /*
-        url = "http://example.com:3000/pathname/?search=test#hash";
+    /*
+     url = "http://example.com:3000/pathname/?search=test#hash";
 
-        location.protocol; // => "http:"
-        location.host;     // => "example.com:3000"
-        location.hostname; // => "example.com"
-        location.port;     // => "3000"
-        location.pathname; // => "/pathname/"
-        location.hash;     // => "#hash"
-        location.search;   // => "?search=test"
+     location.protocol; // => "http:"
+     location.host;     // => "example.com:3000"
+     location.hostname; // => "example.com"
+     location.port;     // => "3000"
+     location.pathname; // => "/pathname/"
+     location.hash;     // => "#hash"
+     location.search;   // => "?search=test"
      */
-    getLocation: function(url) {
-        var location = document.createElement("a");
+    getLocation: function( url ) {
+        var location = document.createElement('a');
         location.href = url || this.url;
         // IE doesn't populate all link properties when setting .href with a relative URL,
         // however .href will return an absolute URL which then can be used on itself
         // to populate these additional fields.
-        if (location.host == "") {
-          location.href = location.href;
+        if( location.host === '' ) {
+            location.href = location.href;
         }
         return location;
     }

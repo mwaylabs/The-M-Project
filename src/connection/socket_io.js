@@ -82,40 +82,40 @@ M.SocketIO = M.Object.design(/** @scope M.SocketIO.prototype */{
         return this.extend(obj);
     },
 
-    emit: function(event, data, callback) {
+    emit: function( event, data, callback ) {
         this._socket.emit(event, data, callback);
     },
 
-    on: function(eventType, handler) {
+    on: function( eventType, handler ) {
         var that = this;
-        this._socket.on(eventType, function(data) {
+        this._socket.on(eventType, function( data ) {
             that.handleCallback(handler, data);
         });
     },
 
     disconnect: function() {
         var that = this;
-        if (this._socket) {
+        if( this._socket ) {
             this._socket.removeAllListeners();
-            this._socket.on('connect', function(data) {
+            this._socket.on('connect', function( data ) {
                 that.connected(data);
             });
-            this._socket.on('disconnect', function(data) {
+            this._socket.on('disconnect', function( data ) {
                 that.disconnected(data);
             });
         }
         this._socket.disconnect();
     },
 
-    connect: function(param) {
+    connect: function( param ) {
         var that = this;
-        var url  = this.host; //  + '/'  + this.path;
-        if (param) {
-            url += "?" + (_.isString(param) ? param : $.param(param));
+        var url = this.host; //  + '/'  + this.path;
+        if( param ) {
+            url += '?' + (_.isString(param) ? param : $.param(param));
         }
-        var options  = this.resource ? { resource: this.resource } : {};
+        var options = this.resource ? { resource: this.resource } : {};
         this._socket = io.connect(url, options);
-        this._socket.on('connect', function(data) {
+        this._socket.on('connect', function( data ) {
             that.connected(data);
         });
         that._registerEvents();
@@ -125,7 +125,7 @@ M.SocketIO = M.Object.design(/** @scope M.SocketIO.prototype */{
         this.connect();
     },
 
-    error: function(message) {
+    error: function( message ) {
         console.log(message);
     },
 
@@ -145,13 +145,13 @@ M.SocketIO = M.Object.design(/** @scope M.SocketIO.prototype */{
      * @private
      */
     _init: function() {
-        if ( Object.getPrototypeOf(this) === M.SocketIO ) {
+        if( Object.getPrototypeOf(this) === M.SocketIO ) {
             this._initEvents();
             var x = x || {};
-            if (typeof io === 'object') {
+            if( typeof io === 'object' ) {
                 this.ready();
             } else {
-                console.log("Socket.IO not present !!");
+                console.log('Socket.IO not present !!');
             }
         }
     },
@@ -165,16 +165,16 @@ M.SocketIO = M.Object.design(/** @scope M.SocketIO.prototype */{
         this.events = this.events || {};
         this._events = {};
 
-        _.each(this.events, function( handler, eventName ) {
-            this._addEvent(name, handler)
+        _.each(this.events, function( handler ) {
+            this._addEvent(name, handler);
         }, this);
     },
 
-    _addEvent: function(eventName, handler) {
-        if( _.isFunction(handler)) {
+    _addEvent: function( eventName, handler ) {
+        if( _.isFunction(handler) ) {
             handler = { action: handler };
         }
-        if (!handler.target ) {
+        if( !handler.target ) {
             handler.target = this;
         }
         this._events[eventName] = handler;
@@ -187,20 +187,22 @@ M.SocketIO = M.Object.design(/** @scope M.SocketIO.prototype */{
      */
     _registerEvents: function() {
         var that = this;
-        this._socket.on('disconnect', function(data) {
-            that.disconnect(data)
-        } );
+        this._socket.on('disconnect', function( data ) {
+            that.disconnect(data);
+        });
         _.each(this._events, function( handler, eventType ) {
-            this._socket.on(eventType, function(data) {
+            this._socket.on(eventType, function( data ) {
                 that.handleCallback(handler, data);
             });
         }, this);
     },
 
-    connected: function(data) {
+    connected: function() {
+
     },
 
-    disconnected: function(data) {
+    disconnected: function() {
+
     }
 
 });
