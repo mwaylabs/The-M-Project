@@ -1,0 +1,36 @@
+/* Button */
+/* Default Colors */
+/* line 2, ../resources/sass/themes/ios/_buttongroup.scss */
+.ios .buttongroupview .button {
+  width: 100%;
+  border-radius: 0;
+  background: red;
+}
+/* line 8, ../resources/sass/themes/ios/_buttongroup.scss */
+.ios .buttongroupview .buttonview {
+  padding-left: 0;
+  padding-right: 0;
+}
+/* line 13, ../resources/sass/themes/ios/_buttongroup.scss */
+.ios .buttongroupview .buttonview .button {
+  border-right-width: 0;
+}
+/* line 17, ../resources/sass/themes/ios/_buttongroup.scss */
+.ios .buttongroupview .buttonview:first-child {
+  padding-left: 15px;
+}
+/* line 20, ../resources/sass/themes/ios/_buttongroup.scss */
+.ios .buttongroupview .buttonview:first-child .button {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+/* line 25, ../resources/sass/themes/ios/_buttongroup.scss */
+.ios .buttongroupview .buttonview:last-child {
+  padding-right: 15px;
+}
+/* line 28, ../resources/sass/themes/ios/_buttongroup.scss */
+.ios .buttongroupview .buttonview:last-child .button {
+  border-right-width: 1px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}

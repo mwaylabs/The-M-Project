@@ -1,27 +1,39 @@
 {
-  "name": "TMP2",
-  "version": "0.0.4",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "scripts"
-  ],
-  "dependencies": {
-    "backbone": "~1.1.0",
-    "underscore": "~1.5.2",
-    "jquery": "~2.0.3",
-    "backbone.stickit": "~0.6.3",
-    "tmpl": "~0.1.6",
-    "socket.io-client": "~0.9.16",
-    "modernizr": "~2.6.2",
-    "momentjs": "~2.4.0",
-    "hammerjs": "~1.0.5",
-    "detectizr": "*"
-  },
-  "devDependencies": {
-    "mocha": "~1.13.0",
-    "chai": "~1.8.1"
-  }
+    "name": "The-M-Project",
+    "version": "2.0.0-0",
+    "main": [
+        "./dist/*.js",
+        "./dist/*.css"
+    ],
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "src",
+        "test",
+        "scripts",
+        "resources",
+        "sample",
+        "server",
+        "Gruntfile.js",
+        "*.sh",
+        "*.md",
+        "package.json"
+    ],
+    "dependencies": {
+        "backbone": "~1.1.0",
+        "underscore": "~1.5.2",
+        "jquery": "~2.0.3",
+        "backbone.stickit": "~0.6.3",
+        "tmpl": "~0.1.6",
+        "socket.io-client": "~0.9.16",
+        "modernizr": "~2.6.2",
+        "momentjs": "~2.4.0",
+        "hammerjs": "~1.0.5",
+        "detectizr": "*"
+    },
+    "devDependencies": {
+        "mocha": "~1.13.0",
+        "chai": "~1.8.1"
+    }
 }
