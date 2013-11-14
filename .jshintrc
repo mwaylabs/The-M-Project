@@ -14,15 +14,20 @@
     "quotmark": "single",
     "regexp": true,
     "undef": true,
-    "unused": true,
-    "strict": true,
+    "unused": false,
+    "strict": false,
     "trailing": true,
     "smarttabs": true,
     "jquery": true,
-    "globals" : {
-        "M": false,
+    "globals": {
+        "M": true,
         "Backbone": false,
         "_": false,
-        "moment": false
+        "moment": false,
+        "io": false,
+        "YES": true,
+        "NO": true,
+        "Modernizr": false,
+        "Hammer": false
     }
 }
