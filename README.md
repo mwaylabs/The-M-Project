@@ -1,8 +1,5 @@
 # The-M-Project Absinthe
 
-To use this repository you definitely should know what you are doing.
-This repo is under heavy construction.
-
 ## Notice
 This version is under development and not yet ready for production use.
 
@@ -58,4 +55,20 @@ sh setup-dev.sh
 grunt server
 //open your browser
 open localhost:9000
+```
+
+## commit hook
+- run jshint
+- run tests
+
+## test
+
+### node
+```
+grunt test
+```
+
+### browser
+```
+open test/index.html
 ```
