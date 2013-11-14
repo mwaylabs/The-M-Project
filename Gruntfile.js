@@ -29,7 +29,7 @@ module.exports = function( grunt ) {
                 jshintrc: '.jshintrc',
                 ignores: ['src/_*.js', 'src/themproject*.js']
             },
-            src: [ 'src/utility/**/*.js' ]
+            src: [ 'src/**/*.js' ]
         },
         preprocess: {
             options: {
