@@ -73,13 +73,13 @@ M.SocketIO = M.Object.design(/** @scope M.SocketIO.prototype */{
 
     /**
      * This method is based on M.Object's extend() but adds some request specific features.
-     * It creates a new instance of M.Request based on the given configuration properties.
+     * It creates a new instance of M.SocketIO based on the given configuration properties.
      *
      * @param obj
      * @returns {M.Request}
      */
     create: function( obj ) {
-        return this.extend(obj);
+        return this.design(obj);
     },
 
     emit: function(event, data, callback) {
