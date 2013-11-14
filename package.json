@@ -21,5 +21,9 @@
         "grunt-mocha": "~0.4.1",
         "faketouches": "~0.0.4",
         "grunt-contrib-copy": "~0.4.1"
+    },
+    "engines": {
+        "node": ">=0.8.0",
+        "npm": ">=1.2.10"
     }
 }
