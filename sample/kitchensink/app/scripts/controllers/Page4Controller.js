@@ -30,11 +30,10 @@
 
             var that = this;
 
-            var buttons = [];
             var contents = [];
             var buttonWidth = 12 / tabs.length;
             for( var t = 0; t < tabs.length; t++ ) {
-                buttons.push(M.ButtonView.extend({
+                var button = M.ButtonView.extend({
                     value: tabs[t].headline,
                     index: t,
                     grid: 'col-xs-' + buttonWidth,
@@ -43,11 +42,10 @@
                             that.switchToTab(element.index);
                         }
                     }
-                }).create());
+                }).create();
+                this._tabMenu.addChildView('button' + t, button);
                 contents.push(tabs[t].content.create());
             }
-
-            this._tabMenu.addChildView(buttons);
 
             this.addChildView('tab-menu', this._tabMenu);
             this.addChildView('tab-content', contents);
