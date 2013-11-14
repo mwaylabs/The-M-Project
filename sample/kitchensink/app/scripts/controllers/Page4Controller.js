@@ -6,6 +6,8 @@
 
         _type: 'M.TabLayout',
 
+        scrolling: NO,
+
         template: '<div id="m-main" class="m-perspective"><div data-childviews="tab-menu"></div><div data-childviews="tab-content"></div></div>',
 
         initialize: function() {
@@ -14,6 +16,12 @@
 
         _render: function() {
             M.Layout.prototype._render.apply(this, arguments);
+        },
+
+        _postRender: function(){
+            M.Layout.prototype._postRender.apply(this, arguments);
+            this.$el.addClass(this.scrolling ? 'scrolling' : '');
+
         },
 
         switchToTab: function( index ) {
@@ -31,12 +39,15 @@
             var that = this;
 
             var contents = [];
-            var buttonWidth = 12 / tabs.length;
+            var grid = 'col-xs-' + (12 / tabs.length);
+            if(this.scrolling){
+                grid = '';
+            }
             for( var t = 0; t < tabs.length; t++ ) {
                 var button = M.ButtonView.extend({
                     value: tabs[t].headline,
                     index: t,
-                    grid: 'col-xs-' + buttonWidth,
+                    grid:  grid,
                     events: {
                         tap: function( event, element ) {
                             that.switchToTab(element.index);
@@ -89,7 +100,9 @@
 
         setLayout: function( index ) {
             if( !this.tabLayout ) {
-                this.tabLayout = M.TabLayout.extend().create(this, null, true);
+                this.tabLayout = M.TabLayout.extend({
+                    scrolling: YES
+                }).create(this, null, true);
             }
 
             this.tabLayout.applyViews([
@@ -109,6 +122,30 @@
                     headline: 'Tab3',
                     content: M.TabView.extend({
                         value: 'Tab3 Content'
+                    })
+                },
+                {
+                    headline: 'Tab4',
+                    content: M.TabView.extend({
+                        value: 'Tab4 Content'
+                    })
+                },
+                {
+                    headline: 'Tab5',
+                    content: M.TabView.extend({
+                        value: 'Tab5 Content'
+                    })
+                },
+                {
+                    headline: 'Tab6',
+                    content: M.TabView.extend({
+                        value: 'Tab6 Content'
+                    })
+                },
+                {
+                    headline: 'Tab7',
+                    content: M.TabView.extend({
+                        value: 'Tab7 Content'
                     })
                 }
 

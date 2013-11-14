@@ -3683,40 +3683,58 @@ html, body {
   bottom: 0;
 }
 
-/* line 5, ../resources/sass/layouts/_tab-layout.scss */
+/* line 4, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout .tab-menu {
-  height: 70px;
+  height: 50px;
 }
-/* line 11, ../resources/sass/layouts/_tab-layout.scss */
+/* line 10, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout .tab-menu .buttongroupview .button {
-  height: 70px;
-  padding: 20px 0 0 0;
+  height: 50px;
+  padding: 13px 0 0 0;
 }
-/* line 17, ../resources/sass/layouts/_tab-layout.scss */
+/* line 16, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout .tab-menu .buttongroupview .buttonview:first-child {
   padding-left: 0;
 }
-/* line 21, ../resources/sass/layouts/_tab-layout.scss */
+/* line 20, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout .tab-menu .buttongroupview .buttonview:last-child {
   padding-right: 0;
 }
 
-/* line 31, ../resources/sass/layouts/_tab-layout.scss */
+/* line 30, ../resources/sass/layouts/_tab-layout.scss */
 .m-tab {
-  top: 70px;
+  top: 50px;
 }
 
-/* line 35, ../resources/sass/layouts/_tab-layout.scss */
+/* line 34, ../resources/sass/layouts/_tab-layout.scss */
 .m-tab:nth-child(1) {
   background: #aa66cc;
 }
 
-/* line 39, ../resources/sass/layouts/_tab-layout.scss */
+/* line 38, ../resources/sass/layouts/_tab-layout.scss */
 .m-tab:nth-child(2) {
   background: #ffbb33;
 }
 
-/* line 43, ../resources/sass/layouts/_tab-layout.scss */
+/* line 42, ../resources/sass/layouts/_tab-layout.scss */
 .m-tab:nth-child(3) {
   background: #ff4444;
+}
+
+/* line 47, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout.scrolling .tab-menu {
+  overflow-x: scroll;
+}
+/* line 50, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout.scrolling .tab-menu::-webkit-scrollbar {
+  display: none;
+}
+/* line 55, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout.scrolling .buttongroupview {
+  width: 2115px;
+}
+/* line 59, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout.scrolling .buttongroupview .button {
+  width: 200px;
+  float: left;
 }

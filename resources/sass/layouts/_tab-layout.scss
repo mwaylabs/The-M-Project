@@ -1,5 +1,4 @@
 
-
 .tablayout {
 
   .tab-menu {
@@ -14,11 +13,11 @@
       }
 
       .buttonview {
-        &:first-child{
+        &:first-child {
           padding-left: 0;
         }
 
-        &:last-child{
+        &:last-child {
           padding-right: 0;
         }
       }
@@ -42,4 +41,23 @@
 
 .m-tab:nth-child(3) {
   background: $red;
+}
+
+.tablayout.scrolling {
+  .tab-menu {
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .buttongroupview{
+    width: 2115px;
+  }
+
+  .buttongroupview .button{
+    width: $tablayout-menu-scroll-button-width;
+    float: left;
+  }
 }
