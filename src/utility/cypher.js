@@ -110,7 +110,7 @@ M.Cypher = M.Object.design(/** @scope M.Cypher.prototype */ {
          * @param {String} string The string to be encoded.
          * @returns {String} The utf8 encoded string.
          */
-        utf8_encode: function( string ) {
+        utf8Encode: function( string ) {
             string = string.replace(/\r\n/g, '\n');
             var utf8String = '';
 
@@ -141,10 +141,14 @@ M.Cypher = M.Object.design(/** @scope M.Cypher.prototype */ {
          * @param {String} string The string to be decoded.
          * @returns {String} The utf8 decoded string.
          */
-        utf8_decode: function( utf8String ) {
+        utf8Decode: function( utf8String ) {
             var string = '';
-            var i = 0;
-            var c = c1 = c2 = 0;
+            var i;
+            var c;
+            var c1;
+            var c2;
+            var c3;
+            i = c = c1 = c2 = 0;
 
             while( i < utf8String.length ) {
 

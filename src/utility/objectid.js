@@ -39,7 +39,7 @@ _.extend(M.ObjectID.prototype, {
         if( hexString ) {
             hexString = hexString.toLowerCase();
             if( !M.ObjectID._looksLikeObjectID(hexString) ) {
-                throw new Error("Invalid hexadecimal string for creating an ObjectID");
+                throw new Error('Invalid hexadecimal string for creating an ObjectID');
             }
             // meant to work with _.isEqual(), which relies on structural equality
             this._str = hexString;
@@ -58,13 +58,13 @@ _.extend(M.ObjectID.prototype, {
         num = num || parseInt(Math.random() * Math.pow(16,len));
         var str = num.toString(16);
         while(str.length < len) {
-            str = "0"+str;
+            str = '0'+str;
         }
         return str.substr(0, len);
     },
 
     toString: function() {
-        return "ObjectID(\"" + this._str + "\")";
+        return 'ObjectID(\'' + this._str + '\')';
     },
 
     equals: function( other ) {
@@ -76,7 +76,7 @@ _.extend(M.ObjectID.prototype, {
     },
 
     typeName: function() {
-        return "oid";
+        return 'oid';
     },
 
     getTimestamp: function() {
@@ -109,17 +109,14 @@ _.extend(M.ObjectID.prototype, {
 
     // Is this selector just shorthand for lookup by _id?
     _selectorIsId: function( selector ) {
-        return (typeof selector === "string") || 
-            (typeof selector === "number") || 
+        return (typeof selector === 'string') ||
+            (typeof selector === 'number') ||
             selector instanceof M.ObjectId;
     },
 
     // Is the selector just lookup by _id (shorthand or not)?
     _selectorIsIdPerhapsAsObject: function( selector ) {
-        return this._selectorIsId(selector) || 
-            (selector && typeof selector === "object" && 
-             selector._id && this._selectorIsId(selector._id) && 
-             _.size(selector) === 1);
+        return this._selectorIsId(selector) || (selector && typeof selector === 'object' && selector._id && this._selectorIsId(selector._id) && _.size(selector) === 1);
     },
 
     // If this is a selector which explicitly constrains the match by ID to a finite
