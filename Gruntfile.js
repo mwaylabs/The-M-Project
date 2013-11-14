@@ -126,9 +126,8 @@ module.exports = function( grunt ) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-mocha');
 
-    // TODO run jshint task
-    grunt.registerTask('test', ['mocha']);
+    grunt.registerTask('test', ['jshint', 'mocha']);
     grunt.registerTask('dev', ['default','watch:dev']);
     grunt.registerTask('release', ['default', 'preprocess:bd', 'uglify', 'cssmin']);
-    grunt.registerTask('default', ['preprocess:core', 'compass', 'copy']);
+    grunt.registerTask('default', ['jshint', 'preprocess:core', 'compass', 'copy']);
 };

@@ -32,7 +32,7 @@ M.Base64 = M.Object.design(/** @scope M.Base64.prototype */ {
          *
          * @type String
          */
-        _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+        _keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
 
         /**
          * This method encodes a given binary input, using the base64 encoding.
@@ -41,7 +41,7 @@ M.Base64 = M.Object.design(/** @scope M.Base64.prototype */ {
          * @returns {String} The base64 encoded string.
          */
         encodeBinary: function( input ) {
-            var output = "";
+            var output = '';
             var bytebuffer;
             var encodedCharIndexes = new Array(4);
             var inx = 0;
@@ -50,7 +50,7 @@ M.Base64 = M.Object.design(/** @scope M.Base64.prototype */ {
             while( inx < input.length ) {
                 // Fill byte buffer array
                 bytebuffer = new Array(3);
-                for( jnx = 0; jnx < bytebuffer.length; jnx++ ) {
+                for( var jnx = 0; jnx < bytebuffer.length; jnx++ ) {
                     if( inx < input.length ) {
                         bytebuffer[jnx] = input.charCodeAt(inx++) & 0xff;
                     } // throw away high-order byte, as documented at: https://developer.mozilla.org/En/Using_XMLHttpRequest#Handling_binary_data
@@ -104,7 +104,7 @@ M.Base64 = M.Object.design(/** @scope M.Base64.prototype */ {
             var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
             var i = 0;
 
-            input = M.Cypher.utf8_encode(input);
+            input = M.Cypher.utf8Encode(input);
 
             while( i < input.length ) {
                 chr1 = input.charCodeAt(i++);
@@ -162,12 +162,12 @@ M.Base64 = M.Object.design(/** @scope M.Base64.prototype */ {
          * @returns {String} The base64 decoded string.
          */
         decode: function( input ) {
-            var output = "";
+            var output = '';
             var chr1, chr2, chr3;
             var enc1, enc2, enc3, enc4;
             var i = 0;
 
-            input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+            input = input.replace(/[^A-Za-z0-9\+\/\=]/g, '');
 
             while( i < input.length ) {
                 enc1 = this._keyStr.indexOf(input.charAt(i++));
@@ -181,16 +181,16 @@ M.Base64 = M.Object.design(/** @scope M.Base64.prototype */ {
 
                 output = output + String.fromCharCode(chr1);
 
-                if( enc3 != 64 ) {
+                if( enc3 !== 64 ) {
                     output = output + String.fromCharCode(chr2);
                 }
 
-                if( enc4 != 64 ) {
+                if( enc4 !== 64 ) {
                     output = output + String.fromCharCode(chr3);
                 }
             }
 
-            return M.Cypher.utf8_decode(output);
+            return M.Cypher.utf8Decode(output);
         }
 
     });

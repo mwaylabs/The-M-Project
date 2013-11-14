@@ -1,12 +1,8 @@
-(function( scope ) {
+M.ToolbarView = M.View.extend({
 
-    M.ToolbarView = M.View.extend({
+    _type: 'M.ToolbarView',
 
-        _type: 'M.ToolbarView',
-
-        _template: _.tmpl(M.TemplateManager.get('M.ToolbarView'))
+    _template: _.tmpl(M.TemplateManager.get('M.ToolbarView'))
 
 
-    });
-
-})(this);
+});

@@ -1,40 +1,36 @@
-(function( scope ) {
+M.ImageView = M.View.extend({
 
-    M.ImageView = M.View.extend({
+    _type: 'M.ImageView',
+    _template: _.tmpl(M.TemplateManager.get('M.ImageView')),
 
-        _type: 'M.ImageView',
-        _template: _.tmpl(M.TemplateManager.get('M.ImageView')),
+    /**
+     * Represents the alt attribute of the img tag
+     */
+    alt: null,
 
-        /**
-         * Represents the alt attribute of the img tag
-         */
-        alt: null,
+    initialize: function () {
+        M.View.prototype.initialize.apply(this, arguments);
+        this.alt = this.alt || '';
+        return this;
+    },
 
-        initialize: function() {
-            M.View.prototype.initialize.apply(this, arguments);
-            this.alt = this.alt || '';
-            return this;
-        },
+    /**
+     * Override this function to add 'alt' parameter
+     * @private
+     * @returns this
+     */
+    _assignTemplateValues: function () {
 
-        /**
-         * Override this function to add 'alt' parameter
-         * @private
-         * @returns this
-         */
-        _assignTemplateValues: function() {
+        M.View.prototype._assignTemplateValues.apply(this, arguments);
 
-            M.View.prototype._assignTemplateValues.apply(this, arguments);
-
-            if( this.model ) {
-                if( M.isModel(this._value_) ) {
-                } else {
-                    this._templateValues['alt'] = this.model.get(this.alt.attribute);
-                }
-            } else if( this._value_ ) {
-                this._templateValues['alt'] = this.alt;
+        if (this.model) {
+            if (M.isModel(this._value_)) {
+            } else {
+                this._templateValues.alt = this.model.get(this.alt.attribute);
             }
-            return this;
+        } else if (this._value_) {
+            this._templateValues.alt = this.alt;
         }
-    });
-
-})(this);
+        return this;
+    }
+});
