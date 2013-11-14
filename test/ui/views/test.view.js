@@ -152,4 +152,77 @@ describe('M.View', function() {
         testView = null;
     });
 
+
+    it('addChildView array', function() {
+
+        var test = function(testView){
+            assert.isTrue(M.isView(testView.childViews[0]));
+            assert.isTrue(M.isView(testView.childViews[1]));
+
+            assert.equal(testView.childViews[0].getValue(), 'child3');
+            assert.equal(testView.childViews[1].getValue(), 'child4');
+
+            assert.isTrue(M.isView(testView._getChildView(0)));
+            assert.isTrue(M.isView(testView._getChildView(1)));
+
+            assert.equal(testView._getChildView(0).getValue(), 'child3');
+            assert.equal(testView._getChildView(1).getValue(), 'child4');
+        }
+
+        var children = [
+            M.View.create({value: 'child3'}),
+            M.View.create({value: 'child4'})
+        ];
+
+        var testView = M.View.create();
+        testView.addChildView(children);
+        test(testView);
+
+        var testView = M.View.extend({}).create();
+        testView.addChildView(children);
+        test(testView);
+
+        var testView = M.View.extend({}, {}).create();
+        testView.addChildView(children);
+        test(testView);
+
+        var testView = M.View.extend({}, [
+            M.View.extend({
+                value: 'child1'
+            }),
+            M.View.extend({
+                value: 'child2'
+            })
+        ]).create();
+        testView.addChildView(children);
+
+        assert.isTrue(M.isView(testView.childViews[0]));
+        assert.isTrue(M.isView(testView.childViews[1]));
+        assert.isTrue(M.isView(testView.childViews[2]));
+        assert.isTrue(M.isView(testView.childViews[3]));
+
+        assert.equal(testView.childViews[0].getValue(), 'child1');
+        assert.equal(testView.childViews[1].getValue(), 'child1');
+        assert.equal(testView.childViews[2].getValue(), 'child3');
+        assert.equal(testView.childViews[3].getValue(), 'child4');
+
+        assert.notEqual(testView.childViews[0].getValue(), 'child3');
+        assert.notEqual(testView.childViews[1].getValue(), 'child4');
+
+        assert.isTrue(M.isView(testView._getChildView(0)));
+        assert.isTrue(M.isView(testView._getChildView(1)));
+        assert.isTrue(M.isView(testView._getChildView(2)));
+        assert.isTrue(M.isView(testView._getChildView(3)));
+
+        assert.equal(testView._getChildView(0).getValue(), 'child3');
+        assert.equal(testView._getChildView(1).getValue(), 'child4');
+        assert.equal(testView._getChildView(2).getValue(), 'child3');
+        assert.equal(testView._getChildView(3).getValue(), 'child4');
+
+        assert.notEqual(testView._getChildView(0).getValue(), 'child3');
+        assert.notEqual(testView._getChildView(1).getValue(), 'child4');
+
+        testView = null;
+    });
+
 });

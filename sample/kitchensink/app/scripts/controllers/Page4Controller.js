@@ -46,7 +46,8 @@
                 }).create());
                 contents.push(tabs[t].content.create());
             }
-            this._tabMenu.addChildView('buttons', buttons);
+            debugger;
+            this._tabMenu.addChildView(buttons);
 
             this.addChildView('tab-menu', this._tabMenu);
             this.addChildView('tab-content', contents);

@@ -647,7 +647,14 @@
         },
 
         addChildView: function( selector, view ) {
-            this.childViews[selector] = view;
+            if( _.isArray(selector)){
+                //TODO: OHJE OHJE SCHAU DIR DIE TESTS AN DA GEHT WAS SCHIEF MIT OBJECTS AND ARRAYS
+                //_.extend({0:0,1:1}, [0,1])
+                this.childViews = _.extend(this.childViews || {}, selector);
+            } else {
+                this.childViews[selector] = view;
+            }
+
         },
 
         /**
