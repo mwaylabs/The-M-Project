@@ -3718,22 +3718,42 @@ html, body {
 
 /* line 42, ../resources/sass/layouts/_tab-layout.scss */
 .m-tab:nth-child(3) {
-  background: #ff4444;
+  background: #02ccb9;
 }
 
-/* line 47, ../resources/sass/layouts/_tab-layout.scss */
+/* line 46, ../resources/sass/layouts/_tab-layout.scss */
+.m-tab:nth-child(4) {
+  background: #00cc09;
+}
+
+/* line 50, ../resources/sass/layouts/_tab-layout.scss */
+.m-tab:nth-child(5) {
+  background: #cc3500;
+}
+
+/* line 54, ../resources/sass/layouts/_tab-layout.scss */
+.m-tab:nth-child(6) {
+  background: #cc008d;
+}
+
+/* line 58, ../resources/sass/layouts/_tab-layout.scss */
+.m-tab:nth-child(7) {
+  background: #9f00cc;
+}
+
+/* line 63, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .tab-menu {
   overflow-x: scroll;
 }
-/* line 50, ../resources/sass/layouts/_tab-layout.scss */
+/* line 66, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .tab-menu::-webkit-scrollbar {
   display: none;
 }
-/* line 55, ../resources/sass/layouts/_tab-layout.scss */
+/* line 71, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .buttongroupview {
   width: 2115px;
 }
-/* line 59, ../resources/sass/layouts/_tab-layout.scss */
+/* line 75, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .buttongroupview .button {
   width: 200px;
   float: left;
