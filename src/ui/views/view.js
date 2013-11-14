@@ -1,4 +1,4 @@
-(function(  ) {
+(function() {
 
     /**
      * M.View inherits from Backbone.View
@@ -278,13 +278,13 @@
                 });
             }
 
-// TODO check if needed
-//            else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
-//
-//                this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
-//                    //                    that._value_.model.set(that._value_.attribute, model.get(that._value_.attribute));
-//                });
-//            }
+            // TODO check if needed
+            //            else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
+            //
+            //                this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
+            //                    //                    that._value_.model.set(that._value_.attribute, model.get(that._value_.attribute));
+            //                });
+            //            }
             return this;
         },
 
@@ -649,10 +649,10 @@
         },
 
         addChildView: function( selector, view ) {
-            if( _.isArray(selector)){
-                //TODO: OHJE OHJE SCHAU DIR DIE TESTS AN DA GEHT WAS SCHIEF MIT OBJECTS AND ARRAYS
-                //_.extend({0:0,1:1}, [0,1])
-                this.childViews = _.extend(this.childViews || {}, selector);
+            if( _.isObject(selector) ) {
+                _.each(selector, function(view, selector){
+                    this.childViews[selector] = view;
+                }, this);
             } else {
                 this.childViews[selector] = view;
             }
@@ -707,6 +707,10 @@
          * testView._getChildView('child2');  //child2
          */
         _getChildView: function( identifier ) {
+            var ident = parseInt(identifier, 10);
+            if( !_.isNaN(ident) ){
+                identifier = ident;
+            }
             var childName = _.isNumber(identifier) ? Object.keys(this.childViews)[identifier] : identifier;
             return this.childViews[childName];
         }
@@ -736,8 +740,8 @@
 
         var _scope = isScope ? {scope: scope} : scope;
         var f = new this(_scope);
+        f.childViews = {};
         if( f._childViews ) {
-            f.childViews = {};
             _.each(f._childViews, function( childView, name ) {
                 var _scope = scope;
                 if( f.useAsScope === YES ) {
