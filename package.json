@@ -1,19 +1,25 @@
 {
-  "name": "TMP2",
-  "version": "0.0.1",
-  "description": "",
-  "main": "Gruntfile.js",
-  "devDependencies": {
-    "grunt": "latest",
-    "grunt-jsonlint": "~1.0.1",
-    "grunt-contrib-jshint": "~0.7.0",
-    "grunt-preprocess": "~3.0.1",
-    "grunt-contrib-uglify": "~0.2.5",
-    "grunt-contrib-cssmin": "~0.7.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-compass": "~0.6.0",
-    "grunt-mocha": "~0.4.1",
-    "faketouches": "~0.0.4",
-    "grunt-contrib-copy": "~0.4.1"
-  }
+    "name": "The-M-Project",
+    "version": "2.0.0-1",
+    "description": "",
+    "keywords": ["the-m-project", "backbone", "framework", "mvc"],
+    "homepage": "http://the-m-project.org",
+    "author": "M-Way Solutions GmbH",
+    "main": "Gruntfile.js",
+    "scripts": {
+        "test": "grunt test"
+    },
+    "devDependencies": {
+        "grunt": "latest",
+        "grunt-jsonlint": "~1.0.1",
+        "grunt-contrib-jshint": "~0.7.0",
+        "grunt-preprocess": "~3.0.1",
+        "grunt-contrib-uglify": "~0.2.5",
+        "grunt-contrib-cssmin": "~0.7.0",
+        "grunt-contrib-watch": "~0.5.3",
+        "grunt-contrib-compass": "~0.6.0",
+        "grunt-mocha": "~0.4.1",
+        "faketouches": "~0.0.4",
+        "grunt-contrib-copy": "~0.4.1"
+    }
 }

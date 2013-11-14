@@ -3,21 +3,21 @@
  * Version: 0.0.1
  */
 
-module.exports = function( grunt ) {
+module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         meta: {
-            banner:   '/*!\n' +
-                        '* Project:   The M-Project - Mobile HTML5 Application Framework\n' +
-                        '* Version:   <%= pkg.version %>\n' +
-                        '* Copyright: (c) <%= grunt.template.today("yyyy") %> M-Way Solutions GmbH. All rights reserved.\n' +
-                        '* Date:      <%= grunt.template.today() %>\n' +
-                        '* License:   Dual licensed under the MIT or GPL Version 2 licenses.\n' +
-                        '*            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE\n' +
-                        '*            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE\n' +
-                        '*/\n'
+            banner: '/*!\n' +
+                '* Project:   The M-Project - Mobile HTML5 Application Framework\n' +
+                '* Version:   <%= pkg.version %>\n' +
+                '* Copyright: (c) <%= grunt.template.today("yyyy") %> M-Way Solutions GmbH. All rights reserved.\n' +
+                '* Date:      <%= grunt.template.today() %>\n' +
+                '* License:   Dual licensed under the MIT or GPL Version 2 licenses.\n' +
+                '*            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE\n' +
+                '*            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE\n' +
+                '*/\n'
         },
         jsonlint: {
             sample: {
@@ -39,7 +39,7 @@ module.exports = function( grunt ) {
             },
             core: {
                 files: {
-                    'dist/themproject.js': 'src/themproject.js',
+                    'dist/themproject.js': 'src/themproject.js'
                 }
             },
             bd: {
@@ -87,14 +87,14 @@ module.exports = function( grunt ) {
         },
         watch: {
             dev: {
-                files: ['src/**/*','test/**/*','resources/**/*.{scss,sass,css}'],
+                files: ['src/**/*', 'test/**/*', 'resources/**/*.{scss,sass,css}'],
                 tasks: ['default'],
                 options: {
                     spawn: false
                 }
             },
             test: {
-                files: ['src/**/*','test/**/*'],
+                files: ['src/**/*', 'test/**/*'],
                 tasks: ['default', 'test'],
                 options: {
                     spawn: false
@@ -126,8 +126,8 @@ module.exports = function( grunt ) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-mocha');
 
-    grunt.registerTask('test', ['mocha']);
-    grunt.registerTask('dev', ['default','watch:dev']);
+    grunt.registerTask('test', ['jshint', 'mocha']);
+    grunt.registerTask('dev', ['default', 'watch:dev']);
     grunt.registerTask('release', ['default', 'preprocess:bd', 'uglify', 'cssmin']);
     grunt.registerTask('default', ['jshint', 'preprocess:core', 'compass', 'copy']);
 };
