@@ -1,46 +1,44 @@
-(function( scope ) {
+/**
+ * M.ButtonView inherits from M.View
+ * @type {*}
+ */
+
+M.BUTTON_VIEW = 'M.ButtonView';
+
+M.ButtonView = M.View.extend({
+
     /**
-     * M.ButtonView inherits from M.View
-     * @type {*}
+     * The type of the object
+     * @private
      */
+    _type: M.BUTTON_VIEW,
 
-    M.BUTTON_VIEW = 'M.ButtonView';
+    /**
+     * The template of the object before initializing it.
+     * @private
+     */
+    _template: _.tmpl(M.TemplateManager.get(M.BUTTON_VIEW)),
 
-    M.ButtonView = M.View.extend({
+    /**
+     * The active state of the button. Use isActive and setActive to change this property.
+     * @private
+     */
+    _isAcitve: YES,
 
-        /**
-         * The type of the object
-         * @private
-         */
-        _type: M.BUTTON_VIEW,
+    isActive: function () {
+        return this._isActive();
+    },
 
-        /**
-         * The template of the object before initializing it.
-         * @private
-         */
-        _template: _.tmpl(M.TemplateManager.get(M.BUTTON_VIEW)),
+    activate: function () {
 
-        /**
-         * The active state of the button. Use isActive and setActive to change this property.
-         * @private
-         */
-        _isAcitve: YES,
+        this._isAcitve = YES;
+        this.$el.addClass('active');
 
-        isActive: function(){
-            return this._isActive();
-        },
+    },
 
-        activate: function(){
+    deactivate: function () {
+        this._isAcitve = NO;
+        this.$el.removeClass('active');
+    }
 
-            this._isAcitve = YES;
-            this.$el.addClass('active');
-
-        },
-
-        deactivate: function(){
-            this._isAcitve = NO;
-            this.$el.removeClass('active');
-        }
-
-    }).implements([M.ViewEnableState]);
-})(this);
+}).implements([M.ViewEnableState]);

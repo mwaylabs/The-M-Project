@@ -1,21 +1,17 @@
-(function(scope){
+M.SearchfieldView = M.TextfieldView.extend({
 
-    M.SearchfieldView = M.TextfieldView.extend({
+    _type: 'M.SearchfieldView',
 
-        _type: 'M.SearchfieldView',
+    placeholder: 'Search',
 
-        placeholder: 'Search',
+    _template: _.tmpl(M.TemplateManager.get('M.SearchfieldView')),
 
-        _template: _.tmpl(M.TemplateManager.get('M.SearchfieldView')),
+    initialize: function () {
+        M.View.prototype.initialize.apply(this);
+    },
 
-        initialize: function() {
-            M.View.prototype.initialize.apply(this);
-        },
-
-        _assignTemplateValues: function() {
-            M.TextfieldView.prototype._assignTemplateValues.apply(this);
-            this._templateValues['placeholder'] = this.placeholder || '';
-        }
-    });
-
-})(this);
+    _assignTemplateValues: function () {
+        M.TextfieldView.prototype._assignTemplateValues.apply(this);
+        this._templateValues.placeholder = this.placeholder || '';
+    }
+});

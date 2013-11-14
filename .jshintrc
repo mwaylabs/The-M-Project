@@ -20,13 +20,14 @@
     "smarttabs": true,
     "jquery": true,
     "globals": {
-        "M": false,
+        "M": true,
         "Backbone": false,
         "_": false,
         "moment": false,
         "io": false,
-        "YES": false,
-        "NO": false,
-        "Modernizr": false
+        "YES": true,
+        "NO": true,
+        "Modernizr": false,
+        "Hammer": false
     }
 }
