@@ -1,9 +1,24 @@
 {
     "name": "The-M-Project",
     "version": "2.0.0-0",
-    "main": ["./dist/*"],
+    "main": [
+        "./dist/*.js",
+        "./dist/*.css"
+    ],
     "ignore": [
-        "**/.*"
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "src",
+        "test",
+        "scripts",
+        "resources",
+        "sample",
+        "server",
+        "Gruntfile.js",
+        "*.sh",
+        "*.md",
+        "package.json"
     ],
     "dependencies": {
         "backbone": "~1.1.0",
