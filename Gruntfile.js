@@ -17,7 +17,7 @@ module.exports = function (grunt) {
                 '* License:   Dual licensed under the MIT or GPL Version 2 licenses.\n' +
                 '*            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE\n' +
                 '*            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE\n' +
-                '*/\n'
+                '*/'
         },
         jsonlint: {
             sample: {
@@ -34,7 +34,7 @@ module.exports = function (grunt) {
         preprocess: {
             options: {
                 context: {
-                    DEBUG: false
+                    BANNER: '<%= meta.banner %>'
                 }
             },
             core: {
@@ -49,6 +49,9 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
+            options: {
+                preserveComments: 'some'
+            },
             core: {
                 src: 'dist/themproject.js',
                 dest: 'dist/themproject.min.js',
