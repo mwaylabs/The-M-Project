@@ -94,12 +94,13 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
     /**
      * Constructor method for M.Logger
      */
-    _init: function () {
+    _init: function() {
 
         // Prevent a console.log from blowing things up if we are on a browser that doesn't support this.
-        if (_.isUndefined(console)) {
+        if( _.isUndefined(console) ) {
             window.console = {};
-            console.log = console.debug = console.warn = console.error = function () {};
+            console.log = console.debug = console.warn = console.error = function() {
+            };
         }
 
         // Check if app runs in debug mode
@@ -113,7 +114,7 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
      * @param {String/Array} tag
      * @param {...*} message The logging message.
      */
-    log: function (tag, message) {
+    log: function( ) {
         this._print(this._OUTPUT_LOG, arguments);
     },
 
@@ -123,7 +124,7 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
      * @param {String/Array} tag
      * @param {...*} message The logging message.
      */
-    warn: function (tag, message) {
+    warn: function( ) {
         this._print(this._OUTPUT_WARN, arguments);
     },
 
@@ -133,7 +134,7 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
      * @param {String/Array} tag
      * @param {...*} message The logging message.
      */
-    error: function (tag, message) {
+    error: function( tag, message ) {
         this._print(this._OUTPUT_ERROR, message, tag);
     },
 
@@ -142,15 +143,15 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
      *
      * @param {String}
      */
-    time: function (label) {
+    time: function( label ) {
 
         // Are we in production mode, then do not throw any logs
-        if (this._appRunsInNotDebugMode) {
+        if( this._appRunsInNotDebugMode ) {
             return;
         }
 
         // Fallback if the browser doesn't support time
-        if (_.isUndefined(console.time2)) {
+        if( _.isUndefined(console.time2) ) {
             this._time(label);
             return;
         }
@@ -162,15 +163,15 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
      *
      * @param {String}
      */
-    timeEnd: function (label) {
+    timeEnd: function( label ) {
 
         // Are we in production mode, then do not throw any logs
-        if (this._appRunsInNotDebugMode) {
+        if( this._appRunsInNotDebugMode ) {
             return;
         }
 
         // Fallback if the browser doesn't support timeEnd
-        if (_.isUndefined(console.timeEnd2)) {
+        if( _.isUndefined(console.timeEnd2) ) {
             this._timeEnd(label);
             return;
         }
@@ -182,15 +183,15 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
      *
      * @param {String}
      */
-    count: function (label) {
+    count: function( label ) {
 
         // Are we in production mode, then do not throw any logs
-        if (this._appRunsInNotDebugMode) {
+        if( this._appRunsInNotDebugMode ) {
             return;
         }
 
         // Fallback if the browser doesn't support count
-        if (_.isUndefined(console.count2)) {
+        if( _.isUndefined(console.count2) ) {
             this._count(label);
             return;
         }
@@ -205,10 +206,10 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
      * @param {String/Array} tag
      * @private
      */
-    _print: function (output, args) {
+    _print: function( output, args ) {
 
         // Are we in production mode, then do not throw any logs
-        if (this._appRunsInNotDebugMode) {
+        if( this._appRunsInNotDebugMode ) {
             return;
         }
 
@@ -218,44 +219,44 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
         args = Array.prototype.slice.call(args);
 
         // Assign default tag if tag is undefined
-        if(args.length == 1) {
-            args.splice(0,0, M.CONST.LOGGER.TAG_ALL);
+        if( args.length === 1 ) {
+            args.splice(0, 0, M.CONST.LOGGER.TAG_ALL);
         }
 
         var tags = args[0];
 
-        if (this._preventOutputByTag(tags)) {
+        if( this._preventOutputByTag(tags) ) {
             return;
         }
 
         var prettyTagName = '';
-        if (output < this._OUTPUT_ERROR) {
-            if (_.isArray(tags) && this.filter.length > 0) {
+        if( output < this._OUTPUT_ERROR ) {
+            if( _.isArray(tags) && this.filter.length > 0 ) {
                 var tagString = _.without(this.filter, tags);
                 prettyTagName = '[' + tagString + ']';
-            } else if (tags.length > 0) {
+            } else if( tags.length > 0 ) {
                 prettyTagName = '[' + tags + ']';
             }
         }
 
-        if(args.length > 1) {
-            if(prettyTagName == M.CONST.LOGGER.TAG_ALL) {
-                args.splice(0,1);
+        if( args.length > 1 ) {
+            if( prettyTagName === M.CONST.LOGGER.TAG_ALL ) {
+                args.splice(0, 1);
             } else {
-               args[0] = prettyTagName;
+                args[0] = prettyTagName;
             }
         }
 
-        switch (output) {
+        switch( output ) {
             case this._OUTPUT_LOG:
                 console.log.apply(console, args);
                 break;
             case this._OUTPUT_WARN:
-                args.splice(0,0, 'WARNING:')
+                args.splice(0, 0, 'WARNING:');
                 console.warn.apply(console, args);
                 break;
             case this._OUTPUT_ERROR:
-                args.splice(0,0, 'ERROR:')
+                args.splice(0, 0, 'ERROR:');
                 console.error.apply(console, args);
                 break;
             case this._OUTPUT_DEBUG:
@@ -272,11 +273,11 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
      *
      * @private
      */
-    _time: function (label) {
-        var item = _.find(this._times, function (item) {
+    _time: function( label ) {
+        var item = _.find(this._times, function( item ) {
             return item.label === label;
         });
-        if (!item) {
+        if( !item ) {
             this._times.push({
                 label: label,
                 time: new Date().getTime()
@@ -289,11 +290,11 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
      *
      * @private
      */
-    _timeEnd: function (label) {
-        var item = _.find(this._times, function (item) {
+    _timeEnd: function( label ) {
+        var item = _.find(this._times, function( item ) {
             return item.label === label;
         });
-        if (item) {
+        if( item ) {
             var now = new Date().getTime();
             var diff = (now - item.time) / 1000;
             var index = this._times.indexOf(item);
@@ -307,11 +308,11 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
      *
      * @private
      */
-    _count: function (label) {
-        var item = _.find(this._counts, function (item) {
+    _count: function( label ) {
+        var item = _.find(this._counts, function( item ) {
             return item.label === label;
         });
-        if (item === undefined) {
+        if( item === undefined ) {
             this._counts.push({
                 label: label,
                 count: 1
@@ -331,14 +332,14 @@ M.Logger = M.Object.design(/** @scope M.Logger.prototype */ {
      * @returns {boolean}
      * @private
      */
-    _preventOutputByTag: function (tag) {
-        if (this.filter.length > 0 && this.filter.indexOf(M.CONST.TAG_ALL) === -1) {
-            if (_.isString(tag)) {
-                if (this.filter.indexOf(tag) === -1) {
+    _preventOutputByTag: function( tag ) {
+        if( this.filter.length > 0 && this.filter.indexOf(M.CONST.TAG_ALL) === -1 ) {
+            if( _.isString(tag) ) {
+                if( this.filter.indexOf(tag) === -1 ) {
                     return YES;
                 }
-            } else if (_.isArray(tag)) {
-                if (_.difference(tag, this.filter).length === tag.length) {
+            } else if( _.isArray(tag) ) {
+                if( _.difference(tag, this.filter).length === tag.length ) {
                     return YES;
                 }
             }

@@ -20,9 +20,9 @@ M.Object = {
      * @param {Object} proto The prototype of the new object.
      */
     _create: function( proto ) {
-        var f = function() {};
-        f.prototype = proto;
-        return new f();
+        var F = function() {};
+        F.prototype = proto;
+        return new F();
     },
 
     /**
@@ -131,7 +131,7 @@ M.Object = {
                 return method.apply(caller, arg);
             }
             return method.call(caller, arg);
-        }
+        };
     },
 
     /**
