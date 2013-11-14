@@ -1,3 +1,7 @@
+/* Debug colors */
+/* Button */
+/* Default Colors */
+/* Tabbar */
 /* animation sets */
 /* move from / to  */
 /* line 5, ../resources/sass/layouts/_switch-animations.scss */
@@ -3677,4 +3681,42 @@ html, body {
   background: blue;
   position: absolute;
   bottom: 0;
+}
+
+/* line 5, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout .tab-menu {
+  height: 70px;
+}
+/* line 11, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout .tab-menu .buttongroupview .button {
+  height: 70px;
+  padding: 20px 0 0 0;
+}
+/* line 17, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout .tab-menu .buttongroupview .buttonview:first-child {
+  padding-left: 0;
+}
+/* line 21, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout .tab-menu .buttongroupview .buttonview:last-child {
+  padding-right: 0;
+}
+
+/* line 31, ../resources/sass/layouts/_tab-layout.scss */
+.m-tab {
+  top: 70px;
+}
+
+/* line 35, ../resources/sass/layouts/_tab-layout.scss */
+.m-tab:nth-child(1) {
+  background: #aa66cc;
+}
+
+/* line 39, ../resources/sass/layouts/_tab-layout.scss */
+.m-tab:nth-child(2) {
+  background: #ffbb33;
+}
+
+/* line 43, ../resources/sass/layouts/_tab-layout.scss */
+.m-tab:nth-child(3) {
+  background: #ff4444;
 }

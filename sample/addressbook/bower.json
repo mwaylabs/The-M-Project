@@ -2,7 +2,7 @@
   "name": "addressbook",
   "version": "0.0.0",
   "dependencies": {
-    "tmp2": "dev"
+    "themproject": "absinthe"
   },
   "devDependencies": {}
 }

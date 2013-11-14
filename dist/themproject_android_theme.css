@@ -1,36 +1,20 @@
+/* Debug colors */
 /* Button */
 /* Default Colors */
-/* line 3, ../resources/sass/themes/android/_buttongroup.scss */
-.android .android .buttongroupview .button {
-  width: 100%;
-  border-radius: 0;
-  background: green;
+/* Tabbar */
+/* line 5, ../resources/sass/themes/android/_buttongroup.scss */
+.android .buttongroupview .buttonview.active .button {
+  border-bottom: 3px solid #99cc00;
 }
-/* line 9, ../resources/sass/themes/android/_buttongroup.scss */
-.android .android .buttongroupview .buttonview {
-  padding-left: 0;
-  padding-right: 0;
-}
-/* line 14, ../resources/sass/themes/android/_buttongroup.scss */
-.android .android .buttongroupview .buttonview .button {
+/* line 10, ../resources/sass/themes/android/_buttongroup.scss */
+.android .buttongroupview .buttonview .button {
   border-right-width: 0;
 }
-/* line 18, ../resources/sass/themes/android/_buttongroup.scss */
-.android .android .buttongroupview .buttonview:first-child {
-  padding-left: 15px;
+/* line 5, ../resources/sass/themes/android/light/_buttongroup.scss */
+.android .buttongroupview .buttonview.active .button {
+  border-bottom: 3px solid #99cc00;
 }
-/* line 21, ../resources/sass/themes/android/_buttongroup.scss */
-.android .android .buttongroupview .buttonview:first-child .button {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-/* line 26, ../resources/sass/themes/android/_buttongroup.scss */
-.android .android .buttongroupview .buttonview:last-child {
-  padding-right: 15px;
-}
-/* line 29, ../resources/sass/themes/android/_buttongroup.scss */
-.android .android .buttongroupview .buttonview:last-child .button {
-  border-right-width: 1px;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+/* line 10, ../resources/sass/themes/android/light/_buttongroup.scss */
+.android .buttongroupview .buttonview .button {
+  border-right-width: 0;
 }

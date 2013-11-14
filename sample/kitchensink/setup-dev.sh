@@ -25,6 +25,6 @@ fi
 
 # Create symlink
 if [ "$SYMLINK" != "n" ]; then
-	rm -rf ./app/bower_components/tmp2
-	ln -s ./../../../../dist/ app/bower_components/tmp2
+	rm -rf ./app/bower_components/themproject/dist
+	ln -s ./../../../../../dist/ app/bower_components/themproject/dist
 fi
