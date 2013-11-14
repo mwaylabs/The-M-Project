@@ -1,34 +1,30 @@
-(function(scope){
+M.TextfieldView = M.View.extend({
 
-    M.TextfieldView = M.View.extend({
+    _type: 'M.TextfieldView',
 
-        _type: 'M.TextfieldView',
+    label: null,
 
-        label: null,
+    type: 'text',
 
-        type: 'text',
+    _template: _.tmpl(M.TemplateManager.get('M.TextfieldView')),
 
-        _template: _.tmpl(M.TemplateManager.get('M.TextfieldView')),
-
-        _assignTemplateValues: function() {
-            M.View.prototype._assignTemplateValues.apply(this);
-            if( M.isI18NItem(this.label)){
-                this._templateValues['label'] = M.I18N.l(this.label.key, this.label.placeholder);
-            } else {
-                this._templateValues['label'] = this.label || '';
-            }
-
-            this._templateValues['type'] = this.type;
-
-        },
-
-        initialize: function() {
-            M.View.prototype.initialize.apply(this);
-        },
-
-        _attachToDom: function() {
-            return YES;
+    _assignTemplateValues: function () {
+        M.View.prototype._assignTemplateValues.apply(this);
+        if (M.isI18NItem(this.label)) {
+            this._templateValues.label = M.I18N.l(this.label.key, this.label.placeholder);
+        } else {
+            this._templateValues.label = this.label || '';
         }
-    });
 
-})(this);
+        this._templateValues.type = this.type;
+
+    },
+
+    initialize: function () {
+        M.View.prototype.initialize.apply(this);
+    },
+
+    _attachToDom: function () {
+        return YES;
+    }
+});

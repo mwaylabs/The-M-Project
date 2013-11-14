@@ -16,39 +16,39 @@ M.WebSqlStore = M.Store.extend({
 
     dataField: { name: 'data', type: 'text', required: true },
 
-    idField:   { name: 'id', type: 'string', required: true },
+    idField: { name: 'id', type: 'string', required: true },
 
-    typeMapping: function() {
+    typeMapping: (function() {
         var map = {};
         map [M.CONST.TYPE.OBJECTID] = M.CONST.TYPE.STRING;
-        map [M.CONST.TYPE.DATE]     = M.CONST.TYPE.STRING;
-        map [M.CONST.TYPE.OBJECT]   = M.CONST.TYPE.TEXT;
-        map [M.CONST.TYPE.ARRAY]    = M.CONST.TYPE.TEXT;
-        map [M.CONST.TYPE.BINARY]   = M.CONST.TYPE.TEXT;
+        map [M.CONST.TYPE.DATE] = M.CONST.TYPE.STRING;
+        map [M.CONST.TYPE.OBJECT] = M.CONST.TYPE.TEXT;
+        map [M.CONST.TYPE.ARRAY] = M.CONST.TYPE.TEXT;
+        map [M.CONST.TYPE.BINARY] = M.CONST.TYPE.TEXT;
         return map;
-    }(),
+    })(),
 
-    sqlTypeMapping: function() {
+    sqlTypeMapping: (function() {
         var map = {};
-        map [M.CONST.TYPE.STRING]   = 'varchar(255)';
-        map [M.CONST.TYPE.TEXT]     = 'text';
-        map [M.CONST.TYPE.OBJECT]   = 'text';
-        map [M.CONST.TYPE.ARRAY]    = 'text';
-        map [M.CONST.TYPE.FLOAT]    = 'float';
-        map [M.CONST.TYPE.INTEGER]  = 'integer';
-        map [M.CONST.TYPE.DATE]     = 'varchar(255)';
-        map [M.CONST.TYPE.BOOLEAN]  = 'boolean';
+        map [M.CONST.TYPE.STRING] = 'varchar(255)';
+        map [M.CONST.TYPE.TEXT] = 'text';
+        map [M.CONST.TYPE.OBJECT] = 'text';
+        map [M.CONST.TYPE.ARRAY] = 'text';
+        map [M.CONST.TYPE.FLOAT] = 'float';
+        map [M.CONST.TYPE.INTEGER] = 'integer';
+        map [M.CONST.TYPE.DATE] = 'varchar(255)';
+        map [M.CONST.TYPE.BOOLEAN] = 'boolean';
         return map;
-    }(),
+    })(),
 
     initialize: function( options ) {
         M.Store.prototype.initialize.apply(this, arguments);
         this.options = this.options || {};
-        this.options.name            = this.name;
-        this.options.size            = this.size;
-        this.options.version         = this.version;
-        this.options.typeMapping     = this.typeMapping;
-        this.options.sqlTypeMapping  = this.sqlTypeMapping;
+        this.options.name = this.name;
+        this.options.size = this.size;
+        this.options.version = this.version;
+        this.options.typeMapping = this.typeMapping;
+        this.options.sqlTypeMapping = this.sqlTypeMapping;
         _.extend(this.options, options || {});
 
         this._openDb({
@@ -59,20 +59,20 @@ M.WebSqlStore = M.Store.extend({
     },
 
     sync: function( method, model, options ) {
-        var that   = options.store || this.store;
+        var that = options.store || this.store;
         var models = M.isCollection(model) ? model.models : [ model ];
         options.entity = options.entity || this.entity;
         switch( method ) {
             case 'create':
-                that._checkTable(options, function () {
-                    that._insertOrReplace(models, options)
+                that._checkTable(options, function() {
+                    that._insertOrReplace(models, options);
                 });
                 break;
 
             case 'update':
             case 'patch':
-                that._checkTable(options, function () {
-                    that._insertOrReplace(models, options)
+                that._checkTable(options, function() {
+                    that._insertOrReplace(models, options);
                 });
                 break;
 
@@ -117,9 +117,9 @@ M.WebSqlStore = M.Store.extend({
                 if( !window.openDatabase ) {
                     error = 'Your browser does not support WebSQL databases.';
                 } else {
-                    this.db = window.openDatabase(this.options.name, "", "", this.options.size);
-                    if (this.entities) {
-                        for (var key in this.entities) {
+                    this.db = window.openDatabase(this.options.name, '', '', this.options.size);
+                    if( this.entities ) {
+                        for( var key in this.entities ) {
                             this._createTable({ entity: this.entities[key] });
                         }
                     }
@@ -128,6 +128,7 @@ M.WebSqlStore = M.Store.extend({
                 dbError = e;
             }
         }
+        /*jshint -W116*/
         if( this.db ) {
             if( this.options.version && this.db.version != this.options.version ) {
                 this._updateDb(options);
@@ -143,6 +144,7 @@ M.WebSqlStore = M.Store.extend({
             }
             this.handleSuccess(options, error);
         }
+        /*jshint +W116*/
     },
 
     _updateDb: function( options ) {
@@ -150,12 +152,12 @@ M.WebSqlStore = M.Store.extend({
         var lastSql;
         var that = this;
         try {
-            var db = window.openDatabase(this.options.name, "", "", this.options.size);
+            var db = window.openDatabase(this.options.name, '', '', this.options.size);
             try {
                 var arSql = this._sqlUpdateDatabase(db.version, this.options.version);
                 db.changeVersion(db.version, this.options.version, function( tx ) {
                     _.each(arSql, function( sql ) {
-                        M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, "SQL-Statement: " + sql);
+                        M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'SQL-Statement: ' + sql);
                         lastSql = sql;
                         tx.executeSql(sql);
                     });
@@ -165,8 +167,8 @@ M.WebSqlStore = M.Store.extend({
                     that.handleSuccess(options);
                 });
             } catch( e ) {
-                error =  e.message;
-                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'changeversion failed, DB-Version: ' + db.version)
+                error = e.message;
+                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'changeversion failed, DB-Version: ' + db.version);
             }
         } catch( e ) {
             error = e.message;
@@ -190,18 +192,20 @@ M.WebSqlStore = M.Store.extend({
     },
 
     _sqlDropTable: function( name ) {
+        /*jshint -W109*/
         return "DROP TABLE IF EXISTS '" + name + "'";
+        /*jshint +W109*/
     },
 
-    _isAutoincrementKey: function(entity, key) {
-        if (entity && key) {
+    _isAutoincrementKey: function( entity, key ) {
+        if( entity && key ) {
             var column = this.getField(entity, key);
             return column && column.type === M.CONST.TYPE.INTEGER;
         }
     },
 
     _sqlPrimaryKey: function( entity, keys ) {
-        if( keys && keys.length == 1 ) {
+        if( keys && keys.length === 1 ) {
             if( this._isAutoincrementKey(entity, keys[0]) ) {
                 return keys[0] + ' INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE';
             } else {
@@ -236,11 +240,12 @@ M.WebSqlStore = M.Store.extend({
                 }
             }
         });
-        if (!columns) {
-            columns = this._dbAttribute( this.dataField );
+        if( !columns ) {
+            columns = this._dbAttribute(this.dataField);
         }
-
+        /*jshint -W109*/
         var sql = "CREATE TABLE IF NOT EXISTS '" + entity.name + "' (";
+        /*jshint +W109*/
         sql += primaryKey ? primaryKey + ', ' : '';
         sql += columns;
         sql += constraint ? ', ' + constraint : '';
@@ -248,62 +253,64 @@ M.WebSqlStore = M.Store.extend({
         return sql;
     },
 
-    _sqlDelete: function(models, options, entity) {
-
+    _sqlDelete: function( models, options, entity ) {
+        /*jshint -W109*/
         var sql = "DELETE FROM '" + entity.name + "'";
+        /*jshint +W109*/
         var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(models, entity);
-        if (where) {
+        if( where ) {
             sql += ' WHERE ' + where;
         }
         sql += options.and ? ' AND ' + options.and : '';
         return sql;
     },
 
-    _sqlWhere: function(options, entity) {
+    _sqlWhere: function( options, entity ) {
         this._selector = null;
         var sql = '';
         if( _.isString(options.where) ) {
             sql = options.where;
-        } else  if ( _.isObject(options.where) ) {
+        } else if( _.isObject(options.where) ) {
             this._selector = M.SqlSelector.create(options.where, entity);
             sql = this._selector.buildStatement();
         }
         return sql;
     },
 
-    _sqlWhereFromData: function(models, entity) {
-        var that    = this;
-        var ids     = [];
-        if (models && entity && entity.idAttribute) {
+    _sqlWhereFromData: function( models, entity ) {
+        var that = this;
+        var ids = [];
+        if( models && entity && entity.idAttribute ) {
             var id, key = entity.idAttribute;
-            var field   = this.getField(entity, key);
-            _.each(models, function(model) {
+            var field = this.getField(entity, key);
+            _.each(models, function( model ) {
                 id = model.id;
-                if (!_.isUndefined(id)) {
+                if( !_.isUndefined(id) ) {
                     ids.push(that._sqlValue(id, field));
                 }
             });
-            if (ids.length > 0) {
+            if( ids.length > 0 ) {
                 return key + ' IN (' + ids.join(',') + ')';
             }
         }
         return '';
     },
 
-    _sqlSelect: function(options, entity) {
+    _sqlSelect: function( options, entity ) {
 
         var sql = 'SELECT ';
         if( options.fields ) {
             if( options.fields.length > 1 ) {
                 sql += options.fields.join(', ');
-            } else if( options.fields.length == 1 ) {
+            } else if( options.fields.length === 1 ) {
                 sql += options.fields[0];
             }
         } else {
             sql += '*';
         }
+        /*jshint -W109*/
         sql += " FROM '" + entity.name + "'";
-
+        /*jshint +W109*/
         if( options.join ) {
             sql += ' JOIN ' + options.join;
         }
@@ -313,7 +320,7 @@ M.WebSqlStore = M.Store.extend({
         }
 
         var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(options, entity);
-        if (where) {
+        if( where ) {
             sql += ' WHERE ' + where;
         }
 
@@ -334,16 +341,18 @@ M.WebSqlStore = M.Store.extend({
 
     _sqlValue: function( value, field ) {
         var type = field && field.type ? field.type : M.Field.prototype.detectType(value);
-        if( type === M.CONST.TYPE.INTEGER || type === M.CONST.TYPE.FLOAT) {
+        if( type === M.CONST.TYPE.INTEGER || type === M.CONST.TYPE.FLOAT ) {
             return value;
-        } else if (type === M.CONST.TYPE.BOOLEAN) {
-            return value ? "1" : "0";
-        } else if (type === M.CONST.TYPE.NULL) {
-            return 'NULL'
+        } else if( type === M.CONST.TYPE.BOOLEAN ) {
+            return value ? '1' : '0';
+        } else if( type === M.CONST.TYPE.NULL ) {
+            return 'NULL';
         }
         value = M.Field.prototype.transform(value, M.CONST.TYPE.STRING);
+        /*jshint -W109*/
         value = value.replace(/"/g, '""'); // .replace(/;/g,',');
         return '"' + value + '"';
+        /*jshint +W109*/
     },
 
     _dbAttribute: function( field ) {
@@ -359,7 +368,7 @@ M.WebSqlStore = M.Store.extend({
     _dropTable: function( options ) {
 
         var entity = this.getEntity(options);
-        entity.db  = null;
+        entity.db = null;
 
         if( this._checkDb(options) && entity ) {
             var sql = this._sqlDropTable(entity.name);
@@ -371,7 +380,7 @@ M.WebSqlStore = M.Store.extend({
     _createTable: function( options ) {
 
         var entity = this.getEntity(options);
-        entity.db  = this.db;
+        entity.db = this.db;
 
         if( this._checkDb(options) && this._checkEntity(options, entity) ) {
             var sql = this._sqlCreateTable(entity);
@@ -380,42 +389,43 @@ M.WebSqlStore = M.Store.extend({
         }
     },
 
-    _checkTable: function(options, callback) {
+    _checkTable: function( options, callback ) {
         var entity = this.getEntity(options);
         var that = this;
-        if (entity && !entity.db) {
-            this._createTable( {
+        if( entity && !entity.db ) {
+            this._createTable({
                 success: function() {
                     callback();
                 },
-                error: function(error) {
+                error: function( error ) {
                     this.handleError(options, error);
                 },
                 entity: entity
-            } );
+            });
         } else {
             callback();
         }
     },
 
-    _insertOrReplace: function(models, options ) {
+    _insertOrReplace: function( models, options ) {
 
         var entity = this.getEntity(options);
 
         if( this._checkDb(options) && this._checkEntity(options, entity) && this._checkData(options, models) ) {
 
-            var isAutoInc   = this._isAutoincrementKey(entity, entity.getKey());
-            var statements  = [];
+            var isAutoInc = this._isAutoincrementKey(entity, entity.getKey());
+            var statements = [];
+            /*jshint -W109*/
             var sqlTemplate = "INSERT OR REPLACE INTO '" + entity.name + "' (";
             for( var i = 0; i < models.length; i++ ) {
-                var model     = models[i];
+                var model = models[i];
                 var statement = ''; // the actual sql insert string with values
-                if (!isAutoInc && !model.id && model.idAttribute) {
+                if( !isAutoInc && !model.id && model.idAttribute ) {
                     model.set(model.idAttribute, new M.ObjectID().toHexString());
                 }
                 var value = options.attrs || model.toJSON();
                 var args, keys;
-                if ( !_.isEmpty(entity.fields)) {
+                if( !_.isEmpty(entity.fields) ) {
                     args = _.values(value);
                     keys = _.keys(value);
                 } else {
@@ -429,42 +439,46 @@ M.WebSqlStore = M.Store.extend({
                     statements.push({ statement: statement, arguments: args });
                 }
             }
+            /*jshint +W109*/
             this._executeTransaction(options, statements);
         }
     },
 
-    _select: function(result, options) {
+    _select: function( result, options ) {
 
         var entity = this.getEntity(options);
 
-        if( this._checkDb(options) && this._checkEntity(options, entity)  ) {
+        if( this._checkDb(options) && this._checkEntity(options, entity) ) {
             var lastStatement;
             var isCollection = M.isCollection(result);
-            if (isCollection) {
+            if( isCollection ) {
                 result = [];
             }
-            var stm  = this._sqlSelect(options, entity);
+            var stm = this._sqlSelect(options, entity);
             var that = this;
             this.db.readTransaction(function( t ) {
                 var statement = stm.statement || stm;
-                var arguments = stm.arguments;
+                var args = stm.arguments;
                 lastStatement = statement;
-                M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, "SQL-Statement: " + statement);
-                if (arguments) {
-                    M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, "    Arguments: " + JSON.stringify(arguments));
+                M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'SQL-Statement: ' + statement);
+                if( args ) {
+                    M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, '    Arguments: ' + JSON.stringify(args));
                 }
-                t.executeSql(statement, arguments, function( tx, res ) {
+                t.executeSql(statement, args, function( tx, res ) {
                     var len = res.rows.length;//, i;
                     for( var i = 0; i < len; i++ ) {
-                        var item  = res.rows.item(i);
+                        var item = res.rows.item(i);
                         var attrs;
-                        if ( !_.isEmpty(entity.fields) || !that._hasDefaultFields(item)) {
+                        if( !_.isEmpty(entity.fields) || !that._hasDefaultFields(item) ) {
                             attrs = item;
                         } else {
-                            try { attrs = JSON.parse(item['data']); } catch(e) {}
+                            try {
+                                attrs = JSON.parse(item.data);
+                            } catch( e ) {
+                            }
                         }
                         if( attrs && (!that._selector || that._selector.matches(attrs)) ) {
-                            if (isCollection) {
+                            if( isCollection ) {
                                 result.push(attrs);
                             } else {
                                 result = attrs;
@@ -476,7 +490,7 @@ M.WebSqlStore = M.Store.extend({
                     // M.Logger.log('Incorrect statement: ' + sql, M.ERR)
                 }); // callbacks: SQLStatementErrorCallback
             }, function( sqlError ) { // errorCallback
-                M.Logger.error(M.CONST.ERROR.WEBSQL_SYNTAX, "WebSql Syntax Error: " +sqlError.message);
+                M.Logger.error(M.CONST.ERROR.WEBSQL_SYNTAX, 'WebSql Syntax Error: ' + sqlError.message);
                 that.handleError(options, sqlError.message, lastStatement);
             }, function() { // voidCallback (success)
                 that.handleSuccess(options, result);
@@ -484,7 +498,7 @@ M.WebSqlStore = M.Store.extend({
         }
     },
 
-    _delete: function(models, options) {
+    _delete: function( models, options ) {
         var entity = this.getEntity(options);
         if( this._checkDb(options) && this._checkEntity(options, entity) ) {
             var sql = this._sqlDelete(models, options, entity);
@@ -509,13 +523,13 @@ M.WebSqlStore = M.Store.extend({
                 this.db.transaction(function( t ) {
                     _.each(statements, function( stm ) {
                         var statement = stm.statement || stm;
-                        var arguments = stm.arguments;
+                        var args = stm.arguments;
                         lastStatement = statement;
-                        M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, "SQL-Statement: " + statement);
-                        if (arguments) {
-                            M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, "    Arguments: " + JSON.stringify(arguments));
+                        M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'SQL-Statement: ' + statement);
+                        if( args ) {
+                            M.Logger.log(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, '    Arguments: ' + JSON.stringify(args));
                         }
-                        t.executeSql(statement, arguments);
+                        t.executeSql(statement, args);
                     });
                 }, function( sqlError ) { // errorCallback
                     M.Logger.error(M.CONST.ERROR.WEBSQL_SYNTAX, sqlError.message);
@@ -532,16 +546,16 @@ M.WebSqlStore = M.Store.extend({
         }
     },
 
-    _hasDefaultFields: function(item) {
-        return _.every(_.keys(item), function(key) {
-           return key === this.idField.name || key === this.dataField.name;
+    _hasDefaultFields: function( item ) {
+        return _.every(_.keys(item), function( key ) {
+            return key === this.idField.name || key === this.dataField.name;
         }, this);
     },
 
-    _checkDb: function(options) {
+    _checkDb: function( options ) {
         // has to be initialized first
         if( !this.db ) {
-            var error = "db handler not initialized.";
+            var error = 'db handler not initialized.';
             M.Logger.error(M.CONST.ERROR.WEBSQL_NO_DBHANDLER, error);
             this.handleError(options, error);
             return false;
@@ -549,19 +563,19 @@ M.WebSqlStore = M.Store.extend({
         return true;
     },
 
-    getFields: function(entity) {
-        if (!_.isEmpty(entity.fields)) {
+    getFields: function( entity ) {
+        if( !_.isEmpty(entity.fields) ) {
             return entity.fields;
         } else {
             var fields = {};
-            fields['data'] = this.dataField;
+            fields.data = this.dataField;
             var idAttribute = entity.idAttribute || 'id';
             fields[idAttribute] = this.idField;
             return fields;
         }
     },
 
-    getField: function(entity, key) {
+    getField: function( entity, key ) {
         return this.getFields(entity)[key];
     }
 });

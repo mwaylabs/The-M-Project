@@ -13,7 +13,12 @@ _.extend(M.Controller.prototype, Backbone.Events, {
 
     _type: 'M.Controller',
 
-    initialize: function (options) {
+    /**
+     *
+     * @param {Object} options
+     * @returns {Controller}
+     */
+    initialize: function () {
         return this;
     },
 

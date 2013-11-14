@@ -3,8 +3,8 @@
  *
  * @type {Object}
  */
-var M;
-if (typeof exports !== 'undefined') {
+var M = null;
+if( typeof exports !== 'undefined' ) {
     M = exports;
 } else {
     M = global.M = {};
@@ -22,33 +22,33 @@ M.Version = M.version = '2.0';
  *
  * @type {Function}
  */
-M.f = function () {
+M.f = function() {
 };
 
-M.create = function (arguments) {
-    return new this(arguments);
+M.create = function( args ) {
+    return new this(args);
 };
 
-M.design = function (obj) {
-    var o = this.extend(obj || {});
-    return new o();
+M.design = function( obj ) {
+    var O = this.extend(obj || {});
+    return new O();
 };
 
 M.extend = Backbone.Model.extend;
 
-M.isCollection = function (collection) {
+M.isCollection = function( collection ) {
     return Backbone.Collection.prototype.isPrototypeOf(collection);
 };
 
-M.isModel = function (model) {
+M.isModel = function( model ) {
     return Backbone.Model.prototype.isPrototypeOf(model);
 };
 
-M.isEntity = function (entity) {
+M.isEntity = function( entity ) {
     return M.Entity.prototype.isPrototypeOf(entity);
 };
 
-M.isI18NItem = function (entity) {
+M.isI18NItem = function( entity ) {
     return (entity && entity._type && entity._type === 'M.I18NItem');
 };
 
@@ -58,7 +58,7 @@ M.isI18NItem = function (entity) {
  * @param {Object} Check this property if it inherits from M.View
  * @returns {boolean}
  */
-M.isView = function (view) {
+M.isView = function( view ) {
     return M.View.prototype.isPrototypeOf(view);
 };
 
@@ -71,7 +71,6 @@ M.implements = function( interfaces ) {
     this.prototype._implementedInterfaces = interfaces;
     return this;
 };
-
 
 
 /**

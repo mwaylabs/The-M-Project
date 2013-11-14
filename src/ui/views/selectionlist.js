@@ -1,29 +1,23 @@
-(function( scope ) {
+M.SelectionListView = M.View.extend({
 
-    M.SelectionListView = M.View.extend({
+    _type: 'M.SelectionListView',
 
-        _type: 'M.SelectionListView',
+    isMultiple: NO,
 
-        isMultiple: NO,
+    template: M.TemplateManager.get('M.SelectionListView'),
 
-        template: M.TemplateManager.get('M.SelectionListView'),
-
-        _assignBinding: function() {
-            M.View.prototype._assignBinding.apply(this, arguments);
-            if( this.selectOptions ) {
-                _.each(this.bindings, function( value ) {
-                    value['selectOptions'] = this.selectOptions;
-                }, this)
-            }
-            return this;
-        },
-
-       _assignTemplateValues: function() {
-            M.View.prototype._assignTemplateValues.apply(this);
-            this._templateValues['isMultiple'] = this.isMultiple;
+    _assignBinding: function () {
+        M.View.prototype._assignBinding.apply(this, arguments);
+        if (this.selectOptions) {
+            _.each(this.bindings, function (value) {
+                value.selectOptions = this.selectOptions;
+            }, this);
         }
-    });
+        return this;
+    },
 
-
-
-})(this);
+    _assignTemplateValues: function () {
+        M.View.prototype._assignTemplateValues.apply(this);
+        this._templateValues.isMultiple = this.isMultiple;
+    }
+});

@@ -15,7 +15,9 @@ _.extend(M.Router.prototype, M.Object, {
 
     controllerDidLoad: function( name, controller, res, callback ) {
         var _callback = this.getCallBack(controller);
-        _callback && _callback.apply(controller, [res]);
+        if(_.isFunction(_callback)){
+            _callback.apply(controller, [res]);
+        }
         callback();
         global[M.APPLICATION_NAME]._initReady();
     },
@@ -66,7 +68,6 @@ _.extend(M.Router.prototype, M.Object, {
             var res = {};
             _.each(router.routes, function( val, key ) {
 
-                var string = route.toString().slice(1, -1);
                 var reg = /\(?(\/:[^)]+)\)?$/;
                 ///^page4\(?(/:[^)]+)\)?$/
                 var exec = reg.exec(key);

@@ -60,7 +60,7 @@ M.Application = M.Controller.extend({
     _initLocale: function (options) {
         var defer = $.Deferred();
 
-        M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function (e) {
+        M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function () {
             defer.resolve();
         });
 

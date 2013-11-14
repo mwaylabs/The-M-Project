@@ -1,4 +1,4 @@
-(function( scope ) {
+(function() {
 
     /**
      * M.View inherits from Backbone.View
@@ -12,7 +12,7 @@
          */
         constructor: function( options ) {
             this.cid = _.uniqueId('view');
-            options || (options = {});
+            options = options || {};
             var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'onSet', 'onGet'];
             _.extend(this, _.pick(options, viewOptions));
             this._ensureElement();
@@ -196,7 +196,7 @@
                     o = {
                         model: o,
                         attribute: key
-                    }
+                    };
                 } else {
                     o = null;
                 }
@@ -276,12 +276,15 @@
                     that._setModel(model);
                     that.render();
                 });
-            } else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
-
-                this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
-                    //                    that._value_.model.set(that._value_.attribute, model.get(that._value_.attribute));
-                });
             }
+
+            // TODO check if needed
+            //            else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
+            //
+            //                this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
+            //                    //                    that._value_.model.set(that._value_.attribute, model.get(that._value_.attribute));
+            //                });
+            //            }
             return this;
         },
 
@@ -349,7 +352,7 @@
                     'origin': 'keyup',
                     'callback': function( event ) {
                         if( event.keyCode === 13 ) {
-                            that._events['enter'].apply(that.scope, arguments);
+                            that._events.enter.apply(that.scope, arguments);
                         }
 
                     }
@@ -357,17 +360,16 @@
             };
             for( var event in this._events ) {
                 if( customEvents.hasOwnProperty(event) ) {
-                    this._events[customEvents[event].origin] = customEvents[event].callback
+                    this._events[customEvents[event].origin] = customEvents[event].callback;
                 }
             }
-
         },
 
         _getEventOptions: function() {
             return {
-                prevent_default: false, // To prevent the ghost click
-                no_mouseevents: true,
-                stop_browser_behavior: false
+                'prevent_default': false, // To prevent the ghost click
+                'no_mouseevents': true,
+                'stop_browser_behavior': false
             };
         },
 
@@ -383,7 +385,7 @@
                 this._eventCallback = {};
                 Object.keys(this._events).forEach(function( eventName ) {
 
-                    this._hammertime = Hammer(that.el, that._getEventOptions());
+                    this._hammertime = new Hammer(that.el, that._getEventOptions());
 
                     this._eventCallback[eventName] = function( event ) {
                         var args = Array.prototype.slice.call(arguments);
@@ -438,14 +440,14 @@
         },
 
         _assignTemplate: function( template ) {
-            var template = template || this.template;
+            template = template || this.template;
             if( template ) {
                 if( typeof template === 'function' ) {
                     this._template = template;
                 } else if( _.isString(template) ) {
                     this._template = _.tmpl(template);
                 } else if( _.isObject(template) ) {
-                    this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']))
+                    this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']));
                 }
             } else if( this._template ) {
                 this.template = this._template;
@@ -461,12 +463,12 @@
                 if( M.isModel(_value_) ) {
                     this._templateValues = this.model.attributes;
                 } else {
-                    this._templateValues['_value_'] = this.model.get(_value_.attribute);
+                    this._templateValues._value_ = this.model.get(_value_.attribute);
                 }
             } else if( M.isI18NItem(_value_) ) {
-                this._templateValues['_value_'] = M.I18N.l(_value_.key, _value_.placeholder);
+                this._templateValues._value_ = M.I18N.l(_value_.key, _value_.placeholder);
             } else if( typeof _value_ === 'string' ) {
-                this._templateValues['_value_'] = _value_;
+                this._templateValues._value_ = _value_;
             } else if( _value_ !== null && typeof _value_ === 'object' && this._hasI18NListener === NO ) {
                 this._templateValues = _value_;
             } else if( this._hasI18NListener && _.isObject(_value_) ) {
@@ -506,7 +508,7 @@
          * @private
          */
         _attachToDom: function() {
-            return this.getValue() != null;
+            return this.getValue() !== null;
         },
 
         _renderChildViews: function() {
@@ -525,14 +527,14 @@
                     dom.addClass(name);
                 }
 
-                if( typeof child['render'] === 'function' ) {
+                if( typeof child.render === 'function' ) {
                     dom.append(child.render().$el);
                     child.delegateEvents();
                 } else if( _.isArray(child) ) {
                     _.each(child, function( c ) {
                         dom.append(c.render().$el);
                         c.delegateEvents();
-                    })
+                    });
                 }
 
             }, this);
@@ -571,44 +573,44 @@
 
         _assignBinding: function() {
             var bindings = {};
-            var data = this._templateValues;
 
             var _value_ = this._getValue();
+            var selector = '';
 
             if( this.model && !M.isModel(_value_) ) {
-                var selector = '[data-binding="_value_"]';
+                selector = '[data-binding="_value_"]';
                 bindings[selector] = {observe: '' + _value_.attribute};
             } else if( this.collection ) {
-                var selector = '[data-binding="_value_"]';
-                bindings[selector] = {observe: "_value_"};
+                selector = '[data-binding="_value_"]';
+                bindings[selector] = {observe: '_value_'};
             } else if( this.model && M.isModel(_value_) ) {
                 _.each(this.model.attributes, function( value, key ) {
                     var selector = '[data-binding="' + key + '"]';
                     bindings[selector] = {observe: '' + key};
                 }, this);
             } else if( this.templateExtend === null && this.scopeKey ) {
-                var selector = '[data-binding="_value_"]';
+                selector = '[data-binding="_value_"]';
                 bindings[selector] = {observe: '' + this.scopeKey};
             } else {
                 _.each(this._templateValues, function( value, key ) {
-                    var selector = '[data-binding="' + key + '"]';
+                    selector = '[data-binding="' + key + '"]';
                     bindings[selector] = {observe: '' + key};
                 }, this);
             }
 
             _.each(bindings, function( value, key ) {
                 if( typeof this.onGet === 'function' ) {
-                    bindings[key]['onGet'] = function( value, options ) {
+                    bindings[key].onGet = function( value ) {
                         var ret = this.onGet(value);
                         return ret;
-                    }
+                    };
                 }
 
                 if( typeof this.onSet === 'function' ) {
-                    bindings[key]['onSet'] = function( value, options ) {
+                    bindings[key].onSet = function( value ) {
                         var ret = this.onSet(value);
                         return ret;
-                    }
+                    };
                 }
             }, this);
 
@@ -633,8 +635,8 @@
             if( !this.childViews ) {
                 return;
             }
-            _.each(this.childViews, function( child, name ) {
-                if( typeof child['updateTemplate'] === 'function' ) {
+            _.each(this.childViews, function( child ) {
+                if( typeof child.updateTemplate === 'function' ) {
                     child.updateTemplate();
                 } else if( _.isArray(child) ) {
                     _.each(child, function( c ) {
@@ -647,10 +649,10 @@
         },
 
         addChildView: function( selector, view ) {
-            if( _.isArray(selector)){
-                //TODO: OHJE OHJE SCHAU DIR DIE TESTS AN DA GEHT WAS SCHIEF MIT OBJECTS AND ARRAYS
-                //_.extend({0:0,1:1}, [0,1])
-                this.childViews = _.extend(this.childViews || {}, selector);
+            if( _.isObject(selector) ) {
+                _.each(selector, function(view, selector){
+                    this.childViews[selector] = view;
+                }, this);
             } else {
                 this.childViews[selector] = view;
             }
@@ -705,6 +707,10 @@
          * testView._getChildView('child2');  //child2
          */
         _getChildView: function( identifier ) {
+            var ident = parseInt(identifier, 10);
+            if( !_.isNaN(ident) ){
+                identifier = ident;
+            }
             var childName = _.isNumber(identifier) ? Object.keys(this.childViews)[identifier] : identifier;
             return this.childViews[childName];
         }
@@ -734,8 +740,8 @@
 
         var _scope = isScope ? {scope: scope} : scope;
         var f = new this(_scope);
+        f.childViews = {};
         if( f._childViews ) {
-            f.childViews = {};
             _.each(f._childViews, function( childView, name ) {
                 var _scope = scope;
                 if( f.useAsScope === YES ) {

@@ -47,27 +47,27 @@ M.CONST = {
      * Data type Constants.
      */
     TYPE: {
-        INTEGER:    "integer",
+        INTEGER:    'integer',
 
-        STRING:     "string",
+        STRING:     'string',
 
-        TEXT:       "text",
+        TEXT:       'text',
 
-        DATE:       "date",
+        DATE:       'date',
 
-        BOOLEAN:    "boolean",
+        BOOLEAN:    'boolean',
 
-        FLOAT:      "float",
+        FLOAT:      'float',
 
-        OBJECT:     "object",
+        OBJECT:     'object',
 
-        ARRAY:      "array",
+        ARRAY:      'array',
 
-        BINARY:     "binary",
+        BINARY:     'binary',
 
-        OBJECTID:   "objectid",
+        OBJECTID:   'objectid',
 
-        NULL:       "null"
+        NULL:       'null'
     },
 
     /***
@@ -107,7 +107,7 @@ M.CONST = {
      * M.CONST.ERROR.WEBSQL_UNKNOWN                200     The transaction failed for reasons unrelated to the database itself and not covered by any other error code.
      * M.CONST.ERROR.WEBSQL_DATABASE                201     The statement failed for database reasons not covered by any other error code.
      * M.CONST.ERROR.WEBSQL_VERSION                 202     The operation failed because the actual database version was not what it should be. For example, a statement found that the actual database version no longer matched the expected version of the Database or DatabaseSync object, or the Database.changeVersion() or DatabaseSync.changeVersion() methods were passed a version that doesn't match the actual database version.
-     * M.CONST.ERROR.WEBSQL_TOO_LARGE               203     The statement failed because the data returned from the database was too large. The SQL "LIMIT" modifier might be useful to reduce the size of the result set.
+     * M.CONST.ERROR.WEBSQL_TOO_LARGE               203     The statement failed because the data returned from the database was too large. The SQL 'LIMIT' modifier might be useful to reduce the size of the result set.
      * M.CONST.ERROR.WEBSQL_QUOTA                   204     The statement failed because there was not enough remaining storage space, or the storage quota was reached and the user declined to give more space to the database.
      * M.CONST.ERROR.WEBSQL_SYNTAX                  205     The statement failed because of a syntax error, or the number of arguments did not match the number of ? placeholders in the statement, or the statement tried to use a statement that is not allowed, such as BEGIN, COMMIT, or ROLLBACK, or the statement tried to use a verb that could modify the database but the transaction was read-only.
      * M.CONST.ERROR.WEBSQL_CONSTRAINT              206     An INSERT, UPDATE, or REPLACE statement failed due to a constraint failure. For example, because a row was being inserted and the value given for the primary key column duplicated the value of an existing row.
@@ -196,7 +196,7 @@ M.CONST = {
         /* WebSQL Error Codes (see e.g. http://www.w3.org/TR/webdatabase/) */
         /**
          * A constant value for an error occuring with WebSQL.
-         * "The transaction failed for reasons unrelated to the database itself and not covered by any other error code."
+         * 'The transaction failed for reasons unrelated to the database itself and not covered by any other error code.'
          * Error code in WebSQL specification: 0
          *
          * @type Number
@@ -205,7 +205,7 @@ M.CONST = {
 
         /**
          * A constant value for an error occuring with WebSQL.
-         * "The statement failed for database reasons not covered by any other error code."
+         * 'The statement failed for database reasons not covered by any other error code.'
          * Error code in WebSQL specification: 1
          *
          * @type Number
@@ -214,7 +214,7 @@ M.CONST = {
 
         /**
          * A constant value for an error occuring with WebSQL.
-         * "The transaction failed for reasons unrelated to the database itself and not covered by any other error code."
+         * 'The transaction failed for reasons unrelated to the database itself and not covered by any other error code.'
          * Error code in WebSQL specification: 2
          *
          * @type Number
@@ -223,7 +223,7 @@ M.CONST = {
 
         /**
          * A constant value for an error occuring with WebSQL.
-         * "The statement failed because the data returned from the database was too large. The SQL "LIMIT" modifier might be useful to reduce the size of the result set."
+         * 'The statement failed because the data returned from the database was too large. The SQL 'LIMIT' modifier might be useful to reduce the size of the result set.'
          * Error code in WebSQL specification: 3
          *
          * @type Number
@@ -232,7 +232,7 @@ M.CONST = {
 
         /**
          * A constant value for an error occuring with WebSQL.
-         * "The statement failed because there was not enough remaining storage space, or the storage quota was reached and the user declined to give more space to the database."
+         * 'The statement failed because there was not enough remaining storage space, or the storage quota was reached and the user declined to give more space to the database.'
          * Error code in WebSQL specification: 4
          *
          * @type Number
@@ -241,7 +241,7 @@ M.CONST = {
 
         /**
          * A constant value for an error occuring with WebSQL.
-         * "The statement failed because of a syntax error, or the number of arguments did not match the number of ? placeholders in the statement, or the statement tried to use a statement that is not allowed, such as BEGIN, COMMIT, or ROLLBACK, or the statement tried to use a verb that could modify the database but the transaction was read-only."
+         * 'The statement failed because of a syntax error, or the number of arguments did not match the number of ? placeholders in the statement, or the statement tried to use a statement that is not allowed, such as BEGIN, COMMIT, or ROLLBACK, or the statement tried to use a verb that could modify the database but the transaction was read-only.'
          * Error code in WebSQL specification: 5
          *
          * @type Number
@@ -250,7 +250,7 @@ M.CONST = {
 
         /**
          * A constant value for an error occuring with WebSQL.
-         * "An INSERT, UPDATE, or REPLACE statement failed due to a constraint failure. For example, because a row was being inserted and the value given for the primary key column duplicated the value of an existing row."
+         * 'An INSERT, UPDATE, or REPLACE statement failed due to a constraint failure. For example, because a row was being inserted and the value given for the primary key column duplicated the value of an existing row.'
          * Error code in WebSQL specification: 6
          *
          * @type Number
@@ -259,7 +259,7 @@ M.CONST = {
 
         /**
          * A constant value for an error occuring with WebSQL.
-         * "A lock for the transaction could not be obtained in a reasonable time."
+         * 'A lock for the transaction could not be obtained in a reasonable time.'
          * Error code in WebSQL specification: 7
          *
          * @type Number

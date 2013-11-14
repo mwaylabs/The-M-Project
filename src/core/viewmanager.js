@@ -46,7 +46,7 @@ M.ViewManager = M.Object.design({
 
         if( this._allViews[searchterm] ) {
             return this._allViews[searchterm];
-        } else if( searchterm['DOCUMENT_NODE'] ) {
+        } else if( searchterm.DOCUMENT_NODE ) {
             return _.find(this._allViews, function( view ) {
                 return (view.el === searchterm);
             });

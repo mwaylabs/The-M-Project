@@ -23,7 +23,9 @@ M.UniqueId = M.Object.design({
         var i;
 
         if (len) {
-            for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random() * radix];
+            for (i = 0; i < len; i++) {
+                uuid[i] = chars[0 | Math.random() * radix];
+            }
         } else {
             // rfc4122, version 4 form
             var r;
@@ -37,7 +39,7 @@ M.UniqueId = M.Object.design({
             for (i = 0; i < 36; i++) {
                 if (!uuid[i]) {
                     r = 0 | Math.random() * 16;
-                    uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+                    uuid[i] = chars[(i === 19) ? (r & 0x3) | 0x8 : r];
                 }
             }
         }

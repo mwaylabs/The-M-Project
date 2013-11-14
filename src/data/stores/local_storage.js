@@ -5,19 +5,21 @@ M.LocalStorageStore = M.Store.extend({
     ids: {},
 
     sync: function( method, model, options ) {
-        var options = options || {};
+        options = options || {};
         var that = options.store || this.store;
         var entity = that.getEntity(model.entity || options.entity || this.entity);
+        var attrs;
         if( that && entity && model ) {
             var id = model.id || (method === 'create' ? new M.ObjectID().toHexString() : null);
-            var attrs = options.attrs || model.toJSON(options);
+            attrs = options.attrs || model.toJSON(options);
+            /*jshint -W086*/
             switch( method ) {
                 case 'patch':
                 case 'update':
                     var data = that._getItem(entity, id) || {};
                     attrs = _.extend(data, attrs);
                 case 'create':
-                    if (model.id !== id && model.idAttribute) {
+                    if( model.id !== id && model.idAttribute ) {
                         attrs[model.idAttribute] = id;
                     }
                     that._setItem(entity, id, attrs);
@@ -32,9 +34,9 @@ M.LocalStorageStore = M.Store.extend({
                         attrs = [];
                         var ids = that._getItemIds(entity);
                         for( id in ids ) {
-                            var data = that._getItem(entity, id);
-                            if( data ) {
-                                attrs.push(data);
+                            var itemData = that._getItem(entity, id);
+                            if( itemData ) {
+                                attrs.push(itemData);
                             }
                         }
                     }
@@ -42,6 +44,7 @@ M.LocalStorageStore = M.Store.extend({
                 default:
                     return;
             }
+            /*jshint +W086*/
         }
         if( attrs ) {
             that.handleSuccess(options, attrs);
@@ -58,7 +61,7 @@ M.LocalStorageStore = M.Store.extend({
         var attrs;
         if( entity && id ) {
             try {
-                var attrs = JSON.parse(localStorage.getItem(this._getKey(entity, id)));
+                attrs = JSON.parse(localStorage.getItem(this._getKey(entity, id)));
                 if( attrs ) {
                     entity.setId(attrs, id); // fix id
                 } else {
