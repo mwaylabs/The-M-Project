@@ -3,6 +3,7 @@
 
 // @include ./ui/views/view.js
 // @include ./ui/layouts/layout.js
+// @include ./ui/themes.js
 
 // @include ./ui/views/textfield.js
 // @include ./ui/views/searchfield.js

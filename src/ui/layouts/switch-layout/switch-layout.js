@@ -10,12 +10,6 @@ M.SwitchLayout = M.Layout.extend({
 
     applyViews: function( settings ){
 
-        var current = $('.m-page-current');
-
-        var next = $('.m-page:not(.m-page-current)');
-
-        var selector = '';
-
         if(this.currentPage === null || this.currentPage === undefined || this.currentPage === 'content_page2'){
             this.currentPage = 'content_page1';
 
@@ -60,4 +54,4 @@ M.SwitchLayout = M.Layout.extend({
     startTransition: function(options){
         M.PageTransitions.startTransition(options);
     }
-})
+});

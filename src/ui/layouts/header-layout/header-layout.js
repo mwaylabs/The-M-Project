@@ -11,15 +11,14 @@ M.HeaderLayout = M.Layout.extend({
 
         var ident = 'header';
 
-        if(!this.childViews['header'] && settings.header){
-            this.addChildView('header', settings.header);
+        if(!this.childViews[ident] && settings.header){
+            this.addChildView(ident, settings.header);
         }
 
         if( settings.header && !this._firstRender ) {
             this.$el.find('[data-childviews="' + ident + '"]').html('');
             this.$el.find('[data-childviews="' + ident + '"]').html(settings.header.render().$el);
         }
-
 
         return this;
     }
