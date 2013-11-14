@@ -42,7 +42,7 @@ M.ViewEnableState = M.Interface.design(/** @scope M.ContentBinding.prototype */{
         return {
             disable: this.disable,
             enable: this.enable
-        }
+        };
     }
 
 });

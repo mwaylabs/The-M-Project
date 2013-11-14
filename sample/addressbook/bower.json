@@ -2,8 +2,7 @@
   "name": "addressbook",
   "version": "0.0.0",
   "dependencies": {
-    "tmp2": "dev",
-    "bootstrap": "~3.0.0"
+    "tmp2": "dev"
   },
   "devDependencies": {}
 }

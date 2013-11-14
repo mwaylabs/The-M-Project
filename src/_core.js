@@ -39,6 +39,5 @@
 
 
 // @include ./interfaces/interface.js
-// @include ./interfaces/pagetransitions.js
 // @include ./interfaces/viewenablestate.js
 
