@@ -28,26 +28,26 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
 
     name: '',
 
-    typeMapping: function() {
+    typeMapping: (function() {
         var map = {};
         map [M.CONST.TYPE.OBJECTID] = M.CONST.TYPE.STRING;
-        map [M.CONST.TYPE.DATE]     = M.CONST.TYPE.STRING;
-        map [M.CONST.TYPE.BINARY]   = M.CONST.TYPE.TEXT;
+        map [M.CONST.TYPE.DATE] = M.CONST.TYPE.STRING;
+        map [M.CONST.TYPE.BINARY] = M.CONST.TYPE.TEXT;
         return map;
-    }(),
+    })(),
 
     initialize: function( options ) {
         options = options || {};
         this.options = this.options || {};
-        this.options.name         = this.name;
-        this.options.typeMapping  = this.typeMapping;
-        this.options.entities     = this.entities;
+        this.options.name = this.name;
+        this.options.typeMapping = this.typeMapping;
+        this.options.entities = this.entities;
         _.extend(this.options, options || {});
 
         this._setEntities(options.entities || {});
     },
 
-    _setEntities: function(entities) {
+    _setEntities: function( entities ) {
         this.entities = {};
         for( var name in entities ) {
             var entity = M.Entity.from(entities[name], {
@@ -58,31 +58,31 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
 
             // connect collection and model to this store
             var collection = entity.collection || M.Collection.extend({ model: M.Model.extend({}) });
-            var model      = collection.prototype.model;
+            var model = collection.prototype.model;
             // set new entity and name
             collection.prototype.entity = model.prototype.entity = name;
-            collection.prototype.store  = model.prototype.store  = this;
+            collection.prototype.store = model.prototype.store = this;
             entity.idAttribute = entity.idAttribute || model.prototype.idAttribute;
             this.entities[name] = entity;
         }
     },
 
-    getEntity: function(obj) {
-        if (obj) {
+    getEntity: function( obj ) {
+        if( obj ) {
             var entity = obj.entity || obj;
-            var name   = _.isString(entity) ? entity : entity.name;
-            if (name) {
+            var name = _.isString(entity) ? entity : entity.name;
+            if( name ) {
                 return this.entities[name] || (entity && entity.name ? entity : { name: name });
             }
         }
     },
 
-    getCollection: function(entity) {
-        if (_.isString(entity)) {
+    getCollection: function( entity ) {
+        if( _.isString(entity) ) {
             entity = this.entities[entity];
         }
-        if (entity && entity.collection) {
-            if (M.Collection.prototype.isPrototypeOf(entity.collection)) {
+        if( entity && entity.collection ) {
+            if( M.Collection.prototype.isPrototypeOf(entity.collection) ) {
                 return entity.collection;
             } else {
                 return new entity.collection();
@@ -90,25 +90,25 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         }
     },
 
-    createModel: function(entity, attrs) {
-        if (_.isString(entity)) {
+    createModel: function( entity, attrs ) {
+        if( _.isString(entity) ) {
             entity = this.entities[entity];
         }
-        if (entity && entity.collection) {
-            var model = entity.collection.model || entity.collection.prototype.model;
-            if (model) {
-                return new model(attrs);
+        if( entity && entity.collection ) {
+            var Model = entity.collection.model || entity.collection.prototype.model;
+            if( Model ) {
+                return new Model(attrs);
             }
         }
     },
 
     getArray: function( data ) {
-        if (_.isArray(data)) {
+        if( _.isArray(data) ) {
             return data;
-        } else if (M.isCollection(data)) {
+        } else if( M.isCollection(data) ) {
             return data.models;
         }
-        return _.isObject(data) ? [ data ] : []
+        return _.isObject(data) ? [ data ] : [];
     },
 
     getDataArray: function( data ) {
@@ -202,9 +202,9 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
     },
 
     _checkEntity: function( obj, entity ) {
-        if( !M.isEntity(entity)) {
-            var error = "No valid entity passed.";
-            M.Logger.error(M.CONST.ERROR.VALIDATION_PRESENCE, error)
+        if( !M.isEntity(entity) ) {
+            var error = 'No valid entity passed.';
+            M.Logger.error(M.CONST.ERROR.VALIDATION_PRESENCE, error);
             this.handleCallback(obj.error, error);
             this.handleCallback(obj.finish, error);
             return false;
@@ -213,8 +213,8 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
     },
 
     _checkData: function( obj, data ) {
-        if( (!_.isArray(data) || data.length == 0) && !_.isObject(data) ) {
-            var error = "No data passed.";
+        if( (!_.isArray(data) || data.length === 0) && !_.isObject(data) ) {
+            var error = 'No data passed.';
             M.Logger.error(M.CONST.ERROR.VALIDATION_PRESENCE, error);
             this.handleCallback(obj.error, error);
             this.handleCallback(obj.finish, error);
