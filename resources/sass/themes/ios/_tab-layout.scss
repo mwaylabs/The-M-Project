@@ -1,0 +1,15 @@
+.tablayout {
+
+  .m-tab {
+    top: 0;
+    bottom: $tablayout-menu-height;
+    height: auto;
+  }
+
+  .tab-menu {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+  }
+
+}

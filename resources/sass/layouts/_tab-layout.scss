@@ -1,0 +1,45 @@
+
+
+.tablayout {
+
+  .tab-menu {
+
+    height: $tablayout-menu-height;
+
+    .buttongroupview {
+
+      .button {
+        height: $tablayout-menu-height;
+        padding: $tablayout-menu-button-padding;
+      }
+
+      .buttonview {
+        &:first-child{
+          padding-left: 0;
+        }
+
+        &:last-child{
+          padding-right: 0;
+        }
+      }
+
+    }
+
+  }
+}
+
+.m-tab {
+  top: $tablayout-menu-height;
+}
+
+.m-tab:nth-child(1) {
+  background: $pink;
+}
+
+.m-tab:nth-child(2) {
+  background: $orange;
+}
+
+.m-tab:nth-child(3) {
+  background: $red;
+}
