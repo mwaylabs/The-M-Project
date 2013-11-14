@@ -8,8 +8,8 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
-M.Entity = function(options) {
-    var fields  = this.fields;
+M.Entity = function (options) {
+    var fields = this.fields;
     this.fields = {};
     this._mergeFields(fields);
     options = options || {};
@@ -17,20 +17,21 @@ M.Entity = function(options) {
         this._mergeFields(options.fields);
     }
     this.typeMapping = options.typeMapping || this.typeMapping;
-    this.collection  = options.collection  || this.collection;
+    this.collection = options.collection || this.collection;
     var model = options.model || (this.collection ? this.collection.prototype.model : null);
     this.idAttribute = options.idAttribute || this.idAttribute || (model ? model.prototype.idAttribute : '');
     this._updateFields(this.typeMapping);
     this.initialize.apply(this, arguments);
 };
 
-M.Entity.from = function(entity, options) {
+M.Entity.from = function (entity, options) {
     // is not an instance of M.Entity
     if (!M.Entity.prototype.isPrototypeOf(entity)) {
         // if this is a prototype of an entity, create an instance
-        if ( _.isFunction(entity) &&
-             M.Entity.prototype.isPrototypeOf(entity.prototype)) {
-            entity = new entity(options);
+        if (_.isFunction(entity) &&
+            M.Entity.prototype.isPrototypeOf(entity.prototype)) {
+            var Entity = entity;
+            entity = new Entity(options);
         } else {
             if (typeof entity === 'string') {
                 entity = {
@@ -38,8 +39,8 @@ M.Entity.from = function(entity, options) {
                 };
             }
             // if this is just a config create a new Entity
-            var e  = M.Entity.extend(entity);
-            entity = new e(options);
+            var E = M.Entity.extend(entity);
+            entity = new E(options);
         }
     } else if (options && options.typeMapping) {
         entity._updateFields(options.typeMapping);
@@ -50,7 +51,6 @@ M.Entity.from = function(entity, options) {
 M.Entity.extend = M.extend;
 M.Entity.create = M.create;
 M.Entity.design = M.design;
-
 
 _.extend(M.Entity.prototype, M.Object, {
 
@@ -71,55 +71,55 @@ _.extend(M.Entity.prototype, M.Object, {
 
     fields: {},
 
-    initialize: function() {
+    initialize: function () {
     },
 
-    getFields: function() {
+    getFields: function () {
         return this.fields;
     },
 
-    getField: function(fieldKey) {
+    getField: function (fieldKey) {
         return this.fields[fieldKey];
     },
 
-    getFieldName: function(fieldKey) {
+    getFieldName: function (fieldKey) {
         var field = this.getField(fieldKey);
         return field && field.name ? field.name : fieldKey;
     },
 
-    getKey: function() {
+    getKey: function () {
         return this.idAttribute || M.Model.idAttribute;
     },
 
-    getKeys: function() {
+    getKeys: function () {
         return this.splitKey(this.getKey());
     },
 
     /**
-      * Splits a comma separated list of keys to a key array
-      *
-      * @returns {Array} array of keys
-      */
-    splitKey: function(key) {
-         var keys = [];
-         if( _.isString(key) ) {
-             _.each(key.split(","), function(key) {
-                 var k = key.trim();
-                 if( k ) {
-                     keys.push(k);
-                 }
-             });
-         }
-         return keys;
+     * Splits a comma separated list of keys to a key array
+     *
+     * @returns {Array} array of keys
+     */
+    splitKey: function (key) {
+        var keys = [];
+        if (_.isString(key)) {
+            _.each(key.split(','), function (key) {
+                var k = key.trim();
+                if (k) {
+                    keys.push(k);
+                }
+            });
+        }
+        return keys;
     },
 
-    _mergeFields: function(newFields) {
+    _mergeFields: function (newFields) {
         if (!_.isObject(this.fields)) {
             this.fields = {};
         }
         var that = this;
         if (_.isObject(newFields)) {
-            _.each(newFields, function(value, key) {
+            _.each(newFields, function (value, key) {
                 if (!that.fields[key]) {
                     that.fields[key] = new M.Field(value);
                 } else {
@@ -129,9 +129,9 @@ _.extend(M.Entity.prototype, M.Object, {
         }
     },
 
-    _updateFields: function(typeMapping) {
+    _updateFields: function (typeMapping) {
         var that = this;
-        _.each(this.fields, function(value, key) {
+        _.each(this.fields, function (value, key) {
             // remove unused properties
             if (value.persistent === NO) {
                 delete that.fields[key];
@@ -148,12 +148,12 @@ _.extend(M.Entity.prototype, M.Object, {
         });
     },
 
-    toAttributes: function(data, id, fields) {
+    toAttributes: function (data, id, fields) {
         fields = fields || this.fields;
         if (data && !_.isEmpty(fields)) {
             // map field names
             var value, attributes = {};
-            _.each(fields, function(field, key) {
+            _.each(fields, function (field, key) {
                 value = _.isFunction(data.get) ? data.get(field.name) : data[field.name];
                 attributes[key] = value;
             });
@@ -162,14 +162,14 @@ _.extend(M.Entity.prototype, M.Object, {
         return data;
     },
 
-    fromAttributes: function(attrs, fields) {
+    fromAttributes: function (attrs, fields) {
         fields = fields || this.fields;
         if (attrs && !_.isEmpty(fields)) {
             var data = {};
-            _.each(fields, function(field, key) {
+            _.each(fields, function (field, key) {
                 var value = _.isFunction(attrs.get) ? attrs.get(key) : attrs[key];
                 value = field.transform(value);
-                if( !_.isUndefined(value) ) {
+                if (!_.isUndefined(value)) {
                     data[field.name] = value;
                 }
             });
@@ -178,17 +178,21 @@ _.extend(M.Entity.prototype, M.Object, {
         return attrs;
     },
 
-    setId: function(attrs, id) {
+    setId: function (attrs, id) {
         if (attrs && id) {
             var key = this.getKey() || attrs.idAttribute;
             if (key) {
+                // TODO fix jshint warning
+                /*jshint -W030*/
                 _.isFunction(attrs.set) ? attrs.set(key, id) : (attrs[key] = id);
+                /*jshint -W030*/
+
             }
         }
         return attrs;
     },
 
-    getId: function(attrs) {
+    getId: function (attrs) {
         if (attrs) {
             var key = this.getKey() || attrs.idAttribute;
             if (key) {

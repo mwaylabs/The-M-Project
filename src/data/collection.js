@@ -11,7 +11,7 @@
 
 M.Collection = Backbone.Collection.extend({
 
-    constructor: function(options) {
+    constructor: function (options) {
         this.init(options);
         Backbone.Collection.apply(this, arguments);
     }
@@ -32,10 +32,10 @@ _.extend(M.Collection.prototype, M.Object, {
 
     options: null,
 
-    init: function(options) {
+    init: function (options) {
         options = options || {};
-        this.store   = options.store   || this.store  || (this.model ? this.model.prototype.store : null);
-        this.entity  = options.entity  || this.entity || (this.model ? this.model.prototype.entity : null);
+        this.store = options.store || this.store || (this.model ? this.model.prototype.store : null);
+        this.entity = options.entity || this.entity || (this.model ? this.model.prototype.entity : null);
         this.options = options.options || this.options;
 
         var entity = this.entity || this.entityFromUrl(this.url);
@@ -59,22 +59,22 @@ _.extend(M.Collection.prototype, M.Object, {
         }
     },
 
-    sort: function(options) {
-        if ( _.isObject(options && options.sort)) {
+    sort: function (options) {
+        if (_.isObject(options && options.sort)) {
             this.comparator = M.DataSelector.compileSort(options.sort);
         }
         Backbone.Collection.prototype.sort.apply(this, arguments);
     },
 
-    select: function(options) {
-        var selector   = options && options.query ? M.DataSelector.create(options.query) : null;
+    select: function (options) {
+        var selector = options && options.query ? M.DataSelector.create(options.query) : null;
         var collection = M.Collection.create(null, { model: this.model });
 
         if (options && options.sort) {
             collection.comparator = M.DataSelector.compileSort(options.sort);
         }
 
-        this.each(function(model) {
+        this.each(function (model) {
             if (!selector || selector.matches(model.attributes)) {
                 collection.add(model);
             }
@@ -82,25 +82,28 @@ _.extend(M.Collection.prototype, M.Object, {
         return collection;
     },
 
-    destroy: function(options) {
+    destroy: function (options) {
         var model;
         var success = options.success;
         if (this.length > 0) {
             options.success = function () {
-                if (this.length == 0 && success) {
+                if (this.length === 0 && success) {
                     success();
                 }
             };
+            // TODO check while condition
+            /*jshint -W084*/
             while (model = this.first()) {
-                this.sync("delete", model, options );
+                this.sync('delete', model, options);
                 this.remove(model);
             }
+            /*jshint +W084*/
         } else if (success) {
             success();
         }
     },
 
-    sync: function(method, model, options) {
+    sync: function (method, model, options) {
         var store = (options ? options.store : null) || this.store;
         if (store && _.isFunction(store.sync)) {
             return store.sync.apply(this, arguments);
@@ -109,27 +112,27 @@ _.extend(M.Collection.prototype, M.Object, {
             var args = arguments;
             options = options || {};
             options.credentials = options.credentials || this.credentials;
-            M.Security.logon(options, function(result) {
+            M.Security.logon(options, function (result) {
                 return Backbone.sync.apply(that, args);
             });
         }
     },
 
-    _updateUrl: function() {
+    _updateUrl: function () {
         var params = this.getUrlParams();
         if (this.options) {
             this.url = this.getUrlRoot();
             if (this.options.query) {
-                params["query"] = encodeURIComponent(JSON.stringify(this.options.query));
+                params.query = encodeURIComponent(JSON.stringify(this.options.query));
             }
             if (this.options.fields) {
-                params["fields"] = encodeURIComponent(JSON.stringify(this.options.fields));
+                params.fields = encodeURIComponent(JSON.stringify(this.options.fields));
             }
             if (this.options.sort) {
-                params["sort"] = encodeURIComponent(JSON.stringify(this.options.sort));
+                params.sort = encodeURIComponent(JSON.stringify(this.options.sort));
             }
             if (!_.isEmpty(params)) {
-                this.url += "?";
+                this.url += '?';
                 var a = [];
                 for (var k in params) {
                     a.push(k + (params[k] ? '=' + params[k] : ''));
@@ -139,7 +142,7 @@ _.extend(M.Collection.prototype, M.Object, {
         }
     },
 
-    getUrlParams: function(url) {
+    getUrlParams: function (url) {
         url = url || this.getUrl();
         var m = url.match(/\?([^#]*)/);
         var params = {};
@@ -152,16 +155,16 @@ _.extend(M.Collection.prototype, M.Object, {
         return params;
     },
 
-    getUrl: function(collection) {
+    getUrl: function (collection) {
         return (_.isFunction(this.url) ? this.url() : this.url) || '';
     },
 
-    getUrlRoot: function() {
+    getUrlRoot: function () {
         var url = this.getUrl();
-        return url ? ( url.indexOf('?') >=0 ? url.substr(0, url.indexOf('?')) : url) : '';
+        return url ? ( url.indexOf('?') >= 0 ? url.substr(0, url.indexOf('?')) : url) : '';
     },
 
-    applyFilter: function(callback){
+    applyFilter: function (callback) {
         this.trigger('filter', this.filter(callback));
     }
 

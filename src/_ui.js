@@ -1,5 +1,6 @@
 
 // @include ./ui/views/template_manager.js
+// @include ./ui/pagetransitions.js
 
 // @include ./ui/views/view.js
 // @include ./ui/layouts/layout.js
