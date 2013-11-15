@@ -46,7 +46,7 @@ M.SwitchLayout = M.Layout.extend({
 
     _postRender: function(){
         if(this._firstRender){
-            M.PageTransitions.init(this.$el);
+            M.PageTransitions.init(this.$el.find('#m-main'));
         }
         M.Layout.prototype._postRender.apply(this, arguments);
     },

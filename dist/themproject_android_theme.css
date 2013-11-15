@@ -1,7 +1,3 @@
-/* Debug colors */
-/* Button */
-/* Default Colors */
-/* Tabbar */
 /* line 5, ../resources/sass/themes/android/_buttongroup.scss */
 .android .buttongroupview .buttonview.active .button {
   border-bottom: 3px solid #99cc00;
@@ -11,10 +7,10 @@
   border-right-width: 0;
 }
 /* line 5, ../resources/sass/themes/android/light/_buttongroup.scss */
-.android .buttongroupview .buttonview.active .button {
+.android .light .buttongroupview .buttonview.active .button {
   border-bottom: 3px solid #99cc00;
 }
 /* line 10, ../resources/sass/themes/android/light/_buttongroup.scss */
-.android .buttongroupview .buttonview .button {
+.android .light .buttongroupview .buttonview .button {
   border-right-width: 0;
 }

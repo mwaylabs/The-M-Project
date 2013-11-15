@@ -1,11 +1,17 @@
 @import "default/variables";
+
 .android {
   @import "themes/android/variables";
   @import "themes/android/buttongroup";
 
-  @import "themes/android/dark/variables";
-  @import "themes/android/dark/buttongroup";
+  .dark {
+    @import "themes/android/dark/variables";
+    @import "themes/android/dark/buttongroup";
+  }
 
-  @import "themes/android/light/variables";
-  @import "themes/android/light/buttongroup";
+  .light {
+    @import "themes/android/light/variables";
+    @import "themes/android/light/buttongroup";
+  }
+
 }

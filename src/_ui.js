@@ -22,8 +22,10 @@
 // @include ./ui/views/selectionlist.js
 // @include ./ui/views/debug.js
 // @include ./ui/views/buttongroup.js
+// @include ./ui/views/tab.js
 
-// @include ./ui/layouts/header-layout/header-layout.js
-// @include ./ui/layouts/bottom-bar-layout/bottom-bar-layout.js
-// @include ./ui/layouts/switch-layout/switch-layout.js
-// @include ./ui/layouts/swipe-layout/swipe-layout.js
+// @include ./ui/layouts/header-layout.js
+// @include ./ui/layouts/bottom-bar-layout.js
+// @include ./ui/layouts/switch-layout.js
+// @include ./ui/layouts/swipe-layout.js
+// @include ./ui/layouts/tab-layout.js

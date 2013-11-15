@@ -37,11 +37,14 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
 
     childViews: {},
 
-    applyViews: function () {
+    applyViews: function() {
 
     },
 
     _attachToDom: function() {
         return YES;
+    },
+    startTransition: function( options ) {
+        M.PageTransitions.startTransition(options);
     }
 });

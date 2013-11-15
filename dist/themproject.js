@@ -1,3 +1,13 @@
+/*!
+* Project:   The M-Project - Mobile HTML5 Application Framework
+* Version:   2.0.0-1
+* Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
+* Date:      Fri Nov 15 2013 11:32:23
+* License:   Dual licensed under the MIT or GPL Version 2 licenses.
+*            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
+*            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
+*/
+
 (function (global, Backbone, _, $) {
 
     
@@ -6674,9 +6684,9 @@
                 'animation': 'animationend'
             },
     
-            init: function(main) {
+            init: function( main ) {
                 this._animEndEventName = this._animEndEventNames[ Modernizr.prefixed('animation') ];
-                this._main = main ? main.find('#m-main') : $('#m-main');
+                this._main = main ? main : $('#m-main');
                 this._pages = this._main.children('div.m-page');
                 this._pagesCount = this._pages.length;
     
@@ -7565,12 +7575,15 @@
     
         childViews: {},
     
-        applyViews: function () {
+        applyViews: function() {
     
         },
     
         _attachToDom: function() {
             return YES;
+        },
+        startTransition: function( options ) {
+            M.PageTransitions.startTransition(options);
         }
     });
     M.Themes = M.Object.design({
@@ -8091,6 +8104,10 @@
         }
     });
     
+    M.TabView = M.View.extend({
+        _type: 'M.TabView',
+        cssClass: 'm-page m-tab'
+    });
     
     M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'header-layout', '<div data-childviews="header" class="header"></div>');
     
@@ -8175,7 +8192,7 @@
     
         _postRender: function(){
             if(this._firstRender){
-                M.PageTransitions.init(this.$el);
+                M.PageTransitions.init(this.$el.find('#m-main'));
             }
             M.Layout.prototype._postRender.apply(this, arguments);
         },
@@ -8294,6 +8311,116 @@
         }
     });
     
+    M.TabLayout = M.Layout.extend({
+    
+        _tabMenu: null,
+    
+        _type: 'M.TabLayout',
+    
+        scrolling: NO,
+    
+        smoothScrollAnimation: YES,
+    
+        template: '<div id="m-main" class="m-perspective"><div data-childviews="tab-menu"></div><div data-childviews="tab-content"></div></div>',
+    
+        initialize: function() {
+            this._tabMenu = M.ButtonGroupView.extend({}, {}).create(this, null, YES);
+        },
+    
+        _render: function() {
+            M.Layout.prototype._render.apply(this, arguments);
+        },
+    
+        _postRender: function() {
+            M.Layout.prototype._postRender.apply(this, arguments);
+            this.$el.addClass(this.scrolling ? 'scrolling' : '');
+            this.$scrollContainer = this.$el.find('[data-childviews=tab-menu]');
+        },
+    
+        switchToTab: function( index ) {
+            if( index < 0 || index >= Object.keys(this._tabMenu.childViews).length ) {
+                return;
+            }
+            this._scrollToTab(index);
+            this._tabMenu.setActive(index);
+            this.$el.find('.m-tab.m-page-current').removeClass('m-page-current');
+            this.childViews['tab-content'][index].$el.addClass('m-page-current');
+        },
+    
+        _scrollToTab: function( index ) {
+            if(!this.$scrollContainer){
+                return;
+            }
+            var buttonWidth = M.SassVars['tablayout-menu-scroll-button-width'];
+            var toPos = index * buttonWidth - 50;
+            if( this.smoothScrollAnimation ) {
+    
+                this.$scrollContainer.animate({
+                    scrollLeft: toPos
+                }, 200);
+    
+            } else {
+                this.$scrollContainer.scrollLeft(toPos);
+            }
+    
+        },
+    
+    
+        applyViews: function( tabs ) {
+    
+            var that = this;
+    
+            var contents = [];
+            var grid = 'col-xs-' + Math.floor(12 / tabs.length);
+            if( this.scrolling ) {
+                grid = '';
+            }
+            for( var t = 0; t < tabs.length; t++ ) {
+                var button = this._createButton({
+                    index: t,
+                    grid: grid,
+                    headline: tabs[t].headline
+                });
+                this._tabMenu.addChildView('button' + t, button);
+                contents.push(this._extendContent({
+                    index: t,
+                    content: tabs[t].content
+                }));
+            }
+    
+            this.addChildView('tab-menu', this._tabMenu);
+            this.addChildView('tab-content', contents);
+        },
+    
+        _createButton: function( options ) {
+            var that = this;
+            return M.ButtonView.extend({
+                value: options.headline,
+                index: options.index,
+                grid: options.grid,
+                events: {
+                    tap: function( event, element ) {
+                        that.switchToTab(element.index);
+                    }
+                }
+            }).create();
+        },
+    
+        _extendContent: function( options ) {
+            var that = this;
+            return options.content.extend({
+                events: {
+                    dragleft: function( event, element ) {
+                        that.switchToTab(options.index + 1);
+                    },
+                    dragright: function( event, element ) {
+                        that.switchToTab(options.index - 1);
+                    }
+                }
+            }).create();
+        }
+    
+    });
     
 
 })(this, Backbone, _, $);

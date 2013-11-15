@@ -91,9 +91,9 @@
             'animation': 'animationend'
         },
 
-        init: function(main) {
+        init: function( main ) {
             this._animEndEventName = this._animEndEventNames[ Modernizr.prefixed('animation') ];
-            this._main = main ? main.find('#m-main') : $('#m-main');
+            this._main = main ? main : $('#m-main');
             this._pages = this._main.children('div.m-page');
             this._pagesCount = this._pages.length;
 
