@@ -16,6 +16,8 @@ M.Application = M.Controller.extend({
 
     _isReady: NO,
 
+    _debugView: null,
+
     initialize: function () {
         this.Models = {};
         this.Collections = {};
@@ -87,9 +89,20 @@ M.Application = M.Controller.extend({
             return;
         }
 
-        //TODO: implment this in config
-        $('body').append(M.DebugView.design().render().$el);
+        this._debugView = M.DebugView.design();
 
         this._isReady = YES;
+    },
+
+    showDebug: function(){
+        if(this._debugView._firstRender){
+            $('body').append(this._debugView.render().$el);
+        }
+        this._debugView.$el.show();
+    },
+
+    hideDebug: function(){
+        this._debugView.$el.hide();
     }
+
 });
