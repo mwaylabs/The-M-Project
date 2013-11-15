@@ -182,11 +182,11 @@ _.extend(M.Entity.prototype, M.Object, {
         if (attrs && id) {
             var key = this.getKey() || attrs.idAttribute;
             if (key) {
-                // TODO fix jshint warning
-                /*jshint -W030*/
-                _.isFunction(attrs.set) ? attrs.set(key, id) : (attrs[key] = id);
-                /*jshint -W030*/
-
+                if (_.isFunction(attrs.set)) {
+                    attrs.set(key, id);
+                } else {
+                    attrs[key] = id;
+                }
             }
         }
         return attrs;

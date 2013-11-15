@@ -83,7 +83,6 @@ _.extend(M.Collection.prototype, M.Object, {
     },
 
     destroy: function (options) {
-        var model;
         var success = options.success;
         if (this.length > 0) {
             options.success = function () {
@@ -91,13 +90,11 @@ _.extend(M.Collection.prototype, M.Object, {
                     success();
                 }
             };
-            // TODO check while condition
-            /*jshint -W084*/
-            while (model = this.first()) {
+            var model;
+            while ((model = this.first())) {
                 this.sync('delete', model, options);
                 this.remove(model);
             }
-            /*jshint +W084*/
         } else if (success) {
             success();
         }

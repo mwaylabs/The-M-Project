@@ -128,14 +128,13 @@ M.WebSqlStore = M.Store.extend({
                 dbError = e;
             }
         }
-        /*jshint -W116*/
         if( this.db ) {
-            if( this.options.version && this.db.version != this.options.version ) {
+            if( this.options.version && this.db.version !== this.options.version ) {
                 this._updateDb(options);
             } else {
                 this.handleSuccess(options, this.db);
             }
-        } else if( dbError == 2 ) {
+        } else if( dbError === 2  || dbError === '2') {
             // Version number mismatch.
             this._updateDb(options);
         } else {
@@ -144,7 +143,6 @@ M.WebSqlStore = M.Store.extend({
             }
             this.handleSuccess(options, error);
         }
-        /*jshint +W116*/
     },
 
     _updateDb: function( options ) {
@@ -192,9 +190,7 @@ M.WebSqlStore = M.Store.extend({
     },
 
     _sqlDropTable: function( name ) {
-        /*jshint -W109*/
-        return "DROP TABLE IF EXISTS '" + name + "'";
-        /*jshint +W109*/
+        return 'DROP TABLE IF EXISTS \'' + name + '\'';
     },
 
     _isAutoincrementKey: function( entity, key ) {
@@ -243,9 +239,7 @@ M.WebSqlStore = M.Store.extend({
         if( !columns ) {
             columns = this._dbAttribute(this.dataField);
         }
-        /*jshint -W109*/
-        var sql = "CREATE TABLE IF NOT EXISTS '" + entity.name + "' (";
-        /*jshint +W109*/
+        var sql = 'CREATE TABLE IF NOT EXISTS \'' + entity.name + '\' (';
         sql += primaryKey ? primaryKey + ', ' : '';
         sql += columns;
         sql += constraint ? ', ' + constraint : '';
@@ -254,9 +248,7 @@ M.WebSqlStore = M.Store.extend({
     },
 
     _sqlDelete: function( models, options, entity ) {
-        /*jshint -W109*/
-        var sql = "DELETE FROM '" + entity.name + "'";
-        /*jshint +W109*/
+        var sql = 'DELETE FROM \'' + entity.name + '\'';
         var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(models, entity);
         if( where ) {
             sql += ' WHERE ' + where;
@@ -308,9 +300,7 @@ M.WebSqlStore = M.Store.extend({
         } else {
             sql += '*';
         }
-        /*jshint -W109*/
-        sql += " FROM '" + entity.name + "'";
-        /*jshint +W109*/
+        sql += ' FROM \'' + entity.name + '\'';
         if( options.join ) {
             sql += ' JOIN ' + options.join;
         }
@@ -349,10 +339,8 @@ M.WebSqlStore = M.Store.extend({
             return 'NULL';
         }
         value = M.Field.prototype.transform(value, M.CONST.TYPE.STRING);
-        /*jshint -W109*/
-        value = value.replace(/"/g, '""'); // .replace(/;/g,',');
+        value = value.replace(/"/g, '""');
         return '"' + value + '"';
-        /*jshint +W109*/
     },
 
     _dbAttribute: function( field ) {
@@ -415,8 +403,7 @@ M.WebSqlStore = M.Store.extend({
 
             var isAutoInc = this._isAutoincrementKey(entity, entity.getKey());
             var statements = [];
-            /*jshint -W109*/
-            var sqlTemplate = "INSERT OR REPLACE INTO '" + entity.name + "' (";
+            var sqlTemplate = 'INSERT OR REPLACE INTO \'' + entity.name + '\' (';
             for( var i = 0; i < models.length; i++ ) {
                 var model = models[i];
                 var statement = ''; // the actual sql insert string with values
@@ -434,12 +421,11 @@ M.WebSqlStore = M.Store.extend({
                 }
                 if( args.length > 0 ) {
                     var values = new Array(args.length).join('?,') + '?';
-                    var columns = "'" + keys.join("','") + "'";
+                    var columns = '\'' + keys.join('\',\'') + '\'';
                     statement += sqlTemplate + columns + ') VALUES (' + values + ');';
                     statements.push({ statement: statement, arguments: args });
                 }
             }
-            /*jshint +W109*/
             this._executeTransaction(options, statements);
         }
     },

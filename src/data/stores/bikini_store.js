@@ -160,7 +160,6 @@ M.BikiniStore = M.Store.extend({
     },
 
     _hashCode: function( str ) {
-        /*jshint -W016*/
         var hash = 0, char;
         if( str.length === 0 ) {
             return hash;
@@ -171,7 +170,6 @@ M.BikiniStore = M.Store.extend({
             hash |= 0; // Convert to 32bit integer
         }
         return hash;
-        /*jshint +W016*/
     },
 
     onMessage: function( msg ) {
@@ -181,11 +179,10 @@ M.BikiniStore = M.Store.extend({
             var attrs = msg.data;
 
             switch( msg.method ) {
-                /*jshint -W086*/
                 case 'patch':
-                    options.patch = true;
                 case 'update':
                 case 'create':
+                    options.patch = msg.method === 'patch';
                     var model = msg.id ? this.get(msg.id) : null;
                     if( model ) {
                         model.save(attrs, options);
@@ -193,18 +190,15 @@ M.BikiniStore = M.Store.extend({
                         this.create(attrs, options);
                     }
                     break;
-                /*jshint +W086*/
                 case 'delete':
                     if( msg.id ) {
                         if( msg.id === 'all' ) {
-                            /*jshint -W084*/
-                            while( model = this.first() ) {
+                            while((model = this.first())) {
                                 if( localStore ) {
                                     localStore.sync.apply(this, ['delete', model, { store: localStore, fromMessage: true } ]);
                                 }
                                 this.remove(model);
                             }
-                            /*jshint +W084*/
                             this.store.setLastMessageTime(this.endpoint.channel, '');
                         } else {
                             var msgModel = this.get(msg.id);

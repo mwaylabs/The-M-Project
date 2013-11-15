@@ -12,13 +12,13 @@ M.LocalStorageStore = M.Store.extend({
         if( that && entity && model ) {
             var id = model.id || (method === 'create' ? new M.ObjectID().toHexString() : null);
             attrs = options.attrs || model.toJSON(options);
-            /*jshint -W086*/
             switch( method ) {
                 case 'patch':
                 case 'update':
-                    var data = that._getItem(entity, id) || {};
-                    attrs = _.extend(data, attrs);
                 case 'create':
+                    if (method !== 'create') {
+                        attrs = _.extend(that._getItem(entity, id) || {}, attrs);
+                    }
                     if( model.id !== id && model.idAttribute ) {
                         attrs[model.idAttribute] = id;
                     }
@@ -44,7 +44,6 @@ M.LocalStorageStore = M.Store.extend({
                 default:
                     return;
             }
-            /*jshint +W086*/
         }
         if( attrs ) {
             that.handleSuccess(options, attrs);

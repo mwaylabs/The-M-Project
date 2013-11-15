@@ -61,7 +61,7 @@ M.DataSelector = M.Object.design({
     // else false.
     compileSelector: function (selector) {
         // you can pass a literal function instead of a selector
-        if (selector instanceof Function) {
+        if ( _.isFunction(selector)) {
             return function (doc) {
                 return selector.call(doc);
             };
@@ -320,12 +320,9 @@ M.DataSelector = M.Object.design({
         },
 
         '$where': function (selectorValue) {
-            if (!(selectorValue instanceof Function)) {
-
-                // TODO avoid new Function
-                /*jshint -W054*/
-                selectorValue = new Function('return ' + selectorValue);
-                /*jshint -W054*/
+            if (!_.isFunction(selectorValue)) {
+                var value = selectorValue;
+                selectorValue = function() { return value; };
             }
             return function (doc) {
                 return selectorValue.call(doc);
@@ -462,9 +459,9 @@ M.DataSelector = M.Object.design({
                     throw new Error('Only the i, m, and g regexp options are supported');
                 }
 
-                var regexSource = operand instanceof RegExp ? operand.source : operand;
+                var regexSource = _.isRegExp(operand) ? operand.source : operand;
                 operand = new RegExp(regexSource, options);
-            } else if (!(operand instanceof RegExp)) {
+            } else if (!_.isRegExp(operand)) {
                 operand = new RegExp(operand);
             }
 
