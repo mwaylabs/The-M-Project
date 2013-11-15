@@ -90,6 +90,7 @@ M.Application = M.Controller.extend({
         }
 
         this._debugView = M.DebugView.design();
+        this._addShakeEvent();
 
         this._isReady = YES;
     },
@@ -103,6 +104,14 @@ M.Application = M.Controller.extend({
 
     hideDebug: function(){
         this._debugView.$el.hide();
+    },
+
+    toggleDebugView: function(){
+
+    },
+
+    _addShakeEvent: function(){
+        window.addEventListener('shake', this.toggleDebugView, false);
     }
 
 });
