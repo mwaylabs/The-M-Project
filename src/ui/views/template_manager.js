@@ -32,7 +32,7 @@ M.TemplateManager = M.Object.design({
     },
 
     'M.ButtonGroupView': {
-        defaultTemplate: '<div data-childviews="buttons"></div>'
+        defaultTemplate: '<div class="clearfix" data-childviews="buttons"></div>'
     },
 
     'M.SearchfieldView': {

@@ -110,6 +110,16 @@
         onGet: null,
 
         /**
+         * Bootstrap css wrap
+         */
+        cssClass: null,
+
+        /**
+         * Css classes for every single view
+         */
+        _internalCssClass: null,
+
+        /**
          * Bootstrap css classes for a grid implementation
          */
         grid: null,
@@ -565,6 +575,9 @@
             this.$el.addClass(this._type.split('.')[1].toLowerCase());
             if( this.cssClass ) {
                 this.$el.addClass(this.cssClass);
+            }
+            if( this._internalCssClass ) {
+                this.$el.addClass(this._internalCssClass);
             }
             if( this.grid ) {
                 this.$el.addClass(this.grid);
