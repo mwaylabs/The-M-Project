@@ -1,9 +1,9 @@
-
 .tablayout {
 
   .tab-menu {
 
     height: $tablayout-menu-height;
+    background: $darkwhite;
 
     .buttongroupview {
 
@@ -69,7 +69,8 @@
   }
 
   .buttongroupview{
-    width: 2115px;
+
+    margin: 0 auto;
   }
 
   .buttongroupview .button{

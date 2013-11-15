@@ -37,6 +37,7 @@
 
             this.tabLayout.applyViews([
                 {
+                    icon: 'fa-cloud',
                     headline: 'Tab1',
                     content: M.TabView.extend({
                         value: 'Tab1 Content'
@@ -60,6 +61,7 @@
                     })
                 },
                 {
+                    icon: 'fa-comment',
                     headline: 'Tab2',
                     content: M.TabView.extend({
                         value: 'Tab2 Content'
@@ -83,6 +85,7 @@
                     })
                 },
                 {
+                    icon: 'fa-coffee',
                     headline: 'Tab3',
                     content: M.TabView.extend({
                         value: 'Tab3 Content'
@@ -106,6 +109,7 @@
                     })
                 },
                 {
+                    icon: 'fa-bug',
                     headline: 'Tab4',
                     content: M.TabView.extend({
                         value: 'Tab4 Content'
@@ -129,6 +133,7 @@
                     })
                 },
                 {
+                    icon: 'fa-square',
                     headline: 'Tab5',
                     content: M.TabView.extend({
                         value: 'Tab5 Content'
@@ -152,6 +157,7 @@
                     })
                 },
                 {
+                    icon: 'fa-th',
                     headline: 'Tab6',
                     content: M.TabView.extend({
                         value: 'Tab6 Content'

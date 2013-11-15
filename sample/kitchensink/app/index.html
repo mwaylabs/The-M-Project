@@ -37,10 +37,7 @@
         <script src="bower_components/momentjs/min/moment-with-langs.js"></script>
         <script src="bower_components/themproject/dist/themproject.js"></script>
         <!-- endbuild -->
-        <script>
-            M.SassVars = {};
-            M.SassVars['tablayout-menu-scroll-button-width'] = 200;
-        </script>
+
 
 
         <!-- build:js({.tmp,app}) scripts/main.js -->
@@ -56,5 +53,16 @@
         <script src="scripts/routes/KitchensinkRouter.js"></script>
         <script src="scripts/views/Page4.js"></script>
         <!-- endbuild -->
+
+        <script>
+            //TODO automate this
+            M.SassVars = {};
+            var menuScrollButtonWidth = 200;
+            if(M.Environment.device.model === 'ipad' || M.Environment.device.model === 'iphone' || M.Environment.device.model === 'ipod'){
+                menuScrollButtonWidth = 140;
+            }
+            M.SassVars['tablayout-menu-scroll-button-width'] = menuScrollButtonWidth;
+
+        </script>
 </body>
 </html>
