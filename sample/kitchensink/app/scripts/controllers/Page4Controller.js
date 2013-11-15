@@ -25,13 +25,15 @@
 
 
         show: function( settings ) {
-            //Kitchensink.startTransition();
+            if(!this.view){
+                this.applicationStart(settings);
+            }
         },
 
         setLayout: function( index ) {
             if( !this.tabLayout ) {
                 this.tabLayout = M.TabLayout.extend({
-                    scrolling: YES
+                    scrolling: NO
                 }).create(this, null, true);
             }
 

@@ -158,6 +158,14 @@ Kitchensink.Views = Kitchensink.Views || {};
                 }
             }),
 
+            tablayoutExample: M.ButtonView.extend({
+                grid: 'col-xs-6 clear',
+                value: M.I18N.get('global.tablayoutExample'),
+                events: {
+                    tap: 'gotoTablayoutExample'
+                }
+            }),
+
             textfieldExample: M.TextfieldView.extend({
                 grid: 'col-xs-12',
                 label: 'Label',
