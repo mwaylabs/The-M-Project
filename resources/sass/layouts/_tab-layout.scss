@@ -12,6 +12,11 @@
         padding: $tablayout-menu-button-padding;
       }
 
+      .button i{
+        display: none;
+      }
+
+
       .buttonview {
         &:first-child {
           padding-left: 0;
