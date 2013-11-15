@@ -2,8 +2,14 @@
 $pink: #AA66CC;
 $orange: #FFBB33;
 $red: #FF4444;
+$lightred: #FF2D55;
+$lightblue: #46b8da;
 $blue: #06AEF3;
+$darkblue: #0099CC;
 $green: #99CC00;
+$grey: #8E8E93;
+$white: #FFFFFF;
+$black: #000000;
 
 $debug-1: #02ccb9;
 $debug-2: #00cc09;
@@ -24,10 +30,10 @@ $button-border-color: #999;
 $button-border-radius: 4px;
 
 // Default Colors
-$m-primary-color: #06AEF3;
-$m-primary-border-color: #46b8da;
-$m-primary-active-color: #0099CC;
-$m-primary-active-text-color: #FFFFFF;
+$m-primary-color: $blue;
+$m-primary-border-color: $lightblue;
+$m-primary-active-color: $darkblue;
+$m-primary-active-text-color: $white;
 
 // Tabbar
 $tablayout-menu-height: 50px;
@@ -38,3 +44,4 @@ $tablayout-menu-scroll-button-width: 200px;
 $m-primary-font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 $m-primary-font-weight: 300;
 $m-primary-font-size: 18px;
+$m-primary-font-color: $black;
