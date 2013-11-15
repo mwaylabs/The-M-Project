@@ -3,6 +3,7 @@
         "appName": "DE Kitchensink {{aka}}",
         "switchLanguage": "Sprachwechsel",
         "pageswitch": "Seitenwechsel",
-        "page2": "Seite 2"
+        "page2": "Seite 2",
+        "tablayoutExample": "Tab Layout Beispiel"
     }
 }

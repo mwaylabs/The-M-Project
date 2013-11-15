@@ -116,6 +116,12 @@
                 content: this.menu
             });
             Kitchensink.startTransition();
+        },
+
+        gotoTablayoutExample: function(){
+            Kitchensink.navigate({
+                route: 'page4/0'
+            });
         }
     });
 
