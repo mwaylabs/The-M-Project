@@ -193,18 +193,19 @@ describe('M.BikiniStore', function() {
         if (TEST.Tests.length === 0) {
             done();
         } else {
-            var model, hasError = false;
+            var model, hasError = false, isDone = false;
             while ((model = TEST.Tests.first()) && !hasError) {
               model.destroy({
                   success: function() {
-                      if (TEST.Tests.length == 0) {
+                      if (TEST.Tests.length == 0 && !isDone) {
+                          isDone = true;
                           assert.equal(TEST.Tests.length, 0, 'collection is empty');
                           done();
                       }
                   },
                   error: function() {
+                      hasError = isDone = true;
                       assert.ok(false, 'cleanup records bikini error');
-                      hasError = true;
                       done();
                   }
               });
