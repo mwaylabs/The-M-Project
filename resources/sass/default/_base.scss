@@ -1,6 +1,7 @@
 body{
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 18px;
+    font-family: $m-primary-font-family;
+    font-weight: $m-primary-font-weight;
+    font-size  : $m-primary-font-size;
 }
 
 .clear {
