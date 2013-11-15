@@ -22,6 +22,11 @@ M.TabLayout = M.Layout.extend({
         M.Layout.prototype._postRender.apply(this, arguments);
         this.$el.addClass(this.scrolling ? 'scrolling' : '');
         this.$scrollContainer = this.$el.find('[data-childviews=tab-menu]');
+        if(this.scrolling){
+            var width = M.SassVars['tablayout-menu-scroll-button-width'] * Object.keys(this._tabMenu.childViews).length;
+            this.$scrollContainer.children('.buttongroupview').css('width', width + 'px');
+        }
+
     },
 
     switchToTab: function( index ) {
@@ -66,7 +71,8 @@ M.TabLayout = M.Layout.extend({
             var button = this._createButton({
                 index: t,
                 grid: grid,
-                headline: tabs[t].headline
+                headline: tabs[t].headline,
+                icon: tabs[t].icon
             });
             this._tabMenu.addChildView('button' + t, button);
             contents.push(this._extendContent({
@@ -85,6 +91,7 @@ M.TabLayout = M.Layout.extend({
             value: options.headline,
             index: options.index,
             grid: options.grid,
+            icon: options.icon,
             events: {
                 tap: function( event, element ) {
                     that.switchToTab(element.index);

@@ -25,6 +25,11 @@ M.ButtonView = M.View.extend({
      */
     _isAcitve: YES,
 
+    _assignTemplateValues: function(){
+        M.View.prototype._assignTemplateValues.apply(this, arguments);
+        this._templateValues.icon = this.icon ? this.icon : '';
+    },
+
     isActive: function () {
         return this._isActive();
     },

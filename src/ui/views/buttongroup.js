@@ -1,7 +1,10 @@
 M.ButtonGroupView = M.View.extend({
 
     _type: 'M.ButtonGroupView',
+
     _template: _.tmpl(M.TemplateManager.get('M.ButtonGroupView')),
+
+    _internalCssClass: 'clearfix',
 
     setActive: function (view) {
 
@@ -21,7 +24,6 @@ M.ButtonGroupView = M.View.extend({
     initialize: function () {
         M.View.prototype.initialize.apply(this, arguments);
         var that = this;
-
         if (this._childViews) {
             var gridSize = M.CONST.GRID.COLUMNS / Object.keys(this._childViews).length;
             _.each(this._childViews, function (child, key) {
@@ -36,5 +38,9 @@ M.ButtonGroupView = M.View.extend({
             }, this);
         }
 
+    },
+
+    _addClassNames: function(){
+        M.View.prototype._addClassNames.apply(this, arguments);
     }
 });
