@@ -1,7 +1,7 @@
 @import "themes/default/variables";
 @import "themes/android_light/variables";
 
-.android-light {
+.android, .android-light {
   @import "master";
   @import "themes/android_light/buttongroup";
 }
