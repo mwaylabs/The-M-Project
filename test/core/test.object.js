@@ -41,5 +41,24 @@ describe('M.Object', function () {
 
     });
 
+    it('implement function: _implementedInterfaces are not different for instances', function () {
+
+        var testInterface = M.Interface.design({
+            _type: 'test',
+            getInterface: function() {
+                return {
+                    testinterfaceImplementation: 'testinterfaceImplementation'
+                };
+            }
+        });
+        var TestView = M.View.extend().implements([testInterface]);
+        var v1 = TestView.create();
+        var interfaceCountV1 = v1._implementedInterfaces.length;
+        var v2 = TestView.create();
+        var interfaceCountV2 = v2._implementedInterfaces.length;
+        assert.equal(interfaceCountV1, interfaceCountV2);
+        assert.equal(v1._implementedInterfaces[interfaceCountV1], v2._implementedInterfaces[interfaceCountV2]);
+
+    });
 
 });

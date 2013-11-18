@@ -92,7 +92,6 @@ M.Object = {
             this.include(i);
 
             this._implementedInterfaces = this._implementedInterfaces || [];
-            this._implementedInterfaces.push(obj);
         }
 
         return this;
