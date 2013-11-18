@@ -1,4 +1,5 @@
 
+// @include ./ui/themevars.js
 // @include ./ui/views/template_manager.js
 // @include ./ui/pagetransitions.js
 
