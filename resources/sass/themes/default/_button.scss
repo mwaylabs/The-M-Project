@@ -1,3 +1,6 @@
+
+
+
 .button {
   padding: 6px 12px;
   margin-bottom: 0;
@@ -20,6 +23,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+
+.buttonview.active.useelement,
+.buttonview.active .button,
+.button.active {
+  background-color: $m-primary-active-color;
+  color: $white;
 }
 
 *[class*='col-'] .button {

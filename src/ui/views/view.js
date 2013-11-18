@@ -134,6 +134,8 @@
          */
         _events: null,
 
+        _internalEvents: null,
+
         /**
          * The Value of the view
          */

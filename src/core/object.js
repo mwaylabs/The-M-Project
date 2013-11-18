@@ -80,7 +80,7 @@ M.Object = {
      */
     implement: function( obj ) {
         if( obj && obj.isMInterface ) {
-            var i = obj.getInterface();
+            var i = obj.getInterface(this);
 
             _.each(i, function( value, key ) {
                 if( this[key] ) {

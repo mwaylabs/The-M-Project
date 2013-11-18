@@ -20,7 +20,7 @@ M.ViewEnableState = M.Interface.design(/** @scope M.ContentBinding.prototype */{
      *
      * @type String
      */
-    _type: 'M.ViewActiveState',
+    _type: 'M.ViewEnableState',
 
     _isEnabled: YES,
 

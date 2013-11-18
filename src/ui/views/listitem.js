@@ -7,4 +7,4 @@ M.ListItemView = M.View.extend({
             this.template = _.tmpl(this.template({value: this.templateExtend}));
         }
     }
-});
+}).implements([M.ActiveState]);
