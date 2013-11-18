@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Fri Nov 15 2013 11:32:23
+* Date:      Mon Nov 18 2013 11:30:34
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -3135,6 +3135,14 @@
     //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
     // ==========================================================================
     
+    /**
+     * Field describing a data attribute
+     *
+     * contains functions to comperate, detect and convert data type
+     *
+     * @param options
+     * @constructor
+     */
     M.Field = function (options) {
         this.merge(options);
         this.initialize.apply(this, arguments);
@@ -3142,7 +3150,7 @@
     
     M.Field.extend = M.extend;
     M.Field.create = M.create;
-    M.Field.create = M.design;
+    M.Field.design = M.design;
     
     _.extend(M.Field.prototype, M.Object, {
     
@@ -3157,6 +3165,8 @@
     
         type: null,
     
+        index: null,
+    
         defaultValue: undefined,
     
         length: null,
@@ -3168,26 +3178,30 @@
         initialize: function () {
         },
     
-        create: function (config) {
-            return this.extend({
-                name: config.name,
-                type: config.type,
-                defaultValue: config.defaultValue,
-                length: config.length,
-                required: config.required,
-                persistent: config.persistent
-            });
-        },
-    
+        /**
+         * merge field properties into this instance
+         *
+         * @param obj
+         */
         merge: function (obj) {
+            obj = _.isString(obj) ? { type: obj } : (obj || {});
+    
             this.name = !_.isUndefined(obj.name) ? obj.name : this.name;
             this.type = !_.isUndefined(obj.type) ? obj.type : this.type;
+            this.index = !_.isUndefined(obj.index) ? obj.index : this.index;
             this.defaultValue = !_.isUndefined(obj.defaultValue) ? obj.defaultValue : this.defaultValue;
             this.length = !_.isUndefined(obj.length) ? obj.length : this.length;
             this.required = !_.isUndefined(obj.required) ? obj.required : this.required;
             this.persistent = !_.isUndefined(obj.persistent) ? obj.persistent : this.persistent;
         },
     
+        /**
+         * converts the give value into the required data type
+         *
+         * @param value
+         * @param type
+         * @returns {*}
+         */
         transform: function (value, type) {
             type = type || this.type;
             try {
@@ -3226,16 +3240,35 @@
             }
         },
     
+        /**
+         * check to values to be equal for the type of this field
+         *
+         * @param a
+         * @param b
+         * @returns {*}
+         */
         equals: function (a, b) {
             var v1 = this.transform(a);
             var v2 = this.transform(b);
             return this._equals(v1, v2, _.isArray(v1));
         },
     
+        /**
+         * check if this field holds binary data
+         *
+         * @param obj
+         * @returns {boolean|*}
+         */
         isBinary: function (obj) {
             return (typeof Uint8Array !== 'undefined' && obj instanceof Uint8Array) || (obj && obj.$Uint8ArrayPolyfill);
         },
     
+        /**
+         * detect the type of a given value
+         *
+         * @param v
+         * @returns {*}
+         */
         detectType: function (v) {
             if (_.isNumber(v)) {
                 return M.CONST.TYPE.FLOAT;
@@ -3264,6 +3297,12 @@
             return M.CONST.TYPE.OBJECT;
         },
     
+        /**
+         * returns the sort order for the given type, used by sorting different type
+         * 
+         * @param type
+         * @returns {number}
+         */
         typeOrder: function (type) {
             switch (type) {
                 case M.CONST.TYPE.NULL   :
@@ -3365,10 +3404,17 @@
             }
         },
     
-        // compare two values of unknown type according to BSON ordering
-        // semantics. (as an extension, consider 'undefined' to be less than
-        // any other value.) return negative if a is less, positive if b is
-        // less, or 0 if equal
+        /**
+         * compare two values of unknown type according to BSON ordering
+         * semantics. (as an extension, consider 'undefined' to be less than
+         * any other value.) return negative if a is less, positive if b is
+         * less, or 0 if equal
+         *
+         * @param a
+         * @param b
+         * @returns {*}
+         * @private
+         */
         _cmp: function (a, b) {
             if (a === undefined) {
                 return b === undefined ? 0 : -1;
@@ -3649,11 +3695,11 @@
             if (attrs && id) {
                 var key = this.getKey() || attrs.idAttribute;
                 if (key) {
-                    // TODO fix jshint warning
-                    /*jshint -W030*/
-                    _.isFunction(attrs.set) ? attrs.set(key, id) : (attrs[key] = id);
-                    /*jshint -W030*/
-    
+                    if (_.isFunction(attrs.set)) {
+                        attrs.set(key, id);
+                    } else {
+                        attrs[key] = id;
+                    }
                 }
             }
             return attrs;
@@ -3927,7 +3973,6 @@
         },
     
         destroy: function (options) {
-            var model;
             var success = options.success;
             if (this.length > 0) {
                 options.success = function () {
@@ -3935,13 +3980,11 @@
                         success();
                     }
                 };
-                // TODO check while condition
-                /*jshint -W084*/
-                while (model = this.first()) {
+                var model;
+                while ((model = this.first())) {
                     this.sync('delete', model, options);
                     this.remove(model);
                 }
-                /*jshint +W084*/
             } else if (success) {
                 success();
             }
@@ -4077,7 +4120,7 @@
         // else false.
         compileSelector: function (selector) {
             // you can pass a literal function instead of a selector
-            if (selector instanceof Function) {
+            if ( _.isFunction(selector)) {
                 return function (doc) {
                     return selector.call(doc);
                 };
@@ -4336,12 +4379,9 @@
             },
     
             '$where': function (selectorValue) {
-                if (!(selectorValue instanceof Function)) {
-    
-                    // TODO avoid new Function
-                    /*jshint -W054*/
-                    selectorValue = new Function('return ' + selectorValue);
-                    /*jshint -W054*/
+                if (!_.isFunction(selectorValue)) {
+                    var value = selectorValue;
+                    selectorValue = function() { return value; };
                 }
                 return function (doc) {
                     return selectorValue.call(doc);
@@ -4478,9 +4518,9 @@
                         throw new Error('Only the i, m, and g regexp options are supported');
                     }
     
-                    var regexSource = operand instanceof RegExp ? operand.source : operand;
+                    var regexSource = _.isRegExp(operand) ? operand.source : operand;
                     operand = new RegExp(regexSource, options);
-                } else if (!(operand instanceof RegExp)) {
+                } else if (!_.isRegExp(operand)) {
                     operand = new RegExp(operand);
                 }
     
@@ -5183,13 +5223,13 @@
             if( that && entity && model ) {
                 var id = model.id || (method === 'create' ? new M.ObjectID().toHexString() : null);
                 attrs = options.attrs || model.toJSON(options);
-                /*jshint -W086*/
                 switch( method ) {
                     case 'patch':
                     case 'update':
-                        var data = that._getItem(entity, id) || {};
-                        attrs = _.extend(data, attrs);
                     case 'create':
+                        if (method !== 'create') {
+                            attrs = _.extend(that._getItem(entity, id) || {}, attrs);
+                        }
                         if( model.id !== id && model.idAttribute ) {
                             attrs[model.idAttribute] = id;
                         }
@@ -5215,7 +5255,6 @@
                     default:
                         return;
                 }
-                /*jshint +W086*/
             }
             if( attrs ) {
                 that.handleSuccess(options, attrs);
@@ -5430,14 +5469,13 @@
                     dbError = e;
                 }
             }
-            /*jshint -W116*/
             if( this.db ) {
-                if( this.options.version && this.db.version != this.options.version ) {
+                if( this.options.version && this.db.version !== this.options.version ) {
                     this._updateDb(options);
                 } else {
                     this.handleSuccess(options, this.db);
                 }
-            } else if( dbError == 2 ) {
+            } else if( dbError === 2  || dbError === '2') {
                 // Version number mismatch.
                 this._updateDb(options);
             } else {
@@ -5446,7 +5484,6 @@
                 }
                 this.handleSuccess(options, error);
             }
-            /*jshint +W116*/
         },
     
         _updateDb: function( options ) {
@@ -5494,9 +5531,7 @@
         },
     
         _sqlDropTable: function( name ) {
-            /*jshint -W109*/
-            return "DROP TABLE IF EXISTS '" + name + "'";
-            /*jshint +W109*/
+            return 'DROP TABLE IF EXISTS \'' + name + '\'';
         },
     
         _isAutoincrementKey: function( entity, key ) {
@@ -5545,9 +5580,7 @@
             if( !columns ) {
                 columns = this._dbAttribute(this.dataField);
             }
-            /*jshint -W109*/
-            var sql = "CREATE TABLE IF NOT EXISTS '" + entity.name + "' (";
-            /*jshint +W109*/
+            var sql = 'CREATE TABLE IF NOT EXISTS \'' + entity.name + '\' (';
             sql += primaryKey ? primaryKey + ', ' : '';
             sql += columns;
             sql += constraint ? ', ' + constraint : '';
@@ -5556,9 +5589,7 @@
         },
     
         _sqlDelete: function( models, options, entity ) {
-            /*jshint -W109*/
-            var sql = "DELETE FROM '" + entity.name + "'";
-            /*jshint +W109*/
+            var sql = 'DELETE FROM \'' + entity.name + '\'';
             var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(models, entity);
             if( where ) {
                 sql += ' WHERE ' + where;
@@ -5610,9 +5641,7 @@
             } else {
                 sql += '*';
             }
-            /*jshint -W109*/
-            sql += " FROM '" + entity.name + "'";
-            /*jshint +W109*/
+            sql += ' FROM \'' + entity.name + '\'';
             if( options.join ) {
                 sql += ' JOIN ' + options.join;
             }
@@ -5651,10 +5680,8 @@
                 return 'NULL';
             }
             value = M.Field.prototype.transform(value, M.CONST.TYPE.STRING);
-            /*jshint -W109*/
-            value = value.replace(/"/g, '""'); // .replace(/;/g,',');
+            value = value.replace(/"/g, '""');
             return '"' + value + '"';
-            /*jshint +W109*/
         },
     
         _dbAttribute: function( field ) {
@@ -5717,8 +5744,7 @@
     
                 var isAutoInc = this._isAutoincrementKey(entity, entity.getKey());
                 var statements = [];
-                /*jshint -W109*/
-                var sqlTemplate = "INSERT OR REPLACE INTO '" + entity.name + "' (";
+                var sqlTemplate = 'INSERT OR REPLACE INTO \'' + entity.name + '\' (';
                 for( var i = 0; i < models.length; i++ ) {
                     var model = models[i];
                     var statement = ''; // the actual sql insert string with values
@@ -5736,12 +5762,11 @@
                     }
                     if( args.length > 0 ) {
                         var values = new Array(args.length).join('?,') + '?';
-                        var columns = "'" + keys.join("','") + "'";
+                        var columns = '\'' + keys.join('\',\'') + '\'';
                         statement += sqlTemplate + columns + ') VALUES (' + values + ');';
                         statements.push({ statement: statement, arguments: args });
                     }
                 }
-                /*jshint +W109*/
                 this._executeTransaction(options, statements);
             }
         },
@@ -6043,7 +6068,6 @@
         },
     
         _hashCode: function( str ) {
-            /*jshint -W016*/
             var hash = 0, char;
             if( str.length === 0 ) {
                 return hash;
@@ -6054,7 +6078,6 @@
                 hash |= 0; // Convert to 32bit integer
             }
             return hash;
-            /*jshint +W016*/
         },
     
         onMessage: function( msg ) {
@@ -6064,11 +6087,10 @@
                 var attrs = msg.data;
     
                 switch( msg.method ) {
-                    /*jshint -W086*/
                     case 'patch':
-                        options.patch = true;
                     case 'update':
                     case 'create':
+                        options.patch = msg.method === 'patch';
                         var model = msg.id ? this.get(msg.id) : null;
                         if( model ) {
                             model.save(attrs, options);
@@ -6076,18 +6098,15 @@
                             this.create(attrs, options);
                         }
                         break;
-                    /*jshint +W086*/
                     case 'delete':
                         if( msg.id ) {
                             if( msg.id === 'all' ) {
-                                /*jshint -W084*/
-                                while( model = this.first() ) {
+                                while((model = this.first())) {
                                     if( localStore ) {
                                         localStore.sync.apply(this, ['delete', model, { store: localStore, fromMessage: true } ]);
                                     }
                                     this.remove(model);
                                 }
-                                /*jshint +W084*/
                                 this.store.setLastMessageTime(this.endpoint.channel, '');
                             } else {
                                 var msgModel = this.get(msg.id);
@@ -6447,7 +6466,7 @@
         },
     
         'M.ButtonView': {
-            defaultTemplate: '<div class="button"><div data-binding="_value_"<% if(_value_) {  } %>><%= _value_ %></div></div>',
+            defaultTemplate: '<div class="button"><% if(icon) { %> <i class="fa <%= icon %>"></i> <% } %> <div data-binding="_value_"<% if(_value_) {  } %>><%= _value_ %></div></div>',
             topcoat: '<button class="topcoat-button--large" data-binding="_value_"><%= _value_ %></button>',
             bootstrap: '<button type="button" class="btn btn-lg"><%= _value_ %></button>',
             jqm: '<a data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="_value_"><%= _value_ %></span></span></a>'
@@ -6474,7 +6493,7 @@
         },
     
         'M.ButtonGroupView': {
-            defaultTemplate: '<div data-childviews="buttons"></div>'
+            defaultTemplate: '<div class="clearfix" data-childviews="buttons"></div>'
         },
     
         'M.SearchfieldView': {
@@ -6878,6 +6897,16 @@
              * @returns {*} The value of a view
              */
             onGet: null,
+    
+            /**
+             * Bootstrap css wrap
+             */
+            cssClass: null,
+    
+            /**
+             * Css classes for every single view
+             */
+            _internalCssClass: null,
     
             /**
              * Bootstrap css classes for a grid implementation
@@ -7336,6 +7365,9 @@
                 if( this.cssClass ) {
                     this.$el.addClass(this.cssClass);
                 }
+                if( this._internalCssClass ) {
+                    this.$el.addClass(this._internalCssClass);
+                }
                 if( this.grid ) {
                     this.$el.addClass(this.grid);
                 }
@@ -7748,6 +7780,11 @@
          */
         _isAcitve: YES,
     
+        _assignTemplateValues: function(){
+            M.View.prototype._assignTemplateValues.apply(this, arguments);
+            this._templateValues.icon = this.icon ? this.icon : '';
+        },
+    
         isActive: function () {
             return this._isActive();
         },
@@ -8066,7 +8103,10 @@
     M.ButtonGroupView = M.View.extend({
     
         _type: 'M.ButtonGroupView',
+    
         _template: _.tmpl(M.TemplateManager.get('M.ButtonGroupView')),
+    
+        _internalCssClass: 'clearfix',
     
         setActive: function (view) {
     
@@ -8086,7 +8126,6 @@
         initialize: function () {
             M.View.prototype.initialize.apply(this, arguments);
             var that = this;
-    
             if (this._childViews) {
                 var gridSize = M.CONST.GRID.COLUMNS / Object.keys(this._childViews).length;
                 _.each(this._childViews, function (child, key) {
@@ -8101,6 +8140,10 @@
                 }, this);
             }
     
+        },
+    
+        _addClassNames: function(){
+            M.View.prototype._addClassNames.apply(this, arguments);
         }
     });
     
@@ -8335,6 +8378,11 @@
             M.Layout.prototype._postRender.apply(this, arguments);
             this.$el.addClass(this.scrolling ? 'scrolling' : '');
             this.$scrollContainer = this.$el.find('[data-childviews=tab-menu]');
+            if(this.scrolling){
+                var width = M.SassVars['tablayout-menu-scroll-button-width'] * Object.keys(this._tabMenu.childViews).length;
+                this.$scrollContainer.children('.buttongroupview').css('width', width + 'px');
+            }
+    
         },
     
         switchToTab: function( index ) {
@@ -8379,7 +8427,8 @@
                 var button = this._createButton({
                     index: t,
                     grid: grid,
-                    headline: tabs[t].headline
+                    headline: tabs[t].headline,
+                    icon: tabs[t].icon
                 });
                 this._tabMenu.addChildView('button' + t, button);
                 contents.push(this._extendContent({
@@ -8398,6 +8447,7 @@
                 value: options.headline,
                 index: options.index,
                 grid: options.grid,
+                icon: options.icon,
                 events: {
                     tap: function( event, element ) {
                         that.switchToTab(element.index);

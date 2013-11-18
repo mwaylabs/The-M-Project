@@ -1,31 +1,33 @@
 /* line 1, ../resources/sass/default/_base.scss */
 body {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
   font-size: 18px;
+  font-color: black;
 }
 
-/* line 6, ../resources/sass/default/_base.scss */
+/* line 8, ../resources/sass/default/_base.scss */
 .clear {
   clear: both;
   float: none;
   overflow: hidden;
 }
 
-/* line 12, ../resources/sass/default/_base.scss */
+/* line 14, ../resources/sass/default/_base.scss */
 .btn-success .button {
   color: #fff;
   background-color: #5cb85c;
   border-color: #4cae4c;
 }
 
-/* line 18, ../resources/sass/default/_base.scss */
+/* line 20, ../resources/sass/default/_base.scss */
 .btn-danger .button {
   color: #fff;
   background-color: #d9534f;
   border-color: #d43f3a;
 }
 
-/* line 24, ../resources/sass/default/_base.scss */
+/* line 26, ../resources/sass/default/_base.scss */
 .btn-info .button {
   color: #fff;
   background-color: #06aef3;

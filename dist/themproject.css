@@ -3679,9 +3679,10 @@ html, body {
   bottom: 0;
 }
 
-/* line 4, ../resources/sass/layouts/_tab-layout.scss */
+/* line 3, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout .tab-menu {
   height: 50px;
+  background: #f2f2f2;
 }
 /* line 10, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout .tab-menu .buttongroupview .button {
@@ -3747,9 +3748,9 @@ html, body {
 }
 /* line 71, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .buttongroupview {
-  width: 2115px;
+  margin: 0 auto;
 }
-/* line 75, ../resources/sass/layouts/_tab-layout.scss */
+/* line 76, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .buttongroupview .button {
   width: 200px;
   float: left;
