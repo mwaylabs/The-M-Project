@@ -21,6 +21,10 @@
         border: none;
       }
 
+      .button i{
+        display: block;
+      }
+
       .buttonview {
         &:first-child {
           padding-left: 0;

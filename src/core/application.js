@@ -16,7 +16,11 @@ M.Application = M.Controller.extend({
 
     _isReady: NO,
 
-    initialize: function () {
+    _debugView: null,
+
+    _debugViewIsHidden: YES,
+
+    initialize: function() {
         this.Models = {};
         this.Collections = {};
         this.Views = {};
@@ -25,23 +29,23 @@ M.Application = M.Controller.extend({
         return this;
     },
 
-    start: function (options) {
-        this._initLocale(options).then(function () {
+    start: function( options ) {
+        this._initLocale(options).then(function() {
             Backbone.history.start();
         });
 
         return this;
     },
 
-    navigate: function (settings) {
+    navigate: function( settings ) {
 
         var url = settings.route;
         var path = '';
-        if (settings.params) {
+        if( settings.params ) {
             path = _.isArray(settings.params) ? settings.params.join('/') : settings.params;
             url += '/';
         }
-        if (!settings.transition) {
+        if( !settings.transition ) {
             settings.transition = M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT;
         }
 
@@ -51,20 +55,20 @@ M.Application = M.Controller.extend({
         Backbone.history.navigate(url + path, options);
     },
 
-    startTransition: function () {
+    startTransition: function() {
         this.layout.startTransition({
             transition: this._getTransition()
         });
     },
 
-    _initLocale: function (options) {
+    _initLocale: function( options ) {
         var defer = $.Deferred();
 
-        M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function () {
+        M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
             defer.resolve();
         });
 
-        if (options && options.locales) {
+        if( options && options.locales ) {
             M.I18N.setLocales(options.locales);
             M.I18N.setLocale(moment.lang());
         } else {
@@ -74,22 +78,52 @@ M.Application = M.Controller.extend({
         return defer.promise();
     },
 
-    _setTransition: function (name) {
+    _setTransition: function( name ) {
         this._transition = name;
     },
 
-    _getTransition: function () {
+    _getTransition: function() {
         return this._transition;
     },
 
-    _initReady: function(){
-        if(this._isReady) {
+    _initReady: function() {
+        if( this._isReady ) {
             return;
         }
 
-        //TODO: implment this in config
-        // $('body').append(M.DebugView.design().render().$el);
+        this._debugView = M.DebugView.design();
+        this._addShakeEvent();
 
         this._isReady = YES;
+    },
+
+    showDebug: function() {
+        if( this._debugView._firstRender ) {
+            $('body').append(this._debugView.render().$el);
+        }
+
+        this._debugViewIsHidden = NO;
+        this._debugView.$el.show();
+    },
+
+    hideDebug: function() {
+        this._debugViewIsHidden = YES;
+        this._debugView.$el.hide();
+    },
+
+    toggleDebugView: function() {
+        if( this._debugViewIsHidden ) {
+            this.showDebug();
+        } else {
+            this.hideDebug();
+        }
+    },
+
+    _addShakeEvent: function() {
+        var that = this;
+        window.addEventListener('shake', function() {
+            that.toggleDebugView();
+        }, false);
     }
+
 });

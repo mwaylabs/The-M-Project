@@ -33,7 +33,7 @@
         setLayout: function( index ) {
             if( !this.tabLayout ) {
                 this.tabLayout = M.TabLayout.extend({
-                    scrolling: NO
+                    scrolling: YES
                 }).create(this, null, true);
             }
 
