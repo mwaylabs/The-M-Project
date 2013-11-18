@@ -8,6 +8,14 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+/**
+ * Field describing a data attribute
+ *
+ * contains functions to comperate, detect and convert data type
+ *
+ * @param options
+ * @constructor
+ */
 M.Field = function (options) {
     this.merge(options);
     this.initialize.apply(this, arguments);
@@ -15,7 +23,7 @@ M.Field = function (options) {
 
 M.Field.extend = M.extend;
 M.Field.create = M.create;
-M.Field.create = M.design;
+M.Field.design = M.design;
 
 _.extend(M.Field.prototype, M.Object, {
 
@@ -30,6 +38,8 @@ _.extend(M.Field.prototype, M.Object, {
 
     type: null,
 
+    index: null,
+
     defaultValue: undefined,
 
     length: null,
@@ -41,26 +51,30 @@ _.extend(M.Field.prototype, M.Object, {
     initialize: function () {
     },
 
-    create: function (config) {
-        return this.extend({
-            name: config.name,
-            type: config.type,
-            defaultValue: config.defaultValue,
-            length: config.length,
-            required: config.required,
-            persistent: config.persistent
-        });
-    },
-
+    /**
+     * merge field properties into this instance
+     *
+     * @param obj
+     */
     merge: function (obj) {
+        obj = _.isString(obj) ? { type: obj } : (obj || {});
+
         this.name = !_.isUndefined(obj.name) ? obj.name : this.name;
         this.type = !_.isUndefined(obj.type) ? obj.type : this.type;
+        this.index = !_.isUndefined(obj.index) ? obj.index : this.index;
         this.defaultValue = !_.isUndefined(obj.defaultValue) ? obj.defaultValue : this.defaultValue;
         this.length = !_.isUndefined(obj.length) ? obj.length : this.length;
         this.required = !_.isUndefined(obj.required) ? obj.required : this.required;
         this.persistent = !_.isUndefined(obj.persistent) ? obj.persistent : this.persistent;
     },
 
+    /**
+     * converts the give value into the required data type
+     *
+     * @param value
+     * @param type
+     * @returns {*}
+     */
     transform: function (value, type) {
         type = type || this.type;
         try {
@@ -99,16 +113,35 @@ _.extend(M.Field.prototype, M.Object, {
         }
     },
 
+    /**
+     * check to values to be equal for the type of this field
+     *
+     * @param a
+     * @param b
+     * @returns {*}
+     */
     equals: function (a, b) {
         var v1 = this.transform(a);
         var v2 = this.transform(b);
         return this._equals(v1, v2, _.isArray(v1));
     },
 
+    /**
+     * check if this field holds binary data
+     *
+     * @param obj
+     * @returns {boolean|*}
+     */
     isBinary: function (obj) {
         return (typeof Uint8Array !== 'undefined' && obj instanceof Uint8Array) || (obj && obj.$Uint8ArrayPolyfill);
     },
 
+    /**
+     * detect the type of a given value
+     *
+     * @param v
+     * @returns {*}
+     */
     detectType: function (v) {
         if (_.isNumber(v)) {
             return M.CONST.TYPE.FLOAT;
@@ -137,6 +170,12 @@ _.extend(M.Field.prototype, M.Object, {
         return M.CONST.TYPE.OBJECT;
     },
 
+    /**
+     * returns the sort order for the given type, used by sorting different type
+     * 
+     * @param type
+     * @returns {number}
+     */
     typeOrder: function (type) {
         switch (type) {
             case M.CONST.TYPE.NULL   :
@@ -238,10 +277,17 @@ _.extend(M.Field.prototype, M.Object, {
         }
     },
 
-    // compare two values of unknown type according to BSON ordering
-    // semantics. (as an extension, consider 'undefined' to be less than
-    // any other value.) return negative if a is less, positive if b is
-    // less, or 0 if equal
+    /**
+     * compare two values of unknown type according to BSON ordering
+     * semantics. (as an extension, consider 'undefined' to be less than
+     * any other value.) return negative if a is less, positive if b is
+     * less, or 0 if equal
+     *
+     * @param a
+     * @param b
+     * @returns {*}
+     * @private
+     */
     _cmp: function (a, b) {
         if (a === undefined) {
             return b === undefined ? 0 : -1;
