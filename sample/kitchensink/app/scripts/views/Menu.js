@@ -1,6 +1,6 @@
 Kitchensink.Views = Kitchensink.Views || {};
 
-(function () {
+(function() {
     'use strict'
     Kitchensink.Views.MenuView = M.View.extend({
 
@@ -18,7 +18,7 @@ Kitchensink.Views = Kitchensink.Views || {};
                 grid: 'col-md-12',
                 value: M.I18N.get('global.appName', {aka: 'Absinth'}),
                 events: {
-                    tap: function () {
+                    tap: function() {
                         console.log('tap');
                     }
                 }
@@ -52,9 +52,9 @@ Kitchensink.Views = Kitchensink.Views || {};
                     value: 'fourth button',
                     gri1d: 'col-xs-4',
                     events: {
-                        tap: [function () {
+                        tap: [function() {
                             console.log('tap1');
-                        }, function () {
+                        }, function() {
                             console.log('tap2');
                         }]
                     }
@@ -137,8 +137,8 @@ Kitchensink.Views = Kitchensink.Views || {};
                 cssClass: 'btn-info',
                 value: M.I18N.get('global.switchLanguage'),
                 events: {
-                    tap: function () {
-                        if (M.I18N._activeLocale == 'de') {
+                    tap: function() {
+                        if( M.I18N._activeLocale == 'de' ) {
                             M.I18N.setLocale('en');
                         } else {
                             M.I18N.setLocale('de');
@@ -157,7 +157,7 @@ Kitchensink.Views = Kitchensink.Views || {};
 
             sliderExample: M.SliderView.extend({
                 events: {
-                    change: function (event, element) {
+                    change: function( event, element ) {
                         console.log(element.$el);
                     }
                 }
@@ -186,11 +186,29 @@ Kitchensink.Views = Kitchensink.Views || {};
                 placeholder: 'Placeholder'
             }),
 
+            backgroundLeftWithDeleteTextfieldExample: M.TextfieldView.extend({
+                grid: 'col-xs-12',
+                label: 'Label',
+                value: '',
+                icon: 'fa-rocket',
+                placeholder: 'Rocket'
+            }),
+
             backgroundLeftTextfieldExample: M.TextfieldView.extend({
                 grid: 'col-xs-12',
                 label: 'Label',
                 value: '',
-                icon:'fa-rocket',
+                type: 'text',
+                icon: 'fa-dot-circle-o',
+                placeholder: 'Placeholder'
+            }),
+
+            backgroundRightWithDeleteTextfieldExample: M.TextfieldView.extend({
+                grid: 'col-xs-12',
+                label: 'Label',
+                value: '',
+                cssClass: 'right',
+                icon: 'fa-rocket',
                 placeholder: 'Rocket'
             }),
 
@@ -199,7 +217,8 @@ Kitchensink.Views = Kitchensink.Views || {};
                 label: 'Label',
                 value: '',
                 type: 'text',
-                icon:'fa-dot-circle-o',
+                cssClass: 'right',
+                icon: 'fa-dot-circle-o',
                 placeholder: 'Placeholder'
             }),
 
@@ -233,12 +252,12 @@ Kitchensink.Views = Kitchensink.Views || {};
                 alt: 'success',
                 grid: 'col-xs-12',
                 events: {
-                    tap: function () {
+                    tap: function() {
                         //this.$el.append('click');
                         var that = this;
                         this.$el.hide();
 
-                        setTimeout(function () {
+                        setTimeout(function() {
                             that.$el.show();
                         }, 2000);
                     },
@@ -257,9 +276,9 @@ Kitchensink.Views = Kitchensink.Views || {};
             loadingExample: M.LoaderView.extend({
                 grid: 'col-xs-12',
                 value: 'Loading ...',
-                preRender: function () {
+                preRender: function() {
                 },
-                postRender: function () {
+                postRender: function() {
                 }
             }),
 
@@ -267,7 +286,7 @@ Kitchensink.Views = Kitchensink.Views || {};
                 grid: 'col-xs-12',
                 value: 'Toggle LoaderView',
                 events: {
-                    tap: function () {
+                    tap: function() {
                         //this.scope.menu.childViews.content.childViews.loadingExample.toggle();
                     }
                 }
@@ -334,11 +353,13 @@ Kitchensink.Views = Kitchensink.Views || {};
                 grid: 'col-xs-12',
                 scopeKey: 'person.birthday',
                 type: 'date',
-                onGet: function (value) {
+                cssClass: 'right',
+                icon: 'fa-calendar',
+                onGet: function( value ) {
                     var date = M.Date.create(parseInt(value)).format('YYYY-MM-DD');
                     return date;
                 },
-                onSet: function (value) {
+                onSet: function( value ) {
                     return M.Date.create(value).unix() * 1000;
                 }
             }),
@@ -347,11 +368,11 @@ Kitchensink.Views = Kitchensink.Views || {};
                 grid: 'col-xs-12',
                 scopeKey: 'person',
                 template: '<input type="date" value="<%= birthday %>" />',
-                onGet: function (value) {
+                onGet: function( value ) {
                     var date = M.Date.create(parseInt(value)).format('YYYY-MM-DD');
                     return date;
                 },
-                onSet: function (value) {
+                onSet: function( value ) {
                     return M.Date.create(value).unix() * 1000;
                 }
             })

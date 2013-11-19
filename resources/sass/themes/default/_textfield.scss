@@ -25,16 +25,36 @@
     i{
       display: block;
       position: absolute;
-      top: 3px;
-      left: 4px;
+      top: $textfield-icon-y-position;
+      left: $textfield-icon-x-position;
+      color: $blue;
     }
 
     input {
-      border: none !important;
+      border: none;
       width: 100%;
-      padding-left: 30px;
+      padding-left: $textfield-icon-padding;
     }
 
   }
+
+
+  &.right .input-icon-addon{
+
+    i{
+      left: auto;
+      right: $textfield-icon-x-position;
+    }
+
+    input {
+      border: none;
+      width: 100%;
+      padding-left: 0;
+      padding-right: $textfield-icon-padding;
+    }
+
+
+  }
+
 
 }
