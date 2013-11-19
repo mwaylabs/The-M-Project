@@ -5,13 +5,6 @@
   -moz-border-radius: $button-border-radius;
   border-radius: $button-border-radius;
 
-  &.multiple {
-    height: 200px;
-
-    select {
-      height: 200px;
-    }
-  }
 
   &:after {
     content: "";

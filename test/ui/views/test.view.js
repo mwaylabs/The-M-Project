@@ -242,4 +242,60 @@ describe('M.View', function() {
         testView = null;
     });
 
+    it('_getInternationalizedTemplateValue', function() {
+
+        var testView = M.View.create();
+
+        assert.equal(testView._getInternationalizedTemplateValue(),'');
+        assert.equal(testView._getInternationalizedTemplateValue(''),'');
+        assert.equal(testView._getInternationalizedTemplateValue('a'),'a');
+        assert.equal(testView._getInternationalizedTemplateValue('a'),'a');
+
+        var localeStyle1 = {
+            "global": {
+                "button": {
+                    "save": "Save document",
+                    "emptyTrash": "Empty Trash ({{count}})"
+                },
+                "error": {
+                    "permissionDenied": "Permission denied"
+                }
+            }
+        }
+
+        M.I18N._setDictionary(localeStyle1);
+        assert.equal(testView._getInternationalizedTemplateValue(M.I18N.l('global.button.save')),'Save document');
+        assert.equal(testView._getInternationalizedTemplateValue(M.I18N.l('global.button.emptyTrash', {count: 5})), 'Empty Trash (5)');
+        assert.equal(testView._getInternationalizedTemplateValue(M.I18N.l('global.error.permissionDenied')), 'Permission denied');
+        testView = null;
+    });
+
+    it('_addClassNames', function() {
+
+        var testView = M.View.extend({}).create().render();
+        assert.isTrue(testView.$el.hasClass('view'));
+        var testView = M.View.extend({
+            cssClass: 'a'
+        }).create().render();
+        assert.isTrue(testView.$el.hasClass('view'));
+        assert.isTrue(testView.$el.hasClass('a'));
+        var testView = M.View.extend({
+            cssClass: 'a b'
+        }).create().render();
+        assert.isTrue(testView.$el.hasClass('view'));
+        assert.isTrue(testView.$el.hasClass('a'));
+        assert.isTrue(testView.$el.hasClass('b'));
+
+        var testView = M.View.extend({
+            cssClass: 'a b',
+            _internalCssClasses: 'c d e'
+        }).create().render();
+        assert.isTrue(testView.$el.hasClass('view'));
+        assert.isTrue(testView.$el.hasClass('a'));
+        assert.isTrue(testView.$el.hasClass('b'));
+        assert.isTrue(testView.$el.hasClass('c'));
+        assert.isTrue(testView.$el.hasClass('d'));
+        assert.isTrue(testView.$el.hasClass('e'));
+    });
+
 });

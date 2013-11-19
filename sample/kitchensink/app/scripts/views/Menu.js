@@ -174,7 +174,33 @@ Kitchensink.Views = Kitchensink.Views || {};
             textfieldExample: M.TextfieldView.extend({
                 grid: 'col-xs-12',
                 label: 'Label',
-                value: ''
+                value: '',
+                placeholder: 'Placeholder'
+            }),
+
+            cleartextfieldExample: M.TextfieldView.extend({
+                grid: 'col-xs-12',
+                label: 'Label',
+                value: '',
+                type: 'text',
+                placeholder: 'Placeholder'
+            }),
+
+            backgroundLeftTextfieldExample: M.TextfieldView.extend({
+                grid: 'col-xs-12',
+                label: 'Label',
+                value: '',
+                icon:'fa-rocket',
+                placeholder: 'Rocket'
+            }),
+
+            backgroundRightTextfieldExample: M.TextfieldView.extend({
+                grid: 'col-xs-12',
+                label: 'Label',
+                value: '',
+                type: 'text',
+                icon:'fa-dot-circle-o',
+                placeholder: 'Placeholder'
             }),
 
             //            toggleExample: M.ToggleView.extend({

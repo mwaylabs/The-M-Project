@@ -41,4 +41,5 @@
 // @include ./interfaces/interface.js
 // @include ./interfaces/viewenablestate.js
 // @include ./interfaces/activestate.js
+// @include ./interfaces/addcssclass.js
 

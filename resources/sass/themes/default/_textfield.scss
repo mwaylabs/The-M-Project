@@ -8,6 +8,33 @@
 
   input {
     @extend .form;
+    box-sizing: border-box;
+  }
+
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+  }
+
+  .input-icon-addon{
+    @extend .form;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+
+    i{
+      display: block;
+      position: absolute;
+      top: 3px;
+      left: 4px;
+    }
+
+    input {
+      border: none !important;
+      width: 100%;
+      padding-left: 30px;
+    }
+
   }
 
 }
