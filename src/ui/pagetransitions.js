@@ -97,6 +97,11 @@
             this._pages = this._main.children('div.m-page');
             this._pagesCount = this._pages.length;
 
+            // CSS animations are supported by Android < 4 devices but only if a single property is changed.
+            if(M.Environment.isLowerThanAndroid4) {
+                this._support = false;
+            }
+
             this._pages.each(function() {
                 var page = $(this);
                 page.data('originalClassList', page.attr('class'));
@@ -120,9 +125,7 @@
             } else {
                 this._current = 0;
             }
-
             var nextPage = this._pages.eq(this._current).addClass('m-page-current');
-
             if( !this._support || options.transition === M.PageTransitions.NONE ) {
                 this._onEndAnimation(currPage, nextPage);
                 return;
@@ -150,11 +153,6 @@
                 }
             });
             nextPage.addClass(inClass);
-
-
-            $(document).on(this._animEndEventName, function( ev ) {
-                that._onEndAnimation(currPage, nextPage);
-            });
         },
 
         _onEndAnimation: function(outpage, inpage){
