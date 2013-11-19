@@ -24,6 +24,7 @@
 // @include ./ui/views/debug.js
 // @include ./ui/views/buttongroup.js
 // @include ./ui/views/tab.js
+// @include ./ui/views/radiobutton.js
 
 // @include ./ui/layouts/header-layout.js
 // @include ./ui/layouts/bottom-bar-layout.js

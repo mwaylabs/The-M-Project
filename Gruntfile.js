@@ -102,7 +102,8 @@ module.exports = function (grunt) {
             options: {
                 sassDir: 'resources/sass',
                 cssDir: 'dist',
-                relativeAssets: true
+                relativeAssets: true,
+                importPath: ['bower_components']
             },
             dist: {}
         },

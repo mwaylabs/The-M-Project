@@ -127,6 +127,14 @@ M.TemplateManager = M.Object.design({
         defaultTemplate: '<div class="selection-list<% if(isMultiple){ %> multiple<% } %>"><select<% if(isMultiple){ %> multiple<% } %>><%= _value_ %></select></div>'
     },
 
+    'M.RadioButtonView': {
+        defaultTemplate: '<div><%= label %><div data-childviews="radio-options"></div></div>'
+    },
+
+    'M.RadioOptionView': {
+        defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value_ %>"> <%= label %></label>'
+    },
+
     _currentUI: 'defaultTemplate',
 
     get: function( template, ui ) {
