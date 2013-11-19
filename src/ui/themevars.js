@@ -11,6 +11,7 @@ M.ThemeVars = {
         "darkblue": "#0099CC",
         "green": "#99CC00",
         "grey": "#8E8E93",
+        "lightgrey": "#c3c3c3",
         "white": "#FFFFFF",
         "darkwhite": "#F2F2F2",
         "black": "#000000",
@@ -27,6 +28,11 @@ M.ThemeVars = {
         "button-border-width": "1px",
         "button-border-color": "#999",
         "button-border-radius": "4px",
+        "button-border-style": "solid",
+        "form-border-width": "1px",
+        "form-border-color": "#999",
+        "form-border-style": "solid",
+        "form-element-border": "1px solid #999",
         "m-primary-color": "#06AEF3",
         "m-primary-border-color": "#46b8da",
         "m-primary-active-color": "#0099CC",
@@ -37,6 +43,7 @@ M.ThemeVars = {
         "m-primary-font-family": "\"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
         "m-primary-font-weight": "300",
         "m-primary-font-size": "18px",
+        "m-primary-line-height": "22px",
         "m-primary-font-color": "#000000"
     },
     "android_dark": {

@@ -24,6 +24,11 @@ Kitchensink.Views = Kitchensink.Views || {};
                 }
             }),
 
+            button: M.ButtonView.extend({
+                value: 'button active',
+                gri1d: 'col-xs-12'
+            }),
+
             buttongroupExample: M.ButtonGroupView.extend({
 
             }, {

@@ -16,3 +16,7 @@
     list-style: none;
     cursor: pointer;
 }
+
+.listview ul li.active{
+  background: $m-primary-active-color;
+}

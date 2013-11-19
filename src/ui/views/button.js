@@ -46,4 +46,4 @@ M.ButtonView = M.View.extend({
         this.$el.removeClass('active');
     }
 
-}).implements([M.ViewEnableState]);
+}).implements([M.ViewEnableState, M.ActiveState]);

@@ -1,7 +1,8 @@
 describe('M.Collection', function() {
 
-    var testConnection = function( callback ) {
+    var testConnection = function( callback, done ) {
         $.ajax({
+            timeout: 3000,
             dataType: "json",
             url: 'http://nerds.mway.io:8200/bikini/test/info',
             success: function() {
@@ -9,6 +10,8 @@ describe('M.Collection', function() {
             },
             error: function() {
                 assert.isTrue(YES);
+                console.log('timeout on Colletction test');
+                done();
             }
         });
     }
@@ -196,9 +199,9 @@ describe('M.Collection', function() {
     });
 
     it('creating data (on server)', function( done ) {
+        this.timeout(4000);
         TEST.Developers.reset();
         assert.equal(TEST.Developers.length, 0, 'All records were removed.');
-
 
         var callback = function(){
             TEST.Developers.create(TEST.data[0], {
@@ -218,12 +221,11 @@ describe('M.Collection', function() {
             });
         };
 
-        testConnection(callback);
-
-
+        testConnection(callback, done);
     });
 
     it('fetching data (from server)', function( done ) {
+        this.timeout(4000);
         var callback = function(){
             TEST.Developers.reset();
             assert.equal(TEST.Developers.length, 0, 'All records were removed.');
@@ -244,11 +246,11 @@ describe('M.Collection', function() {
                 }
             });
         }
-        testConnection(callback);
+        testConnection(callback, done);
     });
 
     it('delete records (on server)', function( done ) {
-
+        this.timeout(4000);
         var callback = function(){
             if( TEST.Developers.length === 0 ) {
                 done();
@@ -266,7 +268,7 @@ describe('M.Collection', function() {
             }
         }
 
-        testConnection(callback);
+        testConnection(callback, done);
 
     });
 

@@ -1,4 +1,3 @@
-// Debug colors
 $pink: #AA66CC;
 $orange: #FFBB33;
 $red: #FF4444;
@@ -8,10 +7,12 @@ $blue: #06AEF3;
 $darkblue: #0099CC;
 $green: #99CC00;
 $grey: #8E8E93;
+$lightgrey: #c3c3c3;
 $white: #FFFFFF;
 $darkwhite: #F2F2F2;
 $black: #000000;
 
+// Debug colors
 $debug-1: #02ccb9;
 $debug-2: #00cc09;
 $debug-3: #cc3500;
@@ -21,7 +22,6 @@ $debug-6: #4f00cc;
 $debug-7: #003fcc;
 $debug-8: #0073cc;
 
-
 $grid-columns: 12;
 $grid-gutter-width: 30px;
 
@@ -29,6 +29,13 @@ $grid-gutter-width: 30px;
 $button-border-width: 1px;
 $button-border-color: #999;
 $button-border-radius: 4px;
+$button-border-style: solid;
+
+// Form elements
+$form-border-width: 1px;
+$form-border-color: #999;
+$form-border-style: solid;
+$form-element-border: $form-border-width $form-border-style $form-border-color;
 
 // Default Colors
 $m-primary-color: $blue;
@@ -45,4 +52,5 @@ $tablayout-menu-scroll-button-width: 200px;
 $m-primary-font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 $m-primary-font-weight: 300;
 $m-primary-font-size: 18px;
+$m-primary-line-height: 22px;
 $m-primary-font-color: $black;
