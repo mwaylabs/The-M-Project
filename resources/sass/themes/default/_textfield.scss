@@ -8,6 +8,53 @@
 
   input {
     @extend .form;
+    box-sizing: border-box;
   }
+
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+  }
+
+  .input-icon-addon{
+    @extend .form;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+
+    i{
+      display: block;
+      position: absolute;
+      top: $textfield-icon-y-position;
+      left: $textfield-icon-x-position;
+      color: $blue;
+    }
+
+    input {
+      border: none;
+      width: 100%;
+      padding-left: $textfield-icon-padding;
+    }
+
+  }
+
+
+  &.right .input-icon-addon{
+
+    i{
+      left: auto;
+      right: $textfield-icon-x-position;
+    }
+
+    input {
+      border: none;
+      width: 100%;
+      padding-left: 0;
+      padding-right: $textfield-icon-padding;
+    }
+
+
+  }
+
 
 }

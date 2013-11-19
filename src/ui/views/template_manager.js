@@ -21,7 +21,7 @@ M.TemplateManager = M.Object.design({
 
     //TODO implement label for=""
     'M.TextfieldView': {
-        defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><input type="<%= type %>" value="<%= _value_ %>"><% if(label) {  %></label><% } %></div>',
+        defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><% if(icon) {  %><div class="input-icon-addon"><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value_ %>"><% if(icon) {  %></div><% } %><% if(label) {  %></label><% } %></div>',
         bootstrap: '<div><% if(label) {  %><label><%= label %></label><% } %><input type="text" class="form-control" value="<%= _value_ %>"></div>',
         topcoat: '<input value="<%= _value_ %>"/>',
         jqm: '<% if(label) {  %><label for="text-1" class="ui-input-text"><%= label %></label><% } %><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" name="text-1" id="text-1" value="" class="ui-input-text ui-body-c"></div>'

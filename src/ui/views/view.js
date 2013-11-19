@@ -115,9 +115,9 @@
         cssClass: null,
 
         /**
-         * Css classes for every single view
+         * String of css classes whitespace separated
          */
-        _internalCssClass: null,
+        _internalCssClasses: '',
 
         /**
          * Bootstrap css classes for a grid implementation
@@ -578,8 +578,8 @@
             if( this.cssClass ) {
                 this.$el.addClass(this.cssClass);
             }
-            if( this._internalCssClass ) {
-                this.$el.addClass(this._internalCssClass);
+            if( this._internalCssClasses ) {
+                this.$el.addClass(this._internalCssClasses);
             }
             if( this.grid ) {
                 this.$el.addClass(this.grid);
@@ -665,7 +665,7 @@
 
         addChildView: function( selector, view ) {
             if( _.isObject(selector) ) {
-                _.each(selector, function(view, selector){
+                _.each(selector, function( view, selector ) {
                     this.childViews[selector] = view;
                 }, this);
             } else {
@@ -723,11 +723,35 @@
          */
         _getChildView: function( identifier ) {
             var ident = parseInt(identifier, 10);
-            if( !_.isNaN(ident) ){
+            if( !_.isNaN(ident) ) {
                 identifier = ident;
             }
             var childName = _.isNumber(identifier) ? Object.keys(this.childViews)[identifier] : identifier;
             return this.childViews[childName];
+        },
+
+
+        /**
+         *
+         * @param {String|M.I18NItem} text - The text to get the internationalization from
+         * @returns {String|M.I18NItem} returns an empty string if no param is defined. Returns the translatation if its an M.I18NItem. Returns the text if there is no translation
+         * @private
+         * @example
+         *
+         * _assignTemplateValues: function() {
+         *   M.View.prototype._assignTemplateValues.apply(this, arguments);
+         *   this._templateValues.placeholder = this._getInternationalizedTemplateValue(this.placeholder);
+         * }
+         *
+         */
+        _getInternationalizedTemplateValue: function( text ) {
+            if( M.isI18NItem(text) ) {
+                return M.I18N.l(text.key, text.placeholder);
+            } else if(text){
+                return text;
+            } else {
+                return '';
+            }
         }
 
     });
