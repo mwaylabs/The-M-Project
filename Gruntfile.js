@@ -6,6 +6,10 @@
 var _ = require('lodash');
 
 module.exports = function (grunt) {
+    // show elapsed time at the end
+    require('time-grunt')(grunt);
+    // load all grunt tasks
+    require('load-grunt-tasks')(grunt);
 
     // Project configuration.
     grunt.initConfig({
@@ -17,6 +21,9 @@ module.exports = function (grunt) {
             sample: {
                 src: [ 'package.json' ]
             }
+        },
+        clean: {
+            dist: ['dist']
         },
         jshint: {
             options: {
@@ -83,16 +90,23 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            dev: {
-                files: ['src/**/*', 'test/**/*', 'resources/**/*.{scss,sass,css}'],
-                tasks: ['default'],
+            js: {
+                files: ['src/**/*'],
+                tasks: ['build-js'],
+                options: {
+                    spawn: false
+                }
+            },
+            css: {
+                files: ['resources/**/*.{scss,sass,css}'],
+                tasks: ['build-css'],
                 options: {
                     spawn: false
                 }
             },
             test: {
-                files: ['src/**/*', 'test/**/*'],
-                tasks: ['default', 'test'],
+                files: ['test/**/*'],
+                tasks: ['test'],
                 options: {
                     spawn: false
                 }
@@ -185,18 +199,15 @@ module.exports = function (grunt) {
         });
     });
 
-    grunt.loadNpmTasks('grunt-jsonlint');
-    grunt.loadNpmTasks('grunt-preprocess');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-compass');
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-mocha');
+    grunt.registerTask('build-js', ['extractSassVars', 'preprocess:core']);
+    grunt.registerTask('build-css', ['compass', 'copy']);
 
+    grunt.registerTask('dev', ['default', 'watch']);
+    grunt.registerTask('dev-js', ['default', 'watch:js']);
+    grunt.registerTask('dev-css', ['default', 'watch:css']);
+
+    grunt.registerTask('dev', ['default', 'watch']);
     grunt.registerTask('test', ['jshint', 'mocha']);
-    grunt.registerTask('dev', ['default', 'watch:dev']);
-    grunt.registerTask('release', ['default', 'preprocess:bd', 'uglify', 'cssmin']);
-    grunt.registerTask('default', ['jshint', 'compass', 'extractSassVars', 'preprocess:core', 'copy']);
+    grunt.registerTask('dist', ['clean', 'jshint', 'build-js', 'build-css', 'preprocess:bd', 'uglify', 'cssmin']);
+    grunt.registerTask('default', ['clean', 'build-js', 'build-css']);
 };
