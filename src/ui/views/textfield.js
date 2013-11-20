@@ -3,6 +3,7 @@
  * @type {M|*}
  *
  * A input field.
+ * @implements M.IconBackground
  *
  */
 M.TextfieldView = M.View.extend({
@@ -68,27 +69,35 @@ M.TextfieldView = M.View.extend({
         this._addIconToTemplateValues();
     },
 
+    /**
+     * Gets a internationalized version of the label and add this to the templateValues
+     * @private
+     */
     _addLabelToTemplateValues: function() {
         this._templateValues.label = this._getInternationalizedTemplateValue(this.label);
     },
 
+    /**
+     * Gets a internationalized version of the placeholder and add this to the templateValues
+     * @private
+     */
     _addPlaceholderToTemplateValues: function() {
         this._templateValues.placeholder = this._getInternationalizedTemplateValue(this.placeholder);
     },
 
+    /**
+     * Add the type of the textfieldview to the template values
+     * @private
+     */
     _addTypeToTemplateValues: function() {
         this._templateValues.type = this.type;
     },
 
+    /**
+     * Add the type of the icon to the template values, if no icon is set the value is empty string
+     * @private
+     */
     _addIconToTemplateValues: function() {
         this._templateValues.icon = this.icon || '';
-    },
-
-    initialize: function() {
-        M.View.prototype.initialize.apply(this);
-    },
-
-    _attachToDom: function() {
-        return YES;
     }
-}).implements([M.IconBackground]);
+});
