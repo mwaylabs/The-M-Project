@@ -112,7 +112,7 @@ M.BikiniStore = M.Store.extend({
         }
     },
 
-    createSocket: function( endpoint, collection ) {
+    createSocket: function( endpoint, collection, name ) {
         if( this.options.useSocketNotify && endpoint.socketPath && endpoint ) {
             var path = endpoint.path;
             path = endpoint.socketPath || (path + (path.charAt(path.length - 1) === '/' ? '' : '/' ) + 'live');
@@ -123,7 +123,7 @@ M.BikiniStore = M.Store.extend({
                 host: endpoint.host,
                 resource: resource,
                 connected: function() {
-                    that._bindChannel(socket, endpoint);
+                    that._bindChannel(socket, endpoint, name);
                     that.sendMessages(endpoint, collection);
                 }
             });
@@ -131,11 +131,11 @@ M.BikiniStore = M.Store.extend({
         }
     },
 
-    _bindChannel: function( socket, endpoint ) {
+    _bindChannel: function( socket, endpoint, name ) {
         var that = this;
         var channel = endpoint.channel;
-        var name = endpoint.entity.name;
         var time = this.getLastMessageTime(channel);
+        name = name || endpoint.entity.name;
         socket.on(channel, function( msg ) {
             if( msg ) {
                 that.setLastMessageTime(channel, msg.time);
@@ -366,9 +366,9 @@ M.BikiniStore = M.Store.extend({
                     }
                     if( !endpoint.socketPath && info.get('socketPath') ) {
                         endpoint.socketPath = info.get('socketPath');
-                        endpoint.entity.name = info.get('entity') || endpoint.entity.name;
+                        var name = info.get('entity') || endpoint.entity.name;
                         if( that.options.useSocketNotify ) {
-                            that.createSocket(endpoint, collection);
+                            that.createSocket(endpoint, collection, name);
                         }
                     }
                 },

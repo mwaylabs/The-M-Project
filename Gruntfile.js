@@ -92,21 +92,21 @@ module.exports = function (grunt) {
         watch: {
             js: {
                 files: ['src/**/*'],
-                tasks: ['build-js', 'loga'],
+                tasks: ['build-js'],
                 options: {
                     spawn: false
                 }
             },
             css: {
                 files: ['resources/**/*.{scss,sass,css}'],
-                tasks: ['build-css', 'logb'],
+                tasks: ['build-css'],
                 options: {
                     spawn: false
                 }
             },
             test: {
                 files: ['test/**/*'],
-                tasks: ['test', 'logc'],
+                tasks: ['test'],
                 options: {
                     spawn: false
                 }
