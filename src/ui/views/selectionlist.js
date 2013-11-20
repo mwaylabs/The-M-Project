@@ -1,23 +1,45 @@
-M.SelectionListView = M.View.extend({
+M.SelectionlistView = M.View.extend({
 
-    _type: 'M.SelectionListView',
+    /**
+     * The type of the object
+     * @private
+     */
+    _type: 'M.SelectionlistView',
 
-    isMultiple: NO,
+    /**
+     * The template of the object before initializing it.
+     * @private
+     */
+    _template: null,//_.tmpl(M.TemplateManager.get(M.CHECKBOXBUTTON_VIEW)),
 
-    template: M.TemplateManager.get('M.SelectionListView'),
+    _optionTemplate: null,// _.tmpl(M.TemplateManager.get(M.CHECKBOXOPTION_VIEW)),
 
-    _assignBinding: function () {
-        M.View.prototype._assignBinding.apply(this, arguments);
-        if (this.selectOptions) {
-            _.each(this.bindings, function (value) {
-                value.selectOptions = this.selectOptions;
-            }, this);
-        }
+    _optionsContainer: '',
+
+    _render: function () {
+
+        M.View.prototype._render.apply(this, arguments);
+        this._renderOptions();
         return this;
     },
 
-    _assignTemplateValues: function () {
-        M.View.prototype._assignTemplateValues.apply(this);
-        this._templateValues.isMultiple = this.isMultiple;
+    _renderOptions: function () {
+
+        if (this.selectOptions && this.selectOptions.collection) {
+            var dom = '';
+            _.each(this.selectOptions.collection, function (value) {
+                dom += this._optionTemplate({
+                    name: this.cid + '-option',
+                    _value_: value[this.selectOptions.valuePath || 'value'],
+                    label: value[this.selectOptions.labelPath || 'label']
+                });
+            }, this);
+
+            this.$el.children('div').children('[data-childviews="' + this._optionsContainer + '-options"]').append(dom);
+        }
+
+        return this;
     }
 });
+
+

@@ -303,10 +303,46 @@ Kitchensink.Views = Kitchensink.Views || {};
             })
         }),
 
+        checkboxRow: M.View.extend({
+            grid: 'row'
+        }, {
+            rb: M.CheckboxlistView.extend({
+                grid: 'col-xs-12',
+                scopeKey: 'selectionListModel.water',
+                selectOptions: {
+                    collection: [
+                        {id: 1, name: 'fountain'},
+                        {id: 2, name: 'evian'},
+                        {id: 3, name: 'dasina'}
+                    ],
+                    labelPath: 'name',
+                    valuePath: 'name'
+                }
+            })
+        }),
+
+        checkboxRow2: M.View.extend({
+            grid: 'row'
+        }, {
+            rb: M.CheckboxlistView.extend({
+                grid: 'col-xs-12',
+                scopeKey: 'selectionListModel.water',
+                selectOptions: {
+                    collection: [
+                        {id: 1, name: 'fountain'},
+                        {id: 2, name: 'evian'},
+                        {id: 3, name: 'dasina'}
+                    ],
+                    labelPath: 'name',
+                    valuePath: 'name'
+                }
+            })
+        }),
+
         radioButtonRow: M.View.extend({
             grid: 'row'
         }, {
-            rb: M.RadioButtonView.extend({
+            rb: M.RadiolistView.extend({
                 grid: 'col-xs-12',
                 scopeKey: 'selectionListModel.water',
                 selectOptions: {
@@ -324,7 +360,7 @@ Kitchensink.Views = Kitchensink.Views || {};
         radioButtonRow2: M.View.extend({
             grid: 'row'
         }, {
-            rb: M.RadioButtonView.extend({
+            rb: M.RadiolistView.extend({
                 grid: 'col-xs-12',
                 scopeKey: 'selectionListModel.water',
                 selectOptions: {
@@ -342,7 +378,7 @@ Kitchensink.Views = Kitchensink.Views || {};
         selectRow: M.View.extend({
             grid: 'row'
         }, {
-            selectionlistExample: M.SelectionListView.extend({
+            selectionlistExample: M.SelectView.extend({
                 grid: 'col-xs-12',
                 scopeKey: 'selectionListModel.water',
                 selectOptions: {
@@ -360,7 +396,7 @@ Kitchensink.Views = Kitchensink.Views || {};
         multiSelectRow: M.View.extend({
             grid: 'row'
         }, {
-            mulitpleSelectionListViewExample: M.SelectionListView.extend({
+            mulitpleSelectionListViewExample: M.SelectView.extend({
                 isMultiple: YES,
                 grid: 'col-xs-12',
                 scopeKey: 'multipleSelectionListModel.water',
