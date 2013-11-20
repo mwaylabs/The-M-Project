@@ -209,5 +209,6 @@ module.exports = function (grunt) {
     grunt.registerTask('dev', ['default', 'watch']);
     grunt.registerTask('test', ['jshint', 'mocha']);
     grunt.registerTask('dist', ['clean', 'jshint', 'build-js', 'build-css', 'preprocess:bd', 'uglify', 'cssmin']);
+    grunt.registerTask('precommit', ['default', 'test']);
     grunt.registerTask('default', ['clean', 'build-js', 'build-css']);
 };

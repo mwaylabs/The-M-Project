@@ -27,7 +27,6 @@
     "grunt-preprocess": "~3.0.1",
     "grunt-mocha": "~0.4.1",
     "grunt-jsonlint": "~1.0.1",
-    "faketouches": "~0.0.4",
     "lodash": "~2.3.0",
     "time-grunt": "~0.2.1"
   },

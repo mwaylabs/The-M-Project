@@ -1,4 +1,4 @@
-describe('M.AddCssClass implementation', function() {
+describe.skip('M.AddCssClass implementation', function() {
 
     var general = function( testInterface ) {
         assert.isTrue(testInterface._type === 'M.Interface');
