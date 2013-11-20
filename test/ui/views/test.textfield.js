@@ -317,4 +317,9 @@ describe('M.TextfieldView', function () {
 
     });
 
+    it('_attachToDom', function(){
+        var testView = M.TextfieldView.extend({}).create();
+        assert.isTrue(testView._attachToDom());
+    });
+
 });

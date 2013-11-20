@@ -303,41 +303,7 @@ Kitchensink.Views = Kitchensink.Views || {};
             })
         }),
 
-        checkboxRow: M.View.extend({
-            grid: 'row'
-        }, {
-            rb: M.CheckboxlistView.extend({
-                grid: 'col-xs-12',
-                scopeKey: 'selectionListModel.water',
-                selectOptions: {
-                    collection: [
-                        {id: 1, name: 'fountain'},
-                        {id: 2, name: 'evian'},
-                        {id: 3, name: 'dasina'}
-                    ],
-                    labelPath: 'name',
-                    valuePath: 'name'
-                }
-            })
-        }),
 
-        checkboxRow2: M.View.extend({
-            grid: 'row'
-        }, {
-            rb: M.CheckboxlistView.extend({
-                grid: 'col-xs-12',
-                scopeKey: 'selectionListModel.water',
-                selectOptions: {
-                    collection: [
-                        {id: 1, name: 'fountain'},
-                        {id: 2, name: 'evian'},
-                        {id: 3, name: 'dasina'}
-                    ],
-                    labelPath: 'name',
-                    valuePath: 'name'
-                }
-            })
-        }),
 
         radioButtonRow: M.View.extend({
             grid: 'row'
@@ -381,6 +347,42 @@ Kitchensink.Views = Kitchensink.Views || {};
             selectionlistExample: M.SelectView.extend({
                 grid: 'col-xs-12',
                 scopeKey: 'selectionListModel.water',
+                selectOptions: {
+                    collection: [
+                        {id: 1, name: 'fountain'},
+                        {id: 2, name: 'evian'},
+                        {id: 3, name: 'dasina'}
+                    ],
+                    labelPath: 'name',
+                    valuePath: 'name'
+                }
+            })
+        }),
+
+        checkboxRow: M.View.extend({
+            grid: 'row'
+        }, {
+            rb: M.CheckboxlistView.extend({
+                grid: 'col-xs-12',
+                scopeKey: 'multipleSelectionListModel.water',
+                selectOptions: {
+                    collection: [
+                        {id: 1, name: 'fountain'},
+                        {id: 2, name: 'evian'},
+                        {id: 3, name: 'dasina'}
+                    ],
+                    labelPath: 'name',
+                    valuePath: 'name'
+                }
+            })
+        }),
+
+        checkboxRow2: M.View.extend({
+            grid: 'row'
+        }, {
+            rb: M.CheckboxlistView.extend({
+                grid: 'col-xs-12',
+                scopeKey: 'multipleSelectionListModel.water',
                 selectOptions: {
                     collection: [
                         {id: 1, name: 'fountain'},

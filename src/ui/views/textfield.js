@@ -99,5 +99,14 @@ M.TextfieldView = M.View.extend({
      */
     _addIconToTemplateValues: function() {
         this._templateValues.icon = this.icon || '';
+    },
+
+    /**
+     * This function needs to be implemented to render the view if there is no value given
+     * @returns {Boolean|Function|YES}
+     * @private
+     */
+    _attachToDom: function(){
+        return YES;
     }
 });
