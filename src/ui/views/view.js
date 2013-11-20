@@ -799,8 +799,4 @@
         return f;
     };
 
-    M.View.design = M.View.prototype.design = function() {
-        return this.extend().create();
-    };
-
 })(this);
