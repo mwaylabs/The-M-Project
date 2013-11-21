@@ -138,6 +138,23 @@ module.exports = function (grunt) {
                     ]
                 }
             }
+        },
+
+        jsdoc : {
+            dist : {
+                src: ['src/connection/*.js', 'src/core/*.js', 'src/data/*.js', 'src/data/stores/*.js' , 'src/interfaces/*.js', 'src/ui/*.js', 'src/ui/layouts/*.js' , 'src/ui/views/*.js', 'src/utility/*.js'],
+                options: {
+                    destination: 'doc'
+                }
+            },
+            tmpl : {
+                src: ['src/connection/*.js', 'src/core/*.js', 'src/data/*.js', 'src/data/stores/*.js' , 'src/interfaces/*.js', 'src/ui/*.js', 'src/ui/layouts/*.js' , 'src/ui/views/*.js', 'src/utility/*.js'],
+                options:{
+                    destination: 'doc',
+                    template: "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template",
+                    configure: "node_modules/grunt-jsdoc/node_modules/ink-docstrap/template/jsdoc.conf.json"
+                }
+            }
         }
     });
 
@@ -210,4 +227,6 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['jshint', 'mocha']);
     grunt.registerTask('dist', ['clean', 'jshint', 'build-js', 'build-css', 'preprocess:bd', 'uglify', 'cssmin']);
     grunt.registerTask('default', ['clean', 'build-js', 'build-css']);
+
+    grunt.registerTask('build-doc', ['jsdoc']);
 };
