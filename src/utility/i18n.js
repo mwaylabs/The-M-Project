@@ -139,9 +139,13 @@ M.I18N = _.extend(Backbone.Events, M.Object.design({
                 .success(function (response) {
                     that._setDictionary(response);
                 })
-                .error(function () {
+                .error(function (jqxhr, textStatus, error ) {
                     // TODO handle error
-                    console.log('_activeLocale for ' + that._activeLocale + ' not found');
+                    if(textStatus === 'parsererror') {
+                        console.log( 'It\'s seem that the i18n file '+ fileUrl +' is corrupt! ' + error.message );
+                    } else {
+                        console.log( arguments );
+                    }
                 });
         }
         else {
