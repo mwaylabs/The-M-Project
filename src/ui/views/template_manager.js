@@ -143,6 +143,10 @@ M.TemplateManager = M.Object.design({
         defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value_ %>"> <%= label %></label>'
     },
 
+    'M.ToggleSwitchView': {
+        defaultTemplate: '<div><label><% if(label){%> <span class="label-descr"> <%= label %> <% }%> </span> <div class="toggleswitch"><input value="<%= _value_ %>" type="checkbox"><span class="switch-labels" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
+    },
+
     _currentUI: 'defaultTemplate',
 
     get: function( template, ui ) {

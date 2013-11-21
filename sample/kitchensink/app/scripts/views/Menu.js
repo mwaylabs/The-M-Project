@@ -248,6 +248,8 @@ Kitchensink.Views = Kitchensink.Views || {};
             //                })
             //            }),
 
+
+
             imageExample: M.ImageView.extend({
                 value: 'http://www.bhmpics.com/thumbs/success_kid-t2.jpg',
                 alt: 'success',
@@ -302,7 +304,6 @@ Kitchensink.Views = Kitchensink.Views || {};
                 })
             })
         }),
-
 
 
         radioButtonRow: M.View.extend({
@@ -450,6 +451,20 @@ Kitchensink.Views = Kitchensink.Views || {};
                 onSet: function( value ) {
                     return M.Date.create(value).unix() * 1000;
                 }
+            }),
+
+            toggleSwitch: M.ToggleSwitchView.extend({
+                grid: 'col-xs-12',
+                label: 'Is Favorite',
+                scopeKey: 'person.favorite',
+                onValue: YES,
+                offValue: NO,
+                onLabel: 'on',
+                offLabel: 'off'
+            }),
+
+            isFavorite: M.View.extend({
+                scopeKey: 'person.favorite'
             })
         })
     });

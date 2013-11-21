@@ -105,7 +105,7 @@ describe('M.TextfieldView', function () {
         assert.isTrue(testView.$el.hasClass('col-xs-12'));
 
         assert.isDefined(testView.value);
-        assert.isNull(testView.getValue());
+        assert.equal(testView.getValue(), '');
         assert.equal(testView.$el.find('input').attr('value'), '');
         assert.equal(testView.$el.find('input').attr('data-binding'), '_value_');
 

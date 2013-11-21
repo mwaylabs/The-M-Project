@@ -194,7 +194,6 @@
         },
 
         _setValue: function( value ) {
-
             this._value_ = value;
         },
 
@@ -245,7 +244,7 @@
         _assignValue: function( options ) {
             //don't write _value_ in the view definition - write value and here it gets assigned
 
-            if( this.value ) {
+            if( this.value || (typeof this.value !== 'undefined' && this.value !== null)) {
                 this._setValue(this.value);
             } else if( this.scopeKey ) {
                 this._setValue(this.getPropertyValue(this.scopeKey, this.scope));
@@ -797,10 +796,6 @@
             });
         }
         return f;
-    };
-
-    M.View.design = M.View.prototype.design = function() {
-        return this.extend().create();
     };
 
 })(this);

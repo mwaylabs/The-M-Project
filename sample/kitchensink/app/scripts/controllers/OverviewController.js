@@ -17,7 +17,8 @@
 
         person: M.Model.create({
             name: 'egon',
-            birthday: '1383751054966'
+            birthday: '1383751054966',
+            favorite: NO
         }),
 
         consoleModel: M.Model.create({

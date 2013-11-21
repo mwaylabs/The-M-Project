@@ -25,8 +25,9 @@
 // @include ./ui/views/buttongroup.js
 // @include ./ui/views/tab.js
 // @include ./ui/views/selectionlist.js
-// @include ./ui/views/radiobutton.js
+// @include ./ui/views/radiolist.js
 // @include ./ui/views/checkboxlist.js
+// @include ./ui/views/toggleswitch.js
 
 // @include ./ui/layouts/header-layout.js
 // @include ./ui/layouts/bottom-bar-layout.js
