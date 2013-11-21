@@ -49,9 +49,5 @@ M.SwitchLayout = M.Layout.extend({
             M.PageTransitions.init(this.$el.find('#m-main'));
         }
         M.Layout.prototype._postRender.apply(this, arguments);
-    },
-
-    startTransition: function(options){
-        M.PageTransitions.startTransition(options);
     }
 });

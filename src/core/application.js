@@ -12,11 +12,11 @@ M.Application = M.Controller.extend({
 
     Routers: null,
 
-    _transition: '',
-
     _isReady: NO,
 
     _debugView: null,
+
+    _layout: null,
 
     _debugViewIsHidden: YES,
 
@@ -30,11 +30,29 @@ M.Application = M.Controller.extend({
     },
 
     start: function( options ) {
+
+        this.router = M.Router.design(options.routing);
+
         this._initLocale(options).then(function() {
             Backbone.history.start();
         });
 
         return this;
+    },
+
+    setLayout: function(layout) {
+        if(this._layout) {
+            this._layout.$el.remove();
+            this._layout.destroy();
+            this._layout = null;
+        }
+
+        this._layout = layout;
+        $('#main').html(layout.render().$el);
+    },
+
+    getLayout: function() {
+        return this._layout;
     },
 
     navigate: function( settings ) {
@@ -45,20 +63,11 @@ M.Application = M.Controller.extend({
             path = _.isArray(settings.params) ? settings.params.join('/') : settings.params;
             url += '/';
         }
-        if( !settings.transition ) {
-            settings.transition = M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT;
-        }
 
-        this._setTransition(settings.transition);
+        this._layout.setTransition(settings.transition);
 
         var options = settings.options || true;
         Backbone.history.navigate(url + path, options);
-    },
-
-    startTransition: function() {
-        this.layout.startTransition({
-            transition: this._getTransition()
-        });
     },
 
     _initLocale: function( options ) {
@@ -76,14 +85,6 @@ M.Application = M.Controller.extend({
         }
 
         return defer.promise();
-    },
-
-    _setTransition: function( name ) {
-        this._transition = name;
-    },
-
-    _getTransition: function() {
-        return this._transition;
     },
 
     _initReady: function() {
