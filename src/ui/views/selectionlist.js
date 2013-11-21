@@ -14,7 +14,7 @@ M.SelectionlistView = M.View.extend({
 
     _optionTemplate: null,// _.tmpl(M.TemplateManager.get(M.CHECKBOXOPTION_VIEW)),
 
-    _optionsContainer: '',
+    _optionsContainer: null,
 
     _render: function () {
 

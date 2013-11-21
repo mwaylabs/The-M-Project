@@ -1,0 +1,105 @@
+/*Inspiered by and thanks to*/
+/*
+ * Copyright (c) 2013 Thibaut Courouble
+ * http://www.cssflow.com
+ *
+ * Licensed under the MIT License:
+ * http://www.opensource.org/licenses/mit-license.php
+ */
+
+.toggleswitchview{
+
+  label .label-descr{
+    display: block;
+    float: left;
+  }
+
+  .toggleswitch {
+    position: relative;
+    display: block;
+    vertical-align: top;
+    width: $m-primary-font-size * 3.5;
+    padding: 0;
+    border-radius: $button-border-radius;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+
+  .switch-labels {
+    position: relative;
+    display: block;
+    font-size: $m-primary-font-size;
+    background: #eceeef;
+    border-radius: inherit;
+    text-indent: -9999px;
+  }
+
+  .switch-labels:before, .switch-labels:after {
+    text-indent: 0;
+    position: absolute;
+    display: block;
+    top: floor(($m-primary-font-size / 4) - 2);
+    line-height: $m-primary-line-height;
+  }
+
+  .switch-labels:before {
+    content: attr(data-offLabel);
+    right: $m-primary-font-size / 1.6;
+    color: $lightgrey;
+  }
+
+  .switch-labels:after {
+    content: attr(data-onLabel);
+    left: $m-primary-font-size / 1.6;
+    color: $white;
+    opacity: 0;
+  }
+
+  input:checked ~ .switch-labels {
+    background: $blue;
+  }
+  input:checked ~ .switch-labels:before {
+    opacity: 0;
+  }
+  input:checked ~ .switch-labels:after {
+    opacity: 1;
+  }
+
+  .switch-handle {
+    position: absolute;
+    top: floor(($m-primary-font-size / 4) - 1);
+    left: floor(($m-primary-font-size / 4) - 1);
+    width: $m-primary-font-size;
+    height: $m-primary-font-size;
+    background: $white;
+    border-radius: $button-border-radius;
+    -webkit-transition: left 0.15s ease-out;
+    -moz-transition: left 0.15s ease-out;
+    -o-transition: left 0.15s ease-out;
+    transition: left 0.15s ease-out;
+  }
+
+  //.switch-handle:before {
+  //  content: '';
+  //  position: absolute;
+  //  top: 50%;
+  //  left: 50%;
+  //  margin: -6px 0 0 -6px;
+  //  width: 12px;
+  //  height: 12px;
+  //  background: #f9f9f9;
+  //  border-radius: 6px;
+  //  border: 1px solid red;
+  //}
+
+  input:checked ~ .switch-handle {
+    left: $m-primary-font-size * 2.2;
+  }
+}
