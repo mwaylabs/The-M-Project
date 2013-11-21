@@ -10,12 +10,27 @@ M.SelectionlistView = M.View.extend({
      * The template of the object before initializing it.
      * @private
      */
-    _template: null,//_.tmpl(M.TemplateManager.get(M.CHECKBOXBUTTON_VIEW)),
+    _template: null,
 
-    _optionTemplate: null,// _.tmpl(M.TemplateManager.get(M.CHECKBOXOPTION_VIEW)),
+    /**
+     * The template of an option before initializing it.
+     * @private
+     */
+    _optionTemplate: null,
 
-    _optionsContainer: null,
+    /**
+     * Selector name which is used internally to determine the parent dom element.
+     * @private
+     */
+    _optionsContainer: '',
 
+    /**
+     * Override this function to call the '_renderOptions' method.
+     *
+     * @override
+     * @returns {this}
+     * @private
+     */
     _render: function () {
 
         M.View.prototype._render.apply(this, arguments);
@@ -23,6 +38,12 @@ M.SelectionlistView = M.View.extend({
         return this;
     },
 
+    /**
+     * This method renders the options based on the selectOptions property.
+     *
+     * @returns {this}
+     * @private
+     */
     _renderOptions: function () {
 
         if (this.selectOptions && this.selectOptions.collection) {

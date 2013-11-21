@@ -12,6 +12,7 @@ describe('M.PageTransitions', function () {
     after(function () {
         if ($stage) {
             $stage.remove();
+            $stage = null;
         }
     });
 
