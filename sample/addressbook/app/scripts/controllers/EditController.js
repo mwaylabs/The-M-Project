@@ -8,25 +8,24 @@
 
         applicationStart: function (settings) {
 
-            Addressbook.layout = M.AppLayout.extend().create(this, null, true);
+            Addressbook.setLayout(M.AppLayout.design(this, null, true));
 
             this._initView(settings);
 
-            Addressbook.layout.applyViews({
+            Addressbook.getLayout().applyViews({
                 header: this.header,
                 content: this.detailView
-            }).render();
-            $('body').html(Addressbook.layout.$el);
+            });
         },
 
         show: function (settings) {
             this._initView(settings);
 
-            Addressbook.layout.applyViews({
+            Addressbook.getLayout().applyViews({
                 header: this.header,
                 content: this.detailView
             });
-            Addressbook.startTransition();
+            Addressbook.getLayout().startTransition();
         },
 
         back: function () {

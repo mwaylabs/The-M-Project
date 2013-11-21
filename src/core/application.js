@@ -42,7 +42,6 @@ M.Application = M.Controller.extend({
 
     setLayout: function(layout) {
         if(this._layout) {
-            this._layout.$el.remove();
             this._layout.destroy();
             this._layout = null;
         }

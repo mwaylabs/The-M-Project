@@ -10,7 +10,7 @@
         applicationStart: function( settings ) {
             this.init();
             this.setLayout(settings.tab);
-            Kitchensink.layout = this.tabLayout;
+            Kitchensink.setLayout(this.tabLayout);
         },
 
         initialize: function() {

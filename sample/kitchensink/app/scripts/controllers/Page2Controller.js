@@ -21,10 +21,10 @@
 
         show: function( settings ) {
             this.init();
-            Kitchensink.layout.applyViews({
+            Kitchensink.getLayout().applyViews({
                 content: this.view
             });
-            Kitchensink.startTransition();
+            Kitchensink.getLayout().startTransition();
         }
     });
 

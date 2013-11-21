@@ -51,5 +51,10 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
 
     startTransition: function() {
         M.PageTransitions.startTransition();
+    },
+
+    destroy: function() {
+        this.$el.remove();
+        this.$el = null;
     }
 });

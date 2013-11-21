@@ -101,22 +101,21 @@
 //            $('#main').html(this.menu.render().$el);
 
             //set a layout
-            Kitchensink.layout = M.SwitchLayout.extend().create(this, null, true);
+            var _layout = M.SwitchLayout.design(this, null, true);
+            Kitchensink.setLayout(_layout);
 
             //fill the layout with a view and render it
-            Kitchensink.layout.applyViews({
+            Kitchensink.getLayout().applyViews({
                 content: this.menu
-            }).render();
-
-            $('body').html(Kitchensink.layout.$el);
+            });
         },
 
         show: function( settings ) {
             this._nextPage = '/';
-            Kitchensink.layout.applyViews({
+            Kitchensink.getLayout().applyViews({
                 content: this.menu
             });
-            Kitchensink.startTransition();
+            Kitchensink.getLayout().startTransition();
         },
 
         gotoTablayoutExample: function(){

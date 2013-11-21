@@ -15,23 +15,22 @@
         applicationStart: function() {
 
             this._initView();
-            Addressbook.layout = M.AppLayout.extend().create(this, null, true);
+            Addressbook.setLayout(M.AppLayout.design(this, null, true));
 
-            Addressbook.layout.applyViews({
+            Addressbook.getLayout().applyViews({
                 header: this.header,
                 content: this.listView
-            }).render();
-            $('body').html(Addressbook.layout.$el);
+            });
         },
 
         show: function() {
 
             this._initView();
-            Addressbook.layout.applyViews({
+            Addressbook.getLayout().applyViews({
                 header: this.header,
                 content: this.listView
             });
-            Addressbook.startTransition();
+            Addressbook.getLayout().startTransition();
         },
 
         nextPage: function() {
