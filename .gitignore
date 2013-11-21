@@ -6,3 +6,4 @@ bower_components
 .DS_STORE
 npm-debug.log
 dist
+doc

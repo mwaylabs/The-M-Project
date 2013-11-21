@@ -28,7 +28,8 @@
     "grunt-mocha": "~0.4.1",
     "grunt-jsonlint": "~1.0.1",
     "lodash": "~2.3.0",
-    "time-grunt": "~0.2.1"
+    "time-grunt": "~0.2.1",
+    "grunt-jsdoc": "~0.4.2"
   },
   "engines": {
     "node": ">=0.8.0",
