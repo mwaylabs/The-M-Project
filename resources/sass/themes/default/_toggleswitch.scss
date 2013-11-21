@@ -36,7 +36,7 @@
     position: relative;
     display: block;
     font-size: $m-primary-font-size;
-    background: #eceeef;
+    background: $darkwhite;
     border-radius: inherit;
     text-indent: -9999px;
   }
@@ -52,23 +52,23 @@
   .switch-labels:before {
     content: attr(data-offLabel);
     right: $m-primary-font-size / 1.6;
-    color: $lightgrey;
+    color: $grey;
   }
 
   .switch-labels:after {
     content: attr(data-onLabel);
     left: $m-primary-font-size / 1.6;
-    color: $white;
+    color: $m-primary-active-text-color;
     opacity: 0;
   }
 
-  input:checked ~ .switch-labels {
-    background: $blue;
+  input:checked + .switch-labels {
+    background: $m-primary-active-color;
   }
-  input:checked ~ .switch-labels:before {
+  input:checked + .switch-labels:before {
     opacity: 0;
   }
-  input:checked ~ .switch-labels:after {
+  input:checked + .switch-labels:after {
     opacity: 1;
   }
 
@@ -80,10 +80,6 @@
     height: $m-primary-font-size;
     background: $white;
     border-radius: $button-border-radius;
-    -webkit-transition: left 0.15s ease-out;
-    -moz-transition: left 0.15s ease-out;
-    -o-transition: left 0.15s ease-out;
-    transition: left 0.15s ease-out;
   }
 
   //.switch-handle:before {
@@ -99,7 +95,14 @@
   //  border: 1px solid red;
   //}
 
-  input:checked ~ .switch-handle {
+  input:checked + .switch-labels .switch-handle {
     left: $m-primary-font-size * 2.2;
   }
+}
+
+.webgl .switch-handle{
+  -webkit-transition: left 0.15s ease-out;
+  -moz-transition: left 0.15s ease-out;
+  -o-transition: left 0.15s ease-out;
+  transition: left 0.15s ease-out;
 }
