@@ -1,3 +1,9 @@
+/**
+ * @module M.ListView
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.ListView = M.View.extend({
     _type: 'M.ListView',
 

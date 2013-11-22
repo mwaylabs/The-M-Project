@@ -1,3 +1,9 @@
+/**
+ * @module M.SliderView
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.SliderView = M.View.extend({
 
     _type: 'M.SliderView',

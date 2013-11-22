@@ -1,10 +1,13 @@
-/**
- * M.ButtonView inherits from M.View
- * @type {*}
- */
 
 M.BUTTON_VIEW = 'M.ButtonView';
 
+/**
+ * M.ButtonView inherits from M.View
+ * @module M.ButtonView
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.ButtonView = M.View.extend({
 
     /**

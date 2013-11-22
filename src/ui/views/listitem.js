@@ -1,3 +1,9 @@
+/**
+ * @module M.ListItemView
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.ListItemView = M.View.extend({
     _type: 'M.ListItemView',
     template: _.tmpl(M.TemplateManager.get('M.ListItemView')),

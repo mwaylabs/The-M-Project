@@ -1,3 +1,9 @@
+/**
+ * @module M.TemplateManager
+ *
+ * @type {*}
+ * @extends M.Object
+ */
 M.TemplateManager = M.Object.design({
 
     'M.View': {

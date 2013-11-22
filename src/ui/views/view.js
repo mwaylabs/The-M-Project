@@ -2,7 +2,10 @@
 
     /**
      * M.View inherits from Backbone.View
+     * @module M.View
+     *
      * @type {*}
+     * @extends Backbone.View
      */
     M.View = Backbone.View.extend({
 
@@ -48,25 +51,25 @@
     _.extend(M.View.prototype, M.Object, {
 
         /**
-         * @private
          * The View type
+         * @private
          */
         _type: 'M.View',
 
-        /*
+        /**
          * define a user template
          */
         template: null,
 
-        /*
-         * @private
+        /**
          * define a template based on the tmpl template engine
+         * @private
          */
         _template: _.tmpl(M.TemplateManager.get('M.View')),
 
         /**
-         * @private
          * use this property to define which data are given to the template
+         * @private
          */
         _templateValues: null,
 
@@ -76,9 +79,8 @@
         templateExtend: null,
 
         /**
-         * @private
          * Indicates if this is the view was rendered before
-         *
+         * @private
          */
         _firstRender: YES,
 
@@ -88,8 +90,8 @@
         useElement: NO,
 
         /**
-         * @private
          * Has the View a localization listener
+         * @private
          */
         _hasI18NListener: NO,
 

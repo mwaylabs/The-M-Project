@@ -1,7 +1,12 @@
+
+M.RADIOLIST_VIEW = 'M.RadiolistView';
+M.RADIOOPTION_VIEW = 'M.RadioOptionView';
+
 /**
  * The {M.RadiolistView} view class render a group of <input type="radio"> HTML elements.
  * An example would be ask the user for his favorite drink. The user can
  * choose between different drinks, but he can only select one of them.
+ * @module M.RadiolistView
  *
  * @type {M.RadiolistView}
  * @extend {M.SelectionlistView}
@@ -20,9 +25,6 @@
  *     }
  * });
  */
-
-M.RADIOLIST_VIEW = 'M.RadiolistView';
-M.RADIOOPTION_VIEW = 'M.RadioOptionView';
 
 M.RadiolistView = M.SelectionlistView.extend({
 

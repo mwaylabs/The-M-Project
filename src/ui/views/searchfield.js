@@ -1,3 +1,9 @@
+/**
+ * @module M.SearchfieldView
+ *
+ * @type {*}
+ * @extends M.TextfieldView
+ */
 M.SearchfieldView = M.TextfieldView.extend({
 
     _type: 'M.SearchfieldView',

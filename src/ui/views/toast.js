@@ -1,3 +1,9 @@
+/**
+ * @module M.Toast
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.Toast = M.View.extend({
 
     _type: 'M.ToastView',

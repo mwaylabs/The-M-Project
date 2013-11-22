@@ -1,3 +1,9 @@
+/**
+ * @module M.DebugView
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.DebugView = M.View.extend({
 
     _type: 'M.DebugView',

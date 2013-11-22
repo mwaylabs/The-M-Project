@@ -1,8 +1,9 @@
 /**
+ * A input field.
+ * @module M.TextfieldView
  *
  * @type {M|*}
- *
- * A input field.
+ * @extends M.View
  * @implements M.IconBackground
  *
  */

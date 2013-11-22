@@ -1,3 +1,9 @@
+/**
+ * @module M.TextareaView
+ *
+ * @type {*}
+ * @extends M.TextfieldView
+ */
 M.TextareaView = M.TextfieldView.extend({
 
     _type: 'M.TextareaView',

@@ -1,3 +1,9 @@
+/**
+ * @module M.ToolbarView
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.ToolbarView = M.View.extend({
 
     _type: 'M.ToolbarView',

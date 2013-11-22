@@ -1,3 +1,9 @@
+/**
+ * @module M.ToggleView
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.ToggleView = M.View.extend({
 
     _type: 'M.ToggleView',
