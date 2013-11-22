@@ -82,6 +82,14 @@
     border-radius: $button-border-radius;
   }
 
+  .switch-handle{
+    background: $blue;
+  }
+
+  input:checked + .switch-labels .switch-handle{
+    background: $orange;
+  }
+
   //.switch-handle:before {
   //  content: '';
   //  position: absolute;

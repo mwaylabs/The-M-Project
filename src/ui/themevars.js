@@ -45,7 +45,7 @@ M.ThemeVars = {
         "tablayout-menu-scroll-button-width": "200px",
         "m-primary-font-family": "\"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
         "m-primary-font-weight": "300",
-        "m-primary-font-size": "18px",
+        "m-primary-font-size": "1.8rem",
         "m-primary-line-height": "22px",
         "m-primary-font-color": "#000000"
     },
