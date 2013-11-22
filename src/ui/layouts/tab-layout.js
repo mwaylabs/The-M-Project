@@ -1,3 +1,9 @@
+/**
+ *
+ * @module M.TabLayout
+ * @type {*}
+ * @extends M.Layout
+ */
 M.TabLayout = M.Layout.extend({
 
     _tabMenu: null,

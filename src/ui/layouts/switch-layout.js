@@ -1,5 +1,11 @@
-M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="m-main" class="m-perspective"><div class="m-page m-page-1"><div data-childviews="content_page1"></div></div><div class="m-page m-page-2"><div data-childviews="content_page2"></div></div></div>');
 
+M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="m-main" class="m-perspective"><div class="m-page m-page-1"><div data-childviews="content_page1"></div></div><div class="m-page m-page-2"><div data-childviews="content_page2"></div></div></div>');
+/**
+ *
+ * @module M.SwitchLayout
+ * @type {*}
+ * @extends M.Layout
+ */
 M.SwitchLayout = M.Layout.extend({
 
     _type: 'M.SwitchLayout',

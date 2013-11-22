@@ -3,7 +3,12 @@ var template = $('<div class="wrap"> <div class="left-panel firstLeft"> <div cla
 template.find('.right-panel').before(M.SwitchLayout.prototype.template);
 
 M.Themes.registerTemplateForTheme( M.Themes.DEFAULT_THEME, 'swipe-layout', template );
-
+/**
+ *
+ * @module M.SwipeLayout
+ * @type {*}
+ * @extends M.SwitchLayout
+ */
 M.SwipeLayout = M.SwitchLayout.extend({
 
     _type: 'M.SwipeLayout',

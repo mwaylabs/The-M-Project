@@ -1,3 +1,9 @@
+/**
+ *
+ * @module M.Themes
+ * @type {*}
+ * @extends M.Object
+ */
 M.Themes = M.Object.design({
     DEFAULT_THEME: 'basic',
 

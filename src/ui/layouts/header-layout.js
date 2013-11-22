@@ -1,5 +1,10 @@
 M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'header-layout', '<div data-childviews="header" class="header"></div>');
-
+/**
+ *
+ * @module M.HeaderLayout
+ * @type {*}
+ * @extends M.Layout
+ */
 M.HeaderLayout = M.Layout.extend({
 
     _type: 'header-layout',

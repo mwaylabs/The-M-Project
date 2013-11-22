@@ -9,11 +9,13 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+
 /**
- * @class
+ *
+ * @module M.Layout
+ * @type {*}
  * @extends M.View
  */
-
 M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
 
     //el: $(".m-perspective"),

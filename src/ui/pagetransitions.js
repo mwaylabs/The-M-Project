@@ -1,5 +1,10 @@
 //Thanks to: https://github.com/codrops/PageTransitions
-
+/**
+ *
+ * @module M.PageTransitions
+ * @type {*}
+ * @extends M.Object
+ */
 M.PageTransitions = M.Object.design({
 
     NONE: 'none',
