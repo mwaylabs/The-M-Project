@@ -30,7 +30,7 @@ Addressbook.Views = Addressbook.Views || {};
                             var id = element.model.get('_id');
                             Addressbook.navigate({
                                 route: 'detail/' + id,
-                                transition: M.PageTransitions.NONE
+                                transition: M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT
                             });
 
                         },
