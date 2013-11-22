@@ -91,5 +91,3 @@
 
 
 })(this);
-
-alert(JSON.stringify(M.Environment.device));
