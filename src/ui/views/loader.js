@@ -6,6 +6,7 @@
  * To force the hidding pass true to the hide call
  *
  * @module M.LoaderView
+ * @extends M.ModalView
  * @type {*|Object|void}
  *
  * var loader = M.LoaderView.extend().create().render();
@@ -25,7 +26,7 @@
  * loader.hide(true);
  *
  */
-M.LoaderView = M.View.extend({
+M.LoaderView = M.ModalView.extend({
 
     /**
      * The type of the View
@@ -42,77 +43,14 @@ M.LoaderView = M.View.extend({
     _template: _.tmpl(M.TemplateManager.get('M.LoaderView')),
 
     /**
-     * Determines if the loader is shown or not. Access it by calling isShown()
-     * @private
-     * @type {Boolean}
-     */
-    _isShown: NO,
-
-    /**
-     * Counts the number how often the show function was called.
-     * @private
-     * @type {Number}
-     */
-    _shownCounter: 0,
-
-    /**
      * Show the loader
      * @param {String} text - The text for the Loader
      * @returns {LoaderView}
      */
     show: function( text ) {
-        this._shownCounter += 1;
-        if( this._shownCounter > 0 ) {
-            $('body').append(this.$el);
-            this._isShown = YES;
-        }
+        M.ModalView.prototype.show.apply(this, arguments);
         this.$el.find('.m-loaderview-inner-message').html(text);
         return this;
-    },
-
-    /**
-     * Hide the loader. You have to call for every show a hide or force it by calling with true as first parameter
-     * @param {Boolean} force - Force the loader to hide
-     * @returns {LoaderView}
-     */
-    hide: function( force ) {
-        this._shownCounter -= 1;
-        if( force === YES || this._shownCounter <= 0 ) {
-            this.$el.remove();
-            this._isShown = NO;
-            this._shownCounter = 0;
-        }
-
-        return this;
-    },
-
-    /**
-     * If the loader is visible at the moment
-     * @returns {Boolean}
-     */
-    isShown: function() {
-        return this._isShown;
-    },
-
-    /**
-     * Toggle the loader. If the loader is visibile it gets hidden if it is hidden show the loader
-     * @returns {Boolean}
-     */
-    toggle: function( text ) {
-        if( this.isShown(text) ) {
-            this.hide(true);
-        } else {
-            this.show(text);
-        }
-    },
-
-    /**
-     * This function needs to be implemented to render the view if there is no value given
-     * @returns {Boolean|Function|YES}
-     * @private
-     */
-    _attachToDom: function() {
-        return YES;
     }
 });
 

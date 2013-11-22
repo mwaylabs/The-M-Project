@@ -17,7 +17,6 @@
 // @include ./ui/views/dialog.js
 // @include ./ui/views/toggle.js
 // @include ./ui/views/image.js
-// @include ./ui/views/loader.js
 // @include ./ui/views/toast.js
 // @include ./ui/views/toolbar.js
 // @include ./ui/views/select.js
@@ -28,6 +27,7 @@
 // @include ./ui/views/radiolist.js
 // @include ./ui/views/checkboxlist.js
 // @include ./ui/views/toggleswitch.js
+// @include ./ui/views/modal.js
 // @include ./ui/views/loader.js
 
 // @include ./ui/layouts/header-layout.js

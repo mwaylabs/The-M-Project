@@ -6,7 +6,9 @@ describe('M.LoaderView', function () {
         assert.isFunction(M.LoaderView);
         assert.isDefined(M.Loader);
         assert.isTrue(M.View.prototype.isPrototypeOf(M.LoaderView.create()));
+        assert.isTrue(M.ModalView.prototype.isPrototypeOf(M.LoaderView.create()));
         assert.isTrue(M.View.prototype.isPrototypeOf(M.Loader));
+        assert.isTrue(M.LoaderView.prototype.isPrototypeOf(M.Loader));
         assert.isFunction(M.Loader.show);
         assert.isFunction(M.Loader.hide);
         assert.equal(M.Loader._shownCounter, 0);
