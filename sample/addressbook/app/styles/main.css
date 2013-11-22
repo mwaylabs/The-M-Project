@@ -29,19 +29,20 @@ h2.view {
     font-size: 18px;
 }
 
-.btn-success {
+body .button.buttonview.btn-success {
     color: #fff;
     background-color: #5cb85c;
     border-color: #4cae4c;
 }
 
-.btn-danger {
+
+body .button.buttonview.btn-danger {
     color: #fff;
     background-color: #d9534f;
     border-color: #d43f3a;
 }
 
-.btn-info {
+body .button.buttonview.btn-info {
     color: #fff;
     background-color: #06AEF3;
     border-color: #46b8da;
