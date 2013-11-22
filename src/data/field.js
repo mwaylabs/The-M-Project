@@ -8,6 +8,13 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+
+/**
+ *
+ * @module M.Field
+ *
+ */
+
 /**
  * Field describing a data attribute
  *

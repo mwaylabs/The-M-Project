@@ -1,6 +1,10 @@
 /**
+ *
  * Use the ViewManager to quick access views
+ * @module M.ViewManager
+ *
  * @type {*}
+ * @extends M.Object
  */
 M.ViewManager = M.Object.design({
 

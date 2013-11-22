@@ -11,11 +11,11 @@
 
 
 /**
- * @class
+ *
+ * @module M.Date
  *
  * @extends M.Object
  */
-
 M.Date = {
 
     /**

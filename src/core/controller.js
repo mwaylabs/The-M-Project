@@ -1,3 +1,13 @@
+/**
+ *
+ * @module M.Controller
+ *
+ */
+
+/**
+ * @param options
+ * @constructor
+ */
 M.Controller = function (options) {
     this.options = options || {};
     if (_.isFunction(this.initialize)) {

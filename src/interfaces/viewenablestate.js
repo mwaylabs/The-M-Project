@@ -10,7 +10,9 @@
 // ==========================================================================
 
 /**
- * @class
+ * @module M.ViewEnableState
+ *
+ * @type {*}
  * @extends M.Interface
  */
 M.ViewEnableState = M.Interface.design(/** @scope M.ContentBinding.prototype */{

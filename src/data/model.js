@@ -1,3 +1,10 @@
+/**
+ *
+ * @module M.Model
+ *
+ * @type {*}
+ * @extends Backbone.Model
+ */
 M.Model = Backbone.Model.extend({
     constructor: function (attributes, options) {
         this.init(attributes, options);

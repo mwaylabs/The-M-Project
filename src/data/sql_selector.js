@@ -8,7 +8,13 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
-
+/**
+ *
+ * @module M.SqlSelector
+ *
+ * @type {*}
+ * @extends M.DataSelector
+ */
 M.SqlSelector = M.DataSelector.design({
 
     _type: 'M.SqlSelector',

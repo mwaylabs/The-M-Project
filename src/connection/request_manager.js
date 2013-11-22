@@ -10,7 +10,9 @@
 // ==========================================================================
 
 /**
- * @class
+ *
+ * @module M.RequestManager
+ *
  * @extends M.Object
  */
 M.RequestManager = M.Object.design(/** @scope M.RequestManager.prototype */{

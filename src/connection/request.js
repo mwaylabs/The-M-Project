@@ -10,7 +10,9 @@
 // ==========================================================================
 
 /**
- * @class
+ *
+ * @module M.Request
+ *
  * @extends M.Object
  */
 M.Request = M.Object.design(/** @scope M.Request.prototype */{

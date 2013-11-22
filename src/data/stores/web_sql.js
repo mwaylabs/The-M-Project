@@ -1,3 +1,10 @@
+/**
+ *
+ * @module M.WebSqlStore
+ *
+ * @type {*}
+ * @extends M.Store
+ */
 M.WebSqlStore = M.Store.extend({
 
     _type: 'M.WebSqlStore',

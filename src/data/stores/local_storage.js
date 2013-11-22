@@ -1,3 +1,9 @@
+/**
+ * @module M.LocalStorageStore
+ *
+ * @type {*}
+ * @extends M.Store
+ */
 M.LocalStorageStore = M.Store.extend({
 
     _type: 'M.LocalStorageStore',

@@ -1,3 +1,9 @@
+/**
+ *
+ * @module M.Object
+ *
+ * @type {{_type: string, _implementedInterfaces: null, _create: Function, include: Function, design: Function, implement: Function, hasInterfaceImplementation: Function, bindToCaller: Function, _init: Function, _normalize: Function, handleCallback: Function, getObjectType: Function, _addInterfaces: Function}}
+ */
 M.Object = {
     /**
      * The type of this object.

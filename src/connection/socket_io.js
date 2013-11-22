@@ -10,7 +10,9 @@
 // ==========================================================================
 
 /**
- * @class
+ *
+ * @module M.SocketIO
+ *
  * @extends M.Object
  */
 M.SocketIO = M.Object.design(/** @scope M.SocketIO.prototype */{

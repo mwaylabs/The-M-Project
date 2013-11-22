@@ -9,6 +9,14 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
 
+
+/**
+ *
+ * @module M.Collection
+ *
+ * @type {*}
+ * @extends Backbone.Collection
+ */
 M.Collection = Backbone.Collection.extend({
 
     constructor: function (options) {

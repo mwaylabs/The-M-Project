@@ -19,6 +19,11 @@
 // ===========================================================================
 
 // m_require('core/foundation/object.js');
+/**
+ *
+ * @module M.ObjectID
+ *
+ */
 M.ObjectID = function( hexString ) {
     M.ObjectID.counter   = M.ObjectID.counter   || parseInt(Math.random() * Math.pow(16, 6));
     M.ObjectID.machineId = M.ObjectID.machineId || parseInt(Math.random() * Math.pow(16, 6));
