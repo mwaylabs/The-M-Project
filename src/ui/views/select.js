@@ -1,3 +1,9 @@
+/**
+ * @module M.SelectView
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.SelectView = M.View.extend({
 
     _type: 'M.SelectView',

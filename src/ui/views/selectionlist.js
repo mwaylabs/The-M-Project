@@ -1,3 +1,9 @@
+/**
+ * @module M.SelectionlistView
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.SelectionlistView = M.View.extend({
 
     /**

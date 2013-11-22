@@ -9,6 +9,7 @@
  * @extends M.ModalView
  * @type {*|Object|void}
  *
+ * @example
  * var loader = M.LoaderView.extend().create().render();
  * //show loader
  * loader.show('loading');

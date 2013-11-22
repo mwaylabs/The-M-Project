@@ -1,11 +1,12 @@
-/**
- * M.ButtonView inherits from M.View
- * @type {*}
- */
-
 M.CHECKBOXBUTTON_VIEW = 'M.CheckboxlistView';
 M.CHECKBOXOPTION_VIEW = 'M.CheckboxOptionView';
 
+/**
+ * @module M.CheckboxlistView
+ *
+ * @type {*}
+ * @extends M.SelectionlistView
+ */
 M.CheckboxlistView = M.SelectionlistView.extend({
 
     /**

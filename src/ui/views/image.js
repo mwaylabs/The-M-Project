@@ -1,3 +1,9 @@
+/**
+ * @module M.ImageView
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.ImageView = M.View.extend({
 
     _type: 'M.ImageView',

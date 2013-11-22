@@ -1,3 +1,8 @@
+/**
+ * @module M.ButtonGroupView
+ * @type {*}
+ * @extends M.View
+ */
 M.ButtonGroupView = M.View.extend({
 
     _type: 'M.ButtonGroupView',

@@ -1,3 +1,9 @@
+/**
+ * @module M.DialogView
+ *
+ * @type {*}
+ * @extends M.View
+ */
 M.DialogView = M.View.extend({
 
     _type: 'M.DialogView',
