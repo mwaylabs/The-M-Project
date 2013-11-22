@@ -6,10 +6,16 @@
 //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 // ==========================================================================
+/**
+ *
+ * @module M.Entity
+ *
+ */
 
 /**
  * Holds description about fields and other entity properties.
  * Also helper functions for field and transform operations
+ * @module M.Entity
  *
  * @param options
  * @constructor

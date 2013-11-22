@@ -1,3 +1,9 @@
+/**
+ *
+ * @module M.Model
+ *
+ * @type {{logon: Function, logonBasicAuth: Function, logonMcapAuth: Function, getHost: Function}}
+ */
 M.Security = {
 
 

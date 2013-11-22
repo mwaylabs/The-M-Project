@@ -12,7 +12,13 @@
 // Returns a unique identifier
 
 // m_require('core/foundation/object.js');
-
+/**
+ *
+ * @module M.UniqueId
+ *
+ * @type {*}
+ * @extends M.Object
+ */
 M.UniqueId = M.Object.design({
     uuid: function(len, radix) {
         // based on Robert Kieffer's randomUUID.js at http://www.broofa.com

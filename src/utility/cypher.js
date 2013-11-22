@@ -10,10 +10,9 @@
 // ==========================================================================
 
 /**
- * @class
- *
  * M.Cypher defines a prototype for handling decoding, encoding and hashing of string
  * based values.
+ * @module M.Cypher
  *
  * @extends M.Object
  */

@@ -1,3 +1,10 @@
+/**
+ *
+ * @module M.Application
+ *
+ * @type {*}
+ * @extends M.Controller
+ */
 M.Application = M.Controller.extend({
 
     _type: 'M.Application',

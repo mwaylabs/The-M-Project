@@ -10,7 +10,9 @@
 // ==========================================================================
 
 /**
- * @class
+ * @module M.Interface
+ *
+ * @type {*}
  * @extends M.Object
  */
 M.Interface = M.Object.design(/** @scope M.Interface.prototype */{

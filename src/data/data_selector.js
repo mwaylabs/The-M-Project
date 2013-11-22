@@ -18,6 +18,14 @@
 //
 // ===========================================================================
 
+
+/**
+ *
+ * @module M.DataSelector
+ *
+ * @type {*}
+ * @extends M.Object
+ */
 M.DataSelector = M.Object.design({
 
     _type: 'M.DataSelector',

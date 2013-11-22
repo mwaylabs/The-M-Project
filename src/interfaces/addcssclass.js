@@ -1,3 +1,9 @@
+/**
+ * @module M.AddCssClass
+ *
+ * @type {*}
+ * @extends M.Interface
+ */
 M.AddCssClass = M.Interface.design(/** @scope M.Interface.prototype */{
 
     /**

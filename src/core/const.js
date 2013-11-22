@@ -1,7 +1,6 @@
 /**
- * @class
- *
  * M.CONST defines constants used all over the framework.
+ * @module M.CONST
  *
  */
 

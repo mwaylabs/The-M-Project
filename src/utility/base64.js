@@ -10,11 +10,10 @@
 // ==========================================================================
 
 /**
- * @class
- *
  * This prototype defines decoding and encoding mechanisms based on the Base64 algorithm. You
  * normally don't call this object respectively its methods directly, but let M.Cypher handle
  * this.
+ * @module M.Base64
  *
  * @extends M.Object
  */

@@ -708,9 +708,8 @@
          * Returns a childview of an object either by the name or the index of the childview
          * @param {(string|number)} the index or name of the childview
          * @private
-         * @example
          *
-         * v
+         * @example
          * var testView = M.View.extend({}, {
          *    child1: M.View.extend({value: 'child 1 value'}),
          *    child2: M.View.extend({value: 'child 2 value'})

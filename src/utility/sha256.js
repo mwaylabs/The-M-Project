@@ -10,11 +10,10 @@
 // ==========================================================================
 
 /**
- * @class
- *
  * This prototype defines a hashing mechanism based on the SHA256 algorithm. You normally
  * don't call this object respectively its methods directly, but let M.Cypher handle
  * this.
+ * @module M.SHA256
  *
  * @extends M.Object
  */

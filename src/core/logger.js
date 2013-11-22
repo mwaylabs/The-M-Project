@@ -1,8 +1,7 @@
 /**
- * @class
- *
  * M.Logger defines the prototype for any logging object.
  * It is used to log messages out of the application.
+ * @module M.Logger
  *
  * @extends M.Object
  */

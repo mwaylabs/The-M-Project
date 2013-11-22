@@ -1,9 +1,10 @@
 /**
- * @class
- *
  * M.I18N defines a prototype for internationalisation and localisation within
  * The M-Project. It is used to set and get the application's language and to
  * localize any string within an application.
+ * @module M.I18N
+ *
+ * @extends M.Object
  */
 M.I18N = _.extend(Backbone.Events, M.Object.design({
 

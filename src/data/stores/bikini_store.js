@@ -1,3 +1,10 @@
+/**
+ *
+ * @module M.BikiniStore
+ *
+ * @type {*}
+ * @extends M.Store
+ */
 M.BikiniStore = M.Store.extend({
 
     _type: 'M.BikiniStore',

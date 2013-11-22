@@ -1,3 +1,9 @@
+/**
+ * @module M.ActiveState
+ *
+ * @type {*}
+ * @extends M.Interface
+ */
 M.ActiveState = M.Interface.design(/** @scope M.Interface.prototype */{
 
     /**

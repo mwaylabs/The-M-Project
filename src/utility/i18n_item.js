@@ -1,3 +1,10 @@
+/**
+ *
+ * @module M.I18NItem
+ *
+ * @type {*}
+ * @extends M.Object
+ */
 M.I18NItem = M.Object.design({
 
     /**
