@@ -16,6 +16,8 @@ M.TabLayout = M.Layout.extend({
 
     template: '<div id="m-main" class="m-perspective"><div data-childviews="tab-menu"></div><div data-childviews="tab-content"></div></div>',
 
+    switchToTabCallback: null,
+
     initialize: function() {
         this._tabMenu = M.ButtonGroupView.extend({}, {}).create(this, null, YES);
     },
@@ -43,6 +45,9 @@ M.TabLayout = M.Layout.extend({
         this._tabMenu.setActive(index);
         this.$el.find('.m-tab.m-page-current').removeClass('m-page-current');
         this.childViews['tab-content'][index].$el.addClass('m-page-current');
+        if(this.switchToTabCallback && typeof this.switchToTabCallback === 'function'){
+            this.switchToTabCallback(index);
+        }
     },
 
     _scrollToTab: function( index ) {

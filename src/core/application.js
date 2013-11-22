@@ -70,7 +70,10 @@ M.Application = M.Controller.extend({
             url += '/';
         }
 
-        this._layout.setTransition(settings.transition);
+        if(this._layout){
+            this._layout.setTransition(settings.transition);
+        }
+
 
         var options = settings.options || true;
         Backbone.history.navigate(url + path, options);
@@ -98,7 +101,7 @@ M.Application = M.Controller.extend({
             return;
         }
 
-        this._debugView = M.DebugView.design();
+        this._debugView = M.DebugView.create();
         this._addShakeEvent();
 
         this._isReady = YES;

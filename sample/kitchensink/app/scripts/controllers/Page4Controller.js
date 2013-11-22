@@ -10,7 +10,6 @@
         applicationStart: function( settings ) {
             this.init();
             this.setLayout(settings.tab);
-            Kitchensink.setLayout(this.tabLayout);
         },
 
         initialize: function() {
@@ -33,7 +32,12 @@
         setLayout: function( index ) {
             if( !this.tabLayout ) {
                 this.tabLayout = M.TabLayout.extend({
-                    scrolling: YES
+                    scrolling: YES,
+                    switchToTabCallback: function(index){
+                        Kitchensink.navigate({
+                            route: 'page4/' + index
+                        });
+                    }
                 }).create(this, null, true);
             }
 
@@ -186,6 +190,7 @@
             ]);
 
             this.tabLayout.switchToTab(index || 0);
+            Kitchensink.setLayout(this.tabLayout);
             Kitchensink.navigate({
                 route: 'page4/' + index
             });
