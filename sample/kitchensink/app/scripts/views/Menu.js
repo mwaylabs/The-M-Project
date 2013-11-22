@@ -276,21 +276,12 @@ Kitchensink.Views = Kitchensink.Views || {};
                 value: ''
             }),
 
-            loadingExample: M.LoaderView.extend({
-                grid: 'col-xs-12',
-                value: 'Loading ...',
-                preRender: function() {
-                },
-                postRender: function() {
-                }
-            }),
-
             loaderButtonExample: M.ButtonView.extend({
                 grid: 'col-xs-12',
                 value: 'Toggle LoaderView',
                 events: {
                     tap: function() {
-                        //this.scope.menu.childViews.content.childViews.loadingExample.toggle();
+                        M.Loader.toggle('loading');
                     }
                 }
             }),

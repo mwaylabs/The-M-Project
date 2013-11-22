@@ -28,6 +28,7 @@
 // @include ./ui/views/radiolist.js
 // @include ./ui/views/checkboxlist.js
 // @include ./ui/views/toggleswitch.js
+// @include ./ui/views/loader.js
 
 // @include ./ui/layouts/header-layout.js
 // @include ./ui/layouts/bottom-bar-layout.js
