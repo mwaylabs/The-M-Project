@@ -2,6 +2,7 @@
 // @include ./core/m.js
 // @include ./core/const.js
 // @include ./core/object.js
+// @include ./core/config.js
 // @include ./core/logger.js
 // @include ./core/controller.js
 // @include ./core/application.js

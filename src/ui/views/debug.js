@@ -8,8 +8,36 @@ M.DebugView = M.View.extend({
 
     _type: 'M.DebugView',
     _template: _.tmpl(M.TemplateManager.get('M.DebugView')),
+    _debugViewIsHidden: YES,
 
     useAsScope: YES,
+
+    initialize: function () {
+        M.View.prototype.initialize.apply(this, arguments);
+        this._addShakeEvent();
+    },
+
+    hide: function(){
+        this._debugViewIsHidden = YES;
+        this.$el.hide();
+    },
+
+    show: function() {
+        if( this._firstRender ) {
+            $('body').append(this.render().$el);
+        }
+
+        this._debugViewIsHidden = NO;
+        this.$el.show();
+    },
+
+    toggle: function() {
+        if( this._debugViewIsHidden ) {
+            this.show();
+        } else {
+            this.hide();
+        }
+    },
 
     toggleGrid: function () {
         this.childViews['debug-grid'].$el.toggle();
@@ -29,10 +57,12 @@ M.DebugView = M.View.extend({
         $('html').removeClass('android').removeClass('android-light').removeClass('android-dark').removeClass('ios');
     },
 
-    hideDebug: function(){
-        window[M.APPLICATION_NAME].hideDebug();
+    _addShakeEvent: function() {
+        var that = this;
+        window.addEventListener('shake', function() {
+            that.toggle();
+        }, false);
     }
-
 }, {
     'debug-menu': M.View.extend({
         grid: 'row',

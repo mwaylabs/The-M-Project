@@ -23,16 +23,31 @@ M.Application = M.Controller.extend({
 
     _debugView: null,
 
+    /**
+     * This property contains an instance of the debug view.
+     *
+     * @private
+     */
     _layout: null,
 
-    _debugViewIsHidden: YES,
+    /**
+     * This property contains the application-specific configurations.
+     *
+     * @private
+     */
+    _config: null,
 
-    initialize: function() {
+
+    initialize: function( config ) {
         this.Models = {};
         this.Collections = {};
         this.Views = {};
         this.Controllers = {};
         this.Routers = {};
+
+        M.APPLICATION_NAME = config.name;
+        this._config = M.Config.design(config);
+
         return this;
     },
 
@@ -47,8 +62,8 @@ M.Application = M.Controller.extend({
         return this;
     },
 
-    setLayout: function(layout) {
-        if(this._layout) {
+    setLayout: function( layout ) {
+        if( this._layout ) {
             this._layout.destroy();
             this._layout = null;
         }
@@ -70,7 +85,7 @@ M.Application = M.Controller.extend({
             url += '/';
         }
 
-        if(this._layout){
+        if( this._layout ) {
             this._layout.setTransition(settings.transition);
         }
 
@@ -86,8 +101,8 @@ M.Application = M.Controller.extend({
             defer.resolve();
         });
 
-        if( options && options.locales ) {
-            M.I18N.setLocales(options.locales);
+        if( this._config && this.getConfig('locales') ) {
+            M.I18N.setLocales(this.getConfig('locales'));
             M.I18N.setLocale(moment.lang());
         } else {
             defer.resolve();
@@ -101,39 +116,36 @@ M.Application = M.Controller.extend({
             return;
         }
 
-        this._debugView = M.DebugView.create();
-        this._addShakeEvent();
-
+        this._initDebugView();
         this._isReady = YES;
     },
 
-    showDebug: function() {
-        if( this._debugView._firstRender ) {
-            $('body').append(this._debugView.render().$el);
-        }
-
-        this._debugViewIsHidden = NO;
-        this._debugView.$el.show();
-    },
-
-    hideDebug: function() {
-        this._debugViewIsHidden = YES;
-        this._debugView.$el.hide();
-    },
-
-    toggleDebugView: function() {
-        if( this._debugViewIsHidden ) {
-            this.showDebug();
-        } else {
-            this.hideDebug();
+    /**
+     * This method initialize the M.DebugView
+     *
+     * @private
+     */
+    _initDebugView: function() {
+        if( this.getConfig('showDebugView') ) {
+            this._debugView = M.DebugView.create();
         }
     },
 
-    _addShakeEvent: function() {
-        var that = this;
-        window.addEventListener('shake', function() {
-            that.toggleDebugView();
-        }, false);
+    /**
+     * Returns the value of a configuration as defined in the config.js of the given key.
+     * To access these properties within the application, use the getConfig() method of
+     * your M.Application instance like in the example below.
+     *
+     * @param {String} The key of the configuration value to want to retrieve.
+     * @returns {String} The value in the application's config object with the key 'key'.
+     *
+     * @example
+     *
+     * var appname = Kitchensink.getConfig('name');
+     * console.log(appname); // Kitchensink
+     */
+    getConfig: function( key ) {
+        return this._config.get(key);
     }
 
 });

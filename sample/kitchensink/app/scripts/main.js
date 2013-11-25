@@ -1,8 +1,6 @@
 (function( scope ) {
 
-    M.APPLICATION_NAME = 'Kitchensink';
-
-    scope.Kitchensink = M.Application.extend().create();
+    scope.Kitchensink = M.Application.extend().create(m_config);
 
     $(document).ready(function() {
         'use strict';
@@ -64,13 +62,7 @@
                 }).create(),
 
                 page4Controller: Kitchensink.Controllers.Page4Controller.create()
-
-
-            },
-            locales: [
-                { name: 'English', locale: 'en'},
-                { name: 'Deutsch', locale: 'de'}
-            ]
+            }
         });
     });
 
