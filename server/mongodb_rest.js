@@ -112,6 +112,42 @@ exports.create = function(dbName) {
         create: function(req, res, fromMessage) {
             var name = req.params.name;
             var doc  = req.body;
+            // if this is an array
+            if (Array.isArray(doc)) {
+                var error, data = [];
+                var count = 0, len = doc.length;
+                if (len > 0) {
+                    var resp = {
+                        send: function(code, response) {
+                            count++;
+                            response = response || code;
+                            if (typeof response === 'object') {
+                                data.push(response);
+                            } else {
+                                error = response;
+                            }
+                            if (count >= len) {
+                                if (data.length > 0) {
+                                    res.send(data);
+                                } else {
+                                    res.send(400, error);
+                                }
+                            }
+                        }
+                    };
+                    for (var i = 0; i < len ; i++) {
+                        this.createOne(name, doc[i], fromMessage, resp);
+                    }
+                } else {
+                    res.send(data);
+                }
+            } else {
+                this.createOne(name, doc, fromMessage, res);
+            }
+        },
+
+        //Create new document(s)
+        createOne: function(name, doc, fromMessage, res) {
             var id   = this.toId(doc._id, true);
             if (typeof id === 'undefined' || id === '') {
                 return res.send(400, "invalid id.");
