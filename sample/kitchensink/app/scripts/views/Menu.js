@@ -223,6 +223,16 @@ Kitchensink.Views = Kitchensink.Views || {};
                 placeholder: 'Placeholder'
             }),
 
+            clearTextfieldExample: M.TextfieldView.extend({
+                grid: 'col-xs-12',
+                label: 'Label',
+                type: 'clear',
+                placeholder: 'clear me',
+                value: M.Model.create({
+                    _value_: ''
+                })
+            }),
+
             //            toggleExample: M.ToggleView.extend({
             //
             //                value: 'ICH BIN DER VALUE',

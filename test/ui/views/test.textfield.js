@@ -143,7 +143,7 @@ describe('M.TextfieldView', function () {
         assert.equal(testView._type, 'M.TextfieldView');
 
         assert.isUndefined(testView.value);
-        assert.equal(testView.getValue(), null);
+        assert.equal(testView.getValue(), '');
         assert.equal(testView.$el.find('input').attr('value'), '');
         assert.equal(testView.$el.find('input').attr('data-binding'), '_value_');
 
@@ -179,7 +179,7 @@ describe('M.TextfieldView', function () {
         assert.equal(testView._type, 'M.TextfieldView');
 
         assert.isUndefined(testView.value);
-        assert.isNull(testView.getValue());
+        assert.equal(testView.getValue(), '');
         assert.equal(testView.$el.find('input').attr('value'), '');
         assert.equal(testView.$el.find('input').attr('data-binding'), '_value_');
 
@@ -321,5 +321,86 @@ describe('M.TextfieldView', function () {
         var testView = M.TextfieldView.extend({}).create();
         assert.isTrue(testView._attachToDom());
     });
+
+    it('type:"clear" working with models', function(){
+
+        var testView = M.TextfieldView.extend({
+            type: 'clear'
+        }).create().render();
+
+        assert.equal(testView.getValue()._value_, '');
+
+        var testView = M.TextfieldView.extend({
+            type: 'clear',
+            value: M.Model.create({
+                _value_: 'test1'
+            })
+        }).create().render();
+        assert.equal(testView.getValue()._value_, 'test1');
+        testView.$el.find('input').val('test1a');
+        testView.$el.find('input').trigger('change');
+        assert.equal(testView.getValue()._value_, 'test1a');
+
+        var testView = M.TextfieldView.extend({
+            type: 'clear',
+            value: 'test2'
+        }).create().render();
+        assert.equal(testView.getValue()._value_, 'test2');
+        testView.$el.find('input').val('test2a');
+        testView.$el.find('input').trigger('change');
+        assert.equal(testView.getValue()._value_, 'test2a');
+
+
+        var testView = M.TextfieldView.create({
+            type: 'clear',
+            value: 'test3'
+        }).render();
+
+        assert.equal(testView.getValue()._value_, 'test3');
+        testView.$el.find('input').val('test3a');
+        testView.$el.find('input').trigger('change');
+        assert.equal(testView.getValue()._value_, 'test3a');
+
+        var testView = M.TextfieldView.create({
+            type: 'clear',
+            value: M.Model.create({
+                _value_: 'test4'
+            })
+        }).render();
+
+        assert.equal(testView.getValue()._value_, 'test4');
+        testView.$el.find('input').val('test4a');
+        testView.$el.find('input').trigger('change');
+        assert.equal(testView.getValue()._value_, 'test4a');
+
+        var testView = M.TextfieldView.create({
+            value: 'test5'
+        }).render();
+
+        assert.equal(testView.getValue(), 'test5');
+        testView.$el.find('input').val('test5a');
+        testView.$el.find('input').trigger('change');
+        assert.equal(testView.getValue(), 'test5a');
+    });
+
+    it('show/hide custom clear', function(){
+        var testView = M.TextfieldView.extend({
+            type: 'clear',
+            value: M.Model.create({
+                _value_: ''
+            })
+        }).create().render();
+
+        assert.isTrue(testView.$el.hasClass('hidden-icon'));
+
+        var testView = M.TextfieldView.extend({
+            type: 'clear',
+            value: M.Model.create({
+                _value_: 'test'
+            })
+        }).create().render();
+
+        assert.isFalse(testView.$el.hasClass('hidden-icon'));
+    })
 
 });

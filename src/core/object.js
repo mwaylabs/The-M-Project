@@ -26,7 +26,8 @@ M.Object = {
      * @param {Object} proto The prototype of the new object.
      */
     _create: function( proto ) {
-        var F = function() {};
+        var F = function() {
+        };
         F.prototype = proto;
         return new F();
     },
@@ -198,10 +199,14 @@ M.Object = {
      * @private
      */
 
-    _addInterfaces: function(){
+    _addInterfaces: function() {
         _.each(this._implementedInterfaces, function( value ) {
             this.implement(value);
         }, this);
+    },
+
+    deepCopy: function( value ) {
+        return JSON.parse(JSON.stringify(value));
     }
 
 };
