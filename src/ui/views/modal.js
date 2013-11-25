@@ -30,13 +30,16 @@ M.ModalView = M.View.extend({
      */
     _shownCounter: 0,
 
+    _$backdrop: null,
+
     /**
      * Show the modal view
      * @returns {M.ModalView}
      */
-    show: function( ) {
+    show: function() {
         this._shownCounter += 1;
         if( this._shownCounter > 0 ) {
+            this._showBackdrop();
             $('body').append(this.$el);
             this._isShown = YES;
         }
@@ -54,6 +57,7 @@ M.ModalView = M.View.extend({
             this.$el.remove();
             this._isShown = NO;
             this._shownCounter = 0;
+            this._hideBackdrop();
         }
 
         return this;
@@ -86,6 +90,46 @@ M.ModalView = M.View.extend({
      */
     _attachToDom: function() {
         return YES;
+    },
+
+    /**
+     * Show the backdrop
+     * @private
+     */
+    _showBackdrop: function() {
+        var that = this;
+        if( that._$backdrop ) {
+            return;
+        }
+
+        that._$backdrop = $('<div class="modal-backdrop fade"><div>');
+        that._$backdrop.appendTo('body');
+
+        if( M.Animation.transitionSupport ) {
+            setTimeout(function() {
+                that._$backdrop.addClass('in');
+            }, 0);
+        }
+    },
+
+    /**
+     * Hide the backdrop
+     * @private
+     */
+    _hideBackdrop: function() {
+        var that = this;
+        var callback = function() {
+            that._$backdrop.remove();
+            that._$backdrop = null;
+        };
+        if( that._$backdrop ) {
+            if( M.Animation.transitionSupport ) {
+                that._$backdrop.on(M.Animation.transitionEndEventName, callback);
+                that._$backdrop.removeClass('in');
+            } else {
+                callback();
+            }
+        }
     }
 
 });
