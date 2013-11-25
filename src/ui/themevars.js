@@ -70,7 +70,7 @@ M.ThemeVars = {
         "darkblue": "#007AFF",
         "green": "#4BD964",
         "grey": "#8E8E93",
-        "m-primary-font-family": "-apple-system-font",
+        "m-primary-font-family": "-apple-system-font, \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
         "m-primary-active-color": "transparent",
         "m-primary-active-text-color": "#007AFF",
         "tablayout-menu-height": "80px",

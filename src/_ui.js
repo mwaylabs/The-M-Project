@@ -30,6 +30,7 @@
 // @include ./ui/views/toggleswitch.js
 // @include ./ui/views/modal.js
 // @include ./ui/views/loader.js
+// @include ./ui/views/text.js
 
 // @include ./ui/layouts/header-layout.js
 // @include ./ui/layouts/bottom-bar-layout.js

@@ -1,0 +1,14 @@
+.textview{
+
+  .label{
+    display: block;
+    border-bottom: $form-element-border;
+  }
+  .input-icon-addon{
+    display: inline-block;
+    div, i{
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+}

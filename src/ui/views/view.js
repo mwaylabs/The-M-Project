@@ -492,7 +492,8 @@
 
         _extendTemplate: function() {
             if( this.extendTemplate ) {
-                this._template = _.tmpl(this.template({_value_: this.extendTemplate}));
+                this._templateValues._value_ = this.extendTemplate;
+                this._template = _.tmpl(this.template(this._templateValues));
             }
         },
 

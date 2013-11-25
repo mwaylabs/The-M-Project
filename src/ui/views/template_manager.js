@@ -10,6 +10,10 @@ M.TemplateManager = M.Object.design({
         defaultTemplate: '<div><%= _value_ %></div>'
     },
 
+    'M.TextView': {
+        defaultTemplate: '<div><% if(label) {  %><div class="label"><%= label %></div><% } %><div><% if(icon) {  %><div class="input-icon-addon"><i class="fa <%= icon %> fa-fw"></i><% } %><%= _value_ %></div>'
+    },
+
     'M.ButtonView': {
         defaultTemplate: '<div class="button"><% if(icon) { %> <i class="fa <%= icon %>"></i> <% } %> <div data-binding="_value_"<% if(_value_) {  } %>><%= _value_ %></div></div>',
         topcoat: '<button class="topcoat-button--large" data-binding="_value_"><%= _value_ %></button>',

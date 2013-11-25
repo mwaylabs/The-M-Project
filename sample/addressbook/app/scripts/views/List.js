@@ -18,7 +18,7 @@ Addressbook.Views = Addressbook.Views || {};
 
                 listItemView: M.ListItemView.extend({
 
-                    extendTemplate: '<div><div><span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span></div><div><span class="street"><%= street %></span><span class="houseno"><%= houseno %></span></div><div><span class="zip"><%= zip %></span><span class="city"><%= city %></span></div><div class="company-logo <%= company %>"></div></div>',
+                    extendTemplate: '<div><div class="name"><span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span></div><div><span class="street"><%= street %></span><span class="houseno"><%= houseno %></span></div><div><span class="zip"><%= zip %></span><span class="city"><%= city %></span></div><div class="company-logo <%= company %>"></div></div>',
 
                     useElement: YES,
 
@@ -26,13 +26,10 @@ Addressbook.Views = Addressbook.Views || {};
 
                         tap: function( event, element ) {
                             var userModel = element.model;
-
-
                             var id = element.model.get('_id');
-                            console.log(id);
                             Addressbook.navigate({
                                 route: 'detail/' + id,
-                                transition: M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT
+                                transition: M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT
                             });
 
                         },

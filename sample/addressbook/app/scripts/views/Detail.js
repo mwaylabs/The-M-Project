@@ -8,6 +8,7 @@ Addressbook.Views = Addressbook.Views || {};
     }, {
 
         organisation: M.View.extend({
+            useElement: YES,
             scopeKey: 'currentModel',
             template: '<div class="company-logo <%= organisation %>"></div>'
         }),
@@ -17,24 +18,18 @@ Addressbook.Views = Addressbook.Views || {};
             value: M.I18N.get('global.address')
         }),
 
-        street: M.View.extend({
+        street: M.TextView.extend({
+            label: M.I18N.get('global.street'),
             scopeKey: 'currentModel',
-            extendTemplate: '<div><%= street %></div>'
+            icon: 'fa-road',
+            extendTemplate: '<div><%= street %></div><div><%= houseno %></div>'
         }),
 
-        houseno: M.View.extend({
+        zip: M.TextView.extend({
+            label: M.I18N.get('global.home'),
+            icon: 'fa-home',
             scopeKey: 'currentModel',
-            extendTemplate: '<div><%= houseno %></div>'
-        }),
-
-        zip: M.View.extend({
-            scopeKey: 'currentModel',
-            extendTemplate: '<div><%= zip %></div>'
-        }),
-
-        city: M.View.extend({
-            scopeKey: 'currentModel',
-            extendTemplate: '<div><%= city %></div>'
+            extendTemplate: '<div><%= zip %></div><div><%= city %></div>'
         }),
 
         contactData: M.View.extend({
@@ -42,22 +37,30 @@ Addressbook.Views = Addressbook.Views || {};
             value: M.I18N.get('global.contact_data')
         }),
 
-        mail: M.View.extend({
+        mail: M.TextView.extend({
+            label: M.I18N.get('global.mail'),
+            icon: 'fa-envelope',
             scopeKey: 'currentModel',
             extendTemplate: '<a href="mailto:<%= mail %>"><%= mail %></a></div>'
         }),
 
-        tel: M.View.extend({
+        tel: M.TextView.extend({
+            label: M.I18N.get('global.tel'),
+            icon: 'fa-phone',
             scopeKey: 'currentModel',
             extendTemplate: '<div><a href="tel:<%= tel %>"><%= tel %></a></div>'
         }),
 
-        fax: M.View.extend({
+        fax: M.TextView.extend({
+            label: M.I18N.get('global.fax'),
+            icon: 'fa-print',
             scopeKey: 'currentModel',
             extendTemplate: '<div><%= fax %></div>'
         }),
 
-        web: M.View.extend({
+        web: M.TextView.extend({
+            label: M.I18N.get('global.web'),
+            icon: 'fa-cloud',
             scopeKey: 'currentModel',
             extendTemplate: '<div><a target="_blank" href="<%= web %>"><%= web %></a></div>'
         }),
