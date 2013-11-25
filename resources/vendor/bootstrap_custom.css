@@ -1,3 +1,8 @@
+/*
+- Basic utilities
+- Grid system
+- Component animations (for JS)
+*/
 /*!
  * Bootstrap v3.0.2
  *
@@ -156,16 +161,6 @@ input[type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }
-/*input[type="search"] {*/
-  /*-webkit-appearance: textfield;*/
-  /*-moz-box-sizing: content-box;*/
-  /*-webkit-box-sizing: content-box;*/
-  /*box-sizing: content-box;*/
-/*}*/
-/*input[type="search"]::-webkit-search-cancel-button,*/
-/*input[type="search"]::-webkit-search-decoration {*/
-  /*-webkit-appearance: none;*/
-/*}*/
 button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
@@ -963,6 +958,27 @@ hr {
   .col-lg-offset-0 {
     margin-left: 0%;
   }
+}
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
+.fade.in {
+  opacity: 1;
+}
+.collapse {
+  display: none;
+}
+.collapse.in {
+  display: block;
+}
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 0.35s ease;
+  transition: height 0.35s ease;
 }
 .clearfix:before,
 .clearfix:after {

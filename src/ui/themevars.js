@@ -47,7 +47,8 @@ M.ThemeVars = {
         "m-primary-font-weight": "300",
         "m-primary-font-size": "1.8rem",
         "m-primary-line-height": "22px",
-        "m-primary-font-color": "#000000"
+        "m-primary-font-color": "#000000",
+        "modal-backdrop-background-color": "#000000"
     },
     "android_dark": {
         "m-primary-color": "#669900",
