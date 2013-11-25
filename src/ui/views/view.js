@@ -245,7 +245,6 @@
 
         _assignValue: function( options ) {
             //don't write _value_ in the view definition - write value and here it gets assigned
-
             if( this.value || (typeof this.value !== 'undefined' && this.value !== null)) {
                 this._setValue(this.value);
             } else if( this.scopeKey ) {
@@ -474,7 +473,7 @@
 
             if( this.model ) {
                 if( M.isModel(_value_) ) {
-                    this._templateValues = this.model.attributes;
+                    this._templateValues = M.Object.deepCopy(this.model.attributes);
                 } else {
                     this._templateValues._value_ = this.model.get(_value_.attribute);
                 }
