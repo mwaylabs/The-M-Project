@@ -61,11 +61,11 @@
 
             if( !this.header ) {
                 this.header = M.ToolbarView.extend({
-                    value: 'Contacts',
+                    value: M.I18N.get('global.contacts'),
                     events:{
                         hold: function(){
                             localStorage.clear();
-                            M.Toast.show('cleared local stoage')
+                            M.Toast.show(M.I18N.l('global.clear_ls'))
                         }
                     }
                 },{
@@ -73,7 +73,7 @@
 
                         addButton: M.ButtonView.extend({
                             cssClass: 'btn-success',
-                            value: 'Add',
+                            value: M.I18N.get('global.add'),
                             useElement: YES,
                             events: {
                                 tap: 'gotoAddPage'

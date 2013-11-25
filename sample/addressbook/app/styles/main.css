@@ -66,7 +66,7 @@ body .button.buttonview.btn-info {
 }
 
 .detail-page .company-logo{
-    height: 150px;
+    height: 450px;
     width: 100%;
     border-radius: 0;
     position: relative;
@@ -87,6 +87,7 @@ body .button.buttonview.btn-info {
     background-image: url("../ressources/mway.png");
 }
 
+.AG,
 .Agero{
     background-image: url("../ressources/agero.png");
 }

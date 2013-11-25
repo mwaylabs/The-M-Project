@@ -1,0 +1,29 @@
+{
+    "global": {
+        "add": "Add",
+        "save": "Save",
+        "edit": "Edit",
+        "delete": "Delete",
+        "back": "Back",
+        "contacts": "contacts",
+        "succ_add":"Successfully added",
+        "succ_del":"Successfully deleted",
+        "could_not_delete":"Could not delete",
+        "succ_update":"Successfully updated",
+        "err_update":"Error on update",
+        "clear_ls":"cleared local storage",
+        "address":"Address",
+        "contact_data":"Contact Data",
+        "firstname":"Firstname",
+        "lastname":"Lastname",
+        "street":"street",
+        "houseno":"houseno",
+        "zip":"zip",
+        "mail":"mail",
+        "tel":"tel",
+        "fax":"fax",
+        "web":"web",
+        "city":"city",
+        "":""
+    }
+}

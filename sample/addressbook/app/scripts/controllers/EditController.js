@@ -63,7 +63,7 @@
 
                         deleteButton: M.ButtonView.extend({
                             cssClass: 'btn-danger',
-                            value: 'Delete',
+                            value: M.I18N.get('global.delete'),
                             useElement: YES,
                             events: {
                                 tap: 'removeEntry'
@@ -72,7 +72,7 @@
 
                         updateButton: M.ButtonView.extend({
                             cssClass: 'btn-success',
-                            value: 'Save',
+                            value: M.I18N.get('global.save'),
                             useElement: YES,
                             events: {
                                 tap: 'updateEntry'
@@ -97,13 +97,13 @@
             if (element.scope.currentModel) {
                 element.scope.currentModel.destroy({
                     success: function(){
-                        M.Toast.show({text: 'Successfully deleted', timeout: M.Toast.MEDIUM});
+                        M.Toast.show({text: M.I18N.l('global.succ_del'), timeout: M.Toast.MEDIUM});
                         Addressbook.navigate({
                             route: '/'
                         });
                     },
                     error: function(){
-                        M.Toast.show({text: 'Could not delete', timeout: M.Toast.MEDIUM});
+                        M.Toast.show({text: M.I18N.l('global.could_not_delete'), timeout: M.Toast.MEDIUM});
                     }
                 });
                 element.scope.set('currentModel', null);
@@ -117,10 +117,10 @@
 
                 this.currentModel.save(null, {
                     success: function(){
-                        M.Toast.show({text: 'Successfully updated', timeout: M.Toast.MEDIUM});
+                        M.Toast.show({text: M.I18N.l('global.succ_update'), timeout: M.Toast.MEDIUM});
                     },
                     error: function(){
-                        M.Toast.show({text: 'Error on update', timeout: M.Toast.MEDIUM});
+                        M.Toast.show({text: M.I18N.l('global.err_update'), timeout: M.Toast.MEDIUM});
                     }
                 });
 

@@ -1,7 +1,6 @@
 (function( scope ) {
 
-    M.APPLICATION_NAME = 'Addressbook';
-    scope.Addressbook = M.Application.design();
+    scope.Addressbook = M.Application.extend().create(m_config);
 
     $(document).ready(function() {
         'use strict';
@@ -13,7 +12,6 @@
                     'detail/:id': 'detailCtrl',
                     'edit/:id': 'editCtrl',
                     'add': 'addCtrl'
-
                 },
 
                 initialize: function() {
