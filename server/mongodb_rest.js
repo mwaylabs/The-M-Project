@@ -192,7 +192,7 @@ exports.create = function(dbName) {
             doc._id   = id;
             doc._time = new Date().getTime();
             var collection = new mongodb.Collection(this.db, name);
-            if (id === 'all') {
+            if (id === 'all' || id === 'clean') {
                 collection.drop(function (err) {
                     if(err) {
                         res.send(400, err);
@@ -236,9 +236,11 @@ exports.create = function(dbName) {
                 msg._id = new ObjectID();
             }
             var collection = new mongodb.Collection(this.db, "__msg__" + entity);
-            if (msg.method === 'delete' && msg.id === 'all') {
+            if (msg.method === 'delete' && (msg.id === 'all' || msg.id === 'clean')) {
                 collection.remove(function () {
-                    collection.insert(msg, { safe: false } );
+                    if (msg.id === 'all') {
+                        collection.insert(msg, { safe: false } );
+                    }
                 });
             } else {
                 collection.insert(msg, { safe: false } );
