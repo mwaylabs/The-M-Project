@@ -35,7 +35,8 @@ module.exports = function (grunt) {
         preprocess: {
             options: {
                 context: {
-                    BANNER: '<%= meta.banner %>'
+                    BANNER: '<%= meta.banner %>',
+                    VERSION: '<%= pkg.version %>'
                 }
             },
             core: {
@@ -115,7 +116,14 @@ module.exports = function (grunt) {
         compass: {
             options: {
                 sassDir: 'resources/sass',
+                specify: [
+                    'resources/sass/themproject.scss',
+                    'resources/sass/themproject_android_dark.scss',
+                    'resources/sass/themproject_android_light.scss',
+                    'resources/sass/themproject_ios.scss'
+                ],
                 cssDir: 'dist',
+                banner: '<%= meta.banner %>',
                 relativeAssets: true,
                 importPath: ['bower_components']
             },
