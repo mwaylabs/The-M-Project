@@ -1,3 +1,15 @@
+/**
+ * A View to display text. It's like a Textfieldview with icon and label but without edit mode
+ * @type {*|Object|void}
+ * @module M.TextView
+ * @example
+ * M.TextView.extend({
+        label: 'Cloud',
+        icon: 'fa-cloud',
+        value: 'Cloud based Saas'
+    }),
+ *
+ */
 M.TextView = M.View.extend({
 
     /**
@@ -56,9 +68,5 @@ M.TextView = M.View.extend({
      */
     _attachToDom: function() {
         return YES;
-    },
-
-    render: function() {
-        return M.View.prototype.render.apply(this, arguments);
     }
 });
