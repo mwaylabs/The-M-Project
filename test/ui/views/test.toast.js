@@ -26,4 +26,21 @@ describe('M.Toast', function () {
         assert.isTrue(toast.text === 'test');
 
     });
+
+    it('M.Toast static', function(){
+        $('body').find('.toastview .toast div').remove();
+        M.Toast.show('test');
+        assert.equal($('body').find('.toastview .toast div').text(), 'test');
+    });
+
+    it('M.Toast timeout MEDIUM', function( done ){
+        this.timeout(M.Toast.MEDIUM + 500);
+        $('body').find('.toastview .toast div').remove();
+        M.Toast.show('test');
+        assert.equal($('body').find('.toastview .toast div').text(), 'test');
+        setTimeout(function(){
+            assert.lengthOf($('body').find('.toastview .toast div'), 0);
+            done();
+        }, M.Toast.MEDIUM);
+    });
 });
