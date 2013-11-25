@@ -238,8 +238,6 @@ describe('M.PageTransitions', function () {
         assert.isDefined(M.PageTransitions._isAnimating);
         assert.isDefined(M.PageTransitions._endCurrPage);
         assert.isDefined(M.PageTransitions._endNextPage);
-        assert.isDefined(M.PageTransitions._support);
-        assert.isDefined(M.PageTransitions._animEndEventNames);
 
         assert.isNull(M.PageTransitions._main);
         assert.isNull(M.PageTransitions._pages);
@@ -248,8 +246,6 @@ describe('M.PageTransitions', function () {
         assert.isBoolean(M.PageTransitions._isAnimating);
         assert.isBoolean(M.PageTransitions._endCurrPage);
         assert.isBoolean(M.PageTransitions._endNextPage);
-        assert.isBoolean(M.PageTransitions._support);
-        assert.isObject(M.PageTransitions._animEndEventNames);
     });
 
     it('methods', function () {
