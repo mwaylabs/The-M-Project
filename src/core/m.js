@@ -14,7 +14,7 @@ if( typeof exports !== 'undefined' ) {
  * Version number of current release
  * @type {String}
  */
-M.Version = M.version = '2.0';
+M.Version = M.version = '/* @echo VERSION */';
 
 /**
  * Empty function to be used when
