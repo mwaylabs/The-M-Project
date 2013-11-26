@@ -60,6 +60,14 @@
                 this.header = M.ToolbarView.extend({
                     value: M.I18N.get('global.edit')
                 }, {
+                    first: M.ButtonView.extend({
+                        cssClass: 'btn-default',
+                        value: M.I18N.get('global.back'),
+                        useElement: YES,
+                        events: {
+                            tap: 'back'
+                        }
+                    }),
                     second: M.View.extend({}, {
 
                         updateButton: M.ButtonView.extend({

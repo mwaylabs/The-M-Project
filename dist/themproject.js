@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Nov 26 2013 14:28:22
+* Date:      Tue Nov 26 2013 15:27:36
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -7026,7 +7026,8 @@
             "m-primary-font-size": "1.8rem",
             "m-primary-line-height": "22px",
             "m-primary-font-color": "#000000",
-            "modal-backdrop-background-color": "#000000"
+            "modal-backdrop-background-color": "#000000",
+            "content-padding": "15px"
         },
         "android_dark": {
             "m-primary-color": "#669900",
@@ -7805,10 +7806,22 @@
             },
     
             _getEventOptions: function() {
+    
+                // No Ghost click on Android
+                var preventDefault = false;
+                var noMouseevents = true;
+                var stopBrowserBehavior = false;
+    
+                // No Ghost click on iOS
+                if(M.Environment.device.os == 'ios'){
+                    preventDefault = true;
+                    stopBrowserBehavior = true;
+                }
+    
                 return {
-                    'prevent_default': false, // To prevent the ghost click
-                    'no_mouseevents': true,
-                    'stop_browser_behavior': false
+                    'prevent_default': preventDefault,
+                    'no_mouseevents': noMouseevents,
+                    'stop_browser_behavior': stopBrowserBehavior
                 };
             },
     

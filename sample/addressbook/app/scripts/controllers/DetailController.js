@@ -58,6 +58,19 @@
                     scopeKey: 'currentModel',
                     extendTemplate: '<span><%= firstname %></span> <span><%= lastname %></span>'
                 },{
+                    first: M.ButtonView.extend({
+                        cssClass: 'btn-default',
+                        value: M.I18N.get('global.back'),
+                        useElement: YES,
+                        events: {
+                            tap: function(){
+                                Addressbook.navigate({
+                                    route: '/',
+                                    transition: M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT
+                                })
+                            }
+                        }
+                    }),
                     second: M.View.extend({},{
                         btn: M.ButtonView.extend({
                             value: M.I18N.get('global.edit'),

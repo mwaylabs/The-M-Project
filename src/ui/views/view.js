@@ -378,10 +378,22 @@
         },
 
         _getEventOptions: function() {
+
+            // No Ghost click on Android
+            var prevent_default = false;
+            var no_mouseevents = true;
+            var stop_browser_behavior = false;
+
+            // No Ghost click on iOS
+            if(M.Environment.device.os == 'ios'){
+                prevent_default = true;
+                stop_browser_behavior = true;
+            }
+
             return {
-                'prevent_default': false, // To prevent the ghost click
-                'no_mouseevents': true,
-                'stop_browser_behavior': false
+                'prevent_default': prevent_default,
+                'no_mouseevents': no_mouseevents,
+                'stop_browser_behavior': stop_browser_behavior
             };
         },
 

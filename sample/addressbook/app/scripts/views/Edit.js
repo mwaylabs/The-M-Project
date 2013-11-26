@@ -3,7 +3,7 @@ Addressbook.Views = Addressbook.Views || {};
 (function() {
     'use strict'
     Addressbook.Views.EditView = M.View.extend({
-
+        grid: 'col-xs-12'
     }, {
 
         firstname: M.TextfieldView.extend({
@@ -69,14 +69,14 @@ Addressbook.Views = Addressbook.Views || {};
         options: M.View.extend({
             cssClass: 'options'
         }, {
-            back: M.ButtonView.extend({
-                cssClass: 'btn-default',
-                value: M.I18N.get('global.back'),
-                useElement: YES,
-                events: {
-                    tap: 'back'
-                }
-            })
+//            back: M.ButtonView.extend({
+//                cssClass: 'btn-default',
+//                value: M.I18N.get('global.back'),
+//                useElement: YES,
+//                events: {
+//                    tap: 'back'
+//                }
+//            })
         })
     })
 

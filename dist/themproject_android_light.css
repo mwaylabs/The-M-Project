@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Nov 26 2013 14:32:09
+* Date:      Tue Nov 26 2013 15:06:25
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -3366,43 +3366,38 @@
   display: block;
 }
 /* line 43, ../resources/sass/layouts/_switch-layout.scss */
-.android .content-wrapper, .android-light .content-wrapper {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-/* line 48, ../resources/sass/layouts/_switch-layout.scss */
 .android .no-js body, .android-light .no-js body {
   overflow: auto;
 }
-/* line 52, ../resources/sass/layouts/_switch-layout.scss */
+/* line 47, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page-ontop, .android-light .m-page-ontop {
   z-index: 999;
 }
-/* line 56, ../resources/sass/layouts/_switch-layout.scss */
+/* line 51, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page-1, .android-light .m-page-1 {
   background: #ffffff;
 }
-/* line 60, ../resources/sass/layouts/_switch-layout.scss */
+/* line 55, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page-2, .android-light .m-page-2 {
   background: #ffffff;
 }
-/* line 64, ../resources/sass/layouts/_switch-layout.scss */
+/* line 59, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page-3, .android-light .m-page-3 {
   background: #60d7a9;
 }
-/* line 68, ../resources/sass/layouts/_switch-layout.scss */
+/* line 63, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page-4, .android-light .m-page-4 {
   background: #fdc162;
 }
-/* line 72, ../resources/sass/layouts/_switch-layout.scss */
+/* line 67, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page-5, .android-light .m-page-5 {
   background: #fd6a62;
 }
-/* line 76, ../resources/sass/layouts/_switch-layout.scss */
+/* line 71, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page-6, .android-light .m-page-6 {
   background: #f68dbb;
 }
-/* line 82, ../resources/sass/layouts/_switch-layout.scss */
+/* line 77, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-triggers, .android-light .m-triggers {
   position: absolute;
   width: 300px;
@@ -3415,11 +3410,11 @@
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
 }
-/* line 95, ../resources/sass/layouts/_switch-layout.scss */
+/* line 90, ../resources/sass/layouts/_switch-layout.scss */
 .android .no-js .m-triggers, .android-light .no-js .m-triggers {
   display: none;
 }
-/* line 100, ../resources/sass/layouts/_switch-layout.scss */
+/* line 95, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-triggers .dl-menuwrapper button,
 .android .m-touch-button, .android-light .m-triggers .dl-menuwrapper button,
 .android-light .m-touch-button {
@@ -3444,24 +3439,24 @@
   -ms-user-select: none;
   user-select: none;
 }
-/* line 123, ../resources/sass/layouts/_switch-layout.scss */
+/* line 118, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-touch-button, .android-light .m-touch-button {
   background: #fff;
   color: #aaa;
 }
-/* line 128, ../resources/sass/layouts/_switch-layout.scss */
+/* line 123, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-triggers .dl-menuwrapper button, .android-light .m-triggers .dl-menuwrapper button {
   margin-bottom: 0;
 }
-/* line 132, ../resources/sass/layouts/_switch-layout.scss */
+/* line 127, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-touch-button:active, .android-light .m-touch-button:active {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
-/* line 136, ../resources/sass/layouts/_switch-layout.scss */
+/* line 131, ../resources/sass/layouts/_switch-layout.scss */
 .android .touch .m-triggers .dl-menuwrapper, .android-light .touch .m-triggers .dl-menuwrapper {
   display: none;
 }
-/* line 140, ../resources/sass/layouts/_switch-layout.scss */
+/* line 135, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-message, .android-light .m-message {
   display: none;
   position: absolute;
@@ -3473,39 +3468,39 @@
   color: #fff;
   text-align: center;
 }
-/* line 152, ../resources/sass/layouts/_switch-layout.scss */
+/* line 147, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-message p, .android-light .m-message p {
   margin: 0;
   line-height: 60px;
   font-size: 26px;
 }
-/* line 158, ../resources/sass/layouts/_switch-layout.scss */
+/* line 153, ../resources/sass/layouts/_switch-layout.scss */
 .android .no-cssanimations .m-message, .android-light .no-cssanimations .m-message {
   display: block;
 }
 @media screen and (max-width: 47.4375em) {
-  /* line 163, ../resources/sass/layouts/_switch-layout.scss */
+  /* line 158, ../resources/sass/layouts/_switch-layout.scss */
   .android .m-page h1, .android-light .m-page h1 {
     font-size: 3em;
   }
-  /* line 167, ../resources/sass/layouts/_switch-layout.scss */
+  /* line 162, ../resources/sass/layouts/_switch-layout.scss */
   .android .m-triggers .dl-menuwrapper, .android-light .m-triggers .dl-menuwrapper {
     display: none;
   }
 }
 @media screen and (max-height: 45.9em) {
-  /* line 173, ../resources/sass/layouts/_switch-layout.scss */
+  /* line 168, ../resources/sass/layouts/_switch-layout.scss */
   .android .m-triggers .dl-menuwrapper li a, .android-light .m-triggers .dl-menuwrapper li a {
     padding-top: 2px;
     padding-bottom: 2px;
   }
-  /* line 178, ../resources/sass/layouts/_switch-layout.scss */
+  /* line 173, ../resources/sass/layouts/_switch-layout.scss */
   .android .m-triggers .dl-menuwrapper li.dl-back:after, .android .dl-menuwrapper li > a:not(:only-child):after, .android-light .m-triggers .dl-menuwrapper li.dl-back:after, .android-light .dl-menuwrapper li > a:not(:only-child):after {
     line-height: 24px;
   }
 }
 @media screen and (max-height: 38em) {
-  /* line 184, ../resources/sass/layouts/_switch-layout.scss */
+  /* line 179, ../resources/sass/layouts/_switch-layout.scss */
   .android .m-triggers .dl-menuwrapper, .android-light .m-triggers .dl-menuwrapper {
     display: none;
   }

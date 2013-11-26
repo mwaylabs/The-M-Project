@@ -106,11 +106,6 @@ body .button.buttonview.btn-info {
     background-image: url("../ressources/agero.png");
 }
 
-.detail-page > h2,
-.detail-page > div{
-    padding: 0 15px;
-}
-
 .detail-page .textview{
     padding-top: 10px;
     padding-bottom: 10px;

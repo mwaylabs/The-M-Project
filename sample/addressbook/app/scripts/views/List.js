@@ -10,6 +10,8 @@ Addressbook.Views = Addressbook.Views || {};
 
         content: M.View.extend({
 
+            cssClass: 'content-wrapper-no'
+
         }, {
 
             contactList: M.ListView.extend({
