@@ -22,9 +22,6 @@ module.exports = function (grunt) {
                 src: [ 'package.json' ]
             }
         },
-        clean: {
-            dist: ['dist']
-        },
         jshint: {
             options: {
                 jshintrc: '.jshintrc',
@@ -233,9 +230,9 @@ module.exports = function (grunt) {
 
     grunt.registerTask('dev', ['default', 'watch']);
     grunt.registerTask('test', ['jshint', 'mocha']);
-    grunt.registerTask('dist', ['clean', 'jshint', 'build-js', 'build-css', 'preprocess:bd', 'uglify', 'cssmin']);
-    grunt.registerTask('precommit', ['default', 'test']);
-    grunt.registerTask('default', ['clean', 'build-js', 'build-css']);
+    grunt.registerTask('dist', ['jshint', 'build-js', 'build-css', 'preprocess:bd', 'uglify', 'cssmin']);
+    grunt.registerTask('precommit', ['test']);
+    grunt.registerTask('default', ['build-js', 'build-css']);
 
     grunt.registerTask('build-doc', ['jsdoc']);
 };

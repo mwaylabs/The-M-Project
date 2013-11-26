@@ -15,6 +15,7 @@
     "resources",
     "sample",
     "server",
+    "utils",
     "Gruntfile.js",
     "*.sh",
     "*.md",
