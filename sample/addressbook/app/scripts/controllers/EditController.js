@@ -87,8 +87,12 @@
             var userModel = Addressbook.contactCollection.get(userId);
             if(userModel){
                 this.currentModel = userModel;
-                this.editModel.set('firstname', userModel.get('firstname'));
-                this.editModel.set('lastname', userModel.get('lastname'));
+                Addressbook.router.editCtrl.editModel.clear();
+                _.each(userModel.attributes, function(value, key){
+                    if(key.indexOf('_') != 0){
+                        this.editModel.set(key, userModel.get(key));
+                    }
+                }, this);
             }
 
         },
