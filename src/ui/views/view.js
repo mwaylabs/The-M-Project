@@ -806,8 +806,3 @@
     };
 
 })(this);
-
-
-$(document).scroll(function(){
-    console.log('scroll');
-});
