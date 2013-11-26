@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Nov 26 2013 15:27:36
+* Date:      Tue Nov 26 2013 15:28:08
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -7813,7 +7813,7 @@
                 var stopBrowserBehavior = false;
     
                 // No Ghost click on iOS
-                if(M.Environment.device.os == 'ios'){
+                if(M.Environment.device.os === 'ios'){
                     preventDefault = true;
                     stopBrowserBehavior = true;
                 }
