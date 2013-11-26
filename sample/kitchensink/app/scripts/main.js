@@ -1,6 +1,6 @@
-(function( scope ) {
+(function( global ) {
 
-    scope.Kitchensink = M.Application.extend().create(m_config);
+    global.Kitchensink = M.Application.extend().create(global.Kitchensink.mconfig);
 
     $(document).ready(function() {
         'use strict';

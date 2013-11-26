@@ -1,6 +1,6 @@
-(function( scope ) {
+(function( global ) {
 
-    scope.Addressbook = M.Application.extend().create(m_config);
+    global.Addressbook = M.Application.extend().create(global.Addressbook.mconfig);
 
     $(document).ready(function() {
         'use strict';

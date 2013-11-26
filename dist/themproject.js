@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Nov 26 2013 14:11:31
+* Date:      Tue Nov 26 2013 13:57:45
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -8986,7 +8986,19 @@
          * @private
          * @type {function}
          */
-        _template: _.tmpl(M.TemplateManager.get('M.ToolbarView'))
+        _template: _.tmpl(M.TemplateManager.get('M.ToolbarView')),
+    
+        /**
+         * Determines if the Toolbar should display a back button or not
+         * @type {Boolean|Object}
+         */
+    //    backButton: NO,
+    
+    //    initialize: function(){
+    //        M.View.prototype.initialize.apply(this, arguments);
+    //    }
+    
+    
     
     });
     /**
