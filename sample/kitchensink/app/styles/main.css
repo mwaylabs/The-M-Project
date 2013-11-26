@@ -49,3 +49,7 @@ div.show-grid div[class*='col-'] {
     width: 100%;
     background: rgba(255,255,255, 0.5);
 }
+
+.custom-modal {
+   background-color: red;
+}

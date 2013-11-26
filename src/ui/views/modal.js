@@ -11,6 +11,12 @@ M.ModalView = M.View.extend({
     _type: 'M.ModalView',
 
     /**
+     * The default cssClass for this view.
+     * @type {String}
+     */
+    cssClass: 'modalview',
+
+    /**
      * The template of the object before initializing it.
      * @private
      */
@@ -30,6 +36,11 @@ M.ModalView = M.View.extend({
      */
     _shownCounter: 0,
 
+    /**
+     * Background element for this modal view.
+     * @private
+     * @type {$}
+     */
     _$backdrop: null,
 
     /**
@@ -119,7 +130,10 @@ M.ModalView = M.View.extend({
     _hideBackdrop: function() {
         var that = this;
         var callback = function() {
-            that._$backdrop.remove();
+            if(that._$backdrop) {
+                that._$backdrop.remove();
+                that._$backdrop = null;
+            }
         };
         if( that._$backdrop ) {
             if( M.Animation.transitionSupport ) {

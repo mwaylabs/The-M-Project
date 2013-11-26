@@ -25,6 +25,21 @@ Kitchensink.Views = Kitchensink.Views || {};
                 }
             }),
 
+            buttonModal: M.ButtonView.extend({
+                value: 'Open custom modal',
+                gri1d: 'col-xs-12',
+                events: {
+                    tap: function() {
+                        M.ModalView.extend({}, {
+                            content: M.View.extend({
+                                cssClass: 'custom-modal',
+                                value: 'Custom Modal'
+                            })
+                        }).create().render().show();
+                    }
+                }
+            }),
+
             button: M.ButtonView.extend({
                 value: 'button active',
                 gri1d: 'col-xs-12'
