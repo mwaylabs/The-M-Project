@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Nov 26 2013 13:57:45
+* Date:      Tue Nov 26 2013 14:28:22
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -7006,12 +7006,14 @@
             "button-border-radius": "4px",
             "button-border-style": "solid",
             "form-border-width": "1px",
-            "form-border-color": "#999",
+            "form-border-color": "#06AEF3",
             "form-border-style": "solid",
-            "form-element-border": "1px solid #999",
+            "form-element-border": "1px solid #06AEF3",
             "textfield-icon-padding": "30px",
             "textfield-icon-x-position": "4px",
-            "textfield-icon-y-position": "3px",
+            "textfield-icon-y-position": "14px",
+            "textfield-icon-font-size": "2.2rem",
+            "textfield-padding": "6px",
             "m-primary-color": "#06AEF3",
             "m-primary-border-color": "#46b8da",
             "m-primary-active-color": "#0099CC",
@@ -8986,19 +8988,7 @@
          * @private
          * @type {function}
          */
-        _template: _.tmpl(M.TemplateManager.get('M.ToolbarView')),
-    
-        /**
-         * Determines if the Toolbar should display a back button or not
-         * @type {Boolean|Object}
-         */
-    //    backButton: NO,
-    
-    //    initialize: function(){
-    //        M.View.prototype.initialize.apply(this, arguments);
-    //    }
-    
-    
+        _template: _.tmpl(M.TemplateManager.get('M.ToolbarView'))
     
     });
     /**
@@ -9885,7 +9875,7 @@
         template: M.Themes.getTemplateByName('bottom-bar-layout')
     });
     
-    M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="m-main" class="m-perspective"><div class="m-page m-page-1"><div data-childviews="content_page1"></div></div><div class="m-page m-page-2"><div data-childviews="content_page2"></div></div></div>');
+    M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="m-main" class="m-perspective"><div class="m-page m-page-1"><div data-childviews="content_page1" class="content-wrapper"></div></div><div class="m-page m-page-2"><div data-childviews="content_page2" class="content-wrapper"></div></div></div>');
     /**
      *
      * @module M.SwitchLayout

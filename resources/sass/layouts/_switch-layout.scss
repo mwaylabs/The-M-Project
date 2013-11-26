@@ -40,6 +40,11 @@ html, body {
   display: block;
 }
 
+.content-wrapper{
+  padding-left: $content-padding;
+  padding-right: $content-padding;
+}
+
 .no-js body {
   overflow: auto;
 }

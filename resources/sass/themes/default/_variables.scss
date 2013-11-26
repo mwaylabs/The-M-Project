@@ -33,13 +33,15 @@ $button-border-style: solid;
 
 // Form elements
 $form-border-width: 1px;
-$form-border-color: #999;
+$form-border-color: $blue;
 $form-border-style: solid;
 $form-element-border: $form-border-width $form-border-style $form-border-color;
 
 $textfield-icon-padding: 30px;
 $textfield-icon-x-position: 4px;
-$textfield-icon-y-position: 3px;
+$textfield-icon-y-position: 14px;
+$textfield-icon-font-size: 2.2rem;
+$textfield-padding: 6px;
 
 // Default Colors
 $m-primary-color: $blue;
@@ -61,3 +63,5 @@ $m-primary-font-color: $black;
 
 // Modal
 $modal-backdrop-background-color: $black;
+
+$content-padding: 15px;
