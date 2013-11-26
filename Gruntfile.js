@@ -1,6 +1,6 @@
 /**
  * The-M-Project Build Script
- * Version: 0.0.1
+ * Version: 0.1.0
  */
 
 var _ = require('lodash');
@@ -150,7 +150,8 @@ module.exports = function (grunt) {
         },
         mocha: {
             options: {
-                "reporter": "Spec"
+                bail: true,
+                reporter: "Spec"
             },
             all: ['test/test.html']
         },
@@ -255,7 +256,8 @@ module.exports = function (grunt) {
     grunt.registerTask('dev', ['default', 'watch']);
     grunt.registerTask('test', ['jshint', 'mocha']);
     grunt.registerTask('dist', ['jshint', 'dist-js', 'dist-css', 'uglify', 'cssmin']);
-    grunt.registerTask('precommit', ['test']);
+    grunt.registerTask('precommit', ['travis']);
+    grunt.registerTask('travis', ['jsonlint', 'default', 'test']);
     grunt.registerTask('default', ['build-js', 'build-css']);
 
     grunt.registerTask('build-doc', ['jsdoc']);

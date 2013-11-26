@@ -37,13 +37,6 @@ M.LoaderView = M.ModalView.extend({
     _type: 'M.LoaderView',
 
     /**
-     * The template of the view
-     * @private
-     * @type {function}
-     */
-    _template: _.tmpl(M.TemplateManager.get('M.LoaderView')),
-
-    /**
      * Show the loader
      * @param {String} text - The text for the Loader
      * @returns {LoaderView}
@@ -53,6 +46,25 @@ M.LoaderView = M.ModalView.extend({
         this.$el.find('.m-loaderview-inner-message').html(text);
         return this;
     }
+}, {
+    content: M.View.extend({
+
+        /**
+         * The template of the view
+         * @private
+         * @type {function}
+         */
+        _template: _.tmpl(M.TemplateManager.get('M.LoaderView')),
+
+        /**
+         * This function needs to be implemented to render the view if there is no value given
+         * @returns {Boolean|Function|YES}
+         * @private
+         */
+        _attachToDom: function() {
+            return YES;
+        }
+    })
 });
 
 

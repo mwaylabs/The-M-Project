@@ -1,4 +1,4 @@
-# The-M-Project Absinthe 
+# The-M-Project Absinthe [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=absinthe)](https://travis-ci.org/mwaylabs/The-M-Project)
 
 ## Notice
 This version is under development and not yet ready for production use.
