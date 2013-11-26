@@ -18,5 +18,9 @@
     "strict": true,
     "trailing": true,
     "smarttabs": true,
-    "jquery": true
+    "globals": {
+        "jquery": true,
+        "YES": true,
+        "NO": true
+    }
 }
