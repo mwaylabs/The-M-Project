@@ -47,7 +47,6 @@
         },
 
         _initView: function( settings ) {
-
             if( !this.contactCollection ) {
                 Addressbook.contactCollection = this.contactCollection = new Addressbook.Collections.ContactsCollection();
                 M.Loader.show();
@@ -77,6 +76,16 @@
                         }
                     }
                 },{
+                    first: M.View.extend({},{
+
+                        tutorial: M.ButtonView.extend({
+                            value: M.I18N.get('global.show_tutorial'),
+                            useElement: YES,
+                            events: {
+                                tap: 'showTutorial'
+                            }
+                        })
+                    }),
                     second: M.View.extend({},{
 
                         addButton: M.ButtonView.extend({
@@ -91,7 +100,17 @@
                 }).create(this, null, true);
             }
 
+            if(localStorage.getItem('tutorial') === 'false' || localStorage.getItem('tutorial') === false){
+                this.hideTutorial();
+            }
+        },
 
+        showTutorial: function(){
+            this.listView.childViews.tutorial.$el.show();
+        },
+
+        hideTutorial: function(){
+            this.listView.childViews.tutorial.$el.hide();
         }
 
 

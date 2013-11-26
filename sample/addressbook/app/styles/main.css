@@ -67,7 +67,6 @@ body .button.buttonview.btn-info {
     text-align: center;
 }
 
-
 .detail-page .company-logo {
     height: 150px;
     width: 100%;
@@ -106,28 +105,52 @@ body .button.buttonview.btn-info {
     background-image: url("../ressources/agero.png");
 }
 
-.detail-page .textview{
+.detail-page .textview {
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
-.detail-page h2{
+.detail-page h2 {
     color: #06AEF3;
 }
 
-.detail-page .textview i{
+.detail-page .textview i {
     color: #a8a8a8;
     padding-right: 15px;
 }
-.detail-page .input-icon-addon{
+
+.detail-page .input-icon-addon {
     padding-top: 15px;
 }
 
-.listview ul li.listitemview{
+.listview ul li.listitemview {
     padding-top: 20px;
     padding-bottom: 20px;
 }
-.listitemview .name{
+
+.listitemview .name {
     font-weight: bold;
     padding-bottom: 10px;
+}
+
+/* Tutorial */
+
+.tutorial {
+    position: fixed;
+    overflow: scroll;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+}
+
+.tutorial a {
+    color: white;
+}
+
+.tutorial .buttonview{
+    color: black;
 }
