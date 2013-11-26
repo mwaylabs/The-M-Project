@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Nov 26 2013 09:16:32
+* Date:      Tue Nov 26 2013 13:43:02
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -9494,7 +9494,6 @@
             M.View.prototype.initialize.apply(this, arguments);
             if (this.getValue() === null) {
                 this._setValue(this.offValue);
-                console.log(this.getValue());
             }
         },
     
@@ -9679,7 +9678,6 @@
             var that = this;
             var callback = function() {
                 that._$backdrop.remove();
-                that._$backdrop = null;
             };
             if( that._$backdrop ) {
                 if( M.Animation.transitionSupport ) {

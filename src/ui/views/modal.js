@@ -120,7 +120,6 @@ M.ModalView = M.View.extend({
         var that = this;
         var callback = function() {
             that._$backdrop.remove();
-            that._$backdrop = null;
         };
         if( that._$backdrop ) {
             if( M.Animation.transitionSupport ) {

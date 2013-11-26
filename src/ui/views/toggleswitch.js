@@ -122,7 +122,6 @@ M.ToggleSwitchView = M.View.extend({
         M.View.prototype.initialize.apply(this, arguments);
         if (this.getValue() === null) {
             this._setValue(this.offValue);
-            console.log(this.getValue());
         }
     },
 
