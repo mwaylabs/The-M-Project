@@ -23,4 +23,17 @@ describe('M.ToolbarView', function () {
 
     });
 
+
+    it.skip('back button', function () {
+
+        var testView = M.ToolbarView.extend({
+            backButton: YES
+        }).create().render();
+
+        assert.isDefined(testView.childViews.first);
+        assert.lengthOf(testView.$el.find('[data-childViews="first"]'), 1);
+        assert.lengthOf(testView.$el.find('.buttonview'), 1);
+
+    });
+
 });
