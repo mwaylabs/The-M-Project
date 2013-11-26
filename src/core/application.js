@@ -118,6 +118,8 @@ M.Application = M.Controller.extend({
 
         this._initDebugView();
         this._isReady = YES;
+        //Init fastclick
+        FastClick.attach(document.body);
     },
 
     /**

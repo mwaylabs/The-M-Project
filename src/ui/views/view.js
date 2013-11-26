@@ -384,12 +384,6 @@
             var noMouseevents = true;
             var stopBrowserBehavior = false;
 
-            // No Ghost click on iOS
-            if(M.Environment.device.os === 'ios'){
-                preventDefault = true;
-                stopBrowserBehavior = true;
-            }
-
             return {
                 'prevent_default': preventDefault,
                 'no_mouseevents': noMouseevents,
@@ -812,3 +806,8 @@
     };
 
 })(this);
+
+
+$(document).scroll(function(){
+    console.log('scroll');
+});

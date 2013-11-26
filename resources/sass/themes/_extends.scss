@@ -1,5 +1,13 @@
 @import "compass/css3/appearance";
+
+.ellipsis{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .form {
+  @extend .ellipsis;
   @include appearance(none);
   border: $form-element-border;
   display: block;
@@ -9,10 +17,5 @@
   border-radius: $button-border-radius;
   padding-top: $textfield-padding;
   padding-bottom: $textfield-padding;
-}
-
-.ellipsis{
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  outline: none;
 }

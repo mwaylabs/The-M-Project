@@ -33,7 +33,8 @@
     "hammerjs": "~1.0.5",
     "detectizr": "*",
     "font-awesome": "~4.0.3",
-    "shake.js": "*"
+    "shake.js": "*",
+    "fastclick": "~0.6.10"
   },
   "devDependencies": {
     "mocha": "~1.13.0",

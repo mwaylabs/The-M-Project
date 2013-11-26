@@ -12,7 +12,6 @@ h2.view {
 [data-childviews="content_page1"] {
     overflow: scroll;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
     top: 50px;
     bottom: 0;
     right: 0px;
