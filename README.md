@@ -3,8 +3,10 @@
 ## Notice
 This version is under development and not yet ready for production use.
 
+## [Use the generator](https://github.com/mwaylabs/generator-tmp2/blob/master/README.md)
 
-## Pre alpha setup for framework developer for iOS
+
+## Pre alpha setup for framework developer (Mac/Linux)
 
 ### Dependencies
 
