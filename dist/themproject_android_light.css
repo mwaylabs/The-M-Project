@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Nov 26 2013 15:06:25
+* Date:      Wed Nov 27 2013 12:09:52
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -2350,7 +2350,6 @@
 }
 
   /* animation delay classes */
-  /* Triggers (menu and button) */
   /********************************************************************************************************************************************************************************/
   /*Inspiered by and thanks to*/
   /*
@@ -2361,92 +2360,92 @@
    * http://www.opensource.org/licenses/mit-license.php
    */
   @-webkit-keyframes m-loaderview-inner-message-opacity {
-    /* line 58, ../resources/sass/themes/default/_loader.scss */
+    /* line 53, ../resources/sass/themes/default/_loader.scss */
     0% {
       color: #333333;
     }
 
-    /* line 61, ../resources/sass/themes/default/_loader.scss */
+    /* line 56, ../resources/sass/themes/default/_loader.scss */
     50% {
       color: rgba(51, 51, 51, 0.2);
     }
 
-    /* line 64, ../resources/sass/themes/default/_loader.scss */
+    /* line 59, ../resources/sass/themes/default/_loader.scss */
     100% {
       color: #333333;
     }
 }
 
   @-moz-keyframes m-loaderview-inner-message-opacity {
-    /* line 70, ../resources/sass/themes/default/_loader.scss */
+    /* line 65, ../resources/sass/themes/default/_loader.scss */
     0% {
       color: #333333;
     }
 
-    /* line 73, ../resources/sass/themes/default/_loader.scss */
+    /* line 68, ../resources/sass/themes/default/_loader.scss */
     50% {
       color: rgba(51, 51, 51, 0.2);
     }
 
-    /* line 76, ../resources/sass/themes/default/_loader.scss */
+    /* line 71, ../resources/sass/themes/default/_loader.scss */
     100% {
       color: #333333;
     }
 }
 
   @-ms-keyframes m-loaderview-inner-message-opacity {
-    /* line 82, ../resources/sass/themes/default/_loader.scss */
+    /* line 77, ../resources/sass/themes/default/_loader.scss */
     0% {
       color: #333333;
     }
 
-    /* line 85, ../resources/sass/themes/default/_loader.scss */
+    /* line 80, ../resources/sass/themes/default/_loader.scss */
     50% {
       color: rgba(51, 51, 51, 0.2);
     }
 
-    /* line 88, ../resources/sass/themes/default/_loader.scss */
+    /* line 83, ../resources/sass/themes/default/_loader.scss */
     100% {
       color: #333333;
     }
 }
 
   @-o-keyframes m-loaderview-inner-message-opacity {
-    /* line 94, ../resources/sass/themes/default/_loader.scss */
+    /* line 89, ../resources/sass/themes/default/_loader.scss */
     0% {
       color: #333333;
     }
 
-    /* line 97, ../resources/sass/themes/default/_loader.scss */
+    /* line 92, ../resources/sass/themes/default/_loader.scss */
     50% {
       color: rgba(51, 51, 51, 0.2);
     }
 
-    /* line 100, ../resources/sass/themes/default/_loader.scss */
+    /* line 95, ../resources/sass/themes/default/_loader.scss */
     100% {
       color: #333333;
     }
 }
 
   @keyframes m-loaderview-inner-message-opacity {
-    /* line 106, ../resources/sass/themes/default/_loader.scss */
+    /* line 101, ../resources/sass/themes/default/_loader.scss */
     0% {
       color: #333333;
     }
 
-    /* line 109, ../resources/sass/themes/default/_loader.scss */
+    /* line 104, ../resources/sass/themes/default/_loader.scss */
     50% {
       color: rgba(51, 51, 51, 0.2);
     }
 
-    /* line 112, ../resources/sass/themes/default/_loader.scss */
+    /* line 107, ../resources/sass/themes/default/_loader.scss */
     100% {
       color: #333333;
     }
 }
 
   @-webkit-keyframes m-loaderview-inner-icon-bounce {
-    /* line 118, ../resources/sass/themes/default/_loader.scss */
+    /* line 113, ../resources/sass/themes/default/_loader.scss */
     0% {
       -webkit-transform: scale(1);
       -moz-transform: scale(1);
@@ -2455,7 +2454,7 @@
       transform: scale(1);
     }
 
-    /* line 125, ../resources/sass/themes/default/_loader.scss */
+    /* line 120, ../resources/sass/themes/default/_loader.scss */
     100% {
       -webkit-transform: scale(0.3);
       -moz-transform: scale(0.3);
@@ -2466,7 +2465,7 @@
 }
 
   @-moz-keyframes m-loaderview-inner-icon-bounce {
-    /* line 135, ../resources/sass/themes/default/_loader.scss */
+    /* line 130, ../resources/sass/themes/default/_loader.scss */
     0% {
       -webkit-transform: scale(1);
       -moz-transform: scale(1);
@@ -2475,7 +2474,7 @@
       transform: scale(1);
     }
 
-    /* line 142, ../resources/sass/themes/default/_loader.scss */
+    /* line 137, ../resources/sass/themes/default/_loader.scss */
     100% {
       -webkit-transform: scale(0.3);
       -moz-transform: scale(0.3);
@@ -2486,7 +2485,7 @@
 }
 
   @-ms-keyframes m-loaderview-inner-icon-bounce {
-    /* line 152, ../resources/sass/themes/default/_loader.scss */
+    /* line 147, ../resources/sass/themes/default/_loader.scss */
     0% {
       -webkit-transform: scale(1);
       -moz-transform: scale(1);
@@ -2495,7 +2494,7 @@
       transform: scale(1);
     }
 
-    /* line 159, ../resources/sass/themes/default/_loader.scss */
+    /* line 154, ../resources/sass/themes/default/_loader.scss */
     100% {
       -webkit-transform: scale(0.3);
       -moz-transform: scale(0.3);
@@ -2506,7 +2505,7 @@
 }
 
   @-o-keyframes m-loaderview-inner-icon-bounce {
-    /* line 169, ../resources/sass/themes/default/_loader.scss */
+    /* line 164, ../resources/sass/themes/default/_loader.scss */
     0% {
       -webkit-transform: scale(1);
       -moz-transform: scale(1);
@@ -2515,7 +2514,7 @@
       transform: scale(1);
     }
 
-    /* line 176, ../resources/sass/themes/default/_loader.scss */
+    /* line 171, ../resources/sass/themes/default/_loader.scss */
     100% {
       -webkit-transform: scale(0.3);
       -moz-transform: scale(0.3);
@@ -2526,7 +2525,7 @@
 }
 
   @keyframes m-loaderview-inner-icon-bounce {
-    /* line 186, ../resources/sass/themes/default/_loader.scss */
+    /* line 181, ../resources/sass/themes/default/_loader.scss */
     0% {
       -webkit-transform: scale(1);
       -moz-transform: scale(1);
@@ -2535,7 +2534,7 @@
       transform: scale(1);
     }
 
-    /* line 193, ../resources/sass/themes/default/_loader.scss */
+    /* line 188, ../resources/sass/themes/default/_loader.scss */
     100% {
       -webkit-transform: scale(0.3);
       -moz-transform: scale(0.3);
@@ -2546,7 +2545,13 @@
 }
 
 }
-/* line 2, ../resources/sass/themes/_extends.scss */
+/* line 3, ../resources/sass/themes/_extends.scss */
+.android .ellipsis, .android .form, .android .textfieldview input, .android .textfieldview .input-icon-addon, .android .radiolistview label, .android-light .textfieldview .android input, .android-light .textfieldview .android .input-icon-addon, .android-light .radiolistview .android label, .android .textfieldview .input-icon-addon input, .android-light .ellipsis, .android-light .form, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon, .android .radiolistview .android-light label, .android-light .radiolistview label, .android-light .textfieldview .input-icon-addon input {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+/* line 9, ../resources/sass/themes/_extends.scss */
 .android .form, .android .textfieldview input, .android-light .textfieldview .android input, .android .textfieldview .input-icon-addon, .android-light .textfieldview .android .input-icon-addon, .android .radiolistview label, .android-light .radiolistview .android label, .android-light .form, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon, .android .radiolistview .android-light label, .android-light .radiolistview label {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -2559,12 +2564,7 @@
   border-radius: 4px;
   padding-top: 6px;
   padding-bottom: 6px;
-}
-/* line 14, ../resources/sass/themes/_extends.scss */
-.android .ellipsis, .android .textfieldview .input-icon-addon input, .android-light .textfieldview .input-icon-addon .android input, .android-light .ellipsis, .android .textfieldview .input-icon-addon .android-light input, .android-light .textfieldview .input-icon-addon input {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  outline: none;
 }
 /* line 1, ../resources/sass/themes/default/_base.scss */
 .android html, .android-light html {
@@ -3340,12 +3340,13 @@
   -moz-animation-delay: 1s;
   animation-delay: 1s;
 }
+/* line 1, ../resources/sass/layouts/_switch-layout.scss */
+.android html, .android body, .android-light html, .android-light body {
+  -webkit-overflow-scrolling: touch;
+}
 /* line 5, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-perspective, .android-light .m-perspective {
   position: relative;
-  -webkit-perspective: 1200px;
-  -moz-perspective: 1200px;
-  perspective: 1200px;
 }
 /* line 12, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page, .android-light .m-page {
@@ -3358,152 +3359,14 @@
   overflow-x: hidden;
   display: none;
 }
-/* line 38, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-page-current,
-.android .no-js .m-page, .android-light .m-page-current,
-.android-light .no-js .m-page {
+/* line 37, ../resources/sass/layouts/_switch-layout.scss */
+.android .m-page-current, .android-light .m-page-current {
   z-index: 1;
   display: block;
 }
-/* line 43, ../resources/sass/layouts/_switch-layout.scss */
-.android .no-js body, .android-light .no-js body {
-  overflow: auto;
-}
-/* line 47, ../resources/sass/layouts/_switch-layout.scss */
+/* line 42, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page-ontop, .android-light .m-page-ontop {
   z-index: 999;
-}
-/* line 51, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-page-1, .android-light .m-page-1 {
-  background: #ffffff;
-}
-/* line 55, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-page-2, .android-light .m-page-2 {
-  background: #ffffff;
-}
-/* line 59, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-page-3, .android-light .m-page-3 {
-  background: #60d7a9;
-}
-/* line 63, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-page-4, .android-light .m-page-4 {
-  background: #fdc162;
-}
-/* line 67, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-page-5, .android-light .m-page-5 {
-  background: #fd6a62;
-}
-/* line 71, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-page-6, .android-light .m-page-6 {
-  background: #f68dbb;
-}
-/* line 77, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-triggers, .android-light .m-triggers {
-  position: absolute;
-  width: 300px;
-  z-index: 999999;
-  top: 12%;
-  left: 50%;
-  margin-top: 130px;
-  -webkit-transform: translateX(-50%);
-  -moz-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-}
-/* line 90, ../resources/sass/layouts/_switch-layout.scss */
-.android .no-js .m-triggers, .android-light .no-js .m-triggers {
-  display: none;
-}
-/* line 95, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-triggers .dl-menuwrapper button,
-.android .m-touch-button, .android-light .m-triggers .dl-menuwrapper button,
-.android-light .m-touch-button {
-  border: none;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin: 10px 0 20px;
-  padding: 0px 20px;
-  line-height: 50px;
-  height: 50px;
-  letter-spacing: 1px;
-  width: 100%;
-  cursor: pointer;
-  display: block;
-  font-family: 'Lato', Calibri, Arial, sans-serif;
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-/* line 118, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-touch-button, .android-light .m-touch-button {
-  background: #fff;
-  color: #aaa;
-}
-/* line 123, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-triggers .dl-menuwrapper button, .android-light .m-triggers .dl-menuwrapper button {
-  margin-bottom: 0;
-}
-/* line 127, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-touch-button:active, .android-light .m-touch-button:active {
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-}
-/* line 131, ../resources/sass/layouts/_switch-layout.scss */
-.android .touch .m-triggers .dl-menuwrapper, .android-light .touch .m-triggers .dl-menuwrapper {
-  display: none;
-}
-/* line 135, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-message, .android-light .m-message {
-  display: none;
-  position: absolute;
-  z-index: 99999;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #da475c;
-  color: #fff;
-  text-align: center;
-}
-/* line 147, ../resources/sass/layouts/_switch-layout.scss */
-.android .m-message p, .android-light .m-message p {
-  margin: 0;
-  line-height: 60px;
-  font-size: 26px;
-}
-/* line 153, ../resources/sass/layouts/_switch-layout.scss */
-.android .no-cssanimations .m-message, .android-light .no-cssanimations .m-message {
-  display: block;
-}
-@media screen and (max-width: 47.4375em) {
-  /* line 158, ../resources/sass/layouts/_switch-layout.scss */
-  .android .m-page h1, .android-light .m-page h1 {
-    font-size: 3em;
-  }
-  /* line 162, ../resources/sass/layouts/_switch-layout.scss */
-  .android .m-triggers .dl-menuwrapper, .android-light .m-triggers .dl-menuwrapper {
-    display: none;
-  }
-}
-@media screen and (max-height: 45.9em) {
-  /* line 168, ../resources/sass/layouts/_switch-layout.scss */
-  .android .m-triggers .dl-menuwrapper li a, .android-light .m-triggers .dl-menuwrapper li a {
-    padding-top: 2px;
-    padding-bottom: 2px;
-  }
-  /* line 173, ../resources/sass/layouts/_switch-layout.scss */
-  .android .m-triggers .dl-menuwrapper li.dl-back:after, .android .dl-menuwrapper li > a:not(:only-child):after, .android-light .m-triggers .dl-menuwrapper li.dl-back:after, .android-light .dl-menuwrapper li > a:not(:only-child):after {
-    line-height: 24px;
-  }
-}
-@media screen and (max-height: 38em) {
-  /* line 179, ../resources/sass/layouts/_switch-layout.scss */
-  .android .m-triggers .dl-menuwrapper, .android-light .m-triggers .dl-menuwrapper {
-    display: none;
-  }
 }
 /* line 1, ../resources/sass/layouts/_swipe-layout.scss */
 .android .wrap, .android-light .wrap {
@@ -3883,6 +3746,25 @@
   opacity: .5;
   filter: alpha(opacity=50);
 }
+/* line 21, ../resources/sass/themes/default/_modal.scss */
+.android html, .android body, .android-light html, .android-light body {
+  height: 100%;
+}
+/* line 25, ../resources/sass/themes/default/_modal.scss */
+.android .modalview, .android-light .modalview {
+  position: relative;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
 /* line 1, ../resources/sass/themes/default/_toast.scss */
 .android .toast, .android-light .toast {
   color: #ffffff;
@@ -3980,8 +3862,10 @@
   list-style: none;
   cursor: pointer;
 }
-/* line 20, ../resources/sass/themes/default/_list.scss */
-.android .listview ul li.active, .android-light .listview ul li.active {
+/* line 21, ../resources/sass/themes/default/_list.scss */
+.android .listitemview.active,
+.android .listview ul li.active, .android-light .listitemview.active,
+.android-light .listview ul li.active {
   background: #99cc00;
 }
 /* line 3, ../resources/sass/themes/default/_textfield.scss */
@@ -4303,18 +4187,13 @@
 }
 /* line 29, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner, .android-light .m-loaderview-inner {
-  position: absolute;
+  position: relative;
   width: 200px;
-  height: 200px;
-  left: 50%;
-  top: 50%;
-  margin-left: -100px;
-  margin-top: -100px;
   height: 200px;
   background: rgba(255, 255, 255, 0.8);
   z-index: 1040;
 }
-/* line 42, ../resources/sass/themes/default/_loader.scss */
+/* line 37, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-message, .android-light .m-loaderview-inner .m-loaderview-inner-message {
   position: absolute;
   right: 12px;
@@ -4329,7 +4208,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-/* line 202, ../resources/sass/themes/default/_loader.scss */
+/* line 197, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon, .android-light .m-loaderview-inner .m-loaderview-inner-icon {
   position: absolute;
   top: 50px;
@@ -4337,12 +4216,12 @@
   bottom: 86px;
   left: 68px;
 }
-/* line 210, ../resources/sass/themes/default/_loader.scss */
+/* line 205, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon.m-loaderview-inner-icon-only, .android-light .m-loaderview-inner .m-loaderview-inner-icon.m-loaderview-inner-icon-only {
   top: 68px;
   bottom: 68px;
 }
-/* line 215, ../resources/sass/themes/default/_loader.scss */
+/* line 210, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon > div, .android-light .m-loaderview-inner .m-loaderview-inner-icon > div {
   position: absolute;
   background-color: #06aef3;
@@ -4359,12 +4238,12 @@
   -o-animation: m-loaderview-inner-icon-bounce 0.8s linear infinite;
   animation: m-loaderview-inner-icon-bounce 0.8s linear infinite;
 }
-/* line 232, ../resources/sass/themes/default/_loader.scss */
+/* line 227, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-1, .android-light .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-1 {
   top: 24px;
   left: 0;
 }
-/* line 237, ../resources/sass/themes/default/_loader.scss */
+/* line 232, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-2, .android-light .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-2 {
   top: 8px;
   left: 8px;
@@ -4374,7 +4253,7 @@
   -o-animation-delay: 0.1s;
   animation-delay: 0.1s;
 }
-/* line 247, ../resources/sass/themes/default/_loader.scss */
+/* line 242, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-3, .android-light .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-3 {
   top: 0;
   left: 24px;
@@ -4384,7 +4263,7 @@
   -o-animation-delay: 0.2s;
   animation-delay: 0.2s;
 }
-/* line 257, ../resources/sass/themes/default/_loader.scss */
+/* line 252, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-4, .android-light .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-4 {
   top: 8px;
   right: 8px;
@@ -4394,7 +4273,7 @@
   -o-animation-delay: 0.3s;
   animation-delay: 0.3s;
 }
-/* line 267, ../resources/sass/themes/default/_loader.scss */
+/* line 262, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-5, .android-light .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-5 {
   top: 24px;
   right: 0;
@@ -4404,7 +4283,7 @@
   -o-animation-delay: 0.4s;
   animation-delay: 0.4s;
 }
-/* line 277, ../resources/sass/themes/default/_loader.scss */
+/* line 272, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-6, .android-light .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-6 {
   bottom: 8px;
   right: 8px;
@@ -4414,7 +4293,7 @@
   -o-animation-delay: 0.5s;
   animation-delay: 0.5s;
 }
-/* line 287, ../resources/sass/themes/default/_loader.scss */
+/* line 282, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-7, .android-light .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-7 {
   left: 24px;
   bottom: 0;
@@ -4424,7 +4303,7 @@
   -o-animation-delay: 0.6s;
   animation-delay: 0.6s;
 }
-/* line 297, ../resources/sass/themes/default/_loader.scss */
+/* line 292, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-8, .android-light .m-loaderview-inner .m-loaderview-inner-icon .m-loaderview-inner-icon-8 {
   bottom: 8px;
   left: 8px;
