@@ -16,7 +16,6 @@
 
             this._initView();
             Addressbook.setLayout(M.AppLayout.design(this, null, true));
-
             Addressbook.getLayout().applyViews({
                 header: this.header,
                 content: this.listView

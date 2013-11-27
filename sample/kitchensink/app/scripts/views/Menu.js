@@ -14,17 +14,6 @@ Kitchensink.Views = Kitchensink.Views || {};
             grid: 'row'
         }, {
 
-            headline: M.View.extend({
-                tagName: 'h2',
-                grid: 'col-md-12',
-                value: M.I18N.get('global.appName', {aka: 'Absinth'}),
-                events: {
-                    tap: function() {
-                        console.log('tap');
-                    }
-                }
-            })
-
 //            buttonModal: M.ButtonView.extend({
 //                value: 'Open custom modal',
 //                gri1d: 'col-xs-12',

@@ -39,6 +39,7 @@ M.ThemeVars = {
         "textfield-icon-font-size": "2.2rem",
         "textfield-padding": "6px",
         "m-primary-color": "#06AEF3",
+        "m-primary-text-color": "#000000",
         "m-primary-border-color": "#46b8da",
         "m-primary-active-color": "#0099CC",
         "m-primary-active-text-color": "#FFFFFF",

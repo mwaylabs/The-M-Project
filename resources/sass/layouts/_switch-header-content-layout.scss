@@ -1,0 +1,17 @@
+.switch-header-content-layout {
+
+  .m-page {
+    overflow: hidden;
+  }
+
+  .header {
+    padding: $tablayout-menu-button-padding;
+  }
+
+  .content-wrapper {
+    @extend .fullscreen;
+    top: $tablayout-menu-height;
+    background: $white;
+  }
+
+}

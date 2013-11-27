@@ -113,11 +113,12 @@
             egon = this.person;
 
             //set a layout
-            var _layout = M.SwitchLayout.design(this, null, true);
+            var _layout = M.SwitchHeaderContentLayout.design(this, null, true);
             Kitchensink.setLayout(_layout);
 
             //fill the layout with a view and render it
             Kitchensink.getLayout().applyViews({
+                header: this.header,
                 content: this.menu
             });
         },
@@ -125,6 +126,7 @@
         show: function( settings ) {
             this._init();
             Kitchensink.getLayout().applyViews({
+                header: this.header,
                 content: this.menu
             });
             Kitchensink.getLayout().startTransition();
@@ -137,6 +139,12 @@
 
             //create the menu
             this.menu = this.menu || Kitchensink.Views.MenuView.create(this, null, true);
+
+            this.header = this.header || M.View.extend({
+                tagName: 'h2',
+                grid: 'col-md-12',
+                value: M.I18N.get('global.appName', {aka: 'Absinth'})
+            }).create()
         },
 
         gotoTablayoutExample: function() {
