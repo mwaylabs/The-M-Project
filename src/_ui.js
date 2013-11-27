@@ -37,3 +37,4 @@
 // @include ./ui/layouts/switch-layout.js
 // @include ./ui/layouts/swipe-layout.js
 // @include ./ui/layouts/tab-layout.js
+// @include ./ui/layouts/switch-header-content.js
