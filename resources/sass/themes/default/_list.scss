@@ -17,6 +17,7 @@
     cursor: pointer;
 }
 
+.listitemview.active,
 .listview ul li.active{
   background: $m-primary-active-color;
 }

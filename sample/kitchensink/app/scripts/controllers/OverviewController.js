@@ -8,12 +8,32 @@
         },
         {
             _value_: 'M.SliderView'
+        },
+        {
+            _value_: 'Form Views',
+            goto:'forms'
         }
     ];
 
     Kitchensink.Controllers.OverviewController = M.Controller.extend({
 
         _nextPage: '/',
+
+        gotoPage: function( event, element ) {
+
+            var goto = element.model.get('goto');
+            var route = '';
+            switch(goto){
+                case 'forms':
+                    route = 'forms'
+                    break;
+            };
+
+            Kitchensink.navigate({
+                route: route
+            });
+
+        },
 
         person: M.Model.create({
             name: 'egon',
@@ -30,11 +50,11 @@
             b: 'second attribute'
         }),
 
-        selectionListModel: M.Model.create({water:'evian'}),
+        selectionListModel: M.Model.create({water: 'evian'}),
         multipleSelectionListModel: M.Model.create({water: ['evian']}),
 
         eventDidHappen: function( ev, elem ) {
-//            var val = this.consoleModel.get('_value_');
+            //            var val = this.consoleModel.get('_value_');
             this.consoleModel.set('_value_', '');
             var val = elem._type + ' ' + ev.type + ' ' + elem.getValue();
             this.consoleModel.set('_value_', val);
@@ -48,15 +68,15 @@
             console.log('hello');
         },
 
-        nextPage: function(){
+        nextPage: function() {
             var transition = M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT;
 
-            if(this._nextPage === 'page2'){
+            if( this._nextPage === 'page2' ) {
                 this._nextPage = 'page3';
                 transition = M.PageTransitions.NONE;
-            } else if(this._nextPage === 'page3'){
+            } else if( this._nextPage === 'page3' ) {
                 this._nextPage = '/';
-            } else if(this._nextPage === '/'){
+            } else if( this._nextPage === '/' ) {
                 this._nextPage = 'page2';
             }
 
@@ -66,15 +86,15 @@
             });
         },
 
-        backPage: function(){
+        backPage: function() {
             var transition = M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT;
 
-            if(this._nextPage === 'page3'){
+            if( this._nextPage === 'page3' ) {
                 this._nextPage = 'page2';
                 transition = M.PageTransitions.NONE;
-            } else if(this._nextPage === 'page2'){
+            } else if( this._nextPage === 'page2' ) {
                 this._nextPage = 'page1';
-            } else if(this._nextPage === 'page1'){
+            } else if( this._nextPage === 'page1' ) {
                 this._nextPage = '/';
             }
 
@@ -88,17 +108,9 @@
          * The application start (after reload)
          */
         applicationStart: function() {
-            console.log('application start');
+            this._init();
 
             egon = this.person;
-
-            //Init the collection
-            this.tmpViews = new Kitchensink.Collections.TMPViewCollection(views);
-
-            //create the menu
-            this.menu = Kitchensink.Views.MenuView.create(this, null, true);
-
-//            $('#main').html(this.menu.render().$el);
 
             //set a layout
             var _layout = M.SwitchLayout.design(this, null, true);
@@ -111,14 +123,23 @@
         },
 
         show: function( settings ) {
-            this._nextPage = '/';
+            this._init();
             Kitchensink.getLayout().applyViews({
                 content: this.menu
             });
             Kitchensink.getLayout().startTransition();
         },
 
-        gotoTablayoutExample: function(){
+        _init: function(){
+
+            //Init the collection
+            this.tmpViews = this.tmpViews || new Kitchensink.Collections.TMPViewCollection(views);
+
+            //create the menu
+            this.menu = this.menu || Kitchensink.Views.MenuView.create(this, null, true);
+        },
+
+        gotoTablayoutExample: function() {
             Kitchensink.navigate({
                 route: 'page4/0'
             });
