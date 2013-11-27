@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Wed Nov 27 2013 12:09:52
+* Date:      Wed Nov 27 2013 15:31:43
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -2566,6 +2566,16 @@
   padding-bottom: 6px;
   outline: none;
 }
+/* line 23, ../resources/sass/themes/_extends.scss */
+.android .fullscreen, .android .m-page, .android .header, .android .switch-header-content-layout .content-wrapper, .android-light .switch-header-content-layout .android .content-wrapper, .android-light .fullscreen, .android-light .m-page, .android-light .header, .android .switch-header-content-layout .android-light .content-wrapper, .android-light .switch-header-content-layout .content-wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
 /* line 1, ../resources/sass/themes/default/_base.scss */
 .android html, .android-light html {
   font-size: 62.5%;
@@ -3350,21 +3360,14 @@
 }
 /* line 12, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page, .android-light .m-page {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow-y: scroll;
-  overflow-x: hidden;
   display: none;
 }
-/* line 37, ../resources/sass/layouts/_switch-layout.scss */
+/* line 31, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page-current, .android-light .m-page-current {
   z-index: 1;
   display: block;
 }
-/* line 42, ../resources/sass/layouts/_switch-layout.scss */
+/* line 36, ../resources/sass/layouts/_switch-layout.scss */
 .android .m-page-ontop, .android-light .m-page-ontop {
   z-index: 999;
 }
@@ -3641,11 +3644,11 @@
 }
 /* line 1, ../resources/sass/layouts/_header-layout.scss */
 .android .header, .android-light .header {
+  overflow: hidden;
+  background: #669900;
+  color: white;
   height: 50px;
-  width: 100%;
-  background: red;
-  position: absolute;
-  top: 0;
+  text-align: center;
 }
 /* line 1, ../resources/sass/layouts/_bottom-bar-layout.scss */
 .android .bottom-bar, .android-light .bottom-bar {
@@ -3725,6 +3728,34 @@
 .android .tablayout.scrolling .buttongroupview .button, .android-light .tablayout.scrolling .buttongroupview .button {
   width: 200px;
   float: left;
+}
+/* line 3, ../resources/sass/layouts/_switch-header-content-layout.scss */
+.android .switch-header-content-layout .m-page, .android-light .switch-header-content-layout .m-page {
+  overflow: hidden;
+}
+/* line 7, ../resources/sass/layouts/_switch-header-content-layout.scss */
+.android .switch-header-content-layout .header, .android-light .switch-header-content-layout .header {
+  padding: 13px 0 0 0;
+}
+/* line 11, ../resources/sass/layouts/_switch-header-content-layout.scss */
+.android .switch-header-content-layout .content-wrapper, .android-light .switch-header-content-layout .content-wrapper {
+  top: 50px;
+  background: white;
+}
+/* line 6, ../resources/sass/themes/default/_elements.scss */
+.android h1,
+.android h2,
+.android h3,
+.android h4,
+.android h5,
+.android h6, .android-light h1,
+.android-light h2,
+.android-light h3,
+.android-light h4,
+.android-light h5,
+.android-light h6 {
+  margin: 0;
+  padding: 0;
 }
 /* line 1, ../resources/sass/themes/default/_modal.scss */
 .android .modal-backdrop, .android-light .modal-backdrop {
@@ -3820,6 +3851,7 @@
   vertical-align: middle;
   cursor: pointer;
   background-color: #ffffff;
+  color: black;
   border-radius: 4px;
   border: 1px solid #999999;
   -webkit-user-select: none;
@@ -3828,13 +3860,13 @@
   -o-user-select: none;
   user-select: none;
 }
-/* line 18, ../resources/sass/themes/default/_button.scss */
+/* line 19, ../resources/sass/themes/default/_button.scss */
 .android .button div, .android-light .button div {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* line 27, ../resources/sass/themes/default/_button.scss */
+/* line 28, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.active.useelement,
 .android .buttonview.active .button,
 .android .button.active, .android-light .buttonview.active.useelement,
@@ -3843,7 +3875,7 @@
   background-color: #99cc00;
   color: white;
 }
-/* line 32, ../resources/sass/themes/default/_button.scss */
+/* line 33, ../resources/sass/themes/default/_button.scss */
 .android *[class*='col-'] .button, .android-light *[class*='col-'] .button {
   width: 100%;
 }
@@ -3867,6 +3899,7 @@
 .android .listview ul li.active, .android-light .listitemview.active,
 .android-light .listview ul li.active {
   background: #99cc00;
+  color: white;
 }
 /* line 3, ../resources/sass/themes/default/_textfield.scss */
 .android .textfieldview label, .android-light .textfieldview label {

@@ -17,6 +17,12 @@ M.ModalView = M.View.extend({
     cssClass: 'modalview',
 
     /**
+     * Determines if the modal should close on clicking the overlay.
+     * @type {String}
+     */
+    hideOnOverlayClick: YES,
+
+    /**
      * The template of the object before initializing it.
      * @private
      */
@@ -42,6 +48,16 @@ M.ModalView = M.View.extend({
      * @type {$}
      */
     _$backdrop: null,
+
+    /**
+     * Register internal events for this view.
+     * @private
+     */
+    _internalEvents: {
+        tap: function( events, view ) {
+            view._closeHandler(events, view);
+        }
+    },
 
     /**
      * Show the modal view
@@ -142,6 +158,19 @@ M.ModalView = M.View.extend({
             } else {
                 callback();
             }
+        }
+    },
+
+    /**
+     * Hides the view
+     *
+     * @param {Event} event
+     * @param {M.Modal} view
+     * @private
+     */
+    _closeHandler: function( event, view ) {
+        if( this.hideOnOverlayClick && event.target === view.el ) {
+            view.hide();
         }
     }
 
