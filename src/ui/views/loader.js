@@ -37,6 +37,12 @@ M.LoaderView = M.ModalView.extend({
     _type: 'M.LoaderView',
 
     /**
+     * Defines that the loader view can't be closed by clicking on the overlay.
+     * @type {String}
+     */
+    hideOnOverlayClick: NO,
+
+    /**
      * Show the loader
      * @param {String} text - The text for the Loader
      * @returns {LoaderView}
