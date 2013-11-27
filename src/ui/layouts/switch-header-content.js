@@ -41,8 +41,8 @@
             }
 
             if( settings.header && !this._firstRender ) {
-                this.$el.find('[data-childviews="' + this.currentPage + '_header' + '"]').html('');
-                this.$el.find('[data-childviews="' + this.currentPage + '_header' + '"]').html(settings.header.render().$el);
+                this.$el.find('[data-childviews="' + this._currentPage + '_header' + '"]').html('');
+                this.$el.find('[data-childviews="' + this._currentPage + '_header' + '"]').html(settings.header.render().$el);
             }
 
             return this;
