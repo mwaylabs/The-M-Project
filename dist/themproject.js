@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Wed Nov 27 2013 12:09:52
+* Date:      Wed Nov 27 2013 15:31:42
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -7017,6 +7017,7 @@
             "textfield-icon-font-size": "2.2rem",
             "textfield-padding": "6px",
             "m-primary-color": "#06AEF3",
+            "m-primary-text-color": "#000000",
             "m-primary-border-color": "#46b8da",
             "m-primary-active-color": "#0099CC",
             "m-primary-active-text-color": "#FFFFFF",
@@ -9577,6 +9578,12 @@
         cssClass: 'modalview',
     
         /**
+         * Determines if the modal should close on clicking the overlay.
+         * @type {String}
+         */
+        hideOnOverlayClick: YES,
+    
+        /**
          * The template of the object before initializing it.
          * @private
          */
@@ -9602,6 +9609,16 @@
          * @type {$}
          */
         _$backdrop: null,
+    
+        /**
+         * Register internal events for this view.
+         * @private
+         */
+        _internalEvents: {
+            tap: function( events, view ) {
+                view._closeHandler(events, view);
+            }
+        },
     
         /**
          * Show the modal view
@@ -9703,6 +9720,19 @@
                     callback();
                 }
             }
+        },
+    
+        /**
+         * Hides the view
+         *
+         * @param {Event} event
+         * @param {M.Modal} view
+         * @private
+         */
+        _closeHandler: function( event, view ) {
+            if( this.hideOnOverlayClick && event.target === view.el ) {
+                view.hide();
+            }
         }
     
     });
@@ -9743,6 +9773,12 @@
          * @type {String}
          */
         _type: 'M.LoaderView',
+    
+        /**
+         * Defines that the loader view can't be closed by clicking on the overlay.
+         * @type {String}
+         */
+        hideOnOverlayClick: NO,
     
         /**
          * Show the loader
@@ -10246,17 +10282,20 @@
         var myTemplate = switchTemplate.replace(/m-page-1">/gi, 'm-page-1">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page1_header"'));
         myTemplate = myTemplate.replace(/m-page-2">/gi, 'm-page-2">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page2_header"'));
     
-    
         /**
          * A Switchlayout with a header and content
          * @type {*|Object|void}
          */
         M.SwitchHeaderContentLayout = M.SwitchLayout.extend({
     
+            _type: 'M.SwitchHeaderContentLayout',
+    
             /**
              * @type {String} the template - a combination of the header and switch template
              */
             template: myTemplate,
+    
+            cssClass:'switch-header-content-layout',
     
             /**
              * The content gets mapped to the DOM via the Switchlayout. Then map the header to the Layout.
@@ -10272,8 +10311,8 @@
                 }
     
                 if( settings.header && !this._firstRender ) {
-                    this.$el.find('[data-childviews="' + this.currentPage + '_header' + '"]').html('');
-                    this.$el.find('[data-childviews="' + this.currentPage + '_header' + '"]').html(settings.header.render().$el);
+                    this.$el.find('[data-childviews="' + this._currentPage + '_header' + '"]').html('');
+                    this.$el.find('[data-childviews="' + this._currentPage + '_header' + '"]').html(settings.header.render().$el);
                 }
     
                 return this;
