@@ -7,6 +7,7 @@
   vertical-align: middle;
   cursor: pointer;
   background-color: #ffffff;
+  color: $m-primary-text-color;
   border-radius: $button-border-radius;
   border: $button-border-width solid $button-border-color;
   -webkit-user-select: none;
@@ -26,7 +27,7 @@
 .buttonview.active .button,
 .button.active {
   background-color: $m-primary-active-color;
-  color: $white;
+  color: $m-primary-active-text-color;
 }
 
 *[class*='col-'] .button {

@@ -27,7 +27,7 @@
          * The application start (after reload)
          */
         applicationStart: function() {
-            var _layout = M.SwitchLayout.design(this, null, true);
+            var _layout = M.SwitchHeaderContentLayout.design(this, null, true);
             Kitchensink.setLayout(_layout);
             this._initViews();
         },
@@ -41,8 +41,12 @@
             if(!this.content){
                 this.content = Kitchensink.Views.Forms.create(this, null, true);
             }
+            if(!this.header){
+                this.header = Kitchensink.Views.BackHeader.create(this, null, true);
+            }
 
             Kitchensink.getLayout().applyViews({
+                header: this.header,
                 content: this.content
             });
         }

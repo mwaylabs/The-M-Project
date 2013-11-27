@@ -15,17 +15,20 @@
     var myTemplate = switchTemplate.replace(/m-page-1">/gi, 'm-page-1">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page1_header"'));
     myTemplate = myTemplate.replace(/m-page-2">/gi, 'm-page-2">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page2_header"'));
 
-
     /**
      * A Switchlayout with a header and content
      * @type {*|Object|void}
      */
     M.SwitchHeaderContentLayout = M.SwitchLayout.extend({
 
+        _type: 'M.SwitchHeaderContentLayout',
+
         /**
          * @type {String} the template - a combination of the header and switch template
          */
         template: myTemplate,
+
+        cssClass:'switch-header-content-layout',
 
         /**
          * The content gets mapped to the DOM via the Switchlayout. Then map the header to the Layout.
