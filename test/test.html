@@ -1,87 +1,191 @@
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Mocha Tests</title>
-  <link rel="stylesheet" href="css/mocha.css" />
-  <link rel="stylesheet" href="../.tmp/bootstrap_custom.css">
-  <link rel="stylesheet" href="../.tmp/themproject.css">
-  <link rel="stylesheet" href="../.tmp/themproject_android_dark.css">
-  <link rel="stylesheet" href="../.tmp/themproject_android_light.css">
-  <link rel="stylesheet" href="../.tmp/themproject_ios.css">
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link rel="stylesheet" href="css/mocha.css"/>
+    <link rel="stylesheet" href="../.tmp/bootstrap_custom.css">
+    <link rel="stylesheet" href="../.tmp/themproject.css">
+    <link rel="stylesheet" href="../.tmp/themproject_android_dark.css">
+    <link rel="stylesheet" href="../.tmp/themproject_android_light.css">
+    <link rel="stylesheet" href="../.tmp/themproject_ios.css">
 </head>
 <body>
-  <div id="mocha"></div>
+<div id="mocha"></div>
 
-  <script src="js/chai.js"></script>
-  <script src="js/mocha.js"></script>
-  <script src="js/bridge.js"></script>
+<script src="js/chai.js"></script>
+<script src="js/mocha.js"></script>
+<script src="js/bridge.js"></script>
 
-  <script src="../bower_components/jquery/jquery.js"></script>
-  <script src="../bower_components/underscore/underscore.js"></script>
-  <script src="../bower_components/backbone/backbone.js"></script>
-  <script src="../bower_components/modernizr/modernizr.js"></script>
-  <script src="../bower_components/detectizr/detectizr.js"></script>
-  <script src="../bower_components/backbone.stickit/backbone.stickit.js"></script>
-  <script src="../bower_components/tmpl/tmpl.js"></script>
-  <script src="../bower_components/hammerjs/dist/hammer.js"></script>
-  <script src="../bower_components/socket.io-client/dist/socket.io.js"></script>
-  <script src="../bower_components/momentjs/moment.js"></script>
-  <script src="../.tmp/themproject.js"></script>
+<script src="../bower_components/jquery/jquery.js"></script>
+<script src="../bower_components/underscore/underscore.js"></script>
+<script src="../bower_components/backbone/backbone.js"></script>
+<script src="../bower_components/modernizr/modernizr.js"></script>
+<script src="../bower_components/detectizr/detectizr.js"></script>
+<script src="../bower_components/backbone.stickit/backbone.stickit.js"></script>
+<script src="../bower_components/tmpl/tmpl.js"></script>
+<script src="../bower_components/hammerjs/dist/hammer.js"></script>
+<script src="../bower_components/socket.io-client/dist/socket.io.js"></script>
+<script src="../bower_components/momentjs/moment.js"></script>
+<script src="../.tmp/themproject.js"></script>
 
-  <script>
-      assert = chai.assert;
-      expect = chai.expect;
-      mocha.setup('bdd');
-  </script>
+<script>
+    assert = chai.assert;
+    expect = chai.expect;
+    mocha.setup('bdd');
+</script>
 
-  <script src="test.js"></script>
-  <script src="core/test.m.js"></script>
-  <script src="core/test.object.js"></script>
-  <script src="core/test.controller.js"></script>
-  <script src="core/test.i18n_item.js"></script>
-  <script src="core/test.i18n.js"></script>
-  <script src="core/test.router.js"></script>
+<script src="test.js"></script>
+<script src="core/test.m.js"></script>
+<script src="core/test.object.js"></script>
+<script src="core/test.controller.js"></script>
+<script src="core/test.i18n_item.js"></script>
+<script src="core/test.i18n.js"></script>
+<script src="core/test.router.js"></script>
 
-  <script src="data/test.field.js"></script>
-  <script src="data/test.entity.js"></script>
-  <script src="data/test.model.js"></script>
-  <script src="data/test.collection.js"></script>
-  <script src="data/test.local_storage.js"></script>
-  <script src="data/test.websql.js"></script>
-  <script src="data/test.bikini.js"></script>
+<script src="data/test.field.js"></script>
+<script src="data/test.entity.js"></script>
+<script src="data/test.model.js"></script>
+<script src="data/test.collection.js"></script>
+<script src="data/test.local_storage.js"></script>
+<script src="data/test.websql.js"></script>
+<script src="data/test.bikini.js"></script>
 
 
-  <script src="interfaces/test.interface.js"></script>
-  <script src="interfaces/test.activestate.js"></script>
-  <script src="interfaces/test.addcssclass.js"></script>
+<script src="interfaces/test.interface.js"></script>
+<script src="interfaces/test.activestate.js"></script>
+<script src="interfaces/test.addcssclass.js"></script>
 
-  <script src="ui/test.pagetransitions.js"></script>
-  <script src="ui/test.themevars.js"></script>
+<script src="ui/test.pagetransitions.js"></script>
+<script src="ui/test.themevars.js"></script>
 
-  <script src="ui/views/test.view.js"></script>
-  <script src="ui/views/test.toast.js"></script>
-  <script src="ui/views/test.button.js"></script>
-  <script src="ui/views/test.buttongroup.js"></script>
-  <script src="ui/views/test.toolbar.js"></script>
-  <script src="ui/views/test.template_manager.js"></script>
-  <script src="ui/views/test.view.computedvalue.js"></script>
-  <script src="ui/views/test.textfield.js"></script>
-  <script src="ui/views/test.toggleswitch.js"></script>
-  <script src="ui/views/test.radiolist.js"></script>
-  <script src="ui/views/test.modal.js"></script>
-  <script src="ui/views/test.loader.js"></script>
-  <script src="ui/views/test.text.js"></script>
+<script src="ui/views/test.view.js"></script>
+<script src="ui/views/test.toast.js"></script>
+<script src="ui/views/test.button.js"></script>
+<script src="ui/views/test.buttongroup.js"></script>
+<script src="ui/views/test.toolbar.js"></script>
+<script src="ui/views/test.template_manager.js"></script>
+<script src="ui/views/test.view.computedvalue.js"></script>
+<script src="ui/views/test.textfield.js"></script>
+<script src="ui/views/test.toggleswitch.js"></script>
+<script src="ui/views/test.radiolist.js"></script>
+<script src="ui/views/test.modal.js"></script>
+<script src="ui/views/test.loader.js"></script>
+<script src="ui/views/test.text.js"></script>
 
-  <script src="ui/events/test.events.tap.js"></script>
-  <script src="ui/events/test.events.swipe.js"></script>
-  <script src="ui/events/test.events.js"></script>
+<script src="ui/events/test.events.tap.js"></script>
+<script src="ui/events/test.events.swipe.js"></script>
+<script src="ui/events/test.events.js"></script>
 
-  <script src="ui/binding/test.bindings.js"></script>
+<script src="ui/binding/test.bindings.js"></script>
 
-  <script>
+<script>
     mocha.checkLeaks();
     mocha.globals(['jQuery']);
     mocha.run();
-  </script>
+</script>
+<p> </p>
+
+<p>Default Theme</p>
+
+<h2>Colors</h2>
+
+<p>
+    <span style="color: rgb(170,102,204);">$pink: #AA66CC;</span> <span
+        style="background: rgb(170,102,204);display: inline-block;height: 20.0px;width: 20.0px;"> </span> <br/> <span
+        style="color: rgb(255,187,51);">$orange: #FFBB33;</span> <span
+        style="background: rgb(255,187,51);height: 20.0px;width: 20.0px;"> </span> <br/> <span
+        style="color: rgb(255,68,68);">$red: #FF4444;</span> <span
+        style="background: rgb(255,68,68);display: inline-block;height: 20.0px;width: 20.0px;"> </span> <br/> <span
+        style="color: rgb(255,45,85);">$lightred: #FF2D55;</span> <span
+        style="background: rgb(255,45,85);display: inline-block;height: 20.0px;width: 20.0px;"> </span> <br/> <span
+        style="color: rgb(70,184,218);">$lightblue: #1092d3;</span> <span
+        style="background: rgb(70,184,218);display: inline-block;height: 20.0px;width: 20.0px;"> </span> <br/> <span
+        style="color: rgb(6,174,243);">$blue: #06AEF3;</span> <span
+        style="background: rgb(6,174,243);display: inline-block;height: 20.0px;width: 20.0px;"> </span> <br/> <span
+        style="color: rgb(0,153,204);">$darkblue: #0099CC;</span> <span
+        style="background: rgb(0,153,204);display: inline-block;height: 20.0px;width: 20.0px;"> </span> <br/> <span
+        style="color: rgb(153,204,0);">$green: #99CC00;</span> <span
+        style="background: rgb(153,204,0);display: inline-block;height: 20.0px;width: 20.0px;"> </span> <br/> <span
+        style="color: rgb(142,142,147);">$grey: #8E8E93;</span> <span
+        style="background: rgb(142,142,147);display: inline-block;height: 20.0px;width: 20.0px;"> </span> <br/> <span
+        style="background: rgb(0,0,0);color: rgb(255,255,255);">$white: #FFFFFF;</span> <span
+        style="background: rgb(255,255,255);display: inline-block;height: 20.0px;width: 20.0px;border: 1.0px solid rgb(0,0,0);"> </span>
+    <br/> <span style="background: rgb(0,0,0);color: rgb(242,242,242);">$darkwhite: #F2F2F2;</span> <span
+        style="background: rgb(242,242,242);display: inline-block;height: 20.0px;width: 20.0px;border: 1.0px solid rgb(0,0,0);"> </span>
+    <br/> <span style="color: rgb(0,0,0);">$black: #000000;</span> <span
+        style="background: rgb(0,0,0);display: inline-block;height: 20.0px;width: 20.0px;"> </span>
+</p>
+
+<p> </p>
+
+<h3>Debug Colors</h3>
+<pre>Farben hässlich wie die Nacht die nicht zueinander passen so das man sie nicht verwenden will.</pre>
+<p>
+    <span style="color: rgb(2,204,185);">$debug-1: #02ccb9;</span> <span> </span> <br/> <span
+        style="color: rgb(0,204,9);">$debug-2: #00cc09;</span> <span> </span> <br/> <span style="color: rgb(204,53,0);">$debug-3: #cc3500;</span> <span> </span> <br/>
+    <span style="color: rgb(204,0,141);">$debug-4: #cc008d;</span> <span> </span> <br/> <span
+        style="color: rgb(159,0,204);">$debug-5: #9f00cc;</span> <span> </span> <br/> <span
+        style="color: rgb(79,0,204);">$debug-6: #4f00cc;</span> <span> </span> <br/> <span
+        style="color: rgb(0,63,204);">$debug-7: #003fcc;</span> <span> </span> <br/> <span
+        style="color: rgb(0,115,204);">$debug-8: #0073cc;</span> <span> </span> </p>
+
+<h1>UI Elemente</h1>
+
+<p>
+    <ac:image>
+        <ri:attachment ri:filename="UI_2.png"/>
+    </ac:image>
+</p>
+<h1>Button </h1>
+
+<h1>Button Icon</h1>
+
+<h1>Button Text</h1>
+
+<h1>Button Group</h1>
+
+<h1>Tabbar</h1>
+
+<h1>Input</h1>
+
+<h1>Textarea</h1>
+
+<h1>Checkbox/Toggleswitch</h1>
+
+<h1>Radio</h1>
+
+<h1>Selectionlist</h1>
+
+<h1>Multiple Selectionlist</h1>
+
+<p> </p>
+
+<p> </p>
+
+<h1>TODO</h1>
+
+<p>## States<br/>- Normal<br/>- active<br/>- selected<br/>- disabled<br/>## Spickzettel<br/>- [TukTuk](<a
+        href="http://tuktuk.tapquo.com/">http://tuktuk.tapquo.com/</a>)<br/>- [jQuery mobile](<a
+        href="http://view.jquerymobile.com/1.3.1/demos/">http://view.jquerymobile.com/1.3.1/demos/</a>)<br/>-
+    [chocolatechip](<a href="http://www.chocolatechip-ui.com/">http://www.chocolatechip-ui.com/</a>)<br/>- [iOS](<a
+            href="https://developer.apple.com/library/ios/documentation/userexperience/conceptual/mobilehig/index.html#//apple_ref/doc/uid/TP40006556-CH66-SW1">https://developer.apple.com/library/ios/documentation/userexperience/conceptual/mobilehig/index.html#//apple_ref/doc/uid/TP40006556-CH66-SW1</a>)<br/>-
+    [iOS web](<a
+            href="http://mir.aculo.us/2013/09/16/how-to-create-a-web-app-that-looks-like-a-ios7-native-app-part-1/">http://mir.aculo.us/2013/09/16/how-to-create-a-web-app-that-looks-like-a-ios7-native-app-part-1/</a>)<br/>-
+    [Android](<a href="http://developer.android.com/design/style/index.html">http://developer.android.com/design/style/index.html</a>)
+</p>
+
+<p>## Typography<br/>- Font-family<br/>- Font-size<br/>- Line-height<br/>### Strong<br/>### Emphases<br/>###
+    Headings<br/>h1-h6<br/>## Input<br/>### Search<br/>### Cancel<br/>### Text<br/>### Date<br/>### Time<br/>###
+    Datetime<br/>### Number<br/>
+    <span style="background-color: transparent;font-size: 10.0pt;line-height: 13.0pt;">### Text validation with error<br/>### Autocomplete </span>
+</p>
+
+<p>## Dialog<br/>### Ok Dialog<br/>### Ok/Cancel Dialog<br/>## Toast<br/>## Image<br/>## List<br/>### Read-only,
+    unordered<br/>### Read-only, ordered<br/>### Linked<br/>### Inset<br/>### Filter<br/>### List dividers<br/>### Count
+    bubbles<br/>### Icons left<br/>### Icons right<br/>### Thumbnails<br/>### With action like iOS e.g. delete<br/>##
+    Loader<br/>## Toolbar<br/> </p>
+
 </body>
 </html>
+
+

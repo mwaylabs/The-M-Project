@@ -44,6 +44,9 @@ M.ActiveState = M.Interface.design(/** @scope M.Interface.prototype */{
 
         // touchstrart callback - add the class 'active'
         var touchstart = function setActiveStateOnTouchstart(event, element){
+            if(element._hammertime.enabled === NO){
+                return;
+            }
             element.$el.addClass('active');
         };
 

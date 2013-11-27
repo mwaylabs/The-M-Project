@@ -20,7 +20,7 @@
     vertical-align: top;
     width: $m-primary-font-size * 3.5;
     padding: 0;
-    border-radius: $button-border-radius;
+    border-radius: $m-button-border-radius;
     cursor: pointer;
     overflow: hidden;
   }
@@ -79,7 +79,7 @@
     width: $m-primary-font-size;
     height: $m-primary-font-size;
     background: $white;
-    border-radius: $button-border-radius;
+    border-radius: $m-button-border-radius;
   }
 
   .switch-handle{

@@ -26,7 +26,12 @@ M.ButtonView = M.View.extend({
      * The active state of the button. Use isActive and setActive to change this property.
      * @private
      */
-    _isAcitve: YES,
+    _isActive: YES,
+
+    /**
+     * @type {Boolean} sets the view in the creation process to be enabled or disabled
+     */
+    enabled: YES,
 
     _assignTemplateValues: function(){
         M.View.prototype._assignTemplateValues.apply(this, arguments);
@@ -47,6 +52,14 @@ M.ButtonView = M.View.extend({
     deactivate: function () {
         this._isAcitve = NO;
         this.$el.removeClass('active');
+    },
+
+    _postRender: function(){
+        M.View.prototype._postRender.apply(this, arguments);
+        if(this.enabled === NO && this.disable){
+            this.disable();
+            this._disableEvents();
+        }
     }
 
-}).implements([M.ViewEnableState, M.ActiveState]);
+}).implements([M.ActiveState, M.ViewEnableState]);

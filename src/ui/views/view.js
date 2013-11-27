@@ -16,7 +16,7 @@
         constructor: function( options ) {
             this.cid = _.uniqueId('view');
             options = options || {};
-            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'onSet', 'onGet'];
+            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'onSet', 'onGet', 'enabled'];
             _.extend(this, _.pick(options, viewOptions));
             this._ensureElement();
             this.initialize.apply(this, arguments);
@@ -406,6 +406,9 @@
                     this._hammertime = new Hammer(that.el, that._getEventOptions());
 
                     this._eventCallback[eventName] = function( event ) {
+                        if(that._hammertime.enabled === NO){
+                            return;
+                        }
                         var args = Array.prototype.slice.call(arguments);
                         args.push(that);
                         _.each(that._events[event.type], function( func ) {
@@ -434,6 +437,14 @@
          */
         _enableEvents: function() {
             this._hammertime.enable(YES);
+        },
+
+        /**
+         *
+         * @returns {Boolean} if events are active or not
+         */
+        isEnabled: function(){
+            return this._hammertime.enabled;
         },
 
         /**

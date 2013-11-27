@@ -26,14 +26,14 @@ M.ViewEnableState = M.Interface.design(/** @scope M.ContentBinding.prototype */{
 
     _isEnabled: YES,
 
-    disable: function(){
+    disable: function() {
         this._isEnabled = NO;
         this.$el.addClass('disabled').removeClass('enabled');
         this._disableEvents();
         return this;
     },
 
-    enable: function(){
+    enable: function() {
         this._isEnabled = YES;
         this.$el.addClass('enabled').removeClass('disabled');
         this._enableEvents();

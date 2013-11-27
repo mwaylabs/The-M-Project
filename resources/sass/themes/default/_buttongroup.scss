@@ -24,17 +24,17 @@
       padding-left: $grid-gutter-width / 2;
 
       .button {
-        border-top-left-radius: $button-border-radius;
-        border-bottom-left-radius: $button-border-radius;
+        border-top-left-radius: $m-button-border-radius;
+        border-bottom-left-radius: $m-button-border-radius;
       }
     }
     &:last-child {
       padding-right: $grid-gutter-width / 2;
 
       .button {
-        border-right-width: $button-border-width;
-        border-top-right-radius: $button-border-radius;
-        border-bottom-right-radius: $button-border-radius;
+        border-right-width: $m-button-border-width;
+        border-top-right-radius: $m-button-border-radius;
+        border-bottom-right-radius: $m-button-border-radius;
       }
     }
   }

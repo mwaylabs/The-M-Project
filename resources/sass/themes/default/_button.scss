@@ -1,15 +1,20 @@
+.buttonview {
+
+}
+
 .button {
-  padding: 6px 12px;
-  margin-bottom: 0;
+  padding: $m-button-padding;
+  margin-top: $m-primary-margin-top;
+  margin-bottom: $m-primary-margin-bottom;
   font-weight: normal;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
   background-color: #ffffff;
-  color: $m-primary-text-color;
-  border-radius: $button-border-radius;
-  border: $button-border-width solid $button-border-color;
+  color: $m-button-text-color;
+  border-radius: $m-button-border-radius;
+  border: $m-button-border-width solid $m-button-border-color;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -32,4 +37,137 @@
 
 *[class*='col-'] .button {
   width: 100%;
+}
+
+.buttonview.disabled .button {
+  background: $m-primary-disabled-color;
+  border-color: $m-primary-disabled-color;
+  color: $m-primary-disabled-text-color;
+  cursor: default;
+}
+
+.buttonview {
+
+  &.m-primary {
+
+    .button {
+      border-color: $m-button-primary-border-color;
+      color: $m-button-primary-text-color;
+      background: $m-button-primary-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-primary-text-color;
+      color: $m-button-primary-background-color;
+      background: $m-button-primary-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-primary-border-color, $lightenPercentage);
+      color: lighten($m-button-primary-text-color, $lightenPercentage);
+      background: lighten($m-button-primary-background-color, $lightenPercentage);
+    }
+  }
+
+  &.m-success {
+
+    .button {
+      border-color: $m-button-success-border-color;
+      color: $m-button-success-text-color;
+      background: $m-button-success-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-success-text-color;
+      color: $m-button-success-background-color;
+      background: $m-button-success-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-success-border-color, $lightenPercentage);
+      color: lighten($m-button-success-text-color, $lightenPercentage);
+      background: lighten($m-button-success-background-color, $lightenPercentage);
+    }
+  }
+
+  &.m-error {
+    .button {
+      border-color: $m-button-error-border-color;
+      color: $m-button-error-text-color;
+      background: $m-button-error-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-error-text-color;
+      color: $m-button-error-background-color;
+      background: $m-button-error-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-error-border-color, $lightenPercentage);
+      color: lighten($m-button-error-text-color, $lightenPercentage);
+      background: lighten($m-button-error-background-color, $lightenPercentage);
+    }
+  }
+
+  &.m-warning {
+    .button {
+      border-color: $m-button-warning-border-color;
+      color: $m-button-warning-text-color;
+      background: $m-button-warning-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-warning-text-color;
+      color: $m-button-warning-background-color;
+      background: $m-button-warning-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-warning-border-color, $lightenPercentage);
+      color: lighten($m-button-warning-text-color, $lightenPercentage);
+      background: lighten($m-button-warning-background-color, $lightenPercentage);
+    }
+  }
+
+  &.m-info {
+    .button {
+      border-color: $m-button-info-border-color;
+      color: $m-button-info-text-color;
+      background: $m-button-info-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-info-text-color;
+      color: $m-button-info-background-color;
+      background: $m-button-info-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-info-border-color, $lightenPercentage);
+      color: lighten($m-button-info-text-color, $lightenPercentage);
+      background: lighten($m-button-info-background-color, $lightenPercentage);
+    }
+  }
+
+  &.m-fuzzy {
+    .button {
+      border-color: $m-button-fuzzy-border-color;
+      color: $m-button-fuzzy-text-color;
+      background: $m-button-fuzzy-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-fuzzy-text-color;
+      color: $m-button-fuzzy-background-color;
+      background: $m-button-fuzzy-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-fuzzy-border-color, $lightenPercentage);
+      color: lighten($m-button-fuzzy-text-color, $lightenPercentage);
+      background: lighten($m-button-fuzzy-background-color, $lightenPercentage);
+    }
+  }
+
 }
