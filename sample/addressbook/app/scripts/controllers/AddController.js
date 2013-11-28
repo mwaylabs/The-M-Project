@@ -95,7 +95,7 @@
 
         addEntry: function( event, element ) {
             element.scope.set('currentModel', Addressbook.contactCollection.create(element.scope.editModel.attributes));
-            M.Toast.show({text: M.I18N.l('global.succ_add'), timeout: M.Toast.MEDIUM});
+            //M.Toast.show({text: M.I18N.l('global.succ_add'), timeout: M.Toast.MEDIUM});
         }
 
     });

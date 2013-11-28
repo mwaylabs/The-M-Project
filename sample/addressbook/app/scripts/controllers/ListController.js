@@ -47,7 +47,11 @@
 
         _initView: function( settings ) {
             if( !this.contactCollection ) {
+
+                this.registerEvents();
+
                 Addressbook.contactCollection = this.contactCollection = new Addressbook.Collections.ContactsCollection();
+
                 M.Loader.show();
                 this.contactCollection.fetch({
                     success: function(){
@@ -102,6 +106,20 @@
             if(localStorage.getItem('tutorial') === 'false' || localStorage.getItem('tutorial') === false){
                 this.hideTutorial();
             }
+        },
+
+        registerEvents: function(){
+            this.listenTo(this.contactCollection, 'change', function ( model ) {
+                M.Toast.show('Updated ' + model.get('firstname') + ' ' + model.get('lastname'));
+            });
+
+            this.listenTo(this.contactCollection, 'add', function ( model ) {
+                M.Toast.show('Added ' + model.get('firstname') + ' ' + model.get('lastname'));
+            });
+
+            this.listenTo(this.contactCollection, 'remove', function ( model ) {
+                M.Toast.show('Removed ' + model.get('firstname') + ' ' + model.get('lastname'));
+            });
         },
 
         showTutorial: function(){

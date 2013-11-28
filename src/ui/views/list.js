@@ -78,7 +78,7 @@ M.ListView = M.View.extend({
             listItemView = M.ListItemView.create({
                 scope: this.scope,
                 value: model,
-                enabled: false
+                enable: NO
             });
         }
 

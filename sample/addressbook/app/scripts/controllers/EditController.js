@@ -130,7 +130,7 @@
 
                 this.currentModel.save(null, {
                     success: function(){
-                        M.Toast.show({text: M.I18N.l('global.succ_update'), timeout: M.Toast.MEDIUM});
+                        //M.Toast.show({text: M.I18N.l('global.succ_update'), timeout: M.Toast.MEDIUM});
                     },
                     error: function(){
                         M.Toast.show({text: M.I18N.l('global.err_update'), timeout: M.Toast.MEDIUM});
