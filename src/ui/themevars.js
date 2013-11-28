@@ -92,7 +92,8 @@ M.ThemeVars = {
         "m-primary-disabled-color": "#d5d5d5",
         "m-primary-disabled-text-color": "#c3c3c3",
         "selection-color": "#c3c3c3",
-        "selection-checked-color": "#1092d3"
+        "selection-checked-color": "#1092d3",
+        "m-list-item-color": "#2dcca2"
     },
     "android_dark": {
         "m-primary-color": "#669900",

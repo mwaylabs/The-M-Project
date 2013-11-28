@@ -66,6 +66,10 @@ M.TemplateManager = M.Object.design({
         jqm: '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-first-child ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a class="ui-link-inherit"><%= _value_ %></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>'
     },
 
+    'M.ListItemViewLinked': {
+        defaultTemplate: '<li><span><%= _value_ %></span><i class="fa <%= icon %>"></i></li>'
+    },
+
     'M.ModelView': {
         defaultTemplate: '<ul><%= _value_ %></ul>',
         bootstrap: '<div><%= _value_ %></div>',

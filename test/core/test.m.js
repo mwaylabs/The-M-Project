@@ -67,6 +67,10 @@ describe('M Namespace', function () {
         assert.isFalse(M.isCollection(M.View.create()));
         assert.isFalse(M.isCollection(M.View.extend().create()));
         assert.isFalse(M.isCollection(M.View.extend({_type:''}).create()));
+        assert.isFalse(M.isCollection(M.Controller));
+        assert.isFalse(M.isCollection(M.Controller.create()));
+        assert.isFalse(M.isCollection(M.Controller.extend().create()));
+        assert.isFalse(M.isCollection(M.Controller.extend({_type:''}).create()));
 
     });
 
@@ -88,6 +92,10 @@ describe('M Namespace', function () {
         assert.isFalse(M.isModel(M.View.create()));
         assert.isFalse(M.isModel(M.View.extend().create()));
         assert.isFalse(M.isModel(M.View.extend({_type:''}).create()));
+        assert.isFalse(M.isModel(M.Controller));
+        assert.isFalse(M.isModel(M.Controller.create()));
+        assert.isFalse(M.isModel(M.Controller.extend().create()));
+        assert.isFalse(M.isModel(M.Controller.extend({_type:''}).create()));
 
     });
 
@@ -111,6 +119,36 @@ describe('M Namespace', function () {
         assert.isTrue(M.isView(M.View.create()));
         assert.isTrue(M.isView(M.View.extend().create()));
         assert.isTrue(M.isView(M.View.extend({_type:''}).create()));
+        assert.isFalse(M.isView(M.Controller));
+        assert.isFalse(M.isView(M.Controller.create()));
+        assert.isFalse(M.isView(M.Controller.extend().create()));
+        assert.isFalse(M.isView(M.Controller.extend({_type:''}).create()));
+
+    });
+
+    it('M.isController', function () {
+
+        assert.isFalse(M.isController());
+        assert.isFalse(M.isController(''));
+        assert.isFalse(M.isController(0));
+        assert.isFalse(M.isController(1));
+        assert.isFalse(M.isController({}));
+        assert.isFalse(M.isController([]));
+        assert.isFalse(M.isController(M.Collection));
+        assert.isFalse(M.isController(M.Collection.create()));
+        assert.isFalse(M.isController(M.Collection.extend().create()));
+        assert.isFalse(M.isController(M.Model));
+        assert.isFalse(M.isController(M.Model.create()));
+        assert.isFalse(M.isController(M.Model.extend().create()));
+        assert.isFalse(M.isController(M.View));
+        assert.isFalse(M.isController(M.View.create()));
+        assert.isFalse(M.isController(M.View.extend().create()));
+        assert.isFalse(M.isController(M.View.extend({_type:''}).create()));
+
+        assert.isFalse(M.isController(M.Controller));
+        assert.isTrue(M.isController(M.Controller.create()));
+        assert.isTrue(M.isController(M.Controller.extend().create()));
+        assert.isTrue(M.isController(M.Controller.extend({_type:''}).create()));
 
     });
 

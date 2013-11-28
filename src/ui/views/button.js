@@ -58,7 +58,6 @@ M.ButtonView = M.View.extend({
         M.View.prototype._postRender.apply(this, arguments);
         if(this.enabled === NO && this.disable){
             this.disable();
-            this._disableEvents();
         }
     }
 

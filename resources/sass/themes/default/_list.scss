@@ -16,7 +16,19 @@
         cursor: pointer;
       }
 
+      &.disabled li {
+        cursor: default;
+      }
+
+      i{
+        float: right;
+        font-size: $m-primary-font-size * 1.4;
+        color: $m-list-item-color;
+      }
+
     }
+
+
 
     .listitemview:first-child li {
       border-top: 1px solid #ddd;
