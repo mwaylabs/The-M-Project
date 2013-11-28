@@ -34,7 +34,7 @@ M.ImageView = M.View.extend({
             } else {
                 this._templateValues.alt = this.model.get(this.alt.attribute);
             }
-        } else if (this._value_) {
+        } else if (this._value_ || typeof this._value_ === 'string') {
             this._templateValues.alt = this.alt;
         }
         return this;
