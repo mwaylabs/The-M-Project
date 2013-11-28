@@ -6,7 +6,7 @@
  *
  * @example
  * M.Toast.show('test');
- * M.Toast.show('test', M.Toast.CRISPY);
+ * M.Toast.show('test', M.Toast.CONST.CRISPY);
  *
  */
 M.Toast = M.View.extend({
@@ -31,12 +31,12 @@ M.Toast = M.View.extend({
     initialize: function (settings) {
         var that = this;
         that.id = _.uniqueId();
-        that.text = settings.text || M.Toast.TEXT;
+        that.text = settings.text || M.Toast.CONST.TEXT;
         $('body').append(that.render().$el);
 
         setTimeout(function () {
             that.remove();
-        }, settings.timeout || M.Toast.MEDIUM);
+        }, settings.timeout || M.Toast.CONST.MEDIUM);
     },
 
     /**
@@ -76,7 +76,9 @@ M.Toast.show = function (settings) {
     return M.Toast.create(settings);
 };
 
-M.Toast.RAW = 500;
-M.Toast.MEDIUM = 2000;
-M.Toast.CRISPY = 4000;
-M.Toast.TEXT = '';
+M.Toast.CONST = {
+    RAW: 500,
+    MEDIUM: 2000,
+    CRISPY: 4000,
+    TEXT: ''
+};

@@ -7,17 +7,17 @@ describe('M.Toast', function () {
         assert.isFunction(M.Toast);
         assert.isFunction(M.Toast.show);
         assert.isTrue(Backbone.View.prototype.isPrototypeOf(M.Toast.create()));
-        assert.isTrue(M.Toast.RAW === 500);
-        assert.isTrue(M.Toast.MEDIUM === 2000);
-        assert.isTrue(M.Toast.CRISPY === 4000);
-        assert.isTrue(M.Toast.TEXT === '');
+        assert.isTrue(M.Toast.CONST.RAW === 500);
+        assert.isTrue(M.Toast.CONST.MEDIUM === 2000);
+        assert.isTrue(M.Toast.CONST.CRISPY === 4000);
+        assert.isTrue(M.Toast.CONST.TEXT === '');
 
         var toast = M.Toast.create();
 
         assert.isDefined(toast);
         var id = _.uniqueId();
         assert.isTrue(toast.id === (id-1).toString());
-        assert.isTrue(toast.text === M.Toast.TEXT);
+        assert.isTrue(toast.text === M.Toast.CONST.TEXT);
 
         var toast = M.Toast.create({
             text: 'test'
@@ -34,13 +34,13 @@ describe('M.Toast', function () {
     });
 
     it('M.Toast timeout MEDIUM', function( done ){
-        this.timeout(M.Toast.MEDIUM + 500);
+        this.timeout(M.Toast.CONST.MEDIUM + 500);
         $('body').find('.toastview .toast div').remove();
         M.Toast.show('test');
         assert.equal($('body').find('.toastview .toast div').text(), 'test');
         setTimeout(function(){
             assert.lengthOf($('body').find('.toastview .toast div'), 0);
             done();
-        }, M.Toast.MEDIUM);
+        }, M.Toast.CONST.MEDIUM);
     });
 });

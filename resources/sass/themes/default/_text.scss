@@ -1,5 +1,7 @@
 .textview{
 
+  @extend .margin1010;
+
   .label{
     display: block;
     border-bottom: $form-element-border;

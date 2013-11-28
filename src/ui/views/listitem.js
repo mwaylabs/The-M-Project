@@ -82,11 +82,11 @@ M.ListItemView = M.View.extend({
      */
     _applyBehaviour: function() {
 
-        if( this.type === M.ListItemView.CONS.ICON ) {
+        if( this.type === M.ListItemView.CONST.ICON ) {
             this.enabled = NO;
         }
 
-        if( this.type === M.ListItemView.CONS.LINKED || this.type === M.ListItemView.CONS.ICON ) {
+        if( this.type === M.ListItemView.CONST.LINKED || this.type === M.ListItemView.CONST.ICON ) {
             this.template = _.tmpl(M.TemplateManager.get('M.ListItemViewLinked'));
         }
 
@@ -97,7 +97,7 @@ M.ListItemView = M.View.extend({
 
     _assignTemplateValues: function() {
         M.View.prototype._assignTemplateValues.apply(this, arguments);
-        if( this.type === M.ListItemView.CONS.LINKED || this.type === M.ListItemView.CONS.ICON ) {
+        if( this.type === M.ListItemView.CONST.LINKED || this.type === M.ListItemView.CONST.ICON ) {
             this._templateValues.icon = this.getIcon();
         }
     },
@@ -115,7 +115,7 @@ M.ListItemView = M.View.extend({
  * Constant that specifies the behaviour of the ItemView
  * @type {{LINKED: number, BASIC: number, ICON: number}}
  */
-M.ListItemView.CONS = {
+M.ListItemView.CONST = {
     LINKED: 1,
     BASIC: 2,
     ICON: 3

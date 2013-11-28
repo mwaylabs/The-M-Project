@@ -29,7 +29,7 @@
         gotoEditPage: function(){
              Addressbook.navigate({
                 route: 'edit/' + this.currentModel.id,
-                transition: M.PageTransitions.MOVE_TO_BOTTOM_FROM_TOP
+                transition: M.PageTransitions.CONST.MOVE_TO_BOTTOM_FROM_TOP
             });
         },
 
@@ -66,7 +66,7 @@
                             tap: function(){
                                 Addressbook.navigate({
                                     route: '/',
-                                    transition: M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT
+                                    transition: M.PageTransitions.CONST.MOVE_TO_RIGHT_FROM_LEFT
                                 })
                             }
                         }

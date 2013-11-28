@@ -31,7 +31,7 @@
         back: function () {
             Addressbook.navigate({
                 route: 'detail/' + this.currentModel.id,
-                transition: M.PageTransitions.MOVE_TO_TOP_FROM_BOTTOM
+                transition: M.PageTransitions.CONST.MOVE_TO_TOP_FROM_BOTTOM
             });
         },
 
@@ -130,7 +130,7 @@
 
                 this.currentModel.save(null, {
                     success: function(){
-                        M.Toast.show({text: M.I18N.l('global.succ_update'), timeout: M.Toast.MEDIUM});
+                        //M.Toast.show({text: M.I18N.l('global.succ_update'), timeout: M.Toast.MEDIUM});
                     },
                     error: function(){
                         M.Toast.show({text: M.I18N.l('global.err_update'), timeout: M.Toast.MEDIUM});
