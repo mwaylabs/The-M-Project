@@ -34,7 +34,7 @@ M.ListView = M.View.extend({
 
 
         this.listenTo(this.collection, 'add', function (model) {
-            console.log('add');
+            //console.log('add');
             this.addItem(model);
         });
 
@@ -43,7 +43,7 @@ M.ListView = M.View.extend({
             //that.addAll();
         });
         this.listenTo(this.collection, 'change', function () {
-            console.log('change!');
+            //console.log('change!');
             //that.addAll();
         });
         this.listenTo(this.collection, 'remove', function (model) {
@@ -51,7 +51,7 @@ M.ListView = M.View.extend({
         });
 
         this.listenTo(this.collection, 'filter', function () {
-            console.log('filter');
+            //console.log('filter');
             //this.addItems(models);
         });
 
