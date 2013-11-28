@@ -55,6 +55,10 @@ M.TemplateManager = M.Object.design({
         defaultTemplate: '<li><%= _value_ %></li>'
     },
 
+    'M.ListItemViewLinked': {
+        defaultTemplate: '<li><span><%= _value_ %></span><i class="fa <%= icon %>"></i></li>'
+    },
+
     'M.ModelView': {
         defaultTemplate: '<ul><%= _value_ %></ul>'
     },

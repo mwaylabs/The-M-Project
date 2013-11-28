@@ -9,7 +9,7 @@
         locales: [
             {locale: 'en'}
         ],
-        showDebugView: NO
+        debugView: NO
     };
 
 })(this);

@@ -47,5 +47,13 @@ _.extend(M.Controller.prototype, Backbone.Events, {
 
     get: function (name) {
         return this[name];
+    },
+
+    /**
+     * Gets called if the application was initialized
+     *
+     */
+    applicationReady: function(){
+
     }
 });

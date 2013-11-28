@@ -1,24 +1,43 @@
-.listview{
+.listview {
+  @extend .margin1010;
 
-}
-
-.listview ul{
+  ul {
     margin: 0;
     padding: 0;
-}
 
-.listview ul li{
-    position: relative;
-    display: block;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-bottom: 0;
-    list-style: none;
-    cursor: pointer;
-}
+    .listitemview {
 
-.listitemview.active,
-.listview ul li.active{
-  background: $m-primary-active-color;
-  color: $m-primary-active-text-color;
+      li {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        border-bottom: 1px solid #ddd;
+        list-style: none;
+        cursor: pointer;
+      }
+
+      &.disabled li {
+        cursor: default;
+      }
+
+      i{
+        float: right;
+        font-size: $m-primary-font-size * 1.4;
+        color: $m-list-item-color;
+      }
+
+    }
+
+
+
+    .listitemview:first-child li {
+      border-top: 1px solid #ddd;
+    }
+  }
+
+  .listitemview.active,
+  .listview ul li.active {
+    background: $m-primary-active-color;
+    color: $m-primary-active-text-color;
+  }
 }

@@ -52,6 +52,10 @@ M.isI18NItem = function( entity ) {
     return (entity && entity._type && entity._type === 'M.I18NItem');
 };
 
+M.isController = function( entity ) {
+    return M.Controller.prototype.isPrototypeOf(entity);
+};
+
 /**
  *
  * Check if the given object is a M.View

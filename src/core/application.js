@@ -117,9 +117,17 @@ M.Application = M.Controller.extend({
         }
 
         this._initDebugView();
-        this._isReady = YES;
+
         //Init fastclick
         FastClick.attach(document.body);
+
+        _.each(Object.getPrototypeOf(this.router), function( controller, key ) {
+            if(M.isController(controller)){
+                controller.applicationReady();
+            }
+        }, this);
+
+        this._isReady = YES;
     },
 
     /**
@@ -128,7 +136,7 @@ M.Application = M.Controller.extend({
      * @private
      */
     _initDebugView: function() {
-        if( this.getConfig('showDebugView') ) {
+        if( this.getConfig('debugView') ) {
             this._debugView = M.DebugView.create();
         }
     },

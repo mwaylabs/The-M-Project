@@ -80,6 +80,9 @@ $m-button-fuzzy-text-color: $grey;
 $m-button-fuzzy-background-color: $white;
 
 
+$strong: bold;
+$normal: normal;
+$weak: lighter;
 
 
 
@@ -132,3 +135,9 @@ $m-primary-disabled-text-color: $grey;
 
 $selection-color: $grey;
 $selection-checked-color: $blue;
+
+//List
+$m-list-item-color: $green;
+
+//stencil
+$m-stencil-text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;

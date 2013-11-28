@@ -68,16 +68,23 @@ M.ListView = M.View.extend({
     },
 
     addItem: function (model) {
-        var view = null;
+        var listItemView = null;
         if (this.listItemView) {
-            view = this.listItemView.create({
+            listItemView = this.listItemView.create({
                 scope: this.scope,
                 value: model
             });
-            view.render();
-            this.$el.find('[data-childviews="list"]').append(view.$el);
-            this._viewModelMapping[view.model.cid] = view;
-            view.delegateEvents();
+        } else {
+            listItemView = M.ListItemView.create({
+                scope: this.scope,
+                value: model,
+                enabled: false
+            });
         }
+
+        listItemView.render();
+        this.$el.find('[data-childviews="list"]').append(listItemView.$el);
+        this._viewModelMapping[listItemView.model.cid] = listItemView;
+        listItemView.delegateEvents();
     }
 });
