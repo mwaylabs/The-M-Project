@@ -61,6 +61,9 @@ M.ThemeVars = {
         "m-button-fuzzy-border-color": "#c3c3c3",
         "m-button-fuzzy-text-color": "#c3c3c3",
         "m-button-fuzzy-background-color": "#FFFFFF",
+        "strong": "bold",
+        "normal": "normal",
+        "weak": "lighter",
         "form-border-width": "1px",
         "form-border-color": "#1092d3",
         "form-border-style": "solid",
@@ -93,7 +96,8 @@ M.ThemeVars = {
         "m-primary-disabled-text-color": "#c3c3c3",
         "selection-color": "#c3c3c3",
         "selection-checked-color": "#1092d3",
-        "m-list-item-color": "#2dcca2"
+        "m-list-item-color": "#2dcca2",
+        "m-stencil-text-shadow": "rgba(255,255,255,0.5) 0px 3px 3px"
     },
     "android_dark": {
         "m-primary-color": "#669900",

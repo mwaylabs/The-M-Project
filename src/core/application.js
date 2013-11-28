@@ -136,7 +136,7 @@ M.Application = M.Controller.extend({
      * @private
      */
     _initDebugView: function() {
-        if( this.getConfig('showDebugView') ) {
+        if( this.getConfig('debugView') ) {
             this._debugView = M.DebugView.create();
         }
     },
