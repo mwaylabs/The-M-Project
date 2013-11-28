@@ -9,6 +9,8 @@
 
 .toggleswitchview{
 
+  @extend .margin1010;
+
   label .label-descr{
     display: block;
     float: left;

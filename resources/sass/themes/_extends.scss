@@ -1,6 +1,6 @@
 @import "compass/css3/appearance";
 
-.ellipsis{
+.ellipsis {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -20,26 +20,45 @@
   outline: none;
 }
 
-.selection{
+.selection {
   @extend .form;
   border: none;
 }
 
-.fullscreen{
+.fullscreen {
   position: absolute;
   left: 0;
   right: 0;
-  top:0;
+  top: 0;
   bottom: 0;
   overflow-y: scroll;
   overflow-x: hidden;
 }
 
-.input{
+.input {
   outline: none;
 }
 
-.margin1010{
+.margin1010 {
   margin-top: $m-primary-margin-top;
   margin-bottom: $m-primary-margin-bottom;
+}
+
+.header-center {
+  font-size: $m-primary-font-size;
+  color: $white;
+  text-align: center;
+  padding: 7px 0 0 0;
+}
+
+.header-first {
+  position: absolute;
+  left: 10px;
+  top: 3px;
+}
+
+.header-second {
+  position: absolute;
+  right: 10px;
+  top: 3px;
 }

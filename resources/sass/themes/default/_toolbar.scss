@@ -7,21 +7,13 @@
 }
 
 .toolbarview .first {
-  position: absolute;
-  left: 10px;
-  top: 3px;
+  @extend .header-first;
 }
 
 .toolbarview .center {
-  font-size: 1.5em;
-  color: #ffffff;
-  text-align: center;
-  font-weight: bold;
-  padding: 7px 0 0 0;
+  @extend .header-center;
 }
 
 .toolbarview .second {
-  position: absolute;
-  right: 10px;
-  top: 3px;
+  @extend .header-second;
 }
