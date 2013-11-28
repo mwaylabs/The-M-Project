@@ -1,7 +1,3 @@
-
-M.RADIOLIST_VIEW = 'M.RadiolistView';
-M.RADIOOPTION_VIEW = 'M.RadioOptionView';
-
 /**
  * The {M.RadiolistView} view class render a group of <input type="radio"> HTML elements.
  * An example would be ask the user for his favorite drink. The user can
@@ -32,19 +28,19 @@ M.RadiolistView = M.SelectionlistView.extend({
      * The type of the object
      * @private
      */
-    _type: M.RADIOLIST_VIEW,
+    _type: 'M.RadiolistView',
 
     /**
      * The template of the object before initializing it.
      * @private
      */
-    _template: _.tmpl(M.TemplateManager.get(M.RADIOLIST_VIEW)),
+    _template: _.tmpl(M.TemplateManager.get('M.RadiolistView')),
 
     /**
      * The template of an option before initializing it.
      * @private
      */
-    _optionTemplate: _.tmpl(M.TemplateManager.get(M.RADIOOPTION_VIEW)),
+    _optionTemplate: _.tmpl(M.TemplateManager.get('M.RadioOptionView')),
 
     /**
      * Selector name which is used internally to determine the parent dom element.
