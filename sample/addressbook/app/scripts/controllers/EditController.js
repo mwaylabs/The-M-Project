@@ -31,7 +31,7 @@
         back: function () {
             Addressbook.navigate({
                 route: 'detail/' + this.currentModel.id,
-                transition: M.PageTransitions.MOVE_TO_TOP_FROM_BOTTOM
+                transition: M.PageTransitions.CONST.MOVE_TO_TOP_FROM_BOTTOM
             });
         },
 
