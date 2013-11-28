@@ -21,7 +21,8 @@ M.ListItemView = M.View.extend({
 
     /**
      * The type of the listitem. Default is 'basic' and just displays the value
-     * @type {String} select from the M.ListItemView.CONS
+     * select from the M.ListItemView.CONS
+     * @type {String}
      * @example
      *
      * M.ListItemView.extend({
@@ -36,7 +37,8 @@ M.ListItemView = M.View.extend({
     icon: 'fa-angle-right',
 
     /**
-     * @type {Boolean} sets the view in the creation process to be enabled or disabled
+     * sets the view in the creation process to be enabled or disabled
+     * @type {Boolean}
      */
 
     initialize: function() {

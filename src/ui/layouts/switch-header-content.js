@@ -1,16 +1,18 @@
 (function( scope ) {
 
     /**
-     * @type {String} the switchlayout template
+     * the switchlayout template
+     * @type {string}
      */
     var switchTemplate = M.SwitchLayout.prototype.template;
     /**
-     * @type {String} the header template
+     * the header template
+     * @type {string}
      */
     var headerTemplate = M.HeaderLayout.prototype.template;
     /**
      * add a header to the both content container
-     * @type {String}
+     * @type {string}
      */
     var myTemplate = switchTemplate.replace(/m-page-1">/gi, 'm-page-1">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page1_header"'));
     myTemplate = myTemplate.replace(/m-page-2">/gi, 'm-page-2">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page2_header"'));
@@ -24,7 +26,8 @@
         _type: 'M.SwitchHeaderContentLayout',
 
         /**
-         * @type {String} the template - a combination of the header and switch template
+         * the template - a combination of the header and switch template
+         * @type {string}
          */
         template: myTemplate,
 

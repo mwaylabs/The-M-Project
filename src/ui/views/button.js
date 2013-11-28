@@ -29,7 +29,8 @@ M.ButtonView = M.View.extend({
     _isActive: YES,
 
     /**
-     * @type {Boolean} sets the view in the creation process to be enabled or disabled
+     * sets the view in the creation process to be enabled or disabled
+     * @type {Boolean}
      */
     enabled: YES,
 
