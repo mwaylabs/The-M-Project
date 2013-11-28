@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Thu Nov 28 2013 15:43:21
+* Date:      Thu Nov 28 2013 16:43:51
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -2545,13 +2545,13 @@
 }
 
 }
-/* line 3, ../resources/sass/themes/_extends.scss */
+/* line 4, ../resources/sass/themes/_extends.scss */
 .android-dark .ellipsis, .android-dark .form, .android-dark .selection, .android-dark .radiolistview label, .android-dark .checkboxlistview label, .android-dark .textfieldview input, .android-dark .textfieldview .input-icon-addon, .android-dark .textfieldview .input-icon-addon input {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
-/* line 9, ../resources/sass/themes/_extends.scss */
+/* line 10, ../resources/sass/themes/_extends.scss */
 .android-dark .form, .android-dark .selection, .android-dark .radiolistview label, .android-dark .checkboxlistview label, .android-dark .textfieldview input, .android-dark .textfieldview .input-icon-addon {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -2566,11 +2566,11 @@
   padding-bottom: 6px;
   outline: none;
 }
-/* line 23, ../resources/sass/themes/_extends.scss */
+/* line 24, ../resources/sass/themes/_extends.scss */
 .android-dark .selection, .android-dark .radiolistview label, .android-dark .checkboxlistview label {
   border: none;
 }
-/* line 28, ../resources/sass/themes/_extends.scss */
+/* line 29, ../resources/sass/themes/_extends.scss */
 .android-dark .fullscreen, .android-dark .m-page, .android-dark .header, .android-dark .switch-header-content-layout .content-wrapper {
   position: absolute;
   left: 0;
@@ -2580,33 +2580,42 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
-/* line 38, ../resources/sass/themes/_extends.scss */
+/* line 39, ../resources/sass/themes/_extends.scss */
 .android-dark .input, .android-dark .checkboxlistview input[type="checkbox"] {
   outline: none;
 }
-/* line 42, ../resources/sass/themes/_extends.scss */
+/* line 43, ../resources/sass/themes/_extends.scss */
 .android-dark .margin1010, .android-dark .button, .android-dark .listview, .android-dark .selection-list, .android-dark .buttongroupview, .android-dark .radiolistview, .android-dark .checkboxlistview, .android-dark .toggleswitchview {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 47, ../resources/sass/themes/_extends.scss */
+/* line 48, ../resources/sass/themes/_extends.scss */
 .android-dark .header-center, .android-dark .toolbarview .center {
   font-size: 1.6rem;
   color: white;
   text-align: center;
   padding: 7px 0 0 0;
 }
-/* line 54, ../resources/sass/themes/_extends.scss */
+/* line 55, ../resources/sass/themes/_extends.scss */
 .android-dark .header-first, .android-dark .switch-header-content-layout .first, .android-dark .toolbarview .first {
   position: absolute;
   left: 10px;
   top: 3px;
 }
-/* line 60, ../resources/sass/themes/_extends.scss */
+/* line 61, ../resources/sass/themes/_extends.scss */
 .android-dark .header-second, .android-dark .switch-header-content-layout .second, .android-dark .toolbarview .second {
   position: absolute;
   right: 10px;
   top: 3px;
+}
+/* line 67, ../resources/sass/themes/_extends.scss */
+.android-dark .stencil, .android-dark .textview.stencil i, .android-dark .textview.stencil div div {
+  color: transparent;
+  text-shadow: rgba(255, 255, 255, 0.5) 0px 3px 3px;
+  background: #a6a6a6;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
 }
 /* line 1, ../resources/sass/themes/default/_base.scss */
 .android-dark html {
@@ -4537,6 +4546,13 @@
 .android-dark .textview .input-icon-addon div, .android-dark .textview .input-icon-addon i {
   display: inline-block;
   margin-right: 5px;
+}
+/* line 15, ../resources/sass/themes/default/_text.scss */
+.android-dark .textview.stencil, .android-dark .textview.stencil i.textview, .android-dark .textview.stencil div div.textview {
+  background: #f2f2f2;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
 }
 /* line 5, ../resources/sass/themes/android_dark/_buttongroup.scss */
 .android-dark .buttongroupview .buttonview.active .button {

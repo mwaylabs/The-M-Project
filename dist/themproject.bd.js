@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Thu Nov 28 2013 15:43:20
+* Date:      Thu Nov 28 2013 16:43:50
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -1315,7 +1315,7 @@
          * @private
          */
         _initDebugView: function() {
-            if( this.getConfig('showDebugView') ) {
+            if( this.getConfig('debugView') ) {
                 this._debugView = M.DebugView.create();
             }
         },

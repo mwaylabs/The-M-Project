@@ -2,19 +2,19 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Thu Nov 28 2013 15:43:21
+* Date:      Thu Nov 28 2013 16:43:51
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 */
-/* line 3, ../resources/sass/themes/_extends.scss */
+/* line 4, ../resources/sass/themes/_extends.scss */
 .ellipsis, .form, .selection, .radiolistview label, .checkboxlistview label, .textfieldview input, .textfieldview .input-icon-addon, .textfieldview .input-icon-addon input {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
-/* line 9, ../resources/sass/themes/_extends.scss */
+/* line 10, ../resources/sass/themes/_extends.scss */
 .form, .selection, .radiolistview label, .checkboxlistview label, .textfieldview input, .textfieldview .input-icon-addon {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -30,12 +30,12 @@
   outline: none;
 }
 
-/* line 23, ../resources/sass/themes/_extends.scss */
+/* line 24, ../resources/sass/themes/_extends.scss */
 .selection, .radiolistview label, .checkboxlistview label {
   border: none;
 }
 
-/* line 28, ../resources/sass/themes/_extends.scss */
+/* line 29, ../resources/sass/themes/_extends.scss */
 .fullscreen, .m-page, .header, .switch-header-content-layout .content-wrapper {
   position: absolute;
   left: 0;
@@ -46,18 +46,18 @@
   overflow-x: hidden;
 }
 
-/* line 38, ../resources/sass/themes/_extends.scss */
+/* line 39, ../resources/sass/themes/_extends.scss */
 .input, .checkboxlistview input[type="checkbox"] {
   outline: none;
 }
 
-/* line 42, ../resources/sass/themes/_extends.scss */
+/* line 43, ../resources/sass/themes/_extends.scss */
 .margin1010, .button, .listview, .selection-list, .buttongroupview, .radiolistview, .checkboxlistview, .toggleswitchview {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-/* line 47, ../resources/sass/themes/_extends.scss */
+/* line 48, ../resources/sass/themes/_extends.scss */
 .header-center, .toolbarview .center {
   font-size: 1.6rem;
   color: white;
@@ -65,18 +65,28 @@
   padding: 7px 0 0 0;
 }
 
-/* line 54, ../resources/sass/themes/_extends.scss */
+/* line 55, ../resources/sass/themes/_extends.scss */
 .header-first, .switch-header-content-layout .first, .toolbarview .first {
   position: absolute;
   left: 10px;
   top: 3px;
 }
 
-/* line 60, ../resources/sass/themes/_extends.scss */
+/* line 61, ../resources/sass/themes/_extends.scss */
 .header-second, .switch-header-content-layout .second, .toolbarview .second {
   position: absolute;
   right: 10px;
   top: 3px;
+}
+
+/* line 67, ../resources/sass/themes/_extends.scss */
+.stencil, .textview.stencil i, .textview.stencil div div {
+  color: transparent;
+  text-shadow: rgba(255, 255, 255, 0.5) 0px 3px 3px;
+  background: #a6a6a6;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
 }
 
 /* line 1, ../resources/sass/themes/default/_base.scss */
@@ -4732,4 +4742,11 @@ html, body {
 .textview .input-icon-addon div, .textview .input-icon-addon i {
   display: inline-block;
   margin-right: 5px;
+}
+/* line 15, ../resources/sass/themes/default/_text.scss */
+.textview.stencil, .textview.stencil i.textview, .textview.stencil div div.textview {
+  background: #f2f2f2;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
 }

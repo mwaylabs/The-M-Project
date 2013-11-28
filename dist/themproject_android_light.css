@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Thu Nov 28 2013 15:43:21
+* Date:      Thu Nov 28 2013 16:43:51
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -2545,13 +2545,13 @@
 }
 
 }
-/* line 3, ../resources/sass/themes/_extends.scss */
+/* line 4, ../resources/sass/themes/_extends.scss */
 .android .ellipsis, .android .form, .android .selection, .android .radiolistview label, .android .checkboxlistview label, .android .textfieldview input, .android .textfieldview .input-icon-addon, .android-light .radiolistview .android label, .android-light .checkboxlistview .android label, .android-light .textfieldview .android input, .android-light .textfieldview .android .input-icon-addon, .android .textfieldview .input-icon-addon input, .android-light .ellipsis, .android-light .form, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon, .android-light .textfieldview .input-icon-addon input {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
-/* line 9, ../resources/sass/themes/_extends.scss */
+/* line 10, ../resources/sass/themes/_extends.scss */
 .android .form, .android .selection, .android .radiolistview label, .android .checkboxlistview label, .android-light .radiolistview .android label, .android-light .checkboxlistview .android label, .android .textfieldview input, .android-light .textfieldview .android input, .android .textfieldview .input-icon-addon, .android-light .textfieldview .android .input-icon-addon, .android-light .form, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -2566,11 +2566,11 @@
   padding-bottom: 6px;
   outline: none;
 }
-/* line 23, ../resources/sass/themes/_extends.scss */
+/* line 24, ../resources/sass/themes/_extends.scss */
 .android .selection, .android .radiolistview label, .android-light .radiolistview .android label, .android .checkboxlistview label, .android-light .checkboxlistview .android label, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label {
   border: none;
 }
-/* line 28, ../resources/sass/themes/_extends.scss */
+/* line 29, ../resources/sass/themes/_extends.scss */
 .android .fullscreen, .android .m-page, .android .header, .android .switch-header-content-layout .content-wrapper, .android-light .switch-header-content-layout .android .content-wrapper, .android-light .fullscreen, .android-light .m-page, .android-light .header, .android .switch-header-content-layout .android-light .content-wrapper, .android-light .switch-header-content-layout .content-wrapper {
   position: absolute;
   left: 0;
@@ -2580,33 +2580,42 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
-/* line 38, ../resources/sass/themes/_extends.scss */
+/* line 39, ../resources/sass/themes/_extends.scss */
 .android .input, .android .checkboxlistview input[type="checkbox"], .android-light .checkboxlistview .android input[type="checkbox"], .android-light .input, .android .checkboxlistview .android-light input[type="checkbox"], .android-light .checkboxlistview input[type="checkbox"] {
   outline: none;
 }
-/* line 42, ../resources/sass/themes/_extends.scss */
+/* line 43, ../resources/sass/themes/_extends.scss */
 .android .margin1010, .android .button, .android .listview, .android .selection-list, .android .buttongroupview, .android .radiolistview, .android .checkboxlistview, .android .toggleswitchview, .android-light .margin1010, .android-light .button, .android-light .listview, .android-light .selection-list, .android-light .buttongroupview, .android-light .radiolistview, .android-light .checkboxlistview, .android-light .toggleswitchview {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 47, ../resources/sass/themes/_extends.scss */
+/* line 48, ../resources/sass/themes/_extends.scss */
 .android .header-center, .android .toolbarview .center, .android-light .toolbarview .android .center, .android-light .header-center, .android .toolbarview .android-light .center, .android-light .toolbarview .center {
   font-size: 1.6rem;
   color: white;
   text-align: center;
   padding: 7px 0 0 0;
 }
-/* line 54, ../resources/sass/themes/_extends.scss */
+/* line 55, ../resources/sass/themes/_extends.scss */
 .android .header-first, .android .switch-header-content-layout .first, .android-light .switch-header-content-layout .android .first, .android .toolbarview .first, .android-light .toolbarview .android .first, .android-light .header-first, .android .switch-header-content-layout .android-light .first, .android-light .switch-header-content-layout .first, .android .toolbarview .android-light .first, .android-light .toolbarview .first {
   position: absolute;
   left: 10px;
   top: 3px;
 }
-/* line 60, ../resources/sass/themes/_extends.scss */
+/* line 61, ../resources/sass/themes/_extends.scss */
 .android .header-second, .android .switch-header-content-layout .second, .android-light .switch-header-content-layout .android .second, .android .toolbarview .second, .android-light .toolbarview .android .second, .android-light .header-second, .android .switch-header-content-layout .android-light .second, .android-light .switch-header-content-layout .second, .android .toolbarview .android-light .second, .android-light .toolbarview .second {
   position: absolute;
   right: 10px;
   top: 3px;
+}
+/* line 67, ../resources/sass/themes/_extends.scss */
+.android .stencil, .android .textview.stencil i, .android .textview.stencil div div, .android-light .textview.stencil .android i, .android-light .textview.stencil div .android div, .android-light .stencil, .android .textview.stencil .android-light i, .android .textview.stencil div .android-light div, .android-light .textview.stencil i, .android-light .textview.stencil div div {
+  color: transparent;
+  text-shadow: rgba(255, 255, 255, 0.5) 0px 3px 3px;
+  background: #a6a6a6;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
 }
 /* line 1, ../resources/sass/themes/default/_base.scss */
 .android html, .android-light html {
@@ -4554,6 +4563,13 @@
 .android .textview .input-icon-addon div, .android .textview .input-icon-addon i, .android-light .textview .input-icon-addon div, .android-light .textview .input-icon-addon i {
   display: inline-block;
   margin-right: 5px;
+}
+/* line 15, ../resources/sass/themes/default/_text.scss */
+.android .textview.stencil, .android .textview.stencil i.textview, .android .textview.stencil div div.textview, .android-light .textview.stencil .android i.textview, .android-light .textview.stencil div .android div.textview, .android-light .textview.stencil, .android .textview.stencil .android-light i.textview, .android .textview.stencil div .android-light div.textview, .android-light .textview.stencil i.textview, .android-light .textview.stencil div div.textview {
+  background: #f2f2f2;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
 }
 /* line 2, ../resources/sass/themes/android_light/_buttongroup.scss */
 .android .buttongroupview, .android-light .buttongroupview {

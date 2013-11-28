@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Thu Nov 28 2013 15:43:21
+* Date:      Thu Nov 28 2013 16:43:51
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -2545,13 +2545,13 @@
 }
 
 }
-/* line 3, ../resources/sass/themes/_extends.scss */
+/* line 4, ../resources/sass/themes/_extends.scss */
 .ios .ellipsis, .ios .form, .ios .selection, .ios .radiolistview label, .ios .checkboxlistview label, .ios .textfieldview input, .ios .textfieldview .input-icon-addon, .ios .textfieldview .input-icon-addon input {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
-/* line 9, ../resources/sass/themes/_extends.scss */
+/* line 10, ../resources/sass/themes/_extends.scss */
 .ios .form, .ios .selection, .ios .radiolistview label, .ios .checkboxlistview label, .ios .textfieldview input, .ios .textfieldview .input-icon-addon {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -2566,11 +2566,11 @@
   padding-bottom: 6px;
   outline: none;
 }
-/* line 23, ../resources/sass/themes/_extends.scss */
+/* line 24, ../resources/sass/themes/_extends.scss */
 .ios .selection, .ios .radiolistview label, .ios .checkboxlistview label {
   border: none;
 }
-/* line 28, ../resources/sass/themes/_extends.scss */
+/* line 29, ../resources/sass/themes/_extends.scss */
 .ios .fullscreen, .ios .m-page, .ios .header, .ios .switch-header-content-layout .content-wrapper {
   position: absolute;
   left: 0;
@@ -2580,33 +2580,42 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
-/* line 38, ../resources/sass/themes/_extends.scss */
+/* line 39, ../resources/sass/themes/_extends.scss */
 .ios .input, .ios .checkboxlistview input[type="checkbox"] {
   outline: none;
 }
-/* line 42, ../resources/sass/themes/_extends.scss */
+/* line 43, ../resources/sass/themes/_extends.scss */
 .ios .margin1010, .ios .button, .ios .listview, .ios .selection-list, .ios .buttongroupview, .ios .radiolistview, .ios .checkboxlistview, .ios .toggleswitchview {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 47, ../resources/sass/themes/_extends.scss */
+/* line 48, ../resources/sass/themes/_extends.scss */
 .ios .header-center, .ios .toolbarview .center {
   font-size: 1.6rem;
   color: white;
   text-align: center;
   padding: 7px 0 0 0;
 }
-/* line 54, ../resources/sass/themes/_extends.scss */
+/* line 55, ../resources/sass/themes/_extends.scss */
 .ios .header-first, .ios .switch-header-content-layout .first, .ios .toolbarview .first {
   position: absolute;
   left: 10px;
   top: 3px;
 }
-/* line 60, ../resources/sass/themes/_extends.scss */
+/* line 61, ../resources/sass/themes/_extends.scss */
 .ios .header-second, .ios .switch-header-content-layout .second, .ios .toolbarview .second {
   position: absolute;
   right: 10px;
   top: 3px;
+}
+/* line 67, ../resources/sass/themes/_extends.scss */
+.ios .stencil, .ios .textview.stencil i, .ios .textview.stencil div div {
+  color: transparent;
+  text-shadow: rgba(255, 255, 255, 0.5) 0px 3px 3px;
+  background: #a6a6a6;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
 }
 /* line 1, ../resources/sass/themes/default/_base.scss */
 .ios html {
@@ -4537,6 +4546,13 @@
 .ios .textview .input-icon-addon div, .ios .textview .input-icon-addon i {
   display: inline-block;
   margin-right: 5px;
+}
+/* line 15, ../resources/sass/themes/default/_text.scss */
+.ios .textview.stencil, .ios .textview.stencil i.textview, .ios .textview.stencil div div.textview {
+  background: #f2f2f2;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
 }
 /* line 10, ../resources/sass/themes/ios/_buttongroup.scss */
 .ios .buttongroupview .buttonview.active .button {
