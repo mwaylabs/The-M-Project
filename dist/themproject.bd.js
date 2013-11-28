@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Wed Nov 27 2013 15:31:42
+* Date:      Thu Nov 28 2013 15:43:20
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -63,6 +63,10 @@
     
     M.isI18NItem = function( entity ) {
         return (entity && entity._type && entity._type === 'M.I18NItem');
+    };
+    
+    M.isController = function( entity ) {
+        return M.Controller.prototype.isPrototypeOf(entity);
     };
     
     /**
@@ -1163,6 +1167,14 @@
     
         get: function (name) {
             return this[name];
+        },
+    
+        /**
+         * Gets called if the application was initialized
+         *
+         */
+        applicationReady: function(){
+    
         }
     });
     /**
@@ -1284,9 +1296,17 @@
             }
     
             this._initDebugView();
-            this._isReady = YES;
+    
             //Init fastclick
             FastClick.attach(document.body);
+    
+            _.each(Object.getPrototypeOf(this.router), function( controller, key ) {
+                if(M.isController(controller)){
+                    controller.applicationReady();
+                }
+            }, this);
+    
+            this._isReady = YES;
         },
     
         /**
@@ -6769,14 +6789,14 @@
     
         _isEnabled: YES,
     
-        disable: function(){
+        disable: function() {
             this._isEnabled = NO;
             this.$el.addClass('disabled').removeClass('enabled');
             this._disableEvents();
             return this;
         },
     
-        enable: function(){
+        enable: function() {
             this._isEnabled = YES;
             this.$el.addClass('enabled').removeClass('disabled');
             this._enableEvents();
@@ -6837,6 +6857,9 @@
     
             // touchstrart callback - add the class 'active'
             var touchstart = function setActiveStateOnTouchstart(event, element){
+                if(element._hammertime.enabled === NO){
+                    return;
+                }
                 element.$el.addClass('active');
             };
     

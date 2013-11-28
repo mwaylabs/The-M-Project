@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Wed Nov 27 2013 15:31:42
+* Date:      Thu Nov 28 2013 15:43:20
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -63,6 +63,10 @@
     
     M.isI18NItem = function( entity ) {
         return (entity && entity._type && entity._type === 'M.I18NItem');
+    };
+    
+    M.isController = function( entity ) {
+        return M.Controller.prototype.isPrototypeOf(entity);
     };
     
     /**
@@ -1163,6 +1167,14 @@
     
         get: function (name) {
             return this[name];
+        },
+    
+        /**
+         * Gets called if the application was initialized
+         *
+         */
+        applicationReady: function(){
+    
         }
     });
     /**
@@ -1284,9 +1296,17 @@
             }
     
             this._initDebugView();
-            this._isReady = YES;
+    
             //Init fastclick
             FastClick.attach(document.body);
+    
+            _.each(Object.getPrototypeOf(this.router), function( controller, key ) {
+                if(M.isController(controller)){
+                    controller.applicationReady();
+                }
+            }, this);
+    
+            this._isReady = YES;
         },
     
         /**
@@ -6769,14 +6789,14 @@
     
         _isEnabled: YES,
     
-        disable: function(){
+        disable: function() {
             this._isEnabled = NO;
             this.$el.addClass('disabled').removeClass('enabled');
             this._disableEvents();
             return this;
         },
     
-        enable: function(){
+        enable: function() {
             this._isEnabled = YES;
             this.$el.addClass('enabled').removeClass('disabled');
             this._enableEvents();
@@ -6837,6 +6857,9 @@
     
             // touchstrart callback - add the class 'active'
             var touchstart = function setActiveStateOnTouchstart(event, element){
+                if(element._hammertime.enabled === NO){
+                    return;
+                }
                 element.$el.addClass('active');
             };
     
@@ -6980,19 +7003,30 @@
     M.ThemeVars = {
         _vars: {
         "default": {
-            "pink": "#AA66CC",
-            "orange": "#FFBB33",
-            "red": "#FF4444",
-            "lightred": "#FF2D55",
-            "lightblue": "#46b8da",
-            "blue": "#06AEF3",
-            "darkblue": "#0099CC",
-            "green": "#99CC00",
-            "grey": "#8E8E93",
-            "lightgrey": "#c3c3c3",
+            "blue": "#1092d3",
+            "lightblue": "#58b3e0",
+            "darkblue": "#0e7cb4",
+            "purple": "#6c64ff",
+            "lightpurple": "#9893ff",
+            "darkpurple": "#5c55d9",
+            "green": "#2dcca2",
+            "lightgreen": "#6cdbbe",
+            "darkgreen": "#26ae8a",
+            "red": "#ed253d",
+            "lightred": "#f26778",
+            "darkred": "#ca1f34",
+            "orange": "#f45b42",
+            "lightorange": "#f78d7b",
+            "darkorange": "#d04d38",
+            "yellow": "#eab13a",
+            "lightyellow": "#f0c975",
+            "darkyellow": "#d99731",
+            "grey": "#c3c3c3",
+            "lightgrey": "#d5d5d5",
+            "darkgrey": "#a6a6a6",
+            "black": "#000000",
             "white": "#FFFFFF",
             "darkwhite": "#F2F2F2",
-            "black": "#000000",
             "debug-1": "#02ccb9",
             "debug-2": "#00cc09",
             "debug-3": "#cc3500",
@@ -7003,34 +7037,64 @@
             "debug-8": "#0073cc",
             "grid-columns": "12",
             "grid-gutter-width": "30px",
-            "button-border-width": "1px",
-            "button-border-color": "#999",
-            "button-border-radius": "4px",
-            "button-border-style": "solid",
+            "lightenPercentage": "15%",
+            "m-button-border-width": "1px",
+            "m-button-border-color": "#1092d3",
+            "m-button-text-color": "#1092d3",
+            "m-button-border-radius": "4px",
+            "m-button-border-style": "solid",
+            "m-button-padding": "10px 20px",
+            "m-button-primary-border-color": "#6c64ff",
+            "m-button-primary-text-color": "#6c64ff",
+            "m-button-primary-background-color": "#FFFFFF",
+            "m-button-success-border-color": "#2dcca2",
+            "m-button-success-text-color": "#2dcca2",
+            "m-button-success-background-color": "#FFFFFF",
+            "m-button-error-border-color": "#ed253d",
+            "m-button-error-text-color": "#ed253d",
+            "m-button-error-background-color": "#FFFFFF",
+            "m-button-warning-border-color": "#f45b42",
+            "m-button-warning-text-color": "#f45b42",
+            "m-button-warning-background-color": "#FFFFFF",
+            "m-button-info-border-color": "#eab13a",
+            "m-button-info-text-color": "#eab13a",
+            "m-button-info-background-color": "#FFFFFF",
+            "m-button-fuzzy-border-color": "#c3c3c3",
+            "m-button-fuzzy-text-color": "#c3c3c3",
+            "m-button-fuzzy-background-color": "#FFFFFF",
             "form-border-width": "1px",
-            "form-border-color": "#06AEF3",
+            "form-border-color": "#1092d3",
             "form-border-style": "solid",
-            "form-element-border": "1px solid #06AEF3",
+            "form-element-border": "1px solid #1092d3",
             "textfield-icon-padding": "30px",
             "textfield-icon-x-position": "4px",
             "textfield-icon-y-position": "14px",
             "textfield-icon-font-size": "2.2rem",
             "textfield-padding": "6px",
-            "m-primary-color": "#06AEF3",
+            "m-primary-color": "#1092d3",
             "m-primary-text-color": "#000000",
-            "m-primary-border-color": "#46b8da",
-            "m-primary-active-color": "#0099CC",
+            "m-primary-border-color": "#58b3e0",
+            "m-primary-active-color": "#0e7cb4",
             "m-primary-active-text-color": "#FFFFFF",
             "tablayout-menu-height": "50px",
             "tablayout-menu-button-padding": "13px 0 0 0",
             "tablayout-menu-scroll-button-width": "200px",
+            "switch-header-content-padding": "4px 0 0 0",
             "m-primary-font-family": "\"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
             "m-primary-font-weight": "300",
-            "m-primary-font-size": "1.8rem",
-            "m-primary-line-height": "22px",
+            "m-primary-font-size": "1.6rem",
+            "m-primary-calc-font-size": "16px",
+            "m-primary-line-height": "2.2rem",
             "m-primary-font-color": "#000000",
+            "m-primary-margin-top": "10px",
+            "m-primary-margin-bottom": "10px",
             "modal-backdrop-background-color": "#000000",
-            "content-padding": "15px"
+            "content-padding": "15px",
+            "m-primary-disabled-color": "#d5d5d5",
+            "m-primary-disabled-text-color": "#c3c3c3",
+            "selection-color": "#c3c3c3",
+            "selection-checked-color": "#1092d3",
+            "m-list-item-color": "#2dcca2"
         },
         "android_dark": {
             "m-primary-color": "#669900",
@@ -7052,11 +7116,13 @@
             "darkblue": "#007AFF",
             "green": "#4BD964",
             "grey": "#8E8E93",
+            "purple": "#6c64ff",
             "m-primary-font-family": "-apple-system-font, \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
             "m-primary-active-color": "transparent",
             "m-primary-active-text-color": "#007AFF",
             "tablayout-menu-height": "80px",
-            "tablayout-menu-scroll-button-width": "140px"
+            "tablayout-menu-scroll-button-width": "140px",
+            "selection-checked-color": "#59C8FA"
         }
     },
         get: function (name, theme) {
@@ -7139,6 +7205,10 @@
             jqm: '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-first-child ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a class="ui-link-inherit"><%= _value_ %></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>'
         },
     
+        'M.ListItemViewLinked': {
+            defaultTemplate: '<li><span><%= _value_ %></span><i class="fa <%= icon %>"></i></li>'
+        },
+    
         'M.ModelView': {
             defaultTemplate: '<ul><%= _value_ %></ul>',
             bootstrap: '<div><%= _value_ %></div>',
@@ -7215,7 +7285,7 @@
         },
     
         'M.RadioOptionView': {
-            defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value_ %>"> <%= label %></label>'
+            defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value_ %>"><i class="fa"></i><%= label %></label>'
         },
     
         'M.CheckboxlistView': {
@@ -7223,7 +7293,7 @@
         },
     
         'M.CheckboxOptionView': {
-            defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value_ %>"> <%= label %></label>'
+            defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value_ %>"><i class="fa"></i> <%= label %></label>'
         },
     
         'M.ToggleSwitchView': {
@@ -7451,7 +7521,7 @@
             constructor: function( options ) {
                 this.cid = _.uniqueId('view');
                 options = options || {};
-                var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'onSet', 'onGet'];
+                var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'onSet', 'onGet', 'enabled'];
                 _.extend(this, _.pick(options, viewOptions));
                 this._ensureElement();
                 this.initialize.apply(this, arguments);
@@ -7841,6 +7911,9 @@
                         this._hammertime = new Hammer(that.el, that._getEventOptions());
     
                         this._eventCallback[eventName] = function( event ) {
+                            if(that._hammertime.enabled === NO){
+                                return;
+                            }
                             var args = Array.prototype.slice.call(arguments);
                             args.push(that);
                             _.each(that._events[event.type], function( func ) {
@@ -7869,6 +7942,14 @@
              */
             _enableEvents: function() {
                 this._hammertime.enable(YES);
+            },
+    
+            /**
+             *
+             * @returns {Boolean} if events are active or not
+             */
+            isEnabled: function(){
+                return this._hammertime.enabled;
             },
     
             /**
@@ -8656,15 +8737,119 @@
      * @extends M.View
      */
     M.ListItemView = M.View.extend({
+    
+        /**
+         * The type of the view
+         * @type String
+         * @private
+         */
         _type: 'M.ListItemView',
-        template: _.tmpl(M.TemplateManager.get('M.ListItemView')),
-        initialize: function () {
+    
+        /**
+         * The template of the view
+         *
+         */
+        _template: _.tmpl(M.TemplateManager.get('M.ListItemView')),
+    
+        /**
+         * The type of the listitem. Default is 'basic' and just displays the value
+         * @type {String} select from the M.ListItemView.CONS
+         * @example
+         *
+         * M.ListItemView.extend({
+         *
+         *   type: M.ListItemView.CONS.LINKED
+         *
+         * });
+         *
+         */
+        type: 'basic',
+    
+        icon: 'fa-angle-right',
+    
+        /**
+         * @type {Boolean} sets the view in the creation process to be enabled or disabled
+         */
+    
+        initialize: function() {
             M.View.prototype.initialize.apply(this, arguments);
-            if (this.templateExtend) {
+            this._applyBehaviour();
+        },
+    
+        /**
+         * returns the value of the icon inside of the listitem view
+         * @returns {*|String|Array|Object|Choice|Undefined|key|*}
+         * @type {function}
+         * @example
+         *
+         * linkedCustomIconOnList: M.ListView.extend({
+    
+                        grid: 'col-xs-12',
+    
+                        _value_: M.Collection.create([
+                            {_value_: 'Android'},
+                            {_value_: 'Linux'},
+                            {_value_: 'Apple'},
+                            {_value_: 'Windows'}
+                        ]),
+    
+                        listItemView: M.ListItemView.extend({
+                            type: M.ListItemView.CONS.ICON,
+                            getIcon: function() {
+                                return 'fa-' + this.model.get('_value_').toLocaleLowerCase();
+                            }
+                        })
+    
+                    })
+         */
+        getIcon: function() {
+            return this.model.get('icon') || this.icon;
+        },
+    
+        /**
+         * Set properties regarding to the selected type
+         * @private
+         */
+        _applyBehaviour: function() {
+    
+            if( this.type === M.ListItemView.CONS.ICON ) {
+                this.enabled = NO;
+            }
+    
+            if( this.type === M.ListItemView.CONS.LINKED || this.type === M.ListItemView.CONS.ICON ) {
+                this.template = _.tmpl(M.TemplateManager.get('M.ListItemViewLinked'));
+            }
+    
+            if( this.templateExtend ) {
                 this.template = _.tmpl(this.template({value: this.templateExtend}));
             }
+        },
+    
+        _assignTemplateValues: function() {
+            M.View.prototype._assignTemplateValues.apply(this, arguments);
+            if( this.type === M.ListItemView.CONS.LINKED || this.type === M.ListItemView.CONS.ICON ) {
+                this._templateValues.icon = this.getIcon();
+            }
+        },
+    
+        _postRender: function() {
+            M.View.prototype._postRender.apply(this, arguments);
+            if( this.enabled === NO && this.disable ) {
+                this.disable();
+            }
         }
-    }).implements([M.ActiveState]);
+    
+    }).implements([M.ActiveState, M.ViewEnableState]);
+    
+    /**
+     * Constant that specifies the behaviour of the ItemView
+     * @type {{LINKED: number, BASIC: number, ICON: number}}
+     */
+    M.ListItemView.CONS = {
+        LINKED: 1,
+        BASIC: 2,
+        ICON: 3
+    };
     
     M.BUTTON_VIEW = 'M.ButtonView';
     
@@ -8693,7 +8878,12 @@
          * The active state of the button. Use isActive and setActive to change this property.
          * @private
          */
-        _isAcitve: YES,
+        _isActive: YES,
+    
+        /**
+         * @type {Boolean} sets the view in the creation process to be enabled or disabled
+         */
+        enabled: YES,
     
         _assignTemplateValues: function(){
             M.View.prototype._assignTemplateValues.apply(this, arguments);
@@ -8714,9 +8904,16 @@
         deactivate: function () {
             this._isAcitve = NO;
             this.$el.removeClass('active');
+        },
+    
+        _postRender: function(){
+            M.View.prototype._postRender.apply(this, arguments);
+            if(this.enabled === NO && this.disable){
+                this.disable();
+            }
         }
     
-    }).implements([M.ViewEnableState, M.ActiveState]);
+    }).implements([M.ActiveState, M.ViewEnableState]);
     /**
      * @module M.ListView
      *
@@ -8787,17 +8984,24 @@
         },
     
         addItem: function (model) {
-            var view = null;
+            var listItemView = null;
             if (this.listItemView) {
-                view = this.listItemView.create({
+                listItemView = this.listItemView.create({
                     scope: this.scope,
                     value: model
                 });
-                view.render();
-                this.$el.find('[data-childviews="list"]').append(view.$el);
-                this._viewModelMapping[view.model.cid] = view;
-                view.delegateEvents();
+            } else {
+                listItemView = M.ListItemView.create({
+                    scope: this.scope,
+                    value: model,
+                    enabled: false
+                });
             }
+    
+            listItemView.render();
+            this.$el.find('[data-childviews="list"]').append(listItemView.$el);
+            this._viewModelMapping[listItemView.model.cid] = listItemView;
+            listItemView.delegateEvents();
         }
     });
     /**
@@ -9281,7 +9485,7 @@
     
             return this;
         }
-    });
+    }).implements([M.ActiveState]);
     
     
     
@@ -9338,7 +9542,7 @@
          * @private
          */
         _optionsContainer: 'radio'
-    });
+    }).implements([M.ActiveState]);
     
     
     

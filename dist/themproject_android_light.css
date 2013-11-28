@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Wed Nov 27 2013 15:31:43
+* Date:      Thu Nov 28 2013 15:43:21
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -2546,27 +2546,31 @@
 
 }
 /* line 3, ../resources/sass/themes/_extends.scss */
-.android .ellipsis, .android .form, .android .textfieldview input, .android .textfieldview .input-icon-addon, .android .radiolistview label, .android-light .textfieldview .android input, .android-light .textfieldview .android .input-icon-addon, .android-light .radiolistview .android label, .android .textfieldview .input-icon-addon input, .android-light .ellipsis, .android-light .form, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon, .android .radiolistview .android-light label, .android-light .radiolistview label, .android-light .textfieldview .input-icon-addon input {
+.android .ellipsis, .android .form, .android .selection, .android .radiolistview label, .android .checkboxlistview label, .android .textfieldview input, .android .textfieldview .input-icon-addon, .android-light .radiolistview .android label, .android-light .checkboxlistview .android label, .android-light .textfieldview .android input, .android-light .textfieldview .android .input-icon-addon, .android .textfieldview .input-icon-addon input, .android-light .ellipsis, .android-light .form, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon, .android-light .textfieldview .input-icon-addon input {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 /* line 9, ../resources/sass/themes/_extends.scss */
-.android .form, .android .textfieldview input, .android-light .textfieldview .android input, .android .textfieldview .input-icon-addon, .android-light .textfieldview .android .input-icon-addon, .android .radiolistview label, .android-light .radiolistview .android label, .android-light .form, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon, .android .radiolistview .android-light label, .android-light .radiolistview label {
+.android .form, .android .selection, .android .radiolistview label, .android .checkboxlistview label, .android-light .radiolistview .android label, .android-light .checkboxlistview .android label, .android .textfieldview input, .android-light .textfieldview .android input, .android .textfieldview .input-icon-addon, .android-light .textfieldview .android .input-icon-addon, .android-light .form, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  border: 1px solid #06aef3;
+  border: 1px solid #1092d3;
   display: block;
   width: 100%;
-  font-size: 1.8rem;
-  line-height: 22px;
+  font-size: 1.6rem;
+  line-height: 2.2rem;
   border-radius: 4px;
   padding-top: 6px;
   padding-bottom: 6px;
   outline: none;
 }
 /* line 23, ../resources/sass/themes/_extends.scss */
+.android .selection, .android .radiolistview label, .android-light .radiolistview .android label, .android .checkboxlistview label, .android-light .checkboxlistview .android label, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label {
+  border: none;
+}
+/* line 28, ../resources/sass/themes/_extends.scss */
 .android .fullscreen, .android .m-page, .android .header, .android .switch-header-content-layout .content-wrapper, .android-light .switch-header-content-layout .android .content-wrapper, .android-light .fullscreen, .android-light .m-page, .android-light .header, .android .switch-header-content-layout .android-light .content-wrapper, .android-light .switch-header-content-layout .content-wrapper {
   position: absolute;
   left: 0;
@@ -2575,6 +2579,34 @@
   bottom: 0;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+/* line 38, ../resources/sass/themes/_extends.scss */
+.android .input, .android .checkboxlistview input[type="checkbox"], .android-light .checkboxlistview .android input[type="checkbox"], .android-light .input, .android .checkboxlistview .android-light input[type="checkbox"], .android-light .checkboxlistview input[type="checkbox"] {
+  outline: none;
+}
+/* line 42, ../resources/sass/themes/_extends.scss */
+.android .margin1010, .android .button, .android .listview, .android .selection-list, .android .buttongroupview, .android .radiolistview, .android .checkboxlistview, .android .toggleswitchview, .android-light .margin1010, .android-light .button, .android-light .listview, .android-light .selection-list, .android-light .buttongroupview, .android-light .radiolistview, .android-light .checkboxlistview, .android-light .toggleswitchview {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* line 47, ../resources/sass/themes/_extends.scss */
+.android .header-center, .android .toolbarview .center, .android-light .toolbarview .android .center, .android-light .header-center, .android .toolbarview .android-light .center, .android-light .toolbarview .center {
+  font-size: 1.6rem;
+  color: white;
+  text-align: center;
+  padding: 7px 0 0 0;
+}
+/* line 54, ../resources/sass/themes/_extends.scss */
+.android .header-first, .android .switch-header-content-layout .first, .android-light .switch-header-content-layout .android .first, .android .toolbarview .first, .android-light .toolbarview .android .first, .android-light .header-first, .android .switch-header-content-layout .android-light .first, .android-light .switch-header-content-layout .first, .android .toolbarview .android-light .first, .android-light .toolbarview .first {
+  position: absolute;
+  left: 10px;
+  top: 3px;
+}
+/* line 60, ../resources/sass/themes/_extends.scss */
+.android .header-second, .android .switch-header-content-layout .second, .android-light .switch-header-content-layout .android .second, .android .toolbarview .second, .android-light .toolbarview .android .second, .android-light .header-second, .android .switch-header-content-layout .android-light .second, .android-light .switch-header-content-layout .second, .android .toolbarview .android-light .second, .android-light .toolbarview .second {
+  position: absolute;
+  right: 10px;
+  top: 3px;
 }
 /* line 1, ../resources/sass/themes/default/_base.scss */
 .android html, .android-light html {
@@ -2588,32 +2620,37 @@
 .android body, .android-light body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-color: black;
+  line-height: 2.2rem;
 }
-/* line 16, ../resources/sass/themes/default/_base.scss */
+/* line 17, ../resources/sass/themes/default/_base.scss */
 .android .clear, .android-light .clear {
   clear: both;
   float: none;
   overflow: hidden;
 }
-/* line 22, ../resources/sass/themes/default/_base.scss */
+/* line 23, ../resources/sass/themes/default/_base.scss */
 .android .btn-success .button, .android-light .btn-success .button {
   color: #fff;
   background-color: #5cb85c;
   border-color: #4cae4c;
 }
-/* line 28, ../resources/sass/themes/default/_base.scss */
+/* line 29, ../resources/sass/themes/default/_base.scss */
 .android .btn-danger .button, .android-light .btn-danger .button {
   color: #fff;
   background-color: #d9534f;
   border-color: #d43f3a;
 }
-/* line 34, ../resources/sass/themes/default/_base.scss */
+/* line 35, ../resources/sass/themes/default/_base.scss */
 .android .btn-info .button, .android-light .btn-info .button {
   color: #fff;
   background-color: #669900;
   border-color: #669900;
+}
+/* line 42, ../resources/sass/themes/default/_base.scss */
+.android .col-xs-1, .android .col-sm-1, .android .col-md-1, .android .col-lg-1, .android .col-xs-2, .android .col-sm-2, .android .col-md-2, .android .col-lg-2, .android .col-xs-3, .android .col-sm-3, .android .col-md-3, .android .col-lg-3, .android .col-xs-4, .android .col-sm-4, .android .col-md-4, .android .col-lg-4, .android .col-xs-5, .android .col-sm-5, .android .col-md-5, .android .col-lg-5, .android .col-xs-6, .android .col-sm-6, .android .col-md-6, .android .col-lg-6, .android .col-xs-7, .android .col-sm-7, .android .col-md-7, .android .col-lg-7, .android .col-xs-8, .android .col-sm-8, .android .col-md-8, .android .col-lg-8, .android .col-xs-9, .android .col-sm-9, .android .col-md-9, .android .col-lg-9, .android .col-xs-10, .android .col-sm-10, .android .col-md-10, .android .col-lg-10, .android .col-xs-11, .android .col-sm-11, .android .col-md-11, .android .col-lg-11, .android .col-xs-12, .android .col-sm-12, .android .col-md-12, .android .col-lg-12, .android-light .col-xs-1, .android-light .col-sm-1, .android-light .col-md-1, .android-light .col-lg-1, .android-light .col-xs-2, .android-light .col-sm-2, .android-light .col-md-2, .android-light .col-lg-2, .android-light .col-xs-3, .android-light .col-sm-3, .android-light .col-md-3, .android-light .col-lg-3, .android-light .col-xs-4, .android-light .col-sm-4, .android-light .col-md-4, .android-light .col-lg-4, .android-light .col-xs-5, .android-light .col-sm-5, .android-light .col-md-5, .android-light .col-lg-5, .android-light .col-xs-6, .android-light .col-sm-6, .android-light .col-md-6, .android-light .col-lg-6, .android-light .col-xs-7, .android-light .col-sm-7, .android-light .col-md-7, .android-light .col-lg-7, .android-light .col-xs-8, .android-light .col-sm-8, .android-light .col-md-8, .android-light .col-lg-8, .android-light .col-xs-9, .android-light .col-sm-9, .android-light .col-md-9, .android-light .col-lg-9, .android-light .col-xs-10, .android-light .col-sm-10, .android-light .col-md-10, .android-light .col-lg-10, .android-light .col-xs-11, .android-light .col-sm-11, .android-light .col-md-11, .android-light .col-lg-11, .android-light .col-xs-12, .android-light .col-sm-12, .android-light .col-md-12, .android-light .col-lg-12 {
+  overflow: hidden;
 }
 /* line 5, ../resources/sass/layouts/_switch-animations.scss */
 .android .m-page-moveToLeft, .android-light .m-page-moveToLeft {
@@ -3650,6 +3687,10 @@
   height: 50px;
   text-align: center;
 }
+/* line 10, ../resources/sass/layouts/_header-layout.scss */
+.android .header .buttonview .button, .android-light .header .buttonview .button {
+  margin: 0;
+}
 /* line 1, ../resources/sass/layouts/_bottom-bar-layout.scss */
 .android .bottom-bar, .android-light .bottom-bar {
   height: 100px;
@@ -3686,11 +3727,11 @@
 }
 /* line 39, ../resources/sass/layouts/_tab-layout.scss */
 .android .m-tab:nth-child(1), .android-light .m-tab:nth-child(1) {
-  background: #aa66cc;
+  background: #6c64ff;
 }
 /* line 43, ../resources/sass/layouts/_tab-layout.scss */
 .android .m-tab:nth-child(2), .android-light .m-tab:nth-child(2) {
-  background: #ffbb33;
+  background: #f45b42;
 }
 /* line 47, ../resources/sass/layouts/_tab-layout.scss */
 .android .m-tab:nth-child(3), .android-light .m-tab:nth-child(3) {
@@ -3735,9 +3776,9 @@
 }
 /* line 7, ../resources/sass/layouts/_switch-header-content-layout.scss */
 .android .switch-header-content-layout .header, .android-light .switch-header-content-layout .header {
-  padding: 13px 0 0 0;
+  padding: 4px 0 0 0;
 }
-/* line 11, ../resources/sass/layouts/_switch-header-content-layout.scss */
+/* line 18, ../resources/sass/layouts/_switch-header-content-layout.scss */
 .android .switch-header-content-layout .content-wrapper, .android-light .switch-header-content-layout .content-wrapper {
   top: 50px;
   background: white;
@@ -3821,52 +3862,31 @@
   position: absolute;
   top: 0;
 }
-/* line 9, ../resources/sass/themes/default/_toolbar.scss */
-.android .toolbarview .first, .android-light .toolbarview .first {
-  position: absolute;
-  left: 10px;
-  top: 3px;
-}
-/* line 15, ../resources/sass/themes/default/_toolbar.scss */
-.android .toolbarview .center, .android-light .toolbarview .center {
-  font-size: 1.5em;
-  color: #ffffff;
-  text-align: center;
-  font-weight: bold;
-  padding: 7px 0 0 0;
-}
-/* line 23, ../resources/sass/themes/default/_toolbar.scss */
-.android .toolbarview .second, .android-light .toolbarview .second {
-  position: absolute;
-  right: 10px;
-  top: 3px;
-}
-/* line 1, ../resources/sass/themes/default/_button.scss */
+/* line 5, ../resources/sass/themes/default/_button.scss */
 .android .button, .android-light .button {
-  padding: 6px 12px;
-  margin-bottom: 0;
+  padding: 10px 20px;
   font-weight: normal;
   text-align: center;
   white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
   background-color: #ffffff;
-  color: black;
+  color: #1092d3;
   border-radius: 4px;
-  border: 1px solid #999999;
+  border: 1px solid #1092d3;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
 }
-/* line 19, ../resources/sass/themes/default/_button.scss */
+/* line 23, ../resources/sass/themes/default/_button.scss */
 .android .button div, .android-light .button div {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* line 28, ../resources/sass/themes/default/_button.scss */
+/* line 32, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.active.useelement,
 .android .buttonview.active .button,
 .android .button.active, .android-light .buttonview.active.useelement,
@@ -3875,36 +3895,164 @@
   background-color: #99cc00;
   color: white;
 }
-/* line 33, ../resources/sass/themes/default/_button.scss */
+/* line 37, ../resources/sass/themes/default/_button.scss */
 .android *[class*='col-'] .button, .android-light *[class*='col-'] .button {
   width: 100%;
 }
-/* line 5, ../resources/sass/themes/default/_list.scss */
+/* line 41, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.disabled .button, .android-light .buttonview.disabled .button {
+  background: #d5d5d5;
+  border-color: #d5d5d5;
+  color: #c3c3c3;
+  cursor: default;
+}
+/* line 52, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-primary .button, .android-light .buttonview.m-primary .button {
+  border-color: #6c64ff;
+  color: #6c64ff;
+  background: white;
+}
+/* line 58, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-primary.active .button, .android-light .buttonview.m-primary.active .button {
+  border-color: #6c64ff;
+  color: white;
+  background: #6c64ff;
+}
+/* line 64, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-primary.disabled .button, .android-light .buttonview.m-primary.disabled .button {
+  border-color: #b5b1ff;
+  color: #b5b1ff;
+  background: white;
+}
+/* line 73, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-success .button, .android-light .buttonview.m-success .button {
+  border-color: #2dcca2;
+  color: #2dcca2;
+  background: white;
+}
+/* line 79, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-success.active .button, .android-light .buttonview.m-success.active .button {
+  border-color: #2dcca2;
+  color: white;
+  background: #2dcca2;
+}
+/* line 85, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-success.disabled .button, .android-light .buttonview.m-success.disabled .button {
+  border-color: #68debf;
+  color: #68debf;
+  background: white;
+}
+/* line 93, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-error .button, .android-light .buttonview.m-error .button {
+  border-color: #ed253d;
+  color: #ed253d;
+  background: white;
+}
+/* line 99, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-error.active .button, .android-light .buttonview.m-error.active .button {
+  border-color: #ed253d;
+  color: white;
+  background: #ed253d;
+}
+/* line 105, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-error.disabled .button, .android-light .buttonview.m-error.disabled .button {
+  border-color: #f36c7c;
+  color: #f36c7c;
+  background: white;
+}
+/* line 113, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-warning .button, .android-light .buttonview.m-warning .button {
+  border-color: #f45b42;
+  color: #f45b42;
+  background: white;
+}
+/* line 119, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-warning.active .button, .android-light .buttonview.m-warning.active .button {
+  border-color: #f45b42;
+  color: white;
+  background: #f45b42;
+}
+/* line 125, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-warning.disabled .button, .android-light .buttonview.m-warning.disabled .button {
+  border-color: #f89a8a;
+  color: #f89a8a;
+  background: white;
+}
+/* line 133, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-info .button, .android-light .buttonview.m-info .button {
+  border-color: #eab13a;
+  color: #eab13a;
+  background: white;
+}
+/* line 139, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-info.active .button, .android-light .buttonview.m-info.active .button {
+  border-color: #eab13a;
+  color: white;
+  background: #eab13a;
+}
+/* line 145, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-info.disabled .button, .android-light .buttonview.m-info.disabled .button {
+  border-color: #f1cc7f;
+  color: #f1cc7f;
+  background: white;
+}
+/* line 153, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-fuzzy .button, .android-light .buttonview.m-fuzzy .button {
+  border-color: #c3c3c3;
+  color: #c3c3c3;
+  background: white;
+}
+/* line 159, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-fuzzy.active .button, .android-light .buttonview.m-fuzzy.active .button {
+  border-color: #c3c3c3;
+  color: white;
+  background: #c3c3c3;
+}
+/* line 165, ../resources/sass/themes/default/_button.scss */
+.android .buttonview.m-fuzzy.disabled .button, .android-light .buttonview.m-fuzzy.disabled .button {
+  border-color: #e9e9e9;
+  color: #e9e9e9;
+  background: white;
+}
+/* line 4, ../resources/sass/themes/default/_list.scss */
 .android .listview ul, .android-light .listview ul {
   margin: 0;
   padding: 0;
 }
 /* line 10, ../resources/sass/themes/default/_list.scss */
-.android .listview ul li, .android-light .listview ul li {
+.android .listview ul .listitemview li, .android-light .listview ul .listitemview li {
   position: relative;
   display: block;
   padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-bottom: 0;
+  border-bottom: 1px solid #ddd;
   list-style: none;
   cursor: pointer;
 }
-/* line 21, ../resources/sass/themes/default/_list.scss */
-.android .listitemview.active,
-.android .listview ul li.active, .android-light .listitemview.active,
-.android-light .listview ul li.active {
+/* line 19, ../resources/sass/themes/default/_list.scss */
+.android .listview ul .listitemview.disabled li, .android-light .listview ul .listitemview.disabled li {
+  cursor: default;
+}
+/* line 23, ../resources/sass/themes/default/_list.scss */
+.android .listview ul .listitemview i, .android-light .listview ul .listitemview i {
+  float: right;
+  font-size: 2.24rem;
+  color: #2dcca2;
+}
+/* line 33, ../resources/sass/themes/default/_list.scss */
+.android .listview ul .listitemview:first-child li, .android-light .listview ul .listitemview:first-child li {
+  border-top: 1px solid #ddd;
+}
+/* line 39, ../resources/sass/themes/default/_list.scss */
+.android .listview .listitemview.active,
+.android .listview .listview ul li.active, .android-light .listview .listitemview.active,
+.android-light .listview .listview ul li.active {
   background: #99cc00;
   color: white;
 }
 /* line 3, ../resources/sass/themes/default/_textfield.scss */
 .android .textfieldview label, .android-light .textfieldview label {
   display: block;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   padding: 0 0 8px 0;
 }
 /* line 9, ../resources/sass/themes/default/_textfield.scss */
@@ -3931,7 +4079,7 @@
   position: absolute;
   top: 14px;
   left: 4px;
-  color: #06aef3;
+  color: #1092d3;
   font-size: 2.2rem;
 }
 /* line 36, ../resources/sass/themes/default/_textfield.scss */
@@ -3960,12 +4108,12 @@
 /* line 1, ../resources/sass/themes/default/_selectionlist.scss */
 .android .selection-list, .android-light .selection-list {
   position: relative;
-  border: 1px solid #999999;
+  border: 1px solid #1092d3;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 9, ../resources/sass/themes/default/_selectionlist.scss */
+/* line 11, ../resources/sass/themes/default/_selectionlist.scss */
 .android .selection-list:after, .android-light .selection-list:after {
   content: "";
   width: 0;
@@ -3976,7 +4124,7 @@
   top: 16px;
   right: 10px;
 }
-/* line 20, ../resources/sass/themes/default/_selectionlist.scss */
+/* line 22, ../resources/sass/themes/default/_selectionlist.scss */
 .android .selection-list select, .android-light .selection-list select {
   padding: 5px;
   margin: 0;
@@ -3992,7 +4140,7 @@
   appearance: none;
   cursor: pointer;
 }
-/* line 37, ../resources/sass/themes/default/_selectionlist.scss */
+/* line 39, ../resources/sass/themes/default/_selectionlist.scss */
 .android *[class*='col-'] .selection-list, .android-light *[class*='col-'] .selection-list {
   width: 100%;
 }
@@ -4041,149 +4189,196 @@
   background: rgba(0, 255, 0, 0.25);
   height: 100%;
 }
-/* line 3, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 5, ../resources/sass/themes/default/_buttongroup.scss */
 .android .buttongroupview .button, .android-light .buttongroupview .button {
   width: 100%;
   border-radius: 0;
 }
-/* line 8, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 10, ../resources/sass/themes/default/_buttongroup.scss */
 .android .buttongroupview .buttonview, .android-light .buttongroupview .buttonview {
   padding-left: 0;
   padding-right: 0;
 }
-/* line 13, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 15, ../resources/sass/themes/default/_buttongroup.scss */
 .android .buttongroupview .buttonview.active .button, .android-light .buttongroupview .buttonview.active .button {
   background: #99cc00;
   color: white;
 }
-/* line 19, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 21, ../resources/sass/themes/default/_buttongroup.scss */
 .android .buttongroupview .buttonview .button, .android-light .buttongroupview .buttonview .button {
   border-right-width: 0;
 }
-/* line 23, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 25, ../resources/sass/themes/default/_buttongroup.scss */
 .android .buttongroupview .buttonview:first-child, .android-light .buttongroupview .buttonview:first-child {
   padding-left: 15px;
 }
-/* line 26, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 28, ../resources/sass/themes/default/_buttongroup.scss */
 .android .buttongroupview .buttonview:first-child .button, .android-light .buttongroupview .buttonview:first-child .button {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-/* line 31, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 33, ../resources/sass/themes/default/_buttongroup.scss */
 .android .buttongroupview .buttonview:last-child, .android-light .buttongroupview .buttonview:last-child {
   padding-right: 15px;
 }
-/* line 34, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 36, ../resources/sass/themes/default/_buttongroup.scss */
 .android .buttongroupview .buttonview:last-child .button, .android-light .buttongroupview .buttonview:last-child .button {
   border-right-width: 1px;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
+/* line 1, ../resources/sass/themes/default/_radiolist.scss */
+.android .radiolistview, .android-light .radiolistview {
+  border-top: 1px solid #1092d3;
+  border-bottom: 1px solid #1092d3;
+}
 /* line 7, ../resources/sass/themes/default/_radiolist.scss */
+.android .radiolistview label, .android-light .radiolistview label {
+  vertical-align: top;
+}
+/* line 12, ../resources/sass/themes/default/_radiolist.scss */
 .android .radiolistview input[type="radio"], .android-light .radiolistview input[type="radio"] {
-  width: 16px;
-  height: 16px;
-  background: #fff;
-  border: 1px solid #999;
-  border-radius: 50%;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 /* line 16, ../resources/sass/themes/default/_radiolist.scss */
 .android .radiolistview input[type="radio"]:checked, .android-light .radiolistview input[type="radio"]:checked {
-  background: #0099cc;
-  border-color: transparent;
   outline: none;
 }
-/* line 12, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 20, ../resources/sass/themes/default/_radiolist.scss */
+.android .radiolistview input + i, .android-light .radiolistview input + i {
+  font-size: 2.4rem;
+  margin-right: 10px;
+}
+/* line 25, ../resources/sass/themes/default/_radiolist.scss */
+.android .radiolistview input[type="radio"] + i:before, .android-light .radiolistview input[type="radio"] + i:before {
+  content: '\f10c';
+  color: #c3c3c3;
+}
+/* line 29, ../resources/sass/themes/default/_radiolist.scss */
+.android .radiolistview input[type="radio"]:checked + i:before, .android-light .radiolistview input[type="radio"]:checked + i:before {
+  content: '\f192';
+  color: #1092d3;
+}
+/* line 1, ../resources/sass/themes/default/_checkboxlist.scss */
+.android .checkboxlistview, .android-light .checkboxlistview {
+  border-top: 1px solid #1092d3;
+  border-bottom: 1px solid #1092d3;
+}
+/* line 11, ../resources/sass/themes/default/_checkboxlist.scss */
+.android .checkboxlistview input[type="checkbox"], .android-light .checkboxlistview input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+/* line 17, ../resources/sass/themes/default/_checkboxlist.scss */
+.android .checkboxlistview input + i, .android-light .checkboxlistview input + i {
+  font-size: 2.4rem;
+  margin-right: 10px;
+}
+/* line 22, ../resources/sass/themes/default/_checkboxlist.scss */
+.android .checkboxlistview input[type="checkbox"]:checked, .android-light .checkboxlistview input[type="checkbox"]:checked {
+  outline: none;
+}
+/* line 25, ../resources/sass/themes/default/_checkboxlist.scss */
+.android .checkboxlistview input[type="checkbox"] + i:before, .android-light .checkboxlistview input[type="checkbox"] + i:before {
+  content: '\f111';
+  color: #c3c3c3;
+}
+/* line 29, ../resources/sass/themes/default/_checkboxlist.scss */
+.android .checkboxlistview input[type="checkbox"]:checked + i:before, .android-light .checkboxlistview input[type="checkbox"]:checked + i:before {
+  content: '\f058';
+  color: #1092d3;
+}
+/* line 14, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview label .label-descr, .android-light .toggleswitchview label .label-descr {
   display: block;
   float: left;
 }
-/* line 17, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 19, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview .toggleswitch, .android-light .toggleswitchview .toggleswitch {
   position: relative;
   display: block;
   vertical-align: top;
-  width: 6.3rem;
+  width: 56px;
   padding: 0;
   border-radius: 4px;
   cursor: pointer;
   overflow: hidden;
 }
-/* line 28, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 30, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview input, .android-light .toggleswitchview input {
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
 }
-/* line 35, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 37, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview .switch-labels, .android-light .toggleswitchview .switch-labels {
   position: relative;
   display: block;
-  font-size: 1.8rem;
+  font-size: 16px;
   background: #f2f2f2;
   border-radius: inherit;
   text-indent: -9999px;
 }
-/* line 44, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 46, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview .switch-labels:before, .android .toggleswitchview .switch-labels:after, .android-light .toggleswitchview .switch-labels:before, .android-light .toggleswitchview .switch-labels:after {
   text-indent: 0;
   position: absolute;
   display: block;
-  top: -2rem;
-  line-height: 22px;
+  top: 0px;
+  line-height: 2.2rem;
 }
-/* line 52, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 54, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview .switch-labels:before, .android-light .toggleswitchview .switch-labels:before {
   content: attr(data-offLabel);
-  right: 1.125rem;
-  color: #8e8e93;
+  right: 10px;
+  color: #c3c3c3;
 }
-/* line 58, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 60, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview .switch-labels:after, .android-light .toggleswitchview .switch-labels:after {
   content: attr(data-onLabel);
-  left: 1.125rem;
+  left: 10px;
   color: white;
   opacity: 0;
 }
-/* line 65, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 67, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview input:checked + .switch-labels, .android-light .toggleswitchview input:checked + .switch-labels {
   background: #99cc00;
 }
-/* line 68, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 70, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview input:checked + .switch-labels:before, .android-light .toggleswitchview input:checked + .switch-labels:before {
   opacity: 0;
 }
-/* line 71, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 73, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview input:checked + .switch-labels:after, .android-light .toggleswitchview input:checked + .switch-labels:after {
   opacity: 1;
 }
-/* line 75, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 77, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview .switch-handle, .android-light .toggleswitchview .switch-handle {
   position: absolute;
-  top: -1rem;
-  left: -1rem;
-  width: 1.8rem;
-  height: 1.8rem;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
   background: white;
   border-radius: 4px;
 }
-/* line 85, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 87, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview .switch-handle, .android-light .toggleswitchview .switch-handle {
-  background: #06aef3;
+  background: #1092d3;
 }
-/* line 89, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 91, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview input:checked + .switch-labels .switch-handle, .android-light .toggleswitchview input:checked + .switch-labels .switch-handle {
-  background: #ffbb33;
+  background: #f45b42;
 }
-/* line 106, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 108, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .toggleswitchview input:checked + .switch-labels .switch-handle, .android-light .toggleswitchview input:checked + .switch-labels .switch-handle {
-  left: 3.96rem;
+  left: 35.2px;
 }
-/* line 111, ../resources/sass/themes/default/_toggleswitch.scss */
+/* line 113, ../resources/sass/themes/default/_toggleswitch.scss */
 .android .webgl .switch-handle, .android-light .webgl .switch-handle {
   -webkit-transition: left 0.15s ease-out;
   -moz-transition: left 0.15s ease-out;
@@ -4257,7 +4452,7 @@
 /* line 210, ../resources/sass/themes/default/_loader.scss */
 .android .m-loaderview-inner .m-loaderview-inner-icon > div, .android-light .m-loaderview-inner .m-loaderview-inner-icon > div {
   position: absolute;
-  background-color: #06aef3;
+  background-color: #1092d3;
   width: 16px;
   height: 16px;
   -webkit-border-radius: 8px;
@@ -4349,7 +4544,7 @@
 /* line 3, ../resources/sass/themes/default/_text.scss */
 .android .textview .label, .android-light .textview .label {
   display: block;
-  border-bottom: 1px solid #06aef3;
+  border-bottom: 1px solid #1092d3;
 }
 /* line 7, ../resources/sass/themes/default/_text.scss */
 .android .textview .input-icon-addon, .android-light .textview .input-icon-addon {
