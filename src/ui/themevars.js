@@ -82,6 +82,7 @@ M.ThemeVars = {
         "m-primary-font-family": "\"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
         "m-primary-font-weight": "300",
         "m-primary-font-size": "1.6rem",
+        "m-primary-calc-font-size": "16px",
         "m-primary-line-height": "2.2rem",
         "m-primary-font-color": "#000000",
         "m-primary-margin-top": "10px",
@@ -89,7 +90,9 @@ M.ThemeVars = {
         "modal-backdrop-background-color": "#000000",
         "content-padding": "15px",
         "m-primary-disabled-color": "#d5d5d5",
-        "m-primary-disabled-text-color": "#c3c3c3"
+        "m-primary-disabled-text-color": "#c3c3c3",
+        "selection-color": "#c3c3c3",
+        "selection-checked-color": "#1092d3"
     },
     "android_dark": {
         "m-primary-color": "#669900",
@@ -111,11 +114,13 @@ M.ThemeVars = {
         "darkblue": "#007AFF",
         "green": "#4BD964",
         "grey": "#8E8E93",
+        "purple": "#6c64ff",
         "m-primary-font-family": "-apple-system-font, \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
         "m-primary-active-color": "transparent",
         "m-primary-active-text-color": "#007AFF",
         "tablayout-menu-height": "80px",
-        "tablayout-menu-scroll-button-width": "140px"
+        "tablayout-menu-scroll-button-width": "140px",
+        "selection-checked-color": "#59C8FA"
     }
 },
     get: function (name, theme) {

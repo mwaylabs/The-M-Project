@@ -18,7 +18,7 @@
     position: relative;
     display: block;
     vertical-align: top;
-    width: $m-primary-font-size * 3.5;
+    width: $m-primary-calc-font-size * 3.5;
     padding: 0;
     border-radius: $m-button-border-radius;
     cursor: pointer;
@@ -35,7 +35,7 @@
   .switch-labels {
     position: relative;
     display: block;
-    font-size: $m-primary-font-size;
+    font-size: $m-primary-calc-font-size;
     background: $darkwhite;
     border-radius: inherit;
     text-indent: -9999px;
@@ -45,19 +45,19 @@
     text-indent: 0;
     position: absolute;
     display: block;
-    top: floor(($m-primary-font-size / 4) - 2);
+    top: floor(($m-primary-calc-font-size / 4) - 4);
     line-height: $m-primary-line-height;
   }
 
   .switch-labels:before {
     content: attr(data-offLabel);
-    right: $m-primary-font-size / 1.6;
+    right: $m-primary-calc-font-size / 1.6;
     color: $grey;
   }
 
   .switch-labels:after {
     content: attr(data-onLabel);
-    left: $m-primary-font-size / 1.6;
+    left: $m-primary-calc-font-size / 1.6;
     color: $m-primary-active-text-color;
     opacity: 0;
   }
@@ -74,10 +74,10 @@
 
   .switch-handle {
     position: absolute;
-    top: floor(($m-primary-font-size / 4) - 1);
-    left: floor(($m-primary-font-size / 4) - 1);
-    width: $m-primary-font-size;
-    height: $m-primary-font-size;
+    top: floor(($m-primary-calc-font-size / 4) - 1);
+    left: floor(($m-primary-calc-font-size / 4) - 1);
+    width: $m-primary-calc-font-size;
+    height: $m-primary-calc-font-size;
     background: $white;
     border-radius: $m-button-border-radius;
   }
@@ -104,7 +104,7 @@
   //}
 
   input:checked + .switch-labels .switch-handle {
-    left: $m-primary-font-size * 2.2;
+    left: $m-primary-calc-font-size * 2.2;
   }
 }
 

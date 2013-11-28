@@ -3,9 +3,8 @@
 }
 
 .button {
+  @extend .margin1010;
   padding: $m-button-padding;
-  margin-top: $m-primary-margin-top;
-  margin-bottom: $m-primary-margin-bottom;
   font-weight: normal;
   text-align: center;
   white-space: nowrap;

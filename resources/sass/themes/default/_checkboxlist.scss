@@ -1,4 +1,4 @@
-.radiolistview {
+.checkboxlistview {
 
   @extend .margin1010;
   border-top: $form-element-border;
@@ -6,15 +6,12 @@
 
   label {
     @extend .selection;
-    vertical-align: top;
   }
 
-  input[type="radio"] {
+  input[type="checkbox"] {
+    @extend .input;
     @include appearance(none);
-  }
 
-  input[type="radio"]:checked {
-    outline: none;
   }
 
   input + i{
@@ -22,12 +19,15 @@
     margin-right: 10px;
   }
 
-  input[type="radio"] + i:before {
-    content: '\f10c';
+  input[type="checkbox"]:checked {
+    outline: none;
+  }
+  input[type="checkbox"] + i:before{
+    content: '\f111';
     color: $selection-color;
   }
-  input[type="radio"]:checked + i:before {
-    content: '\f192';
+  input[type="checkbox"]:checked + i:before{
+    content: '\f058';
     color: $selection-checked-color;
   }
 }

@@ -51,6 +51,6 @@ M.RadiolistView = M.SelectionlistView.extend({
      * @private
      */
     _optionsContainer: 'radio'
-});
+}).implements([M.ActiveState]);
 
 

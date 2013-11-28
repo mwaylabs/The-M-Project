@@ -20,6 +20,11 @@
   outline: none;
 }
 
+.selection{
+  @extend .form;
+  border: none;
+}
+
 .fullscreen{
   position: absolute;
   left: 0;
@@ -28,4 +33,13 @@
   bottom: 0;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.input{
+  outline: none;
+}
+
+.margin1010{
+  margin-top: $m-primary-margin-top;
+  margin-bottom: $m-primary-margin-bottom;
 }

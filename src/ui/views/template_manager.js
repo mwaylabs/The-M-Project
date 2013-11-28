@@ -142,7 +142,7 @@ M.TemplateManager = M.Object.design({
     },
 
     'M.RadioOptionView': {
-        defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value_ %>"> <%= label %></label>'
+        defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value_ %>"><i class="fa"></i><%= label %></label>'
     },
 
     'M.CheckboxlistView': {
@@ -150,7 +150,7 @@ M.TemplateManager = M.Object.design({
     },
 
     'M.CheckboxOptionView': {
-        defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value_ %>"> <%= label %></label>'
+        defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value_ %>"><i class="fa"></i> <%= label %></label>'
     },
 
     'M.ToggleSwitchView': {

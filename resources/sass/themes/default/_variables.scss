@@ -114,6 +114,8 @@ $switch-header-content-padding: 4px 0 0 0;
 $m-primary-font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 $m-primary-font-weight: 300;
 $m-primary-font-size: 1.6rem;
+// use this to calculate on instead of the font size
+$m-primary-calc-font-size: 16px;
 $m-primary-line-height: 2.2rem;
 $m-primary-font-color: $black;
 $m-primary-margin-top: 10px;
@@ -128,3 +130,5 @@ $m-primary-disabled-color: $lightgrey;
 $m-primary-disabled-text-color: $grey;
 
 
+$selection-color: $grey;
+$selection-checked-color: $blue;

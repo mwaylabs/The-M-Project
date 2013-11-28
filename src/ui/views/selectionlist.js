@@ -67,6 +67,6 @@ M.SelectionlistView = M.View.extend({
 
         return this;
     }
-});
+}).implements([M.ActiveState]);
 
 
