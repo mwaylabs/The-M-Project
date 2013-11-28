@@ -1,0 +1,23 @@
+.checkboxlistview {
+
+  input[type="checkbox"] {
+       display: none;
+  }
+
+  input + i{
+    font-size: $m-primary-font-size * 1.5;
+    margin-right: 10px;
+  }
+
+  input[type="checkbox"]:checked {
+    outline: none;
+  }
+  input[type="checkbox"] + i:before{
+    content: '\f111';
+    color: $selection-color;
+  }
+  input[type="checkbox"]:checked + i:before{
+    content: '\f058';
+    color: $selection-checked-color;
+  }
+}

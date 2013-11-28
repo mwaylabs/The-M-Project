@@ -9,10 +9,9 @@ h2.view {
 }
 
 [data-childviews="content_page2"],
-[data-childviews="content_page1"]{
+[data-childviews="content_page1"] {
     overflow: scroll;
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
     top: 50px;
     bottom: 0;
     right: 0px;
@@ -20,11 +19,11 @@ h2.view {
     position: absolute;
 }
 
-.firstname{
+.firstname {
     margin-right: 4px;
 }
 
-.list-group-item{
+.list-group-item {
     font-weight: normal;
     font-size: 18px;
 }
@@ -34,7 +33,6 @@ body .button.buttonview.btn-success {
     background-color: #5cb85c;
     border-color: #4cae4c;
 }
-
 
 body .button.buttonview.btn-danger {
     color: #fff;
@@ -48,45 +46,114 @@ body .button.buttonview.btn-info {
     border-color: #46b8da;
 }
 
-.button{
+.button {
     margin: 0 0 0 8px;
 }
 
-.company-logo{
-
+.company-logo {
     display: block;
     position: absolute;
     right: 10px;
-    top: 3px;
+    top: 20px;
     background: #dddddd;
-    height: 35px;
-    width: 35px;
-    border-radius: 35px;
+    height: 70px;
+    width: 70px;
+    border-radius: 70px;
     background-size: cover;
+    overflow: hidden;
+    font-size: 90px;
+    color: #bababa;
+    text-align: center;
 }
 
-.detail-page .company-logo{
+.detail-page .company-logo {
     height: 150px;
     width: 100%;
     border-radius: 0;
     position: relative;
     right: auto;
     top: auto;
+    font-size: 300px;
     background-size: 90%;
     background-repeat: no-repeat;
     background-position: center center;
 }
 
-.Consulting{
+.company-logo:before {
+    content: "\f007";
+    font-family: FontAwesome;
+    display: block;
+    margin-top: -20px;
+}
+
+.detail-page .company-logo:before {
+    margin-top: -120px;
+}
+
+.Consulting {
 
     background-image: url("../ressources/mwayconsulting.png");
 
 }
 
-.Solutions{
+.Solutions {
     background-image: url("../ressources/mway.png");
 }
 
-.Agero{
+.Agero {
     background-image: url("../ressources/agero.png");
+}
+
+.detail-page .textview {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.detail-page h2 {
+    color: #06AEF3;
+}
+
+.detail-page .textview i {
+    color: #a8a8a8;
+    padding-right: 15px;
+}
+
+.detail-page .input-icon-addon {
+    padding-top: 15px;
+}
+
+.listview ul li.listitemview {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.listitemview .name {
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+/* Tutorial */
+
+.tutorial {
+    position: fixed;
+    overflow: scroll;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+}
+
+.tutorial a {
+    color: white;
+}
+
+.tutorial .buttonview{
+    color: black;
+}
+
+.zip{
+    padding-right: 5px;
 }

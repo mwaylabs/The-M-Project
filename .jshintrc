@@ -28,6 +28,7 @@
         "YES": true,
         "NO": true,
         "Modernizr": false,
-        "Hammer": false
+        "Hammer": false,
+        "FastClick": false
     }
 }

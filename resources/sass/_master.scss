@@ -8,7 +8,10 @@
 @import "layouts/header-layout";
 @import "layouts/bottom-bar-layout";
 @import "layouts/tab-layout";
+@import "layouts/switch-header-content-layout";
 
+@import "themes/default/elements";
+@import "themes/default/modal";
 @import "themes/default/toast";
 @import "themes/default/toolbar";
 @import "themes/default/button";
@@ -18,5 +21,7 @@
 @import "themes/default/debug";
 @import "themes/default/buttongroup";
 @import "themes/default/radiolist";
+@import "themes/default/checkboxlist";
 @import "themes/default/toggleswitch";
 @import "themes/default/loader";
+@import "themes/default/text";

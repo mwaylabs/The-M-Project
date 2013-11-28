@@ -1,8 +1,6 @@
-(function( scope ) {
+(function( global ) {
 
-    M.APPLICATION_NAME = 'Kitchensink';
-
-    scope.Kitchensink = M.Application.extend().create();
+    global.Kitchensink = M.Application.extend().create(global.Kitchensink.mconfig);
 
     $(document).ready(function() {
         'use strict';
@@ -12,6 +10,7 @@
 
                 routes: {
                     '': 'overviewController',
+                    'forms': 'formsController',
                     'page2': 'page2Controller',
                     'page3': 'page3Controller',
                     'page4(/:tab)': 'page4Controller',
@@ -23,10 +22,13 @@
                     M.Router.prototype.initialize.apply(this, arguments);
                     Kitchensink.overviewController = this.overviewController;
                     Kitchensink.page2Controller = this.page2Controller;
+                    Kitchensink.formsController = this.formsController;
 
                 },
 
                 overviewController: Kitchensink.Controllers.OverviewController.create(),
+
+                formsController: Kitchensink.Controllers.FormsController.create(),
 
                 page2Controller: Kitchensink.Controllers.Page2Controller.create(),
 
@@ -64,13 +66,7 @@
                 }).create(),
 
                 page4Controller: Kitchensink.Controllers.Page4Controller.create()
-
-
-            },
-            locales: [
-                { name: 'English', locale: 'en'},
-                { name: 'Deutsch', locale: 'de'}
-            ]
+            }
         });
     });
 

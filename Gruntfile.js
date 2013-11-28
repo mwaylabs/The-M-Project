@@ -1,6 +1,6 @@
 /**
  * The-M-Project Build Script
- * Version: 0.0.1
+ * Version: 0.1.0
  */
 
 var _ = require('lodash');
@@ -19,11 +19,8 @@ module.exports = function (grunt) {
         },
         jsonlint: {
             sample: {
-                src: [ 'package.json' ]
+                src: [ 'package.json', 'bower.json' ]
             }
-        },
-        clean: {
-            dist: ['dist']
         },
         jshint: {
             options: {
@@ -35,16 +32,18 @@ module.exports = function (grunt) {
         preprocess: {
             options: {
                 context: {
-                    BANNER: '<%= meta.banner %>'
+                    BANNER: '<%= meta.banner %>',
+                    VERSION: '<%= pkg.version %>'
                 }
             },
-            core: {
+            dev: {
                 files: {
-                    'dist/themproject.js': 'src/themproject.js'
+                    '.tmp/themproject.js': 'src/themproject.js'
                 }
             },
-            bd: {
+            dist: {
                 files: {
+                    'dist/themproject.js': 'src/themproject.js',
                     'dist/themproject.bd.js': 'src/themproject.bd.js'
                 }
             }
@@ -82,7 +81,13 @@ module.exports = function (grunt) {
             }
         },
         copy: {
-            minify: {
+            dev: {
+                expand: true,
+                cwd: 'resources/vendor/',
+                src: '*{css,js}',
+                dest: '.tmp/'
+            },
+            dist: {
                 expand: true,
                 cwd: 'resources/vendor/',
                 src: '*{css,js}',
@@ -113,17 +118,40 @@ module.exports = function (grunt) {
             }
         },
         compass: {
-            options: {
-                sassDir: 'resources/sass',
-                cssDir: 'dist',
-                relativeAssets: true,
-                importPath: ['bower_components']
+            dev: {
+                options: {
+                    sassDir: 'resources/sass',
+                    specify: [
+                        'resources/sass/themproject.scss',
+                        'resources/sass/themproject_android_dark.scss',
+                        'resources/sass/themproject_android_light.scss',
+                        'resources/sass/themproject_ios.scss'
+                    ],
+                    cssDir: '.tmp',
+                    relativeAssets: true,
+                    importPath: ['bower_components']
+                }
             },
-            dist: {}
+            dist: {
+                options: {
+                    sassDir: 'resources/sass',
+                    specify: [
+                        'resources/sass/themproject.scss',
+                        'resources/sass/themproject_android_dark.scss',
+                        'resources/sass/themproject_android_light.scss',
+                        'resources/sass/themproject_ios.scss'
+                    ],
+                    cssDir: 'dist',
+                    banner: '<%= meta.banner %>',
+                    relativeAssets: true,
+                    importPath: ['bower_components']
+                }
+            }
         },
         mocha: {
             options: {
-                "reporter": "Spec"
+                bail: true,
+                reporter: "Spec"
             },
             all: ['test/test.html']
         },
@@ -216,18 +244,21 @@ module.exports = function (grunt) {
         });
     });
 
-    grunt.registerTask('build-js', ['extractSassVars', 'preprocess:core']);
-    grunt.registerTask('build-css', ['compass', 'copy']);
+    grunt.registerTask('build-js', ['extractSassVars', 'preprocess:dev']);
+    grunt.registerTask('build-css', ['compass:dev', 'copy:dev']);
 
-    grunt.registerTask('dev', ['default', 'watch']);
+    grunt.registerTask('dist-js', ['extractSassVars', 'preprocess:dist']);
+    grunt.registerTask('dist-css', ['compass:dist', 'copy:dist']);
+
     grunt.registerTask('dev-js', ['default', 'watch:js']);
     grunt.registerTask('dev-css', ['default', 'watch:css']);
 
     grunt.registerTask('dev', ['default', 'watch']);
     grunt.registerTask('test', ['jshint', 'mocha']);
-    grunt.registerTask('dist', ['clean', 'jshint', 'build-js', 'build-css', 'preprocess:bd', 'uglify', 'cssmin']);
-    grunt.registerTask('precommit', ['default', 'test']);
-    grunt.registerTask('default', ['clean', 'build-js', 'build-css']);
+    grunt.registerTask('dist', ['jshint', 'dist-js', 'dist-css', 'uglify', 'cssmin']);
+    grunt.registerTask('precommit', ['travis']);
+    grunt.registerTask('travis', ['jsonlint', 'default', 'test']);
+    grunt.registerTask('default', ['build-js', 'build-css']);
 
     grunt.registerTask('build-doc', ['jsdoc']);
 };

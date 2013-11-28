@@ -7,8 +7,10 @@ Addressbook.Collections = Addressbook.Collections || {};
 
     Addressbook.Collections.ContactsCollection = M.Collection.extend({
         model: Addressbook.Models.ContactsModel,
-        store: new M.BikiniStore(),
-        url: 'http://nerds.mway.io:8200/bikini/employees'
+        store: new M.BikiniStore({
+            useLocalStore: NO
+        }),
+        url: 'http://nerds.mway.io:8200/bikini/contacts'
     });
 
 

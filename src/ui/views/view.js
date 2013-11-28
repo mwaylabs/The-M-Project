@@ -16,7 +16,7 @@
         constructor: function( options ) {
             this.cid = _.uniqueId('view');
             options = options || {};
-            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'onSet', 'onGet'];
+            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'onSet', 'onGet', 'enabled'];
             _.extend(this, _.pick(options, viewOptions));
             this._ensureElement();
             this.initialize.apply(this, arguments);
@@ -245,7 +245,6 @@
 
         _assignValue: function( options ) {
             //don't write _value_ in the view definition - write value and here it gets assigned
-
             if( this.value || (typeof this.value !== 'undefined' && this.value !== null)) {
                 this._setValue(this.value);
             } else if( this.scopeKey ) {
@@ -379,10 +378,16 @@
         },
 
         _getEventOptions: function() {
+
+            // No Ghost click on Android
+            var preventDefault = false;
+            var noMouseevents = true;
+            var stopBrowserBehavior = false;
+
             return {
-                'prevent_default': false, // To prevent the ghost click
-                'no_mouseevents': true,
-                'stop_browser_behavior': false
+                'prevent_default': preventDefault,
+                'no_mouseevents': noMouseevents,
+                'stop_browser_behavior': stopBrowserBehavior
             };
         },
 
@@ -401,6 +406,9 @@
                     this._hammertime = new Hammer(that.el, that._getEventOptions());
 
                     this._eventCallback[eventName] = function( event ) {
+                        if(that._hammertime.enabled === NO){
+                            return;
+                        }
                         var args = Array.prototype.slice.call(arguments);
                         args.push(that);
                         _.each(that._events[event.type], function( func ) {
@@ -429,6 +437,14 @@
          */
         _enableEvents: function() {
             this._hammertime.enable(YES);
+        },
+
+        /**
+         *
+         * @returns {Boolean} if events are active or not
+         */
+        isEnabled: function(){
+            return this._hammertime.enabled;
         },
 
         /**
@@ -474,7 +490,7 @@
 
             if( this.model ) {
                 if( M.isModel(_value_) ) {
-                    this._templateValues = this.model.attributes;
+                    this._templateValues = M.Object.deepCopy(this.model.attributes);
                 } else {
                     this._templateValues._value_ = this.model.get(_value_.attribute);
                 }
@@ -493,7 +509,8 @@
 
         _extendTemplate: function() {
             if( this.extendTemplate ) {
-                this._template = _.tmpl(this.template({_value_: this.extendTemplate}));
+                this._templateValues._value_ = this.extendTemplate;
+                this._template = _.tmpl(this.template(this._templateValues));
             }
         },
 

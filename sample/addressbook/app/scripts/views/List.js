@@ -4,11 +4,13 @@ Addressbook.Views = Addressbook.Views || {};
     'use strict'
     Addressbook.Views.ListView = M.View.extend({
 
-        template: '<div><div data-childviews="content"></div><div data-childviews="footer"></div></div>'
+        template: '<div><div data-childviews="content"></div><div data-childviews="tutorial"></div></div>'
 
     }, {
 
         content: M.View.extend({
+
+            cssClass: 'content-wrapper-no'
 
         }, {
 
@@ -18,7 +20,7 @@ Addressbook.Views = Addressbook.Views || {};
 
                 listItemView: M.ListItemView.extend({
 
-                    extendTemplate: '<div><span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span> <div class="company-logo <%= company %>"></div></div>',
+                    extendTemplate: '<div><div class="name"><span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span></div><div><span class="street"><%= street %></span><span class="houseno"><%= houseno %></span></div><div><span class="zip"><%= zip %></span><span class="city"><%= city %></span></div><div class="company-logo <%= company %>"></div></div>',
 
                     useElement: YES,
 
@@ -26,22 +28,21 @@ Addressbook.Views = Addressbook.Views || {};
 
                         tap: function( event, element ) {
                             var userModel = element.model;
-
                             var id = element.model.get('_id');
                             Addressbook.navigate({
                                 route: 'detail/' + id,
-                                transition: M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT
+                                transition: M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT
                             });
 
                         },
 
-                        hold: function(event, element){
+                        hold: function( event, element ) {
                             M.Toast.show({
                                 text: element.model.get('firstname') + ' ' + element.model.get('lastname')
                             })
                         },
 
-                        dragleft: function(event, element){
+                        dragleft: function( event, element ) {
                             M.Toast.show({
                                 text: element.model.get('firstname') + ' ' + element.model.get('lastname')
                             })
@@ -49,6 +50,60 @@ Addressbook.Views = Addressbook.Views || {};
                     }
                 })
             })
+        }),
+
+        tutorial: M.View.extend({
+
+            cssClass: 'tutorial',
+
+            events: {
+                tap: 'hideTutorial'
+            }
+        }, {
+
+            welcome: M.View.extend({
+                tagName: 'h2',
+                value: M.I18N.get('global.welcome')
+            }),
+
+            intro: M.View.extend({
+                tagName: 'h3',
+                value: M.I18N.get('global.intro')
+            }),
+
+            link: M.View.extend({
+                value: '',
+                extendTemplate: '<a target="_blank" href="' + location.href + '">Open</a>'
+            }),
+
+            qr: M.ImageView.extend({
+                value: 'ressources/qr.png'
+            }),
+
+            first_step: M.View.extend({
+                tagName: 'h4',
+                value: M.I18N.get('global.first_step')
+            }),
+
+            second_step: M.View.extend({
+                tagName: 'h4',
+                value: M.I18N.get('global.second_step')
+            }),
+
+            third_step: M.View.extend({
+                tagName: 'h4',
+                value: M.I18N.get('global.third_step')
+            }),
+
+            thanks: M.ButtonView.extend({
+                value: M.I18N.get('global.dont_show_again'),
+                events:{
+                    tap: function(){
+                        localStorage.setItem('tutorial', NO);
+                    }
+                }
+            })
+
         })
     });
 

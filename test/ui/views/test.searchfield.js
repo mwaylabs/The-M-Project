@@ -1,4 +1,4 @@
-describe('M.SearchfieldView', function () {
+describe.skip('M.SearchfieldView', function () {
 
     it('general', function () {
 

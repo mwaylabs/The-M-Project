@@ -85,24 +85,11 @@ M.PageTransitions = M.Object.design({
     _isAnimating: false,
     _endCurrPage: false,
     _endNextPage: false,
-    _support: Modernizr.cssanimations,
-    _animEndEventNames: {
-        'WebkitAnimation': 'webkitAnimationEnd',
-        'OAnimation': 'oAnimationEnd',
-        'msAnimation': 'MSAnimationEnd',
-        'animation': 'animationend'
-    },
 
     init: function( main ) {
-        this._animEndEventName = this._animEndEventNames[ Modernizr.prefixed('animation') ];
         this._main = main ? main : $('#m-main');
         this._pages = this._main.children('div.m-page');
         this._pagesCount = this._pages.length;
-
-        // CSS animations are supported by Android < 4 devices but only if a single property is changed.
-        if( M.Environment.isLowerThanAndroid4 ) {
-            this._support = false;
-        }
 
         this._pages.each(function() {
             var page = $(this);
@@ -128,7 +115,7 @@ M.PageTransitions = M.Object.design({
             this._current = 0;
         }
         var nextPage = this._pages.eq(this._current).addClass('m-page-current');
-        if( !this._support || this._transition === M.PageTransitions.NONE ) {
+        if( !M.Animation.animationSupport || this._transition === M.PageTransitions.NONE ) {
             this._onEndAnimation(currPage, nextPage);
             return;
         }
@@ -142,8 +129,9 @@ M.PageTransitions = M.Object.design({
         var inClass = transitionClasses[1];
         var that = this;
 
-        $(currPage[0]).on(that._animEndEventName, function() {
-            currPage.off(that._animEndEventName);
+        var animEndEventName = M.Animation.animationEndEventName;
+        $(currPage[0]).on(animEndEventName, function() {
+            currPage.off(animEndEventName);
             that._endCurrPage = true;
             if( that._endNextPage ) {
                 that._onEndAnimation(currPage, nextPage);
@@ -151,8 +139,8 @@ M.PageTransitions = M.Object.design({
         });
         currPage.addClass(outClass);
 
-        $(nextPage[0]).on(that._animEndEventName, function() {
-            nextPage.off(that._animEndEventName);
+        $(nextPage[0]).on(animEndEventName, function() {
+            nextPage.off(animEndEventName);
             that._endNextPage = true;
             if( that._endCurrPage ) {
                 that._onEndAnimation(currPage, nextPage);

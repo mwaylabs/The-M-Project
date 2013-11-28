@@ -1,16 +1,35 @@
-$pink: #AA66CC;
-$orange: #FFBB33;
-$red: #FF4444;
-$lightred: #FF2D55;
-$lightblue: #46b8da;
-$blue: #06AEF3;
-$darkblue: #0099CC;
-$green: #99CC00;
-$grey: #8E8E93;
-$lightgrey: #c3c3c3;
+$blue: #1092d3;
+$lightblue: #58b3e0;
+$darkblue: #0e7cb4;
+
+$purple: #6c64ff;
+$lightpurple: #9893ff;
+$darkpurple: #5c55d9;
+
+$green: #2dcca2;
+$lightgreen: #6cdbbe;
+$darkgreen: #26ae8a;
+
+$red: #ed253d;
+$lightred: #f26778;
+$darkred: #ca1f34;
+
+$orange: #f45b42;
+$lightorange: #f78d7b;
+$darkorange: #d04d38;
+
+$yellow: #eab13a;
+$lightyellow: #f0c975;
+$darkyellow: #d99731;
+
+$grey: #c3c3c3;
+$lightgrey: #d5d5d5;
+$darkgrey: #a6a6a6;
+
+$black: #000000;
 $white: #FFFFFF;
 $darkwhite: #F2F2F2;
-$black: #000000;
+
 
 // Debug colors
 $debug-1: #02ccb9;
@@ -22,27 +41,66 @@ $debug-6: #4f00cc;
 $debug-7: #003fcc;
 $debug-8: #0073cc;
 
+
 $grid-columns: 12;
 $grid-gutter-width: 30px;
 
+$lightenPercentage: 15%;
+
 // Button
-$button-border-width: 1px;
-$button-border-color: #999;
-$button-border-radius: 4px;
-$button-border-style: solid;
+$m-button-border-width: 1px;
+$m-button-border-color: $blue;
+$m-button-text-color:  $blue;
+$m-button-border-radius: 4px;
+$m-button-border-style: solid;
+$m-button-padding: 10px 20px;
+// Button color primary
+$m-button-primary-border-color: $purple;
+$m-button-primary-text-color: $purple;
+$m-button-primary-background-color: $white;
+// Button color success
+$m-button-success-border-color: $green;
+$m-button-success-text-color: $green;
+$m-button-success-background-color: $white;
+// Button color error
+$m-button-error-border-color: $red;
+$m-button-error-text-color: $red;
+$m-button-error-background-color: $white;
+// Button color warning
+$m-button-warning-border-color: $orange;
+$m-button-warning-text-color: $orange;
+$m-button-warning-background-color: $white;
+// Button color info
+$m-button-info-border-color: $yellow;
+$m-button-info-text-color: $yellow;
+$m-button-info-background-color: $white;
+// Button color fuzzy
+$m-button-fuzzy-border-color: $grey;
+$m-button-fuzzy-text-color: $grey;
+$m-button-fuzzy-background-color: $white;
+
+
+$strong: bold;
+$normal: normal;
+$weak: lighter;
+
+
 
 // Form elements
 $form-border-width: 1px;
-$form-border-color: #999;
+$form-border-color: $blue;
 $form-border-style: solid;
 $form-element-border: $form-border-width $form-border-style $form-border-color;
 
 $textfield-icon-padding: 30px;
 $textfield-icon-x-position: 4px;
-$textfield-icon-y-position: 3px;
+$textfield-icon-y-position: 14px;
+$textfield-icon-font-size: 2.2rem;
+$textfield-padding: 6px;
 
 // Default Colors
 $m-primary-color: $blue;
+$m-primary-text-color: $black;
 $m-primary-border-color: $lightblue;
 $m-primary-active-color: $darkblue;
 $m-primary-active-text-color: $white;
@@ -52,9 +110,34 @@ $tablayout-menu-height: 50px;
 $tablayout-menu-button-padding: 13px 0 0 0;
 $tablayout-menu-scroll-button-width: 200px;
 
+//swtichheadercontent
+$switch-header-content-padding: 4px 0 0 0;
+
 // Default
 $m-primary-font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 $m-primary-font-weight: 300;
-$m-primary-font-size: 1.8rem;
-$m-primary-line-height: 22px;
+$m-primary-font-size: 1.6rem;
+// use this to calculate on instead of the font size
+$m-primary-calc-font-size: 16px;
+$m-primary-line-height: 2.2rem;
 $m-primary-font-color: $black;
+$m-primary-margin-top: 10px;
+$m-primary-margin-bottom: 10px;
+
+// Modal
+$modal-backdrop-background-color: $black;
+
+$content-padding: 15px;
+
+$m-primary-disabled-color: $lightgrey;
+$m-primary-disabled-text-color: $grey;
+
+
+$selection-color: $grey;
+$selection-checked-color: $blue;
+
+//List
+$m-list-item-color: $green;
+
+//stencil
+$m-stencil-text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;

@@ -80,8 +80,22 @@
 <https://wiki.mwaysolutions.com/confluence/display/MWSG/M-Way+general>
 
 
-
-
+# Links
+http://backbonejs.org/
+http://underscorejs.org/
+http://jquery.com
+http://getbootstrap.com/
+http://eightmedia.github.io/hammer.js/
+http://nytimes.github.io/backbone.stickit/
+http://socket.io/
+http://modernizr.com/
+http://momentjs.com/
+https://github.com/barisaydinoglu/Detectizr
+http://fontawesome.io/
+https://github.com/alexgibson/shake.js/
+https://github.com/ftlabs/fastclick
+https://github.com/mwaylabs/grunt-tmpl
+https://github.com/mwaylabs/tmpl
 
 
 

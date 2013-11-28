@@ -51,7 +51,11 @@ _.extend(M.Router.prototype, M.Object, {
         if( Object.keys(this._visitedRoutes).length === 0 ) {
             _callback = controller.applicationStart;
         } else {
-            _callback = controller.show;
+            // prevent a show, if an transition is animating
+            if(!M.PageTransitions._isAnimating){
+                _callback = controller.show;
+            }
+
         }
         return _callback;
     },

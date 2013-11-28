@@ -1,9 +1,74 @@
 @import "compass/css3/appearance";
+
+
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .form {
+  @extend .ellipsis;
   @include appearance(none);
   border: $form-element-border;
   display: block;
   width: 100%;
   font-size: $m-primary-font-size;
   line-height: $m-primary-line-height;
+  border-radius: $m-button-border-radius;
+  padding-top: $textfield-padding;
+  padding-bottom: $textfield-padding;
+  outline: none;
+}
+
+.selection {
+  @extend .form;
+  border: none;
+}
+
+.fullscreen {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.input {
+  outline: none;
+}
+
+.margin1010 {
+  margin-top: $m-primary-margin-top;
+  margin-bottom: $m-primary-margin-bottom;
+}
+
+.header-center {
+  font-size: $m-primary-font-size;
+  color: $white;
+  text-align: center;
+  padding: 7px 0 0 0;
+}
+
+.header-first {
+  position: absolute;
+  left: 10px;
+  top: 3px;
+}
+
+.header-second {
+  position: absolute;
+  right: 10px;
+  top: 3px;
+}
+
+.stencil{
+  color: transparent;
+  text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
+  background: $darkgrey;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
 }

@@ -1,0 +1,24 @@
+.switch-header-content-layout {
+
+  .m-page {
+    overflow: hidden;
+  }
+
+  .header {
+    padding: $switch-header-content-padding;
+  }
+
+  .first{
+    @extend .header-first;
+  }
+
+  .second{
+    @extend .header-second;
+  }
+  .content-wrapper {
+    @extend .fullscreen;
+    top: $tablayout-menu-height;
+    background: $white;
+  }
+
+}

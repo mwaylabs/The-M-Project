@@ -1,4 +1,5 @@
 
+// @include ./utility/animation.js
 // @include ./ui/themevars.js
 // @include ./ui/views/template_manager.js
 // @include ./ui/pagetransitions.js
@@ -29,9 +30,11 @@
 // @include ./ui/views/toggleswitch.js
 // @include ./ui/views/modal.js
 // @include ./ui/views/loader.js
+// @include ./ui/views/text.js
 
 // @include ./ui/layouts/header-layout.js
 // @include ./ui/layouts/bottom-bar-layout.js
 // @include ./ui/layouts/switch-layout.js
 // @include ./ui/layouts/swipe-layout.js
 // @include ./ui/layouts/tab-layout.js
+// @include ./ui/layouts/switch-header-content.js

@@ -21,6 +21,8 @@
     overflow: hidden;
     width: 100%;
     position: relative;
+    margin-top: 5px;
+    margin-bottom: 5px;
 
     i{
       display: block;
@@ -28,12 +30,15 @@
       top: $textfield-icon-y-position;
       left: $textfield-icon-x-position;
       color: $blue;
+      font-size: $textfield-icon-font-size;
     }
 
     input {
+      @extend .ellipsis;
       border: none;
       width: 100%;
       padding-left: $textfield-icon-padding;
+      padding-right: $textfield-icon-x-position;
     }
 
   }
@@ -56,5 +61,7 @@
 
   }
 
-
+  &.hidden-icon i{
+    display: none;
+  }
 }

@@ -18,11 +18,11 @@
 
         show: function (settings) {
             this._initView(settings);
-
             Addressbook.getLayout().applyViews({
                 header: this.header,
                 content: this.detailView
             });
+
             Addressbook.getLayout().startTransition();
         },
 
@@ -36,6 +36,7 @@
         _initView: function (settings) {
             var that = this;
             var userId = settings.id;
+            console.log(userId);
 
             if (Addressbook.contactCollection && Addressbook.contactCollection.models.length > 1) {
                 this._setModel(userId);
@@ -57,9 +58,22 @@
                     scopeKey: 'currentModel',
                     extendTemplate: '<span><%= firstname %></span> <span><%= lastname %></span>'
                 },{
+                    first: M.ButtonView.extend({
+                        cssClass: 'btn-default',
+                        value: M.I18N.get('global.back'),
+                        useElement: YES,
+                        events: {
+                            tap: function(){
+                                Addressbook.navigate({
+                                    route: '/',
+                                    transition: M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT
+                                })
+                            }
+                        }
+                    }),
                     second: M.View.extend({},{
                         btn: M.ButtonView.extend({
-                            value: 'edit',
+                            value: M.I18N.get('global.edit'),
                             events: {
                                 tap: 'gotoEditPage'
                             }

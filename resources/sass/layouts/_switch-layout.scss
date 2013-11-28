@@ -1,24 +1,18 @@
 html, body {
-  height: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .m-perspective {
   position: relative;
-  width: 100%;
-  height: 100%;
-  -webkit-perspective: 1200px;
-  -moz-perspective: 1200px;
-  perspective: 1200px;
+//  -webkit-perspective: 1200px;
+//  -moz-perspective: 1200px;
+//  perspective: 1200px;
 }
 
 .m-page {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  @extend .fullscreen;
+  //ios scrolling bug if this is visible
+  display: none;
 }
 
 //TODO use in good browsers
@@ -34,149 +28,11 @@ html, body {
 //  transform-style: preserve-3d;
 //}
 
-.m-page-current,
-.no-js .m-page {
-  visibility: visible;
+.m-page-current{
   z-index: 1;
-}
-
-.no-js body {
-  overflow: auto;
+  display: block;
 }
 
 .m-page-ontop {
   z-index: 999;
-}
-
-.m-page-1 {
-  background: #ffffff;
-}
-
-.m-page-2 {
-  background: #ffffff;
-}
-
-.m-page-3 {
-  background: #60d7a9;
-}
-
-.m-page-4 {
-  background: #fdc162;
-}
-
-.m-page-5 {
-  background: #fd6a62;
-}
-
-.m-page-6 {
-  background: #f68dbb;
-}
-
-/* Triggers (menu and button) */
-
-.m-triggers {
-  position: absolute;
-  width: 300px;
-  z-index: 999999;
-  top: 12%;
-  left: 50%;
-  margin-top: 130px;
-  -webkit-transform: translateX(-50%);
-  -moz-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-}
-
-.no-js .m-triggers {
-  display: none;
-}
-
-.m-triggers .dl-menuwrapper button,
-.m-touch-button {
-  border: none;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin: 10px 0 20px;
-  padding: 0px 20px;
-  line-height: 50px;
-  height: 50px;
-  letter-spacing: 1px;
-  width: 100%;
-  cursor: pointer;
-  display: block;
-  font-family: 'Lato', Calibri, Arial, sans-serif;
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.m-touch-button {
-  background: #fff;
-  color: #aaa;
-}
-
-.m-triggers .dl-menuwrapper button {
-  margin-bottom: 0;
-}
-
-.m-touch-button:active {
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-}
-
-.touch .m-triggers .dl-menuwrapper {
-  display: none;
-}
-
-.m-message {
-  display: none;
-  position: absolute;
-  z-index: 99999;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #da475c;
-  color: #fff;
-  text-align: center;
-}
-
-.m-message p {
-  margin: 0;
-  line-height: 60px;
-  font-size: 26px;
-}
-
-.no-cssanimations .m-message {
-  display: block;
-}
-
-@media screen and (max-width: 47.4375em) {
-  .m-page h1 {
-    font-size: 3em;
-  }
-
-  .m-triggers .dl-menuwrapper {
-    display: none;
-  }
-}
-
-@media screen and (max-height: 45.9em) {
-  .m-triggers .dl-menuwrapper li a {
-    padding-top: 2px;
-    padding-bottom: 2px;
-  }
-
-  .m-triggers .dl-menuwrapper li.dl-back:after, .dl-menuwrapper li > a:not(:only-child):after {
-    line-height: 24px;
-  }
-}
-
-@media screen and (max-height: 38em) {
-  .m-triggers .dl-menuwrapper {
-    display: none;
-  }
 }

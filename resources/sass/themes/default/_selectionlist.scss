@@ -1,9 +1,11 @@
 .selection-list {
+  @extend .margin1010;
+
   position: relative;
-  border: $button-border-width solid $button-border-color;
-  -webkit-border-radius: $button-border-radius;
-  -moz-border-radius: $button-border-radius;
-  border-radius: $button-border-radius;
+  border: $m-button-border-width solid $m-button-border-color;
+  -webkit-border-radius: $m-button-border-radius;
+  -moz-border-radius: $m-button-border-radius;
+  border-radius: $m-button-border-radius;
 
 
   &:after {

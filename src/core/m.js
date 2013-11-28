@@ -14,7 +14,7 @@ if( typeof exports !== 'undefined' ) {
  * Version number of current release
  * @type {String}
  */
-M.Version = M.version = '2.0';
+M.Version = M.version = '/* @echo VERSION */';
 
 /**
  * Empty function to be used when
@@ -50,6 +50,10 @@ M.isEntity = function( entity ) {
 
 M.isI18NItem = function( entity ) {
     return (entity && entity._type && entity._type === 'M.I18NItem');
+};
+
+M.isController = function( entity ) {
+    return M.Controller.prototype.isPrototypeOf(entity);
 };
 
 /**
