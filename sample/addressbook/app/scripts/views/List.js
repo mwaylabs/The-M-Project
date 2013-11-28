@@ -31,7 +31,7 @@ Addressbook.Views = Addressbook.Views || {};
                             var id = element.model.get('_id');
                             Addressbook.navigate({
                                 route: 'detail/' + id,
-                                transition: M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT
+                                transition: M.PageTransitions.CONST.MOVE_TO_LEFT_FROM_RIGHT
                             });
 
                         },

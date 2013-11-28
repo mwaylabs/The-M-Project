@@ -79,7 +79,7 @@ Addressbook.Views = Addressbook.Views || {};
 //                    tap: function() {
 //                        Addressbook.navigate({
 //                            route: '/',
-//                            transition: M.PageTransitions.MOVE_TO_RIGHT_FROM_LEFT
+//                            transition: M.PageTransitions.CONST.MOVE_TO_RIGHT_FROM_LEFT
 //                        })
 //                    }
 //                }

@@ -6,7 +6,104 @@
  * @extends M.Object
  */
 M.PageTransitions = M.Object.design({
+    _transition: '',
+    _main: null,
+    _iterate: null,
+    _pages: null,
+    _pagesCount: 0,
+    _current: 0,
+    _isAnimating: false,
+    _endCurrPage: false,
+    _endNextPage: false,
 
+    init: function( main ) {
+        this._main = main ? main : $('#m-main');
+        this._pages = this._main.children('div.m-page');
+        this._pagesCount = this._pages.length;
+
+        this._pages.each(function() {
+            var page = $(this);
+            page.data('originalClassList', page.attr('class'));
+        });
+
+        this._pages.eq(this._current).addClass('m-page-current');
+    },
+
+    startTransition: function() {
+        if( this._isAnimating ) {
+            return false;
+        }
+
+        // TODO dispatch a custom animation-start event.
+        this._isAnimating = true;
+
+        var currPage = this._pages.eq(this._current);
+
+        if( this._current < this._pagesCount - 1 ) {
+            this._current += 1;
+        } else {
+            this._current = 0;
+        }
+        var nextPage = this._pages.eq(this._current).addClass('m-page-current');
+        if( !M.Animation.animationSupport || this._transition === M.PageTransitions.CONST.NONE ) {
+            this._onEndAnimation(currPage, nextPage);
+            return;
+        }
+
+        if( !this._transition ) {
+            this._transition = this.getDefaultTransition();
+        }
+
+        var transitionClasses = this._transition.split('|');
+        var outClass = transitionClasses[0];
+        var inClass = transitionClasses[1];
+        var that = this;
+
+        var animEndEventName = M.Animation.animationEndEventName;
+        $(currPage[0]).on(animEndEventName, function() {
+            currPage.off(animEndEventName);
+            that._endCurrPage = true;
+            if( that._endNextPage ) {
+                that._onEndAnimation(currPage, nextPage);
+            }
+        });
+        currPage.addClass(outClass);
+
+        $(nextPage[0]).on(animEndEventName, function() {
+            nextPage.off(animEndEventName);
+            that._endNextPage = true;
+            if( that._endCurrPage ) {
+                that._onEndAnimation(currPage, nextPage);
+            }
+        });
+        nextPage.addClass(inClass);
+    },
+
+    setTransition: function( name ) {
+        this._transition = name;
+    },
+
+    getDefaultTransition: function() {
+        return M.PageTransitions.CONST.MOVE_TO_LEFT_FROM_RIGHT;
+    },
+
+    _onEndAnimation: function( outpage, inpage ) {
+        // TODO dispatch a custom animation-end event.
+
+        this._endCurrPage = false;
+        this._endNextPage = false;
+
+        this._resetPage(outpage, inpage);
+        this._isAnimating = false;
+    },
+
+    _resetPage: function( outpage, inpage ) {
+        outpage.attr('class', outpage.data('originalClassList'));
+        inpage.attr('class', inpage.data('originalClassList') + ' m-page-current');
+    }
+});
+
+M.PageTransitions.CONST = {
     NONE: 'none',
     MOVE_TO_LEFT_FROM_RIGHT: 'm-page-moveToLeft|m-page-moveFromRight',
     MOVE_TO_RIGHT_FROM_LEFT: 'm-page-moveToRight|m-page-moveFromLeft',
@@ -74,102 +171,5 @@ M.PageTransitions = M.Object.design({
     CAROUSEL_TO_TOP: 'm-page-rotateCarouselTopOut m-page-ontop|m-page-rotateCarouselTopIn',
     CAROUSEL_TO_BOTTOM: 'm-page-rotateCarouselBottomOut m-page-ontop|m-page-rotateCarouselBottomIn',
     SIDES: 'm-page-rotateSidesOut|m-page-rotateSidesIn m-page-delay200',
-    SLIDE: 'm-page-rotateSlideOut|m-page-rotateSlideIn',
-
-    _transition: '',
-    _main: null,
-    _iterate: null,
-    _pages: null,
-    _pagesCount: 0,
-    _current: 0,
-    _isAnimating: false,
-    _endCurrPage: false,
-    _endNextPage: false,
-
-    init: function( main ) {
-        this._main = main ? main : $('#m-main');
-        this._pages = this._main.children('div.m-page');
-        this._pagesCount = this._pages.length;
-
-        this._pages.each(function() {
-            var page = $(this);
-            page.data('originalClassList', page.attr('class'));
-        });
-
-        this._pages.eq(this._current).addClass('m-page-current');
-    },
-
-    startTransition: function() {
-        if( this._isAnimating ) {
-            return false;
-        }
-
-        // TODO dispatch a custom animation-start event.
-        this._isAnimating = true;
-
-        var currPage = this._pages.eq(this._current);
-
-        if( this._current < this._pagesCount - 1 ) {
-            this._current += 1;
-        } else {
-            this._current = 0;
-        }
-        var nextPage = this._pages.eq(this._current).addClass('m-page-current');
-        if( !M.Animation.animationSupport || this._transition === M.PageTransitions.NONE ) {
-            this._onEndAnimation(currPage, nextPage);
-            return;
-        }
-
-        if( !this._transition ) {
-            this._transition = this.getDefaultTransition();
-        }
-
-        var transitionClasses = this._transition.split('|');
-        var outClass = transitionClasses[0];
-        var inClass = transitionClasses[1];
-        var that = this;
-
-        var animEndEventName = M.Animation.animationEndEventName;
-        $(currPage[0]).on(animEndEventName, function() {
-            currPage.off(animEndEventName);
-            that._endCurrPage = true;
-            if( that._endNextPage ) {
-                that._onEndAnimation(currPage, nextPage);
-            }
-        });
-        currPage.addClass(outClass);
-
-        $(nextPage[0]).on(animEndEventName, function() {
-            nextPage.off(animEndEventName);
-            that._endNextPage = true;
-            if( that._endCurrPage ) {
-                that._onEndAnimation(currPage, nextPage);
-            }
-        });
-        nextPage.addClass(inClass);
-    },
-
-    setTransition: function( name ) {
-        this._transition = name;
-    },
-
-    getDefaultTransition: function() {
-        return M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT;
-    },
-
-    _onEndAnimation: function( outpage, inpage ) {
-        // TODO dispatch a custom animation-end event.
-
-        this._endCurrPage = false;
-        this._endNextPage = false;
-
-        this._resetPage(outpage, inpage);
-        this._isAnimating = false;
-    },
-
-    _resetPage: function( outpage, inpage ) {
-        outpage.attr('class', outpage.data('originalClassList'));
-        inpage.attr('class', inpage.data('originalClassList') + ' m-page-current');
-    }
-});
-
+    SLIDE: 'm-page-rotateSlideOut|m-page-rotateSlideIn'
+};
