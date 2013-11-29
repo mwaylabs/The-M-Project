@@ -21,7 +21,6 @@
 // @include ./ui/views/toast.js
 // @include ./ui/views/toolbar.js
 // @include ./ui/views/select.js
-// @include ./ui/views/debug.js
 // @include ./ui/views/buttongroup.js
 // @include ./ui/views/tab.js
 // @include ./ui/views/selectionlist.js
@@ -31,6 +30,7 @@
 // @include ./ui/views/modal.js
 // @include ./ui/views/loader.js
 // @include ./ui/views/text.js
+// @include ./ui/views/debug.js
 
 // @include ./ui/layouts/header-layout.js
 // @include ./ui/layouts/bottom-bar-layout.js
