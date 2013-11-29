@@ -74,18 +74,20 @@ _.extend(M.Router.prototype, M.Object, {
         }
 
         var router = this;
+
         Backbone.history.route(route, function( fragment ) {
             var res = {};
             _.each(router.routes, function( val, key ) {
-
-                var reg = /\(?(\/:[^)]+)\)?$/;
-                ///^page4\(?(/:[^)]+)\)?$/
-                var exec = reg.exec(key);
-                if( exec && exec.length ) {
-                    var s = exec.slice(1);
-                    res = s[0].replace('/:', '');
+                if(name === val){
+                    var reg = /\(?(\/:[^)]+)\)?$/;
+                    ///^page4\(?(/:[^)]+)\)?$/
+                    var exec = reg.exec(key);
+                    if( exec && exec.length ) {
+                        var s = exec.slice(1);
+                        res = s[0].replace('/:', '');
+                    }
                 }
-            });
+            }, this);
             var args = router._extractParameters(route, fragment);
             res = _.object([res], args);
             args.unshift(!router._visitedRoutes[name]);
