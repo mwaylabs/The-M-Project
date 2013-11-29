@@ -170,13 +170,13 @@ module.exports = function (grunt) {
 
         jsdoc : {
             dist : {
-                src: ['src/connection/*.js','src/core/*.js','src/data/*.js','src/data/stores/*.js','src/interfaces/*.js','src/ui/*.js','src/ui/layouts/*.js','src/ui/views/*.js','src/utility/*.js'],
+                src: ['README.md','src/connection/*.js','src/core/*.js','src/data/*.js','src/data/stores/*.js','src/interfaces/*.js','src/ui/*.js','src/ui/layouts/*.js','src/ui/views/*.js','src/utility/*.js'],
                 options: {
                     destination: 'doc'
                 }
             },
             tmpl : {
-                src: ['src/connection/*.js','src/core/*.js','src/data/*.js','src/data/stores/*.js','src/interfaces/*.js','src/ui/*.js','src/ui/layouts/*.js','src/ui/views/*.js','src/utility/*.js'],
+                src: ['README.md','src/connection/*.js','src/core/*.js','src/data/*.js','src/data/stores/*.js','src/interfaces/*.js','src/ui/*.js','src/ui/layouts/*.js','src/ui/views/*.js','src/utility/*.js'],
                 options:{
                     destination: 'doc',
                     template: "doc-template",

@@ -44,7 +44,7 @@ sh init-repo.sh
 grunt dev
 ```
 
-### running an sample application
+### running a sample application
 
 ```
 //navigate to a sample app
@@ -185,7 +185,7 @@ bower install
 grunt dev
 ```
 
-### Running an sample application
+### Running a sample application
 
 
 //navigate to a sample app
@@ -221,3 +221,11 @@ grunt test
 ```
 open test/index.html
 ```
+
+## Links
+
+####[Sample Apps](https://github.com/mwaylabs/The-M-Project-Sample-Apps/blob/master/README.md)
+
+####[The-M-Project generator](https://github.com/mwaylabs/generator-tmp2/blob/master/README.md)
+
+####[Thanks to](https://github.com/mwaylabs/The-M-Project/blob/absinthe/thanks_to.md)
