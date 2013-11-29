@@ -52,18 +52,16 @@ body .button.buttonview.btn-info {
 
 .company-logo {
     display: block;
-    position: absolute;
-    right: 10px;
-    top: 20px;
     background: #dddddd;
-    height: 70px;
-    width: 70px;
-    border-radius: 70px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
     background-size: cover;
     overflow: hidden;
-    font-size: 90px;
+    font-size: 59px;
     color: #bababa;
     text-align: center;
+    padding: 42px 0 0 0;
 }
 
 .detail-page .company-logo {
@@ -125,6 +123,7 @@ body .button.buttonview.btn-info {
 .listview ul li.listitemview {
     padding-top: 20px;
     padding-bottom: 20px;
+    border-bottom: 1px solid #999999;
 }
 
 .listitemview .name {
