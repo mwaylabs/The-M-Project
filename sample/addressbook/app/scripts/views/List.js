@@ -20,7 +20,9 @@ Addressbook.Views = Addressbook.Views || {};
 
                 listItemView: M.ListItemView.extend({
 
-                    extendTemplate: '<div><div class="name"><span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span></div><div><span class="street"><%= street %></span><span class="houseno"><%= houseno %></span></div><div><span class="zip"><%= zip %></span><span class="city"><%= city %></span></div><div class="company-logo <%= company %>"></div></div>',
+                    cssClass: 'row',
+
+                    extendTemplate: '<div><div class="col-xs-8 col-xs-offset-1"><div class="name ellipsis"><span class="firstname"><%= firstname %></span><span class="lastname"><%= lastname %></span></div><div class="ellipsis"><span class="street"><%= street %></span><span class="houseno"><%= houseno %></span></div><div class="ellipsis"><span class="zip"><%= zip %></span><span class="city"><%= city %></span></div></div><div class="col-xs-2"><div class="company-logo <%= company %>"></div></div></div>',
 
                     useElement: YES,
 
