@@ -640,15 +640,19 @@ h3 {
 }
 h1 {
   font-size: 38.5px;
+  margin: 30px 0 15px 0;
 }
 h2 {
   font-size: 31.5px;
+  margin: 30px 0 15px 0;
 }
 h3 {
   font-size: 24.5px;
+  margin: 22px 0 15px 0;
 }
 h4 {
   font-size: 17.5px;
+  margin: 22px 0 15px 0;
 }
 h5 {
   font-size: 14px;
@@ -5950,7 +5954,7 @@ h3.subsection-title {
 }
 
 dt h4.name {
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 /*main Index
