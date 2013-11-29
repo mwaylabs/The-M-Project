@@ -48,13 +48,13 @@
         _initView: function( settings ) {
             if( !this.contactCollection ) {
 
-                this.registerEvents();
-
                 Addressbook.contactCollection = this.contactCollection = new Addressbook.Collections.ContactsCollection();
 
                 M.Loader.show();
+                var that = this;
                 this.contactCollection.fetch({
                     success: function(){
+                        that.registerEvents();
                         M.Loader.hide();
                     },
                     error: function(){
