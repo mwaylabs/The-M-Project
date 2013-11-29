@@ -1,32 +1,17 @@
-$pink: #AA66CC;
-$orange: #FF9500;
-$red: #FF3B30;
-$lightred: #FF2D55;
-$lightblue: #46b8da;
-$blue: #59C8FA;
-$darkblue: #007AFF;
-$green: #4BD964;
-$grey: #8E8E93;
-
 $blue: #59C8FA;
 $lightblue: #46b8da;
 $darkblue: #007AFF;
-
-$purple: #6c64ff;
-
 $green: #4BD964;
-
 $red: #FF3B30;
 $lightred: #FF2D55;
-
-
-$orange: #FF9500;
 
 $grey: #8E8E93;
 
 $m-primary-font-family: -apple-system-font, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
-$m-primary-active-color: transparent;
+$lightenPercentage: 25%;
+
+$m-primary-active-color: $lightgrey;
 $m-primary-active-text-color: $darkblue;
 
 $tablayout-menu-height: 80px;
