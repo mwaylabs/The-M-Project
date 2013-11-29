@@ -1,10 +1,6 @@
 .header {
   @extend .fullscreen;
   overflow: hidden;
-  background: $m-primary-color;
-  color: $m-primary-active-text-color;
-  height: 50px;
-  text-align: center;
 }
 
 .header .buttonview .button{
