@@ -5934,11 +5934,7 @@ code {
 
 li.toc-h2 a {
     font-weight: bold;
-    font-size: 1.2em;
-}
-
-li.toc-h3 a {
-    font-weight: bold;
+    font-size: 1em;
 }
 
 /*main
@@ -5957,3 +5953,10 @@ dt h4.name {
     margin-top: 50px;
 }
 
+/*main Index
+
+-------------------------------------------*/
+
+section article.indexReadme{
+    margin: 50px 0;
+}
