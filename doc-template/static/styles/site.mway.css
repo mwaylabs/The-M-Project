@@ -5676,8 +5676,9 @@ i[class^="icon-"] {
     margin-top: 30px;
 }
 footer {
-  border-top: 1px solid rgb(223, 223, 223);
-  padding-top: 15px;
+    border-top: 1px solid rgb(223, 223, 223);
+    padding-top: 15px;
+    margin-top: 50px;
 }
 code {
   background-color: none;
@@ -5938,5 +5939,21 @@ li.toc-h2 a {
 
 li.toc-h3 a {
     font-weight: bold;
+}
+
+/*main
+
+-------------------------------------------*/
+
+section header h2 {
+    margin-top: 40px;
+}
+
+h3.subsection-title {
+    margin-top: 50px;
+}
+
+dt h4.name {
+    margin-top: 50px;
 }
 
