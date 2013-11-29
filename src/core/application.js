@@ -69,7 +69,8 @@ M.Application = M.Controller.extend({
         }
 
         this._layout = layout;
-        $('#main').html(layout.render().$el);
+        this._layout.render();
+        $('#main').html(this._layout.$el);
     },
 
     getLayout: function() {
