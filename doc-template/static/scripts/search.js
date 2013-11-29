@@ -85,7 +85,7 @@ function find(searchString) {
 function showSearchResults(searchString, results) {
     var html = '';
     if(searchString !== '' && typeof searchString === 'string'){
-        html += '<ul class="result-list">';
+        html += '<div class="results-wrapper arrow_box"><div id="searchResults"><ul class="result-list">';
         for (var i in results) {
             var text = filterResult(searchString, index[results[i].name].content, results[i].position);
             html += '<li class="result-item"><h3>' + results[i].name + '</h3>';
@@ -94,9 +94,9 @@ function showSearchResults(searchString, results) {
             html += '</p>';
             html += '<a class="navlink" href="' + index[results[i].name].path + '">&rarr; goto</a></li>';
         }
-        html += '</ul>';
+        html += '</ul></div></div>';
     }
-    $('#searchResults').html(html);
+    $('#search-wrapper').html(html);
 }
 
 function filterResult(searchString, result, position) {

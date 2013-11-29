@@ -5805,11 +5805,20 @@ code {
     color: white;
 }
 
+.results-wrapper{
+    z-index: 2000;
+    position: fixed;
+    top: 76px;
+    right: 0;
+    width: 400px;
+    box-sizing: border-box;
+}
+
 #searchResults {
     z-index: 2000;
     background: rgba(16,146,211,0.9);
     position: fixed;
-    top: 56px;
+    top: 76px;
     right: 0;
     width: 400px;
     overflow-y: auto;
@@ -5820,6 +5829,33 @@ code {
     padding: 0 15px;
     box-sizing: border-box;
     color: white;
+}
+
+.arrow_box {
+    background: #c2e1f5;
+}
+.arrow_box:after, .arrow_box:before {
+    bottom: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.arrow_box:after {
+    border-color: rgba(194, 225, 245, 0);
+    border-bottom-color: #c2e1f5;
+    border-width: 30px;
+    margin-left: -30px;
+}
+.arrow_box:before {
+    border-color: rgba(16, 146, 211, 0);
+    border-bottom-color: rgba(16,146,211,0.9);
+    border-width: 36px;
+    margin-left: -36px;
 }
 
 .highlight {
@@ -5834,6 +5870,10 @@ code {
     list-style-type: none;
     border-bottom: 1px solid white;
     padding-bottom: 15px;
+}
+
+.result-item:last-child {
+    border: none;
 }
 
 .result-item h3 {
