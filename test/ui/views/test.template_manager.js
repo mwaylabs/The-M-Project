@@ -114,7 +114,7 @@ describe('M.TemplateManager', function() {
 
     });
 
-    it('templates', function(){
+    it('Templates for every view should be equal to this one', function(){
 
         var templates = {
             'M.View': {
