@@ -4,6 +4,11 @@
   background: $m-primary-color;
   position: absolute;
   top: 0;
+
+  .button{
+    margin-top: 0;
+  }
+
 }
 
 .toolbarview .first {
