@@ -9,7 +9,7 @@ M.DebugView = M.View.extend({
     _type: 'M.DebugView',
     _template: _.tmpl(M.TemplateManager.get('M.DebugView')),
     _debugViewIsHidden: YES,
-
+    cssClass: 'bg',
     useAsScope: YES,
 
     initialize: function () {
@@ -26,7 +26,6 @@ M.DebugView = M.View.extend({
         if( this._firstRender ) {
             $('body').append(this.render().$el);
         }
-
         this._debugViewIsHidden = NO;
         this.$el.show();
     },
@@ -40,6 +39,7 @@ M.DebugView = M.View.extend({
     },
 
     toggleGrid: function () {
+        this.$el.toggleClass('bg');
         this.childViews['debug-grid'].$el.toggle();
     },
 
@@ -64,13 +64,11 @@ M.DebugView = M.View.extend({
         }, false);
     }
 }, {
-    'debug-menu': M.View.extend({
-        grid: 'row',
+    'debug-menu': M.ButtonGroupView.extend({
         cssClass: 'debug-menu'
     }, {
         toggleGrid: M.ButtonView.extend({
-            value: 'toggle grid',
-            grid: 'col-xs-2',
+            value: 'Toggle grid',
             events: {
                 tap: 'toggleGrid'
             }
@@ -78,7 +76,6 @@ M.DebugView = M.View.extend({
 
         androidLight: M.ButtonView.extend({
             value: 'android-light theme',
-            grid: 'col-xs-2',
             events: {
                 tap: 'androidLightTheme'
             }
@@ -86,7 +83,6 @@ M.DebugView = M.View.extend({
 
         ios: M.ButtonView.extend({
             value: 'ios theme',
-            grid: 'col-xs-2',
             events: {
                 tap: 'iosTheme'
             }
@@ -94,24 +90,21 @@ M.DebugView = M.View.extend({
 
         reset: M.ButtonView.extend({
             value: 'reset theme',
-            grid: 'col-xs-2',
             events: {
                 tap: 'resetTheme'
             }
-        }),
-
-        hide: M.ButtonView.extend({
-            value: 'hide debug',
-            grid: 'col-xs-2',
-            events: {
-                tap: 'hideDebug'
-            }
         })
-
     }),
 
     'debug-grid': M.View.extend({
         useElement: YES,
-        template: '<div class="debug-container"><div class="container debug-grid"><div class="row"> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> </div></div></div>'
+        template: (function() {
+            var tpl = '<div class="debug-container"><div class="debug-grid col-xs-12"><div class="row">';
+            for(var i=0; i < 12; i++) {
+                tpl += '<div class="col-xs-1"><div class="inner"></div></div>';
+            }
+            tpl += '</div></div></div>';
+            return tpl;
+        })()
     })
 });

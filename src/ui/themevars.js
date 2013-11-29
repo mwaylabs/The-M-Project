@@ -119,8 +119,8 @@ M.ThemeVars = {
         "grey": "#8E8E93",
         "m-primary-font-family": "-apple-system-font, \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
         "lightenPercentage": "25%",
-        "m-primary-active-color": "transparent",
-        "m-primary-active-text-color": "lighten(#007AFF, 25%)",
+        "m-primary-active-color": "$lightgrey",
+        "m-primary-active-text-color": "#007AFF",
         "tablayout-menu-height": "80px",
         "tablayout-menu-scroll-button-width": "140px",
         "selection-checked-color": "#59C8FA"
