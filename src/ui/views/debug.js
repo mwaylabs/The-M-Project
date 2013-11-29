@@ -99,7 +99,7 @@ M.DebugView = M.View.extend({
     'debug-grid': M.View.extend({
         useElement: YES,
         template: (function() {
-            var tpl = '<div class="debug-container"><div class="container debug-grid"><div class="row">';
+            var tpl = '<div class="debug-container"><div class="debug-grid col-xs-12"><div class="row">';
             for(var i=0; i < 12; i++) {
                 tpl += '<div class="col-xs-1"><div class="inner"></div></div>';
             }
