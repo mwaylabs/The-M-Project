@@ -58,5 +58,7 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
     destroy: function() {
         this.$el.remove();
         this.$el = null;
+        this.childViews = null;
+        M.PageTransitions.reset();
     }
 });

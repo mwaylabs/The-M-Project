@@ -7,9 +7,12 @@
 
     .buttongroupview {
 
+      margin: 0;
+
       .button {
         height: $tablayout-menu-height;
         padding: $tablayout-menu-button-padding;
+        margin: 0;
       }
 
       .button i{
@@ -20,10 +23,21 @@
       .buttonview {
         &:first-child {
           padding-left: 0;
+
+          .button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
         }
 
         &:last-child {
           padding-right: 0;
+
+          .button {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+
         }
       }
 
@@ -34,34 +48,6 @@
 
 .m-tab {
   top: $tablayout-menu-height;
-}
-
-.m-tab:nth-child(1) {
-  background: $purple;
-}
-
-.m-tab:nth-child(2) {
-  background: $orange;
-}
-
-.m-tab:nth-child(3) {
-  background: $debug-1;
-}
-
-.m-tab:nth-child(4) {
-  background: $debug-2;
-}
-
-.m-tab:nth-child(5) {
-  background: $debug-3;
-}
-
-.m-tab:nth-child(6) {
-  background: $debug-4;
-}
-
-.m-tab:nth-child(7) {
-  background: $debug-5;
 }
 
 .tablayout.scrolling {

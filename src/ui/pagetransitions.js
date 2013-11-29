@@ -16,6 +16,18 @@ M.PageTransitions = M.Object.design({
     _endCurrPage: false,
     _endNextPage: false,
 
+    reset: function() {
+        this._transition = '';
+        this._main = null;
+        this._iterate = null;
+        this._pages = null;
+        this._pagesCount = 0;
+        this._current = 0;
+        this._isAnimating = false;
+        this._endCurrPage = false;
+        this._endNextPage = false;
+    },
+
     init: function( main ) {
         this._main = main ? main : $('#m-main');
         this._pages = this._main.children('div.m-page');
