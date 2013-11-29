@@ -37,6 +37,8 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         yeoman: yeomanConfig,
+        pkg: grunt.file.readJSON('package.json'),
+        bwr: grunt.file.readJSON('bower.json'),
         watch: {
             options: {
                 nospawn: true
@@ -195,19 +197,11 @@ module.exports = function (grunt) {
         htmlmin: {
             dist: {
                 options: {
-                    /*removeCommentsFromCDATA: true,
-                    // https://github.com/yeoman/grunt-usemin/issues/44
-                    //collapseWhitespace: true,
-                    collapseBooleanAttributes: true,
-                    removeAttributeQuotes: true,
-                    removeRedundantAttributes: true,
-                    useShortDoctype: true,
-                    removeEmptyAttributes: true,
-                    removeOptionalTags: true*/
+                    collapseWhitespace: true
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= yeoman.app %>',
+                    cwd: '<%= yeoman.dist %>',
                     src: '*.html',
                     dest: '<%= yeoman.dist %>'
                 }]
@@ -218,12 +212,21 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     dot: true,
+                    cwd: '/bower_components/font-awesome/',
+                    dest: '',
+                    src: [
+                        'fonts/{,*/}*.*'
+                    ]
+                },{
+                    expand: true,
+                    dot: true,
                     cwd: '<%= yeoman.app %>',
                     dest: '<%= yeoman.dist %>',
                     src: [
-                        '*.{ico,txt}',
+                        '*.html',
+                        'icons/*.png',
                         'images/{,*/}*.{webp,gif}',
-                        'styles/fonts/{,*/}*.*',
+                        'fonts/{,*/}*.*',
                         'i18n/*.json'
                     ]
                 }]
@@ -248,26 +251,26 @@ module.exports = function (grunt) {
                         // TODO support rev for i18n and images
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
-                        '<%= yeoman.dist %>/styles/fonts/{,*/}*.*'
+                        '<%= yeoman.dist %>/fonts/{,*/}*.*'
                     ]
                 }
             }
         },
         manifest: {
-          generate: {
-            options: {
-              preferOnline: true,
-              timestamp: true,
-              master: ['<%= yeoman.dist %>/index.html']
-            },
-            src: [
-              '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
-              '<%= yeoman.dist %>/scripts/{,*/}*.js',
-              '<%= yeoman.dist %>/styles/{,*/}*.css',
-              '<%= yeoman.dist %>/i18n/*.json'
-            ],
-            dest: '<%= yeoman.dist %>/manifest.appcache'
-          }
+            generate: {
+                options: {
+                    preferOnline: true,
+                    timestamp: true,
+                    master: ['<%= yeoman.dist %>/index.html']
+                },
+                src: [
+                    '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+                    '<%= yeoman.dist %>/scripts/{,*/}*.js',
+                    '<%= yeoman.dist %>/styles/{,*/}*.css',
+                    '<%= yeoman.dist %>/i18n/*.json'
+                ],
+                dest: '<%= yeoman.dist %>/manifest.appcache'
+            }
         }
     });
 
@@ -304,7 +307,7 @@ module.exports = function (grunt) {
         ];
 
         if(reloadType === 'livereload') {
-            tasks.push('watch');
+            tasks.push('watch:livereload');
         }
 
         if( defaultOption('openBrowser', cfg.server.openBrowser) ) {
@@ -314,13 +317,25 @@ module.exports = function (grunt) {
         grunt.task.run(tasks);
     });
 
-    grunt.registerTask('addManifestAttribute', '', function() {
+    grunt.registerTask('amendIndexFile', '', function() {
+
+        // Open file
         var path = grunt.template.process('<%= yeoman.dist %>/index.html');
         var content = grunt.file.read(path);
 
+        // Construct banner
+        var banner = '<!--\n'+
+        'Version: <%= pkg.version %>\n'+
+        'Date: <%= grunt.template.today() %>\n'+
+        'Build with The M Project <%= bwr.dependencies.themproject %>\n'+
+        '-->\n';
+        content = grunt.template.process(banner) + content;
+
+        // Add manifest attribute
         var regex = new RegExp('(<html+(?![^>]*\bmanifest\b))', 'g');
         content = content.replace(regex, '$1 manifest="cache.manifest"');
 
+        // Save file
         grunt.file.write(path, content);
     });
 
@@ -339,15 +354,15 @@ module.exports = function (grunt) {
         'tmpl',
         'useminPrepare',
         'imagemin',
-        'htmlmin',
         'concat',
         'cssmin',
         'uglify',
         'copy',
         'rev',
         'usemin',
+        'htmlmin',
         'manifest',
-        'addManifestAttribute'
+        'amendIndexFile'
     ]);
 
     grunt.registerTask('default', [
