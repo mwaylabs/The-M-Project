@@ -31,7 +31,7 @@ M.TabLayout = M.Layout.extend({
         this.$el.addClass(this.scrolling ? 'scrolling' : '');
         this.$scrollContainer = this.$el.find('[data-childviews=tab-menu]');
         if(this.scrolling){
-            var width = M.SassVars['tablayout-menu-scroll-button-width'] * Object.keys(this._tabMenu.childViews).length;
+            var width = parseInt(M.ThemeVars.get('tablayout-menu-scroll-button-width'), 10) * Object.keys(this._tabMenu.childViews).length;
             this.$scrollContainer.children('.buttongroupview').css('width', width + 'px');
         }
 
@@ -54,7 +54,8 @@ M.TabLayout = M.Layout.extend({
         if(!this.$scrollContainer){
             return;
         }
-        var buttonWidth = M.SassVars['tablayout-menu-scroll-button-width'];
+
+        var buttonWidth = parseInt(M.ThemeVars.get('tablayout-menu-scroll-button-width'), 10);
         var toPos = index * buttonWidth - 50;
         if( this.smoothScrollAnimation ) {
 
