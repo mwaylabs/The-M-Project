@@ -10,6 +10,7 @@
       .button {
         height: $tablayout-menu-height;
         padding: $tablayout-menu-button-padding;
+        margin: 0;
       }
 
       .button i{
@@ -20,10 +21,21 @@
       .buttonview {
         &:first-child {
           padding-left: 0;
+
+          .button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
         }
 
         &:last-child {
           padding-right: 0;
+
+          .button {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+
         }
       }
 
