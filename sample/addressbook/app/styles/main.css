@@ -1,7 +1,10 @@
+.content-wrapper .content-wrapper-no .listview{
+    margin-top: 0;
+}
 
 h2.view {
     padding: 0;
-    margin: 0;
+    margin: 10px 0 0 0;
 }
 
 .m-page {
@@ -86,6 +89,7 @@ body .button.buttonview.btn-info {
 
 .detail-page .company-logo:before {
     margin-top: -120px;
+    padding: 180px 0 0 0;
 }
 
 .Consulting {
@@ -121,9 +125,9 @@ body .button.buttonview.btn-info {
 }
 
 .listview ul li.listitemview {
-    padding-top: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid #999999;
+    overflow: hidden;
 }
 
 .listitemview .name {

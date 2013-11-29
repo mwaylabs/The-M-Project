@@ -79,16 +79,16 @@
                         }
                     }
                 },{
-                    first: M.View.extend({},{
-
-                        tutorial: M.ButtonView.extend({
-                            value: M.I18N.get('global.show_tutorial'),
-                            useElement: YES,
-                            events: {
-                                tap: 'showTutorial'
-                            }
-                        })
-                    }),
+//                    first: M.View.extend({},{
+//
+//                        tutorial: M.ButtonView.extend({
+//                            value: M.I18N.get('global.show_tutorial'),
+//                            useElement: YES,
+//                            events: {
+//                                tap: 'showTutorial'
+//                            }
+//                        })
+//                    }),
                     second: M.View.extend({},{
 
                         addButton: M.ButtonView.extend({
@@ -123,11 +123,11 @@
         },
 
         showTutorial: function(){
-            this.listView.childViews.tutorial.$el.show();
+            //this.listView.childViews.tutorial.$el.show();
         },
 
         hideTutorial: function(){
-            this.listView.childViews.tutorial.$el.hide();
+            //this.listView.childViews.tutorial.$el.hide();
         }
 
 
