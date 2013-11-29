@@ -1,6 +1,4 @@
 
-M.BUTTON_VIEW = 'M.ButtonView';
-
 /**
  * M.ButtonView inherits from M.View
  * @module M.ButtonView
@@ -14,13 +12,13 @@ M.ButtonView = M.View.extend({
      * The type of the object
      * @private
      */
-    _type: M.BUTTON_VIEW,
+    _type: 'M.ButtonView',
 
     /**
      * The template of the object before initializing it.
      * @private
      */
-    _template: _.tmpl(M.TemplateManager.get(M.BUTTON_VIEW)),
+    _template: _.tmpl(M.TemplateManager.get('M.ButtonView')),
 
     /**
      * The active state of the button. Use isActive and setActive to change this property.

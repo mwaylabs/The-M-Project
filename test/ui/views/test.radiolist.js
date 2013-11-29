@@ -19,8 +19,7 @@ describe('M.RadiolistView', function () {
     });
 
     it('const', function () {
-        assert.equal(M.RADIOLIST_VIEW, 'M.RadiolistView');
-        assert.equal(M.RADIOOPTION_VIEW, 'M.RadioOptionView');
+        assert.equal(M.RadiolistView.prototype._type, 'M.RadiolistView');
     });
 
     it('basic', function () {
@@ -38,7 +37,6 @@ describe('M.RadiolistView', function () {
         assert.isObject(instance);
         assert.isDefined(instance._type);
         assert.isString(instance._type);
-        assert.equal(instance._type, M.RADIOLIST_VIEW);
     });
 
     describe('Different label and value Path', function () {
