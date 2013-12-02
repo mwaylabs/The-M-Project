@@ -80,20 +80,6 @@ module.exports = function (grunt) {
                 ext: '.min.css'
             }
         },
-        copy: {
-            dev: {
-                expand: true,
-                cwd: 'resources/vendor/',
-                src: '*{css,js}',
-                dest: '.tmp/'
-            },
-            dist: {
-                expand: true,
-                cwd: 'resources/vendor/',
-                src: '*{css,js}',
-                dest: 'dist/'
-            }
-        },
         watch: {
             js: {
                 files: ['src/**/*'],
@@ -245,10 +231,10 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('build-js', ['extractSassVars', 'preprocess:dev']);
-    grunt.registerTask('build-css', ['compass:dev', 'copy:dev']);
+    grunt.registerTask('build-css', ['compass:dev']);
 
     grunt.registerTask('dist-js', ['extractSassVars', 'preprocess:dist']);
-    grunt.registerTask('dist-css', ['compass:dist', 'copy:dist']);
+    grunt.registerTask('dist-css', ['compass:dist']);
 
     grunt.registerTask('dev-js', ['default', 'watch:js']);
     grunt.registerTask('dev-css', ['default', 'watch:css']);
