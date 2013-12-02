@@ -53,7 +53,10 @@ $m-button-border-color: $blue;
 $m-button-text-color:  $blue;
 $m-button-border-radius: 4px;
 $m-button-border-style: solid;
-$m-button-padding: 10px 20px;
+$m-button-padding-bottom: 4px;
+$m-button-padding-top: 10px;
+$m-button-padding-left-right: 10px;
+$m-button-padding: $m-button-padding-top $m-button-padding-left-right $m-button-padding-bottom $m-button-padding-left-right;
 // Button color primary
 $m-button-primary-border-color: $purple;
 $m-button-primary-text-color: $purple;

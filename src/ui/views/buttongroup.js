@@ -30,10 +30,8 @@ M.ButtonGroupView = M.View.extend({
         M.View.prototype.initialize.apply(this, arguments);
         var that = this;
         if (this._childViews) {
-            var gridSize = M.CONST.GRID.COLUMNS / Object.keys(this._childViews).length;
             _.each(this._childViews, function (child, key) {
                 this._childViews[key] = child.extend({
-                    grid: 'col-xs-' + gridSize,
                     _internalEvents: {
                         tap: [function (events, element) {
                             that.setActive(element);

@@ -19,7 +19,7 @@ M.TabLayout = M.Layout.extend({
     switchToTabCallback: null,
 
     initialize: function() {
-        this._tabMenu = M.ButtonGroupView.extend({}, {}).create(this, null, YES);
+        this._tabMenu = M.TabbarButtonGroupView.extend({}, {}).create(this, null, YES);
     },
 
     _render: function() {

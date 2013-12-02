@@ -1,9 +1,10 @@
 .buttonview {
-
+  min-width: 67px;
 }
 
 .button {
   @extend .margin1010;
+  position: relative;
   padding: $m-button-padding;
   font-weight: normal;
   text-align: center;
@@ -21,9 +22,52 @@
   user-select: none;
 
   div {
+    @extend .ellipsis;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: inline-block;
+    width: 100%;
+  }
+
+}
+
+.has-icon{
+  .right i,
+  &.right i{
+    right: $m-button-padding-left-right / 2;
+    left: auto;
+  }
+
+  .left i,
+  &.left i{
+    left: $m-button-padding-left-right / 2;
+    right: auto;
+  }
+
+  i{
+    position: absolute;
+    left: $m-button-padding-left-right;
+    top: $m-button-padding-top * 1.5;
+  }
+
+  .right .button div,
+  &.right .button  div{
+    padding-right: $m-button-padding-left-right;
+  }
+
+  .button div,
+  .left .button div,
+  &.left .button  div{
+    padding-left: $m-button-padding-left-right;
+  }
+}
+
+.is-icon-only{
+  .button{
+    div{
+      display: none;
+    }
   }
 }
 
