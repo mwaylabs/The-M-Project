@@ -34,7 +34,8 @@
     "detectizr": "~1.4.5",
     "font-awesome": "~4.0.3",
     "shake.js": "*",
-    "fastclick": "~0.6.10"
+    "fastclick": "~0.6.10",
+    "bootstrap-sass": "~3.0.2"
   },
   "devDependencies": {
     "mocha": "~1.13.0",
