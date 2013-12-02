@@ -136,7 +136,7 @@ describe('M.TemplateManager', function() {
 
             //TODO implement label for=""
             'M.TextfieldView': {
-                defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><% if(icon) {  %><div class="input-icon-addon"><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value_ %>"><% if(icon) {  %></div><% } %><% if(label) {  %></label><% } %></div>'
+                defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><div class="input<% if(icon) {  %>-icon-addon<% } %>"><% if(icon) {  %><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value_ %>"></div><% if(label) {  %></label><% } %></div>'
             },
 
             'M.TextareaView': {
