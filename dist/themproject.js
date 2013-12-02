@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Thu Nov 28 2013 16:43:50
+* Date:      Fri Nov 29 2013 17:01:21
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -1248,7 +1248,8 @@
             }
     
             this._layout = layout;
-            $('#main').html(layout.render().$el);
+            this._layout.render();
+            $('#main').html(this._layout.$el);
         },
     
         getLayout: function() {
@@ -1415,18 +1416,20 @@
             }
     
             var router = this;
+    
             Backbone.history.route(route, function( fragment ) {
                 var res = {};
                 _.each(router.routes, function( val, key ) {
-    
-                    var reg = /\(?(\/:[^)]+)\)?$/;
-                    ///^page4\(?(/:[^)]+)\)?$/
-                    var exec = reg.exec(key);
-                    if( exec && exec.length ) {
-                        var s = exec.slice(1);
-                        res = s[0].replace('/:', '');
+                    if(name === val){
+                        var reg = /\(?(\/:[^)]+)\)?$/;
+                        ///^page4\(?(/:[^)]+)\)?$/
+                        var exec = reg.exec(key);
+                        if( exec && exec.length ) {
+                            var s = exec.slice(1);
+                            res = s[0].replace('/:', '');
+                        }
                     }
-                });
+                }, this);
                 var args = router._extractParameters(route, fragment);
                 res = _.object([res], args);
                 args.unshift(!router._visitedRoutes[name]);
@@ -7111,18 +7114,16 @@
             "m-primary-active-color": "#99CC00"
         },
         "ios": {
-            "pink": "#AA66CC",
-            "orange": "#FF9500",
-            "red": "#FF3B30",
-            "lightred": "#FF2D55",
-            "lightblue": "#46b8da",
             "blue": "#59C8FA",
+            "lightblue": "#46b8da",
             "darkblue": "#007AFF",
             "green": "#4BD964",
+            "red": "#FF3B30",
+            "lightred": "#FF2D55",
             "grey": "#8E8E93",
-            "purple": "#6c64ff",
             "m-primary-font-family": "-apple-system-font, \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
-            "m-primary-active-color": "transparent",
+            "lightenPercentage": "25%",
+            "m-primary-active-color": "$lightgrey",
             "m-primary-active-text-color": "#007AFF",
             "tablayout-menu-height": "80px",
             "tablayout-menu-scroll-button-width": "140px",
@@ -7142,10 +7143,19 @@
         }
     }
     /**
+     * The M.TemplateManager is a singleton instance which
+     * contain all our templates for the framework views.
+     * You can retrieves a template with the get() method.
+     *
      * @module M.TemplateManager
      *
      * @type {*}
      * @extends M.Object
+     * @example
+     *
+     * var tpl = M.TemplateManager.get('M.ListView');
+     * console.log( tpl ); // <ul data-childviews="list"></ul>
+     *
      */
     M.TemplateManager = M.Object.design({
     
@@ -7158,28 +7168,17 @@
         },
     
         'M.ButtonView': {
-            defaultTemplate: '<div class="button"><% if(icon) { %> <i class="fa <%= icon %>"></i> <% } %> <div data-binding="_value_"<% if(_value_) {  } %>><%= _value_ %></div></div>',
-            topcoat: '<button class="topcoat-button--large" data-binding="_value_"><%= _value_ %></button>',
-            bootstrap: '<button type="button" class="btn btn-lg"><%= _value_ %></button>',
-            jqm: '<a data-role="button" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text" data-binding="_value_"><%= _value_ %></span></span></a>'
+            defaultTemplate: '<div class="button"><% if(icon) { %> <i class="fa <%= icon %>"></i> <% } %> <div data-binding="_value_"<% if(_value_) {  } %>><%= _value_ %></div></div>'
         },
     
         'M.ToolbarView': {
-            defaultTemplate: '<div><div data-childviews="first"></div> <div class="center" data-binding="_value_"><%= _value_ %></div> <div data-childviews="second"></div></div>',
-            bootstrap: '<div class="page-header"><div data-childviews="first"></div><h1><%= _value_ %></h1><div data-childviews="second"></div></div>',
-            topcoat: '<div><div data-childviews="first"></div><h2><%= _value_ %></h2><div data-childviews="second"></div></div>',
-            jqm: '<div data-role="header" class="ui-header ui-bar-a" role="banner"><div data-childviews="first" class="ui-btn-left"></div><h1 class="ui-title" role="heading" aria-level="1"><%= _value_ %></h1><div data-childviews="second" class="ui-btn-right"></div></div>'
+            defaultTemplate: '<div><div data-childviews="first"></div> <div class="center" data-binding="_value_"><%= _value_ %></div> <div data-childviews="second"></div></div>'
         },
-    
     
         //TODO implement label for=""
         'M.TextfieldView': {
-            defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><% if(icon) {  %><div class="input-icon-addon"><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value_ %>"><% if(icon) {  %></div><% } %><% if(label) {  %></label><% } %></div>',
-            bootstrap: '<div><% if(label) {  %><label><%= label %></label><% } %><input type="text" class="form-control" value="<%= _value_ %>"></div>',
-            topcoat: '<input value="<%= _value_ %>"/>',
-            jqm: '<% if(label) {  %><label for="text-1" class="ui-input-text"><%= label %></label><% } %><div class="ui-input-text ui-shadow-inset ui-corner-all ui-btn-shadow ui-body-c"><input type="text" name="text-1" id="text-1" value="" class="ui-input-text ui-body-c"></div>'
+            defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><% if(icon) {  %><div class="input-icon-addon"><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value_ %>"><% if(icon) {  %></div><% } %><% if(label) {  %></label><% } %></div>'
         },
-    
         'M.TextareaView': {
             defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><textarea><%= _value_ %></textarea><% if(label) {  %></label><% } %></div>'
         },
@@ -7189,24 +7188,15 @@
         },
     
         'M.SearchfieldView': {
-            defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>',
-            bootstrap: '<div><% if(label) {  %><label><%= label %></label><% } %><input type="text" class="form-control" placeholder="<%= placeholder %>"></div>',
-            topcoat: '<div contenteditable="true"><%= _value_ %></div>',
-            jqm: '<% if(label) {  %><label for="text-1" class="ui-input-text"><%= label %></label><% } %><div class="ui-input-search ui-shadow-inset ui-btn-corner-all ui-btn-shadow ui-icon-searchfield ui-body-c"><input type="text" data-type="search" name="search-1" id="search-1" value="" class="ui-input-text ui-body-c"><a href="#" class="ui-input-clear ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-fullsize ui-btn-icon-notext ui-input-clear-hidden" title="clear text" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="delete" data-iconpos="notext" data-theme="c" data-mini="false"><span class="ui-btn-inner"><span class="ui-btn-text">clear text</span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a></div>'
+            defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>'
         },
     
         'M.ListView': {
-            defaultTemplate: '<ul data-childviews="list"></ul>',
-            bootstrap: '<ul class="list-group" data-childviews="list"></ul>',
-            topcoat: '<div data-childviews="list"></div>',
-            jqm: '<div data-childviews="list"></div>'
+            defaultTemplate: '<ul data-childviews="list"></ul>'
         },
     
         'M.ListItemView': {
-            defaultTemplate: '<li><%= _value_ %></li>',
-            bootstrap: '<li class="list-group-item"><%= _value_ %></li>',
-            topcoat: '<div data-childviews="list"><%= _value_ %></div>',
-            jqm: '<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-first-child ui-btn-up-c"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a class="ui-link-inherit"><%= _value_ %></a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>'
+            defaultTemplate: '<li><%= _value_ %></li>'
         },
     
         'M.ListItemViewLinked': {
@@ -7214,17 +7204,11 @@
         },
     
         'M.ModelView': {
-            defaultTemplate: '<ul><%= _value_ %></ul>',
-            bootstrap: '<div><%= _value_ %></div>',
-            topcoat: '<div><%= _value_ %></div>',
-            jqm: '<div><%= _value_ %></div>'
+            defaultTemplate: '<ul><%= _value_ %></ul>'
         },
     
         'M.LabelView': {
-            defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>',
-            bootstrap: '<div contenteditable="true"><%= _value_ %></div>',
-            topcoat: '<div contenteditable="true"><%= _value_ %></div>',
-            jqm: '<div contenteditable="true"><%= _value_ %></div>'
+            defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>'
         },
     
         'M.DebugView': {
@@ -7232,52 +7216,31 @@
         },
     
         'M.AccordionView': {
-            defaultTemplate: '<ul><%= _value_ %></ul>',
-            bootstrap: '<div><%= _value_ %></div>',
-            topcoat: '<div><%= _value_ %></div>',
-            jqm: '<div data-role="collapsible-set" data-theme="c" data-content-theme="d" class="ui-collapsible-set ui-corner-all" data-childviews="list"></div>'
+            defaultTemplate: '<ul><%= _value_ %></ul>'
         },
     
         'M.AccordionItemView': {
-            defaultTemplate: '<ul><%= _value_ %></ul>',
-            bootstrap: '<div><%= _value_ %></div>',
-            topcoat: '<div><%= _value_ %></div>',
-            jqm: '<div data-role="collapsible-set" data-theme="c" data-content-theme="d" class="ui-collapsible-set ui-corner-all" data-childviews="list"></div>'
+            defaultTemplate: '<ul><%= _value_ %></ul>'
         },
     
         'M.SliderView': {
-            defaultTemplate: '<input type="range">',
-            bootstrap: '<input type="range">',
-            topcoat: '<input type="range">',
-            jqm: '<div class="ui-slider"><input type="number" data-type="range" name="slider-1" id="slider-1" min="0" max="100" value="50" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset ui-slider-input"><div role="application" class="ui-slider-track ui-btn-down-c ui-btn-corner-all"><a href="#" class="ui-slider-handle ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="74" aria-valuetext="74" title="74" aria-labelledby="slider-1-label" style="left: 74%;"><span class="ui-btn-inner"><span class="ui-btn-text"></span></span></a></div></div>'
+            defaultTemplate: '<input type="range">'
         },
     
         'M.ToggleView': {
-            defaultTemplate: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>',
-            bootstrap: '<div><div data-childviews="first">first</div><div data-childviews="second">second</div></div>',
-            topcoat: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>',
-            jqm: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>'
+            defaultTemplate: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>'
         },
     
         'M.ImageView': {
-            defaultTemplate: '<img src="<%= _value_ %>" alt="<%= alt %>" />',
-            bootstrap: '<img src="<%= _value_ %>" alt="<%= alt %>" />',
-            topcoat: '<img src="<%= _value_ %>" alt="<%= alt %>" />',
-            jqm: '<img src="<%= _value_ %>" alt="<%= alt %>" />'
+            defaultTemplate: '<img src="<%= _value_ %>" alt="<%= alt %>" />'
         },
     
         'M.LoaderView': {
-            defaultTemplate: '<div class="m-view m-overlayview m-loaderview m-loaderview-show" style="display: block;"> <div class="m-view m-overlayview-inner m-loaderview-inner"> <div class="m-view m-labelview m-loaderview-inner-message"></div> <div class="m-view m-loaderview-inner-icon m-loaderview-inner-icon-only"> <div class="m-view m-loaderview-inner-icon-1"></div> <div class="m-view m-loaderview-inner-icon-2"></div> <div class="m-view m-loaderview-inner-icon-3"></div> <div class="m-view m-loaderview-inner-icon-4"></div> <div class="m-view m-loaderview-inner-icon-5"></div> <div class="m-view m-loaderview-inner-icon-6"></div> <div class="m-view m-loaderview-inner-icon-7"></div> <div class="m-view m-loaderview-inner-icon-8"></div> </div> </div> </div>',
-            bootstrap: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>',
-            topcoat: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>',
-            jqm: '<div class="ui-loader ui-corner-all ui-body-d ui-loader-default"><span class="ui-icon ui-icon-loading"></span><h1>loading</h1></div>'
+            defaultTemplate: '<div class="m-view m-overlayview m-loaderview m-loaderview-show" style="display: block;"> <div class="m-view m-overlayview-inner m-loaderview-inner"> <div class="m-view m-labelview m-loaderview-inner-message"></div> <div class="m-view m-loaderview-inner-icon m-loaderview-inner-icon-only"> <div class="m-view m-loaderview-inner-icon-1"></div> <div class="m-view m-loaderview-inner-icon-2"></div> <div class="m-view m-loaderview-inner-icon-3"></div> <div class="m-view m-loaderview-inner-icon-4"></div> <div class="m-view m-loaderview-inner-icon-5"></div> <div class="m-view m-loaderview-inner-icon-6"></div> <div class="m-view m-loaderview-inner-icon-7"></div> <div class="m-view m-loaderview-inner-icon-8"></div> </div> </div> </div>'
         },
     
         'M.DialogView': {
-            defaultTemplate: '<div></div>',
-            bootstrap: '<div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button> <h4 class="modal-title" id="myModalLabel"><%= header %></h4> </div> <div class="modal-body"><%= message %></div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal"><%= cancel %></button> <button type="button" class="btn btn-primary"><%= ok %></button> </div> </div><!-- /.modal-content --> </div>',
-            topcoat: '<input type="range">',
-            jqm: '<div role="dialog" class="ui-dialog-contain ui-overlay-shadow ui-corner-all">' + '<div data-role="header" data-theme="d" class="ui-header ui-bar-d" role="banner"><a href="#" class="ui-btn-left ui-btn ui-btn-up-d ui-shadow ui-btn-corner-all ui-btn-icon-notext" data-icon="delete" data-iconpos="notext" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="d" title="Close"><span class="ui-btn-inner"><span class="ui-btn-text"><%= close %></span><span class="ui-icon ui-icon-delete ui-icon-shadow">&nbsp;</span></span></a>' + '<h1 class="ui-title" role="heading" aria-level="1"><%= header %></h1>' + '</div>' + '<div data-role="content" class="ui-content ui-body-c" role="main">' + '<p><%= message %></p>' + '<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b"><span class="ui-btn-inner"><span class="ui-btn-text"><%= ok %></span></span></a>' + '<a href="dialog/index.html" data-role="button" data-rel="back" data-theme="c" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-c"><span class="ui-btn-inner"><span class="ui-btn-text"><%= cancel %></span></span></a>' + '</div>' + '</div>'
+            defaultTemplate: '<div></div>'
         },
     
         'M.SelectView': {
@@ -7310,6 +7273,13 @@
     
         _currentUI: 'defaultTemplate',
     
+        /**
+         * Returns the template with the given name or
+         * the default template for M.View if there is no such template.
+         *
+         * @param {String} name
+         * @returns {String}
+         */
         get: function( template, ui ) {
     
             ui = ui || M.TemplateManager._currentUI;
@@ -7338,7 +7308,116 @@
      * @extends M.Object
      */
     M.PageTransitions = M.Object.design({
+        _transition: '',
+        _main: null,
+        _iterate: null,
+        _pages: null,
+        _pagesCount: 0,
+        _current: 0,
+        _isAnimating: false,
+        _endCurrPage: false,
+        _endNextPage: false,
     
+        reset: function() {
+            this._transition = '';
+            this._main = null;
+            this._iterate = null;
+            this._pages = null;
+            this._pagesCount = 0;
+            this._current = 0;
+            this._isAnimating = false;
+            this._endCurrPage = false;
+            this._endNextPage = false;
+        },
+    
+        init: function( main ) {
+            this._main = main ? main : $('#m-main');
+            this._pages = this._main.children('div.m-page');
+            this._pagesCount = this._pages.length;
+    
+            this._pages.each(function() {
+                var page = $(this);
+                page.data('originalClassList', page.attr('class'));
+            });
+    
+            this._pages.eq(this._current).addClass('m-page-current');
+        },
+    
+        startTransition: function() {
+            if( this._isAnimating ) {
+                return false;
+            }
+    
+            // TODO dispatch a custom animation-start event.
+            this._isAnimating = true;
+    
+            var currPage = this._pages.eq(this._current);
+    
+            if( this._current < this._pagesCount - 1 ) {
+                this._current += 1;
+            } else {
+                this._current = 0;
+            }
+            var nextPage = this._pages.eq(this._current).addClass('m-page-current');
+            if( !M.Animation.animationSupport || this._transition === M.PageTransitions.CONST.NONE ) {
+                this._onEndAnimation(currPage, nextPage);
+                return;
+            }
+    
+            if( !this._transition ) {
+                this._transition = this.getDefaultTransition();
+            }
+    
+            var transitionClasses = this._transition.split('|');
+            var outClass = transitionClasses[0];
+            var inClass = transitionClasses[1];
+            var that = this;
+    
+            var animEndEventName = M.Animation.animationEndEventName;
+            $(currPage[0]).on(animEndEventName, function() {
+                currPage.off(animEndEventName);
+                that._endCurrPage = true;
+                if( that._endNextPage ) {
+                    that._onEndAnimation(currPage, nextPage);
+                }
+            });
+            currPage.addClass(outClass);
+    
+            $(nextPage[0]).on(animEndEventName, function() {
+                nextPage.off(animEndEventName);
+                that._endNextPage = true;
+                if( that._endCurrPage ) {
+                    that._onEndAnimation(currPage, nextPage);
+                }
+            });
+            nextPage.addClass(inClass);
+        },
+    
+        setTransition: function( name ) {
+            this._transition = name;
+        },
+    
+        getDefaultTransition: function() {
+            return M.PageTransitions.CONST.MOVE_TO_LEFT_FROM_RIGHT;
+        },
+    
+        _onEndAnimation: function( outpage, inpage ) {
+            // TODO dispatch a custom animation-end event.
+    
+            this._endCurrPage = false;
+            this._endNextPage = false;
+    
+            this._resetPage(outpage, inpage);
+            this._isAnimating = false;
+        },
+    
+        _resetPage: function( outpage, inpage ) {
+            outpage.attr('class', outpage.data('originalClassList'));
+            inpage.attr('class', inpage.data('originalClassList') + ' m-page-current');
+        }
+    });
+    
+    M.PageTransitions.CONST = {
         NONE: 'none',
         MOVE_TO_LEFT_FROM_RIGHT: 'm-page-moveToLeft|m-page-moveFromRight',
         MOVE_TO_RIGHT_FROM_LEFT: 'm-page-moveToRight|m-page-moveFromLeft',
@@ -7406,105 +7485,8 @@
         CAROUSEL_TO_TOP: 'm-page-rotateCarouselTopOut m-page-ontop|m-page-rotateCarouselTopIn',
         CAROUSEL_TO_BOTTOM: 'm-page-rotateCarouselBottomOut m-page-ontop|m-page-rotateCarouselBottomIn',
         SIDES: 'm-page-rotateSidesOut|m-page-rotateSidesIn m-page-delay200',
-        SLIDE: 'm-page-rotateSlideOut|m-page-rotateSlideIn',
-    
-        _transition: '',
-        _main: null,
-        _iterate: null,
-        _pages: null,
-        _pagesCount: 0,
-        _current: 0,
-        _isAnimating: false,
-        _endCurrPage: false,
-        _endNextPage: false,
-    
-        init: function( main ) {
-            this._main = main ? main : $('#m-main');
-            this._pages = this._main.children('div.m-page');
-            this._pagesCount = this._pages.length;
-    
-            this._pages.each(function() {
-                var page = $(this);
-                page.data('originalClassList', page.attr('class'));
-            });
-    
-            this._pages.eq(this._current).addClass('m-page-current');
-        },
-    
-        startTransition: function() {
-            if( this._isAnimating ) {
-                return false;
-            }
-    
-            // TODO dispatch a custom animation-start event.
-            this._isAnimating = true;
-    
-            var currPage = this._pages.eq(this._current);
-    
-            if( this._current < this._pagesCount - 1 ) {
-                this._current += 1;
-            } else {
-                this._current = 0;
-            }
-            var nextPage = this._pages.eq(this._current).addClass('m-page-current');
-            if( !M.Animation.animationSupport || this._transition === M.PageTransitions.NONE ) {
-                this._onEndAnimation(currPage, nextPage);
-                return;
-            }
-    
-            if( !this._transition ) {
-                this._transition = this.getDefaultTransition();
-            }
-    
-            var transitionClasses = this._transition.split('|');
-            var outClass = transitionClasses[0];
-            var inClass = transitionClasses[1];
-            var that = this;
-    
-            var animEndEventName = M.Animation.animationEndEventName;
-            $(currPage[0]).on(animEndEventName, function() {
-                currPage.off(animEndEventName);
-                that._endCurrPage = true;
-                if( that._endNextPage ) {
-                    that._onEndAnimation(currPage, nextPage);
-                }
-            });
-            currPage.addClass(outClass);
-    
-            $(nextPage[0]).on(animEndEventName, function() {
-                nextPage.off(animEndEventName);
-                that._endNextPage = true;
-                if( that._endCurrPage ) {
-                    that._onEndAnimation(currPage, nextPage);
-                }
-            });
-            nextPage.addClass(inClass);
-        },
-    
-        setTransition: function( name ) {
-            this._transition = name;
-        },
-    
-        getDefaultTransition: function() {
-            return M.PageTransitions.MOVE_TO_LEFT_FROM_RIGHT;
-        },
-    
-        _onEndAnimation: function( outpage, inpage ) {
-            // TODO dispatch a custom animation-end event.
-    
-            this._endCurrPage = false;
-            this._endNextPage = false;
-    
-            this._resetPage(outpage, inpage);
-            this._isAnimating = false;
-        },
-    
-        _resetPage: function( outpage, inpage ) {
-            outpage.attr('class', outpage.data('originalClassList'));
-            inpage.attr('class', inpage.data('originalClassList') + ' m-page-current');
-        }
-    });
-    
+        SLIDE: 'm-page-rotateSlideOut|m-page-rotateSlideIn'
+    };
     
     
     (function() {
@@ -8386,6 +8368,8 @@
         destroy: function() {
             this.$el.remove();
             this.$el = null;
+            this.childViews = null;
+            M.PageTransitions.reset();
         }
     });
     /**
@@ -8757,7 +8741,8 @@
     
         /**
          * The type of the listitem. Default is 'basic' and just displays the value
-         * @type {String} select from the M.ListItemView.CONS
+         * select from the M.ListItemView.CONS
+         * @type {String}
          * @example
          *
          * M.ListItemView.extend({
@@ -8772,7 +8757,8 @@
         icon: 'fa-angle-right',
     
         /**
-         * @type {Boolean} sets the view in the creation process to be enabled or disabled
+         * sets the view in the creation process to be enabled or disabled
+         * @type {Boolean}
          */
     
         initialize: function() {
@@ -8816,11 +8802,11 @@
          */
         _applyBehaviour: function() {
     
-            if( this.type === M.ListItemView.CONS.ICON ) {
+            if( this.type === M.ListItemView.CONST.ICON ) {
                 this.enabled = NO;
             }
     
-            if( this.type === M.ListItemView.CONS.LINKED || this.type === M.ListItemView.CONS.ICON ) {
+            if( this.type === M.ListItemView.CONST.LINKED || this.type === M.ListItemView.CONST.ICON ) {
                 this.template = _.tmpl(M.TemplateManager.get('M.ListItemViewLinked'));
             }
     
@@ -8831,7 +8817,7 @@
     
         _assignTemplateValues: function() {
             M.View.prototype._assignTemplateValues.apply(this, arguments);
-            if( this.type === M.ListItemView.CONS.LINKED || this.type === M.ListItemView.CONS.ICON ) {
+            if( this.type === M.ListItemView.CONST.LINKED || this.type === M.ListItemView.CONST.ICON ) {
                 this._templateValues.icon = this.getIcon();
             }
         },
@@ -8849,13 +8835,11 @@
      * Constant that specifies the behaviour of the ItemView
      * @type {{LINKED: number, BASIC: number, ICON: number}}
      */
-    M.ListItemView.CONS = {
+    M.ListItemView.CONST = {
         LINKED: 1,
         BASIC: 2,
         ICON: 3
     };
-    
-    M.BUTTON_VIEW = 'M.ButtonView';
     
     /**
      * M.ButtonView inherits from M.View
@@ -8870,13 +8854,13 @@
          * The type of the object
          * @private
          */
-        _type: M.BUTTON_VIEW,
+        _type: 'M.ButtonView',
     
         /**
          * The template of the object before initializing it.
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get(M.BUTTON_VIEW)),
+        _template: _.tmpl(M.TemplateManager.get('M.ButtonView')),
     
         /**
          * The active state of the button. Use isActive and setActive to change this property.
@@ -8885,7 +8869,8 @@
         _isActive: YES,
     
         /**
-         * @type {Boolean} sets the view in the creation process to be enabled or disabled
+         * sets the view in the creation process to be enabled or disabled
+         * @type {Boolean}
          */
         enabled: YES,
     
@@ -8954,16 +8939,16 @@
     
     
             this.listenTo(this.collection, 'add', function (model) {
-                console.log('add');
+                //console.log('add');
                 this.addItem(model);
             });
     
             this.listenTo(this.collection, 'fetch', function () {
-                console.log('fetch');
+                //console.log('fetch');
                 //that.addAll();
             });
             this.listenTo(this.collection, 'change', function () {
-                console.log('change!');
+                //console.log('change!');
                 //that.addAll();
             });
             this.listenTo(this.collection, 'remove', function (model) {
@@ -8971,7 +8956,7 @@
             });
     
             this.listenTo(this.collection, 'filter', function () {
-                console.log('filter');
+                //console.log('filter');
                 //this.addItems(models);
             });
     
@@ -8998,7 +8983,7 @@
                 listItemView = M.ListItemView.create({
                     scope: this.scope,
                     value: model,
-                    enabled: false
+                    enable: NO
                 });
             }
     
@@ -9101,7 +9086,7 @@
                 } else {
                     this._templateValues.alt = this.model.get(this.alt.attribute);
                 }
-            } else if (this._value_) {
+            } else if (this._value_ || typeof this._value_ === 'string') {
                 this._templateValues.alt = this.alt;
             }
             return this;
@@ -9115,7 +9100,7 @@
      *
      * @example
      * M.Toast.show('test');
-     * M.Toast.show('test', M.Toast.CRISPY);
+     * M.Toast.show('test', M.Toast.CONST.CRISPY);
      *
      */
     M.Toast = M.View.extend({
@@ -9140,12 +9125,12 @@
         initialize: function (settings) {
             var that = this;
             that.id = _.uniqueId();
-            that.text = settings.text || M.Toast.TEXT;
+            that.text = settings.text || M.Toast.CONST.TEXT;
             $('body').append(that.render().$el);
     
             setTimeout(function () {
                 that.remove();
-            }, settings.timeout || M.Toast.MEDIUM);
+            }, settings.timeout || M.Toast.CONST.MEDIUM);
         },
     
         /**
@@ -9185,10 +9170,12 @@
         return M.Toast.create(settings);
     };
     
-    M.Toast.RAW = 500;
-    M.Toast.MEDIUM = 2000;
-    M.Toast.CRISPY = 4000;
-    M.Toast.TEXT = '';
+    M.Toast.CONST = {
+        RAW: 500,
+        MEDIUM: 2000,
+        CRISPY: 4000,
+        TEXT: ''
+    };
     /**
      * @module M.ToolbarView
      *
@@ -9240,123 +9227,6 @@
             M.View.prototype._assignTemplateValues.apply(this);
             this._templateValues.isMultiple = this.isMultiple;
         }
-    });
-    /**
-     * @module M.DebugView
-     *
-     * @type {*}
-     * @extends M.View
-     */
-    M.DebugView = M.View.extend({
-    
-        _type: 'M.DebugView',
-        _template: _.tmpl(M.TemplateManager.get('M.DebugView')),
-        _debugViewIsHidden: YES,
-    
-        useAsScope: YES,
-    
-        initialize: function () {
-            M.View.prototype.initialize.apply(this, arguments);
-            this._addShakeEvent();
-        },
-    
-        hide: function(){
-            this._debugViewIsHidden = YES;
-            this.$el.hide();
-        },
-    
-        show: function() {
-            if( this._firstRender ) {
-                $('body').append(this.render().$el);
-            }
-    
-            this._debugViewIsHidden = NO;
-            this.$el.show();
-        },
-    
-        toggle: function() {
-            if( this._debugViewIsHidden ) {
-                this.show();
-            } else {
-                this.hide();
-            }
-        },
-    
-        toggleGrid: function () {
-            this.childViews['debug-grid'].$el.toggle();
-        },
-    
-        androidLightTheme: function(){
-            this.resetTheme();
-            $('html').addClass('android-light');
-        },
-    
-        iosTheme: function(){
-            this.resetTheme();
-            $('html').addClass('ios');
-        },
-    
-        resetTheme: function(){
-            $('html').removeClass('android').removeClass('android-light').removeClass('android-dark').removeClass('ios');
-        },
-    
-        _addShakeEvent: function() {
-            var that = this;
-            window.addEventListener('shake', function() {
-                that.toggle();
-            }, false);
-        }
-    }, {
-        'debug-menu': M.View.extend({
-            grid: 'row',
-            cssClass: 'debug-menu'
-        }, {
-            toggleGrid: M.ButtonView.extend({
-                value: 'toggle grid',
-                grid: 'col-xs-2',
-                events: {
-                    tap: 'toggleGrid'
-                }
-            }),
-    
-            androidLight: M.ButtonView.extend({
-                value: 'android-light theme',
-                grid: 'col-xs-2',
-                events: {
-                    tap: 'androidLightTheme'
-                }
-            }),
-    
-            ios: M.ButtonView.extend({
-                value: 'ios theme',
-                grid: 'col-xs-2',
-                events: {
-                    tap: 'iosTheme'
-                }
-            }),
-    
-            reset: M.ButtonView.extend({
-                value: 'reset theme',
-                grid: 'col-xs-2',
-                events: {
-                    tap: 'resetTheme'
-                }
-            }),
-    
-            hide: M.ButtonView.extend({
-                value: 'hide debug',
-                grid: 'col-xs-2',
-                events: {
-                    tap: 'hideDebug'
-                }
-            })
-    
-        }),
-    
-        'debug-grid': M.View.extend({
-            useElement: YES,
-            template: '<div class="debug-container"><div class="container debug-grid"><div class="row"> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> <div class="col-xs-1"><div class="inner"></div></div> </div></div></div>'
-        })
     });
     /**
      * @module M.ButtonGroupView
@@ -9493,10 +9363,6 @@
     
     
     
-    
-    M.RADIOLIST_VIEW = 'M.RadiolistView';
-    M.RADIOOPTION_VIEW = 'M.RadioOptionView';
-    
     /**
      * The {M.RadiolistView} view class render a group of <input type="radio"> HTML elements.
      * An example would be ask the user for his favorite drink. The user can
@@ -9527,19 +9393,19 @@
          * The type of the object
          * @private
          */
-        _type: M.RADIOLIST_VIEW,
+        _type: 'M.RadiolistView',
     
         /**
          * The template of the object before initializing it.
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get(M.RADIOLIST_VIEW)),
+        _template: _.tmpl(M.TemplateManager.get('M.RadiolistView')),
     
         /**
          * The template of an option before initializing it.
          * @private
          */
-        _optionTemplate: _.tmpl(M.TemplateManager.get(M.RADIOOPTION_VIEW)),
+        _optionTemplate: _.tmpl(M.TemplateManager.get('M.RadioOptionView')),
     
         /**
          * Selector name which is used internally to determine the parent dom element.
@@ -9549,9 +9415,6 @@
     }).implements([M.ActiveState]);
     
     
-    
-    M.CHECKBOXBUTTON_VIEW = 'M.CheckboxlistView';
-    M.CHECKBOXOPTION_VIEW = 'M.CheckboxOptionView';
     
     /**
      * @module M.CheckboxlistView
@@ -9565,15 +9428,15 @@
          * The type of the object
          * @private
          */
-        _type: M.CHECKBOXBUTTON_VIEW,
+        _type: 'M.CheckboxlistView',
     
         /**
          * The template of the object before initializing it.
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get(M.CHECKBOXBUTTON_VIEW)),
+        _template: _.tmpl(M.TemplateManager.get('M.CheckboxlistView')),
     
-        _optionTemplate: _.tmpl(M.TemplateManager.get(M.CHECKBOXOPTION_VIEW)),
+        _optionTemplate: _.tmpl(M.TemplateManager.get('M.CheckboxOptionView')),
     
         _optionsContainer: 'checkbox'
     
@@ -10110,6 +9973,116 @@
             return YES;
         }
     });
+    /**
+     * @module M.DebugView
+     *
+     * @type {*}
+     * @extends M.View
+     */
+    M.DebugView = M.View.extend({
+    
+        _type: 'M.DebugView',
+        _template: _.tmpl(M.TemplateManager.get('M.DebugView')),
+        _debugViewIsHidden: YES,
+        cssClass: 'bg',
+        useAsScope: YES,
+    
+        initialize: function () {
+            M.View.prototype.initialize.apply(this, arguments);
+            this._addShakeEvent();
+        },
+    
+        hide: function(){
+            this._debugViewIsHidden = YES;
+            this.$el.hide();
+        },
+    
+        show: function() {
+            if( this._firstRender ) {
+                $('body').append(this.render().$el);
+            }
+            this._debugViewIsHidden = NO;
+            this.$el.show();
+        },
+    
+        toggle: function() {
+            if( this._debugViewIsHidden ) {
+                this.show();
+            } else {
+                this.hide();
+            }
+        },
+    
+        toggleGrid: function () {
+            this.$el.toggleClass('bg');
+            this.childViews['debug-grid'].$el.toggle();
+        },
+    
+        androidLightTheme: function(){
+            this.resetTheme();
+            $('html').addClass('android-light');
+        },
+    
+        iosTheme: function(){
+            this.resetTheme();
+            $('html').addClass('ios');
+        },
+    
+        resetTheme: function(){
+            $('html').removeClass('android').removeClass('android-light').removeClass('android-dark').removeClass('ios');
+        },
+    
+        _addShakeEvent: function() {
+            var that = this;
+            window.addEventListener('shake', function() {
+                that.toggle();
+            }, false);
+        }
+    }, {
+        'debug-menu': M.ButtonGroupView.extend({
+            cssClass: 'debug-menu'
+        }, {
+            toggleGrid: M.ButtonView.extend({
+                value: 'Toggle grid',
+                events: {
+                    tap: 'toggleGrid'
+                }
+            }),
+    
+            androidLight: M.ButtonView.extend({
+                value: 'android-light theme',
+                events: {
+                    tap: 'androidLightTheme'
+                }
+            }),
+    
+            ios: M.ButtonView.extend({
+                value: 'ios theme',
+                events: {
+                    tap: 'iosTheme'
+                }
+            }),
+    
+            reset: M.ButtonView.extend({
+                value: 'reset theme',
+                events: {
+                    tap: 'resetTheme'
+                }
+            })
+        }),
+    
+        'debug-grid': M.View.extend({
+            useElement: YES,
+            template: (function() {
+                var tpl = '<div class="debug-container"><div class="debug-grid col-xs-12"><div class="row">';
+                for(var i=0; i < 12; i++) {
+                    tpl += '<div class="col-xs-1"><div class="inner"></div></div>';
+                }
+                tpl += '</div></div></div>';
+                return tpl;
+            })()
+        })
+    });
     
     M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'header-layout', '<div data-childviews="header" class="header"></div>');
     /**
@@ -10378,7 +10351,7 @@
             this.$el.addClass(this.scrolling ? 'scrolling' : '');
             this.$scrollContainer = this.$el.find('[data-childviews=tab-menu]');
             if(this.scrolling){
-                var width = M.SassVars['tablayout-menu-scroll-button-width'] * Object.keys(this._tabMenu.childViews).length;
+                var width = parseInt(M.ThemeVars.get('tablayout-menu-scroll-button-width'), 10) * Object.keys(this._tabMenu.childViews).length;
                 this.$scrollContainer.children('.buttongroupview').css('width', width + 'px');
             }
     
@@ -10401,7 +10374,8 @@
             if(!this.$scrollContainer){
                 return;
             }
-            var buttonWidth = M.SassVars['tablayout-menu-scroll-button-width'];
+    
+            var buttonWidth = parseInt(M.ThemeVars.get('tablayout-menu-scroll-button-width'), 10);
             var toPos = index * buttonWidth - 50;
             if( this.smoothScrollAnimation ) {
     
@@ -10452,6 +10426,7 @@
                 icon: options.icon,
                 events: {
                     tap: function( event, element ) {
+                        console.log(that.cid);
                         that.switchToTab(element.index);
                     }
                 }
@@ -10463,9 +10438,11 @@
             return options.content.extend({
                 events: {
                     dragleft: function( event, element ) {
+                        console.log(that.cid);
                         that.switchToTab(options.index + 1);
                     },
                     dragright: function( event, element ) {
+                        console.log(that.cid);
                         that.switchToTab(options.index - 1);
                     }
                 }
@@ -10476,16 +10453,18 @@
     (function( scope ) {
     
         /**
-         * @type {String} the switchlayout template
+         * the switchlayout template
+         * @type {string}
          */
         var switchTemplate = M.SwitchLayout.prototype.template;
         /**
-         * @type {String} the header template
+         * the header template
+         * @type {string}
          */
         var headerTemplate = M.HeaderLayout.prototype.template;
         /**
          * add a header to the both content container
-         * @type {String}
+         * @type {string}
          */
         var myTemplate = switchTemplate.replace(/m-page-1">/gi, 'm-page-1">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page1_header"'));
         myTemplate = myTemplate.replace(/m-page-2">/gi, 'm-page-2">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page2_header"'));
@@ -10499,7 +10478,8 @@
             _type: 'M.SwitchHeaderContentLayout',
     
             /**
-             * @type {String} the template - a combination of the header and switch template
+             * the template - a combination of the header and switch template
+             * @type {string}
              */
             template: myTemplate,
     

@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Thu Nov 28 2013 16:43:51
+* Date:      Fri Nov 29 2013 17:01:21
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -52,7 +52,7 @@
 }
 
 /* line 43, ../resources/sass/themes/_extends.scss */
-.margin1010, .button, .listview, .selection-list, .buttongroupview, .radiolistview, .checkboxlistview, .toggleswitchview {
+.margin1010, .button, .listview, .selection-list, .buttongroupview, .radiolistview, .checkboxlistview, .toggleswitchview, .textview {
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -62,7 +62,7 @@
   font-size: 1.6rem;
   color: white;
   text-align: center;
-  padding: 7px 0 0 0;
+  padding: 13px 0 0 0;
 }
 
 /* line 55, ../resources/sass/themes/_extends.scss */
@@ -95,11 +95,6 @@ html {
 }
 
 /* line 5, ../resources/sass/themes/default/_base.scss */
-* {
-  box-sizing: border-box;
-}
-
-/* line 9, ../resources/sass/themes/default/_base.scss */
 body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
@@ -108,35 +103,35 @@ body {
   line-height: 2.2rem;
 }
 
-/* line 17, ../resources/sass/themes/default/_base.scss */
+/* line 13, ../resources/sass/themes/default/_base.scss */
 .clear {
   clear: both;
   float: none;
   overflow: hidden;
 }
 
-/* line 23, ../resources/sass/themes/default/_base.scss */
+/* line 19, ../resources/sass/themes/default/_base.scss */
 .btn-success .button {
   color: #fff;
   background-color: #5cb85c;
   border-color: #4cae4c;
 }
 
-/* line 29, ../resources/sass/themes/default/_base.scss */
+/* line 25, ../resources/sass/themes/default/_base.scss */
 .btn-danger .button {
   color: #fff;
   background-color: #d9534f;
   border-color: #d43f3a;
 }
 
-/* line 35, ../resources/sass/themes/default/_base.scss */
+/* line 31, ../resources/sass/themes/default/_base.scss */
 .btn-info .button {
   color: #fff;
   background-color: #1092d3;
   border-color: #58b3e0;
 }
 
-/* line 42, ../resources/sass/themes/default/_base.scss */
+/* line 38, ../resources/sass/themes/default/_base.scss */
 .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
   overflow: hidden;
 }
@@ -3630,13 +3625,9 @@ html, body {
 /* line 1, ../resources/sass/layouts/_header-layout.scss */
 .header {
   overflow: hidden;
-  background: #1092d3;
-  color: white;
-  height: 50px;
-  text-align: center;
 }
 
-/* line 10, ../resources/sass/layouts/_header-layout.scss */
+/* line 6, ../resources/sass/layouts/_header-layout.scss */
 .header .buttonview .button {
   margin: 0;
 }
@@ -3655,77 +3646,57 @@ html, body {
   height: 50px;
   background: #f2f2f2;
 }
-/* line 10, ../resources/sass/layouts/_tab-layout.scss */
+/* line 8, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout .tab-menu .buttongroupview {
+  margin: 0;
+}
+/* line 12, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout .tab-menu .buttongroupview .button {
   height: 50px;
   padding: 13px 0 0 0;
+  margin: 0;
 }
-/* line 15, ../resources/sass/layouts/_tab-layout.scss */
+/* line 18, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout .tab-menu .buttongroupview .button i {
   display: none;
 }
-/* line 21, ../resources/sass/layouts/_tab-layout.scss */
+/* line 24, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout .tab-menu .buttongroupview .buttonview:first-child {
   padding-left: 0;
 }
-/* line 25, ../resources/sass/layouts/_tab-layout.scss */
+/* line 27, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout .tab-menu .buttongroupview .buttonview:first-child .button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+/* line 33, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout .tab-menu .buttongroupview .buttonview:last-child {
   padding-right: 0;
 }
+/* line 36, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout .tab-menu .buttongroupview .buttonview:last-child .button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
 
-/* line 35, ../resources/sass/layouts/_tab-layout.scss */
+/* line 49, ../resources/sass/layouts/_tab-layout.scss */
 .m-tab {
   top: 50px;
 }
 
-/* line 39, ../resources/sass/layouts/_tab-layout.scss */
-.m-tab:nth-child(1) {
-  background: #6c64ff;
-}
-
-/* line 43, ../resources/sass/layouts/_tab-layout.scss */
-.m-tab:nth-child(2) {
-  background: #f45b42;
-}
-
-/* line 47, ../resources/sass/layouts/_tab-layout.scss */
-.m-tab:nth-child(3) {
-  background: #02ccb9;
-}
-
-/* line 51, ../resources/sass/layouts/_tab-layout.scss */
-.m-tab:nth-child(4) {
-  background: #00cc09;
-}
-
-/* line 55, ../resources/sass/layouts/_tab-layout.scss */
-.m-tab:nth-child(5) {
-  background: #cc3500;
-}
-
-/* line 59, ../resources/sass/layouts/_tab-layout.scss */
-.m-tab:nth-child(6) {
-  background: #cc008d;
-}
-
-/* line 63, ../resources/sass/layouts/_tab-layout.scss */
-.m-tab:nth-child(7) {
-  background: #9f00cc;
-}
-
-/* line 68, ../resources/sass/layouts/_tab-layout.scss */
+/* line 54, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .tab-menu {
   overflow-x: scroll;
 }
-/* line 71, ../resources/sass/layouts/_tab-layout.scss */
+/* line 57, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .tab-menu::-webkit-scrollbar {
   display: none;
 }
-/* line 76, ../resources/sass/layouts/_tab-layout.scss */
+/* line 62, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .buttongroupview {
   margin: 0 auto;
 }
-/* line 81, ../resources/sass/layouts/_tab-layout.scss */
+/* line 67, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .buttongroupview .button {
   width: 200px;
   float: left;
@@ -3774,8 +3745,8 @@ h6 {
 }
 
 /* line 16, ../resources/sass/themes/default/_modal.scss */
-.modal-backdrop.in {
-  opacity: .5;
+.modal-backdrop.fade.in {
+  opacity: 0.5;
   filter: alpha(opacity=50);
 }
 
@@ -3786,18 +3757,31 @@ html, body {
 
 /* line 25, ../resources/sass/themes/default/_modal.scss */
 .modalview {
-  position: relative;
+  position: fixed;
   height: 100%;
-  padding: 0;
-  margin: 0;
+  width: 100%;
+  top: 0;
+  z-index: 1040;
   display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
+  display: -webkit-flexbox;
   display: -webkit-flex;
+  display: -moz-box;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-flex-align: center;
+  -webkit-align-items: center;
   align-items: center;
-  justify-content: center;
-  z-index: 99999;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 44, ../resources/sass/themes/default/_modal.scss */
+.modalview .content {
+  padding: 8px;
+  min-height: 10px;
+  min-width: 10px;
+  margin: auto;
+  position: relative;
 }
 
 /* line 1, ../resources/sass/themes/default/_toast.scss */
@@ -3826,6 +3810,10 @@ html, body {
   background: #1092d3;
   position: absolute;
   top: 0;
+}
+/* line 8, ../resources/sass/themes/default/_toolbar.scss */
+.toolbarview .button {
+  margin-top: 0;
 }
 
 /* line 5, ../resources/sass/themes/default/_button.scss */
@@ -4123,19 +4111,33 @@ html, body {
   top: 0;
   left: 0;
   right: 0;
+  margin-top: 0;
 }
-/* line 9, ../resources/sass/themes/default/_debug.scss */
+/* line 10, ../resources/sass/themes/default/_debug.scss */
 .debug-menu .buttonview {
   padding-left: 0px;
   padding-right: 0px;
 }
 
 /* line 16, ../resources/sass/themes/default/_debug.scss */
-.button {
+.debugview {
+  top: 0;
+  bottom: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+}
+/* line 23, ../resources/sass/themes/default/_debug.scss */
+.debugview.bg {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+/* line 27, ../resources/sass/themes/default/_debug.scss */
+.debugview .button {
   display: inline-block;
+  margin: 0;
 }
 
-/* line 20, ../resources/sass/themes/default/_debug.scss */
+/* line 33, ../resources/sass/themes/default/_debug.scss */
 .debug-container {
   position: absolute;
   top: 0;
@@ -4144,20 +4146,20 @@ html, body {
   right: 0;
   display: none;
 }
-/* line 28, ../resources/sass/themes/default/_debug.scss */
+/* line 41, ../resources/sass/themes/default/_debug.scss */
 .debug-container .debug-grid {
   height: 100%;
 }
-/* line 33, ../resources/sass/themes/default/_debug.scss */
+/* line 46, ../resources/sass/themes/default/_debug.scss */
 .debug-container .row {
   height: 100%;
-}
-/* line 36, ../resources/sass/themes/default/_debug.scss */
-.debug-container .row .col-xs-1 {
   background: rgba(0, 255, 255, 0.25);
+}
+/* line 50, ../resources/sass/themes/default/_debug.scss */
+.debug-container .row .col-xs-1 {
   height: 100%;
 }
-/* line 40, ../resources/sass/themes/default/_debug.scss */
+/* line 54, ../resources/sass/themes/default/_debug.scss */
 .debug-container .row .col-xs-1 .inner {
   background: rgba(0, 255, 0, 0.25);
   height: 100%;
@@ -4408,7 +4410,7 @@ html, body {
   position: relative;
   width: 200px;
   height: 200px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   z-index: 1040;
 }
 
@@ -4729,24 +4731,32 @@ html, body {
   animation-delay: 0.7s;
 }
 
-/* line 3, ../resources/sass/themes/default/_text.scss */
+/* line 5, ../resources/sass/themes/default/_text.scss */
 .textview .label {
   display: block;
   border-bottom: 1px solid #1092d3;
 }
-/* line 7, ../resources/sass/themes/default/_text.scss */
+/* line 9, ../resources/sass/themes/default/_text.scss */
 .textview .input-icon-addon {
   display: inline-block;
 }
-/* line 9, ../resources/sass/themes/default/_text.scss */
+/* line 11, ../resources/sass/themes/default/_text.scss */
 .textview .input-icon-addon div, .textview .input-icon-addon i {
   display: inline-block;
   margin-right: 5px;
 }
-/* line 15, ../resources/sass/themes/default/_text.scss */
+/* line 17, ../resources/sass/themes/default/_text.scss */
 .textview.stencil, .textview.stencil i.textview, .textview.stencil div div.textview {
   background: #f2f2f2;
   font-weight: bold;
   text-align: center;
   padding: 10px;
+}
+
+/* line 1, ../resources/sass/themes/default/_header.scss */
+.header {
+  background: #1092d3;
+  color: white;
+  height: 50px;
+  text-align: center;
 }

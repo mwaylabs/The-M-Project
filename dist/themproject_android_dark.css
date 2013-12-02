@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Thu Nov 28 2013 16:43:51
+* Date:      Fri Nov 29 2013 17:01:21
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -2585,7 +2585,7 @@
   outline: none;
 }
 /* line 43, ../resources/sass/themes/_extends.scss */
-.android-dark .margin1010, .android-dark .button, .android-dark .listview, .android-dark .selection-list, .android-dark .buttongroupview, .android-dark .radiolistview, .android-dark .checkboxlistview, .android-dark .toggleswitchview {
+.android-dark .margin1010, .android-dark .button, .android-dark .listview, .android-dark .selection-list, .android-dark .buttongroupview, .android-dark .radiolistview, .android-dark .checkboxlistview, .android-dark .toggleswitchview, .android-dark .textview {
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -2594,7 +2594,7 @@
   font-size: 1.6rem;
   color: white;
   text-align: center;
-  padding: 7px 0 0 0;
+  padding: 13px 0 0 0;
 }
 /* line 55, ../resources/sass/themes/_extends.scss */
 .android-dark .header-first, .android-dark .switch-header-content-layout .first, .android-dark .toolbarview .first {
@@ -2622,10 +2622,6 @@
   font-size: 62.5%;
 }
 /* line 5, ../resources/sass/themes/default/_base.scss */
-.android-dark * {
-  box-sizing: border-box;
-}
-/* line 9, ../resources/sass/themes/default/_base.scss */
 .android-dark body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   font-weight: 300;
@@ -2633,31 +2629,31 @@
   font-color: black;
   line-height: 2.2rem;
 }
-/* line 17, ../resources/sass/themes/default/_base.scss */
+/* line 13, ../resources/sass/themes/default/_base.scss */
 .android-dark .clear {
   clear: both;
   float: none;
   overflow: hidden;
 }
-/* line 23, ../resources/sass/themes/default/_base.scss */
+/* line 19, ../resources/sass/themes/default/_base.scss */
 .android-dark .btn-success .button {
   color: #fff;
   background-color: #5cb85c;
   border-color: #4cae4c;
 }
-/* line 29, ../resources/sass/themes/default/_base.scss */
+/* line 25, ../resources/sass/themes/default/_base.scss */
 .android-dark .btn-danger .button {
   color: #fff;
   background-color: #d9534f;
   border-color: #d43f3a;
 }
-/* line 35, ../resources/sass/themes/default/_base.scss */
+/* line 31, ../resources/sass/themes/default/_base.scss */
 .android-dark .btn-info .button {
   color: #fff;
   background-color: #669900;
   border-color: #669900;
 }
-/* line 42, ../resources/sass/themes/default/_base.scss */
+/* line 38, ../resources/sass/themes/default/_base.scss */
 .android-dark .col-xs-1, .android-dark .col-sm-1, .android-dark .col-md-1, .android-dark .col-lg-1, .android-dark .col-xs-2, .android-dark .col-sm-2, .android-dark .col-md-2, .android-dark .col-lg-2, .android-dark .col-xs-3, .android-dark .col-sm-3, .android-dark .col-md-3, .android-dark .col-lg-3, .android-dark .col-xs-4, .android-dark .col-sm-4, .android-dark .col-md-4, .android-dark .col-lg-4, .android-dark .col-xs-5, .android-dark .col-sm-5, .android-dark .col-md-5, .android-dark .col-lg-5, .android-dark .col-xs-6, .android-dark .col-sm-6, .android-dark .col-md-6, .android-dark .col-lg-6, .android-dark .col-xs-7, .android-dark .col-sm-7, .android-dark .col-md-7, .android-dark .col-lg-7, .android-dark .col-xs-8, .android-dark .col-sm-8, .android-dark .col-md-8, .android-dark .col-lg-8, .android-dark .col-xs-9, .android-dark .col-sm-9, .android-dark .col-md-9, .android-dark .col-lg-9, .android-dark .col-xs-10, .android-dark .col-sm-10, .android-dark .col-md-10, .android-dark .col-lg-10, .android-dark .col-xs-11, .android-dark .col-sm-11, .android-dark .col-md-11, .android-dark .col-lg-11, .android-dark .col-xs-12, .android-dark .col-sm-12, .android-dark .col-md-12, .android-dark .col-lg-12 {
   overflow: hidden;
 }
@@ -3683,12 +3679,8 @@
 /* line 1, ../resources/sass/layouts/_header-layout.scss */
 .android-dark .header {
   overflow: hidden;
-  background: #669900;
-  color: white;
-  height: 50px;
-  text-align: center;
 }
-/* line 10, ../resources/sass/layouts/_header-layout.scss */
+/* line 6, ../resources/sass/layouts/_header-layout.scss */
 .android-dark .header .buttonview .button {
   margin: 0;
 }
@@ -3705,68 +3697,55 @@
   height: 50px;
   background: #f2f2f2;
 }
-/* line 10, ../resources/sass/layouts/_tab-layout.scss */
+/* line 8, ../resources/sass/layouts/_tab-layout.scss */
+.android-dark .tablayout .tab-menu .buttongroupview {
+  margin: 0;
+}
+/* line 12, ../resources/sass/layouts/_tab-layout.scss */
 .android-dark .tablayout .tab-menu .buttongroupview .button {
   height: 50px;
   padding: 13px 0 0 0;
+  margin: 0;
 }
-/* line 15, ../resources/sass/layouts/_tab-layout.scss */
+/* line 18, ../resources/sass/layouts/_tab-layout.scss */
 .android-dark .tablayout .tab-menu .buttongroupview .button i {
   display: none;
 }
-/* line 21, ../resources/sass/layouts/_tab-layout.scss */
+/* line 24, ../resources/sass/layouts/_tab-layout.scss */
 .android-dark .tablayout .tab-menu .buttongroupview .buttonview:first-child {
   padding-left: 0;
 }
-/* line 25, ../resources/sass/layouts/_tab-layout.scss */
+/* line 27, ../resources/sass/layouts/_tab-layout.scss */
+.android-dark .tablayout .tab-menu .buttongroupview .buttonview:first-child .button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+/* line 33, ../resources/sass/layouts/_tab-layout.scss */
 .android-dark .tablayout .tab-menu .buttongroupview .buttonview:last-child {
   padding-right: 0;
 }
-/* line 35, ../resources/sass/layouts/_tab-layout.scss */
+/* line 36, ../resources/sass/layouts/_tab-layout.scss */
+.android-dark .tablayout .tab-menu .buttongroupview .buttonview:last-child .button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+/* line 49, ../resources/sass/layouts/_tab-layout.scss */
 .android-dark .m-tab {
   top: 50px;
 }
-/* line 39, ../resources/sass/layouts/_tab-layout.scss */
-.android-dark .m-tab:nth-child(1) {
-  background: #6c64ff;
-}
-/* line 43, ../resources/sass/layouts/_tab-layout.scss */
-.android-dark .m-tab:nth-child(2) {
-  background: #f45b42;
-}
-/* line 47, ../resources/sass/layouts/_tab-layout.scss */
-.android-dark .m-tab:nth-child(3) {
-  background: #02ccb9;
-}
-/* line 51, ../resources/sass/layouts/_tab-layout.scss */
-.android-dark .m-tab:nth-child(4) {
-  background: #00cc09;
-}
-/* line 55, ../resources/sass/layouts/_tab-layout.scss */
-.android-dark .m-tab:nth-child(5) {
-  background: #cc3500;
-}
-/* line 59, ../resources/sass/layouts/_tab-layout.scss */
-.android-dark .m-tab:nth-child(6) {
-  background: #cc008d;
-}
-/* line 63, ../resources/sass/layouts/_tab-layout.scss */
-.android-dark .m-tab:nth-child(7) {
-  background: #9f00cc;
-}
-/* line 68, ../resources/sass/layouts/_tab-layout.scss */
+/* line 54, ../resources/sass/layouts/_tab-layout.scss */
 .android-dark .tablayout.scrolling .tab-menu {
   overflow-x: scroll;
 }
-/* line 71, ../resources/sass/layouts/_tab-layout.scss */
+/* line 57, ../resources/sass/layouts/_tab-layout.scss */
 .android-dark .tablayout.scrolling .tab-menu::-webkit-scrollbar {
   display: none;
 }
-/* line 76, ../resources/sass/layouts/_tab-layout.scss */
+/* line 62, ../resources/sass/layouts/_tab-layout.scss */
 .android-dark .tablayout.scrolling .buttongroupview {
   margin: 0 auto;
 }
-/* line 81, ../resources/sass/layouts/_tab-layout.scss */
+/* line 67, ../resources/sass/layouts/_tab-layout.scss */
 .android-dark .tablayout.scrolling .buttongroupview .button {
   width: 200px;
   float: left;
@@ -3810,8 +3789,8 @@
   filter: alpha(opacity=0);
 }
 /* line 16, ../resources/sass/themes/default/_modal.scss */
-.android-dark .modal-backdrop.in {
-  opacity: .5;
+.android-dark .modal-backdrop.fade.in {
+  opacity: 0.5;
   filter: alpha(opacity=50);
 }
 /* line 21, ../resources/sass/themes/default/_modal.scss */
@@ -3820,18 +3799,31 @@
 }
 /* line 25, ../resources/sass/themes/default/_modal.scss */
 .android-dark .modalview {
-  position: relative;
+  position: fixed;
   height: 100%;
-  padding: 0;
-  margin: 0;
+  width: 100%;
+  top: 0;
+  z-index: 1040;
   display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
+  display: -webkit-flexbox;
   display: -webkit-flex;
+  display: -moz-box;
   display: flex;
+  -webkit-box-align: center;
+  -webkit-flex-align: center;
+  -webkit-align-items: center;
   align-items: center;
-  justify-content: center;
-  z-index: 99999;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 44, ../resources/sass/themes/default/_modal.scss */
+.android-dark .modalview .content {
+  padding: 8px;
+  min-height: 10px;
+  min-width: 10px;
+  margin: auto;
+  position: relative;
 }
 /* line 1, ../resources/sass/themes/default/_toast.scss */
 .android-dark .toast {
@@ -3857,6 +3849,10 @@
   background: #669900;
   position: absolute;
   top: 0;
+}
+/* line 8, ../resources/sass/themes/default/_toolbar.scss */
+.android-dark .toolbarview .button {
+  margin-top: 0;
 }
 /* line 5, ../resources/sass/themes/default/_button.scss */
 .android-dark .button {
@@ -4144,17 +4140,31 @@
   top: 0;
   left: 0;
   right: 0;
+  margin-top: 0;
 }
-/* line 9, ../resources/sass/themes/default/_debug.scss */
+/* line 10, ../resources/sass/themes/default/_debug.scss */
 .android-dark .debug-menu .buttonview {
   padding-left: 0px;
   padding-right: 0px;
 }
 /* line 16, ../resources/sass/themes/default/_debug.scss */
-.android-dark .button {
-  display: inline-block;
+.android-dark .debugview {
+  top: 0;
+  bottom: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
 }
-/* line 20, ../resources/sass/themes/default/_debug.scss */
+/* line 23, ../resources/sass/themes/default/_debug.scss */
+.android-dark .debugview.bg {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+/* line 27, ../resources/sass/themes/default/_debug.scss */
+.android-dark .debugview .button {
+  display: inline-block;
+  margin: 0;
+}
+/* line 33, ../resources/sass/themes/default/_debug.scss */
 .android-dark .debug-container {
   position: absolute;
   top: 0;
@@ -4163,20 +4173,20 @@
   right: 0;
   display: none;
 }
-/* line 28, ../resources/sass/themes/default/_debug.scss */
+/* line 41, ../resources/sass/themes/default/_debug.scss */
 .android-dark .debug-container .debug-grid {
   height: 100%;
 }
-/* line 33, ../resources/sass/themes/default/_debug.scss */
+/* line 46, ../resources/sass/themes/default/_debug.scss */
 .android-dark .debug-container .row {
   height: 100%;
-}
-/* line 36, ../resources/sass/themes/default/_debug.scss */
-.android-dark .debug-container .row .col-xs-1 {
   background: rgba(0, 255, 255, 0.25);
+}
+/* line 50, ../resources/sass/themes/default/_debug.scss */
+.android-dark .debug-container .row .col-xs-1 {
   height: 100%;
 }
-/* line 40, ../resources/sass/themes/default/_debug.scss */
+/* line 54, ../resources/sass/themes/default/_debug.scss */
 .android-dark .debug-container .row .col-xs-1 .inner {
   background: rgba(0, 255, 0, 0.25);
   height: 100%;
@@ -4410,7 +4420,7 @@
   position: relative;
   width: 200px;
   height: 200px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   z-index: 1040;
 }
 /* line 37, ../resources/sass/themes/default/_loader.scss */
@@ -4533,26 +4543,33 @@
   -o-animation-delay: 0.7s;
   animation-delay: 0.7s;
 }
-/* line 3, ../resources/sass/themes/default/_text.scss */
+/* line 5, ../resources/sass/themes/default/_text.scss */
 .android-dark .textview .label {
   display: block;
   border-bottom: 1px solid #1092d3;
 }
-/* line 7, ../resources/sass/themes/default/_text.scss */
+/* line 9, ../resources/sass/themes/default/_text.scss */
 .android-dark .textview .input-icon-addon {
   display: inline-block;
 }
-/* line 9, ../resources/sass/themes/default/_text.scss */
+/* line 11, ../resources/sass/themes/default/_text.scss */
 .android-dark .textview .input-icon-addon div, .android-dark .textview .input-icon-addon i {
   display: inline-block;
   margin-right: 5px;
 }
-/* line 15, ../resources/sass/themes/default/_text.scss */
+/* line 17, ../resources/sass/themes/default/_text.scss */
 .android-dark .textview.stencil, .android-dark .textview.stencil i.textview, .android-dark .textview.stencil div div.textview {
   background: #f2f2f2;
   font-weight: bold;
   text-align: center;
   padding: 10px;
+}
+/* line 1, ../resources/sass/themes/default/_header.scss */
+.android-dark .header {
+  background: #1092d3;
+  color: white;
+  height: 50px;
+  text-align: center;
 }
 /* line 5, ../resources/sass/themes/android_dark/_buttongroup.scss */
 .android-dark .buttongroupview .buttonview.active .button {

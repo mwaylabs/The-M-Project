@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Thu Nov 28 2013 16:43:50
+* Date:      Fri Nov 29 2013 17:01:21
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -1248,7 +1248,8 @@
             }
     
             this._layout = layout;
-            $('#main').html(layout.render().$el);
+            this._layout.render();
+            $('#main').html(this._layout.$el);
         },
     
         getLayout: function() {
@@ -1415,18 +1416,20 @@
             }
     
             var router = this;
+    
             Backbone.history.route(route, function( fragment ) {
                 var res = {};
                 _.each(router.routes, function( val, key ) {
-    
-                    var reg = /\(?(\/:[^)]+)\)?$/;
-                    ///^page4\(?(/:[^)]+)\)?$/
-                    var exec = reg.exec(key);
-                    if( exec && exec.length ) {
-                        var s = exec.slice(1);
-                        res = s[0].replace('/:', '');
+                    if(name === val){
+                        var reg = /\(?(\/:[^)]+)\)?$/;
+                        ///^page4\(?(/:[^)]+)\)?$/
+                        var exec = reg.exec(key);
+                        if( exec && exec.length ) {
+                            var s = exec.slice(1);
+                            res = s[0].replace('/:', '');
+                        }
                     }
-                });
+                }, this);
                 var args = router._extractParameters(route, fragment);
                 res = _.object([res], args);
                 args.unshift(!router._visitedRoutes[name]);

@@ -212,8 +212,8 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: '/bower_components/font-awesome/',
-                    dest: '',
+                    cwd: '<%= yeoman.app %>/bower_components/font-awesome/',
+                    dest: '<%= yeoman.dist %>',
                     src: [
                         'fonts/{,*/}*.*'
                     ]
