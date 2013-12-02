@@ -288,7 +288,7 @@ describe('M.LoaderView', function () {
         assert.lengthOf($('.loaderview'), 1);
         assert.lengthOf($('.m-loaderview-inner-message'), 1);
         assert.equal($('.m-loaderview-inner-message').html(), '');
-
+        loader.hide();
 
         loader = null;
         TEXT1 = null;

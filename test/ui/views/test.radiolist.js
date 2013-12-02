@@ -2,7 +2,7 @@ describe('M.RadiolistView', function () {
 
     var $stage;
     var instance;
-    var scope = {};
+    var scope = M.Controller.extend({}).create();
 
     before(function () {
         $stage = $('<div style="opacity: 1"></div>');
