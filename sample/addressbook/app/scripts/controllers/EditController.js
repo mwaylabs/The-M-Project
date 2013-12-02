@@ -71,7 +71,8 @@
                     second: M.View.extend({},{
 
                         deleteButton: M.ButtonView.extend({
-                            cssClass: 'btn-danger',
+                            grid: 'col-xs-3',
+                            cssClass:'btn-danger',
                             value: M.I18N.get('global.delete'),
                             useElement: YES,
                             events: {
@@ -80,6 +81,7 @@
                         }),
 
                         updateButton: M.ButtonView.extend({
+                            grid: 'col-xs-3',
                             cssClass: 'btn-success',
                             value: M.I18N.get('global.save'),
                             useElement: YES,

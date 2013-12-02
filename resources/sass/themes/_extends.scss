@@ -55,13 +55,13 @@
 .header-first {
   position: absolute;
   left: 10px;
-  top: 3px;
+  top: $header-top;
 }
 
 .header-second {
   position: absolute;
   right: 10px;
-  top: 3px;
+  top: $header-top;
 }
 
 .stencil{
