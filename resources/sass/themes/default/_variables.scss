@@ -30,7 +30,6 @@ $black: #000000;
 $white: #FFFFFF;
 $darkwhite: #F2F2F2;
 
-
 // Debug colors
 $debug-1: #02ccb9;
 $debug-2: #00cc09;
@@ -41,16 +40,16 @@ $debug-6: #4f00cc;
 $debug-7: #003fcc;
 $debug-8: #0073cc;
 
-
 $grid-columns: 12;
 $grid-gutter-width: 30px;
 
 $lightenPercentage: 15%;
+$lightenPercentageLight: 5%;
 
 // Button
 $m-button-border-width: 1px;
 $m-button-border-color: $blue;
-$m-button-text-color:  $blue;
+$m-button-text-color: $blue;
 $m-button-border-radius: 4px;
 $m-button-border-style: solid;
 $m-button-padding-bottom: 6px;
@@ -82,12 +81,9 @@ $m-button-fuzzy-border-color: $grey;
 $m-button-fuzzy-text-color: $grey;
 $m-button-fuzzy-background-color: $white;
 
-
 $strong: bold;
 $normal: normal;
 $weak: lighter;
-
-
 
 // Form elements
 $form-border-width: 1px;
@@ -115,6 +111,7 @@ $tablayout-menu-scroll-button-width: 200px;
 
 //swtichheadercontent
 $switch-header-content-padding: 4px 0 0 0;
+$header-top: 3px;
 
 // Default
 $m-primary-font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -125,7 +122,7 @@ $m-primary-calc-font-size: 16px;
 $m-primary-line-height: 2.2rem;
 $m-primary-font-color: $black;
 $m-primary-margin-top: 10px;
-$m-primary-margin-bottom: 10px;
+$m-primary-margin-bottom: 20px;
 
 // Modal
 $modal-backdrop-background-color: $black;
@@ -135,7 +132,6 @@ $content-padding: 15px;
 $m-primary-disabled-color: $lightgrey;
 $m-primary-disabled-text-color: $grey;
 
-
 $selection-color: $grey;
 $selection-checked-color: $blue;
 
@@ -143,4 +139,4 @@ $selection-checked-color: $blue;
 $m-list-item-color: $green;
 
 //stencil
-$m-stencil-text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
+$m-stencil-text-shadow: rgba(255, 255, 255, 0.5) 0px 3px 3px;

@@ -269,4 +269,6 @@ describe('M.LoaderView', function () {
         assert.lengthOf($('.loaderview'), 0);
     });
 
+
+
 });

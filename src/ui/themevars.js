@@ -37,6 +37,7 @@ M.ThemeVars = {
         "grid-columns": "12",
         "grid-gutter-width": "30px",
         "lightenPercentage": "15%",
+        "lightenPercentageLight": "5%",
         "m-button-border-width": "1px",
         "m-button-border-color": "#1092d3",
         "m-button-text-color": "#1092d3",
@@ -85,6 +86,7 @@ M.ThemeVars = {
         "tablayout-menu-button-padding": "13px 0 0 0",
         "tablayout-menu-scroll-button-width": "200px",
         "switch-header-content-padding": "4px 0 0 0",
+        "header-top": "3px",
         "m-primary-font-family": "\"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
         "m-primary-font-weight": "300",
         "m-primary-font-size": "1.6rem",
@@ -92,7 +94,7 @@ M.ThemeVars = {
         "m-primary-line-height": "2.2rem",
         "m-primary-font-color": "#000000",
         "m-primary-margin-top": "10px",
-        "m-primary-margin-bottom": "10px",
+        "m-primary-margin-bottom": "20px",
         "modal-backdrop-background-color": "#000000",
         "content-padding": "15px",
         "m-primary-disabled-color": "#d5d5d5",
@@ -100,7 +102,7 @@ M.ThemeVars = {
         "selection-color": "#c3c3c3",
         "selection-checked-color": "#1092d3",
         "m-list-item-color": "#2dcca2",
-        "m-stencil-text-shadow": "rgba(255,255,255,0.5) 0px 3px 3px"
+        "m-stencil-text-shadow": "rgba(255, 255, 255, 0.5) 0px 3px 3px"
     },
     "android_dark": {
         "m-primary-color": "#669900",
@@ -124,7 +126,7 @@ M.ThemeVars = {
         "lightenPercentage": "25%",
         "m-primary-active-color": "$lightgrey",
         "m-primary-active-text-color": "#007AFF",
-        "tablayout-menu-height": "80px",
+        "tablayout-menu-height": "50px",
         "tablayout-menu-scroll-button-width": "140px",
         "selection-checked-color": "#59C8FA",
         "m-button-padding-bottom": "10px",

@@ -39,9 +39,12 @@
   outline: none;
 }
 
-.margin1010 {
-  margin-top: $m-primary-margin-top;
+.margin0010 {
   margin-bottom: $m-primary-margin-bottom;
+}
+
+.margin1000 {
+  margin-top: $m-primary-margin-top;
 }
 
 .header-center {
@@ -54,13 +57,13 @@
 .header-first {
   position: absolute;
   left: 10px;
-  top: 3px;
+  top: $header-top;
 }
 
 .header-second {
   position: absolute;
   right: 10px;
-  top: 3px;
+  top: $header-top;
 }
 
 .stencil{
