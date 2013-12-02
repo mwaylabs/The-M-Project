@@ -1,4 +1,3 @@
-
 /**
  * M.ButtonView inherits from M.View
  * @module M.ButtonView
@@ -32,30 +31,39 @@ M.ButtonView = M.View.extend({
      */
     enabled: YES,
 
-    _assignTemplateValues: function(){
+    _assignTemplateValues: function() {
         M.View.prototype._assignTemplateValues.apply(this, arguments);
         this._templateValues.icon = this.icon ? this.icon : '';
     },
 
-    isActive: function () {
+    _addClassNames: function() {
+        M.View.prototype._addClassNames.apply(this, arguments);
+        var value = this._getValue();
+        if(value !== '' && this.icon && this.icon !== ''){
+            this.$el.addClass('has-icon');
+        } else if(value === '' && this.icon && this.icon !== ''){
+            this.$el.addClass('is-icon-only');
+        }
+    },
+
+    isActive: function() {
         return this._isActive();
     },
 
-    activate: function () {
-
+    activate: function() {
         this._isAcitve = YES;
         this.$el.addClass('active');
 
     },
 
-    deactivate: function () {
+    deactivate: function() {
         this._isAcitve = NO;
         this.$el.removeClass('active');
     },
 
-    _postRender: function(){
+    _postRender: function() {
         M.View.prototype._postRender.apply(this, arguments);
-        if(this.enabled === NO && this.disable){
+        if( this.enabled === NO && this.disable ) {
             this.disable();
         }
     }

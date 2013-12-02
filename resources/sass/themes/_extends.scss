@@ -2,7 +2,7 @@
 
 
 .ellipsis {
-  white-space: nowrap;
+  white-space: nowrap !important;
   text-overflow: ellipsis;
   overflow: hidden;
 }

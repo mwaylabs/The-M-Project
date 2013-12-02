@@ -42,7 +42,10 @@ M.ThemeVars = {
         "m-button-text-color": "#1092d3",
         "m-button-border-radius": "4px",
         "m-button-border-style": "solid",
-        "m-button-padding": "10px 20px",
+        "m-button-padding-bottom": "6px",
+        "m-button-padding-top": "10px",
+        "m-button-padding-left-right": "10px",
+        "m-button-padding": "10px 10px 6px 10px",
         "m-button-primary-border-color": "#6c64ff",
         "m-button-primary-text-color": "#6c64ff",
         "m-button-primary-background-color": "#FFFFFF",
@@ -123,7 +126,9 @@ M.ThemeVars = {
         "m-primary-active-text-color": "#007AFF",
         "tablayout-menu-height": "80px",
         "tablayout-menu-scroll-button-width": "140px",
-        "selection-checked-color": "#59C8FA"
+        "selection-checked-color": "#59C8FA",
+        "m-button-padding-bottom": "10px",
+        "m-button-padding": "$m-button-padding-top $m-button-padding-left-right 10px $m-button-padding-left-right-top $m-button-padding-top $m-button-padding-left-right 10px $m-button-padding-left-right-left-right 10px $m-button-padding-top $m-button-padding-left-right 10px $m-button-padding-left-right-left-right"
     }
 },
     get: function (name, theme) {

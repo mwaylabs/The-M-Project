@@ -22,6 +22,7 @@
 // @include ./ui/views/toolbar.js
 // @include ./ui/views/select.js
 // @include ./ui/views/buttongroup.js
+// @include ./ui/views/tabbarbuttongroup.js
 // @include ./ui/views/tab.js
 // @include ./ui/views/selectionlist.js
 // @include ./ui/views/radiolist.js
