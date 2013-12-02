@@ -94,7 +94,7 @@ M.ThemeVars = {
         "m-primary-line-height": "2.2rem",
         "m-primary-font-color": "#000000",
         "m-primary-margin-top": "10px",
-        "m-primary-margin-bottom": "10px",
+        "m-primary-margin-bottom": "20px",
         "modal-backdrop-background-color": "#000000",
         "content-padding": "15px",
         "m-primary-disabled-color": "#d5d5d5",
