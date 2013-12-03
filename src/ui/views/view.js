@@ -308,8 +308,7 @@
                     that._setModel(model);
                     that.render();
                 });
-            }
-            else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
+            } else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
                 this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
                     that._setModel(model);
                     that.render();
@@ -812,7 +811,8 @@
      */
     M.View.create = function( scope, childViews, isScope ) {
 
-        var _scope = isScope ? {scope: scope} : scope;
+        var _scope = isScope || M.isController(scope) ? {scope: scope} : scope;
+
         var f = new this(_scope);
         f.childViews = {};
         if( f._childViews ) {

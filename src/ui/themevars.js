@@ -134,14 +134,24 @@ M.ThemeVars = {
     }
 },
     get: function (name, theme) {
-        var theme = theme || 'default';
-        var result = this._vars[theme][name];
-        if (!result && theme != 'default') {
-            result = this._vars['default'][name];
+        var theme = theme || M.ThemeVars.CONST.DEFAULT;
+        var result = this._vars[theme] ? this._vars[theme][name] : false;
+        if (!result && theme != M.ThemeVars.CONST.DEFAULT) {
+            result = this._vars[M.ThemeVars.CONST.DEFAULT][name];
         }
         if (!result) {
             console.log('Can not find varibale "' + name + '".');
         }
         return result;
     }
+}
+
+M.ThemeVars.CONST = {
+
+    IOS: 'ios',
+    'ANDROID_DARK': 'android_dark',
+    'ANDROID_LIGHT': 'android_light',
+    'ANDROID': 'android_dark',
+    DEFAULT: 'default'
+
 }

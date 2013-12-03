@@ -5,7 +5,7 @@
     height: $tablayout-menu-height;
     background: $darkwhite;
 
-    .buttongroupview {
+    .tabbarbuttongroupview {
 
       margin: 0;
 
@@ -21,6 +21,7 @@
 
 
       .buttonview {
+
         &:first-child {
           padding-left: 0;
 
@@ -59,12 +60,12 @@
     }
   }
 
-  .buttongroupview{
+  .tabbarbuttongroupview{
 
     margin: 0 auto;
   }
 
-  .buttongroupview .button{
+  .tabbarbuttongroupview .button{
     width: $tablayout-menu-scroll-button-width;
     float: left;
   }
