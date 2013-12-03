@@ -192,23 +192,27 @@ describe('M.ToggleSwitchView', function() {
 
     it('test with models and default values', function() {
 
-        var scope = {
+        var scope = M.Controller.extend({
             person: M.Model.create({
                 favorite: YES
             })
-        };
+        }).create();
 
-        var toggleSwitch = M.ToggleSwitchView.extend({scopeKey: 'person.favorite'}).create(scope, null, true).render();
+        var extend = M.ToggleSwitchView.extend({scopeKey: 'person.favorite'});
+        var create = extend.create(scope, null, true)
+
+
+        var toggleSwitch = create.render();
 
         assert.isTrue(toggleSwitch.$el.find('input').prop('checked'));
         assert.isTrue(toggleSwitch.getValue());
         assert.isTrue(scope.person.attributes.favorite);
 
-        var scope = {
+        var scope = M.Controller.extend({
             person: M.Model.create({
                 favorite: NO
             })
-        };
+        }).create();
 
         var toggleSwitch = M.ToggleSwitchView.extend({
             scopeKey: 'person.favorite',
@@ -226,11 +230,11 @@ describe('M.ToggleSwitchView', function() {
 
     it('test with models and custom values', function() {
 
-        var scope = {
+        var scope = M.Controller.extend({
             person: M.Model.create({
                 favorite: YES
             })
-        };
+        }).create();
 
         var toggleSwitch = M.ToggleSwitchView.extend({
             scopeKey: 'person.favorite',
@@ -244,11 +248,11 @@ describe('M.ToggleSwitchView', function() {
         assert.isTrue(toggleSwitch.getValue());
         assert.isTrue(scope.person.attributes.favorite);
 
-        var scope = {
+        var scope = M.Controller.extend({
             person: M.Model.create({
                 favorite: NO
             })
-        };
+        }).create();
 
         var toggleSwitch = M.ToggleSwitchView.extend({
             scopeKey: 'person.favorite',
@@ -266,11 +270,11 @@ describe('M.ToggleSwitchView', function() {
 
     it('test with models - change model with true and false', function() {
 
-        var scope = {
+        var scope = M.Controller.extend({
             person: M.Model.create({
                 favorite: YES
             })
-        };
+        }).create();
 
         var toggleSwitch = M.ToggleSwitchView.extend({
             scopeKey: 'person.favorite',
@@ -296,11 +300,11 @@ describe('M.ToggleSwitchView', function() {
     });
 
     it('test with models - change view with true and false', function() {
-        var scope = {
+        var scope = M.Controller.extend({
             person: M.Model.create({
                 favorite: YES
             })
-        };
+        }).create();
 
         var toggleSwitch = M.ToggleSwitchView.extend({
             scopeKey: 'person.favorite',
@@ -333,11 +337,11 @@ describe('M.ToggleSwitchView', function() {
         var ON = 'ofcourse';
         var OFF = 'noway';
 
-        var scope = {
+        var scope = M.Controller.extend({
             person: M.Model.create({
                 favorite: ON
             })
-        };
+        }).create();
 
         var toggleSwitch = M.ToggleSwitchView.extend({
             scopeKey: 'person.favorite',
@@ -366,11 +370,12 @@ describe('M.ToggleSwitchView', function() {
         var ON = 'ofcourse';
         var OFF = 'noway';
 
-        var scope = {
+        var scope = M.Controller.extend({
             person: M.Model.create({
                 favorite: ON
             })
-        };
+        }).create();
+
 
         var toggleSwitch = M.ToggleSwitchView.extend({
             scopeKey: 'person.favorite',

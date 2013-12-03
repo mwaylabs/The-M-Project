@@ -99,6 +99,10 @@ M.PageTransitions = M.Object.design({
         return M.PageTransitions.CONST.MOVE_TO_LEFT_FROM_RIGHT;
     },
 
+    isAnimating: function() {
+        return this._isAnimating;
+    },
+
     _onEndAnimation: function( outpage, inpage ) {
         // TODO dispatch a custom animation-end event.
 

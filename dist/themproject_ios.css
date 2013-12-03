@@ -2,13 +2,14 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Fri Nov 29 2013 17:01:21
+* Date:      Tue Dec 03 2013 08:50:51
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 */
 /* line 4, ../resources/sass/themproject_ios.scss */
 .ios {
+  /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
   /* animation sets */
   /* move from / to  */
   /* fade */
@@ -2545,9 +2546,3521 @@
 }
 
 }
-/* line 4, ../resources/sass/themes/_extends.scss */
-.ios .ellipsis, .ios .form, .ios .selection, .ios .radiolistview label, .ios .checkboxlistview label, .ios .textfieldview input, .ios .textfieldview .input-icon-addon, .ios .textfieldview .input-icon-addon input {
+/* line 22, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios article,
+.ios aside,
+.ios details,
+.ios figcaption,
+.ios figure,
+.ios footer,
+.ios header,
+.ios hgroup,
+.ios main,
+.ios nav,
+.ios section,
+.ios summary {
+  display: block;
+}
+/* line 32, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios audio,
+.ios canvas,
+.ios video {
+  display: inline-block;
+}
+/* line 41, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+/* line 52, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios [hidden],
+.ios template {
+  display: none;
+}
+/* line 66, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+/* line 76, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios body {
+  margin: 0;
+}
+/* line 88, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios a {
+  background: transparent;
+}
+/* line 96, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios a:focus {
+  outline: thin dotted;
+}
+/* line 105, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios a:active,
+.ios a:hover {
+  outline: 0;
+}
+/* line 118, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+/* line 127, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios abbr[title] {
+  border-bottom: 1px dotted;
+}
+/* line 136, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios b,
+.ios strong {
+  font-weight: bold;
+}
+/* line 144, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios dfn {
+  font-style: italic;
+}
+/* line 152, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+/* line 162, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios mark {
+  background: #ff0;
+  color: #000;
+}
+/* line 174, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios code,
+.ios kbd,
+.ios pre,
+.ios samp {
+  font-family: monospace, serif;
+  font-size: 1em;
+}
+/* line 183, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios pre {
+  white-space: pre-wrap;
+}
+/* line 191, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios q {
+  quotes: "\201C" "\201D" "\2018" "\2019";
+}
+/* line 199, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios small {
+  font-size: 80%;
+}
+/* line 208, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios sub,
+.ios sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+/* line 215, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios sup {
+  top: -0.5em;
+}
+/* line 219, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios sub {
+  bottom: -0.25em;
+}
+/* line 231, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios img {
+  border: 0;
+}
+/* line 239, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios svg:not(:root) {
+  overflow: hidden;
+}
+/* line 251, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios figure {
+  margin: 0;
+}
+/* line 263, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+/* line 274, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios legend {
+  border: 0;
+  padding: 0;
+}
+/* line 288, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios button,
+.ios input,
+.ios select,
+.ios textarea {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+}
+/* line 300, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios button,
+.ios input {
+  line-height: normal;
+}
+/* line 312, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios button,
+.ios select {
+  text-transform: none;
+}
+/* line 327, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios button,
+.ios html input[type="button"],
+.ios input[type="reset"],
+.ios input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+/* line 337, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios button[disabled],
+.ios html input[disabled] {
+  cursor: default;
+}
+/* line 347, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios input[type="checkbox"],
+.ios input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+/* line 358, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+/* line 371, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios input[type="search"]::-webkit-search-cancel-button,
+.ios input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+/* line 380, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios button::-moz-focus-inner,
+.ios input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+/* line 390, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios textarea {
+  overflow: auto;
+  vertical-align: top;
+}
+/* line 403, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.ios table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+@media print {
+  /* line 4, ../resources/sass/themproject_ios.scss */
+  .ios {
+    @page {
+      margin: 2cm .5cm;
+}
+
+  }
+  /* line 8, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios * {
+    text-shadow: none !important;
+    color: #000 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  /* line 16, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios a,
+  .ios a:visited {
+    text-decoration: underline;
+  }
+  /* line 20, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios a[href]:after {
+    content: " (" attr(href) ")";
+  }
+  /* line 24, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+  /* line 30, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios a[href^="javascript:"]:after,
+  .ios a[href^="#"]:after {
+    content: "";
+  }
+  /* line 35, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios pre,
+  .ios blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+  /* line 40, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios thead {
+    display: table-header-group;
+  }
+  /* line 45, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios tr,
+  .ios img {
+    page-break-inside: avoid;
+  }
+  /* line 49, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios img {
+    max-width: 100% !important;
+  }
+  /* line 59, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios p,
+  .ios h2,
+  .ios h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  /* line 65, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios h2,
+  .ios h3 {
+    page-break-after: avoid;
+  }
+  /* line 71, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios select {
+    background: #fff !important;
+  }
+  /* line 76, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios .navbar {
+    display: none;
+  }
+  /* line 81, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios .table td,
+  .ios .table th {
+    background-color: #fff !important;
+  }
+  /* line 87, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios .btn > .caret,
+  .ios .dropup > .btn > .caret {
+    border-top-color: #000 !important;
+  }
+  /* line 91, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios .label {
+    border: 1px solid #000;
+  }
+  /* line 95, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios .table {
+    border-collapse: collapse !important;
+  }
+  /* line 100, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .ios .table-bordered th,
+  .ios .table-bordered td {
+    border: 1px solid #ddd !important;
+  }
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios *,
+.ios *:before,
+.ios *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 17, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios html {
+  font-size: 62.5%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+/* line 22, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #333333;
+  background-color: white;
+}
+/* line 34, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios input,
+.ios button,
+.ios select,
+.ios textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+/* line 43, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios a {
+  color: #428bca;
+  text-decoration: none;
+}
+/* line 48, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios a:hover, .ios a:focus {
+  color: #2a6496;
+  text-decoration: underline;
+}
+/* line 53, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios a:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+/* line 61, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios img {
+  vertical-align: middle;
+}
+/* line 66, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios .img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+/* line 71, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios .img-rounded {
+  border-radius: 6px;
+}
+/* line 78, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios .img-thumbnail {
+  padding: 4px;
+  line-height: 1.42857;
+  background-color: white;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+}
+/* line 91, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios .img-circle {
+  border-radius: 50%;
+}
+/* line 98, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #eeeeee;
+}
+/* line 110, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.ios .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+/* line 9, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios p {
+  margin: 0 0 10px;
+}
+/* line 12, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .lead {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 1.4;
+}
+@media (min-width: 768px) {
+  /* line 12, ../bower_components/bootstrap-sass/lib/_type.scss */
+  .ios .lead {
+    font-size: 21px;
+  }
+}
+/* line 29, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios small,
+.ios .small {
+  font-size: 85%;
+}
+/* line 32, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios cite {
+  font-style: normal;
+}
+/* line 35, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-muted {
+  color: #999999;
+}
+/* line 38, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-primary {
+  color: #428bca;
+}
+/* line 40, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-primary:hover {
+  color: #3071a9;
+}
+/* line 44, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-warning {
+  color: #c09853;
+}
+/* line 46, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-warning:hover {
+  color: #a47e3c;
+}
+/* line 50, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-danger {
+  color: #b94a48;
+}
+/* line 52, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-danger:hover {
+  color: #953b39;
+}
+/* line 56, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-success {
+  color: #468847;
+}
+/* line 58, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-success:hover {
+  color: #356635;
+}
+/* line 62, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-info {
+  color: #3a87ad;
+}
+/* line 64, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-info:hover {
+  color: #2d6987;
+}
+/* line 70, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-left {
+  text-align: left;
+}
+/* line 71, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-right {
+  text-align: right;
+}
+/* line 72, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .text-center {
+  text-align: center;
+}
+/* line 79, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h1, .ios h2, .ios h3, .ios h4, .ios h5, .ios h6,
+.ios .h1, .ios .h2, .ios .h3, .ios .h4, .ios .h5, .ios .h6 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+/* line 86, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h1 small,
+.ios h1 .small, .ios h2 small,
+.ios h2 .small, .ios h3 small,
+.ios h3 .small, .ios h4 small,
+.ios h4 .small, .ios h5 small,
+.ios h5 .small, .ios h6 small,
+.ios h6 .small,
+.ios .h1 small,
+.ios .h1 .small, .ios .h2 small,
+.ios .h2 .small, .ios .h3 small,
+.ios .h3 .small, .ios .h4 small,
+.ios .h4 .small, .ios .h5 small,
+.ios .h5 .small, .ios .h6 small,
+.ios .h6 .small {
+  font-weight: normal;
+  line-height: 1;
+  color: #999999;
+}
+/* line 95, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h1,
+.ios h2,
+.ios h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+/* line 100, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h1 small,
+.ios h1 .small,
+.ios h2 small,
+.ios h2 .small,
+.ios h3 small,
+.ios h3 .small {
+  font-size: 65%;
+}
+/* line 106, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h4,
+.ios h5,
+.ios h6 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* line 111, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h4 small,
+.ios h4 .small,
+.ios h5 small,
+.ios h5 .small,
+.ios h6 small,
+.ios h6 .small {
+  font-size: 75%;
+}
+/* line 116, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h1, .ios .h1 {
+  font-size: 36px;
+}
+/* line 117, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h2, .ios .h2 {
+  font-size: 30px;
+}
+/* line 118, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h3, .ios .h3 {
+  font-size: 24px;
+}
+/* line 119, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h4, .ios .h4 {
+  font-size: 18px;
+}
+/* line 120, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h5, .ios .h5 {
+  font-size: 14px;
+}
+/* line 121, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios h6, .ios .h6 {
+  font-size: 12px;
+}
+/* line 127, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 1px solid #eeeeee;
+}
+/* line 140, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios ul,
+.ios ol {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+/* line 144, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios ul ul,
+.ios ul ol,
+.ios ol ul,
+.ios ol ol {
+  margin-bottom: 0;
+}
+/* line 152, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .list-unstyled, .ios .list-inline {
+  padding-left: 0;
+  list-style: none;
+}
+/* line 161, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .list-inline > li {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+/* line 166, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios .list-inline > li:first-child {
+  padding-left: 0;
+}
+/* line 173, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios dl {
+  margin-bottom: 20px;
+}
+/* line 177, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios dt,
+.ios dd {
+  line-height: 1.42857;
+}
+/* line 180, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios dt {
+  font-weight: bold;
+}
+/* line 183, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios dd {
+  margin-left: 0;
+}
+@media (min-width: 768px) {
+  /* line 194, ../bower_components/bootstrap-sass/lib/_type.scss */
+  .ios .dl-horizontal dt {
+    float: left;
+    width: 160px;
+    clear: left;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* line 201, ../bower_components/bootstrap-sass/lib/_type.scss */
+  .ios .dl-horizontal dd {
+    margin-left: 180px;
+  }
+  /* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .dl-horizontal dd:before, .ios .dl-horizontal dd:after {
+    content: " ";
+    /* 1 */
+    display: table;
+    /* 2 */
+  }
+  /* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .dl-horizontal dd:after {
+    clear: both;
+  }
+}
+/* line 214, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios abbr[title],
+.ios abbr[data-original-title] {
+  cursor: help;
+  border-bottom: 1px dotted #999999;
+}
+/* line 218, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios abbr.initialism {
+  font-size: 90%;
+  text-transform: uppercase;
+}
+/* line 224, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios blockquote {
+  padding: 10px 20px;
+  margin: 0 0 20px;
+  border-left: 5px solid #eeeeee;
+}
+/* line 228, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios blockquote p {
+  font-size: 17.5px;
+  font-weight: 300;
+  line-height: 1.25;
+}
+/* line 233, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios blockquote p:last-child {
+  margin-bottom: 0;
+}
+/* line 236, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios blockquote small {
+  display: block;
+  line-height: 1.42857;
+  color: #999999;
+}
+/* line 240, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios blockquote small:before {
+  content: '\2014 \00A0';
+}
+/* line 246, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios blockquote.pull-right {
+  padding-right: 15px;
+  padding-left: 0;
+  border-right: 5px solid #eeeeee;
+  border-left: 0;
+}
+/* line 253, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios blockquote.pull-right p,
+.ios blockquote.pull-right small,
+.ios blockquote.pull-right .small {
+  text-align: right;
+}
+/* line 258, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios blockquote.pull-right small:before,
+.ios blockquote.pull-right .small:before {
+  content: '';
+}
+/* line 261, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios blockquote.pull-right small:after,
+.ios blockquote.pull-right .small:after {
+  content: '\00A0 \2014';
+}
+/* line 270, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios blockquote:before,
+.ios blockquote:after {
+  content: "";
+}
+/* line 275, ../bower_components/bootstrap-sass/lib/_type.scss */
+.ios address {
+  margin-bottom: 20px;
+  font-style: normal;
+  line-height: 1.42857;
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_code.scss */
+.ios code,
+.ios kbd,
+.ios pre,
+.ios samp {
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
+/* line 15, ../bower_components/bootstrap-sass/lib/_code.scss */
+.ios code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
   white-space: nowrap;
+  border-radius: 4px;
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_code.scss */
+.ios pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: #333333;
+  background-color: whitesmoke;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+}
+/* line 39, ../bower_components/bootstrap-sass/lib/_code.scss */
+.ios pre code {
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border-radius: 0;
+}
+/* line 50, ../bower_components/bootstrap-sass/lib/_code.scss */
+.ios .pre-scrollable {
+  max-height: 340px;
+  overflow-y: scroll;
+}
+/* line 6, ../bower_components/bootstrap-sass/lib/_grid.scss */
+.ios .container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .container:before, .ios .container:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .container:after {
+  clear: both;
+}
+/* line 11, ../bower_components/bootstrap-sass/lib/_grid.scss */
+.ios .row {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .row:before, .ios .row:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .row:after {
+  clear: both;
+}
+/* line 728, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-12, .ios .col-sm-12, .ios .col-md-12, .ios .col-lg-12, .ios .col-xs-11, .ios .col-sm-11, .ios .col-md-11, .ios .col-lg-11, .ios .col-xs-10, .ios .col-sm-10, .ios .col-md-10, .ios .col-lg-10, .ios .col-xs-9, .ios .col-sm-9, .ios .col-md-9, .ios .col-lg-9, .ios .col-xs-8, .ios .col-sm-8, .ios .col-md-8, .ios .col-lg-8, .ios .col-xs-7, .ios .col-sm-7, .ios .col-md-7, .ios .col-lg-7, .ios .col-xs-6, .ios .col-sm-6, .ios .col-md-6, .ios .col-lg-6, .ios .col-xs-5, .ios .col-sm-5, .ios .col-md-5, .ios .col-lg-5, .ios .col-xs-4, .ios .col-sm-4, .ios .col-md-4, .ios .col-lg-4, .ios .col-xs-3, .ios .col-sm-3, .ios .col-md-3, .ios .col-lg-3, .ios .col-xs-2, .ios .col-sm-2, .ios .col-md-2, .ios .col-lg-2, .ios .col-xs-1, .ios .col-sm-1, .ios .col-md-1, .ios .col-lg-1 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-12, .ios .col-xs-11, .ios .col-xs-10, .ios .col-xs-9, .ios .col-xs-8, .ios .col-xs-7, .ios .col-xs-6, .ios .col-xs-5, .ios .col-xs-4, .ios .col-xs-3, .ios .col-xs-2, .ios .col-xs-1 {
+  float: left;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-1 {
+  width: 8.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-2 {
+  width: 16.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-3 {
+  width: 25%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-4 {
+  width: 33.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-5 {
+  width: 41.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-6 {
+  width: 50%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-7 {
+  width: 58.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-8 {
+  width: 66.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-9 {
+  width: 75%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-10 {
+  width: 83.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-11 {
+  width: 91.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-12 {
+  width: 100%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-0 {
+  right: 0%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-1 {
+  right: 8.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-2 {
+  right: 16.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-3 {
+  right: 25%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-4 {
+  right: 33.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-5 {
+  right: 41.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-6 {
+  right: 50%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-7 {
+  right: 58.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-8 {
+  right: 66.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-9 {
+  right: 75%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-10 {
+  right: 83.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-11 {
+  right: 91.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-12 {
+  right: 100%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-0 {
+  left: 0%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-1 {
+  left: 8.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-2 {
+  left: 16.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-3 {
+  left: 25%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-4 {
+  left: 33.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-5 {
+  left: 41.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-6 {
+  left: 50%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-7 {
+  left: 58.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-8 {
+  left: 66.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-9 {
+  left: 75%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-10 {
+  left: 83.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-11 {
+  left: 91.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-12 {
+  left: 100%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-0 {
+  margin-left: 0%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-1 {
+  margin-left: 8.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-2 {
+  margin-left: 16.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-3 {
+  margin-left: 25%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-4 {
+  margin-left: 33.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-5 {
+  margin-left: 41.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-6 {
+  margin-left: 50%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-7 {
+  margin-left: 58.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-8 {
+  margin-left: 66.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-9 {
+  margin-left: 75%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-10 {
+  margin-left: 83.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-11 {
+  margin-left: 91.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-12 {
+  margin-left: 100%;
+}
+@media (min-width: 768px) {
+  /* line 43, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .ios .container {
+    width: 750px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-12, .ios .col-sm-11, .ios .col-sm-10, .ios .col-sm-9, .ios .col-sm-8, .ios .col-sm-7, .ios .col-sm-6, .ios .col-sm-5, .ios .col-sm-4, .ios .col-sm-3, .ios .col-sm-2, .ios .col-sm-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-12 {
+    margin-left: 100%;
+  }
+}
+@media (min-width: 992px) {
+  /* line 63, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .ios .container {
+    width: 970px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-12, .ios .col-md-11, .ios .col-md-10, .ios .col-md-9, .ios .col-md-8, .ios .col-md-7, .ios .col-md-6, .ios .col-md-5, .ios .col-md-4, .ios .col-md-3, .ios .col-md-2, .ios .col-md-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-12 {
+    margin-left: 100%;
+  }
+}
+@media (min-width: 1200px) {
+  /* line 83, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .ios .container {
+    width: 1170px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-12, .ios .col-lg-11, .ios .col-lg-10, .ios .col-lg-9, .ios .col-lg-8, .ios .col-lg-7, .ios .col-lg-6, .ios .col-lg-5, .ios .col-lg-4, .ios .col-lg-3, .ios .col-lg-2, .ios .col-lg-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-12 {
+    margin-left: 100%;
+  }
+}
+/* line 6, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios table {
+  max-width: 100%;
+  background-color: transparent;
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios th {
+  text-align: left;
+}
+/* line 17, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+/* line 26, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table > thead > tr > th,
+.ios .table > thead > tr > td,
+.ios .table > tbody > tr > th,
+.ios .table > tbody > tr > td,
+.ios .table > tfoot > tr > th,
+.ios .table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.42857;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+/* line 35, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dddddd;
+}
+/* line 45, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table > caption + thead > tr:first-child > th,
+.ios .table > caption + thead > tr:first-child > td,
+.ios .table > colgroup + thead > tr:first-child > th,
+.ios .table > colgroup + thead > tr:first-child > td,
+.ios .table > thead:first-child > tr:first-child > th,
+.ios .table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+/* line 51, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table > tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+/* line 56, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table .table {
+  background-color: white;
+}
+/* line 70, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table-condensed > thead > tr > th,
+.ios .table-condensed > thead > tr > td,
+.ios .table-condensed > tbody > tr > th,
+.ios .table-condensed > tbody > tr > td,
+.ios .table-condensed > tfoot > tr > th,
+.ios .table-condensed > tfoot > tr > td {
+  padding: 5px;
+}
+/* line 82, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table-bordered {
+  border: 1px solid #dddddd;
+}
+/* line 89, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table-bordered > thead > tr > th,
+.ios .table-bordered > thead > tr > td,
+.ios .table-bordered > tbody > tr > th,
+.ios .table-bordered > tbody > tr > td,
+.ios .table-bordered > tfoot > tr > th,
+.ios .table-bordered > tfoot > tr > td {
+  border: 1px solid #dddddd;
+}
+/* line 96, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table-bordered > thead > tr > th,
+.ios .table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+}
+/* line 110, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table-striped > tbody > tr:nth-child(odd) > td,
+.ios .table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: #f9f9f9;
+}
+/* line 124, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table-hover > tbody > tr:hover > td,
+.ios .table-hover > tbody > tr:hover > th {
+  background-color: whitesmoke;
+}
+/* line 135, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios table col[class*="col-"] {
+  float: none;
+  display: table-column;
+}
+/* line 142, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios table td[class*="col-"],
+.ios table th[class*="col-"] {
+  float: none;
+  display: table-cell;
+}
+/* line 163, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.ios .table > thead > tr > td.active,
+.ios .table > thead > tr > th.active, .ios .table > thead > tr.active > td, .ios .table > thead > tr.active > th,
+.ios .table > tbody > tr > td.active,
+.ios .table > tbody > tr > th.active,
+.ios .table > tbody > tr.active > td,
+.ios .table > tbody > tr.active > th,
+.ios .table > tfoot > tr > td.active,
+.ios .table > tfoot > tr > th.active,
+.ios .table > tfoot > tr.active > td,
+.ios .table > tfoot > tr.active > th {
+  background-color: whitesmoke;
+}
+/* line 441, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .table > thead > tr > td.success,
+.ios .table > thead > tr > th.success, .ios .table > thead > tr.success > td, .ios .table > thead > tr.success > th,
+.ios .table > tbody > tr > td.success,
+.ios .table > tbody > tr > th.success,
+.ios .table > tbody > tr.success > td,
+.ios .table > tbody > tr.success > th,
+.ios .table > tfoot > tr > td.success,
+.ios .table > tfoot > tr > th.success,
+.ios .table > tfoot > tr.success > td,
+.ios .table > tfoot > tr.success > th {
+  background-color: #dff0d8;
+}
+/* line 452, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .table-hover > tbody > tr > td.success:hover,
+.ios .table-hover > tbody > tr > th.success:hover, .ios .table-hover > tbody > tr.success:hover > td, .ios .table-hover > tbody > tr.success:hover > th {
+  background-color: #d0e9c6;
+}
+/* line 441, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .table > thead > tr > td.danger,
+.ios .table > thead > tr > th.danger, .ios .table > thead > tr.danger > td, .ios .table > thead > tr.danger > th,
+.ios .table > tbody > tr > td.danger,
+.ios .table > tbody > tr > th.danger,
+.ios .table > tbody > tr.danger > td,
+.ios .table > tbody > tr.danger > th,
+.ios .table > tfoot > tr > td.danger,
+.ios .table > tfoot > tr > th.danger,
+.ios .table > tfoot > tr.danger > td,
+.ios .table > tfoot > tr.danger > th {
+  background-color: #f2dede;
+}
+/* line 452, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .table-hover > tbody > tr > td.danger:hover,
+.ios .table-hover > tbody > tr > th.danger:hover, .ios .table-hover > tbody > tr.danger:hover > td, .ios .table-hover > tbody > tr.danger:hover > th {
+  background-color: #ebcccc;
+}
+/* line 441, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .table > thead > tr > td.warning,
+.ios .table > thead > tr > th.warning, .ios .table > thead > tr.warning > td, .ios .table > thead > tr.warning > th,
+.ios .table > tbody > tr > td.warning,
+.ios .table > tbody > tr > th.warning,
+.ios .table > tbody > tr.warning > td,
+.ios .table > tbody > tr.warning > th,
+.ios .table > tfoot > tr > td.warning,
+.ios .table > tfoot > tr > th.warning,
+.ios .table > tfoot > tr.warning > td,
+.ios .table > tfoot > tr.warning > th {
+  background-color: #fcf8e3;
+}
+/* line 452, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .table-hover > tbody > tr > td.warning:hover,
+.ios .table-hover > tbody > tr > th.warning:hover, .ios .table-hover > tbody > tr.warning:hover > td, .ios .table-hover > tbody > tr.warning:hover > th {
+  background-color: #faf2cc;
+}
+@media (max-width: 767px) {
+  /* line 183, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .ios .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #dddddd;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* line 193, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .ios .table-responsive > .table {
+    margin-bottom: 0;
+  }
+  /* line 202, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .ios .table-responsive > .table > thead > tr > th,
+  .ios .table-responsive > .table > thead > tr > td,
+  .ios .table-responsive > .table > tbody > tr > th,
+  .ios .table-responsive > .table > tbody > tr > td,
+  .ios .table-responsive > .table > tfoot > tr > th,
+  .ios .table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+  }
+  /* line 210, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .ios .table-responsive > .table-bordered {
+    border: 0;
+  }
+  /* line 219, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .ios .table-responsive > .table-bordered > thead > tr > th:first-child,
+  .ios .table-responsive > .table-bordered > thead > tr > td:first-child,
+  .ios .table-responsive > .table-bordered > tbody > tr > th:first-child,
+  .ios .table-responsive > .table-bordered > tbody > tr > td:first-child,
+  .ios .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+  .ios .table-responsive > .table-bordered > tfoot > tr > td:first-child {
+    border-left: 0;
+  }
+  /* line 223, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .ios .table-responsive > .table-bordered > thead > tr > th:last-child,
+  .ios .table-responsive > .table-bordered > thead > tr > td:last-child,
+  .ios .table-responsive > .table-bordered > tbody > tr > th:last-child,
+  .ios .table-responsive > .table-bordered > tbody > tr > td:last-child,
+  .ios .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+  .ios .table-responsive > .table-bordered > tfoot > tr > td:last-child {
+    border-right: 0;
+  }
+  /* line 236, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .ios .table-responsive > .table-bordered > tbody > tr:last-child > th,
+  .ios .table-responsive > .table-bordered > tbody > tr:last-child > td,
+  .ios .table-responsive > .table-bordered > tfoot > tr:last-child > th,
+  .ios .table-responsive > .table-bordered > tfoot > tr:last-child > td {
+    border-bottom: 0;
+  }
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+/* line 16, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 20px;
+  font-size: 21px;
+  line-height: inherit;
+  color: #333333;
+  border: 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+/* line 28, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios label {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+/* line 38, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios input[type="search"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 44, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios input[type="radio"],
+.ios input[type="checkbox"] {
+  margin: 4px 0 0;
+  margin-top: 1px \9;
+  /* IE8-9 */
+  line-height: normal;
+}
+/* line 51, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios input[type="file"] {
+  display: block;
+}
+/* line 57, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios select[multiple],
+.ios select[size] {
+  height: auto;
+}
+/* line 62, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios select optgroup {
+  font-size: inherit;
+  font-style: inherit;
+  font-family: inherit;
+}
+/* line 71, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios input[type="file"]:focus,
+.ios input[type="radio"]:focus,
+.ios input[type="checkbox"]:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+/* line 80, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios input[type="number"]::-webkit-outer-spin-button, .ios input[type="number"]::-webkit-inner-spin-button {
+  height: auto;
+}
+/* line 86, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios output {
+  display: block;
+  padding-top: 7px;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #555555;
+  vertical-align: middle;
+}
+/* line 118, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .form-control {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #555555;
+  vertical-align: middle;
+  background-color: white;
+  background-image: none;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+/* line 833, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+/* line 57, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .form-control:-moz-placeholder {
+  color: #999999;
+}
+/* line 58, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .form-control::-moz-placeholder {
+  color: #999999;
+}
+/* line 59, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .form-control:-ms-input-placeholder {
+  color: #999999;
+}
+/* line 60, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .form-control::-webkit-input-placeholder {
+  color: #999999;
+}
+/* line 149, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .form-control[disabled], .ios .form-control[readonly], fieldset[disabled] .ios .form-control {
+  cursor: not-allowed;
+  background-color: #eeeeee;
+}
+/* line 158, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios textarea.form-control {
+  height: auto;
+}
+/* line 168, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .form-group {
+  margin-bottom: 15px;
+}
+/* line 178, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .radio,
+.ios .checkbox {
+  display: block;
+  min-height: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  vertical-align: middle;
+}
+/* line 185, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .radio label,
+.ios .checkbox label {
+  display: inline;
+  margin-bottom: 0;
+  font-weight: normal;
+  cursor: pointer;
+}
+/* line 195, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .radio input[type="radio"],
+.ios .radio-inline input[type="radio"],
+.ios .checkbox input[type="checkbox"],
+.ios .checkbox-inline input[type="checkbox"] {
+  float: left;
+  margin-left: -20px;
+}
+/* line 200, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .radio + .radio,
+.ios .checkbox + .checkbox {
+  margin-top: -5px;
+}
+/* line 206, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .radio-inline,
+.ios .checkbox-inline {
+  display: inline-block;
+  padding-left: 20px;
+  margin-bottom: 0;
+  vertical-align: middle;
+  font-weight: normal;
+  cursor: pointer;
+}
+/* line 215, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .radio-inline + .radio-inline,
+.ios .checkbox-inline + .checkbox-inline {
+  margin-top: 0;
+  margin-left: 10px;
+}
+/* line 230, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios input[type="radio"][disabled], fieldset[disabled] .ios input[type="radio"],
+.ios input[type="checkbox"][disabled], fieldset[disabled]
+.ios input[type="checkbox"],
+.ios .radio[disabled], fieldset[disabled]
+.ios .radio,
+.ios .radio-inline[disabled], fieldset[disabled]
+.ios .radio-inline,
+.ios .checkbox[disabled], fieldset[disabled]
+.ios .checkbox,
+.ios .checkbox-inline[disabled], fieldset[disabled]
+.ios .checkbox-inline {
+  cursor: not-allowed;
+}
+/* line 848, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .input-sm {
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+/* line 853, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios select.input-sm {
+  height: 30px;
+  line-height: 30px;
+}
+/* line 858, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios textarea.input-sm {
+  height: auto;
+}
+/* line 848, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .input-lg {
+  height: 45px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 6px;
+}
+/* line 853, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios select.input-lg {
+  height: 45px;
+  line-height: 45px;
+}
+/* line 858, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios textarea.input-lg {
+  height: auto;
+}
+/* line 797, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-warning .help-block,
+.ios .has-warning .control-label,
+.ios .has-warning .radio,
+.ios .has-warning .checkbox,
+.ios .has-warning .radio-inline,
+.ios .has-warning .checkbox-inline {
+  color: #c09853;
+}
+/* line 801, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-warning .form-control {
+  border-color: #c09853;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+/* line 804, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-warning .form-control:focus {
+  border-color: #a47e3c;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #dbc59e;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #dbc59e;
+}
+/* line 811, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-warning .input-group-addon {
+  color: #c09853;
+  border-color: #c09853;
+  background-color: #fcf8e3;
+}
+/* line 797, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-error .help-block,
+.ios .has-error .control-label,
+.ios .has-error .radio,
+.ios .has-error .checkbox,
+.ios .has-error .radio-inline,
+.ios .has-error .checkbox-inline {
+  color: #b94a48;
+}
+/* line 801, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-error .form-control {
+  border-color: #b94a48;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+/* line 804, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-error .form-control:focus {
+  border-color: #953b39;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+}
+/* line 811, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-error .input-group-addon {
+  color: #b94a48;
+  border-color: #b94a48;
+  background-color: #f2dede;
+}
+/* line 797, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-success .help-block,
+.ios .has-success .control-label,
+.ios .has-success .radio,
+.ios .has-success .checkbox,
+.ios .has-success .radio-inline,
+.ios .has-success .checkbox-inline {
+  color: #468847;
+}
+/* line 801, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-success .form-control {
+  border-color: #468847;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+/* line 804, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-success .form-control:focus {
+  border-color: #356635;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
+}
+/* line 811, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .has-success .input-group-addon {
+  color: #468847;
+  border-color: #468847;
+  background-color: #dff0d8;
+}
+/* line 265, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .form-control-static {
+  margin-bottom: 0;
+}
+/* line 275, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #737373;
+}
+@media (min-width: 768px) {
+  /* line 300, ../bower_components/bootstrap-sass/lib/_forms.scss */
+  .ios .form-inline .form-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+  /* line 307, ../bower_components/bootstrap-sass/lib/_forms.scss */
+  .ios .form-inline .form-control {
+    display: inline-block;
+  }
+  /* line 315, ../bower_components/bootstrap-sass/lib/_forms.scss */
+  .ios .form-inline .radio,
+  .ios .form-inline .checkbox {
+    display: inline-block;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+  }
+  /* line 322, ../bower_components/bootstrap-sass/lib/_forms.scss */
+  .ios .form-inline .radio input[type="radio"],
+  .ios .form-inline .checkbox input[type="checkbox"] {
+    float: none;
+    margin-left: 0;
+  }
+}
+/* line 342, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .form-horizontal .control-label,
+.ios .form-horizontal .radio,
+.ios .form-horizontal .checkbox,
+.ios .form-horizontal .radio-inline,
+.ios .form-horizontal .checkbox-inline {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 7px;
+}
+/* line 349, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .form-horizontal .form-group {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .form-horizontal .form-group:before, .ios .form-horizontal .form-group:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .form-horizontal .form-group:after {
+  clear: both;
+}
+/* line 353, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.ios .form-horizontal .form-control-static {
+  padding-top: 7px;
+}
+@media (min-width: 768px) {
+  /* line 359, ../bower_components/bootstrap-sass/lib/_forms.scss */
+  .ios .form-horizontal .control-label {
+    text-align: right;
+  }
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+/* line 23, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+/* line 28, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn:hover, .ios .btn:focus {
+  color: #333333;
+  text-decoration: none;
+}
+/* line 34, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn:active, .ios .btn.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+/* line 42, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn.disabled, .ios .btn[disabled], fieldset[disabled] .ios .btn {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* line 55, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-default {
+  color: #333333;
+  background-color: white;
+  border-color: #cccccc;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-default:hover, .ios .btn-default:focus, .ios .btn-default:active, .ios .btn-default.active {
+  color: #333333;
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-default.dropdown-toggle {
+  color: #333333;
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-default:active, .ios .btn-default.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-default.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-default.disabled, .ios .btn-default.disabled:hover, .ios .btn-default.disabled:focus, .ios .btn-default.disabled:active, .ios .btn-default.disabled.active, .ios .btn-default[disabled], .ios .btn-default[disabled]:hover, .ios .btn-default[disabled]:focus, .ios .btn-default[disabled]:active, .ios .btn-default[disabled].active, fieldset[disabled] .ios .btn-default, fieldset[disabled] .ios .btn-default:hover, fieldset[disabled] .ios .btn-default:focus, fieldset[disabled] .ios .btn-default:active, fieldset[disabled] .ios .btn-default.active {
+  background-color: white;
+  border-color: #cccccc;
+}
+/* line 58, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-primary {
+  color: white;
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-primary:hover, .ios .btn-primary:focus, .ios .btn-primary:active, .ios .btn-primary.active {
+  color: white;
+  background-color: #3276b1;
+  border-color: #285e8e;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-primary.dropdown-toggle {
+  color: white;
+  background-color: #3276b1;
+  border-color: #285e8e;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-primary:active, .ios .btn-primary.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-primary.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-primary.disabled, .ios .btn-primary.disabled:hover, .ios .btn-primary.disabled:focus, .ios .btn-primary.disabled:active, .ios .btn-primary.disabled.active, .ios .btn-primary[disabled], .ios .btn-primary[disabled]:hover, .ios .btn-primary[disabled]:focus, .ios .btn-primary[disabled]:active, .ios .btn-primary[disabled].active, fieldset[disabled] .ios .btn-primary, fieldset[disabled] .ios .btn-primary:hover, fieldset[disabled] .ios .btn-primary:focus, fieldset[disabled] .ios .btn-primary:active, fieldset[disabled] .ios .btn-primary.active {
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+/* line 62, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-warning {
+  color: white;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-warning:hover, .ios .btn-warning:focus, .ios .btn-warning:active, .ios .btn-warning.active {
+  color: white;
+  background-color: #ed9c28;
+  border-color: #d58512;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-warning.dropdown-toggle {
+  color: white;
+  background-color: #ed9c28;
+  border-color: #d58512;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-warning:active, .ios .btn-warning.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-warning.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-warning.disabled, .ios .btn-warning.disabled:hover, .ios .btn-warning.disabled:focus, .ios .btn-warning.disabled:active, .ios .btn-warning.disabled.active, .ios .btn-warning[disabled], .ios .btn-warning[disabled]:hover, .ios .btn-warning[disabled]:focus, .ios .btn-warning[disabled]:active, .ios .btn-warning[disabled].active, fieldset[disabled] .ios .btn-warning, fieldset[disabled] .ios .btn-warning:hover, fieldset[disabled] .ios .btn-warning:focus, fieldset[disabled] .ios .btn-warning:active, fieldset[disabled] .ios .btn-warning.active {
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+/* line 66, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-danger {
+  color: white;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-danger:hover, .ios .btn-danger:focus, .ios .btn-danger:active, .ios .btn-danger.active {
+  color: white;
+  background-color: #d2322d;
+  border-color: #ac2925;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-danger.dropdown-toggle {
+  color: white;
+  background-color: #d2322d;
+  border-color: #ac2925;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-danger:active, .ios .btn-danger.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-danger.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-danger.disabled, .ios .btn-danger.disabled:hover, .ios .btn-danger.disabled:focus, .ios .btn-danger.disabled:active, .ios .btn-danger.disabled.active, .ios .btn-danger[disabled], .ios .btn-danger[disabled]:hover, .ios .btn-danger[disabled]:focus, .ios .btn-danger[disabled]:active, .ios .btn-danger[disabled].active, fieldset[disabled] .ios .btn-danger, fieldset[disabled] .ios .btn-danger:hover, fieldset[disabled] .ios .btn-danger:focus, fieldset[disabled] .ios .btn-danger:active, fieldset[disabled] .ios .btn-danger.active {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+/* line 70, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-success {
+  color: white;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-success:hover, .ios .btn-success:focus, .ios .btn-success:active, .ios .btn-success.active {
+  color: white;
+  background-color: #47a447;
+  border-color: #398439;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-success.dropdown-toggle {
+  color: white;
+  background-color: #47a447;
+  border-color: #398439;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-success:active, .ios .btn-success.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-success.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-success.disabled, .ios .btn-success.disabled:hover, .ios .btn-success.disabled:focus, .ios .btn-success.disabled:active, .ios .btn-success.disabled.active, .ios .btn-success[disabled], .ios .btn-success[disabled]:hover, .ios .btn-success[disabled]:focus, .ios .btn-success[disabled]:active, .ios .btn-success[disabled].active, fieldset[disabled] .ios .btn-success, fieldset[disabled] .ios .btn-success:hover, fieldset[disabled] .ios .btn-success:focus, fieldset[disabled] .ios .btn-success:active, fieldset[disabled] .ios .btn-success.active {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+/* line 74, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-info {
+  color: white;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-info:hover, .ios .btn-info:focus, .ios .btn-info:active, .ios .btn-info.active {
+  color: white;
+  background-color: #39b3d7;
+  border-color: #269abc;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-info.dropdown-toggle {
+  color: white;
+  background-color: #39b3d7;
+  border-color: #269abc;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-info:active, .ios .btn-info.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .ios .btn-info.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .btn-info.disabled, .ios .btn-info.disabled:hover, .ios .btn-info.disabled:focus, .ios .btn-info.disabled:active, .ios .btn-info.disabled.active, .ios .btn-info[disabled], .ios .btn-info[disabled]:hover, .ios .btn-info[disabled]:focus, .ios .btn-info[disabled]:active, .ios .btn-info[disabled].active, fieldset[disabled] .ios .btn-info, fieldset[disabled] .ios .btn-info:hover, fieldset[disabled] .ios .btn-info:focus, fieldset[disabled] .ios .btn-info:active, fieldset[disabled] .ios .btn-info.active {
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+/* line 83, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-link {
+  color: #428bca;
+  font-weight: normal;
+  cursor: pointer;
+  border-radius: 0;
+}
+/* line 92, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-link, .ios .btn-link:active, .ios .btn-link[disabled], fieldset[disabled] .ios .btn-link {
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* line 99, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-link, .ios .btn-link:hover, .ios .btn-link:focus, .ios .btn-link:active {
+  border-color: transparent;
+}
+/* line 103, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-link:hover, .ios .btn-link:focus {
+  color: #2a6496;
+  text-decoration: underline;
+  background-color: transparent;
+}
+/* line 111, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-link[disabled]:hover, .ios .btn-link[disabled]:focus, fieldset[disabled] .ios .btn-link:hover, fieldset[disabled] .ios .btn-link:focus {
+  color: #999999;
+  text-decoration: none;
+}
+/* line 122, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-lg {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 6px;
+}
+/* line 127, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-sm,
+.ios .btn-xs {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+/* line 131, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-xs {
+  padding: 1px 5px;
+}
+/* line 139, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-block {
+  display: block;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+/* line 147, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios .btn-block + .btn-block {
+  margin-top: 5px;
+}
+/* line 155, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.ios input[type="submit"].btn-block,
+.ios input[type="reset"].btn-block,
+.ios input[type="button"].btn-block {
+  width: 100%;
+}
+/* line 6, ../bower_components/bootstrap-sass/lib/_grid.scss */
+.ios .container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .container:before, .ios .container:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .container:after {
+  clear: both;
+}
+/* line 11, ../bower_components/bootstrap-sass/lib/_grid.scss */
+.ios .row {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .row:before, .ios .row:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .row:after {
+  clear: both;
+}
+/* line 728, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-12, .ios .col-sm-12, .ios .col-md-12, .ios .col-lg-12, .ios .col-xs-11, .ios .col-sm-11, .ios .col-md-11, .ios .col-lg-11, .ios .col-xs-10, .ios .col-sm-10, .ios .col-md-10, .ios .col-lg-10, .ios .col-xs-9, .ios .col-sm-9, .ios .col-md-9, .ios .col-lg-9, .ios .col-xs-8, .ios .col-sm-8, .ios .col-md-8, .ios .col-lg-8, .ios .col-xs-7, .ios .col-sm-7, .ios .col-md-7, .ios .col-lg-7, .ios .col-xs-6, .ios .col-sm-6, .ios .col-md-6, .ios .col-lg-6, .ios .col-xs-5, .ios .col-sm-5, .ios .col-md-5, .ios .col-lg-5, .ios .col-xs-4, .ios .col-sm-4, .ios .col-md-4, .ios .col-lg-4, .ios .col-xs-3, .ios .col-sm-3, .ios .col-md-3, .ios .col-lg-3, .ios .col-xs-2, .ios .col-sm-2, .ios .col-md-2, .ios .col-lg-2, .ios .col-xs-1, .ios .col-sm-1, .ios .col-md-1, .ios .col-lg-1 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-12, .ios .col-xs-11, .ios .col-xs-10, .ios .col-xs-9, .ios .col-xs-8, .ios .col-xs-7, .ios .col-xs-6, .ios .col-xs-5, .ios .col-xs-4, .ios .col-xs-3, .ios .col-xs-2, .ios .col-xs-1 {
+  float: left;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-1 {
+  width: 8.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-2 {
+  width: 16.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-3 {
+  width: 25%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-4 {
+  width: 33.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-5 {
+  width: 41.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-6 {
+  width: 50%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-7 {
+  width: 58.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-8 {
+  width: 66.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-9 {
+  width: 75%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-10 {
+  width: 83.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-11 {
+  width: 91.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-12 {
+  width: 100%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-0 {
+  right: 0%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-1 {
+  right: 8.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-2 {
+  right: 16.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-3 {
+  right: 25%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-4 {
+  right: 33.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-5 {
+  right: 41.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-6 {
+  right: 50%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-7 {
+  right: 58.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-8 {
+  right: 66.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-9 {
+  right: 75%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-10 {
+  right: 83.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-11 {
+  right: 91.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-pull-12 {
+  right: 100%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-0 {
+  left: 0%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-1 {
+  left: 8.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-2 {
+  left: 16.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-3 {
+  left: 25%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-4 {
+  left: 33.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-5 {
+  left: 41.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-6 {
+  left: 50%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-7 {
+  left: 58.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-8 {
+  left: 66.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-9 {
+  left: 75%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-10 {
+  left: 83.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-11 {
+  left: 91.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-push-12 {
+  left: 100%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-0 {
+  margin-left: 0%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-1 {
+  margin-left: 8.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-2 {
+  margin-left: 16.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-3 {
+  margin-left: 25%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-4 {
+  margin-left: 33.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-5 {
+  margin-left: 41.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-6 {
+  margin-left: 50%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-7 {
+  margin-left: 58.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-8 {
+  margin-left: 66.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-9 {
+  margin-left: 75%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-10 {
+  margin-left: 83.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-11 {
+  margin-left: 91.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .col-xs-offset-12 {
+  margin-left: 100%;
+}
+@media (min-width: 768px) {
+  /* line 43, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .ios .container {
+    width: 750px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-12, .ios .col-sm-11, .ios .col-sm-10, .ios .col-sm-9, .ios .col-sm-8, .ios .col-sm-7, .ios .col-sm-6, .ios .col-sm-5, .ios .col-sm-4, .ios .col-sm-3, .ios .col-sm-2, .ios .col-sm-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-sm-offset-12 {
+    margin-left: 100%;
+  }
+}
+@media (min-width: 992px) {
+  /* line 63, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .ios .container {
+    width: 970px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-12, .ios .col-md-11, .ios .col-md-10, .ios .col-md-9, .ios .col-md-8, .ios .col-md-7, .ios .col-md-6, .ios .col-md-5, .ios .col-md-4, .ios .col-md-3, .ios .col-md-2, .ios .col-md-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-md-offset-12 {
+    margin-left: 100%;
+  }
+}
+@media (min-width: 1200px) {
+  /* line 83, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .ios .container {
+    width: 1170px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-12, .ios .col-lg-11, .ios .col-lg-10, .ios .col-lg-9, .ios .col-lg-8, .ios .col-lg-7, .ios .col-lg-6, .ios .col-lg-5, .ios .col-lg-4, .ios .col-lg-3, .ios .col-lg-2, .ios .col-lg-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .ios .col-lg-offset-12 {
+    margin-left: 100%;
+  }
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_component-animations.scss */
+.ios .fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
+/* line 13, ../bower_components/bootstrap-sass/lib/_component-animations.scss */
+.ios .fade.in {
+  opacity: 1;
+}
+/* line 18, ../bower_components/bootstrap-sass/lib/_component-animations.scss */
+.ios .collapse {
+  display: none;
+}
+/* line 20, ../bower_components/bootstrap-sass/lib/_component-animations.scss */
+.ios .collapse.in {
+  display: block;
+}
+/* line 24, ../bower_components/bootstrap-sass/lib/_component-animations.scss */
+.ios .collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 0.35s ease;
+  transition: height 0.35s ease;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .clearfix:before, .ios .clearfix:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.ios .clearfix:after {
+  clear: both;
+}
+/* line 12, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.ios .center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* line 15, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.ios .pull-right {
+  float: right !important;
+}
+/* line 18, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.ios .pull-left {
+  float: left !important;
+}
+/* line 27, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.ios .hide {
+  display: none !important;
+}
+/* line 30, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.ios .show {
+  display: block !important;
+}
+/* line 33, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.ios .invisible {
+  visibility: hidden;
+}
+/* line 36, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.ios .text-hide {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+/* line 45, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.ios .hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+/* line 54, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.ios .affix {
+  position: fixed;
+}
+/* line 4, ../resources/sass/themes/_extends.scss */
+.ios .ellipsis, .ios .form, .ios .selection, .ios .radiolistview label, .ios .checkboxlistview label, .ios .textfieldview input, .ios .textfieldview .input-icon-addon, .ios .button div, .ios .textfieldview .input-icon-addon input {
+  white-space: nowrap !important;
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -2562,15 +6075,14 @@
   font-size: 1.6rem;
   line-height: 2.2rem;
   border-radius: 4px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding: 6px;
   outline: none;
 }
-/* line 24, ../resources/sass/themes/_extends.scss */
+/* line 23, ../resources/sass/themes/_extends.scss */
 .ios .selection, .ios .radiolistview label, .ios .checkboxlistview label {
   border: none;
 }
-/* line 29, ../resources/sass/themes/_extends.scss */
+/* line 28, ../resources/sass/themes/_extends.scss */
 .ios .fullscreen, .ios .m-page, .ios .header, .ios .switch-header-content-layout .content-wrapper {
   position: absolute;
   left: 0;
@@ -2580,35 +6092,38 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
-/* line 39, ../resources/sass/themes/_extends.scss */
+/* line 38, ../resources/sass/themes/_extends.scss */
 .ios .input, .ios .checkboxlistview input[type="checkbox"] {
   outline: none;
 }
-/* line 43, ../resources/sass/themes/_extends.scss */
-.ios .margin1010, .ios .button, .ios .listview, .ios .selection-list, .ios .buttongroupview, .ios .radiolistview, .ios .checkboxlistview, .ios .toggleswitchview, .ios .textview {
-  margin-top: 10px;
-  margin-bottom: 10px;
+/* line 42, ../resources/sass/themes/_extends.scss */
+.ios .margin0010, .ios .button, .ios .listview, .ios .selection-list, .ios .buttongroupview, .ios .radiolistview, .ios .checkboxlistview, .ios .toggleswitchview, .ios .textview {
+  margin-bottom: 20px;
 }
-/* line 48, ../resources/sass/themes/_extends.scss */
+/* line 46, ../resources/sass/themes/_extends.scss */
+.ios .margin1000 {
+  margin-top: 10px;
+}
+/* line 50, ../resources/sass/themes/_extends.scss */
 .ios .header-center, .ios .toolbarview .center {
   font-size: 1.6rem;
   color: white;
   text-align: center;
   padding: 13px 0 0 0;
 }
-/* line 55, ../resources/sass/themes/_extends.scss */
+/* line 57, ../resources/sass/themes/_extends.scss */
 .ios .header-first, .ios .switch-header-content-layout .first, .ios .toolbarview .first {
   position: absolute;
   left: 10px;
   top: 3px;
 }
-/* line 61, ../resources/sass/themes/_extends.scss */
+/* line 63, ../resources/sass/themes/_extends.scss */
 .ios .header-second, .ios .switch-header-content-layout .second, .ios .toolbarview .second {
   position: absolute;
   right: 10px;
   top: 3px;
 }
-/* line 67, ../resources/sass/themes/_extends.scss */
+/* line 69, ../resources/sass/themes/_extends.scss */
 .ios .stencil, .ios .textview.stencil i, .ios .textview.stencil div div {
   color: transparent;
   text-shadow: rgba(255, 255, 255, 0.5) 0px 3px 3px;
@@ -2656,6 +6171,11 @@
 /* line 38, ../resources/sass/themes/default/_base.scss */
 .ios .col-xs-1, .ios .col-sm-1, .ios .col-md-1, .ios .col-lg-1, .ios .col-xs-2, .ios .col-sm-2, .ios .col-md-2, .ios .col-lg-2, .ios .col-xs-3, .ios .col-sm-3, .ios .col-md-3, .ios .col-lg-3, .ios .col-xs-4, .ios .col-sm-4, .ios .col-md-4, .ios .col-lg-4, .ios .col-xs-5, .ios .col-sm-5, .ios .col-md-5, .ios .col-lg-5, .ios .col-xs-6, .ios .col-sm-6, .ios .col-md-6, .ios .col-lg-6, .ios .col-xs-7, .ios .col-sm-7, .ios .col-md-7, .ios .col-lg-7, .ios .col-xs-8, .ios .col-sm-8, .ios .col-md-8, .ios .col-lg-8, .ios .col-xs-9, .ios .col-sm-9, .ios .col-md-9, .ios .col-lg-9, .ios .col-xs-10, .ios .col-sm-10, .ios .col-md-10, .ios .col-lg-10, .ios .col-xs-11, .ios .col-sm-11, .ios .col-md-11, .ios .col-lg-11, .ios .col-xs-12, .ios .col-sm-12, .ios .col-md-12, .ios .col-lg-12 {
   overflow: hidden;
+}
+/* line 42, ../resources/sass/themes/default/_base.scss */
+.ios .view div[data-binding="_value_"]:first-child {
+  padding-left: 15px;
+  padding-bottom: 5px;
 }
 /* line 5, ../resources/sass/layouts/_switch-animations.scss */
 .ios .m-page-moveToLeft {
@@ -3694,7 +7214,7 @@
 }
 /* line 3, ../resources/sass/layouts/_tab-layout.scss */
 .ios .tablayout .tab-menu {
-  height: 80px;
+  height: 50px;
   background: #f2f2f2;
 }
 /* line 8, ../resources/sass/layouts/_tab-layout.scss */
@@ -3703,7 +7223,7 @@
 }
 /* line 12, ../resources/sass/layouts/_tab-layout.scss */
 .ios .tablayout .tab-menu .buttongroupview .button {
-  height: 80px;
+  height: 50px;
   padding: 13px 0 0 0;
   margin: 0;
 }
@@ -3731,7 +7251,7 @@
 }
 /* line 49, ../resources/sass/layouts/_tab-layout.scss */
 .ios .m-tab {
-  top: 80px;
+  top: 50px;
 }
 /* line 54, ../resources/sass/layouts/_tab-layout.scss */
 .ios .tablayout.scrolling .tab-menu {
@@ -3760,7 +7280,7 @@
 }
 /* line 18, ../resources/sass/layouts/_switch-header-content-layout.scss */
 .ios .switch-header-content-layout .content-wrapper {
-  top: 80px;
+  top: 50px;
   background: white;
 }
 /* line 6, ../resources/sass/themes/default/_elements.scss */
@@ -3854,9 +7374,14 @@
 .ios .toolbarview .button {
   margin-top: 0;
 }
+/* line 1, ../resources/sass/themes/default/_button.scss */
+.ios .buttonview {
+  min-width: 67px;
+}
 /* line 5, ../resources/sass/themes/default/_button.scss */
 .ios .button {
-  padding: 10px 20px;
+  position: relative;
+  padding: 10px 10px 10px 10px;
   font-weight: normal;
   text-align: center;
   white-space: nowrap;
@@ -3872,136 +7397,167 @@
   -o-user-select: none;
   user-select: none;
 }
-/* line 23, ../resources/sass/themes/default/_button.scss */
+/* line 24, ../resources/sass/themes/default/_button.scss */
 .ios .button div {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: inline-block;
+  width: 100%;
 }
-/* line 32, ../resources/sass/themes/default/_button.scss */
+/* line 37, ../resources/sass/themes/default/_button.scss */
+.ios .has-icon .right i, .ios .has-icon.right i {
+  right: 5px;
+  left: auto;
+}
+/* line 43, ../resources/sass/themes/default/_button.scss */
+.ios .has-icon .left i, .ios .has-icon.left i {
+  left: 5px;
+  right: auto;
+}
+/* line 48, ../resources/sass/themes/default/_button.scss */
+.ios .has-icon i {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+}
+/* line 55, ../resources/sass/themes/default/_button.scss */
+.ios .has-icon .right .button div, .ios .has-icon.right .button div {
+  padding-right: 10px;
+}
+/* line 61, ../resources/sass/themes/default/_button.scss */
+.ios .has-icon .button div,
+.ios .has-icon .left .button div, .ios .has-icon.left .button div {
+  padding-left: 10px;
+}
+/* line 68, ../resources/sass/themes/default/_button.scss */
+.ios .is-icon-only .button div {
+  display: none;
+}
+/* line 76, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.active.useelement,
 .ios .buttonview.active .button,
 .ios .button.active {
   background-color: #d5d5d5;
   color: #007aff;
 }
-/* line 37, ../resources/sass/themes/default/_button.scss */
+/* line 81, ../resources/sass/themes/default/_button.scss */
 .ios *[class*='col-'] .button {
   width: 100%;
 }
-/* line 41, ../resources/sass/themes/default/_button.scss */
+/* line 85, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.disabled .button {
   background: #d5d5d5;
   border-color: #d5d5d5;
   color: #c3c3c3;
   cursor: default;
 }
-/* line 52, ../resources/sass/themes/default/_button.scss */
+/* line 96, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-primary .button {
   border-color: #6c64ff;
   color: #6c64ff;
   background: white;
 }
-/* line 58, ../resources/sass/themes/default/_button.scss */
+/* line 102, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-primary.active .button {
   border-color: #6c64ff;
   color: white;
   background: #6c64ff;
 }
-/* line 64, ../resources/sass/themes/default/_button.scss */
+/* line 108, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-primary.disabled .button {
   border-color: #e5e3ff;
   color: #e5e3ff;
   background: white;
 }
-/* line 73, ../resources/sass/themes/default/_button.scss */
+/* line 117, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-success .button {
   border-color: #2dcca2;
   color: #2dcca2;
   background: white;
 }
-/* line 79, ../resources/sass/themes/default/_button.scss */
+/* line 123, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-success.active .button {
   border-color: #2dcca2;
   color: white;
   background: #2dcca2;
 }
-/* line 85, ../resources/sass/themes/default/_button.scss */
+/* line 129, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-success.disabled .button {
   border-color: #92e7d0;
   color: #92e7d0;
   background: white;
 }
-/* line 93, ../resources/sass/themes/default/_button.scss */
+/* line 137, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-error .button {
   border-color: #ed253d;
   color: #ed253d;
   background: white;
 }
-/* line 99, ../resources/sass/themes/default/_button.scss */
+/* line 143, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-error.active .button {
   border-color: #ed253d;
   color: white;
   background: #ed253d;
 }
-/* line 105, ../resources/sass/themes/default/_button.scss */
+/* line 149, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-error.disabled .button {
   border-color: #f79ba6;
   color: #f79ba6;
   background: white;
 }
-/* line 113, ../resources/sass/themes/default/_button.scss */
+/* line 157, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-warning .button {
   border-color: #f45b42;
   color: #f45b42;
   background: white;
 }
-/* line 119, ../resources/sass/themes/default/_button.scss */
+/* line 163, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-warning.active .button {
   border-color: #f45b42;
   color: white;
   background: #f45b42;
 }
-/* line 125, ../resources/sass/themes/default/_button.scss */
+/* line 169, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-warning.disabled .button {
   border-color: #fbc4ba;
   color: #fbc4ba;
   background: white;
 }
-/* line 133, ../resources/sass/themes/default/_button.scss */
+/* line 177, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-info .button {
   border-color: #eab13a;
   color: #eab13a;
   background: white;
 }
-/* line 139, ../resources/sass/themes/default/_button.scss */
+/* line 183, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-info.active .button {
   border-color: #eab13a;
   color: white;
   background: #eab13a;
 }
-/* line 145, ../resources/sass/themes/default/_button.scss */
+/* line 189, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-info.disabled .button {
   border-color: #f6dfad;
   color: #f6dfad;
   background: white;
 }
-/* line 153, ../resources/sass/themes/default/_button.scss */
+/* line 197, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-fuzzy .button {
   border-color: #c3c3c3;
   color: #c3c3c3;
   background: white;
 }
-/* line 159, ../resources/sass/themes/default/_button.scss */
+/* line 203, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-fuzzy.active .button {
   border-color: #c3c3c3;
   color: white;
   background: #c3c3c3;
 }
-/* line 165, ../resources/sass/themes/default/_button.scss */
+/* line 209, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview.m-fuzzy.disabled .button {
-  border-color: white;
-  color: white;
+  border-color: #d0d0d0;
+  color: #d0d0d0;
   background: white;
 }
 /* line 4, ../resources/sass/themes/default/_list.scss */
@@ -4611,7 +8167,7 @@
 }
 /* line 26, ../resources/sass/themes/ios/_radiolist.scss */
 .ios .radiolistview input + i {
-  font-size: 2.4rem;
+  font-size: 3.04rem;
   margin-right: 10px;
 }
 /* line 31, ../resources/sass/themes/ios/_radiolist.scss */
@@ -4623,8 +8179,8 @@
   width: 4px;
   border-radius: 50%;
   position: absolute;
-  left: 1rem;
-  top: 1.6rem;
+  left: 1.6rem;
+  top: 2rem;
 }
 /* line 42, ../resources/sass/themes/ios/_radiolist.scss */
 .ios .radiolistview input[type="radio"]:checked + i:before {
@@ -4657,7 +8213,7 @@
 /* line 3, ../resources/sass/themes/ios/_tab-layout.scss */
 .ios .tablayout .m-tab {
   top: 0;
-  bottom: 80px;
+  bottom: 50px;
   height: auto;
 }
 /* line 9, ../resources/sass/themes/ios/_tab-layout.scss */
@@ -4665,11 +8221,11 @@
   bottom: 0;
   position: absolute;
   width: 100%;
-  height: 80px;
+  height: 50px;
 }
 /* line 18, ../resources/sass/themes/ios/_tab-layout.scss */
 .ios .tablayout .tab-menu .buttongroupview .button {
-  height: 80px;
+  height: 50px;
   padding: 13px 0 0 0;
   border: none;
 }

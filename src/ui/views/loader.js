@@ -48,6 +48,7 @@ M.LoaderView = M.ModalView.extend({
      * @returns {LoaderView}
      */
     show: function( text ) {
+        text = text || '';
         M.ModalView.prototype.show.apply(this, arguments);
         this.$el.find('.m-loaderview-inner-message').html(text);
         return this;

@@ -1,6 +1,6 @@
 .radiolistview {
 
-  @extend .margin1010;
+  @extend .margin0010;
   border-top: $form-element-border;
   border-bottom: $form-element-border;
 
@@ -24,7 +24,7 @@
   }
 
   input + i{
-    font-size: $m-primary-font-size * 1.5;
+    font-size: $m-primary-font-size * 1.9;
     margin-right: 10px;
   }
 
@@ -36,8 +36,8 @@
     width: 4px;
     border-radius: 50%;
     position: absolute;
-    left: $m-primary-font-size / 1.6;
-    top: $m-primary-font-size;
+    left: $m-primary-font-size;
+    top: $m-primary-font-size * 1.25;
   }
   input[type="radio"]:checked + i:before {
     content: ' ';

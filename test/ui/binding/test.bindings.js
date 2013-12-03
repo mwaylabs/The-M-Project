@@ -78,10 +78,10 @@ describe('M.View Bindings', function() {
     };
 
     var checkPropertiesAfter = function( app ) {
-        assert.isTrue(app.childViews.stickitA.model.get('a') === TEST_ATTRIBUTE_1);
-        assert.isTrue(app.childViews.stickitA.model.get('b') === TEST_ATTRIBUTE_2);
-        assert.isTrue(app.childViews.stickitB.model.get('a') === TEST_ATTRIBUTE_1);
-        assert.isTrue(app.childViews.stickitB.model.get('b') === TEST_ATTRIBUTE_2);
+        assert.isTrue(app.childViews.stickitA.model.get('a') === TEST_ATTRIBUTE_3);
+        assert.isTrue(app.childViews.stickitA.model.get('b') === TEST_ATTRIBUTE_4);
+        assert.isTrue(app.childViews.stickitB.model.get('a') === TEST_ATTRIBUTE_3);
+        assert.isTrue(app.childViews.stickitB.model.get('b') === TEST_ATTRIBUTE_4);
 
         assert.isTrue(app.childViews.contentBinding1.model.get('a') === TEST_ATTRIBUTE_3);
         assert.isTrue(app.childViews.contentBinding1.model.get('b') === TEST_ATTRIBUTE_4);
@@ -319,5 +319,4 @@ describe('M.View Bindings', function() {
         jInput.trigger('change');
         assert.isTrue(app.model.get('a') === TEST_ATTRIBUTE_3);
     });
-
 });

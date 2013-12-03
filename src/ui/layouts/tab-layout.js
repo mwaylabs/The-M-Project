@@ -31,8 +31,8 @@ M.TabLayout = M.Layout.extend({
         this.$el.addClass(this.scrolling ? 'scrolling' : '');
         this.$scrollContainer = this.$el.find('[data-childviews=tab-menu]');
         if(this.scrolling){
-            var width = parseInt(M.ThemeVars.get('tablayout-menu-scroll-button-width'), 10) * Object.keys(this._tabMenu.childViews).length;
-            this.$scrollContainer.children('.buttongroupview').css('width', width + 'px');
+            var width = parseInt(M.ThemeVars.get('tablayout-menu-scroll-button-width', M.Environment.device.os), 10) * Object.keys(this._tabMenu.childViews).length;
+            this.$scrollContainer.children('.tabbarbuttongroupview').css('width', width + 'px');
         }
 
     },
@@ -106,7 +106,6 @@ M.TabLayout = M.Layout.extend({
             icon: options.icon,
             events: {
                 tap: function( event, element ) {
-                    console.log(that.cid);
                     that.switchToTab(element.index);
                 }
             }
@@ -118,11 +117,9 @@ M.TabLayout = M.Layout.extend({
         return options.content.extend({
             events: {
                 dragleft: function( event, element ) {
-                    console.log(that.cid);
                     that.switchToTab(options.index + 1);
                 },
                 dragright: function( event, element ) {
-                    console.log(that.cid);
                     that.switchToTab(options.index - 1);
                 }
             }

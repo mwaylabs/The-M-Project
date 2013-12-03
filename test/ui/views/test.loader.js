@@ -269,4 +269,31 @@ describe('M.LoaderView', function () {
         assert.lengthOf($('.loaderview'), 0);
     });
 
+    it('static show with text and without', function(){
+        var loader = M.Loader;
+
+        var TEXT1 = 'abc';
+        //is the text inside of the loader
+        assert.isDefined(loader);
+        assert.equal(loader._shownCounter, 0);
+        assert.lengthOf($('.loaderview'), 0);
+        loader.show(TEXT1);
+        assert.equal(loader._shownCounter, 1);
+        assert.lengthOf($('.loaderview'), 1);
+        assert.lengthOf($('.m-loaderview-inner-message'), 1);
+        assert.equal($('.m-loaderview-inner-message').html(), TEXT1);
+        loader.hide();
+        loader.show();
+        assert.equal(loader._shownCounter, 1);
+        assert.lengthOf($('.loaderview'), 1);
+        assert.lengthOf($('.m-loaderview-inner-message'), 1);
+        assert.equal($('.m-loaderview-inner-message').html(), '');
+        loader.hide();
+
+        loader = null;
+        TEXT1 = null;
+    });
+
+
+
 });

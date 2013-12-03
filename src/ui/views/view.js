@@ -149,6 +149,26 @@
          */
         _hammertime: null,
 
+
+        /**
+         * Use this property to access a model from the given scope. The scope needs to be a M.Controller if you want to use a nested scopeKey
+         *
+         *  @type: {String}
+         *  @example
+         *
+         *  var scope = M.Controller.extend({
+         *      person: M.Model.create({
+         *          favorite: ON
+         *      })
+         *   }).create();
+         *
+         * var toggleSwitch = M.ToggleSwitchView.extend({
+         *   scopeKey: 'person.favorite',
+         * }).create(scope, null, true).render();
+         *
+         */
+        scopeKey: null,
+
         /**
          * Store the given events inside this attribute. The events object is set to null to prefent backbone of setting events. To not loose the information it gets stored.
          */
@@ -245,7 +265,7 @@
 
         _assignValue: function( options ) {
             //don't write _value_ in the view definition - write value and here it gets assigned
-            if( this.value || (typeof this.value !== 'undefined' && this.value !== null)) {
+            if( this.value || (typeof this.value !== 'undefined' && this.value !== null) ) {
                 this._setValue(this.value);
             } else if( this.scopeKey ) {
                 this._setValue(this.getPropertyValue(this.scopeKey, this.scope));
@@ -288,15 +308,12 @@
                     that._setModel(model);
                     that.render();
                 });
+            } else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
+                this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
+                    that._setModel(model);
+                    that.render();
+                });
             }
-
-            // TODO check if needed
-            //            else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
-            //
-            //                this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
-            //                    //                    that._value_.model.set(that._value_.attribute, model.get(that._value_.attribute));
-            //                });
-            //            }
             return this;
         },
 
@@ -406,7 +423,7 @@
                     this._hammertime = new Hammer(that.el, that._getEventOptions());
 
                     this._eventCallback[eventName] = function( event ) {
-                        if(that._hammertime.enabled === NO){
+                        if( that._hammertime.enabled === NO ) {
                             return;
                         }
                         var args = Array.prototype.slice.call(arguments);
@@ -443,7 +460,7 @@
          *
          * @returns {Boolean} if events are active or not
          */
-        isEnabled: function(){
+        isEnabled: function() {
             return this._hammertime.enabled;
         },
 
@@ -764,7 +781,7 @@
         _getInternationalizedTemplateValue: function( text ) {
             if( M.isI18NItem(text) ) {
                 return M.I18N.l(text.key, text.placeholder);
-            } else if(text){
+            } else if( text ) {
                 return text;
             } else {
                 return '';
@@ -794,7 +811,8 @@
      */
     M.View.create = function( scope, childViews, isScope ) {
 
-        var _scope = isScope ? {scope: scope} : scope;
+        var _scope = isScope || M.isController(scope) ? {scope: scope} : scope;
+
         var f = new this(_scope);
         f.childViews = {};
         if( f._childViews ) {

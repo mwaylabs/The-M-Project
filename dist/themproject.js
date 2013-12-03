@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Fri Nov 29 2013 17:01:21
+* Date:      Tue Dec 03 2013 08:50:51
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -7041,12 +7041,16 @@
             "grid-columns": "12",
             "grid-gutter-width": "30px",
             "lightenPercentage": "15%",
+            "lightenPercentageLight": "5%",
             "m-button-border-width": "1px",
             "m-button-border-color": "#1092d3",
             "m-button-text-color": "#1092d3",
             "m-button-border-radius": "4px",
             "m-button-border-style": "solid",
-            "m-button-padding": "10px 20px",
+            "m-button-padding-bottom": "6px",
+            "m-button-padding-top": "10px",
+            "m-button-padding-left-right": "10px",
+            "m-button-padding": "10px 10px 6px 10px",
             "m-button-primary-border-color": "#6c64ff",
             "m-button-primary-text-color": "#6c64ff",
             "m-button-primary-background-color": "#FFFFFF",
@@ -7086,6 +7090,7 @@
             "tablayout-menu-button-padding": "13px 0 0 0",
             "tablayout-menu-scroll-button-width": "200px",
             "switch-header-content-padding": "4px 0 0 0",
+            "header-top": "3px",
             "m-primary-font-family": "\"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
             "m-primary-font-weight": "300",
             "m-primary-font-size": "1.6rem",
@@ -7093,7 +7098,7 @@
             "m-primary-line-height": "2.2rem",
             "m-primary-font-color": "#000000",
             "m-primary-margin-top": "10px",
-            "m-primary-margin-bottom": "10px",
+            "m-primary-margin-bottom": "20px",
             "modal-backdrop-background-color": "#000000",
             "content-padding": "15px",
             "m-primary-disabled-color": "#d5d5d5",
@@ -7101,7 +7106,7 @@
             "selection-color": "#c3c3c3",
             "selection-checked-color": "#1092d3",
             "m-list-item-color": "#2dcca2",
-            "m-stencil-text-shadow": "rgba(255,255,255,0.5) 0px 3px 3px"
+            "m-stencil-text-shadow": "rgba(255, 255, 255, 0.5) 0px 3px 3px"
         },
         "android_dark": {
             "m-primary-color": "#669900",
@@ -7125,9 +7130,11 @@
             "lightenPercentage": "25%",
             "m-primary-active-color": "$lightgrey",
             "m-primary-active-text-color": "#007AFF",
-            "tablayout-menu-height": "80px",
+            "tablayout-menu-height": "50px",
             "tablayout-menu-scroll-button-width": "140px",
-            "selection-checked-color": "#59C8FA"
+            "selection-checked-color": "#59C8FA",
+            "m-button-padding-bottom": "10px",
+            "m-button-padding": "$m-button-padding-top $m-button-padding-left-right 10px $m-button-padding-left-right-top $m-button-padding-top $m-button-padding-left-right 10px $m-button-padding-left-right-left-right 10px $m-button-padding-top $m-button-padding-left-right 10px $m-button-padding-left-right-left-right"
         }
     },
         get: function (name, theme) {
@@ -7177,7 +7184,7 @@
     
         //TODO implement label for=""
         'M.TextfieldView': {
-            defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><% if(icon) {  %><div class="input-icon-addon"><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value_ %>"><% if(icon) {  %></div><% } %><% if(label) {  %></label><% } %></div>'
+            defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><div class="input<% if(icon) {  %>-icon-addon<% } %>"><% if(icon) {  %><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value_ %>"></div><% if(label) {  %></label><% } %></div>'
         },
         'M.TextareaView': {
             defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><textarea><%= _value_ %></textarea><% if(label) {  %></label><% } %></div>'
@@ -7252,7 +7259,7 @@
         },
     
         'M.RadioOptionView': {
-            defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value_ %>"><i class="fa"></i><%= label %></label>'
+            defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value_ %>"><i class="needsclick fa"></i><%= label %></label>'
         },
     
         'M.CheckboxlistView': {
@@ -7260,11 +7267,11 @@
         },
     
         'M.CheckboxOptionView': {
-            defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value_ %>"><i class="fa"></i> <%= label %></label>'
+            defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value_ %>"><i class="needsclick fa"></i> <%= label %></label>'
         },
     
         'M.ToggleSwitchView': {
-            defaultTemplate: '<div><label><% if(label){%> <span class="label-descr"> <%= label %> <% }%> </span> <div class="toggleswitch"><input value="<%= _value_ %>" type="checkbox"><span class="switch-labels" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
+            defaultTemplate: '<div><label><% if(label){%> <span class="needsclick label-descr"> <%= label %> <% }%> </span> <div class="needsclick toggleswitch"><input value="<%= _value_ %>" type="checkbox"><span class="needsclick switch-labels" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
         },
     
         'M.ModalView': {
@@ -7640,6 +7647,26 @@
              */
             _hammertime: null,
     
+    
+            /**
+             * Use this property to access a model from the given scope. The scope needs to be a M.Controller if you want to use a nested scopeKey
+             *
+             *  @type: {String}
+             *  @example
+             *
+             *  var scope = M.Controller.extend({
+             *      person: M.Model.create({
+             *          favorite: ON
+             *      })
+             *   }).create();
+             *
+             * var toggleSwitch = M.ToggleSwitchView.extend({
+             *   scopeKey: 'person.favorite',
+             * }).create(scope, null, true).render();
+             *
+             */
+            scopeKey: null,
+    
             /**
              * Store the given events inside this attribute. The events object is set to null to prefent backbone of setting events. To not loose the information it gets stored.
              */
@@ -7736,7 +7763,7 @@
     
             _assignValue: function( options ) {
                 //don't write _value_ in the view definition - write value and here it gets assigned
-                if( this.value || (typeof this.value !== 'undefined' && this.value !== null)) {
+                if( this.value || (typeof this.value !== 'undefined' && this.value !== null) ) {
                     this._setValue(this.value);
                 } else if( this.scopeKey ) {
                     this._setValue(this.getPropertyValue(this.scopeKey, this.scope));
@@ -7780,14 +7807,12 @@
                         that.render();
                     });
                 }
-    
-                // TODO check if needed
-                //            else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
-                //
-                //                this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
-                //                    //                    that._value_.model.set(that._value_.attribute, model.get(that._value_.attribute));
-                //                });
-                //            }
+                else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
+                    this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
+                        that._setModel(model);
+                        that.render();
+                    });
+                }
                 return this;
             },
     
@@ -7897,7 +7922,7 @@
                         this._hammertime = new Hammer(that.el, that._getEventOptions());
     
                         this._eventCallback[eventName] = function( event ) {
-                            if(that._hammertime.enabled === NO){
+                            if( that._hammertime.enabled === NO ) {
                                 return;
                             }
                             var args = Array.prototype.slice.call(arguments);
@@ -7934,7 +7959,7 @@
              *
              * @returns {Boolean} if events are active or not
              */
-            isEnabled: function(){
+            isEnabled: function() {
                 return this._hammertime.enabled;
             },
     
@@ -8255,7 +8280,7 @@
             _getInternationalizedTemplateValue: function( text ) {
                 if( M.isI18NItem(text) ) {
                     return M.I18N.l(text.key, text.placeholder);
-                } else if(text){
+                } else if( text ) {
                     return text;
                 } else {
                     return '';
@@ -8840,7 +8865,6 @@
         BASIC: 2,
         ICON: 3
     };
-    
     /**
      * M.ButtonView inherits from M.View
      * @module M.ButtonView
@@ -8874,30 +8898,39 @@
          */
         enabled: YES,
     
-        _assignTemplateValues: function(){
+        _assignTemplateValues: function() {
             M.View.prototype._assignTemplateValues.apply(this, arguments);
             this._templateValues.icon = this.icon ? this.icon : '';
         },
     
-        isActive: function () {
+        _addClassNames: function() {
+            M.View.prototype._addClassNames.apply(this, arguments);
+            var value = this._getValue();
+            if(value !== '' && this.icon && this.icon !== ''){
+                this.$el.addClass('has-icon');
+            } else if(value === '' && this.icon && this.icon !== ''){
+                this.$el.addClass('is-icon-only');
+            }
+        },
+    
+        isActive: function() {
             return this._isActive();
         },
     
-        activate: function () {
-    
+        activate: function() {
             this._isAcitve = YES;
             this.$el.addClass('active');
     
         },
     
-        deactivate: function () {
+        deactivate: function() {
             this._isAcitve = NO;
             this.$el.removeClass('active');
         },
     
-        _postRender: function(){
+        _postRender: function() {
             M.View.prototype._postRender.apply(this, arguments);
-            if(this.enabled === NO && this.disable){
+            if( this.enabled === NO && this.disable ) {
                 this.disable();
             }
         }
@@ -9260,10 +9293,8 @@
             M.View.prototype.initialize.apply(this, arguments);
             var that = this;
             if (this._childViews) {
-                var gridSize = M.CONST.GRID.COLUMNS / Object.keys(this._childViews).length;
                 _.each(this._childViews, function (child, key) {
                     this._childViews[key] = child.extend({
-                        grid: 'col-xs-' + gridSize,
                         _internalEvents: {
                             tap: [function (events, element) {
                                 that.setActive(element);
@@ -9278,6 +9309,35 @@
         _addClassNames: function(){
             M.View.prototype._addClassNames.apply(this, arguments);
         }
+    });
+    
+    /**
+     * @module M.ButtonGroupView
+     * @type {*}
+     * @extends M.View
+     */
+    M.TabbarButtonGroupView = M.ButtonGroupView.extend({
+    
+        _type: 'M.TabbarButtonGroupView',
+    
+        initialize: function () {
+            M.View.prototype.initialize.apply(this, arguments);
+            var that = this;
+            if (this._childViews) {
+                var gridSize = M.CONST.GRID.COLUMNS / Object.keys(this._childViews).length;
+                _.each(this._childViews, function (child, key) {
+                    this._childViews[key] = child.extend({
+                        grid: 'col-xs-' + gridSize,
+                        _internalEvents: {
+                            tap: [function (events, element) {
+                                that.setActive(element);
+                            }]
+                        }
+                    });
+                }, this);
+            }
+    
+        },
     });
     
     /**
@@ -9857,6 +9917,7 @@
          * @returns {LoaderView}
          */
         show: function( text ) {
+            text = text || '';
             M.ModalView.prototype.show.apply(this, arguments);
             this.$el.find('.m-loaderview-inner-message').html(text);
             return this;
@@ -10339,7 +10400,7 @@
         switchToTabCallback: null,
     
         initialize: function() {
-            this._tabMenu = M.ButtonGroupView.extend({}, {}).create(this, null, YES);
+            this._tabMenu = M.TabbarButtonGroupView.extend({}, {}).create(this, null, YES);
         },
     
         _render: function() {

@@ -3,7 +3,7 @@
 }
 
 .button {
-  @extend .margin1010;
+  @extend .margin0010;
   position: relative;
   padding: $m-button-padding;
   font-weight: normal;
@@ -207,9 +207,9 @@
     }
 
     &.disabled .button {
-      border-color: lighten($m-button-fuzzy-border-color, $lightenPercentage);
-      color: lighten($m-button-fuzzy-text-color, $lightenPercentage);
-      background: lighten($m-button-fuzzy-background-color, $lightenPercentage);
+      border-color: lighten($m-button-fuzzy-border-color, $lightenPercentageLight);
+      color: lighten($m-button-fuzzy-text-color, $lightenPercentageLight);
+      background: lighten($m-button-fuzzy-background-color, $lightenPercentageLight);
     }
   }
 
