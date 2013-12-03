@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Dec 03 2013 08:50:51
+* Date:      Tue Dec 03 2013 16:50:35
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -6314,7 +6314,9 @@
   outline: none;
 }
 /* line 42, ../resources/sass/themes/_extends.scss */
-.android .margin0010, .android .button, .android .listview, .android .selection-list, .android .buttongroupview, .android .radiolistview, .android .checkboxlistview, .android .toggleswitchview, .android .textview, .android-light .margin0010, .android-light .button, .android-light .listview, .android-light .selection-list, .android-light .buttongroupview, .android-light .radiolistview, .android-light .checkboxlistview, .android-light .toggleswitchview, .android-light .textview {
+.android .margin0010, .android .button, .android .listview, .android .selection-list, .android .tabbarbuttongroupview,
+.android .buttongroupview, .android .radiolistview, .android .checkboxlistview, .android .toggleswitchview, .android .textview, .android-light .margin0010, .android-light .button, .android-light .listview, .android-light .selection-list, .android-light .tabbarbuttongroupview,
+.android-light .buttongroupview, .android-light .radiolistview, .android-light .checkboxlistview, .android-light .toggleswitchview, .android-light .textview {
   margin-bottom: 20px;
 }
 /* line 46, ../resources/sass/themes/_extends.scss */
@@ -6390,7 +6392,7 @@
   overflow: hidden;
 }
 /* line 42, ../resources/sass/themes/default/_base.scss */
-.android .view div[data-binding="_value_"]:first-child, .android-light .view div[data-binding="_value_"]:first-child {
+.android .view > div[data-binding="_value_"]:first-child, .android-light .view > div[data-binding="_value_"]:first-child {
   padding-left: 15px;
   padding-bottom: 5px;
 }
@@ -7443,55 +7445,55 @@
   background: #f2f2f2;
 }
 /* line 8, ../resources/sass/layouts/_tab-layout.scss */
-.android .tablayout .tab-menu .buttongroupview, .android-light .tablayout .tab-menu .buttongroupview {
+.android .tablayout .tab-menu .tabbarbuttongroupview, .android-light .tablayout .tab-menu .tabbarbuttongroupview {
   margin: 0;
 }
 /* line 12, ../resources/sass/layouts/_tab-layout.scss */
-.android .tablayout .tab-menu .buttongroupview .button, .android-light .tablayout .tab-menu .buttongroupview .button {
+.android .tablayout .tab-menu .tabbarbuttongroupview .button, .android-light .tablayout .tab-menu .tabbarbuttongroupview .button {
   height: 50px;
   padding: 13px 0 0 0;
   margin: 0;
 }
 /* line 18, ../resources/sass/layouts/_tab-layout.scss */
-.android .tablayout .tab-menu .buttongroupview .button i, .android-light .tablayout .tab-menu .buttongroupview .button i {
+.android .tablayout .tab-menu .tabbarbuttongroupview .button i, .android-light .tablayout .tab-menu .tabbarbuttongroupview .button i {
   display: none;
 }
-/* line 24, ../resources/sass/layouts/_tab-layout.scss */
-.android .tablayout .tab-menu .buttongroupview .buttonview:first-child, .android-light .tablayout .tab-menu .buttongroupview .buttonview:first-child {
+/* line 25, ../resources/sass/layouts/_tab-layout.scss */
+.android .tablayout .tab-menu .tabbarbuttongroupview .buttonview:first-child, .android-light .tablayout .tab-menu .tabbarbuttongroupview .buttonview:first-child {
   padding-left: 0;
 }
-/* line 27, ../resources/sass/layouts/_tab-layout.scss */
-.android .tablayout .tab-menu .buttongroupview .buttonview:first-child .button, .android-light .tablayout .tab-menu .buttongroupview .buttonview:first-child .button {
+/* line 28, ../resources/sass/layouts/_tab-layout.scss */
+.android .tablayout .tab-menu .tabbarbuttongroupview .buttonview:first-child .button, .android-light .tablayout .tab-menu .tabbarbuttongroupview .buttonview:first-child .button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-/* line 33, ../resources/sass/layouts/_tab-layout.scss */
-.android .tablayout .tab-menu .buttongroupview .buttonview:last-child, .android-light .tablayout .tab-menu .buttongroupview .buttonview:last-child {
+/* line 34, ../resources/sass/layouts/_tab-layout.scss */
+.android .tablayout .tab-menu .tabbarbuttongroupview .buttonview:last-child, .android-light .tablayout .tab-menu .tabbarbuttongroupview .buttonview:last-child {
   padding-right: 0;
 }
-/* line 36, ../resources/sass/layouts/_tab-layout.scss */
-.android .tablayout .tab-menu .buttongroupview .buttonview:last-child .button, .android-light .tablayout .tab-menu .buttongroupview .buttonview:last-child .button {
+/* line 37, ../resources/sass/layouts/_tab-layout.scss */
+.android .tablayout .tab-menu .tabbarbuttongroupview .buttonview:last-child .button, .android-light .tablayout .tab-menu .tabbarbuttongroupview .buttonview:last-child .button {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-/* line 49, ../resources/sass/layouts/_tab-layout.scss */
+/* line 50, ../resources/sass/layouts/_tab-layout.scss */
 .android .m-tab, .android-light .m-tab {
   top: 50px;
 }
-/* line 54, ../resources/sass/layouts/_tab-layout.scss */
+/* line 55, ../resources/sass/layouts/_tab-layout.scss */
 .android .tablayout.scrolling .tab-menu, .android-light .tablayout.scrolling .tab-menu {
   overflow-x: scroll;
 }
-/* line 57, ../resources/sass/layouts/_tab-layout.scss */
+/* line 58, ../resources/sass/layouts/_tab-layout.scss */
 .android .tablayout.scrolling .tab-menu::-webkit-scrollbar, .android-light .tablayout.scrolling .tab-menu::-webkit-scrollbar {
   display: none;
 }
-/* line 62, ../resources/sass/layouts/_tab-layout.scss */
-.android .tablayout.scrolling .buttongroupview, .android-light .tablayout.scrolling .buttongroupview {
+/* line 63, ../resources/sass/layouts/_tab-layout.scss */
+.android .tablayout.scrolling .tabbarbuttongroupview, .android-light .tablayout.scrolling .tabbarbuttongroupview {
   margin: 0 auto;
 }
-/* line 67, ../resources/sass/layouts/_tab-layout.scss */
-.android .tablayout.scrolling .buttongroupview .button, .android-light .tablayout.scrolling .buttongroupview .button {
+/* line 68, ../resources/sass/layouts/_tab-layout.scss */
+.android .tablayout.scrolling .tabbarbuttongroupview .button, .android-light .tablayout.scrolling .tabbarbuttongroupview .button {
   width: 200px;
   float: left;
 }
@@ -7982,40 +7984,56 @@
   background: rgba(0, 255, 0, 0.25);
   height: 100%;
 }
-/* line 5, ../resources/sass/themes/default/_buttongroup.scss */
-.android .buttongroupview .button, .android-light .buttongroupview .button {
+/* line 6, ../resources/sass/themes/default/_buttongroup.scss */
+.android .tabbarbuttongroupview .button,
+.android .buttongroupview .button, .android-light .tabbarbuttongroupview .button,
+.android-light .buttongroupview .button {
   width: 100%;
   border-radius: 0;
 }
-/* line 10, ../resources/sass/themes/default/_buttongroup.scss */
-.android .buttongroupview .buttonview, .android-light .buttongroupview .buttonview {
+/* line 11, ../resources/sass/themes/default/_buttongroup.scss */
+.android .tabbarbuttongroupview .buttonview,
+.android .buttongroupview .buttonview, .android-light .tabbarbuttongroupview .buttonview,
+.android-light .buttongroupview .buttonview {
   padding-left: 0;
   padding-right: 0;
 }
-/* line 15, ../resources/sass/themes/default/_buttongroup.scss */
-.android .buttongroupview .buttonview.active .button, .android-light .buttongroupview .buttonview.active .button {
+/* line 16, ../resources/sass/themes/default/_buttongroup.scss */
+.android .tabbarbuttongroupview .buttonview.active .button,
+.android .buttongroupview .buttonview.active .button, .android-light .tabbarbuttongroupview .buttonview.active .button,
+.android-light .buttongroupview .buttonview.active .button {
   background: #99cc00;
   color: white;
 }
-/* line 21, ../resources/sass/themes/default/_buttongroup.scss */
-.android .buttongroupview .buttonview .button, .android-light .buttongroupview .buttonview .button {
+/* line 22, ../resources/sass/themes/default/_buttongroup.scss */
+.android .tabbarbuttongroupview .buttonview .button,
+.android .buttongroupview .buttonview .button, .android-light .tabbarbuttongroupview .buttonview .button,
+.android-light .buttongroupview .buttonview .button {
   border-right-width: 0;
 }
-/* line 25, ../resources/sass/themes/default/_buttongroup.scss */
-.android .buttongroupview .buttonview:first-child, .android-light .buttongroupview .buttonview:first-child {
+/* line 26, ../resources/sass/themes/default/_buttongroup.scss */
+.android .tabbarbuttongroupview .buttonview:first-child,
+.android .buttongroupview .buttonview:first-child, .android-light .tabbarbuttongroupview .buttonview:first-child,
+.android-light .buttongroupview .buttonview:first-child {
   padding-left: 15px;
 }
-/* line 28, ../resources/sass/themes/default/_buttongroup.scss */
-.android .buttongroupview .buttonview:first-child .button, .android-light .buttongroupview .buttonview:first-child .button {
+/* line 29, ../resources/sass/themes/default/_buttongroup.scss */
+.android .tabbarbuttongroupview .buttonview:first-child .button,
+.android .buttongroupview .buttonview:first-child .button, .android-light .tabbarbuttongroupview .buttonview:first-child .button,
+.android-light .buttongroupview .buttonview:first-child .button {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-/* line 33, ../resources/sass/themes/default/_buttongroup.scss */
-.android .buttongroupview .buttonview:last-child, .android-light .buttongroupview .buttonview:last-child {
+/* line 34, ../resources/sass/themes/default/_buttongroup.scss */
+.android .tabbarbuttongroupview .buttonview:last-child,
+.android .buttongroupview .buttonview:last-child, .android-light .tabbarbuttongroupview .buttonview:last-child,
+.android-light .buttongroupview .buttonview:last-child {
   padding-right: 15px;
 }
-/* line 36, ../resources/sass/themes/default/_buttongroup.scss */
-.android .buttongroupview .buttonview:last-child .button, .android-light .buttongroupview .buttonview:last-child .button {
+/* line 37, ../resources/sass/themes/default/_buttongroup.scss */
+.android .tabbarbuttongroupview .buttonview:last-child .button,
+.android .buttongroupview .buttonview:last-child .button, .android-light .tabbarbuttongroupview .buttonview:last-child .button,
+.android-light .buttongroupview .buttonview:last-child .button {
   border-right-width: 1px;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
@@ -8363,17 +8381,23 @@
   text-align: center;
 }
 /* line 2, ../resources/sass/themes/android_light/_buttongroup.scss */
-.android .buttongroupview, .android-light .buttongroupview {
+.android .tabbarbuttongroupview,
+.android .buttongroupview, .android-light .tabbarbuttongroupview,
+.android-light .buttongroupview {
   background: #f0f0f0;
 }
 /* line 7, ../resources/sass/themes/android_light/_buttongroup.scss */
-.android .buttongroupview .buttonview.active .button, .android-light .buttongroupview .buttonview.active .button {
+.android .tabbarbuttongroupview .buttonview.active .button,
+.android .buttongroupview .buttonview.active .button, .android-light .tabbarbuttongroupview .buttonview.active .button,
+.android-light .buttongroupview .buttonview.active .button {
   color: #444;
   background: none;
   border-bottom: 6px solid #99CC00;
 }
 /* line 14, ../resources/sass/themes/android_light/_buttongroup.scss */
-.android .buttongroupview .buttonview .button, .android-light .buttongroupview .buttonview .button {
+.android .tabbarbuttongroupview .buttonview .button,
+.android .buttongroupview .buttonview .button, .android-light .tabbarbuttongroupview .buttonview .button,
+.android-light .buttongroupview .buttonview .button {
   border-width: 0;
   text-transform: uppercase;
   font-size: 1.4rem;
@@ -8385,24 +8409,34 @@
   border-bottom: 6px solid transparent;
 }
 /* line 24, ../resources/sass/themes/android_light/_buttongroup.scss */
-.android .buttongroupview .buttonview .button div, .android-light .buttongroupview .buttonview .button div {
+.android .tabbarbuttongroupview .buttonview .button div,
+.android .buttongroupview .buttonview .button div, .android-light .tabbarbuttongroupview .buttonview .button div,
+.android-light .buttongroupview .buttonview .button div {
   border-right: 1px solid #ccc;
 }
 /* line 28, ../resources/sass/themes/android_light/_buttongroup.scss */
-.android .buttongroupview .buttonview:first-child, .android-light .buttongroupview .buttonview:first-child {
+.android .tabbarbuttongroupview .buttonview:first-child,
+.android .buttongroupview .buttonview:first-child, .android-light .tabbarbuttongroupview .buttonview:first-child,
+.android-light .buttongroupview .buttonview:first-child {
   padding-left: 0;
 }
 /* line 31, ../resources/sass/themes/android_light/_buttongroup.scss */
-.android .buttongroupview .buttonview:first-child .button, .android-light .buttongroupview .buttonview:first-child .button {
+.android .tabbarbuttongroupview .buttonview:first-child .button,
+.android .buttongroupview .buttonview:first-child .button, .android-light .tabbarbuttongroupview .buttonview:first-child .button,
+.android-light .buttongroupview .buttonview:first-child .button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 /* line 37, ../resources/sass/themes/android_light/_buttongroup.scss */
-.android .buttongroupview .buttonview:last-child, .android-light .buttongroupview .buttonview:last-child {
+.android .tabbarbuttongroupview .buttonview:last-child,
+.android .buttongroupview .buttonview:last-child, .android-light .tabbarbuttongroupview .buttonview:last-child,
+.android-light .buttongroupview .buttonview:last-child {
   padding-right: 0;
 }
 /* line 40, ../resources/sass/themes/android_light/_buttongroup.scss */
-.android .buttongroupview .buttonview:last-child .button, .android-light .buttongroupview .buttonview:last-child .button {
+.android .tabbarbuttongroupview .buttonview:last-child .button,
+.android .buttongroupview .buttonview:last-child .button, .android-light .tabbarbuttongroupview .buttonview:last-child .button,
+.android-light .buttongroupview .buttonview:last-child .button {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-right: none;

@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Dec 03 2013 08:50:51
+* Date:      Tue Dec 03 2013 16:50:35
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -6097,7 +6097,8 @@
   outline: none;
 }
 /* line 42, ../resources/sass/themes/_extends.scss */
-.ios .margin0010, .ios .button, .ios .listview, .ios .selection-list, .ios .buttongroupview, .ios .radiolistview, .ios .checkboxlistview, .ios .toggleswitchview, .ios .textview {
+.ios .margin0010, .ios .button, .ios .listview, .ios .selection-list, .ios .tabbarbuttongroupview,
+.ios .buttongroupview, .ios .radiolistview, .ios .checkboxlistview, .ios .toggleswitchview, .ios .textview {
   margin-bottom: 20px;
 }
 /* line 46, ../resources/sass/themes/_extends.scss */
@@ -6173,7 +6174,7 @@
   overflow: hidden;
 }
 /* line 42, ../resources/sass/themes/default/_base.scss */
-.ios .view div[data-binding="_value_"]:first-child {
+.ios .view > div[data-binding="_value_"]:first-child {
   padding-left: 15px;
   padding-bottom: 5px;
 }
@@ -7218,55 +7219,55 @@
   background: #f2f2f2;
 }
 /* line 8, ../resources/sass/layouts/_tab-layout.scss */
-.ios .tablayout .tab-menu .buttongroupview {
+.ios .tablayout .tab-menu .tabbarbuttongroupview {
   margin: 0;
 }
 /* line 12, ../resources/sass/layouts/_tab-layout.scss */
-.ios .tablayout .tab-menu .buttongroupview .button {
+.ios .tablayout .tab-menu .tabbarbuttongroupview .button {
   height: 50px;
   padding: 13px 0 0 0;
   margin: 0;
 }
 /* line 18, ../resources/sass/layouts/_tab-layout.scss */
-.ios .tablayout .tab-menu .buttongroupview .button i {
+.ios .tablayout .tab-menu .tabbarbuttongroupview .button i {
   display: none;
 }
-/* line 24, ../resources/sass/layouts/_tab-layout.scss */
-.ios .tablayout .tab-menu .buttongroupview .buttonview:first-child {
+/* line 25, ../resources/sass/layouts/_tab-layout.scss */
+.ios .tablayout .tab-menu .tabbarbuttongroupview .buttonview:first-child {
   padding-left: 0;
 }
-/* line 27, ../resources/sass/layouts/_tab-layout.scss */
-.ios .tablayout .tab-menu .buttongroupview .buttonview:first-child .button {
+/* line 28, ../resources/sass/layouts/_tab-layout.scss */
+.ios .tablayout .tab-menu .tabbarbuttongroupview .buttonview:first-child .button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-/* line 33, ../resources/sass/layouts/_tab-layout.scss */
-.ios .tablayout .tab-menu .buttongroupview .buttonview:last-child {
+/* line 34, ../resources/sass/layouts/_tab-layout.scss */
+.ios .tablayout .tab-menu .tabbarbuttongroupview .buttonview:last-child {
   padding-right: 0;
 }
-/* line 36, ../resources/sass/layouts/_tab-layout.scss */
-.ios .tablayout .tab-menu .buttongroupview .buttonview:last-child .button {
+/* line 37, ../resources/sass/layouts/_tab-layout.scss */
+.ios .tablayout .tab-menu .tabbarbuttongroupview .buttonview:last-child .button {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-/* line 49, ../resources/sass/layouts/_tab-layout.scss */
+/* line 50, ../resources/sass/layouts/_tab-layout.scss */
 .ios .m-tab {
   top: 50px;
 }
-/* line 54, ../resources/sass/layouts/_tab-layout.scss */
+/* line 55, ../resources/sass/layouts/_tab-layout.scss */
 .ios .tablayout.scrolling .tab-menu {
   overflow-x: scroll;
 }
-/* line 57, ../resources/sass/layouts/_tab-layout.scss */
+/* line 58, ../resources/sass/layouts/_tab-layout.scss */
 .ios .tablayout.scrolling .tab-menu::-webkit-scrollbar {
   display: none;
 }
-/* line 62, ../resources/sass/layouts/_tab-layout.scss */
-.ios .tablayout.scrolling .buttongroupview {
+/* line 63, ../resources/sass/layouts/_tab-layout.scss */
+.ios .tablayout.scrolling .tabbarbuttongroupview {
   margin: 0 auto;
 }
-/* line 67, ../resources/sass/layouts/_tab-layout.scss */
-.ios .tablayout.scrolling .buttongroupview .button {
+/* line 68, ../resources/sass/layouts/_tab-layout.scss */
+.ios .tablayout.scrolling .tabbarbuttongroupview .button {
   width: 140px;
   float: left;
 }
@@ -7747,39 +7748,47 @@
   background: rgba(0, 255, 0, 0.25);
   height: 100%;
 }
-/* line 5, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 6, ../resources/sass/themes/default/_buttongroup.scss */
+.ios .tabbarbuttongroupview .button,
 .ios .buttongroupview .button {
   width: 100%;
   border-radius: 0;
 }
-/* line 10, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 11, ../resources/sass/themes/default/_buttongroup.scss */
+.ios .tabbarbuttongroupview .buttonview,
 .ios .buttongroupview .buttonview {
   padding-left: 0;
   padding-right: 0;
 }
-/* line 15, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 16, ../resources/sass/themes/default/_buttongroup.scss */
+.ios .tabbarbuttongroupview .buttonview.active .button,
 .ios .buttongroupview .buttonview.active .button {
   background: #d5d5d5;
   color: #007aff;
 }
-/* line 21, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 22, ../resources/sass/themes/default/_buttongroup.scss */
+.ios .tabbarbuttongroupview .buttonview .button,
 .ios .buttongroupview .buttonview .button {
   border-right-width: 0;
 }
-/* line 25, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 26, ../resources/sass/themes/default/_buttongroup.scss */
+.ios .tabbarbuttongroupview .buttonview:first-child,
 .ios .buttongroupview .buttonview:first-child {
   padding-left: 15px;
 }
-/* line 28, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 29, ../resources/sass/themes/default/_buttongroup.scss */
+.ios .tabbarbuttongroupview .buttonview:first-child .button,
 .ios .buttongroupview .buttonview:first-child .button {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-/* line 33, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 34, ../resources/sass/themes/default/_buttongroup.scss */
+.ios .tabbarbuttongroupview .buttonview:last-child,
 .ios .buttongroupview .buttonview:last-child {
   padding-right: 15px;
 }
-/* line 36, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 37, ../resources/sass/themes/default/_buttongroup.scss */
+.ios .tabbarbuttongroupview .buttonview:last-child .button,
 .ios .buttongroupview .buttonview:last-child .button {
   border-right-width: 1px;
   border-top-right-radius: 4px;
@@ -8127,16 +8136,19 @@
   height: 50px;
   text-align: center;
 }
-/* line 12, ../resources/sass/themes/ios/_buttongroup.scss */
+/* line 13, ../resources/sass/themes/ios/_buttongroup.scss */
+.ios .tabbarbuttongroupview .buttonview.active .button,
 .ios .buttongroupview .buttonview.active .button {
   background: #007aff;
   color: white;
 }
-/* line 18, ../resources/sass/themes/ios/_buttongroup.scss */
+/* line 19, ../resources/sass/themes/ios/_buttongroup.scss */
+.ios .tabbarbuttongroupview .buttonview .button,
 .ios .buttongroupview .buttonview .button {
   background: white;
 }
-/* line 29, ../resources/sass/themes/ios/_buttongroup.scss */
+/* line 30, ../resources/sass/themes/ios/_buttongroup.scss */
+.ios .tabbarbuttongroupview .buttonview:last-child,
 .ios .buttongroupview .buttonview:last-child {
   border-right: 0;
 }
@@ -8223,25 +8235,30 @@
   width: 100%;
   height: 50px;
 }
-/* line 18, ../resources/sass/themes/ios/_tab-layout.scss */
+/* line 19, ../resources/sass/themes/ios/_tab-layout.scss */
+.ios .tablayout .tab-menu .tabbarbuttongroupview .button,
 .ios .tablayout .tab-menu .buttongroupview .button {
   height: 50px;
   padding: 13px 0 0 0;
   border: none;
 }
-/* line 24, ../resources/sass/themes/ios/_tab-layout.scss */
+/* line 25, ../resources/sass/themes/ios/_tab-layout.scss */
+.ios .tablayout .tab-menu .tabbarbuttongroupview .button i,
 .ios .tablayout .tab-menu .buttongroupview .button i {
   display: block;
 }
-/* line 29, ../resources/sass/themes/ios/_tab-layout.scss */
+/* line 30, ../resources/sass/themes/ios/_tab-layout.scss */
+.ios .tablayout .tab-menu .tabbarbuttongroupview .buttonview:first-child,
 .ios .tablayout .tab-menu .buttongroupview .buttonview:first-child {
   padding-left: 0;
 }
-/* line 33, ../resources/sass/themes/ios/_tab-layout.scss */
+/* line 34, ../resources/sass/themes/ios/_tab-layout.scss */
+.ios .tablayout .tab-menu .tabbarbuttongroupview .buttonview:last-child,
 .ios .tablayout .tab-menu .buttongroupview .buttonview:last-child {
   padding-right: 0;
 }
-/* line 45, ../resources/sass/themes/ios/_tab-layout.scss */
+/* line 47, ../resources/sass/themes/ios/_tab-layout.scss */
+.ios .tablayout.scrolling .tabbarbuttongroupview .button,
 .ios .tablayout.scrolling .buttongroupview .button {
   width: 140px;
 }

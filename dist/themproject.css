@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Dec 03 2013 08:50:51
+* Date:      Tue Dec 03 2013 16:50:35
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -4165,7 +4165,8 @@ input[type="button"].btn-block {
 }
 
 /* line 42, ../resources/sass/themes/_extends.scss */
-.margin0010, .button, .listview, .selection-list, .buttongroupview, .radiolistview, .checkboxlistview, .toggleswitchview, .textview {
+.margin0010, .button, .listview, .selection-list, .tabbarbuttongroupview,
+.buttongroupview, .radiolistview, .checkboxlistview, .toggleswitchview, .textview {
   margin-bottom: 20px;
 }
 
@@ -4254,7 +4255,7 @@ body {
 }
 
 /* line 42, ../resources/sass/themes/default/_base.scss */
-.view div[data-binding="_value_"]:first-child {
+.view > div[data-binding="_value_"]:first-child {
   padding-left: 15px;
   padding-bottom: 5px;
 }
@@ -7770,57 +7771,57 @@ html, body {
   background: #f2f2f2;
 }
 /* line 8, ../resources/sass/layouts/_tab-layout.scss */
-.tablayout .tab-menu .buttongroupview {
+.tablayout .tab-menu .tabbarbuttongroupview {
   margin: 0;
 }
 /* line 12, ../resources/sass/layouts/_tab-layout.scss */
-.tablayout .tab-menu .buttongroupview .button {
+.tablayout .tab-menu .tabbarbuttongroupview .button {
   height: 50px;
   padding: 13px 0 0 0;
   margin: 0;
 }
 /* line 18, ../resources/sass/layouts/_tab-layout.scss */
-.tablayout .tab-menu .buttongroupview .button i {
+.tablayout .tab-menu .tabbarbuttongroupview .button i {
   display: none;
 }
-/* line 24, ../resources/sass/layouts/_tab-layout.scss */
-.tablayout .tab-menu .buttongroupview .buttonview:first-child {
+/* line 25, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout .tab-menu .tabbarbuttongroupview .buttonview:first-child {
   padding-left: 0;
 }
-/* line 27, ../resources/sass/layouts/_tab-layout.scss */
-.tablayout .tab-menu .buttongroupview .buttonview:first-child .button {
+/* line 28, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout .tab-menu .tabbarbuttongroupview .buttonview:first-child .button {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-/* line 33, ../resources/sass/layouts/_tab-layout.scss */
-.tablayout .tab-menu .buttongroupview .buttonview:last-child {
+/* line 34, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout .tab-menu .tabbarbuttongroupview .buttonview:last-child {
   padding-right: 0;
 }
-/* line 36, ../resources/sass/layouts/_tab-layout.scss */
-.tablayout .tab-menu .buttongroupview .buttonview:last-child .button {
+/* line 37, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout .tab-menu .tabbarbuttongroupview .buttonview:last-child .button {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-/* line 49, ../resources/sass/layouts/_tab-layout.scss */
+/* line 50, ../resources/sass/layouts/_tab-layout.scss */
 .m-tab {
   top: 50px;
 }
 
-/* line 54, ../resources/sass/layouts/_tab-layout.scss */
+/* line 55, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .tab-menu {
   overflow-x: scroll;
 }
-/* line 57, ../resources/sass/layouts/_tab-layout.scss */
+/* line 58, ../resources/sass/layouts/_tab-layout.scss */
 .tablayout.scrolling .tab-menu::-webkit-scrollbar {
   display: none;
 }
-/* line 62, ../resources/sass/layouts/_tab-layout.scss */
-.tablayout.scrolling .buttongroupview {
+/* line 63, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout.scrolling .tabbarbuttongroupview {
   margin: 0 auto;
 }
-/* line 67, ../resources/sass/layouts/_tab-layout.scss */
-.tablayout.scrolling .buttongroupview .button {
+/* line 68, ../resources/sass/layouts/_tab-layout.scss */
+.tablayout.scrolling .tabbarbuttongroupview .button {
   width: 200px;
   float: left;
 }
@@ -8327,39 +8328,47 @@ html, body {
   height: 100%;
 }
 
-/* line 5, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 6, ../resources/sass/themes/default/_buttongroup.scss */
+.tabbarbuttongroupview .button,
 .buttongroupview .button {
   width: 100%;
   border-radius: 0;
 }
-/* line 10, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 11, ../resources/sass/themes/default/_buttongroup.scss */
+.tabbarbuttongroupview .buttonview,
 .buttongroupview .buttonview {
   padding-left: 0;
   padding-right: 0;
 }
-/* line 15, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 16, ../resources/sass/themes/default/_buttongroup.scss */
+.tabbarbuttongroupview .buttonview.active .button,
 .buttongroupview .buttonview.active .button {
   background: #0e7cb4;
   color: white;
 }
-/* line 21, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 22, ../resources/sass/themes/default/_buttongroup.scss */
+.tabbarbuttongroupview .buttonview .button,
 .buttongroupview .buttonview .button {
   border-right-width: 0;
 }
-/* line 25, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 26, ../resources/sass/themes/default/_buttongroup.scss */
+.tabbarbuttongroupview .buttonview:first-child,
 .buttongroupview .buttonview:first-child {
   padding-left: 15px;
 }
-/* line 28, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 29, ../resources/sass/themes/default/_buttongroup.scss */
+.tabbarbuttongroupview .buttonview:first-child .button,
 .buttongroupview .buttonview:first-child .button {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-/* line 33, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 34, ../resources/sass/themes/default/_buttongroup.scss */
+.tabbarbuttongroupview .buttonview:last-child,
 .buttongroupview .buttonview:last-child {
   padding-right: 15px;
 }
-/* line 36, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 37, ../resources/sass/themes/default/_buttongroup.scss */
+.tabbarbuttongroupview .buttonview:last-child .button,
 .buttongroupview .buttonview:last-child .button {
   border-right-width: 1px;
   border-top-right-radius: 4px;
