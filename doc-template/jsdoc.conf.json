@@ -9,7 +9,7 @@
 		"default"         : {
 			"outputSourceFiles" : true
 		},
-		"systemName"      : "DocStrap",
+		"systemName"      : "The-M-Project Absinthe",
 		"footer"          : "",
 		"copyright"       : "DocStrap Copyright © 2012-2013 The contributors to the JSDoc3 and DocStrap projects.",
 		"navType"         : "vertical",

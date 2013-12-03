@@ -157,17 +157,29 @@ module.exports = function (grunt) {
         jsdoc : {
             dist : {
                 src: ['README.md','src/connection/*.js','src/core/*.js','src/data/*.js','src/data/stores/*.js','src/interfaces/*.js','src/ui/*.js','src/ui/layouts/*.js','src/ui/views/*.js','src/utility/*.js'],
-                options: {
-                    destination: 'doc'
-                }
-            },
-            tmpl : {
-                src: ['README.md','src/connection/*.js','src/core/*.js','src/data/*.js','src/data/stores/*.js','src/interfaces/*.js','src/ui/*.js','src/ui/layouts/*.js','src/ui/views/*.js','src/utility/*.js'],
                 options:{
                     destination: 'doc',
                     template: "doc-template",
-                    configure: "doc-template/jsdoc.conf.json"
+                    configure: "doc-template/jsdoc.conf.json",
+                    tutorials: "doc-template/additional"
                 }
+            }
+        },
+        'curl-dir': {
+            customFilepaths: {
+                src: [
+                    'https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/README.md',
+                    'https://raw.github.com/mwaylabs/generator-tmp2/master/README.md'
+                ],
+                router: function (url) {
+                    return url.replace('https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/README.md', 'Sample-Apps.md').replace('https://raw.github.com/mwaylabs/generator-tmp2/master/README.md', 'TMP2-Generator.md');
+                },
+                dest: 'doc-template/additional'
+            }
+        },
+        clean: {
+            md: {
+                src: ["doc-template/additional/Sample-Apps.md", "doc-template/additional/TMP2-Generator.md"]
             }
         }
     });
@@ -246,5 +258,5 @@ module.exports = function (grunt) {
     grunt.registerTask('travis', ['jsonlint', 'default', 'test']);
     grunt.registerTask('default', ['build-js', 'build-css']);
 
-    grunt.registerTask('build-doc', ['jsdoc']);
+    grunt.registerTask('build-doc', ['clean:md','curl-dir', 'jsdoc']);
 };
