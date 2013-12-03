@@ -17,7 +17,7 @@ M.Animation = M.Object.design({
             return false;
         }
         if( M.Environment.isLowerThaniPhone4S ) {
-            return false;
+            //return false;
         }
         return Modernizr.cssanimations;
     })(),
