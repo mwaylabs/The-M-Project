@@ -1,5 +1,9 @@
 # The-M-Project Absinthe [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=absinthe)](https://travis-ci.org/mwaylabs/The-M-Project)
 
+
+The-M-Project is a mobile HTML5 JavaScript framework that helps you build great mobile apps, easy and fast.
+
+
 ## Notice
 This version is under development and not yet ready for production use.
 
