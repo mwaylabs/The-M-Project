@@ -16,10 +16,11 @@
     "sample",
     "server",
     "utils",
+    "doc-template",
     "Gruntfile.js",
     "*.sh",
     "*.md",
-    "package.json"
+    "*.json"
   ],
   "dependencies": {
     "backbone": "~1.1.0",
@@ -33,7 +34,7 @@
     "hammerjs": "~1.0.5",
     "detectizr": "~1.4.5",
     "font-awesome": "~4.0.3",
-    "shake.js": "*",
+    "shake.js": "~1.1.0",
     "fastclick": "~0.6.10",
     "bootstrap-sass": "~3.0.2"
   },
