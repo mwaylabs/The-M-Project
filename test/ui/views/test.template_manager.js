@@ -208,7 +208,7 @@ describe('M.TemplateManager', function() {
             },
 
             'M.RadioOptionView': {
-                defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value_ %>"><i class="fa"></i><%= label %></label>'
+                defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value_ %>"><i class="needsclick fa"></i><%= label %></label>'
             },
 
             'M.CheckboxlistView': {
@@ -216,11 +216,11 @@ describe('M.TemplateManager', function() {
             },
 
             'M.CheckboxOptionView': {
-                defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value_ %>"><i class="fa"></i> <%= label %></label>'
+                defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value_ %>"><i class="needsclick fa"></i> <%= label %></label>'
             },
 
             'M.ToggleSwitchView': {
-                defaultTemplate: '<div><label><% if(label){%> <span class="label-descr"> <%= label %> <% }%> </span> <div class="toggleswitch"><input value="<%= _value_ %>" type="checkbox"><span class="switch-labels" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
+                defaultTemplate: '<div><label><% if(label){%> <span class="needsclick label-descr"> <%= label %> <% }%> </span> <div class="needsclick toggleswitch"><input value="<%= _value_ %>" type="checkbox"><span class="needsclick switch-labels" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
             },
 
             'M.ModalView': {
