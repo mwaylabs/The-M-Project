@@ -48,9 +48,9 @@
 			    var index;
 			    for(var i = 0; i < this.nav.topLevelNav.length; i += 1) {
                     if(this.nav.topLevelNav[i].title === 'Tutorials') {
-                        index = i;
-                        var save = this.nav.topLevelNav[index];
-                        this.nav.topLevelNav[index] = this.nav.topLevelNav[0];
+                        var save = this.nav.topLevelNav[i];
+                        this.nav.topLevelNav[i] = this.nav.topLevelNav[1];
+                        this.nav.topLevelNav[1] = this.nav.topLevelNav[0];
                         this.nav.topLevelNav[0] = save;
                     }
                 }?>

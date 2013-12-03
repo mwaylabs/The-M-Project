@@ -169,18 +169,17 @@ module.exports = function (grunt) {
             customFilepaths: {
                 src: [
                     'https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/README.md',
-                    'https://raw.github.com/mwaylabs/generator-tmp2/master/README.md',
-                    'https://raw.github.com/mwaylabs/The-M-Project/absinthe/thanks_to.md'
+                    'https://raw.github.com/mwaylabs/generator-tmp2/master/README.md'
                 ],
                 router: function (url) {
-                    return url.replace('https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/README.md', 'sampleApps.md').replace('https://raw.github.com/mwaylabs/generator-tmp2/master/README.md', 'generator.md').replace('https://raw.github.com/mwaylabs/The-M-Project/absinthe/thanks_to.md', 'thanksTo.md');
+                    return url.replace('https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/README.md', 'Sample-Apps.md').replace('https://raw.github.com/mwaylabs/generator-tmp2/master/README.md', 'TMP2-Generator.md');
                 },
                 dest: 'doc-template/additional'
             }
         },
         clean: {
             md: {
-                src: ["doc-template/additional/sampleApps.md", "doc-template/additional/generator.md", "doc-template/additional/thanksTo.md"]
+                src: ["doc-template/additional/Sample-Apps.md", "doc-template/additional/TMP2-Generator.md"]
             }
         }
     });
