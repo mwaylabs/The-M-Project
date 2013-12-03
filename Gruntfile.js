@@ -169,17 +169,17 @@ module.exports = function (grunt) {
             customFilepaths: {
                 src: [
                     'https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/README.md',
-                    'https://raw.github.com/mwaylabs/generator-tmp2/master/README.md'
+                    'https://raw.github.com/mwaylabs/generator-m/master/README.md'
                 ],
                 router: function (url) {
-                    return url.replace('https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/README.md', 'Sample-Apps.md').replace('https://raw.github.com/mwaylabs/generator-tmp2/master/README.md', 'TMP2-Generator.md');
+                    return url.replace('https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/README.md', 'Sample-Apps.md').replace('https://raw.github.com/mwaylabs/generator-m/master/README.md', 'Generator.md');
                 },
                 dest: 'doc-template/additional'
             }
         },
         clean: {
             md: {
-                src: ["doc-template/additional/Sample-Apps.md", "doc-template/additional/TMP2-Generator.md"]
+                src: ["doc-template/additional/Sample-Apps.md", "doc-template/additional/Generator.md"]
             }
         }
     });
@@ -258,5 +258,5 @@ module.exports = function (grunt) {
     grunt.registerTask('travis', ['jsonlint', 'default', 'test']);
     grunt.registerTask('default', ['build-js', 'build-css']);
 
-    grunt.registerTask('build-doc', ['clean:md','curl-dir', 'jsdoc']);
+    grunt.registerTask('build-doc', ['clean:md','curl-dir', 'jsdoc', 'clean:md']);
 };
