@@ -106,7 +106,6 @@ M.TabLayout = M.Layout.extend({
             icon: options.icon,
             events: {
                 tap: function( event, element ) {
-                    console.log(that.cid);
                     that.switchToTab(element.index);
                 }
             }
@@ -118,11 +117,9 @@ M.TabLayout = M.Layout.extend({
         return options.content.extend({
             events: {
                 dragleft: function( event, element ) {
-                    console.log(that.cid);
                     that.switchToTab(options.index + 1);
                 },
                 dragright: function( event, element ) {
-                    console.log(that.cid);
                     that.switchToTab(options.index - 1);
                 }
             }

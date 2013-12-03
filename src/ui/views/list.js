@@ -57,7 +57,6 @@ M.ListView = M.View.extend({
 
         this.listenTo(this.collection, 'sort', function () {
             //this.addItems(this.collection.models);
-            console.timeEnd('a');
         });
     },
 

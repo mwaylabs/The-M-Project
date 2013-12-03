@@ -91,7 +91,7 @@ _.extend(M.Router.prototype, M.Object, {
             var args = router._extractParameters(route, fragment);
             res = _.object([res], args);
             args.unshift(!router._visitedRoutes[name]);
-            router.callCallback(route, name, controller, res, function() {
+            router.controllerDidLoad( name, controller, res, function() {
                 router.trigger.apply(router, ['route:' + name].concat(args));
                 router.trigger('route', name, args);
                 Backbone.history.trigger('route', router, name, args);
