@@ -1,8 +1,0 @@
-{
-  "name": "addressbook",
-  "version": "0.0.0",
-  "dependencies": {
-    "themproject": "absinthe"
-  },
-  "devDependencies": {}
-}
