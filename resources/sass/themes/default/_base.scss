@@ -39,7 +39,7 @@ body {
   overflow: hidden;
 }
 
-.view div[data-binding="_value_"]:first-child{
+.view > div[data-binding="_value_"]:first-child{
   padding-left: 15px;
   padding-bottom: 5px;
 }

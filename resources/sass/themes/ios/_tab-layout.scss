@@ -13,6 +13,7 @@
     width: 100%;
     height: $tablayout-menu-height;
 
+    .tabbarbuttongroupview,
     .buttongroupview {
 
       .button {
@@ -42,6 +43,7 @@
 
 .tablayout.scrolling {
 
+  .tabbarbuttongroupview .button,
   .buttongroupview .button{
     width: $tablayout-menu-scroll-button-width;
   }
