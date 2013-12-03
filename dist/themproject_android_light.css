@@ -2,13 +2,14 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Fri Nov 29 2013 17:01:21
+* Date:      Tue Dec 03 2013 08:50:51
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
 */
 /* line 4, ../resources/sass/themproject_android_light.scss */
 .android, .android-light {
+  /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
   /* animation sets */
   /* move from / to  */
   /* fade */
@@ -2545,9 +2546,3738 @@
 }
 
 }
-/* line 4, ../resources/sass/themes/_extends.scss */
-.android .ellipsis, .android .form, .android .selection, .android .radiolistview label, .android .checkboxlistview label, .android .textfieldview input, .android .textfieldview .input-icon-addon, .android-light .radiolistview .android label, .android-light .checkboxlistview .android label, .android-light .textfieldview .android input, .android-light .textfieldview .android .input-icon-addon, .android .textfieldview .input-icon-addon input, .android-light .ellipsis, .android-light .form, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon, .android-light .textfieldview .input-icon-addon input {
+/* line 22, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android article,
+.android aside,
+.android details,
+.android figcaption,
+.android figure,
+.android footer,
+.android header,
+.android hgroup,
+.android main,
+.android nav,
+.android section,
+.android summary, .android-light article,
+.android-light aside,
+.android-light details,
+.android-light figcaption,
+.android-light figure,
+.android-light footer,
+.android-light header,
+.android-light hgroup,
+.android-light main,
+.android-light nav,
+.android-light section,
+.android-light summary {
+  display: block;
+}
+/* line 32, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android audio,
+.android canvas,
+.android video, .android-light audio,
+.android-light canvas,
+.android-light video {
+  display: inline-block;
+}
+/* line 41, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android audio:not([controls]), .android-light audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+/* line 52, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android [hidden],
+.android template, .android-light [hidden],
+.android-light template {
+  display: none;
+}
+/* line 66, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android html, .android-light html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+/* line 76, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android body, .android-light body {
+  margin: 0;
+}
+/* line 88, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android a, .android-light a {
+  background: transparent;
+}
+/* line 96, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android a:focus, .android-light a:focus {
+  outline: thin dotted;
+}
+/* line 105, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android a:active,
+.android a:hover, .android-light a:active,
+.android-light a:hover {
+  outline: 0;
+}
+/* line 118, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android h1, .android-light h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+/* line 127, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android abbr[title], .android-light abbr[title] {
+  border-bottom: 1px dotted;
+}
+/* line 136, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android b,
+.android strong, .android-light b,
+.android-light strong {
+  font-weight: bold;
+}
+/* line 144, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android dfn, .android-light dfn {
+  font-style: italic;
+}
+/* line 152, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android hr, .android-light hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+/* line 162, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android mark, .android-light mark {
+  background: #ff0;
+  color: #000;
+}
+/* line 174, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android code,
+.android kbd,
+.android pre,
+.android samp, .android-light code,
+.android-light kbd,
+.android-light pre,
+.android-light samp {
+  font-family: monospace, serif;
+  font-size: 1em;
+}
+/* line 183, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android pre, .android-light pre {
+  white-space: pre-wrap;
+}
+/* line 191, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android q, .android-light q {
+  quotes: "\201C" "\201D" "\2018" "\2019";
+}
+/* line 199, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android small, .android-light small {
+  font-size: 80%;
+}
+/* line 208, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android sub,
+.android sup, .android-light sub,
+.android-light sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+/* line 215, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android sup, .android-light sup {
+  top: -0.5em;
+}
+/* line 219, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android sub, .android-light sub {
+  bottom: -0.25em;
+}
+/* line 231, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android img, .android-light img {
+  border: 0;
+}
+/* line 239, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android svg:not(:root), .android-light svg:not(:root) {
+  overflow: hidden;
+}
+/* line 251, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android figure, .android-light figure {
+  margin: 0;
+}
+/* line 263, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android fieldset, .android-light fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+/* line 274, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android legend, .android-light legend {
+  border: 0;
+  padding: 0;
+}
+/* line 288, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android button,
+.android input,
+.android select,
+.android textarea, .android-light button,
+.android-light input,
+.android-light select,
+.android-light textarea {
+  font-family: inherit;
+  font-size: 100%;
+  margin: 0;
+}
+/* line 300, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android button,
+.android input, .android-light button,
+.android-light input {
+  line-height: normal;
+}
+/* line 312, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android button,
+.android select, .android-light button,
+.android-light select {
+  text-transform: none;
+}
+/* line 327, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android button,
+.android html input[type="button"],
+.android input[type="reset"],
+.android input[type="submit"], .android-light button,
+.android-light html input[type="button"],
+.android-light input[type="reset"],
+.android-light input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+/* line 337, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android button[disabled],
+.android html input[disabled], .android-light button[disabled],
+.android-light html input[disabled] {
+  cursor: default;
+}
+/* line 347, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android input[type="checkbox"],
+.android input[type="radio"], .android-light input[type="checkbox"],
+.android-light input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+/* line 358, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android input[type="search"], .android-light input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+/* line 371, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android input[type="search"]::-webkit-search-cancel-button,
+.android input[type="search"]::-webkit-search-decoration, .android-light input[type="search"]::-webkit-search-cancel-button,
+.android-light input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+/* line 380, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android button::-moz-focus-inner,
+.android input::-moz-focus-inner, .android-light button::-moz-focus-inner,
+.android-light input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+/* line 390, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android textarea, .android-light textarea {
+  overflow: auto;
+  vertical-align: top;
+}
+/* line 403, ../bower_components/bootstrap-sass/lib/_normalize.scss */
+.android table, .android-light table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+@media print {
+  /* line 4, ../resources/sass/themproject_android_light.scss */
+  .android, .android-light {
+    @page {
+      margin: 2cm .5cm;
+}
+
+  }
+  /* line 8, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android *, .android-light * {
+    text-shadow: none !important;
+    color: #000 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  /* line 16, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android a,
+  .android a:visited, .android-light a,
+  .android-light a:visited {
+    text-decoration: underline;
+  }
+  /* line 20, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android a[href]:after, .android-light a[href]:after {
+    content: " (" attr(href) ")";
+  }
+  /* line 24, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android abbr[title]:after, .android-light abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+  /* line 30, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android a[href^="javascript:"]:after,
+  .android a[href^="#"]:after, .android-light a[href^="javascript:"]:after,
+  .android-light a[href^="#"]:after {
+    content: "";
+  }
+  /* line 35, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android pre,
+  .android blockquote, .android-light pre,
+  .android-light blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+  /* line 40, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android thead, .android-light thead {
+    display: table-header-group;
+  }
+  /* line 45, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android tr,
+  .android img, .android-light tr,
+  .android-light img {
+    page-break-inside: avoid;
+  }
+  /* line 49, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android img, .android-light img {
+    max-width: 100% !important;
+  }
+  /* line 59, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android p,
+  .android h2,
+  .android h3, .android-light p,
+  .android-light h2,
+  .android-light h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  /* line 65, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android h2,
+  .android h3, .android-light h2,
+  .android-light h3 {
+    page-break-after: avoid;
+  }
+  /* line 71, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android select, .android-light select {
+    background: #fff !important;
+  }
+  /* line 76, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android .navbar, .android-light .navbar {
+    display: none;
+  }
+  /* line 81, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android .table td,
+  .android .table th, .android-light .table td,
+  .android-light .table th {
+    background-color: #fff !important;
+  }
+  /* line 87, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android .btn > .caret,
+  .android .dropup > .btn > .caret, .android-light .btn > .caret,
+  .android-light .dropup > .btn > .caret {
+    border-top-color: #000 !important;
+  }
+  /* line 91, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android .label, .android-light .label {
+    border: 1px solid #000;
+  }
+  /* line 95, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android .table, .android-light .table {
+    border-collapse: collapse !important;
+  }
+  /* line 100, ../bower_components/bootstrap-sass/lib/_print.scss */
+  .android .table-bordered th,
+  .android .table-bordered td, .android-light .table-bordered th,
+  .android-light .table-bordered td {
+    border: 1px solid #ddd !important;
+  }
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android *,
+.android *:before,
+.android *:after, .android-light *,
+.android-light *:before,
+.android-light *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 17, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android html, .android-light html {
+  font-size: 62.5%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+/* line 22, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android body, .android-light body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #333333;
+  background-color: white;
+}
+/* line 34, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android input,
+.android button,
+.android select,
+.android textarea, .android-light input,
+.android-light button,
+.android-light select,
+.android-light textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+/* line 43, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android a, .android-light a {
+  color: #428bca;
+  text-decoration: none;
+}
+/* line 48, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android a:hover, .android a:focus, .android-light a:hover, .android-light a:focus {
+  color: #2a6496;
+  text-decoration: underline;
+}
+/* line 53, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android a:focus, .android-light a:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+/* line 61, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android img, .android-light img {
+  vertical-align: middle;
+}
+/* line 66, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android .img-responsive, .android-light .img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+/* line 71, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android .img-rounded, .android-light .img-rounded {
+  border-radius: 6px;
+}
+/* line 78, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android .img-thumbnail, .android-light .img-thumbnail {
+  padding: 4px;
+  line-height: 1.42857;
+  background-color: white;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+}
+/* line 91, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android .img-circle, .android-light .img-circle {
+  border-radius: 50%;
+}
+/* line 98, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android hr, .android-light hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #eeeeee;
+}
+/* line 110, ../bower_components/bootstrap-sass/lib/_scaffolding.scss */
+.android .sr-only, .android-light .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+/* line 9, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android p, .android-light p {
+  margin: 0 0 10px;
+}
+/* line 12, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .lead, .android-light .lead {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 1.4;
+}
+@media (min-width: 768px) {
+  /* line 12, ../bower_components/bootstrap-sass/lib/_type.scss */
+  .android .lead, .android-light .lead {
+    font-size: 21px;
+  }
+}
+/* line 29, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android small,
+.android .small, .android-light small,
+.android-light .small {
+  font-size: 85%;
+}
+/* line 32, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android cite, .android-light cite {
+  font-style: normal;
+}
+/* line 35, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-muted, .android-light .text-muted {
+  color: #999999;
+}
+/* line 38, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-primary, .android-light .text-primary {
+  color: #428bca;
+}
+/* line 40, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-primary:hover, .android-light .text-primary:hover {
+  color: #3071a9;
+}
+/* line 44, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-warning, .android-light .text-warning {
+  color: #c09853;
+}
+/* line 46, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-warning:hover, .android-light .text-warning:hover {
+  color: #a47e3c;
+}
+/* line 50, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-danger, .android-light .text-danger {
+  color: #b94a48;
+}
+/* line 52, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-danger:hover, .android-light .text-danger:hover {
+  color: #953b39;
+}
+/* line 56, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-success, .android-light .text-success {
+  color: #468847;
+}
+/* line 58, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-success:hover, .android-light .text-success:hover {
+  color: #356635;
+}
+/* line 62, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-info, .android-light .text-info {
+  color: #3a87ad;
+}
+/* line 64, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-info:hover, .android-light .text-info:hover {
+  color: #2d6987;
+}
+/* line 70, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-left, .android-light .text-left {
+  text-align: left;
+}
+/* line 71, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-right, .android-light .text-right {
+  text-align: right;
+}
+/* line 72, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .text-center, .android-light .text-center {
+  text-align: center;
+}
+/* line 79, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h1, .android h2, .android h3, .android h4, .android h5, .android h6,
+.android .h1, .android .h2, .android .h3, .android .h4, .android .h5, .android .h6, .android-light h1, .android-light h2, .android-light h3, .android-light h4, .android-light h5, .android-light h6,
+.android-light .h1, .android-light .h2, .android-light .h3, .android-light .h4, .android-light .h5, .android-light .h6 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+/* line 86, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h1 small,
+.android h1 .small, .android h2 small,
+.android h2 .small, .android h3 small,
+.android h3 .small, .android h4 small,
+.android h4 .small, .android h5 small,
+.android h5 .small, .android h6 small,
+.android h6 .small,
+.android .h1 small,
+.android .h1 .small, .android .h2 small,
+.android .h2 .small, .android .h3 small,
+.android .h3 .small, .android .h4 small,
+.android .h4 .small, .android .h5 small,
+.android .h5 .small, .android .h6 small,
+.android .h6 .small, .android-light h1 small,
+.android-light h1 .small, .android-light h2 small,
+.android-light h2 .small, .android-light h3 small,
+.android-light h3 .small, .android-light h4 small,
+.android-light h4 .small, .android-light h5 small,
+.android-light h5 .small, .android-light h6 small,
+.android-light h6 .small,
+.android-light .h1 small,
+.android-light .h1 .small, .android-light .h2 small,
+.android-light .h2 .small, .android-light .h3 small,
+.android-light .h3 .small, .android-light .h4 small,
+.android-light .h4 .small, .android-light .h5 small,
+.android-light .h5 .small, .android-light .h6 small,
+.android-light .h6 .small {
+  font-weight: normal;
+  line-height: 1;
+  color: #999999;
+}
+/* line 95, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h1,
+.android h2,
+.android h3, .android-light h1,
+.android-light h2,
+.android-light h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+/* line 100, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h1 small,
+.android h1 .small,
+.android h2 small,
+.android h2 .small,
+.android h3 small,
+.android h3 .small, .android-light h1 small,
+.android-light h1 .small,
+.android-light h2 small,
+.android-light h2 .small,
+.android-light h3 small,
+.android-light h3 .small {
+  font-size: 65%;
+}
+/* line 106, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h4,
+.android h5,
+.android h6, .android-light h4,
+.android-light h5,
+.android-light h6 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* line 111, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h4 small,
+.android h4 .small,
+.android h5 small,
+.android h5 .small,
+.android h6 small,
+.android h6 .small, .android-light h4 small,
+.android-light h4 .small,
+.android-light h5 small,
+.android-light h5 .small,
+.android-light h6 small,
+.android-light h6 .small {
+  font-size: 75%;
+}
+/* line 116, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h1, .android .h1, .android-light h1, .android-light .h1 {
+  font-size: 36px;
+}
+/* line 117, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h2, .android .h2, .android-light h2, .android-light .h2 {
+  font-size: 30px;
+}
+/* line 118, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h3, .android .h3, .android-light h3, .android-light .h3 {
+  font-size: 24px;
+}
+/* line 119, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h4, .android .h4, .android-light h4, .android-light .h4 {
+  font-size: 18px;
+}
+/* line 120, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h5, .android .h5, .android-light h5, .android-light .h5 {
+  font-size: 14px;
+}
+/* line 121, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android h6, .android .h6, .android-light h6, .android-light .h6 {
+  font-size: 12px;
+}
+/* line 127, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .page-header, .android-light .page-header {
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
+  border-bottom: 1px solid #eeeeee;
+}
+/* line 140, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android ul,
+.android ol, .android-light ul,
+.android-light ol {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+/* line 144, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android ul ul,
+.android ul ol,
+.android ol ul,
+.android ol ol, .android-light ul ul,
+.android-light ul ol,
+.android-light ol ul,
+.android-light ol ol {
+  margin-bottom: 0;
+}
+/* line 152, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .list-unstyled, .android .list-inline, .android-light .list-unstyled, .android-light .list-inline {
+  padding-left: 0;
+  list-style: none;
+}
+/* line 161, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .list-inline > li, .android-light .list-inline > li {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+/* line 166, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android .list-inline > li:first-child, .android-light .list-inline > li:first-child {
+  padding-left: 0;
+}
+/* line 173, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android dl, .android-light dl {
+  margin-bottom: 20px;
+}
+/* line 177, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android dt,
+.android dd, .android-light dt,
+.android-light dd {
+  line-height: 1.42857;
+}
+/* line 180, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android dt, .android-light dt {
+  font-weight: bold;
+}
+/* line 183, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android dd, .android-light dd {
+  margin-left: 0;
+}
+@media (min-width: 768px) {
+  /* line 194, ../bower_components/bootstrap-sass/lib/_type.scss */
+  .android .dl-horizontal dt, .android-light .dl-horizontal dt {
+    float: left;
+    width: 160px;
+    clear: left;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* line 201, ../bower_components/bootstrap-sass/lib/_type.scss */
+  .android .dl-horizontal dd, .android-light .dl-horizontal dd {
+    margin-left: 180px;
+  }
+  /* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .dl-horizontal dd:before, .android .dl-horizontal dd:after, .android-light .dl-horizontal dd:before, .android-light .dl-horizontal dd:after {
+    content: " ";
+    /* 1 */
+    display: table;
+    /* 2 */
+  }
+  /* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .dl-horizontal dd:after, .android-light .dl-horizontal dd:after {
+    clear: both;
+  }
+}
+/* line 214, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android abbr[title],
+.android abbr[data-original-title], .android-light abbr[title],
+.android-light abbr[data-original-title] {
+  cursor: help;
+  border-bottom: 1px dotted #999999;
+}
+/* line 218, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android abbr.initialism, .android-light abbr.initialism {
+  font-size: 90%;
+  text-transform: uppercase;
+}
+/* line 224, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android blockquote, .android-light blockquote {
+  padding: 10px 20px;
+  margin: 0 0 20px;
+  border-left: 5px solid #eeeeee;
+}
+/* line 228, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android blockquote p, .android-light blockquote p {
+  font-size: 17.5px;
+  font-weight: 300;
+  line-height: 1.25;
+}
+/* line 233, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android blockquote p:last-child, .android-light blockquote p:last-child {
+  margin-bottom: 0;
+}
+/* line 236, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android blockquote small, .android-light blockquote small {
+  display: block;
+  line-height: 1.42857;
+  color: #999999;
+}
+/* line 240, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android blockquote small:before, .android-light blockquote small:before {
+  content: '\2014 \00A0';
+}
+/* line 246, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android blockquote.pull-right, .android-light blockquote.pull-right {
+  padding-right: 15px;
+  padding-left: 0;
+  border-right: 5px solid #eeeeee;
+  border-left: 0;
+}
+/* line 253, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android blockquote.pull-right p,
+.android blockquote.pull-right small,
+.android blockquote.pull-right .small, .android-light blockquote.pull-right p,
+.android-light blockquote.pull-right small,
+.android-light blockquote.pull-right .small {
+  text-align: right;
+}
+/* line 258, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android blockquote.pull-right small:before,
+.android blockquote.pull-right .small:before, .android-light blockquote.pull-right small:before,
+.android-light blockquote.pull-right .small:before {
+  content: '';
+}
+/* line 261, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android blockquote.pull-right small:after,
+.android blockquote.pull-right .small:after, .android-light blockquote.pull-right small:after,
+.android-light blockquote.pull-right .small:after {
+  content: '\00A0 \2014';
+}
+/* line 270, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android blockquote:before,
+.android blockquote:after, .android-light blockquote:before,
+.android-light blockquote:after {
+  content: "";
+}
+/* line 275, ../bower_components/bootstrap-sass/lib/_type.scss */
+.android address, .android-light address {
+  margin-bottom: 20px;
+  font-style: normal;
+  line-height: 1.42857;
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_code.scss */
+.android code,
+.android kbd,
+.android pre,
+.android samp, .android-light code,
+.android-light kbd,
+.android-light pre,
+.android-light samp {
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
+/* line 15, ../bower_components/bootstrap-sass/lib/_code.scss */
+.android code, .android-light code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  background-color: #f9f2f4;
   white-space: nowrap;
+  border-radius: 4px;
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_code.scss */
+.android pre, .android-light pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: #333333;
+  background-color: whitesmoke;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+}
+/* line 39, ../bower_components/bootstrap-sass/lib/_code.scss */
+.android pre code, .android-light pre code {
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border-radius: 0;
+}
+/* line 50, ../bower_components/bootstrap-sass/lib/_code.scss */
+.android .pre-scrollable, .android-light .pre-scrollable {
+  max-height: 340px;
+  overflow-y: scroll;
+}
+/* line 6, ../bower_components/bootstrap-sass/lib/_grid.scss */
+.android .container, .android-light .container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .container:before, .android .container:after, .android-light .container:before, .android-light .container:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .container:after, .android-light .container:after {
+  clear: both;
+}
+/* line 11, ../bower_components/bootstrap-sass/lib/_grid.scss */
+.android .row, .android-light .row {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .row:before, .android .row:after, .android-light .row:before, .android-light .row:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .row:after, .android-light .row:after {
+  clear: both;
+}
+/* line 728, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-12, .android .col-sm-12, .android .col-md-12, .android .col-lg-12, .android .col-xs-11, .android .col-sm-11, .android .col-md-11, .android .col-lg-11, .android .col-xs-10, .android .col-sm-10, .android .col-md-10, .android .col-lg-10, .android .col-xs-9, .android .col-sm-9, .android .col-md-9, .android .col-lg-9, .android .col-xs-8, .android .col-sm-8, .android .col-md-8, .android .col-lg-8, .android .col-xs-7, .android .col-sm-7, .android .col-md-7, .android .col-lg-7, .android .col-xs-6, .android .col-sm-6, .android .col-md-6, .android .col-lg-6, .android .col-xs-5, .android .col-sm-5, .android .col-md-5, .android .col-lg-5, .android .col-xs-4, .android .col-sm-4, .android .col-md-4, .android .col-lg-4, .android .col-xs-3, .android .col-sm-3, .android .col-md-3, .android .col-lg-3, .android .col-xs-2, .android .col-sm-2, .android .col-md-2, .android .col-lg-2, .android .col-xs-1, .android .col-sm-1, .android .col-md-1, .android .col-lg-1, .android-light .col-xs-12, .android-light .col-sm-12, .android-light .col-md-12, .android-light .col-lg-12, .android-light .col-xs-11, .android-light .col-sm-11, .android-light .col-md-11, .android-light .col-lg-11, .android-light .col-xs-10, .android-light .col-sm-10, .android-light .col-md-10, .android-light .col-lg-10, .android-light .col-xs-9, .android-light .col-sm-9, .android-light .col-md-9, .android-light .col-lg-9, .android-light .col-xs-8, .android-light .col-sm-8, .android-light .col-md-8, .android-light .col-lg-8, .android-light .col-xs-7, .android-light .col-sm-7, .android-light .col-md-7, .android-light .col-lg-7, .android-light .col-xs-6, .android-light .col-sm-6, .android-light .col-md-6, .android-light .col-lg-6, .android-light .col-xs-5, .android-light .col-sm-5, .android-light .col-md-5, .android-light .col-lg-5, .android-light .col-xs-4, .android-light .col-sm-4, .android-light .col-md-4, .android-light .col-lg-4, .android-light .col-xs-3, .android-light .col-sm-3, .android-light .col-md-3, .android-light .col-lg-3, .android-light .col-xs-2, .android-light .col-sm-2, .android-light .col-md-2, .android-light .col-lg-2, .android-light .col-xs-1, .android-light .col-sm-1, .android-light .col-md-1, .android-light .col-lg-1 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-12, .android .col-xs-11, .android .col-xs-10, .android .col-xs-9, .android .col-xs-8, .android .col-xs-7, .android .col-xs-6, .android .col-xs-5, .android .col-xs-4, .android .col-xs-3, .android .col-xs-2, .android .col-xs-1, .android-light .col-xs-12, .android-light .col-xs-11, .android-light .col-xs-10, .android-light .col-xs-9, .android-light .col-xs-8, .android-light .col-xs-7, .android-light .col-xs-6, .android-light .col-xs-5, .android-light .col-xs-4, .android-light .col-xs-3, .android-light .col-xs-2, .android-light .col-xs-1 {
+  float: left;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-1, .android-light .col-xs-1 {
+  width: 8.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-2, .android-light .col-xs-2 {
+  width: 16.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-3, .android-light .col-xs-3 {
+  width: 25%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-4, .android-light .col-xs-4 {
+  width: 33.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-5, .android-light .col-xs-5 {
+  width: 41.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-6, .android-light .col-xs-6 {
+  width: 50%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-7, .android-light .col-xs-7 {
+  width: 58.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-8, .android-light .col-xs-8 {
+  width: 66.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-9, .android-light .col-xs-9 {
+  width: 75%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-10, .android-light .col-xs-10 {
+  width: 83.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-11, .android-light .col-xs-11 {
+  width: 91.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-12, .android-light .col-xs-12 {
+  width: 100%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-0, .android-light .col-xs-pull-0 {
+  right: 0%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-1, .android-light .col-xs-pull-1 {
+  right: 8.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-2, .android-light .col-xs-pull-2 {
+  right: 16.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-3, .android-light .col-xs-pull-3 {
+  right: 25%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-4, .android-light .col-xs-pull-4 {
+  right: 33.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-5, .android-light .col-xs-pull-5 {
+  right: 41.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-6, .android-light .col-xs-pull-6 {
+  right: 50%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-7, .android-light .col-xs-pull-7 {
+  right: 58.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-8, .android-light .col-xs-pull-8 {
+  right: 66.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-9, .android-light .col-xs-pull-9 {
+  right: 75%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-10, .android-light .col-xs-pull-10 {
+  right: 83.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-11, .android-light .col-xs-pull-11 {
+  right: 91.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-12, .android-light .col-xs-pull-12 {
+  right: 100%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-0, .android-light .col-xs-push-0 {
+  left: 0%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-1, .android-light .col-xs-push-1 {
+  left: 8.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-2, .android-light .col-xs-push-2 {
+  left: 16.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-3, .android-light .col-xs-push-3 {
+  left: 25%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-4, .android-light .col-xs-push-4 {
+  left: 33.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-5, .android-light .col-xs-push-5 {
+  left: 41.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-6, .android-light .col-xs-push-6 {
+  left: 50%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-7, .android-light .col-xs-push-7 {
+  left: 58.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-8, .android-light .col-xs-push-8 {
+  left: 66.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-9, .android-light .col-xs-push-9 {
+  left: 75%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-10, .android-light .col-xs-push-10 {
+  left: 83.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-11, .android-light .col-xs-push-11 {
+  left: 91.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-12, .android-light .col-xs-push-12 {
+  left: 100%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-0, .android-light .col-xs-offset-0 {
+  margin-left: 0%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-1, .android-light .col-xs-offset-1 {
+  margin-left: 8.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-2, .android-light .col-xs-offset-2 {
+  margin-left: 16.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-3, .android-light .col-xs-offset-3 {
+  margin-left: 25%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-4, .android-light .col-xs-offset-4 {
+  margin-left: 33.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-5, .android-light .col-xs-offset-5 {
+  margin-left: 41.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-6, .android-light .col-xs-offset-6 {
+  margin-left: 50%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-7, .android-light .col-xs-offset-7 {
+  margin-left: 58.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-8, .android-light .col-xs-offset-8 {
+  margin-left: 66.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-9, .android-light .col-xs-offset-9 {
+  margin-left: 75%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-10, .android-light .col-xs-offset-10 {
+  margin-left: 83.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-11, .android-light .col-xs-offset-11 {
+  margin-left: 91.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-12, .android-light .col-xs-offset-12 {
+  margin-left: 100%;
+}
+@media (min-width: 768px) {
+  /* line 43, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .android .container, .android-light .container {
+    width: 750px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-12, .android .col-sm-11, .android .col-sm-10, .android .col-sm-9, .android .col-sm-8, .android .col-sm-7, .android .col-sm-6, .android .col-sm-5, .android .col-sm-4, .android .col-sm-3, .android .col-sm-2, .android .col-sm-1, .android-light .col-sm-12, .android-light .col-sm-11, .android-light .col-sm-10, .android-light .col-sm-9, .android-light .col-sm-8, .android-light .col-sm-7, .android-light .col-sm-6, .android-light .col-sm-5, .android-light .col-sm-4, .android-light .col-sm-3, .android-light .col-sm-2, .android-light .col-sm-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-1, .android-light .col-sm-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-2, .android-light .col-sm-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-3, .android-light .col-sm-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-4, .android-light .col-sm-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-5, .android-light .col-sm-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-6, .android-light .col-sm-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-7, .android-light .col-sm-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-8, .android-light .col-sm-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-9, .android-light .col-sm-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-10, .android-light .col-sm-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-11, .android-light .col-sm-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-12, .android-light .col-sm-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-0, .android-light .col-sm-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-1, .android-light .col-sm-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-2, .android-light .col-sm-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-3, .android-light .col-sm-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-4, .android-light .col-sm-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-5, .android-light .col-sm-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-6, .android-light .col-sm-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-7, .android-light .col-sm-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-8, .android-light .col-sm-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-9, .android-light .col-sm-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-10, .android-light .col-sm-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-11, .android-light .col-sm-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-12, .android-light .col-sm-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-0, .android-light .col-sm-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-1, .android-light .col-sm-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-2, .android-light .col-sm-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-3, .android-light .col-sm-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-4, .android-light .col-sm-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-5, .android-light .col-sm-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-6, .android-light .col-sm-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-7, .android-light .col-sm-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-8, .android-light .col-sm-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-9, .android-light .col-sm-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-10, .android-light .col-sm-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-11, .android-light .col-sm-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-12, .android-light .col-sm-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-0, .android-light .col-sm-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-1, .android-light .col-sm-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-2, .android-light .col-sm-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-3, .android-light .col-sm-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-4, .android-light .col-sm-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-5, .android-light .col-sm-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-6, .android-light .col-sm-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-7, .android-light .col-sm-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-8, .android-light .col-sm-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-9, .android-light .col-sm-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-10, .android-light .col-sm-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-11, .android-light .col-sm-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-12, .android-light .col-sm-offset-12 {
+    margin-left: 100%;
+  }
+}
+@media (min-width: 992px) {
+  /* line 63, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .android .container, .android-light .container {
+    width: 970px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-12, .android .col-md-11, .android .col-md-10, .android .col-md-9, .android .col-md-8, .android .col-md-7, .android .col-md-6, .android .col-md-5, .android .col-md-4, .android .col-md-3, .android .col-md-2, .android .col-md-1, .android-light .col-md-12, .android-light .col-md-11, .android-light .col-md-10, .android-light .col-md-9, .android-light .col-md-8, .android-light .col-md-7, .android-light .col-md-6, .android-light .col-md-5, .android-light .col-md-4, .android-light .col-md-3, .android-light .col-md-2, .android-light .col-md-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-1, .android-light .col-md-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-2, .android-light .col-md-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-3, .android-light .col-md-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-4, .android-light .col-md-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-5, .android-light .col-md-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-6, .android-light .col-md-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-7, .android-light .col-md-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-8, .android-light .col-md-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-9, .android-light .col-md-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-10, .android-light .col-md-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-11, .android-light .col-md-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-12, .android-light .col-md-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-0, .android-light .col-md-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-1, .android-light .col-md-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-2, .android-light .col-md-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-3, .android-light .col-md-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-4, .android-light .col-md-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-5, .android-light .col-md-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-6, .android-light .col-md-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-7, .android-light .col-md-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-8, .android-light .col-md-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-9, .android-light .col-md-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-10, .android-light .col-md-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-11, .android-light .col-md-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-12, .android-light .col-md-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-0, .android-light .col-md-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-1, .android-light .col-md-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-2, .android-light .col-md-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-3, .android-light .col-md-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-4, .android-light .col-md-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-5, .android-light .col-md-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-6, .android-light .col-md-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-7, .android-light .col-md-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-8, .android-light .col-md-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-9, .android-light .col-md-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-10, .android-light .col-md-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-11, .android-light .col-md-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-12, .android-light .col-md-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-0, .android-light .col-md-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-1, .android-light .col-md-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-2, .android-light .col-md-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-3, .android-light .col-md-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-4, .android-light .col-md-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-5, .android-light .col-md-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-6, .android-light .col-md-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-7, .android-light .col-md-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-8, .android-light .col-md-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-9, .android-light .col-md-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-10, .android-light .col-md-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-11, .android-light .col-md-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-12, .android-light .col-md-offset-12 {
+    margin-left: 100%;
+  }
+}
+@media (min-width: 1200px) {
+  /* line 83, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .android .container, .android-light .container {
+    width: 1170px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-12, .android .col-lg-11, .android .col-lg-10, .android .col-lg-9, .android .col-lg-8, .android .col-lg-7, .android .col-lg-6, .android .col-lg-5, .android .col-lg-4, .android .col-lg-3, .android .col-lg-2, .android .col-lg-1, .android-light .col-lg-12, .android-light .col-lg-11, .android-light .col-lg-10, .android-light .col-lg-9, .android-light .col-lg-8, .android-light .col-lg-7, .android-light .col-lg-6, .android-light .col-lg-5, .android-light .col-lg-4, .android-light .col-lg-3, .android-light .col-lg-2, .android-light .col-lg-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-1, .android-light .col-lg-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-2, .android-light .col-lg-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-3, .android-light .col-lg-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-4, .android-light .col-lg-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-5, .android-light .col-lg-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-6, .android-light .col-lg-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-7, .android-light .col-lg-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-8, .android-light .col-lg-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-9, .android-light .col-lg-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-10, .android-light .col-lg-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-11, .android-light .col-lg-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-12, .android-light .col-lg-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-0, .android-light .col-lg-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-1, .android-light .col-lg-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-2, .android-light .col-lg-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-3, .android-light .col-lg-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-4, .android-light .col-lg-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-5, .android-light .col-lg-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-6, .android-light .col-lg-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-7, .android-light .col-lg-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-8, .android-light .col-lg-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-9, .android-light .col-lg-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-10, .android-light .col-lg-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-11, .android-light .col-lg-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-12, .android-light .col-lg-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-0, .android-light .col-lg-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-1, .android-light .col-lg-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-2, .android-light .col-lg-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-3, .android-light .col-lg-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-4, .android-light .col-lg-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-5, .android-light .col-lg-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-6, .android-light .col-lg-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-7, .android-light .col-lg-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-8, .android-light .col-lg-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-9, .android-light .col-lg-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-10, .android-light .col-lg-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-11, .android-light .col-lg-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-12, .android-light .col-lg-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-0, .android-light .col-lg-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-1, .android-light .col-lg-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-2, .android-light .col-lg-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-3, .android-light .col-lg-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-4, .android-light .col-lg-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-5, .android-light .col-lg-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-6, .android-light .col-lg-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-7, .android-light .col-lg-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-8, .android-light .col-lg-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-9, .android-light .col-lg-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-10, .android-light .col-lg-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-11, .android-light .col-lg-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-12, .android-light .col-lg-offset-12 {
+    margin-left: 100%;
+  }
+}
+/* line 6, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android table, .android-light table {
+  max-width: 100%;
+  background-color: transparent;
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android th, .android-light th {
+  text-align: left;
+}
+/* line 17, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table, .android-light .table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+/* line 26, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table > thead > tr > th,
+.android .table > thead > tr > td,
+.android .table > tbody > tr > th,
+.android .table > tbody > tr > td,
+.android .table > tfoot > tr > th,
+.android .table > tfoot > tr > td, .android-light .table > thead > tr > th,
+.android-light .table > thead > tr > td,
+.android-light .table > tbody > tr > th,
+.android-light .table > tbody > tr > td,
+.android-light .table > tfoot > tr > th,
+.android-light .table > tfoot > tr > td {
+  padding: 8px;
+  line-height: 1.42857;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+/* line 35, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table > thead > tr > th, .android-light .table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dddddd;
+}
+/* line 45, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table > caption + thead > tr:first-child > th,
+.android .table > caption + thead > tr:first-child > td,
+.android .table > colgroup + thead > tr:first-child > th,
+.android .table > colgroup + thead > tr:first-child > td,
+.android .table > thead:first-child > tr:first-child > th,
+.android .table > thead:first-child > tr:first-child > td, .android-light .table > caption + thead > tr:first-child > th,
+.android-light .table > caption + thead > tr:first-child > td,
+.android-light .table > colgroup + thead > tr:first-child > th,
+.android-light .table > colgroup + thead > tr:first-child > td,
+.android-light .table > thead:first-child > tr:first-child > th,
+.android-light .table > thead:first-child > tr:first-child > td {
+  border-top: 0;
+}
+/* line 51, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table > tbody + tbody, .android-light .table > tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+/* line 56, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table .table, .android-light .table .table {
+  background-color: white;
+}
+/* line 70, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table-condensed > thead > tr > th,
+.android .table-condensed > thead > tr > td,
+.android .table-condensed > tbody > tr > th,
+.android .table-condensed > tbody > tr > td,
+.android .table-condensed > tfoot > tr > th,
+.android .table-condensed > tfoot > tr > td, .android-light .table-condensed > thead > tr > th,
+.android-light .table-condensed > thead > tr > td,
+.android-light .table-condensed > tbody > tr > th,
+.android-light .table-condensed > tbody > tr > td,
+.android-light .table-condensed > tfoot > tr > th,
+.android-light .table-condensed > tfoot > tr > td {
+  padding: 5px;
+}
+/* line 82, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table-bordered, .android-light .table-bordered {
+  border: 1px solid #dddddd;
+}
+/* line 89, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table-bordered > thead > tr > th,
+.android .table-bordered > thead > tr > td,
+.android .table-bordered > tbody > tr > th,
+.android .table-bordered > tbody > tr > td,
+.android .table-bordered > tfoot > tr > th,
+.android .table-bordered > tfoot > tr > td, .android-light .table-bordered > thead > tr > th,
+.android-light .table-bordered > thead > tr > td,
+.android-light .table-bordered > tbody > tr > th,
+.android-light .table-bordered > tbody > tr > td,
+.android-light .table-bordered > tfoot > tr > th,
+.android-light .table-bordered > tfoot > tr > td {
+  border: 1px solid #dddddd;
+}
+/* line 96, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table-bordered > thead > tr > th,
+.android .table-bordered > thead > tr > td, .android-light .table-bordered > thead > tr > th,
+.android-light .table-bordered > thead > tr > td {
+  border-bottom-width: 2px;
+}
+/* line 110, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table-striped > tbody > tr:nth-child(odd) > td,
+.android .table-striped > tbody > tr:nth-child(odd) > th, .android-light .table-striped > tbody > tr:nth-child(odd) > td,
+.android-light .table-striped > tbody > tr:nth-child(odd) > th {
+  background-color: #f9f9f9;
+}
+/* line 124, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table-hover > tbody > tr:hover > td,
+.android .table-hover > tbody > tr:hover > th, .android-light .table-hover > tbody > tr:hover > td,
+.android-light .table-hover > tbody > tr:hover > th {
+  background-color: whitesmoke;
+}
+/* line 135, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android table col[class*="col-"], .android-light table col[class*="col-"] {
+  float: none;
+  display: table-column;
+}
+/* line 142, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android table td[class*="col-"],
+.android table th[class*="col-"], .android-light table td[class*="col-"],
+.android-light table th[class*="col-"] {
+  float: none;
+  display: table-cell;
+}
+/* line 163, ../bower_components/bootstrap-sass/lib/_tables.scss */
+.android .table > thead > tr > td.active,
+.android .table > thead > tr > th.active, .android .table > thead > tr.active > td, .android .table > thead > tr.active > th,
+.android .table > tbody > tr > td.active,
+.android .table > tbody > tr > th.active,
+.android .table > tbody > tr.active > td,
+.android .table > tbody > tr.active > th,
+.android .table > tfoot > tr > td.active,
+.android .table > tfoot > tr > th.active,
+.android .table > tfoot > tr.active > td,
+.android .table > tfoot > tr.active > th, .android-light .table > thead > tr > td.active,
+.android-light .table > thead > tr > th.active, .android-light .table > thead > tr.active > td, .android-light .table > thead > tr.active > th,
+.android-light .table > tbody > tr > td.active,
+.android-light .table > tbody > tr > th.active,
+.android-light .table > tbody > tr.active > td,
+.android-light .table > tbody > tr.active > th,
+.android-light .table > tfoot > tr > td.active,
+.android-light .table > tfoot > tr > th.active,
+.android-light .table > tfoot > tr.active > td,
+.android-light .table > tfoot > tr.active > th {
+  background-color: whitesmoke;
+}
+/* line 441, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .table > thead > tr > td.success,
+.android .table > thead > tr > th.success, .android .table > thead > tr.success > td, .android .table > thead > tr.success > th,
+.android .table > tbody > tr > td.success,
+.android .table > tbody > tr > th.success,
+.android .table > tbody > tr.success > td,
+.android .table > tbody > tr.success > th,
+.android .table > tfoot > tr > td.success,
+.android .table > tfoot > tr > th.success,
+.android .table > tfoot > tr.success > td,
+.android .table > tfoot > tr.success > th, .android-light .table > thead > tr > td.success,
+.android-light .table > thead > tr > th.success, .android-light .table > thead > tr.success > td, .android-light .table > thead > tr.success > th,
+.android-light .table > tbody > tr > td.success,
+.android-light .table > tbody > tr > th.success,
+.android-light .table > tbody > tr.success > td,
+.android-light .table > tbody > tr.success > th,
+.android-light .table > tfoot > tr > td.success,
+.android-light .table > tfoot > tr > th.success,
+.android-light .table > tfoot > tr.success > td,
+.android-light .table > tfoot > tr.success > th {
+  background-color: #dff0d8;
+}
+/* line 452, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .table-hover > tbody > tr > td.success:hover,
+.android .table-hover > tbody > tr > th.success:hover, .android .table-hover > tbody > tr.success:hover > td, .android .table-hover > tbody > tr.success:hover > th, .android-light .table-hover > tbody > tr > td.success:hover,
+.android-light .table-hover > tbody > tr > th.success:hover, .android-light .table-hover > tbody > tr.success:hover > td, .android-light .table-hover > tbody > tr.success:hover > th {
+  background-color: #d0e9c6;
+}
+/* line 441, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .table > thead > tr > td.danger,
+.android .table > thead > tr > th.danger, .android .table > thead > tr.danger > td, .android .table > thead > tr.danger > th,
+.android .table > tbody > tr > td.danger,
+.android .table > tbody > tr > th.danger,
+.android .table > tbody > tr.danger > td,
+.android .table > tbody > tr.danger > th,
+.android .table > tfoot > tr > td.danger,
+.android .table > tfoot > tr > th.danger,
+.android .table > tfoot > tr.danger > td,
+.android .table > tfoot > tr.danger > th, .android-light .table > thead > tr > td.danger,
+.android-light .table > thead > tr > th.danger, .android-light .table > thead > tr.danger > td, .android-light .table > thead > tr.danger > th,
+.android-light .table > tbody > tr > td.danger,
+.android-light .table > tbody > tr > th.danger,
+.android-light .table > tbody > tr.danger > td,
+.android-light .table > tbody > tr.danger > th,
+.android-light .table > tfoot > tr > td.danger,
+.android-light .table > tfoot > tr > th.danger,
+.android-light .table > tfoot > tr.danger > td,
+.android-light .table > tfoot > tr.danger > th {
+  background-color: #f2dede;
+}
+/* line 452, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .table-hover > tbody > tr > td.danger:hover,
+.android .table-hover > tbody > tr > th.danger:hover, .android .table-hover > tbody > tr.danger:hover > td, .android .table-hover > tbody > tr.danger:hover > th, .android-light .table-hover > tbody > tr > td.danger:hover,
+.android-light .table-hover > tbody > tr > th.danger:hover, .android-light .table-hover > tbody > tr.danger:hover > td, .android-light .table-hover > tbody > tr.danger:hover > th {
+  background-color: #ebcccc;
+}
+/* line 441, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .table > thead > tr > td.warning,
+.android .table > thead > tr > th.warning, .android .table > thead > tr.warning > td, .android .table > thead > tr.warning > th,
+.android .table > tbody > tr > td.warning,
+.android .table > tbody > tr > th.warning,
+.android .table > tbody > tr.warning > td,
+.android .table > tbody > tr.warning > th,
+.android .table > tfoot > tr > td.warning,
+.android .table > tfoot > tr > th.warning,
+.android .table > tfoot > tr.warning > td,
+.android .table > tfoot > tr.warning > th, .android-light .table > thead > tr > td.warning,
+.android-light .table > thead > tr > th.warning, .android-light .table > thead > tr.warning > td, .android-light .table > thead > tr.warning > th,
+.android-light .table > tbody > tr > td.warning,
+.android-light .table > tbody > tr > th.warning,
+.android-light .table > tbody > tr.warning > td,
+.android-light .table > tbody > tr.warning > th,
+.android-light .table > tfoot > tr > td.warning,
+.android-light .table > tfoot > tr > th.warning,
+.android-light .table > tfoot > tr.warning > td,
+.android-light .table > tfoot > tr.warning > th {
+  background-color: #fcf8e3;
+}
+/* line 452, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .table-hover > tbody > tr > td.warning:hover,
+.android .table-hover > tbody > tr > th.warning:hover, .android .table-hover > tbody > tr.warning:hover > td, .android .table-hover > tbody > tr.warning:hover > th, .android-light .table-hover > tbody > tr > td.warning:hover,
+.android-light .table-hover > tbody > tr > th.warning:hover, .android-light .table-hover > tbody > tr.warning:hover > td, .android-light .table-hover > tbody > tr.warning:hover > th {
+  background-color: #faf2cc;
+}
+@media (max-width: 767px) {
+  /* line 183, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .android .table-responsive, .android-light .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #dddddd;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* line 193, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .android .table-responsive > .table, .android-light .table-responsive > .table {
+    margin-bottom: 0;
+  }
+  /* line 202, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .android .table-responsive > .table > thead > tr > th,
+  .android .table-responsive > .table > thead > tr > td,
+  .android .table-responsive > .table > tbody > tr > th,
+  .android .table-responsive > .table > tbody > tr > td,
+  .android .table-responsive > .table > tfoot > tr > th,
+  .android .table-responsive > .table > tfoot > tr > td, .android-light .table-responsive > .table > thead > tr > th,
+  .android-light .table-responsive > .table > thead > tr > td,
+  .android-light .table-responsive > .table > tbody > tr > th,
+  .android-light .table-responsive > .table > tbody > tr > td,
+  .android-light .table-responsive > .table > tfoot > tr > th,
+  .android-light .table-responsive > .table > tfoot > tr > td {
+    white-space: nowrap;
+  }
+  /* line 210, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .android .table-responsive > .table-bordered, .android-light .table-responsive > .table-bordered {
+    border: 0;
+  }
+  /* line 219, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .android .table-responsive > .table-bordered > thead > tr > th:first-child,
+  .android .table-responsive > .table-bordered > thead > tr > td:first-child,
+  .android .table-responsive > .table-bordered > tbody > tr > th:first-child,
+  .android .table-responsive > .table-bordered > tbody > tr > td:first-child,
+  .android .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+  .android .table-responsive > .table-bordered > tfoot > tr > td:first-child, .android-light .table-responsive > .table-bordered > thead > tr > th:first-child,
+  .android-light .table-responsive > .table-bordered > thead > tr > td:first-child,
+  .android-light .table-responsive > .table-bordered > tbody > tr > th:first-child,
+  .android-light .table-responsive > .table-bordered > tbody > tr > td:first-child,
+  .android-light .table-responsive > .table-bordered > tfoot > tr > th:first-child,
+  .android-light .table-responsive > .table-bordered > tfoot > tr > td:first-child {
+    border-left: 0;
+  }
+  /* line 223, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .android .table-responsive > .table-bordered > thead > tr > th:last-child,
+  .android .table-responsive > .table-bordered > thead > tr > td:last-child,
+  .android .table-responsive > .table-bordered > tbody > tr > th:last-child,
+  .android .table-responsive > .table-bordered > tbody > tr > td:last-child,
+  .android .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+  .android .table-responsive > .table-bordered > tfoot > tr > td:last-child, .android-light .table-responsive > .table-bordered > thead > tr > th:last-child,
+  .android-light .table-responsive > .table-bordered > thead > tr > td:last-child,
+  .android-light .table-responsive > .table-bordered > tbody > tr > th:last-child,
+  .android-light .table-responsive > .table-bordered > tbody > tr > td:last-child,
+  .android-light .table-responsive > .table-bordered > tfoot > tr > th:last-child,
+  .android-light .table-responsive > .table-bordered > tfoot > tr > td:last-child {
+    border-right: 0;
+  }
+  /* line 236, ../bower_components/bootstrap-sass/lib/_tables.scss */
+  .android .table-responsive > .table-bordered > tbody > tr:last-child > th,
+  .android .table-responsive > .table-bordered > tbody > tr:last-child > td,
+  .android .table-responsive > .table-bordered > tfoot > tr:last-child > th,
+  .android .table-responsive > .table-bordered > tfoot > tr:last-child > td, .android-light .table-responsive > .table-bordered > tbody > tr:last-child > th,
+  .android-light .table-responsive > .table-bordered > tbody > tr:last-child > td,
+  .android-light .table-responsive > .table-bordered > tfoot > tr:last-child > th,
+  .android-light .table-responsive > .table-bordered > tfoot > tr:last-child > td {
+    border-bottom: 0;
+  }
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android fieldset, .android-light fieldset {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+/* line 16, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android legend, .android-light legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 20px;
+  font-size: 21px;
+  line-height: inherit;
+  color: #333333;
+  border: 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+/* line 28, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android label, .android-light label {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+/* line 38, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android input[type="search"], .android-light input[type="search"] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 44, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android input[type="radio"],
+.android input[type="checkbox"], .android-light input[type="radio"],
+.android-light input[type="checkbox"] {
+  margin: 4px 0 0;
+  margin-top: 1px \9;
+  /* IE8-9 */
+  line-height: normal;
+}
+/* line 51, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android input[type="file"], .android-light input[type="file"] {
+  display: block;
+}
+/* line 57, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android select[multiple],
+.android select[size], .android-light select[multiple],
+.android-light select[size] {
+  height: auto;
+}
+/* line 62, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android select optgroup, .android-light select optgroup {
+  font-size: inherit;
+  font-style: inherit;
+  font-family: inherit;
+}
+/* line 71, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android input[type="file"]:focus,
+.android input[type="radio"]:focus,
+.android input[type="checkbox"]:focus, .android-light input[type="file"]:focus,
+.android-light input[type="radio"]:focus,
+.android-light input[type="checkbox"]:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+/* line 80, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android input[type="number"]::-webkit-outer-spin-button, .android input[type="number"]::-webkit-inner-spin-button, .android-light input[type="number"]::-webkit-outer-spin-button, .android-light input[type="number"]::-webkit-inner-spin-button {
+  height: auto;
+}
+/* line 86, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android output, .android-light output {
+  display: block;
+  padding-top: 7px;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #555555;
+  vertical-align: middle;
+}
+/* line 118, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .form-control, .android-light .form-control {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857;
+  color: #555555;
+  vertical-align: middle;
+  background-color: white;
+  background-image: none;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+/* line 833, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .form-control:focus, .android-light .form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+/* line 57, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .form-control:-moz-placeholder, .android-light .form-control:-moz-placeholder {
+  color: #999999;
+}
+/* line 58, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .form-control::-moz-placeholder, .android-light .form-control::-moz-placeholder {
+  color: #999999;
+}
+/* line 59, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .form-control:-ms-input-placeholder, .android-light .form-control:-ms-input-placeholder {
+  color: #999999;
+}
+/* line 60, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .form-control::-webkit-input-placeholder, .android-light .form-control::-webkit-input-placeholder {
+  color: #999999;
+}
+/* line 149, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .form-control[disabled], .android .form-control[readonly], fieldset[disabled] .android .form-control, .android-light .form-control[disabled], .android-light .form-control[readonly], fieldset[disabled] .android-light .form-control {
+  cursor: not-allowed;
+  background-color: #eeeeee;
+}
+/* line 158, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android textarea.form-control, .android-light textarea.form-control {
+  height: auto;
+}
+/* line 168, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .form-group, .android-light .form-group {
+  margin-bottom: 15px;
+}
+/* line 178, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .radio,
+.android .checkbox, .android-light .radio,
+.android-light .checkbox {
+  display: block;
+  min-height: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 20px;
+  vertical-align: middle;
+}
+/* line 185, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .radio label,
+.android .checkbox label, .android-light .radio label,
+.android-light .checkbox label {
+  display: inline;
+  margin-bottom: 0;
+  font-weight: normal;
+  cursor: pointer;
+}
+/* line 195, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .radio input[type="radio"],
+.android .radio-inline input[type="radio"],
+.android .checkbox input[type="checkbox"],
+.android .checkbox-inline input[type="checkbox"], .android-light .radio input[type="radio"],
+.android-light .radio-inline input[type="radio"],
+.android-light .checkbox input[type="checkbox"],
+.android-light .checkbox-inline input[type="checkbox"] {
+  float: left;
+  margin-left: -20px;
+}
+/* line 200, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .radio + .radio,
+.android .checkbox + .checkbox, .android-light .radio + .radio,
+.android-light .checkbox + .checkbox {
+  margin-top: -5px;
+}
+/* line 206, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .radio-inline,
+.android .checkbox-inline, .android-light .radio-inline,
+.android-light .checkbox-inline {
+  display: inline-block;
+  padding-left: 20px;
+  margin-bottom: 0;
+  vertical-align: middle;
+  font-weight: normal;
+  cursor: pointer;
+}
+/* line 215, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .radio-inline + .radio-inline,
+.android .checkbox-inline + .checkbox-inline, .android-light .radio-inline + .radio-inline,
+.android-light .checkbox-inline + .checkbox-inline {
+  margin-top: 0;
+  margin-left: 10px;
+}
+/* line 230, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android input[type="radio"][disabled], fieldset[disabled] .android input[type="radio"],
+.android input[type="checkbox"][disabled], fieldset[disabled]
+.android input[type="checkbox"],
+.android .radio[disabled], fieldset[disabled]
+.android .radio,
+.android .radio-inline[disabled], fieldset[disabled]
+.android .radio-inline,
+.android .checkbox[disabled], fieldset[disabled]
+.android .checkbox,
+.android .checkbox-inline[disabled], fieldset[disabled]
+.android .checkbox-inline, .android-light input[type="radio"][disabled], fieldset[disabled] .android-light input[type="radio"],
+.android-light input[type="checkbox"][disabled], fieldset[disabled]
+.android-light input[type="checkbox"],
+.android-light .radio[disabled], fieldset[disabled]
+.android-light .radio,
+.android-light .radio-inline[disabled], fieldset[disabled]
+.android-light .radio-inline,
+.android-light .checkbox[disabled], fieldset[disabled]
+.android-light .checkbox,
+.android-light .checkbox-inline[disabled], fieldset[disabled]
+.android-light .checkbox-inline {
+  cursor: not-allowed;
+}
+/* line 848, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .input-sm, .android-light .input-sm {
+  height: 30px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+/* line 853, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android select.input-sm, .android-light select.input-sm {
+  height: 30px;
+  line-height: 30px;
+}
+/* line 858, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android textarea.input-sm, .android-light textarea.input-sm {
+  height: auto;
+}
+/* line 848, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .input-lg, .android-light .input-lg {
+  height: 45px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 6px;
+}
+/* line 853, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android select.input-lg, .android-light select.input-lg {
+  height: 45px;
+  line-height: 45px;
+}
+/* line 858, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android textarea.input-lg, .android-light textarea.input-lg {
+  height: auto;
+}
+/* line 797, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-warning .help-block,
+.android .has-warning .control-label,
+.android .has-warning .radio,
+.android .has-warning .checkbox,
+.android .has-warning .radio-inline,
+.android .has-warning .checkbox-inline, .android-light .has-warning .help-block,
+.android-light .has-warning .control-label,
+.android-light .has-warning .radio,
+.android-light .has-warning .checkbox,
+.android-light .has-warning .radio-inline,
+.android-light .has-warning .checkbox-inline {
+  color: #c09853;
+}
+/* line 801, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-warning .form-control, .android-light .has-warning .form-control {
+  border-color: #c09853;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+/* line 804, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-warning .form-control:focus, .android-light .has-warning .form-control:focus {
+  border-color: #a47e3c;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #dbc59e;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #dbc59e;
+}
+/* line 811, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-warning .input-group-addon, .android-light .has-warning .input-group-addon {
+  color: #c09853;
+  border-color: #c09853;
+  background-color: #fcf8e3;
+}
+/* line 797, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-error .help-block,
+.android .has-error .control-label,
+.android .has-error .radio,
+.android .has-error .checkbox,
+.android .has-error .radio-inline,
+.android .has-error .checkbox-inline, .android-light .has-error .help-block,
+.android-light .has-error .control-label,
+.android-light .has-error .radio,
+.android-light .has-error .checkbox,
+.android-light .has-error .radio-inline,
+.android-light .has-error .checkbox-inline {
+  color: #b94a48;
+}
+/* line 801, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-error .form-control, .android-light .has-error .form-control {
+  border-color: #b94a48;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+/* line 804, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-error .form-control:focus, .android-light .has-error .form-control:focus {
+  border-color: #953b39;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #d59392;
+}
+/* line 811, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-error .input-group-addon, .android-light .has-error .input-group-addon {
+  color: #b94a48;
+  border-color: #b94a48;
+  background-color: #f2dede;
+}
+/* line 797, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-success .help-block,
+.android .has-success .control-label,
+.android .has-success .radio,
+.android .has-success .checkbox,
+.android .has-success .radio-inline,
+.android .has-success .checkbox-inline, .android-light .has-success .help-block,
+.android-light .has-success .control-label,
+.android-light .has-success .radio,
+.android-light .has-success .checkbox,
+.android-light .has-success .radio-inline,
+.android-light .has-success .checkbox-inline {
+  color: #468847;
+}
+/* line 801, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-success .form-control, .android-light .has-success .form-control {
+  border-color: #468847;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+/* line 804, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-success .form-control:focus, .android-light .has-success .form-control:focus {
+  border-color: #356635;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
+}
+/* line 811, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .has-success .input-group-addon, .android-light .has-success .input-group-addon {
+  color: #468847;
+  border-color: #468847;
+  background-color: #dff0d8;
+}
+/* line 265, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .form-control-static, .android-light .form-control-static {
+  margin-bottom: 0;
+}
+/* line 275, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .help-block, .android-light .help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #737373;
+}
+@media (min-width: 768px) {
+  /* line 300, ../bower_components/bootstrap-sass/lib/_forms.scss */
+  .android .form-inline .form-group, .android-light .form-inline .form-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+  /* line 307, ../bower_components/bootstrap-sass/lib/_forms.scss */
+  .android .form-inline .form-control, .android-light .form-inline .form-control {
+    display: inline-block;
+  }
+  /* line 315, ../bower_components/bootstrap-sass/lib/_forms.scss */
+  .android .form-inline .radio,
+  .android .form-inline .checkbox, .android-light .form-inline .radio,
+  .android-light .form-inline .checkbox {
+    display: inline-block;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+  }
+  /* line 322, ../bower_components/bootstrap-sass/lib/_forms.scss */
+  .android .form-inline .radio input[type="radio"],
+  .android .form-inline .checkbox input[type="checkbox"], .android-light .form-inline .radio input[type="radio"],
+  .android-light .form-inline .checkbox input[type="checkbox"] {
+    float: none;
+    margin-left: 0;
+  }
+}
+/* line 342, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .form-horizontal .control-label,
+.android .form-horizontal .radio,
+.android .form-horizontal .checkbox,
+.android .form-horizontal .radio-inline,
+.android .form-horizontal .checkbox-inline, .android-light .form-horizontal .control-label,
+.android-light .form-horizontal .radio,
+.android-light .form-horizontal .checkbox,
+.android-light .form-horizontal .radio-inline,
+.android-light .form-horizontal .checkbox-inline {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 7px;
+}
+/* line 349, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .form-horizontal .form-group, .android-light .form-horizontal .form-group {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .form-horizontal .form-group:before, .android .form-horizontal .form-group:after, .android-light .form-horizontal .form-group:before, .android-light .form-horizontal .form-group:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .form-horizontal .form-group:after, .android-light .form-horizontal .form-group:after {
+  clear: both;
+}
+/* line 353, ../bower_components/bootstrap-sass/lib/_forms.scss */
+.android .form-horizontal .form-control-static, .android-light .form-horizontal .form-control-static {
+  padding-top: 7px;
+}
+@media (min-width: 768px) {
+  /* line 359, ../bower_components/bootstrap-sass/lib/_forms.scss */
+  .android .form-horizontal .control-label, .android-light .form-horizontal .control-label {
+    text-align: right;
+  }
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn, .android-light .btn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+/* line 23, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn:focus, .android-light .btn:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+/* line 28, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn:hover, .android .btn:focus, .android-light .btn:hover, .android-light .btn:focus {
+  color: #333333;
+  text-decoration: none;
+}
+/* line 34, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn:active, .android .btn.active, .android-light .btn:active, .android-light .btn.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+/* line 42, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn.disabled, .android .btn[disabled], fieldset[disabled] .android .btn, .android-light .btn.disabled, .android-light .btn[disabled], fieldset[disabled] .android-light .btn {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* line 55, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-default, .android-light .btn-default {
+  color: #333333;
+  background-color: white;
+  border-color: #cccccc;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-default:hover, .android .btn-default:focus, .android .btn-default:active, .android .btn-default.active, .android-light .btn-default:hover, .android-light .btn-default:focus, .android-light .btn-default:active, .android-light .btn-default.active {
+  color: #333333;
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-default.dropdown-toggle, .open .android-light .btn-default.dropdown-toggle {
+  color: #333333;
+  background-color: #ebebeb;
+  border-color: #adadad;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-default:active, .android .btn-default.active, .android-light .btn-default:active, .android-light .btn-default.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-default.dropdown-toggle, .open .android-light .btn-default.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-default.disabled, .android .btn-default.disabled:hover, .android .btn-default.disabled:focus, .android .btn-default.disabled:active, .android .btn-default.disabled.active, .android .btn-default[disabled], .android .btn-default[disabled]:hover, .android .btn-default[disabled]:focus, .android .btn-default[disabled]:active, .android .btn-default[disabled].active, fieldset[disabled] .android .btn-default, fieldset[disabled] .android .btn-default:hover, fieldset[disabled] .android .btn-default:focus, fieldset[disabled] .android .btn-default:active, fieldset[disabled] .android .btn-default.active, .android-light .btn-default.disabled, .android-light .btn-default.disabled:hover, .android-light .btn-default.disabled:focus, .android-light .btn-default.disabled:active, .android-light .btn-default.disabled.active, .android-light .btn-default[disabled], .android-light .btn-default[disabled]:hover, .android-light .btn-default[disabled]:focus, .android-light .btn-default[disabled]:active, .android-light .btn-default[disabled].active, fieldset[disabled] .android-light .btn-default, fieldset[disabled] .android-light .btn-default:hover, fieldset[disabled] .android-light .btn-default:focus, fieldset[disabled] .android-light .btn-default:active, fieldset[disabled] .android-light .btn-default.active {
+  background-color: white;
+  border-color: #cccccc;
+}
+/* line 58, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-primary, .android-light .btn-primary {
+  color: white;
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-primary:hover, .android .btn-primary:focus, .android .btn-primary:active, .android .btn-primary.active, .android-light .btn-primary:hover, .android-light .btn-primary:focus, .android-light .btn-primary:active, .android-light .btn-primary.active {
+  color: white;
+  background-color: #3276b1;
+  border-color: #285e8e;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-primary.dropdown-toggle, .open .android-light .btn-primary.dropdown-toggle {
+  color: white;
+  background-color: #3276b1;
+  border-color: #285e8e;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-primary:active, .android .btn-primary.active, .android-light .btn-primary:active, .android-light .btn-primary.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-primary.dropdown-toggle, .open .android-light .btn-primary.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-primary.disabled, .android .btn-primary.disabled:hover, .android .btn-primary.disabled:focus, .android .btn-primary.disabled:active, .android .btn-primary.disabled.active, .android .btn-primary[disabled], .android .btn-primary[disabled]:hover, .android .btn-primary[disabled]:focus, .android .btn-primary[disabled]:active, .android .btn-primary[disabled].active, fieldset[disabled] .android .btn-primary, fieldset[disabled] .android .btn-primary:hover, fieldset[disabled] .android .btn-primary:focus, fieldset[disabled] .android .btn-primary:active, fieldset[disabled] .android .btn-primary.active, .android-light .btn-primary.disabled, .android-light .btn-primary.disabled:hover, .android-light .btn-primary.disabled:focus, .android-light .btn-primary.disabled:active, .android-light .btn-primary.disabled.active, .android-light .btn-primary[disabled], .android-light .btn-primary[disabled]:hover, .android-light .btn-primary[disabled]:focus, .android-light .btn-primary[disabled]:active, .android-light .btn-primary[disabled].active, fieldset[disabled] .android-light .btn-primary, fieldset[disabled] .android-light .btn-primary:hover, fieldset[disabled] .android-light .btn-primary:focus, fieldset[disabled] .android-light .btn-primary:active, fieldset[disabled] .android-light .btn-primary.active {
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+/* line 62, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-warning, .android-light .btn-warning {
+  color: white;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-warning:hover, .android .btn-warning:focus, .android .btn-warning:active, .android .btn-warning.active, .android-light .btn-warning:hover, .android-light .btn-warning:focus, .android-light .btn-warning:active, .android-light .btn-warning.active {
+  color: white;
+  background-color: #ed9c28;
+  border-color: #d58512;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-warning.dropdown-toggle, .open .android-light .btn-warning.dropdown-toggle {
+  color: white;
+  background-color: #ed9c28;
+  border-color: #d58512;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-warning:active, .android .btn-warning.active, .android-light .btn-warning:active, .android-light .btn-warning.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-warning.dropdown-toggle, .open .android-light .btn-warning.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-warning.disabled, .android .btn-warning.disabled:hover, .android .btn-warning.disabled:focus, .android .btn-warning.disabled:active, .android .btn-warning.disabled.active, .android .btn-warning[disabled], .android .btn-warning[disabled]:hover, .android .btn-warning[disabled]:focus, .android .btn-warning[disabled]:active, .android .btn-warning[disabled].active, fieldset[disabled] .android .btn-warning, fieldset[disabled] .android .btn-warning:hover, fieldset[disabled] .android .btn-warning:focus, fieldset[disabled] .android .btn-warning:active, fieldset[disabled] .android .btn-warning.active, .android-light .btn-warning.disabled, .android-light .btn-warning.disabled:hover, .android-light .btn-warning.disabled:focus, .android-light .btn-warning.disabled:active, .android-light .btn-warning.disabled.active, .android-light .btn-warning[disabled], .android-light .btn-warning[disabled]:hover, .android-light .btn-warning[disabled]:focus, .android-light .btn-warning[disabled]:active, .android-light .btn-warning[disabled].active, fieldset[disabled] .android-light .btn-warning, fieldset[disabled] .android-light .btn-warning:hover, fieldset[disabled] .android-light .btn-warning:focus, fieldset[disabled] .android-light .btn-warning:active, fieldset[disabled] .android-light .btn-warning.active {
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+/* line 66, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-danger, .android-light .btn-danger {
+  color: white;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-danger:hover, .android .btn-danger:focus, .android .btn-danger:active, .android .btn-danger.active, .android-light .btn-danger:hover, .android-light .btn-danger:focus, .android-light .btn-danger:active, .android-light .btn-danger.active {
+  color: white;
+  background-color: #d2322d;
+  border-color: #ac2925;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-danger.dropdown-toggle, .open .android-light .btn-danger.dropdown-toggle {
+  color: white;
+  background-color: #d2322d;
+  border-color: #ac2925;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-danger:active, .android .btn-danger.active, .android-light .btn-danger:active, .android-light .btn-danger.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-danger.dropdown-toggle, .open .android-light .btn-danger.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-danger.disabled, .android .btn-danger.disabled:hover, .android .btn-danger.disabled:focus, .android .btn-danger.disabled:active, .android .btn-danger.disabled.active, .android .btn-danger[disabled], .android .btn-danger[disabled]:hover, .android .btn-danger[disabled]:focus, .android .btn-danger[disabled]:active, .android .btn-danger[disabled].active, fieldset[disabled] .android .btn-danger, fieldset[disabled] .android .btn-danger:hover, fieldset[disabled] .android .btn-danger:focus, fieldset[disabled] .android .btn-danger:active, fieldset[disabled] .android .btn-danger.active, .android-light .btn-danger.disabled, .android-light .btn-danger.disabled:hover, .android-light .btn-danger.disabled:focus, .android-light .btn-danger.disabled:active, .android-light .btn-danger.disabled.active, .android-light .btn-danger[disabled], .android-light .btn-danger[disabled]:hover, .android-light .btn-danger[disabled]:focus, .android-light .btn-danger[disabled]:active, .android-light .btn-danger[disabled].active, fieldset[disabled] .android-light .btn-danger, fieldset[disabled] .android-light .btn-danger:hover, fieldset[disabled] .android-light .btn-danger:focus, fieldset[disabled] .android-light .btn-danger:active, fieldset[disabled] .android-light .btn-danger.active {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+/* line 70, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-success, .android-light .btn-success {
+  color: white;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-success:hover, .android .btn-success:focus, .android .btn-success:active, .android .btn-success.active, .android-light .btn-success:hover, .android-light .btn-success:focus, .android-light .btn-success:active, .android-light .btn-success.active {
+  color: white;
+  background-color: #47a447;
+  border-color: #398439;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-success.dropdown-toggle, .open .android-light .btn-success.dropdown-toggle {
+  color: white;
+  background-color: #47a447;
+  border-color: #398439;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-success:active, .android .btn-success.active, .android-light .btn-success:active, .android-light .btn-success.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-success.dropdown-toggle, .open .android-light .btn-success.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-success.disabled, .android .btn-success.disabled:hover, .android .btn-success.disabled:focus, .android .btn-success.disabled:active, .android .btn-success.disabled.active, .android .btn-success[disabled], .android .btn-success[disabled]:hover, .android .btn-success[disabled]:focus, .android .btn-success[disabled]:active, .android .btn-success[disabled].active, fieldset[disabled] .android .btn-success, fieldset[disabled] .android .btn-success:hover, fieldset[disabled] .android .btn-success:focus, fieldset[disabled] .android .btn-success:active, fieldset[disabled] .android .btn-success.active, .android-light .btn-success.disabled, .android-light .btn-success.disabled:hover, .android-light .btn-success.disabled:focus, .android-light .btn-success.disabled:active, .android-light .btn-success.disabled.active, .android-light .btn-success[disabled], .android-light .btn-success[disabled]:hover, .android-light .btn-success[disabled]:focus, .android-light .btn-success[disabled]:active, .android-light .btn-success[disabled].active, fieldset[disabled] .android-light .btn-success, fieldset[disabled] .android-light .btn-success:hover, fieldset[disabled] .android-light .btn-success:focus, fieldset[disabled] .android-light .btn-success:active, fieldset[disabled] .android-light .btn-success.active {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+/* line 74, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-info, .android-light .btn-info {
+  color: white;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+/* line 470, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-info:hover, .android .btn-info:focus, .android .btn-info:active, .android .btn-info.active, .android-light .btn-info:hover, .android-light .btn-info:focus, .android-light .btn-info:active, .android-light .btn-info.active {
+  color: white;
+  background-color: #39b3d7;
+  border-color: #269abc;
+}
+/* line 475, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-info.dropdown-toggle, .open .android-light .btn-info.dropdown-toggle {
+  color: white;
+  background-color: #39b3d7;
+  border-color: #269abc;
+}
+/* line 481, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-info:active, .android .btn-info.active, .android-light .btn-info:active, .android-light .btn-info.active {
+  background-image: none;
+}
+/* line 484, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.open .android .btn-info.dropdown-toggle, .open .android-light .btn-info.dropdown-toggle {
+  background-image: none;
+}
+/* line 494, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .btn-info.disabled, .android .btn-info.disabled:hover, .android .btn-info.disabled:focus, .android .btn-info.disabled:active, .android .btn-info.disabled.active, .android .btn-info[disabled], .android .btn-info[disabled]:hover, .android .btn-info[disabled]:focus, .android .btn-info[disabled]:active, .android .btn-info[disabled].active, fieldset[disabled] .android .btn-info, fieldset[disabled] .android .btn-info:hover, fieldset[disabled] .android .btn-info:focus, fieldset[disabled] .android .btn-info:active, fieldset[disabled] .android .btn-info.active, .android-light .btn-info.disabled, .android-light .btn-info.disabled:hover, .android-light .btn-info.disabled:focus, .android-light .btn-info.disabled:active, .android-light .btn-info.disabled.active, .android-light .btn-info[disabled], .android-light .btn-info[disabled]:hover, .android-light .btn-info[disabled]:focus, .android-light .btn-info[disabled]:active, .android-light .btn-info[disabled].active, fieldset[disabled] .android-light .btn-info, fieldset[disabled] .android-light .btn-info:hover, fieldset[disabled] .android-light .btn-info:focus, fieldset[disabled] .android-light .btn-info:active, fieldset[disabled] .android-light .btn-info.active {
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+/* line 83, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-link, .android-light .btn-link {
+  color: #428bca;
+  font-weight: normal;
+  cursor: pointer;
+  border-radius: 0;
+}
+/* line 92, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-link, .android .btn-link:active, .android .btn-link[disabled], fieldset[disabled] .android .btn-link, .android-light .btn-link, .android-light .btn-link:active, .android-light .btn-link[disabled], fieldset[disabled] .android-light .btn-link {
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* line 99, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-link, .android .btn-link:hover, .android .btn-link:focus, .android .btn-link:active, .android-light .btn-link, .android-light .btn-link:hover, .android-light .btn-link:focus, .android-light .btn-link:active {
+  border-color: transparent;
+}
+/* line 103, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-link:hover, .android .btn-link:focus, .android-light .btn-link:hover, .android-light .btn-link:focus {
+  color: #2a6496;
+  text-decoration: underline;
+  background-color: transparent;
+}
+/* line 111, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-link[disabled]:hover, .android .btn-link[disabled]:focus, fieldset[disabled] .android .btn-link:hover, fieldset[disabled] .android .btn-link:focus, .android-light .btn-link[disabled]:hover, .android-light .btn-link[disabled]:focus, fieldset[disabled] .android-light .btn-link:hover, fieldset[disabled] .android-light .btn-link:focus {
+  color: #999999;
+  text-decoration: none;
+}
+/* line 122, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-lg, .android-light .btn-lg {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 6px;
+}
+/* line 127, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-sm,
+.android .btn-xs, .android-light .btn-sm,
+.android-light .btn-xs {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+/* line 131, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-xs, .android-light .btn-xs {
+  padding: 1px 5px;
+}
+/* line 139, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-block, .android-light .btn-block {
+  display: block;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+/* line 147, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android .btn-block + .btn-block, .android-light .btn-block + .btn-block {
+  margin-top: 5px;
+}
+/* line 155, ../bower_components/bootstrap-sass/lib/_buttons.scss */
+.android input[type="submit"].btn-block,
+.android input[type="reset"].btn-block,
+.android input[type="button"].btn-block, .android-light input[type="submit"].btn-block,
+.android-light input[type="reset"].btn-block,
+.android-light input[type="button"].btn-block {
+  width: 100%;
+}
+/* line 6, ../bower_components/bootstrap-sass/lib/_grid.scss */
+.android .container, .android-light .container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .container:before, .android .container:after, .android-light .container:before, .android-light .container:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .container:after, .android-light .container:after {
+  clear: both;
+}
+/* line 11, ../bower_components/bootstrap-sass/lib/_grid.scss */
+.android .row, .android-light .row {
+  margin-left: -15px;
+  margin-right: -15px;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .row:before, .android .row:after, .android-light .row:before, .android-light .row:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .row:after, .android-light .row:after {
+  clear: both;
+}
+/* line 728, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-12, .android .col-sm-12, .android .col-md-12, .android .col-lg-12, .android .col-xs-11, .android .col-sm-11, .android .col-md-11, .android .col-lg-11, .android .col-xs-10, .android .col-sm-10, .android .col-md-10, .android .col-lg-10, .android .col-xs-9, .android .col-sm-9, .android .col-md-9, .android .col-lg-9, .android .col-xs-8, .android .col-sm-8, .android .col-md-8, .android .col-lg-8, .android .col-xs-7, .android .col-sm-7, .android .col-md-7, .android .col-lg-7, .android .col-xs-6, .android .col-sm-6, .android .col-md-6, .android .col-lg-6, .android .col-xs-5, .android .col-sm-5, .android .col-md-5, .android .col-lg-5, .android .col-xs-4, .android .col-sm-4, .android .col-md-4, .android .col-lg-4, .android .col-xs-3, .android .col-sm-3, .android .col-md-3, .android .col-lg-3, .android .col-xs-2, .android .col-sm-2, .android .col-md-2, .android .col-lg-2, .android .col-xs-1, .android .col-sm-1, .android .col-md-1, .android .col-lg-1, .android-light .col-xs-12, .android-light .col-sm-12, .android-light .col-md-12, .android-light .col-lg-12, .android-light .col-xs-11, .android-light .col-sm-11, .android-light .col-md-11, .android-light .col-lg-11, .android-light .col-xs-10, .android-light .col-sm-10, .android-light .col-md-10, .android-light .col-lg-10, .android-light .col-xs-9, .android-light .col-sm-9, .android-light .col-md-9, .android-light .col-lg-9, .android-light .col-xs-8, .android-light .col-sm-8, .android-light .col-md-8, .android-light .col-lg-8, .android-light .col-xs-7, .android-light .col-sm-7, .android-light .col-md-7, .android-light .col-lg-7, .android-light .col-xs-6, .android-light .col-sm-6, .android-light .col-md-6, .android-light .col-lg-6, .android-light .col-xs-5, .android-light .col-sm-5, .android-light .col-md-5, .android-light .col-lg-5, .android-light .col-xs-4, .android-light .col-sm-4, .android-light .col-md-4, .android-light .col-lg-4, .android-light .col-xs-3, .android-light .col-sm-3, .android-light .col-md-3, .android-light .col-lg-3, .android-light .col-xs-2, .android-light .col-sm-2, .android-light .col-md-2, .android-light .col-lg-2, .android-light .col-xs-1, .android-light .col-sm-1, .android-light .col-md-1, .android-light .col-lg-1 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+/* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-12, .android .col-xs-11, .android .col-xs-10, .android .col-xs-9, .android .col-xs-8, .android .col-xs-7, .android .col-xs-6, .android .col-xs-5, .android .col-xs-4, .android .col-xs-3, .android .col-xs-2, .android .col-xs-1, .android-light .col-xs-12, .android-light .col-xs-11, .android-light .col-xs-10, .android-light .col-xs-9, .android-light .col-xs-8, .android-light .col-xs-7, .android-light .col-xs-6, .android-light .col-xs-5, .android-light .col-xs-4, .android-light .col-xs-3, .android-light .col-xs-2, .android-light .col-xs-1 {
+  float: left;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-1, .android-light .col-xs-1 {
+  width: 8.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-2, .android-light .col-xs-2 {
+  width: 16.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-3, .android-light .col-xs-3 {
+  width: 25%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-4, .android-light .col-xs-4 {
+  width: 33.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-5, .android-light .col-xs-5 {
+  width: 41.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-6, .android-light .col-xs-6 {
+  width: 50%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-7, .android-light .col-xs-7 {
+  width: 58.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-8, .android-light .col-xs-8 {
+  width: 66.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-9, .android-light .col-xs-9 {
+  width: 75%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-10, .android-light .col-xs-10 {
+  width: 83.33333%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-11, .android-light .col-xs-11 {
+  width: 91.66667%;
+}
+/* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-12, .android-light .col-xs-12 {
+  width: 100%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-0, .android-light .col-xs-pull-0 {
+  right: 0%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-1, .android-light .col-xs-pull-1 {
+  right: 8.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-2, .android-light .col-xs-pull-2 {
+  right: 16.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-3, .android-light .col-xs-pull-3 {
+  right: 25%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-4, .android-light .col-xs-pull-4 {
+  right: 33.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-5, .android-light .col-xs-pull-5 {
+  right: 41.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-6, .android-light .col-xs-pull-6 {
+  right: 50%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-7, .android-light .col-xs-pull-7 {
+  right: 58.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-8, .android-light .col-xs-pull-8 {
+  right: 66.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-9, .android-light .col-xs-pull-9 {
+  right: 75%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-10, .android-light .col-xs-pull-10 {
+  right: 83.33333%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-11, .android-light .col-xs-pull-11 {
+  right: 91.66667%;
+}
+/* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-pull-12, .android-light .col-xs-pull-12 {
+  right: 100%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-0, .android-light .col-xs-push-0 {
+  left: 0%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-1, .android-light .col-xs-push-1 {
+  left: 8.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-2, .android-light .col-xs-push-2 {
+  left: 16.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-3, .android-light .col-xs-push-3 {
+  left: 25%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-4, .android-light .col-xs-push-4 {
+  left: 33.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-5, .android-light .col-xs-push-5 {
+  left: 41.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-6, .android-light .col-xs-push-6 {
+  left: 50%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-7, .android-light .col-xs-push-7 {
+  left: 58.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-8, .android-light .col-xs-push-8 {
+  left: 66.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-9, .android-light .col-xs-push-9 {
+  left: 75%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-10, .android-light .col-xs-push-10 {
+  left: 83.33333%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-11, .android-light .col-xs-push-11 {
+  left: 91.66667%;
+}
+/* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-push-12, .android-light .col-xs-push-12 {
+  left: 100%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-0, .android-light .col-xs-offset-0 {
+  margin-left: 0%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-1, .android-light .col-xs-offset-1 {
+  margin-left: 8.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-2, .android-light .col-xs-offset-2 {
+  margin-left: 16.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-3, .android-light .col-xs-offset-3 {
+  margin-left: 25%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-4, .android-light .col-xs-offset-4 {
+  margin-left: 33.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-5, .android-light .col-xs-offset-5 {
+  margin-left: 41.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-6, .android-light .col-xs-offset-6 {
+  margin-left: 50%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-7, .android-light .col-xs-offset-7 {
+  margin-left: 58.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-8, .android-light .col-xs-offset-8 {
+  margin-left: 66.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-9, .android-light .col-xs-offset-9 {
+  margin-left: 75%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-10, .android-light .col-xs-offset-10 {
+  margin-left: 83.33333%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-11, .android-light .col-xs-offset-11 {
+  margin-left: 91.66667%;
+}
+/* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .col-xs-offset-12, .android-light .col-xs-offset-12 {
+  margin-left: 100%;
+}
+@media (min-width: 768px) {
+  /* line 43, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .android .container, .android-light .container {
+    width: 750px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-12, .android .col-sm-11, .android .col-sm-10, .android .col-sm-9, .android .col-sm-8, .android .col-sm-7, .android .col-sm-6, .android .col-sm-5, .android .col-sm-4, .android .col-sm-3, .android .col-sm-2, .android .col-sm-1, .android-light .col-sm-12, .android-light .col-sm-11, .android-light .col-sm-10, .android-light .col-sm-9, .android-light .col-sm-8, .android-light .col-sm-7, .android-light .col-sm-6, .android-light .col-sm-5, .android-light .col-sm-4, .android-light .col-sm-3, .android-light .col-sm-2, .android-light .col-sm-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-1, .android-light .col-sm-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-2, .android-light .col-sm-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-3, .android-light .col-sm-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-4, .android-light .col-sm-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-5, .android-light .col-sm-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-6, .android-light .col-sm-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-7, .android-light .col-sm-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-8, .android-light .col-sm-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-9, .android-light .col-sm-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-10, .android-light .col-sm-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-11, .android-light .col-sm-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-12, .android-light .col-sm-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-0, .android-light .col-sm-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-1, .android-light .col-sm-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-2, .android-light .col-sm-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-3, .android-light .col-sm-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-4, .android-light .col-sm-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-5, .android-light .col-sm-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-6, .android-light .col-sm-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-7, .android-light .col-sm-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-8, .android-light .col-sm-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-9, .android-light .col-sm-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-10, .android-light .col-sm-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-11, .android-light .col-sm-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-pull-12, .android-light .col-sm-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-0, .android-light .col-sm-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-1, .android-light .col-sm-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-2, .android-light .col-sm-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-3, .android-light .col-sm-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-4, .android-light .col-sm-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-5, .android-light .col-sm-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-6, .android-light .col-sm-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-7, .android-light .col-sm-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-8, .android-light .col-sm-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-9, .android-light .col-sm-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-10, .android-light .col-sm-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-11, .android-light .col-sm-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-push-12, .android-light .col-sm-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-0, .android-light .col-sm-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-1, .android-light .col-sm-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-2, .android-light .col-sm-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-3, .android-light .col-sm-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-4, .android-light .col-sm-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-5, .android-light .col-sm-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-6, .android-light .col-sm-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-7, .android-light .col-sm-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-8, .android-light .col-sm-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-9, .android-light .col-sm-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-10, .android-light .col-sm-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-11, .android-light .col-sm-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-sm-offset-12, .android-light .col-sm-offset-12 {
+    margin-left: 100%;
+  }
+}
+@media (min-width: 992px) {
+  /* line 63, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .android .container, .android-light .container {
+    width: 970px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-12, .android .col-md-11, .android .col-md-10, .android .col-md-9, .android .col-md-8, .android .col-md-7, .android .col-md-6, .android .col-md-5, .android .col-md-4, .android .col-md-3, .android .col-md-2, .android .col-md-1, .android-light .col-md-12, .android-light .col-md-11, .android-light .col-md-10, .android-light .col-md-9, .android-light .col-md-8, .android-light .col-md-7, .android-light .col-md-6, .android-light .col-md-5, .android-light .col-md-4, .android-light .col-md-3, .android-light .col-md-2, .android-light .col-md-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-1, .android-light .col-md-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-2, .android-light .col-md-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-3, .android-light .col-md-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-4, .android-light .col-md-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-5, .android-light .col-md-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-6, .android-light .col-md-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-7, .android-light .col-md-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-8, .android-light .col-md-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-9, .android-light .col-md-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-10, .android-light .col-md-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-11, .android-light .col-md-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-12, .android-light .col-md-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-0, .android-light .col-md-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-1, .android-light .col-md-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-2, .android-light .col-md-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-3, .android-light .col-md-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-4, .android-light .col-md-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-5, .android-light .col-md-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-6, .android-light .col-md-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-7, .android-light .col-md-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-8, .android-light .col-md-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-9, .android-light .col-md-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-10, .android-light .col-md-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-11, .android-light .col-md-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-pull-12, .android-light .col-md-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-0, .android-light .col-md-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-1, .android-light .col-md-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-2, .android-light .col-md-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-3, .android-light .col-md-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-4, .android-light .col-md-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-5, .android-light .col-md-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-6, .android-light .col-md-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-7, .android-light .col-md-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-8, .android-light .col-md-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-9, .android-light .col-md-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-10, .android-light .col-md-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-11, .android-light .col-md-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-push-12, .android-light .col-md-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-0, .android-light .col-md-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-1, .android-light .col-md-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-2, .android-light .col-md-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-3, .android-light .col-md-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-4, .android-light .col-md-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-5, .android-light .col-md-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-6, .android-light .col-md-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-7, .android-light .col-md-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-8, .android-light .col-md-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-9, .android-light .col-md-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-10, .android-light .col-md-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-11, .android-light .col-md-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-md-offset-12, .android-light .col-md-offset-12 {
+    margin-left: 100%;
+  }
+}
+@media (min-width: 1200px) {
+  /* line 83, ../bower_components/bootstrap-sass/lib/_grid.scss */
+  .android .container, .android-light .container {
+    width: 1170px;
+  }
+  /* line 747, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-12, .android .col-lg-11, .android .col-lg-10, .android .col-lg-9, .android .col-lg-8, .android .col-lg-7, .android .col-lg-6, .android .col-lg-5, .android .col-lg-4, .android .col-lg-3, .android .col-lg-2, .android .col-lg-1, .android-light .col-lg-12, .android-light .col-lg-11, .android-light .col-lg-10, .android-light .col-lg-9, .android-light .col-lg-8, .android-light .col-lg-7, .android-light .col-lg-6, .android-light .col-lg-5, .android-light .col-lg-4, .android-light .col-lg-3, .android-light .col-lg-2, .android-light .col-lg-1 {
+    float: left;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-1, .android-light .col-lg-1 {
+    width: 8.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-2, .android-light .col-lg-2 {
+    width: 16.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-3, .android-light .col-lg-3 {
+    width: 25%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-4, .android-light .col-lg-4 {
+    width: 33.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-5, .android-light .col-lg-5 {
+    width: 41.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-6, .android-light .col-lg-6 {
+    width: 50%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-7, .android-light .col-lg-7 {
+    width: 58.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-8, .android-light .col-lg-8 {
+    width: 66.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-9, .android-light .col-lg-9 {
+    width: 75%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-10, .android-light .col-lg-10 {
+    width: 83.33333%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-11, .android-light .col-lg-11 {
+    width: 91.66667%;
+  }
+  /* line 755, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-12, .android-light .col-lg-12 {
+    width: 100%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-0, .android-light .col-lg-pull-0 {
+    right: 0%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-1, .android-light .col-lg-pull-1 {
+    right: 8.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-2, .android-light .col-lg-pull-2 {
+    right: 16.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-3, .android-light .col-lg-pull-3 {
+    right: 25%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-4, .android-light .col-lg-pull-4 {
+    right: 33.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-5, .android-light .col-lg-pull-5 {
+    right: 41.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-6, .android-light .col-lg-pull-6 {
+    right: 50%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-7, .android-light .col-lg-pull-7 {
+    right: 58.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-8, .android-light .col-lg-pull-8 {
+    right: 66.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-9, .android-light .col-lg-pull-9 {
+    right: 75%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-10, .android-light .col-lg-pull-10 {
+    right: 83.33333%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-11, .android-light .col-lg-pull-11 {
+    right: 91.66667%;
+  }
+  /* line 765, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-pull-12, .android-light .col-lg-pull-12 {
+    right: 100%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-0, .android-light .col-lg-push-0 {
+    left: 0%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-1, .android-light .col-lg-push-1 {
+    left: 8.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-2, .android-light .col-lg-push-2 {
+    left: 16.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-3, .android-light .col-lg-push-3 {
+    left: 25%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-4, .android-light .col-lg-push-4 {
+    left: 33.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-5, .android-light .col-lg-push-5 {
+    left: 41.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-6, .android-light .col-lg-push-6 {
+    left: 50%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-7, .android-light .col-lg-push-7 {
+    left: 58.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-8, .android-light .col-lg-push-8 {
+    left: 66.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-9, .android-light .col-lg-push-9 {
+    left: 75%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-10, .android-light .col-lg-push-10 {
+    left: 83.33333%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-11, .android-light .col-lg-push-11 {
+    left: 91.66667%;
+  }
+  /* line 760, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-push-12, .android-light .col-lg-push-12 {
+    left: 100%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-0, .android-light .col-lg-offset-0 {
+    margin-left: 0%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-1, .android-light .col-lg-offset-1 {
+    margin-left: 8.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-2, .android-light .col-lg-offset-2 {
+    margin-left: 16.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-3, .android-light .col-lg-offset-3 {
+    margin-left: 25%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-4, .android-light .col-lg-offset-4 {
+    margin-left: 33.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-5, .android-light .col-lg-offset-5 {
+    margin-left: 41.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-6, .android-light .col-lg-offset-6 {
+    margin-left: 50%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-7, .android-light .col-lg-offset-7 {
+    margin-left: 58.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-8, .android-light .col-lg-offset-8 {
+    margin-left: 66.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-9, .android-light .col-lg-offset-9 {
+    margin-left: 75%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-10, .android-light .col-lg-offset-10 {
+    margin-left: 83.33333%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-11, .android-light .col-lg-offset-11 {
+    margin-left: 91.66667%;
+  }
+  /* line 770, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+  .android .col-lg-offset-12, .android-light .col-lg-offset-12 {
+    margin-left: 100%;
+  }
+}
+/* line 10, ../bower_components/bootstrap-sass/lib/_component-animations.scss */
+.android .fade, .android-light .fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+  transition: opacity 0.15s linear;
+}
+/* line 13, ../bower_components/bootstrap-sass/lib/_component-animations.scss */
+.android .fade.in, .android-light .fade.in {
+  opacity: 1;
+}
+/* line 18, ../bower_components/bootstrap-sass/lib/_component-animations.scss */
+.android .collapse, .android-light .collapse {
+  display: none;
+}
+/* line 20, ../bower_components/bootstrap-sass/lib/_component-animations.scss */
+.android .collapse.in, .android-light .collapse.in {
+  display: block;
+}
+/* line 24, ../bower_components/bootstrap-sass/lib/_component-animations.scss */
+.android .collapsing, .android-light .collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: height 0.35s ease;
+  transition: height 0.35s ease;
+}
+/* line 21, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .clearfix:before, .android .clearfix:after, .android-light .clearfix:before, .android-light .clearfix:after {
+  content: " ";
+  /* 1 */
+  display: table;
+  /* 2 */
+}
+/* line 25, ../bower_components/bootstrap-sass/lib/_mixins.scss */
+.android .clearfix:after, .android-light .clearfix:after {
+  clear: both;
+}
+/* line 12, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.android .center-block, .android-light .center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* line 15, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.android .pull-right, .android-light .pull-right {
+  float: right !important;
+}
+/* line 18, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.android .pull-left, .android-light .pull-left {
+  float: left !important;
+}
+/* line 27, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.android .hide, .android-light .hide {
+  display: none !important;
+}
+/* line 30, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.android .show, .android-light .show {
+  display: block !important;
+}
+/* line 33, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.android .invisible, .android-light .invisible {
+  visibility: hidden;
+}
+/* line 36, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.android .text-hide, .android-light .text-hide {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+/* line 45, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.android .hidden, .android-light .hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+/* line 54, ../bower_components/bootstrap-sass/lib/_utilities.scss */
+.android .affix, .android-light .affix {
+  position: fixed;
+}
+/* line 4, ../resources/sass/themes/_extends.scss */
+.android .ellipsis, .android .form, .android .selection, .android .radiolistview label, .android .checkboxlistview label, .android .textfieldview input, .android .textfieldview .input-icon-addon, .android-light .radiolistview .android label, .android-light .checkboxlistview .android label, .android-light .textfieldview .android input, .android-light .textfieldview .android .input-icon-addon, .android .button div, .android-light .button .android div, .android .textfieldview .input-icon-addon input, .android-light .ellipsis, .android-light .form, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon, .android .button .android-light div, .android-light .button div, .android-light .textfieldview .input-icon-addon input {
+  white-space: nowrap !important;
   text-overflow: ellipsis;
   overflow: hidden;
 }
@@ -2562,15 +6292,14 @@
   font-size: 1.6rem;
   line-height: 2.2rem;
   border-radius: 4px;
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding: 6px;
   outline: none;
 }
-/* line 24, ../resources/sass/themes/_extends.scss */
+/* line 23, ../resources/sass/themes/_extends.scss */
 .android .selection, .android .radiolistview label, .android-light .radiolistview .android label, .android .checkboxlistview label, .android-light .checkboxlistview .android label, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label {
   border: none;
 }
-/* line 29, ../resources/sass/themes/_extends.scss */
+/* line 28, ../resources/sass/themes/_extends.scss */
 .android .fullscreen, .android .m-page, .android .header, .android .switch-header-content-layout .content-wrapper, .android-light .switch-header-content-layout .android .content-wrapper, .android-light .fullscreen, .android-light .m-page, .android-light .header, .android .switch-header-content-layout .android-light .content-wrapper, .android-light .switch-header-content-layout .content-wrapper {
   position: absolute;
   left: 0;
@@ -2580,35 +6309,38 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
-/* line 39, ../resources/sass/themes/_extends.scss */
+/* line 38, ../resources/sass/themes/_extends.scss */
 .android .input, .android .checkboxlistview input[type="checkbox"], .android-light .checkboxlistview .android input[type="checkbox"], .android-light .input, .android .checkboxlistview .android-light input[type="checkbox"], .android-light .checkboxlistview input[type="checkbox"] {
   outline: none;
 }
-/* line 43, ../resources/sass/themes/_extends.scss */
-.android .margin1010, .android .button, .android .listview, .android .selection-list, .android .buttongroupview, .android .radiolistview, .android .checkboxlistview, .android .toggleswitchview, .android .textview, .android-light .margin1010, .android-light .button, .android-light .listview, .android-light .selection-list, .android-light .buttongroupview, .android-light .radiolistview, .android-light .checkboxlistview, .android-light .toggleswitchview, .android-light .textview {
-  margin-top: 10px;
-  margin-bottom: 10px;
+/* line 42, ../resources/sass/themes/_extends.scss */
+.android .margin0010, .android .button, .android .listview, .android .selection-list, .android .buttongroupview, .android .radiolistview, .android .checkboxlistview, .android .toggleswitchview, .android .textview, .android-light .margin0010, .android-light .button, .android-light .listview, .android-light .selection-list, .android-light .buttongroupview, .android-light .radiolistview, .android-light .checkboxlistview, .android-light .toggleswitchview, .android-light .textview {
+  margin-bottom: 20px;
 }
-/* line 48, ../resources/sass/themes/_extends.scss */
+/* line 46, ../resources/sass/themes/_extends.scss */
+.android .margin1000, .android-light .margin1000 {
+  margin-top: 10px;
+}
+/* line 50, ../resources/sass/themes/_extends.scss */
 .android .header-center, .android .toolbarview .center, .android-light .toolbarview .android .center, .android-light .header-center, .android .toolbarview .android-light .center, .android-light .toolbarview .center {
   font-size: 1.6rem;
   color: white;
   text-align: center;
   padding: 13px 0 0 0;
 }
-/* line 55, ../resources/sass/themes/_extends.scss */
+/* line 57, ../resources/sass/themes/_extends.scss */
 .android .header-first, .android .switch-header-content-layout .first, .android-light .switch-header-content-layout .android .first, .android .toolbarview .first, .android-light .toolbarview .android .first, .android-light .header-first, .android .switch-header-content-layout .android-light .first, .android-light .switch-header-content-layout .first, .android .toolbarview .android-light .first, .android-light .toolbarview .first {
   position: absolute;
   left: 10px;
   top: 3px;
 }
-/* line 61, ../resources/sass/themes/_extends.scss */
+/* line 63, ../resources/sass/themes/_extends.scss */
 .android .header-second, .android .switch-header-content-layout .second, .android-light .switch-header-content-layout .android .second, .android .toolbarview .second, .android-light .toolbarview .android .second, .android-light .header-second, .android .switch-header-content-layout .android-light .second, .android-light .switch-header-content-layout .second, .android .toolbarview .android-light .second, .android-light .toolbarview .second {
   position: absolute;
   right: 10px;
   top: 3px;
 }
-/* line 67, ../resources/sass/themes/_extends.scss */
+/* line 69, ../resources/sass/themes/_extends.scss */
 .android .stencil, .android .textview.stencil i, .android .textview.stencil div div, .android-light .textview.stencil .android i, .android-light .textview.stencil div .android div, .android-light .stencil, .android .textview.stencil .android-light i, .android .textview.stencil div .android-light div, .android-light .textview.stencil i, .android-light .textview.stencil div div {
   color: transparent;
   text-shadow: rgba(255, 255, 255, 0.5) 0px 3px 3px;
@@ -2656,6 +6388,11 @@
 /* line 38, ../resources/sass/themes/default/_base.scss */
 .android .col-xs-1, .android .col-sm-1, .android .col-md-1, .android .col-lg-1, .android .col-xs-2, .android .col-sm-2, .android .col-md-2, .android .col-lg-2, .android .col-xs-3, .android .col-sm-3, .android .col-md-3, .android .col-lg-3, .android .col-xs-4, .android .col-sm-4, .android .col-md-4, .android .col-lg-4, .android .col-xs-5, .android .col-sm-5, .android .col-md-5, .android .col-lg-5, .android .col-xs-6, .android .col-sm-6, .android .col-md-6, .android .col-lg-6, .android .col-xs-7, .android .col-sm-7, .android .col-md-7, .android .col-lg-7, .android .col-xs-8, .android .col-sm-8, .android .col-md-8, .android .col-lg-8, .android .col-xs-9, .android .col-sm-9, .android .col-md-9, .android .col-lg-9, .android .col-xs-10, .android .col-sm-10, .android .col-md-10, .android .col-lg-10, .android .col-xs-11, .android .col-sm-11, .android .col-md-11, .android .col-lg-11, .android .col-xs-12, .android .col-sm-12, .android .col-md-12, .android .col-lg-12, .android-light .col-xs-1, .android-light .col-sm-1, .android-light .col-md-1, .android-light .col-lg-1, .android-light .col-xs-2, .android-light .col-sm-2, .android-light .col-md-2, .android-light .col-lg-2, .android-light .col-xs-3, .android-light .col-sm-3, .android-light .col-md-3, .android-light .col-lg-3, .android-light .col-xs-4, .android-light .col-sm-4, .android-light .col-md-4, .android-light .col-lg-4, .android-light .col-xs-5, .android-light .col-sm-5, .android-light .col-md-5, .android-light .col-lg-5, .android-light .col-xs-6, .android-light .col-sm-6, .android-light .col-md-6, .android-light .col-lg-6, .android-light .col-xs-7, .android-light .col-sm-7, .android-light .col-md-7, .android-light .col-lg-7, .android-light .col-xs-8, .android-light .col-sm-8, .android-light .col-md-8, .android-light .col-lg-8, .android-light .col-xs-9, .android-light .col-sm-9, .android-light .col-md-9, .android-light .col-lg-9, .android-light .col-xs-10, .android-light .col-sm-10, .android-light .col-md-10, .android-light .col-lg-10, .android-light .col-xs-11, .android-light .col-sm-11, .android-light .col-md-11, .android-light .col-lg-11, .android-light .col-xs-12, .android-light .col-sm-12, .android-light .col-md-12, .android-light .col-lg-12 {
   overflow: hidden;
+}
+/* line 42, ../resources/sass/themes/default/_base.scss */
+.android .view div[data-binding="_value_"]:first-child, .android-light .view div[data-binding="_value_"]:first-child {
+  padding-left: 15px;
+  padding-bottom: 5px;
 }
 /* line 5, ../resources/sass/layouts/_switch-animations.scss */
 .android .m-page-moveToLeft, .android-light .m-page-moveToLeft {
@@ -3867,9 +7604,14 @@
 .android .toolbarview .button, .android-light .toolbarview .button {
   margin-top: 0;
 }
+/* line 1, ../resources/sass/themes/default/_button.scss */
+.android .buttonview, .android-light .buttonview {
+  min-width: 67px;
+}
 /* line 5, ../resources/sass/themes/default/_button.scss */
 .android .button, .android-light .button {
-  padding: 10px 20px;
+  position: relative;
+  padding: 10px 10px 6px 10px;
   font-weight: normal;
   text-align: center;
   white-space: nowrap;
@@ -3885,13 +7627,45 @@
   -o-user-select: none;
   user-select: none;
 }
-/* line 23, ../resources/sass/themes/default/_button.scss */
+/* line 24, ../resources/sass/themes/default/_button.scss */
 .android .button div, .android-light .button div {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: inline-block;
+  width: 100%;
 }
-/* line 32, ../resources/sass/themes/default/_button.scss */
+/* line 37, ../resources/sass/themes/default/_button.scss */
+.android .has-icon .right i, .android .has-icon.right i, .android-light .has-icon .right i, .android-light .has-icon.right i {
+  right: 5px;
+  left: auto;
+}
+/* line 43, ../resources/sass/themes/default/_button.scss */
+.android .has-icon .left i, .android .has-icon.left i, .android-light .has-icon .left i, .android-light .has-icon.left i {
+  left: 5px;
+  right: auto;
+}
+/* line 48, ../resources/sass/themes/default/_button.scss */
+.android .has-icon i, .android-light .has-icon i {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+}
+/* line 55, ../resources/sass/themes/default/_button.scss */
+.android .has-icon .right .button div, .android .has-icon.right .button div, .android-light .has-icon .right .button div, .android-light .has-icon.right .button div {
+  padding-right: 10px;
+}
+/* line 61, ../resources/sass/themes/default/_button.scss */
+.android .has-icon .button div,
+.android .has-icon .left .button div, .android .has-icon.left .button div, .android-light .has-icon .button div,
+.android-light .has-icon .left .button div, .android-light .has-icon.left .button div {
+  padding-left: 10px;
+}
+/* line 68, ../resources/sass/themes/default/_button.scss */
+.android .is-icon-only .button div, .android-light .is-icon-only .button div {
+  display: none;
+}
+/* line 76, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.active.useelement,
 .android .buttonview.active .button,
 .android .button.active, .android-light .buttonview.active.useelement,
@@ -3900,123 +7674,123 @@
   background-color: #99cc00;
   color: white;
 }
-/* line 37, ../resources/sass/themes/default/_button.scss */
+/* line 81, ../resources/sass/themes/default/_button.scss */
 .android *[class*='col-'] .button, .android-light *[class*='col-'] .button {
   width: 100%;
 }
-/* line 41, ../resources/sass/themes/default/_button.scss */
+/* line 85, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.disabled .button, .android-light .buttonview.disabled .button {
   background: #d5d5d5;
   border-color: #d5d5d5;
   color: #c3c3c3;
   cursor: default;
 }
-/* line 52, ../resources/sass/themes/default/_button.scss */
+/* line 96, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-primary .button, .android-light .buttonview.m-primary .button {
   border-color: #6c64ff;
   color: #6c64ff;
   background: white;
 }
-/* line 58, ../resources/sass/themes/default/_button.scss */
+/* line 102, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-primary.active .button, .android-light .buttonview.m-primary.active .button {
   border-color: #6c64ff;
   color: white;
   background: #6c64ff;
 }
-/* line 64, ../resources/sass/themes/default/_button.scss */
+/* line 108, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-primary.disabled .button, .android-light .buttonview.m-primary.disabled .button {
   border-color: #b5b1ff;
   color: #b5b1ff;
   background: white;
 }
-/* line 73, ../resources/sass/themes/default/_button.scss */
+/* line 117, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-success .button, .android-light .buttonview.m-success .button {
   border-color: #2dcca2;
   color: #2dcca2;
   background: white;
 }
-/* line 79, ../resources/sass/themes/default/_button.scss */
+/* line 123, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-success.active .button, .android-light .buttonview.m-success.active .button {
   border-color: #2dcca2;
   color: white;
   background: #2dcca2;
 }
-/* line 85, ../resources/sass/themes/default/_button.scss */
+/* line 129, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-success.disabled .button, .android-light .buttonview.m-success.disabled .button {
   border-color: #68debf;
   color: #68debf;
   background: white;
 }
-/* line 93, ../resources/sass/themes/default/_button.scss */
+/* line 137, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-error .button, .android-light .buttonview.m-error .button {
   border-color: #ed253d;
   color: #ed253d;
   background: white;
 }
-/* line 99, ../resources/sass/themes/default/_button.scss */
+/* line 143, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-error.active .button, .android-light .buttonview.m-error.active .button {
   border-color: #ed253d;
   color: white;
   background: #ed253d;
 }
-/* line 105, ../resources/sass/themes/default/_button.scss */
+/* line 149, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-error.disabled .button, .android-light .buttonview.m-error.disabled .button {
   border-color: #f36c7c;
   color: #f36c7c;
   background: white;
 }
-/* line 113, ../resources/sass/themes/default/_button.scss */
+/* line 157, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-warning .button, .android-light .buttonview.m-warning .button {
   border-color: #f45b42;
   color: #f45b42;
   background: white;
 }
-/* line 119, ../resources/sass/themes/default/_button.scss */
+/* line 163, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-warning.active .button, .android-light .buttonview.m-warning.active .button {
   border-color: #f45b42;
   color: white;
   background: #f45b42;
 }
-/* line 125, ../resources/sass/themes/default/_button.scss */
+/* line 169, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-warning.disabled .button, .android-light .buttonview.m-warning.disabled .button {
   border-color: #f89a8a;
   color: #f89a8a;
   background: white;
 }
-/* line 133, ../resources/sass/themes/default/_button.scss */
+/* line 177, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-info .button, .android-light .buttonview.m-info .button {
   border-color: #eab13a;
   color: #eab13a;
   background: white;
 }
-/* line 139, ../resources/sass/themes/default/_button.scss */
+/* line 183, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-info.active .button, .android-light .buttonview.m-info.active .button {
   border-color: #eab13a;
   color: white;
   background: #eab13a;
 }
-/* line 145, ../resources/sass/themes/default/_button.scss */
+/* line 189, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-info.disabled .button, .android-light .buttonview.m-info.disabled .button {
   border-color: #f1cc7f;
   color: #f1cc7f;
   background: white;
 }
-/* line 153, ../resources/sass/themes/default/_button.scss */
+/* line 197, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-fuzzy .button, .android-light .buttonview.m-fuzzy .button {
   border-color: #c3c3c3;
   color: #c3c3c3;
   background: white;
 }
-/* line 159, ../resources/sass/themes/default/_button.scss */
+/* line 203, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-fuzzy.active .button, .android-light .buttonview.m-fuzzy.active .button {
   border-color: #c3c3c3;
   color: white;
   background: #c3c3c3;
 }
-/* line 165, ../resources/sass/themes/default/_button.scss */
+/* line 209, ../resources/sass/themes/default/_button.scss */
 .android .buttonview.m-fuzzy.disabled .button, .android-light .buttonview.m-fuzzy.disabled .button {
-  border-color: #e9e9e9;
-  color: #e9e9e9;
+  border-color: #d0d0d0;
+  color: #d0d0d0;
   background: white;
 }
 /* line 4, ../resources/sass/themes/default/_list.scss */
@@ -4606,10 +8380,32 @@
   font-weight: bold;
   background: none;
   color: #444;
+  padding: 10px 0;
+  margin: 0;
+  border-bottom: 6px solid transparent;
 }
-/* line 21, ../resources/sass/themes/android_light/_buttongroup.scss */
+/* line 24, ../resources/sass/themes/android_light/_buttongroup.scss */
 .android .buttongroupview .buttonview .button div, .android-light .buttongroupview .buttonview .button div {
   border-right: 1px solid #ccc;
+}
+/* line 28, ../resources/sass/themes/android_light/_buttongroup.scss */
+.android .buttongroupview .buttonview:first-child, .android-light .buttongroupview .buttonview:first-child {
+  padding-left: 0;
+}
+/* line 31, ../resources/sass/themes/android_light/_buttongroup.scss */
+.android .buttongroupview .buttonview:first-child .button, .android-light .buttongroupview .buttonview:first-child .button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+/* line 37, ../resources/sass/themes/android_light/_buttongroup.scss */
+.android .buttongroupview .buttonview:last-child, .android-light .buttongroupview .buttonview:last-child {
+  padding-right: 0;
+}
+/* line 40, ../resources/sass/themes/android_light/_buttongroup.scss */
+.android .buttongroupview .buttonview:last-child .button, .android-light .buttongroupview .buttonview:last-child .button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
 }
 /* line 4, ../resources/sass/themes/android_light/_selectionlist.scss */
 .android .selection-list:after, .android-light .selection-list:after {
