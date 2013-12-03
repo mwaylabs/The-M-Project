@@ -1,16 +1,378 @@
-# The-M-Project Absinthe [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=absinthe)](https://travis-ci.org/mwaylabs/The-M-Project)
+![The-M-Project Absinthe][logo]
+# The-M-Project Absinthe Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=absinthe)](https://travis-ci.org/mwaylabs/The-M-Project)
+
+The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great mobile apps, easy and fast.
+
+**Version:** The-M-Project v.2.0 beta
+
+**Codename:** The-M-Project Absinthe
+
+## Overview
+- [What's new](#What's new)
+- [Demo](#demo)
+- [Roadmap](#roadmap)
+- [Further Reading and Repositories](#further)
+- [Application Lifecycle](#lifecycle)
+- [Folder structure](#structure)
+- [Bikini](#bikini)
+- [Model–view–controller](#mvc)
+- [Layouts](#layouts)
+- [Q&A](#qa)
+- [compass](#Sass Compass)
+- [Styleguide](#styleguide)
+- [Setup for framework developer (Mac/Linux)](#setup_unix)
+- [Setup for framework developer (Windows)](#setup_windows)
+
+## <a name="intro">What's new</a>
+The-M-Project 1.x as we call it was from our point of view pretty good, but has here and there little tweaks. We could have fix some bugs and work with the existing one. In this process we questioned everything and after huge discussions we decided to take what's good and remove everything we don't like. Furthermore we added everything what we think a mobile HTML5/JavaScript frameworl needs. The following list gives you an overview of changes:
+
+- The-M-Project is based on [Backbone.js](http://backbonejs.org/)
+- [Bikini](#bikini) - a implementation of Model/Server connectivity
+- Espresso is now based on [Grunt](http://gruntjs.com/) and [Yeoman](http://yeoman.io/)
+- no jquery mobile support at the moment
+- Different Themes out of the Box
+	- Android
+	- iOS 7
+	- [Default](#styleguide)
+- URL navigation and deep linking
+- 60+ CSS Transitions
+- [Sass](http://sass-lang.com/) support
+- Best-of-Breed
+	- [backbone.stickit](http://nytimes.github.io/backbone.stickit/)
+	- [Hammer.js](http://eightmedia.github.io/hammer.js/)
+	- [Font Awesome](http://fontawesome.io/)
+	- [Bootstrap Grid system](http://getbootstrap.com/css/#grid)
+	- [jQuery 2.0](http://jquery.com/)
+	- [Socket.IO](http://socket.io/)
+- Libraries inside The-M-Project
+	- [Underscore.js](http://underscorejs.org/)
+	- [Modernizr](http://modernizr.com/)
+	- [Detectizr](https://github.com/barisaydinoglu/Detectizr)
+	- [Moment.js](http://momentjs.com/)
+	- [Shake.js](http://alxgbsn.co.uk/)
+- Generator
+	- [Bower](http://bower.io/)
+	- [Grunt](http://gruntjs.com/)
+	- [Yeoman](http://yeoman.io/)
+	
+## <a name="demo">Demo</a>
+Beside the Kitchensink we have a second ready to launch sample app called Addressbook.
+
+### [Kitchensink Demo](http://www.the-m-project.org/apps/absinthe/index.html)
+[Try the Kitchensink](http://www.the-m-project.org/apps/absinthe/index.html)
+The Kitchensink gives a good overview of all Views and Layouts so far. Play arround and see what the The-M-Project offers to you.
+
+### [Addressbook Demo](http://www.the-m-project.org/apps/addressbook/index.html)
+[Try the Kitchensink](http://www.the-m-project.org/apps/addressbook/index.html)
+The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://www.the-m-project.org/apps/addressbook/index.html) in different browser windows or devices for the full experience. A small [node.js](http://nodejs.org/) server is connected to a [MongoDB](http://www.mongodb.org/). The application syncronises via bikini the contact collection and stores it to the [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database) Database. This guarantees offline and online manipulation of the data.
+
+## <a name="roadmap">Roadmap</a>
+
+### Absinthe release
+
+- The-M-Project v.2.0 beta 2
+	- MenuView
+	- SideMenu
+	- Themes for Android and iOS
+	- MenuLayout
+
+- The-M-Project v.2.0 RC1
+	- Scaffold for MenuLayout
+	- Feedback from the Community
+	- Complete documentation
+	- Tutorials
+	- test coverage >90% https://coveralls.io/r/mwaylabs/generator-m?branch=
+
+- The-M-Project v.2.0
+	- Final release
+
+### Future plans
+
+- The-M-Project 2.1
+	- Full support for Windows
+	- Extending Bikini
+	- A lot more to come
+
+## <a name="further">Further Reading and Repositories</a>
+
+### [Use the generator to develop your first app](https://github.com/mwaylabs/generator-m/blob/master/)
+
+The yeoman generator for The-M-Project
+
+- [GitHub](https://github.com/mwaylabs/generator-m/blob/master/README.md)
+- [Manual](https://github.com/mwaylabs/generator-m/blob/master/README.md)
 
 
-The-M-Project is a mobile HTML5 JavaScript framework that helps you build great mobile apps, easy and fast.
+### [Documentation](http://www.the-m-project.org/docs/)
+- [JSDoc](http://www.the-m-project.org/docs/)
 
 
-## Notice
-This version is under development and not yet ready for production use.
+### Tutorials and Samples
+- [write your first app from scratch](https://github.com/mwaylabs/The-M-Project-Sample-Apps/blob/master/demoapp/my_first_the-m-project_app_from_scratch.md)
+- [GitHub](https://github.com/mwaylabs/The-M-Project-Sample-Apps)
 
-## [Use the generator](https://github.com/mwaylabs/generator-tmp2/blob/master/README.md)
+### templ
+
+This grunt plugin is similar to grunt-contrib-jst.
+
+- [GitHub](https://github.com/mwaylabs/grunt-tmpl)
 
 
-## Pre alpha setup for framework developer (Mac/Linux)
+## <a name="lifecycle">Application Lifecycle</a>
+1. index.html
+	- Start point of a application is the index.html file. After all dependencies and application files are loaded the framework uses a [Backbone.Router](http://backbonejs.org/#Router) to call the responsible controller.
+	- The routes are defined inside the `main.js`
+
+2. Controller
+
+	**There are 3 entry points to a controller.**	
+	1. Application Start 
+		- If the application was started the first time the Router calls the `applicationStart` of the provided Controller. 
+	2. Show
+		- If a pageswitch happens the router calls the `show` function of the provided Controller
+	3. Application Ready
+		- After the application did load the `applicationReady` function is called on every Controller. In every case it gets called after the `applicationStart`
+
+	
+
+## <a name="structure">Folder structure</a>
+```
+.
+├── Gruntfile.js
+├── node_modules
+├── app
+│   ├── bower_components
+│   ├── i18n
+│   │   └── en.json
+│   ├── icons
+│   │   ├── android-l.png
+│   │   ├── android-m.png
+│   │   ├── android-s.png
+│   │   ├── apple-ipad-retina.png
+│   │   ├── apple-ipad.png
+│   │   ├── apple-iphone-retina.png
+│   │   ├── apple-iphone.png
+│   │   └── favicon.png
+│   ├── images
+│   ├── index.html
+│   ├── scripts
+│   │   ├── config.js
+│   │   ├── controllers
+│   │   │   ├── absinthe.js
+│   │   │   └── beer.js
+│   │   ├── main.js
+│   │   ├── models
+│   │   ├── collections
+│   │   ├── layouts
+│   │   └── views
+│   │       ├── absinthe.js
+│   │       └── beer.js
+│   └── styles
+│       └── main.css
+├── bower.json
+├── grunt.config.js
+├── package.json
+└── test
+    ├── index.html
+    ├── lib
+    │   ├── chai.js
+    │   ├── expect.js
+    │   └── mocha
+    │       ├── mocha.css
+    │       └── mocha.js
+    └── spec
+        └── test.js
+        
+```
+
+### app - The Application
+The app folder contains all app relevant files.
+
+#### index.html
+The starting point of the application is the index.html. You can add scripts by yourself. But don't delete any comments. The generator uses them to add code inside the file. If you create a controller with the generator the index will auto generate the script tag.
+
+#### i18n
+You find all the language files inside the i18n(internationalization) folder.
+
+#### icons
+Out of the box we have profide relevant The-M-Project icons. If you add an application to the Home-Screen of your phone, these icons are used.
+
+#### splash
+Out of the box we have profide relevant The-M-Project splashscreens. If you add an application to the Home-Screen of your phone, these splashscreens are used.
+
+#### images
+Put all the images inside this directory
+
+#### scripts
+Contains the most JavaScript files - like Model,View and Controller
+
+##### config.js
+Configurates the application.
+
+##### main.js
+Contains all controllers and is used by the generator.
+
+##### controllers
+Contains all controllers and is used by the generator.
+
+##### views
+Contains all views and is used by the generator.
+
+##### models
+Contains all models and is used by the generator.
+
+##### collections
+Contains all collections and is used by the generator.
+
+##### layouts
+Contains all layouts and is used by the generator.
+
+### test
+Default/example test for the application
+
+### grunt.config.js
+This file allows you to modify the default grunt options without a full understanding how grunt works.
+
+- paths
+	- `dist` - The location for the build
+	- `app` - The location for the app root
+- server
+	- `openBrowser` - Open the app in your default browser
+	- `autoReload` - Reloads everytime you save a file in your project
+	- `port` - The port on which the webserver will respond
+	- `proxies` - We use [grunt-connect-proxy](https://github.com/drewzboto/grunt-connect-proxy) for the proxy task.
+- test
+	- `port` - The port on which the webserver will respond
+	
+	
+### Don't worry about
+
+**package.json** - The-M-Project npm module 
+
+**bower.json** - The-M-Project Bower module 
+
+**Gruntfile.js** - Contains the configuration for the grunt tasks e.g. ```grunt server``` or ```grunt build```
+
+**node_modules** - Contains the Node dependencies
+
+**bower.json** - Manage the bower components
+
+**bower_components** - Contains the Bower dependencies
+
+## <a name="bikini">Bikini</a>
+**Bikini – everything a model needs.**
+
+Without expense to the developer, data is synchronized from the server to the client. Changes are broadcast to all connected clients live, are available offline and changeable, and by limiting the transfer of modified records loading time and traffic can be optimized.Bikini is the connection between the Model and a Storage. It profides several adapters to access local and remote datastorage.
+
+## <a name="mvc">Model–view–controller</a>
+`M.View`, `M.Controller`, `M.Model` and `M.Collection` extending from Backbone.js. You can use them like you would use them with Backbone itself.
+
+`M.Controller` implements `Backbone.Events` but does not extend anything else.
+
+### inheritance
+It is possible to extend from every `M` Object by calling the `extend` method. The first parameter are the options applyed to the extended Object and overwrite the existing ones. `extend` always returns a function.
+
+```
+M.CustomView = M.View.extend({
+	// overwrite a property
+	_tye: 'M.CustomView',
+	// implement an own property
+	myOwnProperty: 1
+});
+```
+
+### instances
+To create an instance of an extended object you can use `new` or `create` which calls `new` by itself. 
+
+```
+// create an instance with new
+var v = new M.View();
+M.isView(v); //true
+
+// create an instance with create
+var v = M.View.create();
+M.isView(v); //true
+
+```
+### M.View
+
+`M.View.extend` accepts two parameters. The first one is for view options and the second one for child views
+`M.View.create` accepts three parameters. The first one is for view options and the second one for child views and the third one to use the first one as scope.
+
+	
+## <a name="layouts">Layouts</a>
+
+A template defines the look and feel of a page. Every Controller can set its own template or use a existing one from other controllers. After the layout is set the Controller add its Views to the Layout. This triggers the render process of the inserted Views.
+
+### Blank
+A blank/empty layout.
+
+![Blank Layout][blank-layout]
+
+### Switch Layout
+
+Switch through different pages with over 60 transitions
+
+![Switch Layout][switch-layout]
+
+
+### Switch Layout (Header/Content)
+
+Switch through different pages that have a Header and Content with over 60 transitions
+
+![Switch Layout with Header and Content][switch-header-content-layout]
+
+## <a name="qa">Q&A</a>
+
+- *Is The-M-Project Absinthe release backward compatible?*
+	- unfortunately not
+
+- *What happens to The-M-Project before Absinthe?*
+	- We call it `The-M-Project 1.x`
+	- The Sourcecode is still available on [GitHub](https://github.com/mwaylabs/The-M-Project)
+	- We still use it on our own to build projects/products
+	- The [Sample-Apps](https://github.com/mwaylabs/The-M-Project-Sample-Apps/tree/1.x) aren't gone either
+	- [Espresso](https://github.com/mwaylabs/Espresso) is still available
+
+- *Why Absinthe?*
+	- Since Google uses sweets, Apple animals and version numbers are boring we switched the release names to alcoholics ;)
+	- Need inspiration? B(eer), B(randy) C(ognac), C(idre), D(aiquiri), E(gg nog), F(euerzangenbowle), G(in) - the list goes on like this. So stay tuned for the upcoming releases.
+
+
+## <a name="compass">Sass Compass</a>
+
+### What is SASS ?
+SASS (Syntactically Awesome Style Sheets) is a programming language created for front end web development that defines a new set of rules and functions to empower and enhance CSS. With this programming language, you can create complex designs with minimal code in the most efficient way possible.
+
+### What is Compass ?
+Compass is a framework for SASS, the good thing about Compass is that it comes with a lot of CSS3 mixins and useful CSS stuff.
+
+### How to install it ?
+For installing SASS Compass you need to have Ruby installed.
+
+This is very pretty simple for MAC users because there Ruby is already installed.
+If your are a MAC user you just have to type
+`gem install compass` into your console.
+
+If your are a Windows user you have to install Ruby first. The installer can be downloaded [here](http://rubyinstaller.org/downloads/).
+Afterwards if you have added Ruby to your PATH variable you can also type `gem install compass` into your console to install it.
+
+### Where can I find more information about SASS Compass ?
+For more informations about SASS Compass just visit their [website](http://compass-style.org/). They have a great blog and many examples to get a good insight into it.
+
+
+## <a name="styleguide">Styleguide</a>
+
+![The-M-Project Absinthe][styleguide-image]
+
+
+[blank-layout]: http://www.the-m-project.org/docs/absinthe/layouts/Blank.png
+[switch-header-content-layout]: http://www.the-m-project.org/docs/absinthe/layouts/Swipe_HeaderContent.png
+[switch-layout]: http://www.the-m-project.org/docs/absinthe/layouts/Swipe_Blank.png
+[logo]: http://www.the-m-project.org/docs/absinthe/tmp_logo_blue.png
+[styleguide-image]: http://www.the-m-project.org/docs/absinthe/styleguide/styleguide.png
+
+## <a name="setup_unix">Setup for framework developer (Mac/Linux)</a>
 
 ### Dependencies
 
@@ -79,10 +441,7 @@ grunt test
 open test/index.html
 ```
 
-----------
- 
-
-## Pre alpha setup for framework developer for Windows
+## <a name="setup_windows">Setup for framework developer (Windows)</a>
 
 ### Dependencies
 
@@ -225,23 +584,3 @@ grunt test
 ```
 open test/index.html
 ```
-
-## Links
-
-####[Sample Apps](https://github.com/mwaylabs/The-M-Project-Sample-Apps/blob/master/README.md)
-
-####[The-M-Project generator](https://github.com/mwaylabs/generator-tmp2/blob/master/README.md)
-
-####[Thanks to](https://github.com/mwaylabs/The-M-Project/blob/absinthe/thanks_to.md)
-
-# Roadmap
-
-## Absinthe Beta 1
--
-
-## Absinthe Beta 2
-
-## Absinthe RC1
-
-## Absinthe Final
-
