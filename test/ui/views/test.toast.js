@@ -35,8 +35,11 @@ describe('M.Toast', function () {
 
     it('M.Toast timeout MEDIUM', function( done ){
         this.timeout(M.Toast.CONST.MEDIUM + 500);
-        $('body').find('.toastview .toast div').remove();
+        M.Toast.removeAll();
         M.Toast.show('test');
+
+        console.log(M.Toast._stack.length, $('body').find('.toastview .toast div').text());
+
         assert.equal($('body').find('.toastview .toast div').text(), 'test');
         setTimeout(function(){
             assert.lengthOf($('body').find('.toastview .toast div'), 0);

@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Dec 03 2013 08:50:51
+* Date:      Tue Dec 03 2013 16:50:35
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -1433,7 +1433,7 @@
                 var args = router._extractParameters(route, fragment);
                 res = _.object([res], args);
                 args.unshift(!router._visitedRoutes[name]);
-                router.callCallback(route, name, controller, res, function() {
+                router.controllerDidLoad( name, controller, res, function() {
                     router.trigger.apply(router, ['route:' + name].concat(args));
                     router.trigger('route', name, args);
                     Backbone.history.trigger('route', router, name, args);
@@ -1514,10 +1514,12 @@
      */
     
     Modernizr.Detectizr.detect({detectScreen:false});
+    
     M.Environment = Modernizr.Detectizr;
     
     // Shorthand to detect android version.
     M.Environment.isLowerThanAndroid4 = (Modernizr.Detectizr.device.model === 'android' && parseInt(Modernizr.Detectizr.device.osVersion, 10) < 4 );
+    M.Environment.isLowerThaniPhone4S = (Modernizr.Detectizr.device.os === 'ios' && (document.width <= 320 || document.width <= 480 ));
     
     
     /**

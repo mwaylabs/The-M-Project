@@ -34,7 +34,7 @@ M.Toast = M.View.extend({
         that.text = settings.text || M.Toast.CONST.TEXT;
         $('body').append(that.render().$el);
 
-        setTimeout(function () {
+        that.timeoutId = setTimeout(function () {
             that.remove();
         }, settings.timeout || M.Toast.CONST.MEDIUM);
     },
@@ -51,6 +51,17 @@ M.Toast = M.View.extend({
     },
 
     /**
+     * remove
+     */
+    remove: function() {
+        M.View.prototype.remove.apply(this, arguments);
+        if(this.timeoutId) {
+            clearTimeout(this.timeoutId);
+        }
+        M.Toast._run();
+    },
+
+    /**
      * This function needs to be implemented to render the view if there is no value given
      * @returns {Boolean|Function|YES}
      * @private
@@ -61,19 +72,51 @@ M.Toast = M.View.extend({
 
 });
 
+M.Toast._stack = [];
+M.Toast._isSequencing = false;
+M.Toast._currentToast = null;
+
 /**
  * Show a toast
  * @param {String} text to display
  * @param {Number} milliseconds to show the toast
  * @returns {M.Toast}
  */
-M.Toast.show = function (settings) {
-    if (typeof settings === 'string') {
-        settings = {
-            text: settings
+M.Toast.show = function( options ) {
+    if( typeof options === 'string' ) {
+        options = {
+            text: options
         };
     }
-    return M.Toast.create(settings);
+
+    // Push the toast into the stack
+    this._stack.push(options);
+
+    // Start sequence if it is not already running
+    if( !this._isSequencing ) {
+        this._isSequencing = true;
+        this._run();
+    }
+};
+
+/**
+ * Removes all toasts from the sequence.
+ */
+M.Toast.removeAll = function() {
+    this._stack = [];
+    if( this._currentToast ) {
+        this._currentToast.remove();
+        this._currentToast = null;
+    }
+};
+
+M.Toast._run = function() {
+    if( this._stack.length === 0 ) {
+        this._isSequencing = false;
+        return;
+    }
+    var options = this._stack.shift();
+    this._currentToast = M.Toast.create(options);
 };
 
 M.Toast.CONST = {

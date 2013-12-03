@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Version:   2.0.0-1
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Dec 03 2013 08:50:51
+* Date:      Tue Dec 03 2013 16:50:35
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -1433,7 +1433,7 @@
                 var args = router._extractParameters(route, fragment);
                 res = _.object([res], args);
                 args.unshift(!router._visitedRoutes[name]);
-                router.callCallback(route, name, controller, res, function() {
+                router.controllerDidLoad( name, controller, res, function() {
                     router.trigger.apply(router, ['route:' + name].concat(args));
                     router.trigger('route', name, args);
                     Backbone.history.trigger('route', router, name, args);
@@ -1514,10 +1514,12 @@
      */
     
     Modernizr.Detectizr.detect({detectScreen:false});
+    
     M.Environment = Modernizr.Detectizr;
     
     // Shorthand to detect android version.
     M.Environment.isLowerThanAndroid4 = (Modernizr.Detectizr.device.model === 'android' && parseInt(Modernizr.Detectizr.device.osVersion, 10) < 4 );
+    M.Environment.isLowerThaniPhone4S = (Modernizr.Detectizr.device.os === 'ios' && (document.width <= 320 || document.width <= 480 ));
     
     
     /**
@@ -6960,6 +6962,9 @@
             if( M.Environment.isLowerThanAndroid4 ) {
                 return false;
             }
+            if( M.Environment.isLowerThaniPhone4S ) {
+                //return false;
+            }
             return Modernizr.cssanimations;
         })(),
     
@@ -7138,16 +7143,26 @@
         }
     },
         get: function (name, theme) {
-            var theme = theme || 'default';
-            var result = this._vars[theme][name];
-            if (!result && theme != 'default') {
-                result = this._vars['default'][name];
+            var theme = theme || M.ThemeVars.CONST.DEFAULT;
+            var result = this._vars[theme] ? this._vars[theme][name] : false;
+            if (!result && theme != M.ThemeVars.CONST.DEFAULT) {
+                result = this._vars[M.ThemeVars.CONST.DEFAULT][name];
             }
             if (!result) {
                 console.log('Can not find varibale "' + name + '".');
             }
             return result;
         }
+    }
+    
+    M.ThemeVars.CONST = {
+    
+        IOS: 'ios',
+        'ANDROID_DARK': 'android_dark',
+        'ANDROID_LIGHT': 'android_light',
+        'ANDROID': 'android_dark',
+        DEFAULT: 'default'
+    
     }
     /**
      * The M.TemplateManager is a singleton instance which
@@ -7406,6 +7421,10 @@
     
         getDefaultTransition: function() {
             return M.PageTransitions.CONST.MOVE_TO_LEFT_FROM_RIGHT;
+        },
+    
+        isAnimating: function() {
+            return this._isAnimating;
         },
     
         _onEndAnimation: function( outpage, inpage ) {
@@ -7806,8 +7825,7 @@
                         that._setModel(model);
                         that.render();
                     });
-                }
-                else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
+                } else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
                     this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
                         that._setModel(model);
                         that.render();
@@ -8310,7 +8328,8 @@
          */
         M.View.create = function( scope, childViews, isScope ) {
     
-            var _scope = isScope ? {scope: scope} : scope;
+            var _scope = isScope || M.isController(scope) ? {scope: scope} : scope;
+    
             var f = new this(_scope);
             f.childViews = {};
             if( f._childViews ) {
@@ -8995,7 +9014,6 @@
     
             this.listenTo(this.collection, 'sort', function () {
                 //this.addItems(this.collection.models);
-                console.timeEnd('a');
             });
         },
     
@@ -9161,7 +9179,7 @@
             that.text = settings.text || M.Toast.CONST.TEXT;
             $('body').append(that.render().$el);
     
-            setTimeout(function () {
+            that.timeoutId = setTimeout(function () {
                 that.remove();
             }, settings.timeout || M.Toast.CONST.MEDIUM);
         },
@@ -9178,6 +9196,17 @@
         },
     
         /**
+         * remove
+         */
+        remove: function() {
+            M.View.prototype.remove.apply(this, arguments);
+            if(this.timeoutId) {
+                clearTimeout(this.timeoutId);
+            }
+            M.Toast._run();
+        },
+    
+        /**
          * This function needs to be implemented to render the view if there is no value given
          * @returns {Boolean|Function|YES}
          * @private
@@ -9188,19 +9217,51 @@
     
     });
     
+    M.Toast._stack = [];
+    M.Toast._isSequencing = false;
+    M.Toast._currentToast = null;
+    
     /**
      * Show a toast
      * @param {String} text to display
      * @param {Number} milliseconds to show the toast
      * @returns {M.Toast}
      */
-    M.Toast.show = function (settings) {
-        if (typeof settings === 'string') {
-            settings = {
-                text: settings
+    M.Toast.show = function( options ) {
+        if( typeof options === 'string' ) {
+            options = {
+                text: options
             };
         }
-        return M.Toast.create(settings);
+    
+        // Push the toast into the stack
+        this._stack.push(options);
+    
+        // Start sequence if it is not already running
+        if( !this._isSequencing ) {
+            this._isSequencing = true;
+            this._run();
+        }
+    };
+    
+    /**
+     * Removes all toasts from the sequence.
+     */
+    M.Toast.removeAll = function() {
+        this._stack = [];
+        if( this._currentToast ) {
+            this._currentToast.remove();
+            this._currentToast = null;
+        }
+    };
+    
+    M.Toast._run = function() {
+        if( this._stack.length === 0 ) {
+            this._isSequencing = false;
+            return;
+        }
+        var options = this._stack.shift();
+        this._currentToast = M.Toast.create(options);
     };
     
     M.Toast.CONST = {
@@ -10412,8 +10473,8 @@
             this.$el.addClass(this.scrolling ? 'scrolling' : '');
             this.$scrollContainer = this.$el.find('[data-childviews=tab-menu]');
             if(this.scrolling){
-                var width = parseInt(M.ThemeVars.get('tablayout-menu-scroll-button-width'), 10) * Object.keys(this._tabMenu.childViews).length;
-                this.$scrollContainer.children('.buttongroupview').css('width', width + 'px');
+                var width = parseInt(M.ThemeVars.get('tablayout-menu-scroll-button-width', M.Environment.device.os), 10) * Object.keys(this._tabMenu.childViews).length;
+                this.$scrollContainer.children('.tabbarbuttongroupview').css('width', width + 'px');
             }
     
         },
@@ -10487,7 +10548,6 @@
                 icon: options.icon,
                 events: {
                     tap: function( event, element ) {
-                        console.log(that.cid);
                         that.switchToTab(element.index);
                     }
                 }
@@ -10499,11 +10559,9 @@
             return options.content.extend({
                 events: {
                     dragleft: function( event, element ) {
-                        console.log(that.cid);
                         that.switchToTab(options.index + 1);
                     },
                     dragright: function( event, element ) {
-                        console.log(that.cid);
                         that.switchToTab(options.index - 1);
                     }
                 }
