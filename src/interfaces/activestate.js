@@ -24,7 +24,9 @@ M.ActiveState = M.Interface.design(/** @scope M.Interface.prototype */{
      *
      */
     _registerActiveState: function( context ) {
-
+        if(context._isInButtonGroup){
+            return;
+        }
         // get the Views internal events and store them in a swap object
         var events = context._internalEvents || {};
 

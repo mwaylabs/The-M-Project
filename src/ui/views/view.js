@@ -444,7 +444,9 @@
          * @private
          */
         _disableEvents: function() {
-            this._hammertime.enable(NO);
+            if(this._hammertime){
+                this._hammertime.enable(NO);
+            }
         },
 
         /**
@@ -453,7 +455,9 @@
          * @private
          */
         _enableEvents: function() {
-            this._hammertime.enable(YES);
+            if(this._hammertime){
+                this._hammertime.enable(YES);
+            }
         },
 
         /**

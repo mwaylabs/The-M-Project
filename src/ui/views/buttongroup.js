@@ -32,6 +32,7 @@ M.ButtonGroupView = M.View.extend({
         if (this._childViews) {
             _.each(this._childViews, function (child, key) {
                 this._childViews[key] = child.extend({
+                    _isInButtonGroup: YES,
                     _internalEvents: {
                         tap: [function (events, element) {
                             that.setActive(element);
