@@ -34,7 +34,10 @@ M.ButtonGroupView = M.View.extend({
                 this._childViews[key] = child.extend({
                     _isInButtonGroup: YES,
                     _internalEvents: {
-                        tap: [function (events, element) {
+                        touchstart: [function (events, element) {
+                            that.setActive(element);
+                        }],
+                        mousedown: [function (events, element) {
                             that.setActive(element);
                         }]
                     }

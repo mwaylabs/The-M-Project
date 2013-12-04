@@ -26,8 +26,10 @@ describe('M.ButtonGroupView', function() {
         }).create(this, null, YES);
 
 
-        assert.isArray(buttonGroup.childViews.button1._events.tap);
-        assert.isFunction(buttonGroup.childViews.button1._events.tap[0]);
+        assert.isArray(buttonGroup.childViews.button1._events.touchstart);
+        assert.isFunction(buttonGroup.childViews.button1._events.touchstart[0]);
+        assert.isArray(buttonGroup.childViews.button1._events.mousedown);
+        assert.isFunction(buttonGroup.childViews.button1._events.mousedown[0]);
         assert.lengthOf(Object.keys(buttonGroup.childViews), 3);
 
     });
