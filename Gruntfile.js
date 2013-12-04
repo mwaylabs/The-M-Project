@@ -162,12 +162,13 @@ module.exports = function (grunt) {
 
         jsdoc : {
             dist : {
-                src: ['README.md','src/connection/*.js','src/core/*.js','src/data/*.js','src/data/stores/*.js','src/interfaces/*.js','src/ui/*.js','src/ui/layouts/*.js','src/ui/views/*.js','src/utility/*.js'],
+                src: ['doc-template/additional/index.md','src/connection/*.js','src/core/*.js','src/data/*.js','src/data/stores/*.js','src/interfaces/*.js','src/ui/*.js','src/ui/layouts/*.js','src/ui/views/*.js','src/utility/*.js'],
                 options:{
                     destination: 'doc',
                     template: "doc-template",
                     configure: "doc-template/jsdoc.conf.json",
-                    tutorials: "doc-template/additional"
+                    tutorials: "doc-template/additional",
+                    private: false
                 }
             }
         },
@@ -248,6 +249,12 @@ module.exports = function (grunt) {
         });
     });
 
+    grunt.registerTask('rewriteMarkdownFiles', function() {
+        var content = grunt.file.read('README.md');
+        content = content.replace('![The-M-Project Absinthe][logo]', '');
+        grunt.file.write('doc-template/additional/index.md', content);
+    });
+
     grunt.registerTask('build-js', ['extractSassVars', 'preprocess:dev']);
     grunt.registerTask('build-css', ['compass:dev']);
 
@@ -264,5 +271,5 @@ module.exports = function (grunt) {
     grunt.registerTask('travis', ['jsonlint', 'default', 'test']);
     grunt.registerTask('default', ['build-js', 'build-css']);
 
-    grunt.registerTask('build-doc', ['clean:md','curl-dir', 'jsdoc', 'clean:md']);
+    grunt.registerTask('build-doc', ['clean:md','curl-dir', 'rewriteMarkdownFiles', 'jsdoc', 'clean:md']);
 };
