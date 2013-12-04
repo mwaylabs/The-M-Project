@@ -2,11 +2,32 @@
 // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 
 /**
+ * The M.BikiniStore is used to connect a model collection to an
+ * bikini server.
+ *
+ * This will give you an online and offline store with live data updates.
  *
  * @module M.BikiniStore
  *
  * @type {*}
  * @extends M.Store
+ *
+ * @example
+ *
+ * The default configuration will save the complete model data as a json,
+ * and the offline change log to a local WebSql database, synchronize it
+ * trough REST calls with the server and receive live updates via a socket.io connection.
+ *
+ * var MyCollection = M.Collection.extend({
+ *      model: MyModel,
+ *      url: 'http://myBikiniServer.com:8200/bikini/myCollection',
+ *      store: new M.BikiniStore( {
+ *          useLocalStore:   true, // (default) store the data for offline use
+ *          useSocketNotify: true, // (default) register at the server for live updates
+ *          useOfflineChanges: true // (default) allow changes to the offline data
+ *      })
+ * });
+ *
  */
 M.BikiniStore = M.Store.extend({
 

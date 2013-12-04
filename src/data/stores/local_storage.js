@@ -2,10 +2,21 @@
 // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 
 /**
+ * The M.LocalStorageStore can be used to store model collection into
+ * the localStorage
+ *
  * @module M.LocalStorageStore
  *
  * @type {*}
  * @extends M.Store
+ *
+ * @example
+ *
+ * var MyCollection = M.Collection.extend({
+ *      model: MyModel,
+ *      store: new M.LocalStorageStore()
+ * });
+ *
  */
 M.LocalStorageStore = M.Store.extend({
 

@@ -2,11 +2,39 @@
 // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 
 /**
+ * The M.WebSqlStore can be used to store model collection into
+ * the webSql database
  *
  * @module M.WebSqlStore
  *
  * @type {*}
  * @extends M.Store
+ *
+ * @example
+ *
+ * The default configuration will save the complete model data as json
+ * into a database column with the name "data"
+ *
+ * var MyCollection = M.Collection.extend({
+ *      model: MyModel,
+ *      entity: 'MyTableName',
+ *      store: new M.WebSqlStorageStore()
+ * });
+ *
+ * If you want to use specific columns you can specify the fields
+ * in the entity of your model like this:
+ *
+ * var MyModel = M.Model.extend({
+ *      idAttribute: 'id',
+ *      fields: {
+ *          id:          { type: M.CONST.TYPE.STRING,  required: YES, index: YES },
+ *          sureName:    { name: 'USERNAME', type: M.CONST.TYPE.STRING },
+ *          firstName:   { type: M.CONST.TYPE.STRING,  length: 200 },
+ *          age:         { type: M.CONST.TYPE.INTEGER }
+ *      }
+ * });
+ *
+ *
  */
 M.WebSqlStore = M.Store.extend({
 

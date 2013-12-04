@@ -2,11 +2,18 @@
 // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 
 /**
+ * The M.Collection can be used like a Backbone Collection,
+ *
+ * but there are some enhancements to fetch, save and delete the
+ * contained models from or to other "data stores".
+ *
+ * see LocalStorageStore, WebSqlStore or BikiniStore for examples
  *
  * @module M.Collection
  *
  * @type {*}
  * @extends Backbone.Collection
+ *
  */
 M.Collection = Backbone.Collection.extend({
 

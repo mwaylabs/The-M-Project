@@ -20,6 +20,7 @@ describe('M.WebSqlStore', function() {
 
     });
 
+
     TEST.dropTableTest = function (done) {
         TEST.store.dropTable({
             entity: {
@@ -37,6 +38,48 @@ describe('M.WebSqlStore', function() {
     };
 
     it('drop table', TEST.dropTableTest);
+
+    it('simple websql store', function( done ) {
+
+        TEST.SimpleModel = M.Model.extend({
+            idAttribute: '_id'
+        });
+
+        assert.typeOf(TEST.SimpleModel, 'function', 'SimpleModel model successfully extended.');
+
+        TEST.SimpleModelCollection = M.Collection.extend({
+            model: TEST.SimpleModel,
+            store: new M.WebSqlStore(),
+            entity: 'test'
+        });
+
+        assert.typeOf(TEST.SimpleModelCollection, 'function', 'Simple collection successfully extended.');
+
+        TEST.Simple = TEST.SimpleModelCollection.create();
+
+        assert.typeOf(TEST.Simple, 'object', 'Simple collection successfully created.');
+
+        TEST.Simple.create(TEST.data,
+              {
+                  success: function(model) {
+                      assert.ok(model, 'new record exists.');
+
+                      TEST.id = model.id;
+
+                      assert.ok(TEST.id, 'new record has an id.');
+
+                      done();
+                  },
+                  error: function(error) {
+                      assert.ok(false, 'new record created: '+ JSON.stringify(error));
+                      done();
+                  }
+              }
+          );
+    });
+
+    it('drop table', TEST.dropTableTest);
+
 
     it('creating collection', function() {
 

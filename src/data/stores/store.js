@@ -2,6 +2,9 @@
 // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 
 /**
+ * Base class to build a custom data store.
+ *
+ * See: M.LocalStorageStore, M.WebSqlStore and M.BikiniStore
  *
  * @module M.Store
  *
