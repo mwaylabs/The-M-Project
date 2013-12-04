@@ -85,6 +85,7 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 	- Feedback from the Community
 	- Complete documentation
 	- Tutorials
+	- More Samples
 	- test coverage >90% https://coveralls.io/r/mwaylabs/generator-m?branch=
 
 - The-M-Project v.2.0
