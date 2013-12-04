@@ -25,12 +25,12 @@ The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great 
 - [Setup for framework developer (Windows)](#setup_windows)
 
 ## <a name="intro">What's new</a>
-The-M-Project 1.x as we call it was from our point of view pretty good, but has here and there little tweaks. We could have fix some bugs and work with the existing one. In this process we questioned everything and after huge discussions we decided to take what's good and remove everything we don't like. Furthermore we added everything what we think a mobile HTML5/JavaScript frameworl needs. The following list gives you an overview of changes:
+The-M-Project 1.x as we call it was from our point of view pretty good, but has here and there little tweaks. We could have fix some bugs and work with the existing one. In this process we questioned everything and after huge discussions we decided to take what's good and remove everything we don't like. Furthermore we added everything what we think a mobile HTML5/JavaScript framework needs. The following list gives you an overview of changes:
 
 - The-M-Project is based on [Backbone.js](http://backbonejs.org/)
 - [Bikini](#bikini) - a implementation of Model/Server connectivity
 - Espresso is now based on [Grunt](http://gruntjs.com/) and [Yeoman](http://yeoman.io/)
-- no jquery mobile support at the moment
+- No jQuery mobile support at the moment
 - Different Themes out of the Box
 	- Android
 	- iOS 7
@@ -61,11 +61,11 @@ Beside the Kitchensink we have a second ready to launch sample app called Addres
 
 ### [Kitchensink Demo](http://www.the-m-project.org/apps/absinthe/index.html)
 [Try the Kitchensink](http://www.the-m-project.org/apps/absinthe/index.html)
-The Kitchensink gives a good overview of all Views and Layouts so far. Play arround and see what the The-M-Project offers to you.
+The Kitchensink gives a good overview of all Views and Layouts so far. Play around and see what the The-M-Project offers to you.
 
 ### [Addressbook Demo](http://www.the-m-project.org/apps/addressbook/index.html)
 [Try the Kitchensink](http://www.the-m-project.org/apps/addressbook/index.html)
-The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://www.the-m-project.org/apps/addressbook/index.html) in different browser windows or devices for the full experience. A small [node.js](http://nodejs.org/) server is connected to a [MongoDB](http://www.mongodb.org/). The application syncronises via bikini the contact collection and stores it to the [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database) Database. This guarantees offline and online manipulation of the data.
+The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://www.the-m-project.org/apps/addressbook/index.html) in different browser windows or devices for the full experience. A small [node.js](http://nodejs.org/) server is connected to a [MongoDB](http://www.mongodb.org/). The application synchronises via bikini the contact collection and stores it to the [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database) Database. This guarantees offline and online manipulation of the data.
 
 ## <a name="roadmap">Roadmap</a>
 
@@ -76,10 +76,10 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 	- SideMenu
 	- Themes for Android and iOS
 	- MenuLayout
-    - touchable ToggleSwitch
+    - Touchable ToggleSwitch
 - The-M-Project v.2.0 RC1
 	- Scaffold for MenuLayout
-	- Feedback from the Community
+	- Feedback from the community
 	- Complete documentation
 	- Tutorials
 	- test coverage >90% https://coveralls.io/r/mwaylabs/generator-m?branch=
@@ -129,7 +129,7 @@ This grunt plugin is similar to grunt-contrib-jst.
 	1. Application Start 
 		- If the application was started the first time the Router calls the `applicationStart` of the provided Controller. 
 	2. Show
-		- If a pageswitch happens the router calls the `show` function of the provided Controller
+		- If a page switch happens the router calls the `show` function of the provided Controller
 	3. Application Ready
 		- After the application did load the `applicationReady` function is called on every Controller. In every case it gets called after the `applicationStart`
 
@@ -192,22 +192,22 @@ The app folder contains all app relevant files.
 The starting point of the application is the index.html. You can add scripts by yourself. But don't delete any comments. The generator uses them to add code inside the file. If you create a controller with the generator the index will auto generate the script tag.
 
 #### i18n
-You find all the language files inside the i18n(internationalization) folder.
+You find all the language files inside the i18n(internationalisation) folder.
 
 #### icons
-Out of the box we have profide relevant The-M-Project icons. If you add an application to the Home-Screen of your phone, these icons are used.
+Out of the box we have provide relevant The-M-Project icons. If you add an application to the Home-Screen of your phone, these icons are used.
 
 #### splash
-Out of the box we have profide relevant The-M-Project splashscreens. If you add an application to the Home-Screen of your phone, these splashscreens are used.
+Out of the box we have provide relevant The-M-Project splash screens. If you add an application to the Home-Screen of your phone, these splash screens are used.
 
 #### images
-Put all the images inside this directory
+Put all the images inside this directory.
 
 #### scripts
-Contains the most JavaScript files - like Model,View and Controller
+Contains the most JavaScript files - like Model, View and Controller
 
 ##### config.js
-Configurates the application.
+Configuration for the application.
 
 ##### main.js
 Contains all controllers and is used by the generator.
@@ -238,11 +238,11 @@ This file allows you to modify the default grunt options without a full understa
 	- `app` - The location for the app root
 - server
 	- `openBrowser` - Open the app in your default browser
-	- `autoReload` - Reloads everytime you save a file in your project
-	- `port` - The port on which the webserver will respond
+	- `autoReload` - Reloads web server you save a file in your project
+	- `port` - The port on which the web server will respond
 	- `proxies` - We use [grunt-connect-proxy](https://github.com/drewzboto/grunt-connect-proxy) for the proxy task.
 - test
-	- `port` - The port on which the webserver will respond
+	- `port` - The port on which the web server will respond
 	
 	
 ### Don't worry about
@@ -262,7 +262,7 @@ This file allows you to modify the default grunt options without a full understa
 ## <a name="bikini">Bikini</a>
 **Bikini – everything a model needs.**
 
-Without expense to the developer, data is synchronized from the server to the client. Changes are broadcast to all connected clients live, are available offline and changeable, and by limiting the transfer of modified records loading time and traffic can be optimized.Bikini is the connection between the Model and a Storage. It profides several adapters to access local and remote datastorage.
+Without expense to the developer, data is synchronised from the server to the client. Changes are broadcast to all connected clients live, are available offline and changeable, and by limiting the transfer of modified records loading time and traffic can be optimised. Bikini is the connection between the Model and a Storage. It provides several adapters to access local and remote data storage.
 
 ## <a name="mvc">Model–view–controller</a>
 `M.View`, `M.Controller`, `M.Model` and `M.Collection` extending from Backbone.js. You can use them like you would use them with Backbone itself.
@@ -270,7 +270,7 @@ Without expense to the developer, data is synchronized from the server to the cl
 `M.Controller` implements `Backbone.Events` but does not extend anything else.
 
 ### inheritance
-It is possible to extend from every `M` Object by calling the `extend` method. The first parameter are the options applyed to the extended Object and overwrite the existing ones. `extend` always returns a function.
+It is possible to extend from every `M` Object by calling the `extend` method. The first parameter are the options applied to the extended Object and overwrite the existing ones. `extend` always returns a function.
 
 ```
 M.CustomView = M.View.extend({
@@ -329,7 +329,7 @@ Switch through different pages that have a Header and Content with over 60 trans
 
 - *What happens to The-M-Project before Absinthe?*
 	- We call it `The-M-Project 1.x`
-	- The Sourcecode is still available on [GitHub](https://github.com/mwaylabs/The-M-Project)
+	- The source code is still available on [GitHub](https://github.com/mwaylabs/The-M-Project)
 	- We still use it on our own to build projects/products
 	- The [Sample-Apps](https://github.com/mwaylabs/The-M-Project-Sample-Apps/tree/1.x) aren't gone either
 	- [Espresso](https://github.com/mwaylabs/Espresso) is still available
@@ -492,7 +492,7 @@ gem install compass
 
 
 ### Add all the Modules to your PATH Variable
-#### Winows Vista & Windows 7
+#### Windows Vista & Windows 7
 (If you install node and ruby with the installer you can specify to add them directly to your PATH variable)
 
 - From the Desktop, right-click My Computer and click Properties.
