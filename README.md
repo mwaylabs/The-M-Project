@@ -24,7 +24,7 @@ The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great 
 - [Setup for framework developer (Mac/Linux)](#setup_unix)
 - [Setup for framework developer (Windows)](#setup_windows)
 
-## <a name="intro">What's new</a>
+## What's new
 The-M-Project 1.x as we call it was from our point of view pretty good, but has here and there little tweaks. We could have fix some bugs and work with the existing one. In this process we questioned everything and after huge discussions we decided to take what's good and remove everything we don't like. Furthermore we added everything what we think a mobile HTML5/JavaScript framework needs. The following list gives you an overview of changes:
 
 - The-M-Project is based on [Backbone.js](http://backbonejs.org/)
@@ -57,18 +57,18 @@ The-M-Project 1.x as we call it was from our point of view pretty good, but has 
 	- [Grunt](http://gruntjs.com/)
 	- [Yeoman](http://yeoman.io/)
 	
-## <a name="demo">Demo</a>
+## Demo
 Beside the Kitchensink we have a second ready to launch sample app called Addressbook.
 
-### [Kitchensink Demo](http://www.the-m-project.org/apps/absinthe/kitchensink/index.html)
+### Kitchensink Demo
 [Try the Kitchensink](http://www.the-m-project.org/apps/absinthe/kitchensink/index.html)
 The Kitchensink gives a good overview of all Views and Layouts so far. Play arround and see what the The-M-Project offers to you.
 
-### [Addressbook Demo](http://www.the-m-project.org/apps/absinthe/addressbook/index.html)
-[Try the Kitchensink](http://www.the-m-project.org/apps/absinthe/addressbook/index.html)
+### Addressbook Demo
+[Try the Addressbook](http://www.the-m-project.org/apps/absinthe/addressbook/index.html)
 The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://www.the-m-project.org/apps/addressbook/index.html) in different browser windows or devices for the full experience. A small [node.js](http://nodejs.org/) server is connected to a [MongoDB](http://www.mongodb.org/). The application syncronises via bikini the contact collection and stores it to the [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database) Database. This guarantees offline and online manipulation of the data.
 
-## <a name="roadmap">Roadmap</a>
+## Roadmap
 
 ### Absinthe release
 
@@ -95,17 +95,12 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 	- Extending Bikini
 	- A lot more to come
 
-## <a name="further">Further Reading and Repositories</a>
+## Further Reading and Repositories
 
-### [Use the generator to develop your first app](https://github.com/mwaylabs/generator-m/blob/master/)
-
-The yeoman generator for The-M-Project
-
-- [GitHub](https://github.com/mwaylabs/generator-m/blob/master/README.md)
-- [Manual](https://github.com/mwaylabs/generator-m/blob/master/README.md)
+Use the yeoman [generator](https://github.com/mwaylabs/generator-m/) to develop your first app.
 
 
-### [Documentation](http://www.the-m-project.org/docs/absinthe/)
+### Documentation
 - [JSDoc](http://www.the-m-project.org/docs/absinthe/)
 
 
@@ -119,7 +114,7 @@ This grunt plugin is similar to grunt-contrib-jst.
 
 - [GitHub](https://github.com/mwaylabs/grunt-tmpl)
 
-## <a name="lifecycle">Application Lifecycle</a>
+## Application Lifecycle
 1. index.html
 	- Start point of a application is the index.html file. After all dependencies and application files are loaded the framework uses a [Backbone.Router](http://backbonejs.org/#Router) to call the responsible controller.
 	- The routes are defined inside the `main.js`
@@ -136,7 +131,7 @@ This grunt plugin is similar to grunt-contrib-jst.
 
 	
 
-## <a name="structure">Folder structure</a>
+## Folder structure
 ```
 .
 ├── Gruntfile.js
@@ -260,12 +255,12 @@ This file allows you to modify the default grunt options without a full understa
 
 **bower_components** - Contains the Bower dependencies
 
-## <a name="bikini">Bikini</a>
+## Bikini
 **Bikini – everything a model needs.**
 
 Without expense to the developer, data is synchronised from the server to the client. Changes are broadcast to all connected clients live, are available offline and changeable, and by limiting the transfer of modified records loading time and traffic can be optimised. Bikini is the connection between the Model and a Storage. It provides several adapters to access local and remote data storage.
 
-## <a name="mvc">Model–view–controller</a>
+## Model–view–controller
 `M.View`, `M.Controller`, `M.Model` and `M.Collection` extending from Backbone.js. You can use them like you would use them with Backbone itself.
 
 `M.Controller` implements `Backbone.Events` but does not extend anything else.
@@ -301,7 +296,7 @@ M.isView(v); //true
 `M.View.create` accepts three parameters. The first one is for view options and the second one for child views and the third one to use the first one as scope.
 
 	
-## <a name="layouts">Layouts</a>
+## Layouts
 
 A template defines the look and feel of a page. Every Controller can set its own template or use a existing one from other controllers. After the layout is set the Controller add its Views to the Layout. This triggers the render process of the inserted Views.
 
@@ -323,7 +318,7 @@ Switch through different pages that have a Header and Content with over 60 trans
 
 ![Switch Layout with Header and Content][switch-header-content-layout]
 
-## <a name="qa">Q&A</a>
+## Q&A
 
 - *Is The-M-Project Absinthe release backward compatible?*
 	- unfortunately not
@@ -340,7 +335,7 @@ Switch through different pages that have a Header and Content with over 60 trans
 	- Need inspiration? B(eer), B(randy) C(ognac), C(idre), D(aiquiri), E(gg nog), F(euerzangenbowle), G(in) - the list goes on like this. So stay tuned for the upcoming releases.
 
 
-## <a name="compass">Sass Compass</a>
+## Sass Compass
 
 ### What is SASS ?
 SASS (Syntactically Awesome Style Sheets) is a programming language created for front end web development that defines a new set of rules and functions to empower and enhance CSS. With this programming language, you can create complex designs with minimal code in the most efficient way possible.
@@ -362,7 +357,7 @@ Afterwards if you have added Ruby to your PATH variable you can also type `gem i
 For more informations about SASS Compass just visit their [website](http://compass-style.org/). They have a great blog and many examples to get a good insight into it.
 
 
-## <a name="styleguide">Styleguide</a>
+## Styleguide
 
 ![The-M-Project Absinthe][styleguide-image]
 
@@ -373,7 +368,7 @@ For more informations about SASS Compass just visit their [website](http://compa
 [logo]: http://www.the-m-project.org/docs/absinthe/img/the-m-project-logo.png
 [styleguide-image]: http://www.the-m-project.org/docs/absinthe/img/styleguide.png
 
-## <a name="dev">Development Process</a>
+## Development Process
 
 - There should be a test for every component
     - add the test into the responding folder
@@ -384,7 +379,7 @@ For more informations about SASS Compass just visit their [website](http://compa
 - [Travis](https://travis-ci.org/mwaylabs/The-M-Project) is used as build server
 - The generator uses [coveralls](https://coveralls.io/r/mwaylabs/generator-m?branch=master) as code analyse tool
 
-## <a name="setup_unix">Setup for framework developer (Mac/Linux)</a>
+## Setup for framework developer (Mac/Linux)
 
 ### Dependencies
 
@@ -453,7 +448,7 @@ grunt test
 open test/index.html
 ```
 
-## <a name="setup_windows">Setup for framework developer (Windows)</a>
+## Setup for framework developer (Windows)
 
 ### Dependencies
 
