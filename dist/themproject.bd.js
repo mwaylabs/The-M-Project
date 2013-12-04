@@ -1,8 +1,8 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
-* Version:   2.0.0-1
+* Version:   2.0.0-beta
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Dec 03 2013 16:50:35
+* Date:      Wed Dec 04 2013 09:19:54
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -27,7 +27,7 @@
      * Version number of current release
      * @type {String}
      */
-    M.Version = M.version = '2.0.0-1';
+    M.Version = M.version = '2.0.0-beta';
     
     /**
      * Empty function to be used when
@@ -6842,7 +6842,9 @@
          *
          */
         _registerActiveState: function( context ) {
-    
+            if(context._isInButtonGroup){
+                return;
+            }
             // get the Views internal events and store them in a swap object
             var events = context._internalEvents || {};
     

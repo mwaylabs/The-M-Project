@@ -1,8 +1,8 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
-* Version:   2.0.0-1
+* Version:   2.0.0-beta
 * Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Dec 03 2013 16:50:35
+* Date:      Wed Dec 04 2013 09:19:54
 * License:   Dual licensed under the MIT or GPL Version 2 licenses.
 *            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
 *            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
@@ -27,7 +27,7 @@
      * Version number of current release
      * @type {String}
      */
-    M.Version = M.version = '2.0.0-1';
+    M.Version = M.version = '2.0.0-beta';
     
     /**
      * Empty function to be used when
@@ -6842,7 +6842,9 @@
          *
          */
         _registerActiveState: function( context ) {
-    
+            if(context._isInButtonGroup){
+                return;
+            }
             // get the Views internal events and store them in a swap object
             var events = context._internalEvents || {};
     
@@ -7133,6 +7135,7 @@
             "grey": "#8E8E93",
             "m-primary-font-family": "-apple-system-font, \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
             "lightenPercentage": "25%",
+            "textfield-icon-y-position": "13px",
             "m-primary-active-color": "$lightgrey",
             "m-primary-active-text-color": "#007AFF",
             "tablayout-menu-height": "50px",
@@ -7199,7 +7202,7 @@
     
         //TODO implement label for=""
         'M.TextfieldView': {
-            defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><div class="input<% if(icon) {  %>-icon-addon<% } %>"><% if(icon) {  %><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value_ %>"></div><% if(label) {  %></label><% } %></div>'
+            defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><div class="<% if(icon) {  %> input-icon-addon<% } %>"><% if(icon) {  %><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value_ %>"></div><% if(label) {  %></label><% } %></div>'
         },
         'M.TextareaView': {
             defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><textarea><%= _value_ %></textarea><% if(label) {  %></label><% } %></div>'
@@ -7286,7 +7289,7 @@
         },
     
         'M.ToggleSwitchView': {
-            defaultTemplate: '<div><label><% if(label){%> <span class="needsclick label-descr"> <%= label %> <% }%> </span> <div class="needsclick toggleswitch"><input value="<%= _value_ %>" type="checkbox"><span class="needsclick switch-labels" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
+            defaultTemplate: '<div><label><% if(label){%> <span class="needsclick label-descr"> <%= label %> <% }%> </span> <div class="toggleswitch"><input value="<%= _value_ %>" type="checkbox"><span class="switch-labels needsclick" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
         },
     
         'M.ModalView': {
@@ -7961,7 +7964,9 @@
              * @private
              */
             _disableEvents: function() {
-                this._hammertime.enable(NO);
+                if(this._hammertime){
+                    this._hammertime.enable(NO);
+                }
             },
     
             /**
@@ -7970,7 +7975,9 @@
              * @private
              */
             _enableEvents: function() {
-                this._hammertime.enable(YES);
+                if(this._hammertime){
+                    this._hammertime.enable(YES);
+                }
             },
     
             /**
@@ -9356,8 +9363,12 @@
             if (this._childViews) {
                 _.each(this._childViews, function (child, key) {
                     this._childViews[key] = child.extend({
+                        _isInButtonGroup: YES,
                         _internalEvents: {
-                            tap: [function (events, element) {
+                            touchstart: [function (events, element) {
+                                that.setActive(element);
+                            }],
+                            mousedown: [function (events, element) {
                                 that.setActive(element);
                             }]
                         }
