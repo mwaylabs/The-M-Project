@@ -5,7 +5,7 @@ The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great 
 
 **Version:** The-M-Project v.2.0 beta
 
-**Codename:** The-M-Project Absinthe
+**Codename:** Absinthe
 
 ## Overview
 - [What's new](#What's new)
@@ -66,11 +66,13 @@ The Kitchensink gives a good overview of all Views and Layouts so far. Play arro
 
 ### [Addressbook Demo](http://www.the-m-project.org/apps/absinthe/addressbook/index.html)
 [Try the Kitchensink](http://www.the-m-project.org/apps/absinthe/addressbook/index.html)
-The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://www.the-m-project.org/apps/addressbook/index.html) in different browser windows or devices for the full experience. A small [node.js](http://nodejs.org/) server is connected to a [MongoDB](http://www.mongodb.org/). The application syncronises via bikini the contact collection and stores it to the [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database) Database. This guarantees offline and online manipulation of the data.
+The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://www.the-m-project.org/apps/addressbook/index.html) in different browser windows or devices for the full experience. A small [node.js](http://nodejs.org/) server is connected to a [MongoDB](http://www.mongodb.org/). The application synchronize via [Bikini](#bikini) the contact collection and stores it to the [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database) Database. This guarantees offline and online manipulation of the data.
 
 ## <a name="roadmap">Roadmap</a>
 
 ### Absinthe release
+- The-M-Project v.2.0 beta 1 (We are here)
+	- All the fancy stuff we mentioned above
 
 - The-M-Project v.2.0 beta 2
 	- MenuView
@@ -92,6 +94,7 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 
 - The-M-Project 2.1
 	- Full support for Windows
+	- Enterprise Edition
 	- Extending Bikini
 	- A lot more to come
 
