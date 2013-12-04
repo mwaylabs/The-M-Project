@@ -1,3 +1,6 @@
+// Copyright (c) 2013 M-Way Solutions GmbH
+// http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+
 /**
  * The {M.RadiolistView} view class render a group of <input type="radio"> HTML elements.
  * An example would be ask the user for his favorite drink. The user can

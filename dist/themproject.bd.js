@@ -1,15 +1,16 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
+* Copyright: (c) 2013 M-Way Solutions GmbH.
 * Version:   2.0.0-beta
-* Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Wed Dec 04 2013 09:19:54
-* License:   Dual licensed under the MIT or GPL Version 2 licenses.
-*            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-*            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
+* Date:      Wed Dec 04 2013 10:08:03
+* License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 
 (function (global, Backbone, _, $) {
 
+    
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      * Defines the general namespace
@@ -103,6 +104,9 @@
      * @type {Boolean}
      */
     NO = false;
+    
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      * M.CONST defines constants used all over the framework.
@@ -514,6 +518,9 @@
         }
     };
     
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      *
      * @module M.Object
@@ -726,6 +733,9 @@
         }
     
     };
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      * @module M.Config
      *
@@ -769,6 +779,9 @@
             return this[name];
         }
     });
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      * M.Logger defines the prototype for any logging object.
      * It is used to log messages out of the application.
@@ -1118,6 +1131,9 @@
         }
     
     });
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      *
      * @module M.Controller
@@ -1177,6 +1193,9 @@
     
         }
     });
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      *
      * @module M.Application
@@ -1340,6 +1359,9 @@
     
     });
     
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      *
      * @module M.Router
@@ -1446,6 +1468,9 @@
         }
     
     });
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      *
      * Use the ViewManager to quick access views
@@ -1506,6 +1531,9 @@
         }
     
     });
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      * M.Environment wraps the Modernizr plugin Detectizr.
      * Thanks to https://github.com/barisaydinoglu/Detectizr which is Licensed under MIT license.
@@ -1521,6 +1549,9 @@
     M.Environment.isLowerThanAndroid4 = (Modernizr.Detectizr.device.model === 'android' && parseInt(Modernizr.Detectizr.device.osVersion, 10) < 4 );
     M.Environment.isLowerThaniPhone4S = (Modernizr.Detectizr.device.os === 'ios' && (document.width <= 320 || document.width <= 480 ));
     
+    
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      *
@@ -1581,6 +1612,9 @@
             return _.extend({}, this);
         }
     });
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      * M.I18N defines a prototype for internationalisation and localisation within
      * The M-Project. It is used to set and get the application's language and to
@@ -1788,16 +1822,8 @@
     }));
     
     
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2013 panacoda GmbH. All rights reserved.
-    // Creator:   Frank
-    // Date:      14.04.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     // ===========================================================================
     //
@@ -1956,20 +1982,11 @@
             return null;
         }
     });
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2011 panacoda GmbH. All rights reserved.
-    // Creator:   Sebastian
-    // Date:      04.01.2011
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     // Returns a unique identifier
     
-    // m_require('core/foundation/object.js');
     /**
      *
      * @module M.UniqueId
@@ -2010,16 +2027,8 @@
             return uuid.join('');
         }
     });
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2011 panacoda GmbH. All rights reserved.
-    // Creator:   Dominik
-    // Date:      11.11.2010
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      * This prototype defines decoding and encoding mechanisms based on the Base64 algorithm. You
@@ -2205,16 +2214,8 @@
             }
     
         });
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2011 panacoda GmbH. All rights reserved.
-    // Creator:   Dominik
-    // Date:      11.11.2010
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      * This prototype defines a hashing mechanism based on the SHA256 algorithm. You normally
@@ -2404,16 +2405,8 @@
             }
     
         });
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2011 panacoda GmbH. All rights reserved.
-    // Creator:   Dominik
-    // Date:      11.11.2010
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      * M.Cypher defines a prototype for handling decoding, encoding and hashing of string
@@ -2579,17 +2572,8 @@
             }
     
         });
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2010 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2011 panacoda GmbH. All rights reserved.
-    // Creator:   Frank
-    // Date:      29.03.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
-    
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      *
@@ -2613,16 +2597,8 @@
     
     
     
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2013 panacoda GmbH. All rights reserved.
-    // Creator:   Dominik
-    // Date:      13.05.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      *
@@ -2852,16 +2828,8 @@
         }
     
     });
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2013 panacoda GmbH. All rights reserved.
-    // Creator:   Dominik
-    // Date:      13.05.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      *
@@ -3099,16 +3067,8 @@
         }
     
     });
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2013 panacoda GmbH. All rights reserved.
-    // Creator:   Frank
-    // Date:      21.05.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      *
@@ -3311,16 +3271,8 @@
     });
     
     
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2013 panacoda GmbH. All rights reserved.
-    // Creator:   Frank
-    // Date:      13.04.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
-    
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      *
@@ -3704,14 +3656,9 @@
         }
     });
     
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    // Creator:   Frank
-    // Date:      13.04.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      *
      * @module M.Entity
@@ -4010,6 +3957,9 @@
         }
     });
     
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      *
      * @module M.Model
@@ -4084,6 +4034,9 @@
         }
     
     };
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      *
      * @module M.Model
@@ -4196,17 +4149,8 @@
     
     });
     
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2013 panacoda GmbH. All rights reserved.
-    // Creator:   Frank
-    // Date:      02.04.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
-    
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      *
@@ -4373,26 +4317,13 @@
     
     });
     
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2013 panacoda GmbH. All rights reserved.
-    // Creator:   Frank
-    // Date:      14.04.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
-    // ===========================================================================
-    //
     // M.DataSelector uses code from meteor.js
     // https://github.com/meteor/meteor/tree/master/packages/minimongo
     //
     // Thanks for sharing!
-    //
-    // ===========================================================================
-    
     
     /**
      *
@@ -4991,16 +4922,9 @@
     
     });
     
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2013 panacoda GmbH. All rights reserved.
-    // Creator:   Frank
-    // Date:      26.04.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      *
      * @module M.SqlSelector
@@ -5292,17 +5216,8 @@
             }
         }
     });
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2013 panacoda GmbH. All rights reserved.
-    // Creator:   Frank
-    // Date:      02.04.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
-    
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      *
@@ -5545,6 +5460,9 @@
     
     });
     
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      * @module M.LocalStorageStore
      *
@@ -5681,6 +5599,9 @@
             }
         }
     });
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      *
      * @module M.WebSqlStore
@@ -6255,6 +6176,9 @@
             return this.getFields(entity)[key];
         }
     });
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      *
      * @module M.BikiniStore
@@ -6716,16 +6640,8 @@
     
     
     
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2013 panacoda GmbH. All rights reserved.
-    // Creator:   Dominik
-    // Date:      26.04.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      * @module M.Interface
@@ -6766,16 +6682,8 @@
     
     
     
-    // ==========================================================================
-    // Project:   The M-Project - Mobile HTML5 Application Framework
-    // Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-    //            (c) 2013 panacoda GmbH. All rights reserved.
-    // Creator:   Dominik
-    // Date:      15.05.2013
-    // License:   Dual licensed under the MIT or GPL Version 2 licenses.
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-    //            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
-    // ==========================================================================
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
      * @module M.ViewEnableState
@@ -6816,12 +6724,9 @@
         }
     
     });
-    /**
-     * @module M.ActiveState
-     *
-     * @type {*}
-     * @extends M.Interface
-     */
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     M.ActiveState = M.Interface.design(/** @scope M.Interface.prototype */{
     
         /**
@@ -6906,6 +6811,9 @@
         }
     
     });
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
     /**
      * @module M.AddCssClass
      *

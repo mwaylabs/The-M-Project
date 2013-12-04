@@ -15,7 +15,13 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         meta: {
-            banner: '/*!\n' + '* Project:   The M-Project - Mobile HTML5 Application Framework\n' + '* Version:   <%= pkg.version %>\n' + '* Copyright: (c) <%= grunt.template.today("yyyy") %> M-Way Solutions GmbH. All rights reserved.\n' + '* Date:      <%= grunt.template.today() %>\n' + '* License:   Dual licensed under the MIT or GPL Version 2 licenses.\n' + '*            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE\n' + '*            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE\n' + '*/'
+            banner: '/*!\n' +
+                '* Project:   The M-Project - Mobile HTML5 Application Framework\n' +
+                '* Copyright: (c) <%= grunt.template.today("yyyy") %> M-Way Solutions GmbH.\n' +
+                '* Version:   <%= pkg.version %>\n' +
+                '* Date:      <%= grunt.template.today() %>\n' +
+                '* License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt\n' +
+                '*/'
         },
         jsonlint: {
             sample: {

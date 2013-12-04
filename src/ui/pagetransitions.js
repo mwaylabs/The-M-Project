@@ -1,4 +1,8 @@
-//Thanks to: https://github.com/codrops/PageTransitions
+// Copyright (c) 2013 M-Way Solutions GmbH
+// http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+
+// Thanks to: https://github.com/codrops/PageTransitions
+
 /**
  *
  * @module M.PageTransitions

@@ -51,6 +51,7 @@ The-M-Project 1.x as we call it was from our point of view pretty good, but has 
 	- [Detectizr](https://github.com/barisaydinoglu/Detectizr)
 	- [Moment.js](http://momentjs.com/)
 	- [Shake.js](http://alxgbsn.co.uk/)
+	- [Page Transitions](https://github.com/codrops/PageTransitions)
 - Generator
 	- [Bower](http://bower.io/)
 	- [Grunt](http://gruntjs.com/)
@@ -59,12 +60,12 @@ The-M-Project 1.x as we call it was from our point of view pretty good, but has 
 ## <a name="demo">Demo</a>
 Beside the Kitchensink we have a second ready to launch sample app called Addressbook.
 
-### [Kitchensink Demo](http://www.the-m-project.org/apps/absinthe/index.html)
-[Try the Kitchensink](http://www.the-m-project.org/apps/absinthe/index.html)
+### [Kitchensink Demo](http://www.the-m-project.org/apps/absinthe/kitchensink/index.html)
+[Try the Kitchensink](http://www.the-m-project.org/apps/absinthe/kitchensink/index.html)
 The Kitchensink gives a good overview of all Views and Layouts so far. Play arround and see what the The-M-Project offers to you.
 
-### [Addressbook Demo](http://www.the-m-project.org/apps/addressbook/index.html)
-[Try the Kitchensink](http://www.the-m-project.org/apps/addressbook/index.html)
+### [Addressbook Demo](http://www.the-m-project.org/apps/absinthe/addressbook/index.html)
+[Try the Kitchensink](http://www.the-m-project.org/apps/absinthe/addressbook/index.html)
 The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://www.the-m-project.org/apps/addressbook/index.html) in different browser windows or devices for the full experience. A small [node.js](http://nodejs.org/) server is connected to a [MongoDB](http://www.mongodb.org/). The application syncronises via bikini the contact collection and stores it to the [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database) Database. This guarantees offline and online manipulation of the data.
 
 ## <a name="roadmap">Roadmap</a>
@@ -104,8 +105,8 @@ The yeoman generator for The-M-Project
 - [Manual](https://github.com/mwaylabs/generator-m/blob/master/README.md)
 
 
-### [Documentation](http://www.the-m-project.org/docs/)
-- [JSDoc](http://www.the-m-project.org/docs/)
+### [Documentation](http://www.the-m-project.org/docs/absinthe/)
+- [JSDoc](http://www.the-m-project.org/docs/absinthe/)
 
 
 ### Tutorials and Samples
@@ -366,11 +367,11 @@ For more informations about SASS Compass just visit their [website](http://compa
 ![The-M-Project Absinthe][styleguide-image]
 
 
-[blank-layout]: http://www.the-m-project.org/docs/absinthe/layouts/Blank.png
-[switch-header-content-layout]: http://www.the-m-project.org/docs/absinthe/layouts/Swipe_HeaderContent.png
-[switch-layout]: http://www.the-m-project.org/docs/absinthe/layouts/Swipe_Blank.png
-[logo]: http://www.the-m-project.org/docs/absinthe/tmp_logo_blue.png
-[styleguide-image]: http://www.the-m-project.org/docs/absinthe/styleguide/styleguide.png
+[blank-layout]: http://www.the-m-project.org/docs/absinthe/img/layouts/Blank.png
+[switch-header-content-layout]: http://www.the-m-project.org/docs/absinthe/img/layouts/Swipe_HeaderContent.png
+[switch-layout]: http://www.the-m-project.org/docs/absinthe/img/layouts/Swipe_Blank.png
+[logo]: http://www.the-m-project.org/docs/absinthe/img/tmp_logo_blue.png
+[styleguide-image]: http://www.the-m-project.org/docs/absinthe/img/styleguide.png
 
 ## <a name="dev">Development Process</a>
 
