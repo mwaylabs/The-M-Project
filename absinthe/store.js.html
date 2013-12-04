@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>The-M-Project Absinthe Source: data/stores/store.js</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/shCore.css">
+	<link type="text/css" rel="stylesheet" href="styles/shCoreDefault.css">
+	<link type="text/css" rel="stylesheet" href="styles/shThemeDefault.css">
+
+	
+	<link type="text/css" rel="stylesheet" href="styles/site.mway.css">
+	
+
+</head>
+
+<body>
+
+<div class="container-fluid">
+
+    <div class="header">
+        <a class="logo-container" href="index.html"><img class="logo"  src="img/logo_small.png" alt="The-M-Docs" onclick="loadArticle('home');"></a>
+        <div id="searchBar">
+            <span class="searchLabel">
+                Search:
+            </span>
+            <input type="text" name="search" id="search" autocomplete="off">
+            <!--<input type="button" name="searchButton" id="searchButton" value="search" />-->
+
+        </div>
+    </div>
+
+    <div id="search-wrapper">
+
+    </div>
+
+	<div class="affix navbar-inverse">
+		<div class="left-panel">
+			<ul class="category-list">
+			    
+				
+				<li class="panel-category open">
+					<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials</a>
+
+					<ul class="panel-items open ">
+						
+						<li>
+							<a href="tutorial-Generator.html">Generator</a>
+						</li>
+						
+						<li>
+							<a href="tutorial-Sample-Apps.html">Sample-Apps</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="panel-category open">
+					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules</a>
+
+					<ul class="panel-items open ">
+						
+						<li>
+							<a href="AddCssClass.html">AddCssClass</a>
+						</li>
+						
+						<li>
+							<a href="Animation.html">Animation</a>
+						</li>
+						
+						<li>
+							<a href="Application.html">Application</a>
+						</li>
+						
+						<li>
+							<a href="Base64.html">Base64</a>
+						</li>
+						
+						<li>
+							<a href="BikiniStore.html">BikiniStore</a>
+						</li>
+						
+						<li>
+							<a href="BottomBarLayout.html">BottomBarLayout</a>
+						</li>
+						
+						<li>
+							<a href="ButtonGroupView.html">ButtonGroupView</a>
+						</li>
+						
+						<li>
+							<a href="ButtonView.html">ButtonView</a>
+						</li>
+						
+						<li>
+							<a href="CheckboxlistView.html">CheckboxlistView</a>
+						</li>
+						
+						<li>
+							<a href="Collection.html">Collection</a>
+						</li>
+						
+						<li>
+							<a href="CONST.html">CONST</a>
+						</li>
+						
+						<li>
+							<a href="Controller.html">Controller</a>
+						</li>
+						
+						<li>
+							<a href="Cypher.html">Cypher</a>
+						</li>
+						
+						<li>
+							<a href="DataSelector.html">DataSelector</a>
+						</li>
+						
+						<li>
+							<a href="Date.html">Date</a>
+						</li>
+						
+						<li>
+							<a href="DebugView.html">DebugView</a>
+						</li>
+						
+						<li>
+							<a href="DialogView.html">DialogView</a>
+						</li>
+						
+						<li>
+							<a href="Entity.html">Entity</a>
+						</li>
+						
+						<li>
+							<a href="Environment.html">Environment</a>
+						</li>
+						
+						<li>
+							<a href="Field.html">Field</a>
+						</li>
+						
+						<li>
+							<a href="HeaderLayout.html">HeaderLayout</a>
+						</li>
+						
+						<li>
+							<a href="I18N.html">I18N</a>
+						</li>
+						
+						<li>
+							<a href="I18NItem.html">I18NItem</a>
+						</li>
+						
+						<li>
+							<a href="ImageView.html">ImageView</a>
+						</li>
+						
+						<li>
+							<a href="Interface.html">Interface</a>
+						</li>
+						
+						<li>
+							<a href="Layout.html">Layout</a>
+						</li>
+						
+						<li>
+							<a href="ListItemView.html">ListItemView</a>
+						</li>
+						
+						<li>
+							<a href="ListView.html">ListView</a>
+						</li>
+						
+						<li>
+							<a href="Loader.html">Loader</a>
+						</li>
+						
+						<li>
+							<a href="LoaderView.html">LoaderView</a>
+						</li>
+						
+						<li>
+							<a href="LocalStorageStore.html">LocalStorageStore</a>
+						</li>
+						
+						<li>
+							<a href="Logger.html">Logger</a>
+						</li>
+						
+						<li>
+							<a href="ModalView.html">ModalView</a>
+						</li>
+						
+						<li>
+							<a href="Model.html">Model</a>
+						</li>
+						
+						<li>
+							<a href="Object.html">Object</a>
+						</li>
+						
+						<li>
+							<a href="ObjectID.html">ObjectID</a>
+						</li>
+						
+						<li>
+							<a href="PageTransitions.html">PageTransitions</a>
+						</li>
+						
+						<li>
+							<a href="RadiolistView.html">RadiolistView</a>
+						</li>
+						
+						<li>
+							<a href="Request.html">Request</a>
+						</li>
+						
+						<li>
+							<a href="RequestManager.html">RequestManager</a>
+						</li>
+						
+						<li>
+							<a href="Router.html">Router</a>
+						</li>
+						
+						<li>
+							<a href="SearchfieldView.html">SearchfieldView</a>
+						</li>
+						
+						<li>
+							<a href="SelectionlistView.html">SelectionlistView</a>
+						</li>
+						
+						<li>
+							<a href="SelectView.html">SelectView</a>
+						</li>
+						
+						<li>
+							<a href="SHA256.html">SHA256</a>
+						</li>
+						
+						<li>
+							<a href="SliderView.html">SliderView</a>
+						</li>
+						
+						<li>
+							<a href="SocketIO.html">SocketIO</a>
+						</li>
+						
+						<li>
+							<a href="SqlSelector.html">SqlSelector</a>
+						</li>
+						
+						<li>
+							<a href="Store.html">Store</a>
+						</li>
+						
+						<li>
+							<a href="SwipeLayout.html">SwipeLayout</a>
+						</li>
+						
+						<li>
+							<a href="SwitchLayout.html">SwitchLayout</a>
+						</li>
+						
+						<li>
+							<a href="TabLayout.html">TabLayout</a>
+						</li>
+						
+						<li>
+							<a href="TabView.html">TabView</a>
+						</li>
+						
+						<li>
+							<a href="TemplateManager.html">TemplateManager</a>
+						</li>
+						
+						<li>
+							<a href="TextareaView.html">TextareaView</a>
+						</li>
+						
+						<li>
+							<a href="TextfieldView.html">TextfieldView</a>
+						</li>
+						
+						<li>
+							<a href="TextView.html">TextView</a>
+						</li>
+						
+						<li>
+							<a href="Themes.html">Themes</a>
+						</li>
+						
+						<li>
+							<a href="Toast.html">Toast</a>
+						</li>
+						
+						<li>
+							<a href="ToggleSwitchView.html">ToggleSwitchView</a>
+						</li>
+						
+						<li>
+							<a href="ToggleView.html">ToggleView</a>
+						</li>
+						
+						<li>
+							<a href="ToolbarView.html">ToolbarView</a>
+						</li>
+						
+						<li>
+							<a href="UniqueId.html">UniqueId</a>
+						</li>
+						
+						<li>
+							<a href="View.html">View</a>
+						</li>
+						
+						<li>
+							<a href="ViewEnableState.html">ViewEnableState</a>
+						</li>
+						
+						<li>
+							<a href="ViewManager.html">ViewManager</a>
+						</li>
+						
+						<li>
+							<a href="WebSqlStore.html">WebSqlStore</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="panel-category open">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes</a>
+
+					<ul class="panel-items open ">
+						
+						<li>
+							<a href="M.Config.html">Config</a>
+						</li>
+						
+						<li>
+							<a href="M.Entity.html">Entity</a>
+						</li>
+						
+						<li>
+							<a href="Controller-M.Controller.html">Controller</a>
+						</li>
+						
+						<li>
+							<a href="Field-M.Field.html">Field</a>
+						</li>
+						
+						<li>
+							<a href="View-constructor.html">constructor</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+				<li class="panel-category open">
+					<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global</a>
+
+					<ul class="panel-items open ">
+						
+						<li>
+							<a href="global.html#_registerActiveState">_registerActiveState</a>
+						</li>
+						
+						<li>
+							<a href="global.html#_type">_type</a>
+						</li>
+						
+						<li>
+							<a href="global.html#applyViews">applyViews</a>
+						</li>
+						
+						<li>
+							<a href="global.html#get">get</a>
+						</li>
+						
+						<li>
+							<a href="global.html#getInterface">getInterface</a>
+						</li>
+						
+						<li>
+							<a href="global.html#M">M</a>
+						</li>
+						
+						<li>
+							<a href="global.html#NO">NO</a>
+						</li>
+						
+						<li>
+							<a href="global.html#template">template</a>
+						</li>
+						
+						<li>
+							<a href="global.html#YES">YES</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+			<div class="span12">
+				
+				<div id="main">
+					
+
+
+        <span id="toc0" class="toc-shim"></span>
+		<h1 class="page-title">Source: data/stores/store.js</h1>
+    
+    <section>
+        <article>
+            <pre class="sunlight-highlight-javascript linenums">// Copyright (c) 2013 M-Way Solutions GmbH
+// http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+
+/**
+ *
+ * @module M.Store
+ *
+ */
+M.Store = function() {
+    this.initialize.apply(this, arguments);
+};
+
+M.Store.extend = M.extend;
+M.Store.create = M.create;
+M.Store.design = M.design;
+
+// Attach all inheritable methods to the Connector prototype.
+_.extend(M.Store.prototype, Backbone.Events, M.Object, {
+
+    _type: 'M.Store',
+
+    entities: null,
+
+    options: null,
+
+    name: '',
+
+    typeMapping: (function() {
+        var map = {};
+        map [M.CONST.TYPE.OBJECTID] = M.CONST.TYPE.STRING;
+        map [M.CONST.TYPE.DATE] = M.CONST.TYPE.STRING;
+        map [M.CONST.TYPE.BINARY] = M.CONST.TYPE.TEXT;
+        return map;
+    })(),
+
+    initialize: function( options ) {
+        options = options || {};
+        this.options = this.options || {};
+        this.options.name = this.name;
+        this.options.typeMapping = this.typeMapping;
+        this.options.entities = this.entities;
+        _.extend(this.options, options || {});
+
+        this._setEntities(options.entities || {});
+    },
+
+    _setEntities: function( entities ) {
+        this.entities = {};
+        for( var name in entities ) {
+            var entity = M.Entity.from(entities[name], {
+                store: this,
+                typeMapping: this.options.typeMapping
+            });
+            entity.name = entity.name || name;
+
+            // connect collection and model to this store
+            var collection = entity.collection || M.Collection.extend({ model: M.Model.extend({}) });
+            var model = collection.prototype.model;
+            // set new entity and name
+            collection.prototype.entity = model.prototype.entity = name;
+            collection.prototype.store = model.prototype.store = this;
+            entity.idAttribute = entity.idAttribute || model.prototype.idAttribute;
+            this.entities[name] = entity;
+        }
+    },
+
+    getEntity: function( obj ) {
+        if( obj ) {
+            var entity = obj.entity || obj;
+            var name = _.isString(entity) ? entity : entity.name;
+            if( name ) {
+                return this.entities[name] || (entity && entity.name ? entity : { name: name });
+            }
+        }
+    },
+
+    getCollection: function( entity ) {
+        if( _.isString(entity) ) {
+            entity = this.entities[entity];
+        }
+        if( entity && entity.collection ) {
+            if( M.Collection.prototype.isPrototypeOf(entity.collection) ) {
+                return entity.collection;
+            } else {
+                return new entity.collection();
+            }
+        }
+    },
+
+    createModel: function( entity, attrs ) {
+        if( _.isString(entity) ) {
+            entity = this.entities[entity];
+        }
+        if( entity && entity.collection ) {
+            var Model = entity.collection.model || entity.collection.prototype.model;
+            if( Model ) {
+                return new Model(attrs);
+            }
+        }
+    },
+
+    getArray: function( data ) {
+        if( _.isArray(data) ) {
+            return data;
+        } else if( M.isCollection(data) ) {
+            return data.models;
+        }
+        return _.isObject(data) ? [ data ] : [];
+    },
+
+    getDataArray: function( data ) {
+        var array = [];
+        if( _.isArray(data) || Backbone.Collection.prototype.isPrototypeOf(data) ) {
+            _.each(data, function( d ) {
+                var attrs = this.getAttributes(d);
+                if( attrs ) {
+                    array.push(attrs);
+                }
+            });
+        } else {
+            var attrs = this.getAttributes(data);
+            if( attrs ) {
+                array.push(this.getAttributes(attrs));
+            }
+        }
+        return array;
+    },
+
+    getAttributes: function( model ) {
+        if( Backbone.Model.prototype.isPrototypeOf(model) ) {
+            return model.attributes;
+        }
+        return _.isObject(model) ? model : null;
+    },
+
+    initModel: function( model ) {
+    },
+
+    initCollection: function( collection ) {
+    },
+
+    initEntity: function( entity ) {
+    },
+
+    sync: function( method, model, options ) {
+    },
+
+    /**
+     *
+     * @param collection usally a collection, but can also be a model
+     * @param options
+     */
+    fetch: function( collection, options ) {
+        if( collection && !collection.models && !collection.attributes && !options ) {
+            options = collection;
+        }
+        if( (!collection || (!collection.models && !collection.attributes)) && options && options.entity ) {
+            collection = this.getCollection(options.entity);
+        }
+        if( collection && collection.fetch ) {
+            var opts = _.extend({}, options || {}, { store: this });
+            collection.fetch(opts);
+        }
+    },
+
+    create: function( collection, model, options ) {
+        if( collection && !collection.models && !options ) {
+            model = collection;
+            options = model;
+        }
+        if( (!collection || !collection.models) && options && options.entity ) {
+            collection = this.getCollection(options.entity);
+        }
+        if( collection && collection.create ) {
+            var opts = _.extend({}, options || {}, { store: this });
+            collection.create(model, opts);
+        }
+    },
+
+    save: function( model, attr, options ) {
+        if( model && !model.attributes && !options ) {
+            attr = model;
+            options = attr;
+        }
+        if( (!model || !model.attributes) && options && options.entity ) {
+            model = this.createModel(options.entity);
+        }
+        if( model && model.save ) {
+            var opts = _.extend({}, options || {}, { store: this });
+            model.save(attr, opts);
+        }
+    },
+
+    destroy: function( model, options ) {
+        if( model && model.destroy ) {
+            var opts = _.extend({}, options || {}, { store: this });
+            model.destroy(opts);
+        }
+    },
+
+    _checkEntity: function( obj, entity ) {
+        if( !M.isEntity(entity) ) {
+            var error = 'No valid entity passed.';
+            M.Logger.error(M.CONST.ERROR.VALIDATION_PRESENCE, error);
+            this.handleCallback(obj.error, error);
+            this.handleCallback(obj.finish, error);
+            return false;
+        }
+        return true;
+    },
+
+    _checkData: function( obj, data ) {
+        if( (!_.isArray(data) || data.length === 0) && !_.isObject(data) ) {
+            var error = 'No data passed.';
+            M.Logger.error(M.CONST.ERROR.VALIDATION_PRESENCE, error);
+            this.handleCallback(obj.error, error);
+            this.handleCallback(obj.finish, error);
+            return false;
+        }
+        return true;
+    },
+
+    handleSuccess: function( obj ) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        if( obj.success ) {
+            this.handleCallback.apply(this, [ obj.success ].concat(args));
+        }
+        if( obj.finish ) {
+            this.handleCallback.apply(this, [ obj.finish ].concat(args));
+        }
+    },
+
+    handleError: function( obj ) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        if( obj.error ) {
+            this.handleCallback.apply(this, [ obj.error ].concat(args));
+        }
+        if( obj.finish ) {
+            this.handleCallback.apply(this, [ obj.finish ].concat(args));
+        }
+    }
+
+});
+</pre>
+        </article>
+    </section>
+
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer>
+					
+					
+		<span class="copyright">
+		DocStrap Copyright © 2012-2013 The contributors to the JSDoc3 and DocStrap projects.
+		</span>
+					<br />
+					
+		<span class="jsdoc-message">
+		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0</a>
+		on Wed Dec 04 2013 10:24:26 GMT+0100 (CET) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		</span>
+				</footer>
+			</div>
+
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<script src="scripts/jquery.min.js"></script>
+	<script src="scripts/jquery.scrollTo.js"></script>
+	<script src="scripts/jquery.localScroll.js"></script>
+	<script src="scripts/toggle-menu.js"></script>
+	<script src="scripts/toc.js"></script>
+	<script src="scripts/search.js"></script>
+
+	<script type="text/javascript" src="scripts/shCore.js"></script>
+	<script type="text/javascript" src="scripts/shBrushJScript.js"></script>
+	<link type="text/css" rel="stylesheet" href="styles/shCoreDefault.css"/>
+	<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+	<script>
+		$( function () {
+			$( "#toc" ).toc( {
+				selectors   : "h1,h2,h3,h4",
+				showAndHide : false,
+				scrollTo    : 60
+			} );
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+
+		} );
+	</script>
+
+	
+
+</body>
+</html>

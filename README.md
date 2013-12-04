@@ -370,7 +370,7 @@ For more informations about SASS Compass just visit their [website](http://compa
 [blank-layout]: http://www.the-m-project.org/docs/absinthe/img/layouts/Blank.png
 [switch-header-content-layout]: http://www.the-m-project.org/docs/absinthe/img/layouts/Swipe_HeaderContent.png
 [switch-layout]: http://www.the-m-project.org/docs/absinthe/img/layouts/Swipe_Blank.png
-[logo]: http://www.the-m-project.org/docs/absinthe/img/tmp_logo_blue.png
+[logo]: http://www.the-m-project.org/docs/absinthe/img/the-m-project-logo.png
 [styleguide-image]: http://www.the-m-project.org/docs/absinthe/img/styleguide.png
 
 ## <a name="dev">Development Process</a>
