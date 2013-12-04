@@ -29,7 +29,7 @@ The-M-Project 1.x as we call it was from our point of view pretty good, but has 
 
 - The-M-Project is based on [Backbone.js](http://backbonejs.org/)
 - [Bikini](#bikini) - a implementation of Model/Server connectivity
-- Espresso is now based on [Grunt](http://gruntjs.com/) and [Yeoman](http://yeoman.io/)
+- Espresso (command line tool) is now based on [Grunt](http://gruntjs.com/) and [Yeoman](http://yeoman.io/)
 - No jQuery mobile support at the moment
 - Different Themes out of the Box
 	- Android
