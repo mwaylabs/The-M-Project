@@ -11,6 +11,12 @@ module.exports = function (grunt) {
     // load all grunt tasks
     require('load-grunt-tasks')(grunt);
 
+    var additionalMarkdownFiles = {
+        'https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/README.md': 'Sample-Apps.md',
+        'https://raw.github.com/mwaylabs/generator-m/master/README.md': 'Generator.md',
+        'https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/demoapp/README.md': 'Demo-App.md'
+    }
+
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -162,7 +168,7 @@ module.exports = function (grunt) {
 
         jsdoc : {
             dist : {
-                src: ['doc-template/additional/index.md','src/connection/*.js','src/core/*.js','src/data/*.js','src/data/stores/*.js','src/interfaces/*.js','src/ui/*.js','src/ui/layouts/*.js','src/ui/views/*.js','src/utility/*.js'],
+                src: ['doc-template/.tmp/index.md','src/connection/*.js','src/core/*.js','src/data/*.js','src/data/stores/*.js','src/interfaces/*.js','src/ui/*.js','src/ui/layouts/*.js','src/ui/views/*.js','src/utility/*.js'],
                 options:{
                     destination: 'doc',
                     template: "doc-template",
@@ -174,19 +180,22 @@ module.exports = function (grunt) {
         },
         'curl-dir': {
             customFilepaths: {
-                src: [
-                    'https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/README.md',
-                    'https://raw.github.com/mwaylabs/generator-m/master/README.md'
-                ],
+                src: (function() {
+                    return Object.keys(additionalMarkdownFiles);
+                })(),
                 router: function (url) {
-                    return url.replace('https://raw.github.com/mwaylabs/The-M-Project-Sample-Apps/master/README.md', 'Sample-Apps.md').replace('https://raw.github.com/mwaylabs/generator-m/master/README.md', 'Generator.md');
+                    return additionalMarkdownFiles[url];
                 },
                 dest: 'doc-template/additional'
             }
         },
         clean: {
             md: {
-                src: ["doc-template/additional/Sample-Apps.md", "doc-template/additional/Generator.md"]
+                src: [
+                    'doc-template/additional/Sample-Apps.md',
+                    'doc-template/additional/Generator.md',
+                    'doc-template/.tmp/index.md'
+                ]
             }
         }
     });
@@ -252,7 +261,7 @@ module.exports = function (grunt) {
     grunt.registerTask('rewriteMarkdownFiles', function() {
         var content = grunt.file.read('README.md');
         content = content.replace('![The-M-Project Absinthe][logo]', '');
-        grunt.file.write('doc-template/additional/index.md', content);
+        grunt.file.write('doc-template/.tmp/index.md', content);
     });
 
     grunt.registerTask('build-js', ['extractSassVars', 'preprocess:dev']);
