@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Copyright: (c) 2013 M-Way Solutions GmbH.
 * Version:   2.0.0-beta
-* Date:      Wed Dec 04 2013 10:08:03
+* Date:      Wed Dec 04 2013 10:59:12
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 /* line 4, ../resources/sass/themproject_ios.scss */
@@ -7766,35 +7766,36 @@
 .ios .buttongroupview .buttonview {
   padding-left: 0;
   padding-right: 0;
+  min-width: 0;
 }
-/* line 16, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 17, ../resources/sass/themes/default/_buttongroup.scss */
 .ios .tabbarbuttongroupview .buttonview.active .button,
 .ios .buttongroupview .buttonview.active .button {
   background: #d5d5d5;
   color: #007aff;
 }
-/* line 22, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 23, ../resources/sass/themes/default/_buttongroup.scss */
 .ios .tabbarbuttongroupview .buttonview .button,
 .ios .buttongroupview .buttonview .button {
   border-right-width: 0;
 }
-/* line 26, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 27, ../resources/sass/themes/default/_buttongroup.scss */
 .ios .tabbarbuttongroupview .buttonview:first-child,
 .ios .buttongroupview .buttonview:first-child {
   padding-left: 15px;
 }
-/* line 29, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 30, ../resources/sass/themes/default/_buttongroup.scss */
 .ios .tabbarbuttongroupview .buttonview:first-child .button,
 .ios .buttongroupview .buttonview:first-child .button {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-/* line 34, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 35, ../resources/sass/themes/default/_buttongroup.scss */
 .ios .tabbarbuttongroupview .buttonview:last-child,
 .ios .buttongroupview .buttonview:last-child {
   padding-right: 15px;
 }
-/* line 37, ../resources/sass/themes/default/_buttongroup.scss */
+/* line 38, ../resources/sass/themes/default/_buttongroup.scss */
 .ios .tabbarbuttongroupview .buttonview:last-child .button,
 .ios .buttongroupview .buttonview:last-child .button {
   border-right-width: 1px;
