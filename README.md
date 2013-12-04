@@ -8,21 +8,21 @@ The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great 
 **Codename:** Absinthe
 
 ## Overview
-- [What's new](#What's new)
+- [What's new](#whats-new)
 - [Demo](#demo)
 - [Roadmap](#roadmap)
-- [Further Reading and Repositories](#further)
-- [Application Lifecycle](#lifecycle)
-- [Folder structure](#structure)
+- [Further Reading and Repositories](#further-reading-and-repositories)
+- [Application Lifecycle](#application-lifecycle)
+- [Folder structure](#folder-structure)
 - [Bikini](#bikini)
-- [Model–view–controller](#mvc)
-- [Layouts](#layouts)
+- [Model–view–controller](#modelviewcontroller)
+- [Layouts](#layouts-1)
 - [Q&A](#qa)
-- [compass](#Sass Compass)
+- [compass](#sass-compass)
 - [Styleguide](#styleguide)
-- [Development Process](#dev)
-- [Setup for framework developer (Mac/Linux)](#setup_unix)
-- [Setup for framework developer (Windows)](#setup_windows)
+- [Development Process](#development-process)
+- [Setup for framework developer (Mac/Linux)](#setup-for-framework-developer-maclinux)
+- [Setup for framework developer (Windows)](#setup-for-framework-developer-windows)
 
 ## What's new
 The-M-Project 1.x as we call it was from our point of view pretty good, but has here and there little tweaks. We could have fix some bugs and work with the existing one. In this process we questioned everything and after huge discussions we decided to take what's good and remove everything we don't like. Furthermore we added everything what we think a mobile HTML5/JavaScript framework needs. The following list gives you an overview of changes:
@@ -120,7 +120,7 @@ Use the yeoman [generator](https://github.com/mwaylabs/generator-m/) to develop 
 
 
 ### Tutorials and Samples
-- [write your first app from scratch](https://github.com/mwaylabs/The-M-Project-Sample-Apps/blob/master/demoapp/my_first_the-m-project_app_from_scratch.md)
+- [write your first app from scratch](https://github.com/mwaylabs/The-M-Project-Sample-Apps/blob/master/demoapp/README.md)
 - [GitHub](https://github.com/mwaylabs/The-M-Project-Sample-Apps)
 
 ### templ
