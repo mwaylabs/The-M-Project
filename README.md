@@ -20,6 +20,7 @@ The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great 
 - [Q&A](#qa)
 - [compass](#Sass Compass)
 - [Styleguide](#styleguide)
+- [Development Process](#dev)
 - [Setup for framework developer (Mac/Linux)](#setup_unix)
 - [Setup for framework developer (Windows)](#setup_windows)
 
@@ -116,7 +117,6 @@ The yeoman generator for The-M-Project
 This grunt plugin is similar to grunt-contrib-jst.
 
 - [GitHub](https://github.com/mwaylabs/grunt-tmpl)
-
 
 ## <a name="lifecycle">Application Lifecycle</a>
 1. index.html
@@ -371,6 +371,17 @@ For more informations about SASS Compass just visit their [website](http://compa
 [switch-layout]: http://www.the-m-project.org/docs/absinthe/layouts/Swipe_Blank.png
 [logo]: http://www.the-m-project.org/docs/absinthe/tmp_logo_blue.png
 [styleguide-image]: http://www.the-m-project.org/docs/absinthe/styleguide/styleguide.png
+
+## <a name="dev">Development Process</a>
+
+- There should be a test for every component
+    - add the test into the responding folder
+    - add the test into the test/test.html
+- There is a pre-commit hook
+    - jshint
+    - testrunner - run all tests
+- [Travis](https://travis-ci.org/mwaylabs/The-M-Project) is used as build server
+- The generator uses [coveralls](https://coveralls.io/r/mwaylabs/generator-m?branch=master) as code analyse tool
 
 ## <a name="setup_unix">Setup for framework developer (Mac/Linux)</a>
 
