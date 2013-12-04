@@ -20,7 +20,8 @@
     "Gruntfile.js",
     "*.sh",
     "*.md",
-    "*.json"
+    "*.json",
+    "*.txt"
   ],
   "dependencies": {
     "backbone": "~1.1.0",
