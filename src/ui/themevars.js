@@ -124,6 +124,7 @@ M.ThemeVars = {
         "grey": "#8E8E93",
         "m-primary-font-family": "-apple-system-font, \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
         "lightenPercentage": "25%",
+        "textfield-icon-y-position": "13px",
         "m-primary-active-color": "$lightgrey",
         "m-primary-active-text-color": "#007AFF",
         "tablayout-menu-height": "50px",
