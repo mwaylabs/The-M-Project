@@ -1,3 +1,6 @@
+// Copyright (c) 2013 M-Way Solutions GmbH
+// http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+
 /**
  * M.Logger defines the prototype for any logging object.
  * It is used to log messages out of the application.

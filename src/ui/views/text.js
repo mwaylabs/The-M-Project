@@ -1,3 +1,6 @@
+// Copyright (c) 2013 M-Way Solutions GmbH
+// http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+
 /**
  * A View to display text. It's like a Textfieldview with icon and label but without edit mode
  * @type {*|Object|void}

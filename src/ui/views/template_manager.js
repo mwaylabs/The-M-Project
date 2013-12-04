@@ -1,3 +1,6 @@
+// Copyright (c) 2013 M-Way Solutions GmbH
+// http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+
 /**
  * The M.TemplateManager is a singleton instance which
  * contain all our templates for the framework views.

@@ -1,3 +1,5 @@
+// Copyright (c) 2013 M-Way Solutions GmbH
+// http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 
 M.Themes.registerTemplateForTheme(M.Themes.DEFAULT_THEME, 'switch-layout', '<div id="m-main" class="m-perspective"><div class="m-page m-page-1"><div data-childviews="content_page1" class="content-wrapper"></div></div><div class="m-page m-page-2"><div data-childviews="content_page2" class="content-wrapper"></div></div></div>');
 /**

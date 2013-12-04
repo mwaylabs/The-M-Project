@@ -1,3 +1,6 @@
+// Copyright (c) 2013 M-Way Solutions GmbH
+// http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+
 /**
  * A input field.
  * @module M.TextfieldView

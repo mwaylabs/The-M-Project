@@ -1,11 +1,9 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
-* Version:   2.0.0-1
-* Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Dec 03 2013 16:50:35
-* License:   Dual licensed under the MIT or GPL Version 2 licenses.
-*            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-*            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
+* Copyright: (c) 2013 M-Way Solutions GmbH.
+* Version:   2.0.0-beta
+* Date:      Wed Dec 04 2013 10:08:03
+* License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 /* line 4, ../resources/sass/themproject_android_dark.scss */
 .android-dark {
@@ -7377,7 +7375,7 @@
 }
 /* line 1, ../resources/sass/themes/default/_button.scss */
 .android-dark .buttonview {
-  min-width: 67px;
+  min-width: 63px;
 }
 /* line 5, ../resources/sass/themes/default/_button.scss */
 .android-dark .button {
@@ -7604,13 +7602,14 @@
 /* line 9, ../resources/sass/themes/default/_textfield.scss */
 .android-dark .textfieldview input {
   box-sizing: border-box;
+  min-height: 30px;
 }
-/* line 15, ../resources/sass/themes/default/_textfield.scss */
+/* line 16, ../resources/sass/themes/default/_textfield.scss */
 .android-dark .textfieldview input[type="search"]::-webkit-search-cancel-button,
 .android-dark .textfieldview input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: searchfield-cancel-button;
 }
-/* line 19, ../resources/sass/themes/default/_textfield.scss */
+/* line 20, ../resources/sass/themes/default/_textfield.scss */
 .android-dark .textfieldview .input-icon-addon {
   overflow: hidden;
   width: 100%;
@@ -7618,7 +7617,7 @@
   margin-top: 5px;
   margin-bottom: 5px;
 }
-/* line 27, ../resources/sass/themes/default/_textfield.scss */
+/* line 28, ../resources/sass/themes/default/_textfield.scss */
 .android-dark .textfieldview .input-icon-addon i {
   display: block;
   position: absolute;
@@ -7627,26 +7626,26 @@
   color: #1092d3;
   font-size: 2.2rem;
 }
-/* line 36, ../resources/sass/themes/default/_textfield.scss */
+/* line 37, ../resources/sass/themes/default/_textfield.scss */
 .android-dark .textfieldview .input-icon-addon input {
   border: none;
   width: 100%;
   padding-left: 30px;
   padding-right: 4px;
 }
-/* line 49, ../resources/sass/themes/default/_textfield.scss */
+/* line 50, ../resources/sass/themes/default/_textfield.scss */
 .android-dark .textfieldview.right .input-icon-addon i {
   left: auto;
   right: 4px;
 }
-/* line 54, ../resources/sass/themes/default/_textfield.scss */
+/* line 55, ../resources/sass/themes/default/_textfield.scss */
 .android-dark .textfieldview.right .input-icon-addon input {
   border: none;
   width: 100%;
   padding-left: 0;
   padding-right: 30px;
 }
-/* line 64, ../resources/sass/themes/default/_textfield.scss */
+/* line 65, ../resources/sass/themes/default/_textfield.scss */
 .android-dark .textfieldview.hidden-icon i {
   display: none;
 }
@@ -7676,7 +7675,7 @@
   background: transparent;
   width: 100%;
   height: 34px;
-  color: #888;
+  color: black;
   border: none;
   outline: none;
   display: inline-block;
@@ -8135,19 +8134,4 @@
   color: white;
   height: 50px;
   text-align: center;
-}
-/* line 6, ../resources/sass/themes/android_dark/_buttongroup.scss */
-.android-dark .tabbarbuttongroupview .buttonview.active .button,
-.android-dark .buttongroupview .buttonview.active .button {
-  border-bottom: 3px solid #99cc00;
-}
-/* line 11, ../resources/sass/themes/android_dark/_buttongroup.scss */
-.android-dark .tabbarbuttongroupview .buttonview .button,
-.android-dark .buttongroupview .buttonview .button {
-  border-right-width: 0;
-}
-/* line 16, ../resources/sass/themes/android_dark/_buttongroup.scss */
-.android-dark .tabbarbuttongroupview i,
-.android-dark .buttongroupview i {
-  display: none;
 }

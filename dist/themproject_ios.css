@@ -1,11 +1,9 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
-* Version:   2.0.0-1
-* Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Dec 03 2013 16:50:35
-* License:   Dual licensed under the MIT or GPL Version 2 licenses.
-*            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-*            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
+* Copyright: (c) 2013 M-Way Solutions GmbH.
+* Version:   2.0.0-beta
+* Date:      Wed Dec 04 2013 10:08:03
+* License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 /* line 4, ../resources/sass/themproject_ios.scss */
 .ios {
@@ -2545,6 +2543,14 @@
     }
 }
 
+  /*Inspiered by and thanks to*/
+  /*
+   * Copyright (c) 2013 Thibaut Courouble
+   * http://www.cssflow.com
+   *
+   * Licensed under the MIT License:
+   * http://www.opensource.org/licenses/mit-license.php
+   */
 }
 /* line 22, ../bower_components/bootstrap-sass/lib/_normalize.scss */
 .ios article,
@@ -7377,7 +7383,7 @@
 }
 /* line 1, ../resources/sass/themes/default/_button.scss */
 .ios .buttonview {
-  min-width: 67px;
+  min-width: 63px;
 }
 /* line 5, ../resources/sass/themes/default/_button.scss */
 .ios .button {
@@ -7604,13 +7610,14 @@
 /* line 9, ../resources/sass/themes/default/_textfield.scss */
 .ios .textfieldview input {
   box-sizing: border-box;
+  min-height: 30px;
 }
-/* line 15, ../resources/sass/themes/default/_textfield.scss */
+/* line 16, ../resources/sass/themes/default/_textfield.scss */
 .ios .textfieldview input[type="search"]::-webkit-search-cancel-button,
 .ios .textfieldview input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: searchfield-cancel-button;
 }
-/* line 19, ../resources/sass/themes/default/_textfield.scss */
+/* line 20, ../resources/sass/themes/default/_textfield.scss */
 .ios .textfieldview .input-icon-addon {
   overflow: hidden;
   width: 100%;
@@ -7618,35 +7625,35 @@
   margin-top: 5px;
   margin-bottom: 5px;
 }
-/* line 27, ../resources/sass/themes/default/_textfield.scss */
+/* line 28, ../resources/sass/themes/default/_textfield.scss */
 .ios .textfieldview .input-icon-addon i {
   display: block;
   position: absolute;
-  top: 14px;
+  top: 13px;
   left: 4px;
   color: #59c8fa;
   font-size: 2.2rem;
 }
-/* line 36, ../resources/sass/themes/default/_textfield.scss */
+/* line 37, ../resources/sass/themes/default/_textfield.scss */
 .ios .textfieldview .input-icon-addon input {
   border: none;
   width: 100%;
   padding-left: 30px;
   padding-right: 4px;
 }
-/* line 49, ../resources/sass/themes/default/_textfield.scss */
+/* line 50, ../resources/sass/themes/default/_textfield.scss */
 .ios .textfieldview.right .input-icon-addon i {
   left: auto;
   right: 4px;
 }
-/* line 54, ../resources/sass/themes/default/_textfield.scss */
+/* line 55, ../resources/sass/themes/default/_textfield.scss */
 .ios .textfieldview.right .input-icon-addon input {
   border: none;
   width: 100%;
   padding-left: 0;
   padding-right: 30px;
 }
-/* line 64, ../resources/sass/themes/default/_textfield.scss */
+/* line 65, ../resources/sass/themes/default/_textfield.scss */
 .ios .textfieldview.hidden-icon i {
   display: none;
 }
@@ -7676,7 +7683,7 @@
   background: transparent;
   width: 100%;
   height: 34px;
-  color: #888;
+  color: black;
   border: none;
   outline: none;
   display: inline-block;
@@ -8171,18 +8178,19 @@
   background: #fff;
   border: 1px solid #c3c3c3;
   border-radius: 50%;
+  vertical-align: text-bottom;
 }
-/* line 21, ../resources/sass/themes/ios/_radiolist.scss */
+/* line 22, ../resources/sass/themes/ios/_radiolist.scss */
 .ios .radiolistview input[type="radio"]:checked {
   outline: none;
   border: 1px solid #59c8fa;
 }
-/* line 26, ../resources/sass/themes/ios/_radiolist.scss */
+/* line 27, ../resources/sass/themes/ios/_radiolist.scss */
 .ios .radiolistview input + i {
   font-size: 3.04rem;
   margin-right: 10px;
 }
-/* line 31, ../resources/sass/themes/ios/_radiolist.scss */
+/* line 32, ../resources/sass/themes/ios/_radiolist.scss */
 .ios .radiolistview input[type="radio"] + i:before {
   content: ' ';
   color: #c3c3c3;
@@ -8194,33 +8202,36 @@
   left: 1.6rem;
   top: 2rem;
 }
-/* line 42, ../resources/sass/themes/ios/_radiolist.scss */
+/* line 43, ../resources/sass/themes/ios/_radiolist.scss */
 .ios .radiolistview input[type="radio"]:checked + i:before {
   content: ' ';
   background: #59c8fa;
 }
 /* line 3, ../resources/sass/themes/ios/_checkboxlist.scss */
 .ios .checkboxlistview input[type="checkbox"] {
+  width: 2.4rem;
+  height: 2.4rem;
+  background: #fff;
+  border: 0;
+  font-size: 1.6rem;
+}
+/* line 13, ../resources/sass/themes/ios/_checkboxlist.scss */
+.ios .checkboxlistview input + i {
   display: none;
 }
-/* line 7, ../resources/sass/themes/ios/_checkboxlist.scss */
-.ios .checkboxlistview input + i {
-  font-size: 2.4rem;
-  margin-right: 10px;
+/* line 17, ../resources/sass/themes/ios/_checkboxlist.scss */
+.ios .checkboxlistview input[type="checkbox"]:before {
+  content: '\2713';
+  color: transparent;
 }
-/* line 12, ../resources/sass/themes/ios/_checkboxlist.scss */
-.ios .checkboxlistview input[type="checkbox"]:checked {
-  outline: none;
-}
-/* line 15, ../resources/sass/themes/ios/_checkboxlist.scss */
-.ios .checkboxlistview input[type="checkbox"] + i:before {
-  content: '\f111';
-  color: #c3c3c3;
-}
-/* line 19, ../resources/sass/themes/ios/_checkboxlist.scss */
-.ios .checkboxlistview input[type="checkbox"]:checked + i:before {
-  content: '\f058';
+/* line 22, ../resources/sass/themes/ios/_checkboxlist.scss */
+.ios .checkboxlistview input[type="checkbox"]:checked:before {
   color: #59c8fa;
+  content: '\2713';
+}
+/* line 10, ../resources/sass/themes/ios/_toggleswitch.scss */
+.ios .toggleswitchview {
+  display: none;
 }
 /* line 3, ../resources/sass/themes/ios/_tab-layout.scss */
 .ios .tablayout .m-tab {

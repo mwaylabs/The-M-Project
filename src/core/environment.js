@@ -1,3 +1,6 @@
+// Copyright (c) 2013 M-Way Solutions GmbH
+// http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+
 /**
  * M.Environment wraps the Modernizr plugin Detectizr.
  * Thanks to https://github.com/barisaydinoglu/Detectizr which is Licensed under MIT license.

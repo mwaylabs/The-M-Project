@@ -1,9 +1,6 @@
-/**
- * @module M.ActiveState
- *
- * @type {*}
- * @extends M.Interface
- */
+// Copyright (c) 2013 M-Way Solutions GmbH
+// http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+
 M.ActiveState = M.Interface.design(/** @scope M.Interface.prototype */{
 
     /**

@@ -1,11 +1,9 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
-* Version:   2.0.0-1
-* Copyright: (c) 2013 M-Way Solutions GmbH. All rights reserved.
-* Date:      Tue Dec 03 2013 16:50:35
-* License:   Dual licensed under the MIT or GPL Version 2 licenses.
-*            http://github.com/mwaylabs/The-M-Project/blob/master/MIT-LICENSE
-*            http://github.com/mwaylabs/The-M-Project/blob/master/GPL-LICENSE
+* Copyright: (c) 2013 M-Way Solutions GmbH.
+* Version:   2.0.0-beta
+* Date:      Wed Dec 04 2013 10:08:03
+* License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
 /* line 22, ../bower_components/bootstrap-sass/lib/_normalize.scss */
@@ -7942,7 +7940,7 @@ html, body {
 
 /* line 1, ../resources/sass/themes/default/_button.scss */
 .buttonview {
-  min-width: 67px;
+  min-width: 63px;
 }
 
 /* line 5, ../resources/sass/themes/default/_button.scss */
@@ -8178,13 +8176,14 @@ html, body {
 /* line 9, ../resources/sass/themes/default/_textfield.scss */
 .textfieldview input {
   box-sizing: border-box;
+  min-height: 30px;
 }
-/* line 15, ../resources/sass/themes/default/_textfield.scss */
+/* line 16, ../resources/sass/themes/default/_textfield.scss */
 .textfieldview input[type="search"]::-webkit-search-cancel-button,
 .textfieldview input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: searchfield-cancel-button;
 }
-/* line 19, ../resources/sass/themes/default/_textfield.scss */
+/* line 20, ../resources/sass/themes/default/_textfield.scss */
 .textfieldview .input-icon-addon {
   overflow: hidden;
   width: 100%;
@@ -8192,7 +8191,7 @@ html, body {
   margin-top: 5px;
   margin-bottom: 5px;
 }
-/* line 27, ../resources/sass/themes/default/_textfield.scss */
+/* line 28, ../resources/sass/themes/default/_textfield.scss */
 .textfieldview .input-icon-addon i {
   display: block;
   position: absolute;
@@ -8201,26 +8200,26 @@ html, body {
   color: #1092d3;
   font-size: 2.2rem;
 }
-/* line 36, ../resources/sass/themes/default/_textfield.scss */
+/* line 37, ../resources/sass/themes/default/_textfield.scss */
 .textfieldview .input-icon-addon input {
   border: none;
   width: 100%;
   padding-left: 30px;
   padding-right: 4px;
 }
-/* line 49, ../resources/sass/themes/default/_textfield.scss */
+/* line 50, ../resources/sass/themes/default/_textfield.scss */
 .textfieldview.right .input-icon-addon i {
   left: auto;
   right: 4px;
 }
-/* line 54, ../resources/sass/themes/default/_textfield.scss */
+/* line 55, ../resources/sass/themes/default/_textfield.scss */
 .textfieldview.right .input-icon-addon input {
   border: none;
   width: 100%;
   padding-left: 0;
   padding-right: 30px;
 }
-/* line 64, ../resources/sass/themes/default/_textfield.scss */
+/* line 65, ../resources/sass/themes/default/_textfield.scss */
 .textfieldview.hidden-icon i {
   display: none;
 }
@@ -8251,7 +8250,7 @@ html, body {
   background: transparent;
   width: 100%;
   height: 34px;
-  color: #888;
+  color: black;
   border: none;
   outline: none;
   display: inline-block;
