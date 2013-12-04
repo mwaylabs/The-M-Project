@@ -23,7 +23,7 @@
       }
 
       .button i{
-        display: block;
+        display: none;
       }
 
       .buttonview {
@@ -47,4 +47,5 @@
   .buttongroupview .button{
     width: $tablayout-menu-scroll-button-width;
   }
+
 }
