@@ -75,7 +75,7 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 	- SideMenu
 	- Themes for Android and iOS
 	- MenuLayout
-
+    - touchable ToggleSwitch
 - The-M-Project v.2.0 RC1
 	- Scaffold for MenuLayout
 	- Feedback from the Community

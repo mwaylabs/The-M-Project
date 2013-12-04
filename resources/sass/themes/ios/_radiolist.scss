@@ -16,6 +16,7 @@
     background: #fff;
     border: $form-border-width $form-border-style $selection-color;
     border-radius: 50%;
+    vertical-align: text-bottom;
   }
 
   input[type="radio"]:checked {

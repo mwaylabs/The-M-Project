@@ -1,23 +1,27 @@
 .checkboxlistview {
 
   input[type="checkbox"] {
-       display: none;
+    width: $m-primary-font-size * 1.5;
+    height: $m-primary-font-size * 1.5;
+    background: #fff;
+//    border: $form-border-width $form-border-style $selection-color;
+//    border-radius: 50%;
+    border: 0;
+    font-size: $m-primary-font-size;
   }
 
-  input + i{
-    font-size: $m-primary-font-size * 1.5;
-    margin-right: 10px;
+  input + i {
+    display: none;
   }
 
-  input[type="checkbox"]:checked {
-    outline: none;
+  input[type="checkbox"]:before {
+    content: '\2713';
+    color: transparent;
   }
-  input[type="checkbox"] + i:before{
-    content: '\f111';
-    color: $selection-color;
-  }
-  input[type="checkbox"]:checked + i:before{
-    content: '\f058';
+
+  input[type="checkbox"]:checked:before {
     color: $selection-checked-color;
+    content: '\2713';
   }
+
 }
