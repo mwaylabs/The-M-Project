@@ -1,11 +1,11 @@
 ![The-M-Project Absinthe][logo]
-# The-M-Project Absinthe Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=absinthe)](https://travis-ci.org/mwaylabs/The-M-Project)
+# The-M-Project 2.0 (Absinthe) Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=absinthe)](https://travis-ci.org/mwaylabs/The-M-Project)
 
 The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great mobile apps, easy and fast.
 
 **Version:** The-M-Project v.2.0 beta
 
-**Codename:** The-M-Project Absinthe
+**Codename:** Absinthe
 
 ## Overview
 - [What's new](#What's new)
@@ -71,6 +71,8 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 ## Roadmap
 
 ### Absinthe release
+- The-M-Project v.2.0 beta 1 (We are here)
+	- All the fancy stuff we mentioned above
 
 - The-M-Project v.2.0 beta 2
 	- MenuView
@@ -83,6 +85,7 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 	- Feedback from the Community
 	- Complete documentation
 	- Tutorials
+	- More Samples
 	- test coverage >90% https://coveralls.io/r/mwaylabs/generator-m?branch=
 
 - The-M-Project v.2.0
@@ -92,6 +95,7 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 
 - The-M-Project 2.1
 	- Full support for Windows
+	- Enterprise Edition
 	- Extending Bikini
 	- A lot more to come
 
