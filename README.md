@@ -56,13 +56,17 @@ The-M-Project 1.x as we call it was from our point of view pretty good, but has 
 	- [Bower](http://bower.io/)
 	- [Grunt](http://gruntjs.com/)
 	- [Yeoman](http://yeoman.io/)
-- Tested on the following devices
+- Stable on the following devices
 	- Android 4.4 (Nexus 4, Nexus 5, Nexus 7,  Nexus 10)
 	- Android > 4 (S3) 	
-	- Android > 2.3 (with scrolling issues Nexus 1)
-	- Kindle Fire
 	- iOS 7 (iPad 2 - Air, iPhone 4 - 5s, iPad mini/retina)
 	- iOS 6 (iPad 2 - 4, iPhone 4 - 5, iPad mini)
+	- Kindle Fire
+- Tested on the following devices
+	- Android > 2.3 (with scrolling issues Nexus 1) 
+	- Android (Acer Iconia Tab, Motorola Xoom)
+	- Microsoft Surface
+	- BlackBerry Z10
 
 ## Demo
 Beside the Kitchensink we have a second ready to launch sample app called Addressbook.
