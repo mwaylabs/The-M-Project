@@ -280,6 +280,7 @@ M.View = M.Object.extend(
                 } else {
                     this.childViews = this.childViews.replace(childViews[i], ' ');
                     M.Logger.log('There is no child view \'' + childViews[i] + '\' available for ' + this.type + ' (' + (this._name ? this._name + ', ' : '') + '#' + this.id + ')! It will be excluded from the child views and won\'t be rendered.', M.WARN);
+                    continue;
                 }
 
                 if(this.type === 'M.PageView' && this[childViews[i]].type === 'M.TabBarView') {
