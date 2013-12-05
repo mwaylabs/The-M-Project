@@ -1,0 +1,39 @@
+.tabbarbuttongroupview,
+.buttongroupview {
+
+  .button {
+
+  }
+
+  .buttonview {
+
+//    border-right: $m-button-border-width solid $m-button-border-color;
+
+    &.active {
+      .button {
+        background: $darkblue;
+        color: $white;
+      }
+    }
+
+    .button {
+      background: $white;
+//      margin: 0 2px;
+    }
+
+    &:first-child {
+
+      .button {
+
+      }
+    }
+    &:last-child {
+
+      border-right: 0;
+
+      .button {
+
+      }
+    }
+  }
+}

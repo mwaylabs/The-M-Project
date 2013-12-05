@@ -1,7 +1,8 @@
+node_modules
+bower_components
+.sass-cache
+.tmp
 .idea
-.DS_Store
-.settings
-.project
-.buildpath
-.metadata
-.settings.xml
+.DS_STORE
+npm-debug.log
+doc

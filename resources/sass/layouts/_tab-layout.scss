@@ -1,0 +1,72 @@
+.tablayout {
+
+  .tab-menu {
+
+    height: $tablayout-menu-height;
+    background: $darkwhite;
+
+    .tabbarbuttongroupview {
+
+      margin: 0;
+
+      .button {
+        height: $tablayout-menu-height;
+        padding: $tablayout-menu-button-padding;
+        margin: 0;
+      }
+
+      .button i{
+        display: none;
+      }
+
+
+      .buttonview {
+
+        &:first-child {
+          padding-left: 0;
+
+          .button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+        }
+
+        &:last-child {
+          padding-right: 0;
+
+          .button {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+          }
+
+        }
+      }
+
+    }
+
+  }
+}
+
+.m-tab {
+  top: $tablayout-menu-height;
+}
+
+.tablayout.scrolling {
+  .tab-menu {
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .tabbarbuttongroupview{
+
+    margin: 0 auto;
+  }
+
+  .tabbarbuttongroupview .button{
+    width: $tablayout-menu-scroll-button-width;
+    float: left;
+  }
+}

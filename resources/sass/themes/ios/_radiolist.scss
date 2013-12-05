@@ -1,0 +1,47 @@
+.radiolistview {
+
+  @extend .margin0010;
+  border-top: $form-element-border;
+  border-bottom: $form-element-border;
+
+  label {
+    @extend .selection;
+    position: relative;
+  }
+
+  input[type="radio"] {
+    @include appearance(none);
+    width: $m-primary-font-size * 1.5;
+    height: $m-primary-font-size * 1.5;
+    background: #fff;
+    border: $form-border-width $form-border-style $selection-color;
+    border-radius: 50%;
+    vertical-align: text-bottom;
+  }
+
+  input[type="radio"]:checked {
+    outline: none;
+    border: $form-border-width $form-border-style $selection-checked-color;
+  }
+
+  input + i{
+    font-size: $m-primary-font-size * 1.9;
+    margin-right: 10px;
+  }
+
+  input[type="radio"] + i:before {
+    content: ' ';
+    color: $selection-color;
+    display: block;
+    height: 4px;
+    width: 4px;
+    border-radius: 50%;
+    position: absolute;
+    left: $m-primary-font-size;
+    top: $m-primary-font-size * 1.25;
+  }
+  input[type="radio"]:checked + i:before {
+    content: ' ';
+    background: $selection-checked-color;
+  }
+}

@@ -1,0 +1,38 @@
+html, body {
+  -webkit-overflow-scrolling: touch;
+}
+
+.m-perspective {
+  position: relative;
+//  -webkit-perspective: 1200px;
+//  -moz-perspective: 1200px;
+//  perspective: 1200px;
+}
+
+.m-page {
+  @extend .fullscreen;
+  //ios scrolling bug if this is visible
+  display: none;
+}
+
+//TODO use in good browsers
+//.m-page {
+//  -webkit-backface-visibility: hidden;
+//  -moz-backface-visibility: hidden;
+//  backface-visibility: hidden;
+//  -webkit-transform: translate3d(0, 0, 0);
+//  -moz-transform: translate3d(0, 0, 0);
+//  transform: translate3d(0, 0, 0);
+//  -webkit-transform-style: preserve-3d;
+//  -moz-transform-style: preserve-3d;
+//  transform-style: preserve-3d;
+//}
+
+.m-page-current{
+  z-index: 1;
+  display: block;
+}
+
+.m-page-ontop {
+  z-index: 999;
+}

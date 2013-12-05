@@ -1,0 +1,61 @@
+.debug-menu {
+  position: fixed;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-top: 0;
+
+  .buttonview {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
+
+.debugview {
+  top: 0;
+  bottom: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+
+  &.bg {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  .button {
+    display: inline-block;
+    margin: 0;
+  }
+}
+
+.debug-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+
+  .debug-grid {
+    height: 100%;
+
+  }
+
+  .row {
+    height: 100%;
+    background: rgba(00, 255, 255, 0.25);
+
+    .col-xs-1 {
+
+      height: 100%;
+
+      .inner {
+        background: rgba(0, 255, 0, 0.25);
+        height: 100%;
+      }
+    }
+  }
+}
+

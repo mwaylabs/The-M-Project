@@ -1,0 +1,11 @@
+@import "themes/default/variables";
+@import "themes/ios/variables";
+
+.ios {
+  @import "master";
+  @import "themes/ios/buttongroup";
+  @import "themes/ios/radiolist";
+  @import "themes/ios/checkboxlist";
+  @import "themes/ios/toggleswitch";
+  @import "themes/ios/tab-layout";
+}

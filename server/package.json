@@ -1,0 +1,15 @@
+{
+    "name": "tmp2server",
+    "description": "tmp2 test server",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "express": "",
+        "socket.io": "",
+        "mongodb": ""
+    },
+    "_": {
+        "socket.io-mongo": "",
+        "derby": ""
+    }
+}

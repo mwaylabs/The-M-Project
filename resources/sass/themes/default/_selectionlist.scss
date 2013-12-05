@@ -1,0 +1,41 @@
+.selection-list {
+  @extend .margin0010;
+
+  position: relative;
+  border: $m-button-border-width solid $m-button-border-color;
+  -webkit-border-radius: $m-button-border-radius;
+  -moz-border-radius: $m-button-border-radius;
+  border-radius: $m-button-border-radius;
+
+
+  &:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border: 7px solid transparent;
+    border-color: #05BCF7 transparent transparent transparent;
+    position: absolute;
+    top: 16px;
+    right: 10px;
+  }
+
+  select {
+    padding: 5px;
+    margin: 0;
+    background: transparent;
+    width: 100%;
+    height: 34px;
+    color: $black;
+    border: none;
+    outline: none;
+    display: inline-block;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
+}
+
+*[class*='col-'] .selection-list {
+  width: 100%;
+}

@@ -1,0 +1,24 @@
+.toolbarview {
+  height: $tablayout-menu-height;
+  width: 100%;
+  background: $m-primary-color;
+  position: absolute;
+  top: 0;
+
+  .button{
+    margin-top: 0;
+  }
+
+}
+
+.toolbarview .first {
+  @extend .header-first;
+}
+
+.toolbarview .center {
+  @extend .header-center;
+}
+
+.toolbarview .second {
+  @extend .header-second;
+}

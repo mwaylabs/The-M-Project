@@ -1,0 +1,51 @@
+.tablayout {
+
+  .m-tab {
+    top: 0;
+    bottom: $tablayout-menu-height;
+    height: auto;
+  }
+
+  .tab-menu {
+
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    height: $tablayout-menu-height;
+
+    .tabbarbuttongroupview,
+    .buttongroupview {
+
+      .button {
+        height: $tablayout-menu-height;
+        padding: $tablayout-menu-button-padding;
+        border: none;
+      }
+
+      .button i{
+        display: none;
+      }
+
+      .buttonview {
+        &:first-child {
+          padding-left: 0;
+        }
+
+        &:last-child {
+          padding-right: 0;
+        }
+      }
+
+    }
+
+  }
+}
+
+.tablayout.scrolling {
+
+  .tabbarbuttongroupview .button,
+  .buttongroupview .button{
+    width: $tablayout-menu-scroll-button-width;
+  }
+
+}

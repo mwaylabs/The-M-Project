@@ -1,0 +1,68 @@
+.textfieldview {
+
+  label {
+    display: block;
+    font-size: $m-primary-font-size;
+    padding: 0 0 8px 0;
+  }
+
+  input {
+    @extend .form;
+    box-sizing: border-box;
+    min-height: 30px;
+  }
+
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+  }
+
+  .input-icon-addon{
+    @extend .form;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    i{
+      display: block;
+      position: absolute;
+      top: $textfield-icon-y-position;
+      left: $textfield-icon-x-position;
+      color: $blue;
+      font-size: $textfield-icon-font-size;
+    }
+
+    input {
+      @extend .ellipsis;
+      border: none;
+      width: 100%;
+      padding-left: $textfield-icon-padding;
+      padding-right: $textfield-icon-x-position;
+    }
+
+  }
+
+
+  &.right .input-icon-addon{
+
+    i{
+      left: auto;
+      right: $textfield-icon-x-position;
+    }
+
+    input {
+      border: none;
+      width: 100%;
+      padding-left: 0;
+      padding-right: $textfield-icon-padding;
+    }
+
+
+  }
+
+  &.hidden-icon i{
+    display: none;
+  }
+}

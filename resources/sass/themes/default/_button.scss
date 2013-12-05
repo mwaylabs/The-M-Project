@@ -1,0 +1,216 @@
+.buttonview {
+  min-width: 63px;
+}
+
+.button {
+  @extend .margin0010;
+  position: relative;
+  padding: $m-button-padding;
+  font-weight: normal;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: $m-button-text-color;
+  border-radius: $m-button-border-radius;
+  border: $m-button-border-width solid $m-button-border-color;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+
+  div {
+    @extend .ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    width: 100%;
+  }
+
+}
+
+.has-icon{
+  .right i,
+  &.right i{
+    right: $m-button-padding-left-right / 2;
+    left: auto;
+  }
+
+  .left i,
+  &.left i{
+    left: $m-button-padding-left-right / 2;
+    right: auto;
+  }
+
+  i{
+    position: absolute;
+    left: $m-button-padding-left-right;
+    top: $m-button-padding-top * 1.5;
+  }
+
+  .right .button div,
+  &.right .button  div{
+    padding-right: $m-button-padding-left-right;
+  }
+
+  .button div,
+  .left .button div,
+  &.left .button  div{
+    padding-left: $m-button-padding-left-right;
+  }
+}
+
+.is-icon-only{
+  .button{
+    div{
+      display: none;
+    }
+  }
+}
+
+.buttonview.active.useelement,
+.buttonview.active .button,
+.button.active {
+  background-color: $m-primary-active-color;
+  color: $m-primary-active-text-color;
+}
+
+*[class*='col-'] .button {
+  width: 100%;
+}
+
+.buttonview.disabled .button {
+  background: $m-primary-disabled-color;
+  border-color: $m-primary-disabled-color;
+  color: $m-primary-disabled-text-color;
+  cursor: default;
+}
+
+.buttonview {
+
+  &.m-primary {
+
+    .button {
+      border-color: $m-button-primary-border-color;
+      color: $m-button-primary-text-color;
+      background: $m-button-primary-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-primary-text-color;
+      color: $m-button-primary-background-color;
+      background: $m-button-primary-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-primary-border-color, $lightenPercentage);
+      color: lighten($m-button-primary-text-color, $lightenPercentage);
+      background: lighten($m-button-primary-background-color, $lightenPercentage);
+    }
+  }
+
+  &.m-success {
+
+    .button {
+      border-color: $m-button-success-border-color;
+      color: $m-button-success-text-color;
+      background: $m-button-success-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-success-text-color;
+      color: $m-button-success-background-color;
+      background: $m-button-success-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-success-border-color, $lightenPercentage);
+      color: lighten($m-button-success-text-color, $lightenPercentage);
+      background: lighten($m-button-success-background-color, $lightenPercentage);
+    }
+  }
+
+  &.m-error {
+    .button {
+      border-color: $m-button-error-border-color;
+      color: $m-button-error-text-color;
+      background: $m-button-error-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-error-text-color;
+      color: $m-button-error-background-color;
+      background: $m-button-error-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-error-border-color, $lightenPercentage);
+      color: lighten($m-button-error-text-color, $lightenPercentage);
+      background: lighten($m-button-error-background-color, $lightenPercentage);
+    }
+  }
+
+  &.m-warning {
+    .button {
+      border-color: $m-button-warning-border-color;
+      color: $m-button-warning-text-color;
+      background: $m-button-warning-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-warning-text-color;
+      color: $m-button-warning-background-color;
+      background: $m-button-warning-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-warning-border-color, $lightenPercentage);
+      color: lighten($m-button-warning-text-color, $lightenPercentage);
+      background: lighten($m-button-warning-background-color, $lightenPercentage);
+    }
+  }
+
+  &.m-info {
+    .button {
+      border-color: $m-button-info-border-color;
+      color: $m-button-info-text-color;
+      background: $m-button-info-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-info-text-color;
+      color: $m-button-info-background-color;
+      background: $m-button-info-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-info-border-color, $lightenPercentage);
+      color: lighten($m-button-info-text-color, $lightenPercentage);
+      background: lighten($m-button-info-background-color, $lightenPercentage);
+    }
+  }
+
+  &.m-fuzzy {
+    .button {
+      border-color: $m-button-fuzzy-border-color;
+      color: $m-button-fuzzy-text-color;
+      background: $m-button-fuzzy-background-color;
+    }
+
+    &.active .button {
+      border-color: $m-button-fuzzy-text-color;
+      color: $m-button-fuzzy-background-color;
+      background: $m-button-fuzzy-text-color;
+    }
+
+    &.disabled .button {
+      border-color: lighten($m-button-fuzzy-border-color, $lightenPercentageLight);
+      color: lighten($m-button-fuzzy-text-color, $lightenPercentageLight);
+      background: lighten($m-button-fuzzy-background-color, $lightenPercentageLight);
+    }
+  }
+
+}

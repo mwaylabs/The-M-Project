@@ -1,0 +1,30 @@
+.textview{
+
+  @extend .margin0010;
+
+  .label{
+    display: block;
+    border-bottom: $form-element-border;
+  }
+  .input-icon-addon{
+    display: inline-block;
+    div, i{
+      display: inline-block;
+      margin-right: 5px;
+    }
+  }
+
+  &.stencil{
+    background: $darkwhite;
+    font-weight: $strong;
+    text-align: center;
+    padding: 10px;
+  }
+
+
+  &.stencil i,
+  &.stencil div div{
+    @extend .stencil;
+  }
+
+}

@@ -1,0 +1,45 @@
+.tabbarbuttongroupview,
+.buttongroupview {
+
+  @extend .margin0010;
+
+  .button {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .buttonview {
+    padding-left: 0;
+    padding-right: 0;
+    min-width: 0;
+
+    &.active {
+      .button {
+        background: $m-primary-active-color;
+        color: $m-primary-active-text-color;
+      }
+    }
+
+    .button {
+      border-right-width: 0;
+    }
+
+    &:first-child {
+      padding-left: $grid-gutter-width / 2;
+
+      .button {
+        border-top-left-radius: $m-button-border-radius;
+        border-bottom-left-radius: $m-button-border-radius;
+      }
+    }
+    &:last-child {
+      padding-right: $grid-gutter-width / 2;
+
+      .button {
+        border-right-width: $m-button-border-width;
+        border-top-right-radius: $m-button-border-radius;
+        border-bottom-right-radius: $m-button-border-radius;
+      }
+    }
+  }
+}

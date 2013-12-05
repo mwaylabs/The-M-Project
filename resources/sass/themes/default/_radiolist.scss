@@ -1,0 +1,33 @@
+.radiolistview {
+
+  @extend .margin0010;
+  border-top: $form-element-border;
+  border-bottom: $form-element-border;
+
+  label {
+    @extend .selection;
+    vertical-align: top;
+  }
+
+  input[type="radio"] {
+    @include appearance(none);
+  }
+
+  input[type="radio"]:checked {
+    outline: none;
+  }
+
+  input + i{
+    font-size: $m-primary-font-size * 1.5;
+    margin-right: 10px;
+  }
+
+  input[type="radio"] + i:before {
+    content: '\f10c';
+    color: $selection-color;
+  }
+  input[type="radio"]:checked + i:before {
+    content: '\f192';
+    color: $selection-checked-color;
+  }
+}

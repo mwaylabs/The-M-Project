@@ -1,0 +1,27 @@
+.checkboxlistview {
+
+  input[type="checkbox"] {
+    width: $m-primary-font-size * 1.5;
+    height: $m-primary-font-size * 1.5;
+    background: #fff;
+//    border: $form-border-width $form-border-style $selection-color;
+//    border-radius: 50%;
+    border: 0;
+    font-size: $m-primary-font-size;
+  }
+
+  input + i {
+    display: none;
+  }
+
+  input[type="checkbox"]:before {
+    content: '\2713';
+    color: transparent;
+  }
+
+  input[type="checkbox"]:checked:before {
+    color: $selection-checked-color;
+    content: '\2713';
+  }
+
+}
