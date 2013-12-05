@@ -341,6 +341,12 @@ M.ListView = M.View.extend(
             /* new implementation with more intelligent data structures */
             } else {
                 _.each(content, function(item) {
+                    
+                    /* item could actually be a model here */
+                    if( item.type && item.type == "M.Model" ) {
+                        item = item.record
+                    }
+                    
                     that.renderListItemDivider(item.label);
                     that.renderListItemView(item.items, templateView);
                 });
