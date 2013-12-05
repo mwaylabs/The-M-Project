@@ -157,7 +157,9 @@ M.ModalView = M.View.extend({
         if( that._$backdrop ) {
             if( M.Animation.transitionSupport ) {
                 that._$backdrop.on(M.Animation.transitionEndEventName, callback);
-                that._$backdrop.removeClass('in');
+                setTimeout(function(){
+                    that._$backdrop.removeClass('in');
+                }, 0);
             } else {
                 callback();
             }
