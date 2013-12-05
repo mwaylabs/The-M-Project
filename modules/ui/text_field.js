@@ -222,6 +222,13 @@ M.TextFieldView = M.View.extend(
     cssClassForAsterisk: null,
 
     /**
+     * Defines whether the text field supports the input autocomplete feature or not
+     *
+     * @type Boolean
+     */
+    autocomplete: NO,
+
+    /**
      * Renders a TextFieldView
      * 
      * @private
@@ -252,15 +259,15 @@ M.TextFieldView = M.View.extend(
         }
 
         if(this.hasMultipleLines) {
-            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + placeholder + '>' + (this.value ? this.value : '') + '</textarea>';
+            this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + placeholder +  (this.autocomplete ? ' autocomplete="on" ' : ' autocomplete="off" ') +  '>' + (this.value ? this.value : '') + '</textarea>';
             
         } else {
             var type = this.inputType;
             if(_.include(this.dateInputTypes, this.inputType) && !this.useNativeImplementationIfAvailable) {
                 type = 'text';
             }
-            
-            this.html += '<input ' + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + placeholder + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : '') + '" />';
+
+            this.html += '<input ' + (this.autocomplete ? ' autocomplete="on" ' : ' autocomplete="off" ') + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + placeholder + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : '') + '" />';
         }
         
         return this.html;

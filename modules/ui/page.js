@@ -188,7 +188,8 @@ M.PageView = M.View.extend(
         });
 
         /* reset the page's title */
-        document.title = M.Application.name;
+        document.title = M.Application.displayName || M.Application.name;
+
 
         /* delegate event to external handler, if specified */
         if(nextEvent) {

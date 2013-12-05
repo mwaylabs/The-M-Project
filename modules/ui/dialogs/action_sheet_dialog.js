@@ -88,7 +88,8 @@ M.ActionSheetDialogView = M.DialogView.extend(
         this.html = '<div class="tmp-dialog-background"></div>';
 
         /* render title */
-        this.html += '<div id="' + this.id + '" class="tmp-actionsheet">';
+        var cssClass = this.cssClass ? this.cssClass : '';
+        this.html += '<div id="' + this.id + '" class="tmp-actionsheet ' + cssClass + '">';
         this.html += '<div class="tmp-dialog-header">';
         this.html += this.title ? this.title : '';
         this.html +='</div>';

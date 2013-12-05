@@ -160,7 +160,7 @@ M.SplitView = M.View.extend(
                 this.menu.menu.themeUpdate();
 
                 /* now set the active list item */
-                this.menu.menu.setActiveListItem(entryItem);
+//                this.menu.menu.setActiveListItem(entryItem);
 
                 /* finally show the active list item's content */
                 this.listItemSelected(entryItem);
@@ -199,6 +199,7 @@ M.SplitView = M.View.extend(
 
             $('#' + this.menu.id).css('width', Math.ceil(width * 0.3) - 2 * (parseInt($('#' + this.menu.id).css('border-right-width'))) + 'px');
             $('#' + this.content.id).css('width', Math.floor(width * 0.7) - 2 * (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) + 'px');
+
             $('#' + this.content.id).css('left', Math.ceil(width * 0.3) + (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) - parseInt($('#' + this.menu.id).css('border-right-width')) + 'px');
 
             $('.tmp-splitview-menu-toolbar').css('width', Math.ceil(width * 0.3) + (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) - parseInt($('.tmp-splitview-menu-toolbar').css('border-right-width')) + 'px');
@@ -209,12 +210,13 @@ M.SplitView = M.View.extend(
             $('html').addClass(this.orientation);
 
             $('#' + this.content.id).css('width', width - (parseInt($('#' + this.content.id).css('padding-right')) + parseInt($('#' + this.content.id).css('padding-left'))) + 'px');
+
             $('#' + this.content.id).css('left', '0px');
 
             $('.tmp-splitview-content-toolbar').css('width', width + 'px');
         }
 
-        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+        var page = this.getParentPage();
 
         /* set the min height of the page based on if there's a footer or not */
         if ($('#' + page.id).hasClass('tmp-splitview-no-footer')) {
@@ -238,13 +240,16 @@ M.SplitView = M.View.extend(
 
             /* check whether scrolling is required or not for the menu */
             if (this.orientation === 'landscape') {
+
                 this.itemheight = $('#' + this.menu.menu.id).find('li:first').outerHeight();
                 var itemCount = $('#' + this.menu.menu.id).find('li').length;
 
                 if (this.itemheight !== 0) {
                     var menuHeight = M.Environment.getHeight();
                     var itemListHeight = itemCount * this.itemheight;
+
                     if (menuHeight < itemListHeight) {
+
                         $('#' + this.menu.menu.id).scrollview({
                             direction: 'y'
                         });
@@ -272,7 +277,7 @@ M.SplitView = M.View.extend(
 
     registerEvents: function() {
         /* register for orientation change events of the current page */
-        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+        var page = this.getParentPage();
         M.EventDispatcher.registerEvent(
             'orientationdidchange',
             page.id,
@@ -299,7 +304,6 @@ M.SplitView = M.View.extend(
         if (!contentView) {
             return;
         }
-
         this.selectedItem = M.ViewManager.getViewById(id).splitViewItem;
 
         if (!this.isInitialized) {
@@ -314,16 +318,18 @@ M.SplitView = M.View.extend(
         } else {
             if (contentView.html) {
                 $('#' + this.content.id + ' div:first').html(contentView.html);
+
             } else {
                 $('#' + this.content.id + ' div:first').html(contentView.render());
                 contentView.theme();
-                contentView.registerEvents();
             }
+            contentView.registerEvents();
+
             $('#' + this.content.id).scrollview('scrollTo', 0, 0);
         }
 
         /* check if there is a split toolbar view on the page and update its label to show the value of the selected item */
-        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+        var page = this.getParentPage();
         var that = this;
         if (page) {
             $('#' + page.id + ' .tmp-splitview-content-toolbar').each(function() {
@@ -352,9 +358,10 @@ M.SplitView = M.View.extend(
     },
 
     orientationDidChange: function() {
+
         var orientation = M.Environment.getOrientation();
         var that = this;
-        var page = M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
+        var page = this.getParentPage(); //M.ViewManager.getCurrentPage() || M.ViewManager.getPage(M.Application.entryPage);
 
         /* portrait */
         if (M.Environment.getHeight() > M.Environment.getWidth()) {
@@ -433,7 +440,10 @@ M.SplitView = M.View.extend(
                 direction: 'y'
             });
         }
-        $('#' + this.menu.menu.id).scrollview('scrollTo', 0, yScroll);
+        console.log("scrollListToRightPosition " + this.menu.menu.id);
+//        debugger;
+//        $('#' + this.menu.menu.id).scrollview('scrollTo', 0, yScroll);
+//        debugger;
     }
 
 });

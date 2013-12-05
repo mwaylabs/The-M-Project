@@ -74,6 +74,80 @@ M.Environment = M.Object.extend(
     type: 'M.Environment',
 
     /**
+     * Constant representing iOS devices.
+     *
+     * Use to compare against M.Environment.getOS function
+     *
+     * @type String
+     */
+
+    IOS: 'ios',
+
+    /**
+     * Constant representing Android devices.
+     *
+     * Use to compare against M.Environment.getOS function
+     *
+     * @type String
+     */
+
+    ANDROID: 'android',
+
+    /**
+     * Constant representing BlackBerry devices.
+     *
+     * Use to compare against M.Environment.getOS function
+     *
+     * @type String
+     */
+    BLACKBERRY: 'blackberry',
+
+    /**
+     * Constant representing windows mobile devices.
+     *
+     * Use to compare against M.Environment.getOS function
+     *
+     * @type String
+     */
+    WINDOWSMOBILE: 'windowsmobile',
+
+    /**
+     * Constant representing mac computer.
+     *
+     * Use to compare against M.Environment.getOS function
+     *
+     * @type String
+     */
+    MAC: 'mac',
+    
+    /**
+     * Constant representing mac computer.
+     *
+     * Use to compare against M.Environment.getOS function
+     *
+     * @type String
+     */
+    LINUX: 'linux',
+
+    /**
+     * Constant representing windows computer.
+     *
+     * Use to compare against M.Environment.getOS function
+     *
+     * @type String
+     */
+    WINDOWS: 'windows',
+
+    /**
+     * Constant representing BB10 devices.
+     *
+     * Use to compare against M.Environment.getOS function
+     *
+     * @type String
+     */
+    BB10: 'bb10',
+
+    /**
      * This property contains a custom configuration of the awesome modernizr
      * library We currently only use this for detecting supported input types
      * of the browser.
@@ -267,6 +341,55 @@ M.Environment = M.Object.extend(
             return YES;
         }
         return NO;
+    },
+    
+    /**
+     * Checks if the userAgent contains one of known operations systems and returns it.
+     * If there is no match null will be returned.
+     *
+     * @return {String} the OS regarding to the userAgent.
+     */
+    getOS: function() {
+
+        var operatingSystems = {};
+        
+        operatingSystems[this.LINUX] = function() {
+            return navigator.userAgent.match(/Linux/i) ? true : false;
+        };
+
+        operatingSystems[this.ANDROID] = function() {
+            return navigator.userAgent.match(/Android/i) ? true : false;
+        };
+
+        operatingSystems[this.BLACKBERRY] = function() {
+            return navigator.userAgent.match(/BlackBerry/i) ? true : false;
+        };
+
+        operatingSystems[this.IOS] = function() {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
+        };
+
+        operatingSystems[this.WINDOWSMOBILE] = function() {
+            return navigator.userAgent.match(/IEMobile/i) ? true : false;
+        };
+
+        operatingSystems[this.MAC] = function() {
+            return navigator.userAgent.match(/Macintosh/i) ? true : false;
+        };
+
+        operatingSystems[this.WINDOWS] = function() {
+            return navigator.userAgent.match(/Windows/i) ? true : false;
+        };
+
+        operatingSystems[this.BB10] = function() {
+            return navigator.userAgent.match(/BB10/i) ? true : false;
+        };
+
+        var ret = null;
+        _.each(operatingSystems, function( value, key ) {
+            if(value()) ret = key;
+        });
+        return ret;
     }
 
 });

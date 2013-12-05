@@ -122,9 +122,10 @@ M.ListItemView = M.View.extend(
      * Renders a list item as an li-tag. The rendering is initiated by the parent list view.
      *
      * @private
+     * @param {M.ListView} value The object to be rendered.
      * @returns {String} The list item view's html representation.
      */
-    render: function() {
+    render: function(value) {
         this.html = '<li id="' + this.id + '"' + this.style();
 
         if(this.isDivider) {
@@ -149,8 +150,8 @@ M.ListItemView = M.View.extend(
                     this.renderChildViews();
                 }
             }
-        } else if(this.value) {
-            this.html += this.value;
+        } else if(value) {
+            this.html += value;
         }
 
         this.html += '</li>';

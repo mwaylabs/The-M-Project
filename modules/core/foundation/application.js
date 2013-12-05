@@ -139,6 +139,19 @@ M.Application = M.Object.extend(
             return this.config[key];
         }
         return null;
+    },
+
+    /**
+     * Returns the name of a page as defined in the main.js of the given ID
+     *
+     * @param id The ID looking for
+     * @return {String} The name of the page defined in main.js
+     */
+    getPageNameById: function(id){
+        var pageName = '';
+        var _id = M.ViewManager.getViewById(id).getParentPage().id;
+        _.each(this.pages, function(page, name){ if(page.id === _id){pageName = name}; });
+        return    pageName;
     }
 
 });
