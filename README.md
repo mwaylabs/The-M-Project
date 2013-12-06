@@ -72,6 +72,7 @@ The-M-Project 1.x as we call it was from our point of view pretty good, but has 
 Beside the Kitchensink we have a second ready to launch sample app called Addressbook.
 
 ### Kitchensink Demo
+[![Try the Kitchensink](tryKitchensink)](http://www.the-m-project.org/apps/absinthe/kitchensink/index.html)
 [Try the Kitchensink](http://www.the-m-project.org/apps/absinthe/kitchensink/index.html)
 The Kitchensink gives a good overview of all Views and Layouts so far. Play arround and see what the The-M-Project offers to you.
 
@@ -382,6 +383,8 @@ For more informations about SASS Compass just visit their [website](http://compa
 [switch-layout]: http://www.the-m-project.org/docs/absinthe/img/layouts/Swipe_Blank.png
 [logo]: http://www.the-m-project.org/docs/absinthe/img/the-m-project-logo.png
 [styleguide-image]: http://www.the-m-project.org/docs/absinthe/img/styleguide.png
+[tryKitchensink]: http://www.the-m-project.org/docs/absinthe/img/tryKitchensink.png
+[tryAddressbook]: http://www.the-m-project.org/docs/absinthe/img/tryAddressbook.png
 
 ## Development Process
 
