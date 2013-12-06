@@ -283,10 +283,10 @@ Without expense to the developer, data is synchronised from the server to the cl
 ### inheritance
 It is possible to extend from every `M` Object by calling the `extend` method. The first parameter are the options applied to the extended Object and overwrite the existing ones. `extend` always returns a function.
 
-```
+```javascript
 M.CustomView = M.View.extend({
 	// overwrite a property
-	_tye: 'M.CustomView',
+	_type: 'M.CustomView',
 	// implement an own property
 	myOwnProperty: 1
 });
@@ -295,7 +295,7 @@ M.CustomView = M.View.extend({
 ### instances
 To create an instance of an extended object you can use `new` or `create` which calls `new` by itself. 
 
-```
+```javascript
 // create an instance with new
 var v = new M.View();
 M.isView(v); //true
