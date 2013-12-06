@@ -79,7 +79,7 @@ The Kitchensink gives a good overview of all Views and Layouts so far. Play arro
 ### Addressbook Demo
 [![Try the Addressbook][tryAddressbook]](http://www.the-m-project.org/apps/absinthe/addressbook/index.html)
 
-The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://www.the-m-project.org/apps/addressbook/index.html) in different browser windows or devices for the full experience. A small [node.js](http://nodejs.org/) server is connected to a [MongoDB](http://www.mongodb.org/). The application syncronises via bikini the contact collection and stores it to the [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database) Database. This guarantees offline and online manipulation of the data.
+The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://www.the-m-project.org/apps/absinthe/addressbook/index.html) in different browser windows or devices for the full experience. A small [node.js](http://nodejs.org/) server is connected to a [MongoDB](http://www.mongodb.org/). The application syncronises via bikini the contact collection and stores it to the [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database) Database. This guarantees offline and online manipulation of the data.
 
 ## Roadmap
 
