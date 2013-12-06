@@ -130,6 +130,10 @@ M.TemplateManager = M.Object.design({
         defaultTemplate: '<div data-childviews="content"><div>'
     },
 
+    'M.MovableView': {
+        defaultTemplate: '<div><div class="movable-element"><%= _value_ %></div></div>'
+    },
+
     _currentUI: 'defaultTemplate',
 
     /**

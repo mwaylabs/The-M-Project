@@ -32,6 +32,7 @@
 // @include ./ui/views/loader.js
 // @include ./ui/views/text.js
 // @include ./ui/views/debug.js
+// @include ./ui/views/movable.js
 
 // @include ./ui/layouts/header-layout.js
 // @include ./ui/layouts/bottom-bar-layout.js
