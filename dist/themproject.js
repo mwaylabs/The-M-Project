@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Copyright: (c) 2013 M-Way Solutions GmbH.
 * Version:   2.0.0-beta
-* Date:      Wed Dec 04 2013 11:52:19
+* Date:      Thu Dec 05 2013 13:36:04
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 
@@ -4153,11 +4153,18 @@
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
+     * The M.Collection can be used like a Backbone Collection,
+     *
+     * but there are some enhancements to fetch, save and delete the
+     * contained models from or to other "data stores".
+     *
+     * see LocalStorageStore, WebSqlStore or BikiniStore for examples
      *
      * @module M.Collection
      *
      * @type {*}
      * @extends Backbone.Collection
+     *
      */
     M.Collection = Backbone.Collection.extend({
     
@@ -5220,6 +5227,9 @@
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
+     * Base class to build a custom data store.
+     *
+     * See: M.LocalStorageStore, M.WebSqlStore and M.BikiniStore
      *
      * @module M.Store
      *
@@ -5464,10 +5474,21 @@
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
+     * The M.LocalStorageStore can be used to store model collection into
+     * the localStorage
+     *
      * @module M.LocalStorageStore
      *
      * @type {*}
      * @extends M.Store
+     *
+     * @example
+     *
+     * var MyCollection = M.Collection.extend({
+     *      model: MyModel,
+     *      store: new M.LocalStorageStore()
+     * });
+     *
      */
     M.LocalStorageStore = M.Store.extend({
     
@@ -5603,11 +5624,39 @@
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
+     * The M.WebSqlStore can be used to store model collection into
+     * the webSql database
      *
      * @module M.WebSqlStore
      *
      * @type {*}
      * @extends M.Store
+     *
+     * @example
+     *
+     * The default configuration will save the complete model data as json
+     * into a database column with the name "data"
+     *
+     * var MyCollection = M.Collection.extend({
+     *      model: MyModel,
+     *      entity: 'MyTableName',
+     *      store: new M.WebSqlStorageStore()
+     * });
+     *
+     * If you want to use specific columns you can specify the fields
+     * in the entity of your model like this:
+     *
+     * var MyModel = M.Model.extend({
+     *      idAttribute: 'id',
+     *      fields: {
+     *          id:          { type: M.CONST.TYPE.STRING,  required: YES, index: YES },
+     *          sureName:    { name: 'USERNAME', type: M.CONST.TYPE.STRING },
+     *          firstName:   { type: M.CONST.TYPE.STRING,  length: 200 },
+     *          age:         { type: M.CONST.TYPE.INTEGER }
+     *      }
+     * });
+     *
+     *
      */
     M.WebSqlStore = M.Store.extend({
     
@@ -6180,11 +6229,32 @@
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     /**
+     * The M.BikiniStore is used to connect a model collection to an
+     * bikini server.
+     *
+     * This will give you an online and offline store with live data updates.
      *
      * @module M.BikiniStore
      *
      * @type {*}
      * @extends M.Store
+     *
+     * @example
+     *
+     * The default configuration will save the complete model data as a json,
+     * and the offline change log to a local WebSql database, synchronize it
+     * trough REST calls with the server and receive live updates via a socket.io connection.
+     *
+     * var MyCollection = M.Collection.extend({
+     *      model: MyModel,
+     *      url: 'http://myBikiniServer.com:8200/bikini/myCollection',
+     *      store: new M.BikiniStore( {
+     *          useLocalStore:   true, // (default) store the data for offline use
+     *          useSocketNotify: true, // (default) register at the server for live updates
+     *          useOfflineChanges: true // (default) allow changes to the offline data
+     *      })
+     * });
+     *
      */
     M.BikiniStore = M.Store.extend({
     
@@ -9902,7 +9972,9 @@
             if( that._$backdrop ) {
                 if( M.Animation.transitionSupport ) {
                     that._$backdrop.on(M.Animation.transitionEndEventName, callback);
-                    that._$backdrop.removeClass('in');
+                    setTimeout(function(){
+                        that._$backdrop.removeClass('in');
+                    }, 0);
                 } else {
                     callback();
                 }

@@ -60,14 +60,15 @@ M.PageTransitions = M.Object.design({
         } else {
             this._current = 0;
         }
+
+        if( !this._transition ) {
+            this._transition = this.getDefaultTransition();
+        }
+
         var nextPage = this._pages.eq(this._current).addClass('m-page-current');
         if( !M.Animation.animationSupport || this._transition === M.PageTransitions.CONST.NONE ) {
             this._onEndAnimation(currPage, nextPage);
             return;
-        }
-
-        if( !this._transition ) {
-            this._transition = this.getDefaultTransition();
         }
 
         var transitionClasses = this._transition.split('|');

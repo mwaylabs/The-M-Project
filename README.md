@@ -1,5 +1,5 @@
 ![The-M-Project Absinthe][logo]
-# The-M-Project 2.0 (Absinthe) Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=absinthe)](https://travis-ci.org/mwaylabs/The-M-Project)
+# The-M-Project 2.0 (Absinthe) Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png)](https://travis-ci.org/mwaylabs/The-M-Project)
 
 The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great mobile apps, easy and fast.
 
@@ -24,13 +24,6 @@ The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great 
 - [Setup for framework developer (Mac/Linux)](#setup-for-framework-developer-maclinux)
 - [Setup for framework developer (Windows)](#setup-for-framework-developer-windows)
 
-## Features
-- Native like UI development in HTML5
-- Two-Way Binding
-- Huge Test coverage
-- Offline/Online Support
-- Open Source
-
 ## What's new
 The-M-Project 1.x as we call it was from our point of view pretty good, but has here and there little tweaks. We could have fix some bugs and work with the existing one. In this process we questioned everything and after huge discussions we decided to take what's good and remove everything we don't like. Furthermore we added everything what we think a mobile HTML5/JavaScript framework needs. The following list gives you an overview of changes:
 
@@ -43,7 +36,6 @@ The-M-Project 1.x as we call it was from our point of view pretty good, but has 
 	- iOS 7
 	- [Default](#styleguide)
 - URL navigation and deep linking
-- Internationalization without reload
 - 60+ CSS Transitions
 - [Sass](http://sass-lang.com/) support
 - Best-of-Breed
@@ -417,7 +409,7 @@ For more informations about SASS Compass just visit their [website](http://compa
 ```
 git clone https://github.com/mwaylabs/The-M-Project.git
 cd The-M-Project
-git checkout absinthe
+git checkout master
 ```
 
 ### init the project
@@ -546,8 +538,8 @@ Go to the Directory where you want to have the Project.
 git clone https://github.com/mwaylabs/The-M-Project.git
 cd The-M-Project
 git fetch --all
-git checkout absinthe
-git pull origin absinthe
+git checkout master
+git pull origin master
 ```
 
 ### Init the project
