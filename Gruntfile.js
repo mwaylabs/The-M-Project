@@ -193,6 +193,7 @@ module.exports = function (grunt) {
             md: {
                 src: [
                     'doc-template/additional/Sample-Apps.md',
+                    'doc-template/additional/Demo-App.md',
                     'doc-template/additional/Generator.md',
                     'doc-template/.tmp/index.md'
                 ]
