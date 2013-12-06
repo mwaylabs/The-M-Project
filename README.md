@@ -384,8 +384,8 @@ For more informations about SASS Compass just visit their [website](http://compa
 [switch-layout]: http://www.the-m-project.org/docs/absinthe/img/layouts/Swipe_Blank.png
 [logo]: http://www.the-m-project.org/docs/absinthe/img/the-m-project-logo.png
 [styleguide-image]: http://www.the-m-project.org/docs/absinthe/img/styleguide.png
-[tryKitchensink]: http://www.the-m-project.org/docs/absinthe/img/tryKitchensink.png
-[tryAddressbook]: http://www.the-m-project.org/docs/absinthe/img/tryAddressbook.png
+[tryKitchensink]: http://www.the-m-project.org/docs/absinthe/img/try-kitchensink.png
+[tryAddressbook]: http://www.the-m-project.org/docs/absinthe/img/try-addressbook.png
 
 ## Development Process
 
