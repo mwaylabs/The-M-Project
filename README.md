@@ -1,5 +1,5 @@
 ![The-M-Project Absinthe][logo]
-# The-M-Project 2.0 (Absinthe) Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=absinthe)](https://travis-ci.org/mwaylabs/The-M-Project)
+# The-M-Project 2.0 (Absinthe) Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png)](https://travis-ci.org/mwaylabs/The-M-Project)
 
 The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great mobile apps, easy and fast.
 
@@ -409,7 +409,7 @@ For more informations about SASS Compass just visit their [website](http://compa
 ```
 git clone https://github.com/mwaylabs/The-M-Project.git
 cd The-M-Project
-git checkout absinthe
+git checkout master
 ```
 
 ### init the project
@@ -538,8 +538,8 @@ Go to the Directory where you want to have the Project.
 git clone https://github.com/mwaylabs/The-M-Project.git
 cd The-M-Project
 git fetch --all
-git checkout absinthe
-git pull origin absinthe
+git checkout master
+git pull origin master
 ```
 
 ### Init the project
