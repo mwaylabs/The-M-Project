@@ -72,7 +72,7 @@ The-M-Project 1.x as we call it was from our point of view pretty good, but has 
 ### Kitchensink Demo
 [![Try the Kitchensink][tryKitchensink]](http://www.the-m-project.org/apps/absinthe/kitchensink/index.html)
 
-The Kitchensink gives a good overview of all Views and Layouts so far. Play arround and see what the The-M-Project offers to you.
+The Kitchensink gives a good overview of all Views and Layouts so far. Play around and see what the The-M-Project offers to you.
 
 Beside the Kitchensink we have a second ready to launch sample app called Addressbook.
 
