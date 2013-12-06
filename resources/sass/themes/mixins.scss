@@ -1,0 +1,13 @@
+@mixin appearance($ap) {
+  -webkit-appearance: $ap;
+  -moz-appearance:    $ap;
+  appearance:         $ap;
+}
+
+@mixin rotate( $degrees ) {
+  -webkit-transform: rotate(#{$degrees}deg);
+  -moz-transform: rotate(#{$degrees}deg);
+  -ms-transform: rotate(#{$degrees}deg);
+  -o-transform: rotate(#{$degrees}deg);
+  transform: rotate(#{$degrees}deg);
+}
