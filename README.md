@@ -91,16 +91,16 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 - The-M-Project v.2.0 beta 2
 	- MenuView
 	- SideMenu
-	- Themes for Android and iOS
 	- MenuLayout
-    - touchable ToggleSwitch
+    	- Scaffold for MenuLayout
 - The-M-Project v.2.0 RC1
-	- Scaffold for MenuLayout
+	- touchable ToggleSwitch
 	- Feedback from the Community
 	- Complete documentation
 	- Tutorials
 	- More Samples
-	- test coverage >90% https://coveralls.io/r/mwaylabs/generator-m?branch=
+	- test coverage >100% https://coveralls.io/r/mwaylabs/generator-m?branch=
+	- Themes for Android and iOS
 
 - The-M-Project v.2.0
 	- Final release
