@@ -2,8 +2,8 @@
 // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 
 /**
- * M.MenuView inherits from M.View
- * @module M.MenuView
+ * M.MovableView inherits from M.View
+ * @module M.MovableView
  *
  * @type {*}
  * @extends M.View
@@ -21,6 +21,10 @@ M.MovableView = M.View.extend({
      * @private
      */
     _template: _.tmpl(M.TemplateManager.get('M.MovableView')),
+
+    leftEdge: 0,
+
+    rightEdge: null,
 
     /**
      * Save the last position of the moveable element after the user releases the moveable element
@@ -84,6 +88,11 @@ M.MovableView = M.View.extend({
         touchend: function( event, element ) {
             // call the touchend method of M.MovableView
             element._touchEnd(event, element);
+        },
+
+        mouseup: function( event, element ) {
+            // call the touchend method of M.MovableView
+            element._touchEnd(event, element);
         }
     },
 
@@ -118,9 +127,9 @@ M.MovableView = M.View.extend({
         this._setDimensions();
 
         // check the boundaries
-        if( this._currentPos.x < 0 ) {
+        if( this._currentPos.x < this.leftEdge ) {
             // set the left edge of the element to the left edge of the container
-            this._currentPos.x = 0;
+            this._currentPos.x = this.leftEdge;
         } else if( this._containerWidth < this._currentPos.x + this._movableWidth ) {
             // set the right edge of the element to the right edge of the container
             this._currentPos.x = this._containerWidth - this._movableWidth;
@@ -128,11 +137,17 @@ M.MovableView = M.View.extend({
         // cache the current position. The view needs this to calculate further drags
         this._lastPos = this._currentPos;
         // move the element to the position so it can't get lost out of the boundaries.
+        this.onRelease();
+    },
 
+    /**
+     * Gets called after the user stops interacting with the movable
+     */
+    onRelease: function(){
         if( this._currentPos.x > (this._containerWidth / 2 ) - (this._movableWidth / 2) ) {
-            this.toLeft();
-        } else {
             this.toRight();
+        } else {
+            this.toLeft();
         }
     },
 
@@ -161,6 +176,10 @@ M.MovableView = M.View.extend({
             this._movableWidth = this.$el.find('.movable-element').outerWidth();
             // get the outer width of the container
             this._containerWidth = this.$el.outerWidth();
+        }
+
+        if(this.rightEdge === null){
+            this.rightEdge =  this._containerWidth - this._movableWidth;
         }
     },
 
@@ -227,7 +246,7 @@ M.MovableView = M.View.extend({
      */
     toLeft: function() {
         this._setDimensions();
-        this.moveX(this._containerWidth - this._movableWidth, 1000);
+        this.moveX(this.leftEdge, 1000);
     },
 
     /**
@@ -235,21 +254,29 @@ M.MovableView = M.View.extend({
      */
     toRight: function() {
         this._setDimensions();
-        this.moveX(0, 1000);
+        this.moveX(this.rightEdge, 1000);
     },
 
     /**
      * Toggle between left and right animation
      */
     toggle: function() {
-        if( this._currentPos.x <= 0 ) {
-            this.toLeft();
-        } else {
+        if( this._currentPos.x <= this.leftEdge ) {
             this.toRight();
+        } else {
+            this.toLeft();
+
         }
+    },
+
+    /**
+     * This function needs to be implemented to render the view if there is no value given
+     * @returns {Boolean|Function|YES}
+     * @private
+     */
+    _attachToDom: function() {
+        return YES;
     }
-
-
 
 
 });

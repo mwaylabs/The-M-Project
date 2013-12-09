@@ -33,6 +33,7 @@
 // @include ./ui/views/text.js
 // @include ./ui/views/debug.js
 // @include ./ui/views/movable.js
+// @include ./ui/views/menu.js
 
 // @include ./ui/layouts/header-layout.js
 // @include ./ui/layouts/bottom-bar-layout.js
@@ -40,3 +41,4 @@
 // @include ./ui/layouts/swipe-layout.js
 // @include ./ui/layouts/tab-layout.js
 // @include ./ui/layouts/switch-header-content.js
+// @include ./ui/layouts/switch-menu-header-content.js
