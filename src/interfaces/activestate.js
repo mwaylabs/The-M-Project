@@ -33,6 +33,9 @@ M.ActiveState = M.Interface.design(/** @scope M.Interface.prototype */{
         events.touchcancel = events.touchcancel || [];
         events.mousedown = events.touchstart || [];
         events.mouseup = events.touchend || [];
+        // Bugifx for android <4.1 devices. If a touch start happens and a scrolling, no touchend is fired.
+        events.touchmove = events.touchmove || [];
+        events.touchleave = events.touchleave || [];
 
         // be sure that the events are arrays
         events.touchstart = _.isArray(events.touchstart) ? events.touchstart : [events.touchstart];
@@ -40,6 +43,8 @@ M.ActiveState = M.Interface.design(/** @scope M.Interface.prototype */{
         events.touchcancel = _.isArray(events.touchcancel) ? events.touchcancel : [events.touchcancel];
         events.mousedown = _.isArray(events.mousedown) ? events.mousedown : [events.mousedown];
         events.mouseup = _.isArray(events.mouseup) ? events.mouseup : [events.mouseup];
+        events.touchmove = _.isArray(events.touchmove) ? events.touchmove : [events.touchmove];
+        events.touchleave = _.isArray(events.touchleave) ? events.touchleave : [events.touchleave];
 
         // touchstrart callback - add the class 'active'
         var touchstart = function setActiveStateOnTouchstart(event, element){
@@ -65,6 +70,8 @@ M.ActiveState = M.Interface.design(/** @scope M.Interface.prototype */{
         events.touchcancel.push(touchcancel);
         events.mousedown.push(touchstart);
         events.mouseup.push(touchend);
+        events.touchmove.push(touchend);
+        events.touchleave.push(touchend);
 
         // overwrite the interal events with the swap element
         context._internalEvents = events;
