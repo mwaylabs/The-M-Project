@@ -110,7 +110,7 @@ M.ThemeVars = {
         "m-list-item-color": "#2dcca2",
         "m-stencil-text-shadow": "rgba(255, 255, 255, 0.5) 0px 3px 3px",
         "m-menu-view-width": "200px",
-        "m-menu-view-device-swipe-listener-width": "10px"
+        "m-menu-view-device-swipe-listener-width": "20px"
     },
     "android_dark": {
         "m-primary-color": "#669900",

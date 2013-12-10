@@ -257,14 +257,18 @@ M.MovableView = M.View.extend({
     toLeft: function() {
         this._setDimensions();
         this.moveX(this.leftEdge, this.duration);
+        this.$el.addClass('on-right');
+        this.$el.removeClass('on-left');
     },
 
     /**
-     * Animate the moveable to the right
+     * Animate the movable to the right
      */
     toRight: function() {
         this._setDimensions();
         this.moveX(this.rightEdge, this.duration);
+        this.$el.removeClass('on-right');
+        this.$el.addClass('on-left');
     },
 
     /**
