@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Copyright: (c) 2013 M-Way Solutions GmbH.
 * Version:   2.0.0-beta
-* Date:      Mon Dec 09 2013 20:57:25
+* Date:      Tue Dec 10 2013 16:27:28
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
@@ -3419,7 +3419,8 @@ input[type="button"].btn-block {
   border: none;
 }
 
-.fullscreen, .m-page, .header, .switch-header-content-layout .content-wrapper {
+.fullscreen, .m-page, .header, .switch-menu-header-content-layout .content-wrapper,
+.switch-header-content-layout .content-wrapper {
   position: absolute;
   left: 0;
   right: 0;
@@ -3449,13 +3450,15 @@ input[type="button"].btn-block {
   padding: 13px 0 0 0;
 }
 
-.header-first, .switch-header-content-layout .first, .toolbarview .first {
+.header-first, .switch-menu-header-content-layout .first,
+.switch-header-content-layout .first, .toolbarview .first {
   position: absolute;
   left: 10px;
   top: 3px;
 }
 
-.header-second, .switch-header-content-layout .second, .toolbarview .second {
+.header-second, .switch-menu-header-content-layout .second,
+.switch-header-content-layout .second, .toolbarview .second {
   position: absolute;
   right: 10px;
   top: 3px;
@@ -3468,6 +3471,7 @@ input[type="button"].btn-block {
   -webkit-background-clip: text;
   -moz-background-clip: text;
   background-clip: text;
+  float: none;
 }
 
 html {
@@ -6634,12 +6638,15 @@ html, body {
   float: left;
 }
 
+.switch-menu-header-content-layout .m-page,
 .switch-header-content-layout .m-page {
   overflow: hidden;
 }
+.switch-menu-header-content-layout .header,
 .switch-header-content-layout .header {
   padding: 4px 0 0 0;
 }
+.switch-menu-header-content-layout .content-wrapper,
 .switch-header-content-layout .content-wrapper {
   top: 50px;
   background: white;
@@ -7585,4 +7592,53 @@ html, body {
   color: white;
   height: 50px;
   text-align: center;
+}
+
+.movableview {
+  padding-left: 20px;
+  background: #00cc09;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100px;
+}
+.movableview .movable-element, .movableview .menuview {
+  display: block;
+  height: 100px;
+  width: 100px;
+  background: #cc3500;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+.movableview .movable-element, .movableview .menuview {
+  position: absolute;
+  left: 0;
+}
+
+.has-menu {
+  overflow: visible;
+}
+
+.menuview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: block;
+  background: green;
+  width: 200px;
+}
+.menuview .movable-element, .menuview .menuview {
+  position: absolute;
+  left: 190px;
+  display: block;
+  height: 100px;
+  width: 100px;
+  background: #cc3500;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
 }

@@ -9,16 +9,16 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 200px;
   bottom: 0;
   display: block;
   background: green;
+  width: $m-menu-view-width;
 
   .movable-element{
 
     position: absolute;
 
-    left: 200px;
+    left: $m-menu-view-width - $m-menu-view-device-swipe-listener-width;
     display: block;
     height: 100px;
     width: 100px;

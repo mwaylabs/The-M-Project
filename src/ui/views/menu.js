@@ -22,10 +22,31 @@ M.MenuView = M.MovableView.extend({
      */
     _template: _.tmpl(M.TemplateManager.get('M.MenuView')),
 
-    leftEdge: 200,
+    /**
+     * overwrite the default duration
+     */
+    duration: 500,
 
-    rightEdge: 400,
+    /**
+     * The 'padding' of the element that listens to the drag from outside the device
+     */
+    _deviceSwipeListenerWidth: 0,
 
+
+    /**
+     * calculate the leftEdge and rightEdge vars
+     */
+    initialize: function(){
+        this._deviceSwipeListenerWidth = parseInt(M.ThemeVars.get('m-menu-view-device-swipe-listener-width'), 10);
+        this.leftEdge = (parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth) * -1;
+        this.rightEdge = 0;
+        M.MovableView.prototype.initialize.apply(this, arguments);
+    },
+
+
+    /**
+     * Different calculation to find the middle of the swipe to decide if to close or open the menu
+     */
     onRelease: function(){
 
         if( this._currentPos.deltaX > 0 ) {
@@ -33,5 +54,14 @@ M.MenuView = M.MovableView.extend({
         } else {
             this.toLeft();
         }
+    },
+
+    /**
+     * Returns the complete DOM node to be swipeable.
+     * @returns {$el|*}
+     * @private
+     */
+    _getMovableContent: function(){
+        return this.$el;
     }
 });

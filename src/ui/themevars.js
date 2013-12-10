@@ -108,7 +108,9 @@ M.ThemeVars = {
         "selection-color": "#c3c3c3",
         "selection-checked-color": "#1092d3",
         "m-list-item-color": "#2dcca2",
-        "m-stencil-text-shadow": "rgba(255, 255, 255, 0.5) 0px 3px 3px"
+        "m-stencil-text-shadow": "rgba(255, 255, 255, 0.5) 0px 3px 3px",
+        "m-menu-view-width": "200px",
+        "m-menu-view-device-swipe-listener-width": "10px"
     },
     "android_dark": {
         "m-primary-color": "#669900",

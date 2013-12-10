@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Copyright: (c) 2013 M-Way Solutions GmbH.
 * Version:   2.0.0-beta
-* Date:      Mon Dec 09 2013 20:57:25
+* Date:      Tue Dec 10 2013 16:27:28
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 .android-dark {
@@ -5020,7 +5020,8 @@
 .android-dark .selection, .android-dark .radiolistview label, .android-dark .checkboxlistview label {
   border: none;
 }
-.android-dark .fullscreen, .android-dark .m-page, .android-dark .header, .android-dark .switch-header-content-layout .content-wrapper {
+.android-dark .fullscreen, .android-dark .m-page, .android-dark .header, .android-dark .switch-menu-header-content-layout .content-wrapper,
+.android-dark .switch-header-content-layout .content-wrapper {
   position: absolute;
   left: 0;
   right: 0;
@@ -5045,12 +5046,14 @@
   text-align: center;
   padding: 13px 0 0 0;
 }
-.android-dark .header-first, .android-dark .switch-header-content-layout .first, .android-dark .toolbarview .first {
+.android-dark .header-first, .android-dark .switch-menu-header-content-layout .first,
+.android-dark .switch-header-content-layout .first, .android-dark .toolbarview .first {
   position: absolute;
   left: 10px;
   top: 3px;
 }
-.android-dark .header-second, .android-dark .switch-header-content-layout .second, .android-dark .toolbarview .second {
+.android-dark .header-second, .android-dark .switch-menu-header-content-layout .second,
+.android-dark .switch-header-content-layout .second, .android-dark .toolbarview .second {
   position: absolute;
   right: 10px;
   top: 3px;
@@ -5062,6 +5065,7 @@
   -webkit-background-clip: text;
   -moz-background-clip: text;
   background-clip: text;
+  float: none;
 }
 .android-dark html {
   font-size: 62.5%;
@@ -6052,12 +6056,15 @@
   width: 200px;
   float: left;
 }
+.android-dark .switch-menu-header-content-layout .m-page,
 .android-dark .switch-header-content-layout .m-page {
   overflow: hidden;
 }
+.android-dark .switch-menu-header-content-layout .header,
 .android-dark .switch-header-content-layout .header {
   padding: 4px 0 0 0;
 }
+.android-dark .switch-menu-header-content-layout .content-wrapper,
 .android-dark .switch-header-content-layout .content-wrapper {
   top: 50px;
   background: white;
@@ -6788,4 +6795,50 @@
   color: white;
   height: 50px;
   text-align: center;
+}
+.android-dark .movableview {
+  padding-left: 20px;
+  background: #00cc09;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100px;
+}
+.android-dark .movableview .movable-element, .android-dark .movableview .menuview {
+  display: block;
+  height: 100px;
+  width: 100px;
+  background: #cc3500;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+.android-dark .movableview .movable-element, .android-dark .movableview .menuview {
+  position: absolute;
+  left: 0;
+}
+.android-dark .has-menu {
+  overflow: visible;
+}
+.android-dark .menuview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: block;
+  background: green;
+  width: 200px;
+}
+.android-dark .menuview .movable-element, .android-dark .menuview .menuview {
+  position: absolute;
+  left: 190px;
+  display: block;
+  height: 100px;
+  width: 100px;
+  background: #cc3500;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
 }

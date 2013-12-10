@@ -2,7 +2,7 @@
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Copyright: (c) 2013 M-Way Solutions GmbH.
 * Version:   2.0.0-beta
-* Date:      Mon Dec 09 2013 20:57:25
+* Date:      Tue Dec 10 2013 16:27:28
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 .android, .android-light {
@@ -5237,7 +5237,11 @@
 .android .selection, .android .radiolistview label, .android-light .radiolistview .android label, .android .checkboxlistview label, .android-light .checkboxlistview .android label, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label {
   border: none;
 }
-.android .fullscreen, .android .m-page, .android .header, .android .switch-header-content-layout .content-wrapper, .android-light .switch-header-content-layout .android .content-wrapper, .android-light .fullscreen, .android-light .m-page, .android-light .header, .android .switch-header-content-layout .android-light .content-wrapper, .android-light .switch-header-content-layout .content-wrapper {
+.android .fullscreen, .android .m-page, .android .header, .android .switch-menu-header-content-layout .content-wrapper,
+.android .switch-header-content-layout .content-wrapper, .android-light .switch-menu-header-content-layout .android .content-wrapper,
+.android-light .switch-header-content-layout .android .content-wrapper, .android-light .fullscreen, .android-light .m-page, .android-light .header, .android .switch-menu-header-content-layout .android-light .content-wrapper,
+.android .switch-header-content-layout .android-light .content-wrapper, .android-light .switch-menu-header-content-layout .content-wrapper,
+.android-light .switch-header-content-layout .content-wrapper {
   position: absolute;
   left: 0;
   right: 0;
@@ -5263,12 +5267,20 @@
   text-align: center;
   padding: 13px 0 0 0;
 }
-.android .header-first, .android .switch-header-content-layout .first, .android-light .switch-header-content-layout .android .first, .android .toolbarview .first, .android-light .toolbarview .android .first, .android-light .header-first, .android .switch-header-content-layout .android-light .first, .android-light .switch-header-content-layout .first, .android .toolbarview .android-light .first, .android-light .toolbarview .first {
+.android .header-first, .android .switch-menu-header-content-layout .first,
+.android .switch-header-content-layout .first, .android-light .switch-menu-header-content-layout .android .first,
+.android-light .switch-header-content-layout .android .first, .android .toolbarview .first, .android-light .toolbarview .android .first, .android-light .header-first, .android .switch-menu-header-content-layout .android-light .first,
+.android .switch-header-content-layout .android-light .first, .android-light .switch-menu-header-content-layout .first,
+.android-light .switch-header-content-layout .first, .android .toolbarview .android-light .first, .android-light .toolbarview .first {
   position: absolute;
   left: 10px;
   top: 3px;
 }
-.android .header-second, .android .switch-header-content-layout .second, .android-light .switch-header-content-layout .android .second, .android .toolbarview .second, .android-light .toolbarview .android .second, .android-light .header-second, .android .switch-header-content-layout .android-light .second, .android-light .switch-header-content-layout .second, .android .toolbarview .android-light .second, .android-light .toolbarview .second {
+.android .header-second, .android .switch-menu-header-content-layout .second,
+.android .switch-header-content-layout .second, .android-light .switch-menu-header-content-layout .android .second,
+.android-light .switch-header-content-layout .android .second, .android .toolbarview .second, .android-light .toolbarview .android .second, .android-light .header-second, .android .switch-menu-header-content-layout .android-light .second,
+.android .switch-header-content-layout .android-light .second, .android-light .switch-menu-header-content-layout .second,
+.android-light .switch-header-content-layout .second, .android .toolbarview .android-light .second, .android-light .toolbarview .second {
   position: absolute;
   right: 10px;
   top: 3px;
@@ -5280,6 +5292,7 @@
   -webkit-background-clip: text;
   -moz-background-clip: text;
   background-clip: text;
+  float: none;
 }
 .android html, .android-light html {
   font-size: 62.5%;
@@ -6278,13 +6291,19 @@
   width: 200px;
   float: left;
 }
-.android .switch-header-content-layout .m-page, .android-light .switch-header-content-layout .m-page {
+.android .switch-menu-header-content-layout .m-page,
+.android .switch-header-content-layout .m-page, .android-light .switch-menu-header-content-layout .m-page,
+.android-light .switch-header-content-layout .m-page {
   overflow: hidden;
 }
-.android .switch-header-content-layout .header, .android-light .switch-header-content-layout .header {
+.android .switch-menu-header-content-layout .header,
+.android .switch-header-content-layout .header, .android-light .switch-menu-header-content-layout .header,
+.android-light .switch-header-content-layout .header {
   padding: 4px 0 0 0;
 }
-.android .switch-header-content-layout .content-wrapper, .android-light .switch-header-content-layout .content-wrapper {
+.android .switch-menu-header-content-layout .content-wrapper,
+.android .switch-header-content-layout .content-wrapper, .android-light .switch-menu-header-content-layout .content-wrapper,
+.android-light .switch-header-content-layout .content-wrapper {
   top: 50px;
   background: white;
 }
@@ -7032,6 +7051,52 @@
   color: white;
   height: 50px;
   text-align: center;
+}
+.android .movableview, .android-light .movableview {
+  padding-left: 20px;
+  background: #00cc09;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100px;
+}
+.android .movableview .movable-element, .android .movableview .menuview, .android-light .movableview .movable-element, .android-light .movableview .menuview {
+  display: block;
+  height: 100px;
+  width: 100px;
+  background: #cc3500;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+}
+.android .movableview .movable-element, .android .movableview .menuview, .android-light .movableview .movable-element, .android-light .movableview .menuview {
+  position: absolute;
+  left: 0;
+}
+.android .has-menu, .android-light .has-menu {
+  overflow: visible;
+}
+.android .menuview, .android-light .menuview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: block;
+  background: green;
+  width: 200px;
+}
+.android .menuview .movable-element, .android .menuview .menuview, .android-light .menuview .movable-element, .android-light .menuview .menuview {
+  position: absolute;
+  left: 190px;
+  display: block;
+  height: 100px;
+  width: 100px;
+  background: #cc3500;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
 }
 .android .selection-list:after, .android-light .selection-list:after {
   -webkit-transform: rotate(-45deg);

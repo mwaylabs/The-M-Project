@@ -24,6 +24,8 @@ M.MovableView = M.View.extend({
 
     leftEdge: 0,
 
+    duration: 1000,
+
     rightEdge: null,
 
     /**
@@ -173,7 +175,7 @@ M.MovableView = M.View.extend({
         // if they are not stored
         if( !this._movableWidth || !this._containerWidth ) {
             // get the outer width of the moveable
-            this._movableWidth = this.$el.find('.movable-element').outerWidth();
+            this._movableWidth = this._getMovableContent().outerWidth();
             // get the outer width of the container
             this._containerWidth = this.$el.outerWidth();
         }
@@ -193,7 +195,7 @@ M.MovableView = M.View.extend({
         // not that good on old devices
         //this.$el.find('.movable-element').css('-webkit-transform', ' matrix(1, 0, 0, 1, ' + position.x + ', 0)');
         // good for old devices
-        this.$el.find('.movable-element').css('left', position.x + 'px');
+        this._getMovableContent().css('left', position.x + 'px');
         // if there is a position cache it
         if( position ) {
             this._currentPos = position;
@@ -211,14 +213,22 @@ M.MovableView = M.View.extend({
         }
         var that = this;
         that._isAnimating = YES;
-        this.$el.find('.movable-element').animate({
+        var toAnimate = this._getMovableContent();
+        toAnimate.animate({
             left: options.x + 'px'
         }, options.duration, function() {
             that._isAnimating = NO;
             that._currentPos.x = options.x;
         });
+    },
 
-
+    /**
+     * Returns the element that should be animated
+     * @returns {*|Cursor|Mixed}
+     * @private
+     */
+    _getMovableContent: function(){
+        return this.$el.find('.movable-element');
     },
 
     /**
@@ -246,7 +256,7 @@ M.MovableView = M.View.extend({
      */
     toLeft: function() {
         this._setDimensions();
-        this.moveX(this.leftEdge, 1000);
+        this.moveX(this.leftEdge, this.duration);
     },
 
     /**
@@ -254,7 +264,7 @@ M.MovableView = M.View.extend({
      */
     toRight: function() {
         this._setDimensions();
-        this.moveX(this.rightEdge, 1000);
+        this.moveX(this.rightEdge, this.duration);
     },
 
     /**
