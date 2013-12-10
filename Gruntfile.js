@@ -116,7 +116,7 @@ module.exports = function (grunt) {
             }
         },
         sass: {
-            dev: {                            // Target
+            dist: {                            // Target
                 options: {                       // Target options
                     style: 'expanded',
                     banner: '<%= meta.banner %>',
@@ -129,10 +129,9 @@ module.exports = function (grunt) {
                     'dist/themproject_ios.css':'resources/sass/themproject_ios.scss'
                 }
             },
-            dist: {                            // Target
+            dev: {                            // Target
                 options: {                       // Target options
                     style: 'expanded',
-                    banner: '<%= meta.banner %>',
                     loadPath: ['bower_components']
                 },
                 files: {
