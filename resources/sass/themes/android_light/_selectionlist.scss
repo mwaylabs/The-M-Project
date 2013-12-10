@@ -1,7 +1,6 @@
-@import "compass/css3/transform";
 
 .selection-list {
   &:after {
-    @include rotate(-45deg);
+    @include rotate(-45);
   }
 }

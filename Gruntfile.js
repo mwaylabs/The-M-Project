@@ -115,34 +115,31 @@ module.exports = function (grunt) {
                 }
             }
         },
-        compass: {
-            dev: {
-                options: {
-                    sassDir: 'resources/sass',
-                    specify: [
-                        'resources/sass/themproject.scss',
-                        'resources/sass/themproject_android_dark.scss',
-                        'resources/sass/themproject_android_light.scss',
-                        'resources/sass/themproject_ios.scss'
-                    ],
-                    cssDir: '.tmp',
-                    relativeAssets: true,
-                    importPath: ['bower_components']
+        sass: {
+            dev: {                            // Target
+                options: {                       // Target options
+                    style: 'expanded',
+                    banner: '<%= meta.banner %>',
+                    loadPath: ['bower_components']
+                },
+                files: {
+                    'dist/themproject.css':'resources/sass/themproject.scss',
+                    'dist/themproject_android_dark.css':'resources/sass/themproject_android_dark.scss',
+                    'dist/themproject_android_light.css':'resources/sass/themproject_android_light.scss',
+                    'dist/themproject_ios.css':'resources/sass/themproject_ios.scss'
                 }
             },
-            dist: {
-                options: {
-                    sassDir: 'resources/sass',
-                    specify: [
-                        'resources/sass/themproject.scss',
-                        'resources/sass/themproject_android_dark.scss',
-                        'resources/sass/themproject_android_light.scss',
-                        'resources/sass/themproject_ios.scss'
-                    ],
-                    cssDir: 'dist',
+            dist: {                            // Target
+                options: {                       // Target options
+                    style: 'expanded',
                     banner: '<%= meta.banner %>',
-                    relativeAssets: true,
-                    importPath: ['bower_components']
+                    loadPath: ['bower_components']
+                },
+                files: {
+                    '.tmp/themproject.css':'resources/sass/themproject.scss',
+                    '.tmp/themproject_android_dark.css':'resources/sass/themproject_android_dark.scss',
+                    '.tmp/themproject_android_light.css':'resources/sass/themproject_android_light.scss',
+                    '.tmp/themproject_ios.css':'resources/sass/themproject_ios.scss'
                 }
             }
         },
@@ -268,10 +265,10 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('build-js', ['extractSassVars', 'preprocess:dev']);
-    grunt.registerTask('build-css', ['compass:dev']);
+    grunt.registerTask('build-css', ['sass:dev']);
 
     grunt.registerTask('dist-js', ['extractSassVars', 'preprocess:dist']);
-    grunt.registerTask('dist-css', ['compass:dist']);
+    grunt.registerTask('dist-css', ['sass:dist']);
 
     grunt.registerTask('dev-js', ['default', 'watch:js']);
     grunt.registerTask('dev-css', ['default', 'watch:css']);

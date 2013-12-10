@@ -297,7 +297,7 @@ exports.create = function(dbName) {
                         cursor.sort([['id', 1], ['time', 1]]).each(function(err, msg) {
                             if (msg && msg.id) {
                                 // the same id, merge document
-                                if (id && id.equals(msg.id)) {
+                                if (id && id === msg.id) {
                                     if (lastMsg) {
                                         msg = rest.mergeMessage(lastMsg, msg);
                                     }

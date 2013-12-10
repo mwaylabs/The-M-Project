@@ -1,5 +1,5 @@
 ![The-M-Project Absinthe][logo]
-# The-M-Project 2.0 (Absinthe) Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png)](https://travis-ci.org/mwaylabs/The-M-Project)
+# The-M-Project 2.0 (Absinthe) Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=absinthe)](https://travis-ci.org/mwaylabs/The-M-Project)
 
 The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great mobile apps, easy and fast.
 
@@ -283,10 +283,10 @@ Without expense to the developer, data is synchronised from the server to the cl
 ### inheritance
 It is possible to extend from every `M` Object by calling the `extend` method. The first parameter are the options applied to the extended Object and overwrite the existing ones. `extend` always returns a function.
 
-```
+```javascript
 M.CustomView = M.View.extend({
 	// overwrite a property
-	_tye: 'M.CustomView',
+	_type: 'M.CustomView',
 	// implement an own property
 	myOwnProperty: 1
 });
@@ -295,7 +295,7 @@ M.CustomView = M.View.extend({
 ### instances
 To create an instance of an extended object you can use `new` or `create` which calls `new` by itself. 
 
-```
+```javascript
 // create an instance with new
 var v = new M.View();
 M.isView(v); //true
@@ -422,19 +422,19 @@ The script runs the following commands/checks:
 - add git pre-commit hook
 
 
-```
+```bash
 sh init-repo.sh
 ```
 
 ### start building the framework
 
-```
+```bash
 grunt dev
 ```
 
 ### running a sample application
 
-```
+```bash
 //navigate to a sample app
 cd sample/addressbook/
 
@@ -454,12 +454,12 @@ open localhost:9000
 ## test
 
 ### node
-```
+```bash
 grunt test
 ```
 
 ### browser
-```
+```bash
 open test/index.html
 ```
 
@@ -483,11 +483,11 @@ Add node and ruby to your PATH variable like it is described in the next section
 
 Install the node-modules:
 
-```
+```bash
 npm install -g grunt-cli
 ```
 
-```
+```bash
 npm install -g bower
 ```
 
@@ -496,7 +496,7 @@ Add the node-modules to your PATH variable like it is described in the next sect
 Install the ruby-module
 
 
-```
+```bash
 gem install compass
 ```
 
@@ -534,7 +534,7 @@ Check your PATH variable for these entries. If they are not there, add them to t
 
 ### Checkout the repository
 Go to the Directory where you want to have the Project.
-```
+```bash
 git clone https://github.com/mwaylabs/The-M-Project.git
 cd The-M-Project
 git fetch --all
@@ -545,7 +545,7 @@ git pull origin master
 ### Init the project
 An easy way to run the shell script in Windows is to have [msysgit](https://code.google.com/p/msysgit/downloads/list) installed. You can find the sh.exe in C:\Program Files (x86)\Git\bin.
 If you add ";C:\Program Files (x86)\Git\bin" to the end of your PATH variable you can execute the following shell command.
-```
+```bash
 sh init-repo.sh
 ```
 The script runs the following commands/checks:
@@ -556,17 +556,17 @@ The script runs the following commands/checks:
 - add git pre-commit hook
 
 If the shell-script isn't working well you can also execute the important commands by hand. (Be sure to have Node and Bower installed)
-```
+```bash
 npm install
 ```
-```
+```bash
 bower install
 ```
 
 
 ### Start building the framework
 
-```
+```bash
 grunt dev
 ```
 
@@ -574,20 +574,20 @@ grunt dev
 
 
 //navigate to a sample app
-```
+```bash
 cd sample/addressbook/
 ```
 //run the setup script
-```
+```bash
 sh setup-dev.sh
 ```
 //answer every question with y (4xy)
 //start the app server
-```
+```bash
 grunt server
 ```
 //open your browser
-```
+```bash
 open localhost:9000
 ```
 
@@ -598,11 +598,11 @@ open localhost:9000
 ## test
 
 ### node
-```
+```bash
 grunt test
 ```
 
 ### browser
-```
+```bash
 open test/index.html
 ```
