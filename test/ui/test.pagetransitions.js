@@ -295,7 +295,7 @@ describe('M.PageTransitions', function () {
     });
 
     it('make transition', function (done) {
-
+        this.timeout(2500);
         $('.m-page-2', $stage).on("animationend webkitAnimationEnd", function () {
             setTimeout(function () {
                 assert.lengthOf($('.m-page', $stage), 2);
