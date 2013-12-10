@@ -157,6 +157,12 @@ M.TextFieldView = M.View.extend(
     hasMultipleLines: NO,
 
     /**
+     * enable autogrow on enter text
+     * @type {Boolean}
+     */
+    autogrow: NO,
+
+    /**
      * This property specifies the input type of this input field. Possible values are:
      *
      *   - M.INPUT_TEXT --> text input (default)
@@ -230,7 +236,7 @@ M.TextFieldView = M.View.extend(
 
     /**
      * Renders a TextFieldView
-     * 
+     *
      * @private
      * @returns {String} The text field view's html representation.
      */
@@ -260,7 +266,7 @@ M.TextFieldView = M.View.extend(
 
         if(this.hasMultipleLines) {
             this.html += '<textarea cols="40" rows="8" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + placeholder +  (this.autocomplete ? ' autocomplete="on" ' : ' autocomplete="off" ') +  '>' + (this.value ? this.value : '') + '</textarea>';
-            
+
         } else {
             var type = this.inputType;
             if(_.include(this.dateInputTypes, this.inputType) && !this.useNativeImplementationIfAvailable) {
@@ -269,7 +275,7 @@ M.TextFieldView = M.View.extend(
 
             this.html += '<input ' + (this.autocomplete ? ' autocomplete="on" ' : ' autocomplete="off" ') + (this.numberOfChars ? 'maxlength="' + this.numberOfChars + '"' : '') + placeholder + 'type="' + type + '" name="' + (this.name ? this.name : this.id) + '" id="' + this.id + '"' + this.style() + ' value="' + (this.value ? this.value : '') + '" />';
         }
-        
+
         return this.html;
     },
 
@@ -420,7 +426,7 @@ M.TextFieldView = M.View.extend(
         if(!this.isEnabled) {
             html += ' disabled="disabled"';
         }
-        
+
         if(this.cssClass) {
             html += ' class="' + this.cssClass + '"';
         }
@@ -437,10 +443,12 @@ M.TextFieldView = M.View.extend(
         /* trigger keyup event to make the text field autogrow */
         var jDom = $('#'  + this.id);
         if(this.value) {
-            jDom.trigger('keyup').textinput();
+            if(this.autogrow){
+                jDom.trigger('keyup').textinput();
+            }
             if(!this.isEnabled){
-	            jDom.textinput('disable');
-	        }
+                 jDom.textinput('disable');
+             }
         }
 
         /* add container-css class */
