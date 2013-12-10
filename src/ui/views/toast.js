@@ -85,10 +85,11 @@ M.Toast._currentToast = null;
  * @param {Number} milliseconds to show the toast
  * @returns {M.Toast}
  */
-M.Toast.show = function( options ) {
+M.Toast.show = function( options, timeout ) {
     if( typeof options === 'string' ) {
         options = {
-            text: options
+            text: options,
+            timeout: timeout
         };
     }
 
