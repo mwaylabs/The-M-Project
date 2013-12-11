@@ -12,8 +12,8 @@
  *
  * @example
  *
- * The default configuration will save the complete model data as json
- * into a database column with the name "data"
+ * // The default configuration will save the complete model data as json
+ * // into a database column with the name "data"
  *
  * var MyCollection = M.Collection.extend({
  *      model: MyModel,
@@ -21,8 +21,8 @@
  *      store: new M.WebSqlStorageStore()
  * });
  *
- * If you want to use specific columns you can specify the fields
- * in the entity of your model like this:
+ * // If you want to use specific columns you can specify the fields
+ * // in the entity of your model like this:
  *
  * var MyModel = M.Model.extend({
  *      idAttribute: 'id',
@@ -131,7 +131,7 @@ M.WebSqlStore = M.Store.extend({
         this._select(null, options);
     },
 
-    dropTable: function( options ) {
+    drop: function( options ) {
         this._dropTable(options);
     },
 

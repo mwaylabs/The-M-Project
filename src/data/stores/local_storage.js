@@ -12,9 +12,12 @@
  *
  * @example
  *
+ * // The LocalStorageStore will save each model data as a json under his id,
+ * // and keeps all id's under an extra key for faster access
+ *
  * var MyCollection = M.Collection.extend({
- *      model: MyModel,
- *      store: new M.LocalStorageStore()
+ *      store: M.LocalStorageStore.create(),
+ *      entity: 'myEntityName'
  * });
  *
  */
@@ -68,7 +71,21 @@ M.LocalStorageStore = M.Store.extend({
         if( attrs ) {
             that.handleSuccess(options, attrs);
         } else {
-            that.handleError(options);
+            that.handleError(options, M.Store.CONST.ERROR_NO_ENTITY);
+        }
+    },
+
+    drop: function( options ) {
+        var entity = this.getEntity(options);
+        if( entity && entity.name ) {
+            var keys   = this._findAllKeys(entity);
+            for (var i=0; i<keys.length; i++) {
+                localStorage.removeItem(keys[i]);
+            }
+            localStorage.removeItem('__ids__' + entity.name);
+            this.handleSuccess(options);
+        } else {
+            this.handleError(options, M.Store.CONST.ERROR_NO_ENTITY);
         }
     },
 
@@ -87,7 +104,7 @@ M.LocalStorageStore = M.Store.extend({
                     this._delItemId(id);
                 }
             } catch( e ) {
-                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while loading data from local storage: ', e);
+                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_LOAD_DATA, e);
             }
         }
         return attrs;
@@ -99,7 +116,7 @@ M.LocalStorageStore = M.Store.extend({
                 localStorage.setItem(this._getKey(entity, id), JSON.stringify(attrs));
                 this._addItemId(entity, id);
             } catch( e ) {
-                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while saving data to local storage: ', e);
+                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_SAVE_DATA, e);
             }
         }
     },
@@ -127,6 +144,21 @@ M.LocalStorageStore = M.Store.extend({
         }
     },
 
+    _findAllKeys: function (entity) {
+        var keys = [];
+        var prefixItem = this._getKey(entity, '');
+        if( prefixItem ) {
+            var key, len = localStorage.length;
+            for (var i=0; i < len; i++) {
+                key = localStorage.key(i);
+                if (key && key === prefixItem) {
+                    keys.push(key);
+                }
+            }
+        }
+        return keys;
+    },
+
     _getItemIds: function( entity ) {
         try {
             var key = '__ids__' + entity.name;
@@ -135,7 +167,7 @@ M.LocalStorageStore = M.Store.extend({
             }
             return this.ids[entity.name];
         } catch( e ) {
-            M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while loading ids from local storage: ', e);
+            M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_LOAD_IDS, e);
         }
     },
 
@@ -144,7 +176,7 @@ M.LocalStorageStore = M.Store.extend({
             var key = '__ids__' + entity.name;
             localStorage.setItem(key, JSON.stringify(ids));
         } catch( e ) {
-            M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while saving ids to local storage: ', e);
+            M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_SAVE_IDS, e);
         }
     }
 });

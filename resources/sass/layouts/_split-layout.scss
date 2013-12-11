@@ -1,0 +1,15 @@
+
+.splitlayout {
+
+  .m-perspective {
+  display: -webkit-box;
+  display: -webkit-flexbox;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: flex;
+  }
+
+  .m-page {
+    height:100%
+  }
+}
