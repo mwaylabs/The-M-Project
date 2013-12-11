@@ -50,10 +50,19 @@
                 this.menu = M.MenuView.extend().create().render();
                 this.$el.append(this.menu.$el);
             }
-            var menuButton = M.ButtonView.extend();
-            settings.header.addChildView('first', menuButton.create());
-
+            var that = this;
+            var menuButton = M.ButtonView.extend({
+                value: '',
+                icon: 'fa-align-justify',
+                events: {
+                    tap: function() {
+                        that.menu.toggle();
+                    }
+                }
+            }).create();
+            settings.header.addChildView('first', menuButton);
             M.SwitchHeaderContentLayout.prototype.applyViews.apply(this, [settings]);
+
 
             if(!this._firstRender){
                 //insert the view
