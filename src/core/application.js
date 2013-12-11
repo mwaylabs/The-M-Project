@@ -82,6 +82,11 @@ M.Application = M.Controller.extend({
 
     navigate: function( settings ) {
 
+        // Prevent routing, if a transition is animating
+        if(M.PageTransitions.isAnimating() ) {
+            return false;
+        }
+
         var url = settings.route;
         var path = '';
         if( settings.params ) {
