@@ -34,7 +34,7 @@ M.PageTransitions = M.Object.design({
 
     init: function( main ) {
         this._main = main ? main : $('#m-main');
-        this._pages = this._main.children('div.m-page');
+        this._pages = this._main.find('div.m-page');
         this._pagesCount = this._pages.length;
 
         this._pages.each(function() {
