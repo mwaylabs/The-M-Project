@@ -151,7 +151,7 @@ describe('M.View', function() {
     });
 
 
-    it('addChildView object', function() {
+    it.skip('addChildView object', function() {
 
         var test = function( testView ) {
 
@@ -185,6 +185,140 @@ describe('M.View', function() {
         testView.addChildView(children);
         test(testView);
 
+
+        var testView = M.View.extend({}, {
+            b1: M.View.extend({
+                value: 'child1'
+            }),
+            b2: M.View.extend({
+                value: 'child2'
+            })
+        }).create();
+
+        testView.addChildView(children);
+
+        assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[0]]));
+        assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[1]]));
+        assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[2]]));
+        assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[3]]));
+
+        assert.equal(testView.childViews[Object.keys(testView.childViews)[0]].getValue(), 'child1');
+        assert.equal(testView.childViews[Object.keys(testView.childViews)[1]].getValue(), 'child2');
+        assert.equal(testView.childViews[Object.keys(testView.childViews)[2]].getValue(), 'child3');
+        assert.equal(testView.childViews[Object.keys(testView.childViews)[3]].getValue(), 'child4');
+
+        assert.notEqual(testView.childViews[Object.keys(testView.childViews)[0]].getValue(), 'child3');
+        assert.notEqual(testView.childViews[Object.keys(testView.childViews)[1]].getValue(), 'child4');
+
+        assert.isTrue(M.isView(testView._getChildView(0)));
+        assert.isTrue(M.isView(testView._getChildView(1)));
+        assert.isTrue(M.isView(testView._getChildView(2)));
+        assert.isTrue(M.isView(testView._getChildView(3)));
+
+        assert.equal(testView._getChildView(0).getValue(), 'child1');
+        assert.equal(testView._getChildView(1).getValue(), 'child2');
+        assert.equal(testView._getChildView(2).getValue(), 'child3');
+        assert.equal(testView._getChildView(3).getValue(), 'child4');
+
+        assert.notEqual(testView._getChildView(0).getValue(), 'child3');
+        assert.notEqual(testView._getChildView(1).getValue(), 'child4');
+
+        //---
+
+        assert.isTrue(M.isView(testView._getChildView('0')));
+        assert.isTrue(M.isView(testView._getChildView('1')));
+        assert.isTrue(M.isView(testView._getChildView('2')));
+        assert.isTrue(M.isView(testView._getChildView('3')));
+
+        assert.equal(testView._getChildView('0').getValue(), 'child1');
+        assert.equal(testView._getChildView('1').getValue(), 'child2');
+        assert.equal(testView._getChildView('2').getValue(), 'child3');
+        assert.equal(testView._getChildView('3').getValue(), 'child4');
+
+        assert.notEqual(testView._getChildView('0').getValue(), 'child3');
+        assert.notEqual(testView._getChildView('1').getValue(), 'child4');
+
+        testView = null;
+    });
+
+    it.skip('_mergeChildView', function() {
+
+        var Test = M.View.extend({}, {
+            b1: M.View.extend({
+                value: 'child1'
+            }),
+            b2: M.View.extend({
+                value: 'child2'
+            })
+        });
+
+        var testView = Test.create();
+
+        var childView = M.View.create({value: 'child3'});
+
+        testView = Test.create();
+        testView._mergeChildView();
+        assert.isObject(testView.childViews.b1);
+        assert.isObject(testView.childViews.b2);
+
+        testView = Test.create();
+        testView._mergeChildView(null, null);
+        assert.isObject(testView.childViews.b1);
+        assert.isObject(testView.childViews.b2);
+
+        testView = Test.create();
+        testView._mergeChildView('asdf', 'asdf');
+        assert.isObject(testView.childViews.b1);
+        assert.isObject(testView.childViews.b2);
+
+        testView = Test.create();
+        testView._mergeChildView('b1');
+        assert.isObject(testView.childViews.b1);
+        assert.isObject(testView.childViews.b2);
+
+        testView = Test.create();
+        testView._mergeChildView('b1', childView);
+        assert.isArray(testView.childViews.b1);
+        assert.isObject(testView.childViews.b2);
+
+        testView = null;
+        test = null;
+
+    });
+
+    it.skip('addChildView object when selector is already taken', function() {
+
+        var test = function( testView ) {
+
+            assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[0]]));
+            assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[1]]));
+
+            assert.equal(testView.childViews[Object.keys(testView.childViews)[0]].getValue(), 'child3');
+            assert.equal(testView.childViews[Object.keys(testView.childViews)[1]].getValue(), 'child4');
+
+            assert.isTrue(M.isView(testView._getChildView(0)));
+            assert.isTrue(M.isView(testView._getChildView(1)));
+
+            assert.equal(testView._getChildView(0).getValue(), 'child3');
+            assert.equal(testView._getChildView(1).getValue(), 'child4');
+        }
+
+        var children = {
+            b1: M.View.create({value: 'child3'}),
+            b2: M.View.create({value: 'child4'})
+        };
+
+        var testView = M.View.create();
+        testView.addChildView(children);
+        test(testView);
+
+        var testView = M.View.extend({}).create();
+        testView.addChildView(children);
+        test(testView);
+
+        var testView = M.View.extend({}, {}).create();
+        testView.addChildView(children);
+        test(testView);
 
 
         var testView = M.View.extend({}, {
@@ -246,10 +380,10 @@ describe('M.View', function() {
 
         var testView = M.View.create();
 
-        assert.equal(testView._getInternationalizedTemplateValue(),'');
-        assert.equal(testView._getInternationalizedTemplateValue(''),'');
-        assert.equal(testView._getInternationalizedTemplateValue('a'),'a');
-        assert.equal(testView._getInternationalizedTemplateValue('a'),'a');
+        assert.equal(testView._getInternationalizedTemplateValue(), '');
+        assert.equal(testView._getInternationalizedTemplateValue(''), '');
+        assert.equal(testView._getInternationalizedTemplateValue('a'), 'a');
+        assert.equal(testView._getInternationalizedTemplateValue('a'), 'a');
 
         var localeStyle1 = {
             "global": {
@@ -264,7 +398,7 @@ describe('M.View', function() {
         }
 
         M.I18N._setDictionary(localeStyle1);
-        assert.equal(testView._getInternationalizedTemplateValue(M.I18N.l('global.button.save')),'Save document');
+        assert.equal(testView._getInternationalizedTemplateValue(M.I18N.l('global.button.save')), 'Save document');
         assert.equal(testView._getInternationalizedTemplateValue(M.I18N.l('global.button.emptyTrash', {count: 5})), 'Empty Trash (5)');
         assert.equal(testView._getInternationalizedTemplateValue(M.I18N.l('global.error.permissionDenied')), 'Permission denied');
         testView = null;

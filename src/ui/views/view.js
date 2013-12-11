@@ -705,15 +705,29 @@
             return this;
         },
 
+        /**
+         * adds a childview to the view.
+         * @param selector
+         * @param view
+         */
         addChildView: function( selector, view ) {
             if( _.isObject(selector) ) {
                 _.each(selector, function( view, selector ) {
-                    this.childViews[selector] = view;
+                    this._mergeChildView(selector, view);
+
                 }, this);
             } else {
-                this.childViews[selector] = view;
+                this._mergeChildView(selector, view);
             }
 
+        },
+
+        /**
+         * Appends a child view to the given selector. If there is already a childview for the given selector, create an array an add the old and the new one.
+         * @private
+         */
+        _mergeChildView: function(selector, view){
+            this.childViews[selector] = view;
         },
 
         /**
