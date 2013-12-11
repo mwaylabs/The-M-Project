@@ -50,8 +50,11 @@
                 this.menu = M.MenuView.extend().create().render();
                 this.$el.append(this.menu.$el);
             }
+            var menuButton = M.ButtonView.extend();
+            settings.header.addChildView('first', menuButton.create());
 
             M.SwitchHeaderContentLayout.prototype.applyViews.apply(this, [settings]);
+
             if(!this._firstRender){
                 //insert the view
                 this.$el.find('[data-childviews="menu-content"]').html(settings.menuContent.render().$el);

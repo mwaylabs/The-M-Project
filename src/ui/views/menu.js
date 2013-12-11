@@ -38,6 +38,11 @@ M.MenuView = M.MovableView.extend({
      */
     icon: 'fa-align-justify',
 
+    _internalEvents: {
+        tap: function(event, element){
+            element.toggle();
+        }
+    },
 
     /**
      * calculate the leftEdge and rightEdge vars
