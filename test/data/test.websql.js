@@ -22,10 +22,8 @@ describe('M.WebSqlStore', function() {
 
 
     TEST.dropTableTest = function (done) {
-        TEST.store.dropTable({
-            entity: {
-                name: 'test'
-            },
+        TEST.store.drop({
+            entity: 'test',
             success: function() {
                 assert.ok(true, 'drop table test');
                 done();

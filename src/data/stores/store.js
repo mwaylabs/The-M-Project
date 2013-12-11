@@ -241,6 +241,14 @@ _.extend(M.Store.prototype, Backbone.Events, M.Object, {
         if( obj.finish ) {
             this.handleCallback.apply(this, [ obj.finish ].concat(args));
         }
+    },
+
+    CONST: {
+        ERROR_NO_ENTITY: 'No valid entity specified',
+        ERROR_LOAD_DATA: 'Error while loading data from store',
+        ERROR_SAVE_DATA: 'Error while saving data to the store',
+        ERROR_LOAD_IDS:  'Error while loading ids from store',
+        ERROR_SAVE_IDS:  'Error while saving ids to the store'
     }
 
 });
