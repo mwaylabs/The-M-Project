@@ -121,28 +121,13 @@ _.extend(M.Collection.prototype, M.Object, {
         }
     },
 
-    _updateUrl: function () {
-        var params = this.getUrlParams();
-        if (this.options) {
-            this.url = this.getUrlRoot();
-            if (this.options.query) {
-                params.query = encodeURIComponent(JSON.stringify(this.options.query));
-            }
-            if (this.options.fields) {
-                params.fields = encodeURIComponent(JSON.stringify(this.options.fields));
-            }
-            if (this.options.sort) {
-                params.sort = encodeURIComponent(JSON.stringify(this.options.sort));
-            }
-            if (!_.isEmpty(params)) {
-                this.url += '?';
-                var a = [];
-                for (var k in params) {
-                    a.push(k + (params[k] ? '=' + params[k] : ''));
-                }
-                this.url += a.join('&');
-            }
-        }
+    /**
+     * save all containing models
+     */
+    save: function() {
+        this.each(function(model) {
+            model.save();
+        });
     },
 
     getUrlParams: function (url) {
@@ -169,6 +154,30 @@ _.extend(M.Collection.prototype, M.Object, {
 
     applyFilter: function (callback) {
         this.trigger('filter', this.filter(callback));
+    },
+
+    _updateUrl: function () {
+        var params = this.getUrlParams();
+        if (this.options) {
+            this.url = this.getUrlRoot();
+            if (this.options.query) {
+                params.query = encodeURIComponent(JSON.stringify(this.options.query));
+            }
+            if (this.options.fields) {
+                params.fields = encodeURIComponent(JSON.stringify(this.options.fields));
+            }
+            if (this.options.sort) {
+                params.sort = encodeURIComponent(JSON.stringify(this.options.sort));
+            }
+            if (!_.isEmpty(params)) {
+                this.url += '?';
+                var a = [];
+                for (var k in params) {
+                    a.push(k + (params[k] ? '=' + params[k] : ''));
+                }
+                this.url += a.join('&');
+            }
+        }
     }
 
 });

@@ -449,7 +449,7 @@
          * @private
          */
         _disableEvents: function() {
-            if(this._hammertime){
+            if( this._hammertime ) {
                 this._hammertime.enable(NO);
             }
         },
@@ -460,7 +460,7 @@
          * @private
          */
         _enableEvents: function() {
-            if(this._hammertime){
+            if( this._hammertime ) {
                 this._hammertime.enable(YES);
             }
         },
@@ -707,15 +707,49 @@
             return this;
         },
 
+        /**
+         * adds a childview to the view.
+         * @param {String} selector - the selector to identify in which childview container the view should be added
+         * @param {M.View} the view that should be added
+         */
         addChildView: function( selector, view ) {
             if( _.isObject(selector) ) {
                 _.each(selector, function( view, selector ) {
-                    this.childViews[selector] = view;
+                    this._mergeChildView(selector, view);
+
                 }, this);
+            } else {
+                this._mergeChildView(selector, view);
+            }
+            return this;
+        },
+
+        /**
+         * Appends a child view to the given selector. If there is already a childview for the given selector, create an array an add the old and the new one.
+         * @param {String} selector - the selector to identify in which childview container the view should be added
+         * @param {M.View} the view that should be added
+         * @private
+         */
+        _mergeChildView: function( selector, view ) {
+            if( !(_.isString(selector)) || !(M.isView(view)) ) {
+                return;
+            }
+
+            var existingChildViews = this.childViews[selector];
+
+            if( _.isArray(existingChildViews) ) {
+                existingChildViews.push(view);
+            } else if( _.isObject(existingChildViews) ) {
+                var container = [];
+                container.push(existingChildViews);
+                container.push(view);
+                this.childViews[selector] = container;
+                container = null;
             } else {
                 this.childViews[selector] = view;
             }
 
+            return this;
         },
 
         /**

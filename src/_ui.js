@@ -42,3 +42,5 @@
 // @include ./ui/layouts/tab-layout.js
 // @include ./ui/layouts/switch-header-content.js
 // @include ./ui/layouts/switch-menu-header-content.js
+// @include ./ui/layouts/switch-header-content.js
+// @include ./ui/layouts/split-layout.js
