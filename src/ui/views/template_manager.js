@@ -135,7 +135,7 @@ M.TemplateManager = M.Object.design({
     },
 
     'M.MenuView': {
-        defaultTemplate: '<div class="movable-element"><span><%= _value_ %></span><div data-childviews="menu-content"></div></div>'
+        defaultTemplate: '<div class="movable-element"><% if(icon) { %> <i class="fa <%= icon %>"></i> <% } %></div><span><%= _value_ %></span><div class="menu-content" data-childviews="menu-content"></div>'
     },
 
     _currentUI: 'defaultTemplate',

@@ -52,10 +52,12 @@
             }
 
             M.SwitchHeaderContentLayout.prototype.applyViews.apply(this, [settings]);
-
+            if(!this._firstRender){
+                //insert the view
+                this.$el.find('[data-childviews="menu-content"]').html(settings.menuContent.render().$el);
+            }
             return this;
         }
     });
-
 
 })(this);

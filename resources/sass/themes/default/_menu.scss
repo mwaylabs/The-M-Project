@@ -1,38 +1,56 @@
-.has-menu{
+.has-menu {
   overflow: visible;
 }
 
-.menuview{
+.menuview {
 
   @extend .movable-element;
 
   position: absolute;
-  top: 0;
-  left: 0;
+  top: $tablayout-menu-height;
+  left: ($m-menu-view-width - $m-menu-view-device-swipe-listener-width) * -1;
   bottom: 0;
   display: block;
-  background: green;
+  background: transparent;
   width: $m-menu-view-width;
 
-  .movable-close{
+  &.on-left {
+    width: 100%;
+  }
+
+  .movable-close {
     @extend .fullscreen;
-    background: red;
     position: absolute;
   }
 
-  .movable-element{
-
+  .movable-element {
+    //top: $tablayout-menu-height * -1;
     position: absolute;
-
     left: $m-menu-view-width - $m-menu-view-device-swipe-listener-width;
     display: block;
-    height: 100px;
-    width: 100px;
-    background: $debug-3;
+    height: $tablayout-menu-height;
+    width: $tablayout-menu-height;
+    background: transparent;
+    font-size: 3.6rem;
+    padding: 8px 0 0 7px;
+
+    border: 1px solid $darkgrey;
+    border-left: none;
+    border-right-width: $m-button-border-width;
+    border-top-right-radius: $m-button-border-radius;
+    border-bottom-right-radius: $m-button-border-radius;
 
     -webkit-user-select: none;
     -webkit-user-drag: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-transform: translate3d(0, 0, 0);
   }
+
+  .menu-content {
+    display: block;
+    background: $darkgrey;
+    height: 100%;
+    width: $m-menu-view-width - $m-menu-view-device-swipe-listener-width;
+  }
+
 }

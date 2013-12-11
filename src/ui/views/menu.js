@@ -32,14 +32,20 @@ M.MenuView = M.MovableView.extend({
      */
     _deviceSwipeListenerWidth: 0,
 
+    /**
+     * The moveable icon
+     * @type {String}
+     */
+    icon: 'fa-align-justify',
+
 
     /**
      * calculate the leftEdge and rightEdge vars
      */
     initialize: function(){
         this._deviceSwipeListenerWidth = parseInt(M.ThemeVars.get('m-menu-view-device-swipe-listener-width'), 10);
-        this.leftEdge = (parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth) * -1;
-        this.rightEdge = 0;
+        this.leftEdge = 0;//(parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth) * -1;
+        this.rightEdge = parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth;
         M.MovableView.prototype.initialize.apply(this, arguments);
     },
 
@@ -48,7 +54,6 @@ M.MenuView = M.MovableView.extend({
      * Different calculation to find the middle of the swipe to decide if to close or open the menu
      */
     onRelease: function(){
-
         if( this._currentPos.deltaX > 0 ) {
             this.toRight();
         } else {
@@ -63,5 +68,10 @@ M.MenuView = M.MovableView.extend({
      */
     _getMovableContent: function(){
         return this.$el;
+    },
+
+    _assignTemplateValues: function(){
+        M.MovableView.prototype._assignTemplateValues.apply(this, arguments);
+        this._templateValues.icon = this.icon || '';
     }
 });

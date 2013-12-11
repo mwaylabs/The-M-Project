@@ -28,6 +28,8 @@ M.MovableView = M.View.extend({
 
     rightEdge: null,
 
+    _useTranslate: true,
+
     /**
      * Save the last position of the moveable element after the user releases the moveable element
      * x: the x position absolute to the window
@@ -192,10 +194,13 @@ M.MovableView = M.View.extend({
      * @private
      */
     _move: function( position ) {
-        // not that good on old devices
-        //this.$el.find('.movable-element').css('-webkit-transform', ' matrix(1, 0, 0, 1, ' + position.x + ', 0)');
-        // good for old devices
-        this._getMovableContent().css('left', position.x + 'px');
+        if(this._useTranslate){
+            // not that good on old devices
+            this._getMovableContent().css('-webkit-transform', 'matrix(1, 0, 0, 1, ' + position.x + ', 0)');
+        } else {
+            // good for old devices
+            this._getMovableContent().css('left', position.x + 'px');
+        }
         // if there is a position cache it
         if( position ) {
             this._currentPos = position;
@@ -214,12 +219,20 @@ M.MovableView = M.View.extend({
         var that = this;
         that._isAnimating = YES;
         var toAnimate = this._getMovableContent();
-        toAnimate.animate({
-            left: options.x + 'px'
-        }, options.duration, function() {
+
+        if(this._useTranslate){
+            this._getMovableContent().css('-webkit-transform', 'matrix(1, 0, 0, 1, ' + options.x + ', 0)');
             that._isAnimating = NO;
             that._currentPos.x = options.x;
-        });
+        } else{
+            toAnimate.animate({
+                left: options.x + 'px'
+            }, options.duration, function() {
+                that._isAnimating = NO;
+                that._currentPos.x = options.x;
+            });
+        }
+
     },
 
     /**
