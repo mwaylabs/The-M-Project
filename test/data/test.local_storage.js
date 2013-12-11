@@ -11,6 +11,58 @@ describe('M.LocalStorageStore', function() {
         assert.typeOf(TEST.store, 'object', 'store successfully created.');
     });
 
+    TEST.dropEntityTest = function (done) {
+        TEST.store.drop({
+            entity: {
+                name: 'test'
+            },
+            success: function() {
+                assert.ok(true, 'drop table test');
+                done();
+            },
+            error: function(error) {
+                assert.ok(false, 'drop table test: ' + error);
+                done();
+            }
+        });
+    };
+
+    it('simple local store store', function( done ) {
+
+        TEST.SimpleModelCollection = M.Collection.extend({
+            store: M.LocalStorageStore.create(),
+            entity: 'test'
+        });
+
+        assert.typeOf(TEST.SimpleModelCollection, 'function', 'Simple collection successfully extended.');
+
+        TEST.Simple = TEST.SimpleModelCollection.create();
+
+        assert.typeOf(TEST.Simple, 'object', 'Simple collection successfully created.');
+
+        TEST.Simple.create(TEST.data,
+              {
+                  success: function(model) {
+                      assert.ok(model, 'new record exists.');
+
+                      TEST.id = model.id;
+
+                      assert.ok(TEST.id, 'new record has an id.');
+
+                      done();
+                  },
+                  error: function(model, error) {
+
+                      assert(false, 'error creating record: '+ error);
+
+                      done();
+                  }
+              }
+          );
+    });
+
+    it('drop table', TEST.dropEntityTest);
+
     it('creating collection', function() {
 
         assert.typeOf(M.Collection, 'function', 'M.Collection is defined');
