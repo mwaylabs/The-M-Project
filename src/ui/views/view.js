@@ -426,6 +426,8 @@
                     this._hammertime = new Hammer(that.el, that._getEventOptions());
 
                     this._eventCallback[eventName] = function( event ) {
+                        // for debug purposes
+                        //M.Toast.show(eventName, 200);
                         if( that._hammertime.enabled === NO ) {
                             return;
                         }
