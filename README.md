@@ -154,7 +154,7 @@ This grunt plugin is similar to grunt-contrib-jst.
 ├── app
 │   ├── bower_components
 │   ├── i18n
-│   │   └── en.json
+│   │   └── en.js
 │   ├── icons
 │   │   ├── android-l.png
 │   │   ├── android-m.png

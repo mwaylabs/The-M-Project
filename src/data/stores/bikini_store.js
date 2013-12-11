@@ -14,9 +14,9 @@
  *
  * @example
  *
- * The default configuration will save the complete model data as a json,
- * and the offline change log to a local WebSql database, synchronize it
- * trough REST calls with the server and receive live updates via a socket.io connection.
+ * // The default configuration will save the complete model data as a json,
+ * // and the offline change log to a local WebSql database, synchronize it
+ * // trough REST calls with the server and receive live updates via a socket.io connection.
  *
  * var MyCollection = M.Collection.extend({
  *      model: MyModel,

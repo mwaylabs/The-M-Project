@@ -131,7 +131,7 @@ M.I18N = _.extend(Backbone.Events, M.Object.design({
      * Loads the locale file and puts it into dictionary
      */
     loadFileForLocale: function () {
-        var fileUrl = 'i18n/' + this._activeLocale + '.json';
+        var fileUrl = 'i18n/' + this._activeLocale + '.js';
 
         // set locale for moment.js
         moment.lang(this._activeLocale.substr(0, 2));

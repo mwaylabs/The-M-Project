@@ -93,6 +93,7 @@ M.ThemeVars = {
         "tablayout-menu-scroll-button-width": "200px",
         "switch-header-content-padding": "4px 0 0 0",
         "header-top": "3px",
+        "m-header-icon-only-font-size": "2.4rem",
         "m-primary-font-family": "\"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
         "m-primary-font-weight": "300",
         "m-primary-font-size": "1.6rem",
