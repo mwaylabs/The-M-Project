@@ -31,6 +31,11 @@ M.MovableView = M.View.extend({
     _useTranslate: true,
 
     /**
+     * The timeout to hide the backdrop.
+     */
+    _backdropTimeout: null,
+
+    /**
      * Save the last position of the moveable element after the user releases the moveable element
      * x: the x position absolute to the window
      * y: the y position absolute to the window
@@ -77,6 +82,27 @@ M.MovableView = M.View.extend({
 
     _containerWidth: null,
 
+    /**
+     * DOM that should be moved
+     * @type {jQuery DOM Object}
+     */
+    _$movableContent: null,
+
+    /**
+     * The Backdrop dom representation
+     * @type {jQuery DOM Object}
+     */
+    _$backdrop: null,
+
+    initialize: function() {
+        M.View.prototype.initialize.apply(this, arguments);
+    },
+
+    _postRender: function() {
+        M.View.prototype._postRender.apply(this, arguments);
+        this._$movableContent = this._getMovableContent();
+        this._$backdrop = this.$el.find('.movable-backdrop');
+    },
 
     /**
      * Drag and TouchEnd are registered for the Movable-Element
@@ -147,12 +173,13 @@ M.MovableView = M.View.extend({
     /**
      * Gets called after the user stops interacting with the movable
      */
-    onRelease: function(){
+    onRelease: function() {
         if( this._currentPos.x > (this._containerWidth / 2 ) - (this._movableWidth / 2) ) {
             this.toRight();
         } else {
             this.toLeft();
         }
+
     },
 
     /**
@@ -177,33 +204,13 @@ M.MovableView = M.View.extend({
         // if they are not stored
         if( !this._movableWidth || !this._containerWidth ) {
             // get the outer width of the moveable
-            this._movableWidth = this._getMovableContent().outerWidth();
+            this._movableWidth = this._$movableContent.outerWidth();
             // get the outer width of the container
             this._containerWidth = this.$el.outerWidth();
         }
 
-        if(this.rightEdge === null){
-            this.rightEdge =  this._containerWidth - this._movableWidth;
-        }
-    },
-
-
-    /**
-     * Moves the element. The best performance on old devices is with position absolute and setting the left and top property
-     * @param position
-     * @private
-     */
-    _move: function( position ) {
-        if(this._useTranslate){
-            // not that good on old devices
-            this._getMovableContent().css('-webkit-transform', 'matrix(1, 0, 0, 1, ' + position.x + ', 0)');
-        } else {
-            // good for old devices
-            this._getMovableContent().css('left', position.x + 'px');
-        }
-        // if there is a position cache it
-        if( position ) {
-            this._currentPos = position;
+        if( this.rightEdge === null ) {
+            this.rightEdge = this._containerWidth - this._movableWidth;
         }
     },
 
@@ -218,14 +225,12 @@ M.MovableView = M.View.extend({
         }
         var that = this;
         that._isAnimating = YES;
-        var toAnimate = this._getMovableContent();
 
-        if(this._useTranslate){
-            this._getMovableContent().css('-webkit-transform', 'matrix(1, 0, 0, 1, ' + options.x + ', 0)');
+        if( this._useTranslate ) {
             that._isAnimating = NO;
             that._currentPos.x = options.x;
-        } else{
-            toAnimate.animate({
+        } else {
+            this._$movableContent.animate({
                 left: options.x + 'px'
             }, options.duration, function() {
                 that._isAnimating = NO;
@@ -240,7 +245,7 @@ M.MovableView = M.View.extend({
      * @returns {*|Cursor|Mixed}
      * @private
      */
-    _getMovableContent: function(){
+    _getMovableContent: function() {
         return this.$el.find('.movable-element');
     },
 
@@ -265,35 +270,105 @@ M.MovableView = M.View.extend({
     },
 
     /**
+     * Moves the element. The best performance on old devices is with position absolute and setting the left and top property
+     * @param position
+     * @private
+     */
+    _move: function( position ) {
+        var pos = parseInt(position.x, 10);
+        if( pos > this.rightEdge ) {
+            return;
+        }
+        if( pos < this.leftEdge ) {
+            return;
+        }
+
+        if( this._useTranslate ) {
+            this._removeCssClasses();
+            this.$el.addClass('on-move');
+            this._setCss(position);
+        } else {
+            // good for old devices
+            this._$movableContent.css('left', position.x + 'px');
+        }
+
+        // if there is a position cache it
+        if( position ) {
+            this._currentPos = position;
+        }
+    },
+
+    /**
      * Animate the moveable to the left
      */
     toLeft: function() {
         this._setDimensions();
-        this.moveX(this.leftEdge, this.duration);
-        this.$el.addClass('on-right');
-        this.$el.removeClass('on-left');
+        //this.moveX(this.leftEdge, this.duration);
+        this.$el.removeClass('on-right');
+        this.$el.removeClass('on-move');
+        this._$backdrop.removeClass('in');
+        this.$el.addClass('on-left');
+        this._resetInlineCss();
+        this._lastPos.x = 0;
     },
 
     /**
      * Animate the movable to the right
      */
     toRight: function() {
+        clearTimeout(this._backdropTimeout);
         this._setDimensions();
-        this.moveX(this.rightEdge, this.duration);
-        this.$el.removeClass('on-right');
-        this.$el.addClass('on-left');
+        //this.moveX(this.rightEdge, this.duration);
+        this.$el.addClass('on-right');
+        this.$el.removeClass('on-left');
+        this.$el.removeClass('on-move');
+        this._resetInlineCss();
+        this._lastPos.x = 180;
+        this._$backdrop.addClass('in');
     },
+
 
     /**
      * Toggle between left and right animation
      */
     toggle: function() {
-        if( this._currentPos.x <= this.leftEdge ) {
+
+        if( this.$el.hasClass('on-left') ) {
             this.toRight();
         } else {
             this.toLeft();
-
         }
+        return this;
+    },
+
+
+    /**
+     * Applies the css to the movable element
+     * @param position
+     * @private
+     */
+    _setCss: function( position ) {
+        var pos = parseInt(position.x, 10);
+        this._$movableContent.css('-webkit-transform', 'translate3d(' + pos + 'px, 0, 0)');
+    },
+
+    /**
+     * Removes all css classes set by itself
+     * @private
+     */
+    _removeCssClasses: function() {
+        this.$el.removeClass('to-left');
+        this.$el.removeClass('to-right');
+        this.$el.removeClass('on-move');
+    },
+
+    /**
+     * Removes all inline styles. Done because it was the easiest way to remove the transform of the move
+     * @param position
+     * @private
+     */
+    _resetInlineCss: function( position ) {
+        this._$movableContent.attr('style', '');
     },
 
     /**

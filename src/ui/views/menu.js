@@ -38,11 +38,7 @@ M.MenuView = M.MovableView.extend({
      */
     icon: 'fa-align-justify',
 
-    _internalEvents: {
-        tap: function(event, element){
-            element.toggle();
-        }
-    },
+    cssClass: 'on-left',
 
     /**
      * calculate the leftEdge and rightEdge vars
@@ -59,6 +55,7 @@ M.MenuView = M.MovableView.extend({
      * Different calculation to find the middle of the swipe to decide if to close or open the menu
      */
     onRelease: function(){
+
         if( this._currentPos.deltaX > 0 ) {
             this.toRight();
         } else {
@@ -72,7 +69,7 @@ M.MenuView = M.MovableView.extend({
      * @private
      */
     _getMovableContent: function(){
-        return this.$el;
+        return this.$el.find('.movable-container');
     },
 
     _assignTemplateValues: function(){

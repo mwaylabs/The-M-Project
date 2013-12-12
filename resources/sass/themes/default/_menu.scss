@@ -4,53 +4,125 @@
 
 .menuview {
 
-  @extend .movable-element;
-
-  position: absolute;
-  top: $tablayout-menu-height;
-  left: ($m-menu-view-width - $m-menu-view-device-swipe-listener-width) * -1;
-  bottom: 0;
-  display: block;
-  background: transparent;
-  width: $m-menu-view-width;
-
-  &.on-left {
-    width: 100%;
+  .fade.in{
+    opacity: 0.7;
   }
 
-  .movable-close {
-    @extend .fullscreen;
-    position: absolute;
+  //  position: absolute;
+  //  top: $tablayout-menu-height;
+  //  left: ($m-menu-view-transition-width) * -1;
+  //  bottom: 0;
+  //  display: block;
+  //  background: transparent;
+  //  width: $m-menu-view-width;
+
+
+  &.on-move {
+    .movable-container {
+      -webkit-transition: none;
+      -moz-transition: none;
+      -o-transition: none;
+      transition: none;
+    }
   }
 
-  .movable-element {
-    //top: $tablayout-menu-height * -1;
+  &.on-right,
+  &.on-move {
+
+    .movable-container {
+      right: 0;
+      max-width: 100%;
+    }
+
+    .movable-backdrop{
+      right: 0;
+    }
+  }
+
+  &.on-right {
+    .movable-container {
+      -webkit-transform: translate3d($m-menu-view-transition-width, 0, 0);
+      -moz-transform: translate3d($m-menu-view-transition-width, 0, 0);
+      -ms-transform: translate3d($m-menu-view-transition-width, 0, 0);
+      -o-transform: translate3d($m-menu-view-transition-width, 0, 0);
+      transform: translate3d($m-menu-view-transition-width, 0, 0);
+    }
+  }
+
+  &.on-left{
+    .movable-backdrop{
+      right: 100%;
+    }
+  }
+
+  .movable-backdrop{
+    background: $black;
+    left: 0;
+    right: 0;
+  }
+
+  .movable-backdrop,
+  .movable-container {
+
     position: absolute;
-    left: $m-menu-view-width - $m-menu-view-device-swipe-listener-width;
+    top: $tablayout-menu-height;
+    bottom: 0;
     display: block;
-    height: $tablayout-menu-height;
-    width: $tablayout-menu-height;
+  }
+
+  .movable-container {
+    left: ($m-menu-view-transition-width) * -1;
     background: transparent;
-    font-size: 3.6rem;
-    padding: 8px 0 0 7px;
+    -webkit-transition: -webkit-transform 500ms ease;
+    -moz-transition: -moz-transform 500ms ease;
+    -o-transition: -o-transform 500ms ease;
+    transition: transform 500ms ease;
 
-    border: 1px solid $darkgrey;
-    border-left: none;
-    border-right-width: $m-button-border-width;
-    border-top-right-radius: $m-button-border-radius;
-    border-bottom-right-radius: $m-button-border-radius;
-
-    -webkit-user-select: none;
-    -webkit-user-drag: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-transform: translate3d(0, 0, 0);
-  }
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 
-  .menu-content {
-    display: block;
-    background: $darkgrey;
-    height: 100%;
-    width: $m-menu-view-width - $m-menu-view-device-swipe-listener-width;
-  }
+    .movable-element {
+      //top: $tablayout-menu-height * -1;
+      position: absolute;
+      left: $m-menu-view-transition-width;
+      display: block;
+      height: $tablayout-menu-height;
+      width: $tablayout-menu-height;
+      background: transparent;
+      font-size: 3.6rem;
+      padding: 8px 0 0 7px;
 
+      border: 1px solid $darkgrey;
+      border-left: none;
+      border-right-width: $m-button-border-width;
+      border-top-right-radius: $m-button-border-radius;
+      border-bottom-right-radius: $m-button-border-radius;
+
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+      -webkit-transition: -webkit-transform 500ms ease;
+      -moz-transition: -moz-transform 500ms ease;
+      -o-transition: -o-transform 500ms ease;
+      transition: transform 500ms ease;
+      -webkit-transform: translate3d(0, 0, 0);
+      -moz-transform: translate3d(0, 0, 0);
+      -ms-transform: translate3d(0, 0, 0);
+      -o-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+
+  }
+}
+
+.menu-content {
+  display: block;
+  background: $darkgrey;
+  height: 100%;
+  width: $m-menu-view-transition-width;
+  margin-right: 20px;
 }

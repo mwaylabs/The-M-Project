@@ -146,3 +146,4 @@ $m-stencil-text-shadow: rgba(255, 255, 255, 0.5) 0px 3px 3px;
 // menu view
 $m-menu-view-width: 200px;
 $m-menu-view-device-swipe-listener-width: 20px;
+$m-menu-view-transition-width: $m-menu-view-width - $m-menu-view-device-swipe-listener-width;
