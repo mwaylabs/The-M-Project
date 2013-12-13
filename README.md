@@ -289,7 +289,7 @@ It is possible to extend from every `M` Object by calling the `extend` method. T
 ```javascript
 M.CustomView = M.View.extend({
 	// overwrite a property
-	_tye: 'M.CustomView',
+	_type: 'M.CustomView',
 	// implement an own property
 	myOwnProperty: 1
 });
