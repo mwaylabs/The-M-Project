@@ -43,7 +43,8 @@ M.MovableView = M.View.extend({
         x: 0,
         y: 0,
         deltaX: 0,
-        deltaY: 0
+        deltaY: 0,
+        direction: ''
     },
 
     /**
@@ -332,7 +333,7 @@ M.MovableView = M.View.extend({
         this.$el.removeClass('on-left');
         this.$el.removeClass('on-move');
         this._resetInlineCss();
-        this._lastPos.x = 180;
+        this._lastPos.x = this.rightEdge;
         this._$backdrop.addClass('in');
         this._$backdrop.css('opacity', '0.8');
     },
