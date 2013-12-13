@@ -73,6 +73,7 @@
     top: $tablayout-menu-height;
     bottom: 0;
     display: block;
+    overflow: hidden;
   }
 
   .movable-container {
@@ -130,4 +131,5 @@
   height: 100%;
   width: $m-menu-view-transition-width;
   margin-right: 20px;
+  overflow-y: scroll;
 }

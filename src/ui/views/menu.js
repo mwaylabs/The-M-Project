@@ -43,7 +43,7 @@ M.MenuView = M.MovableView.extend({
     /**
      * calculate the leftEdge and rightEdge vars
      */
-    initialize: function(){
+    initialize: function() {
         this._deviceSwipeListenerWidth = parseInt(M.ThemeVars.get('m-menu-view-device-swipe-listener-width'), 10);
         this.leftEdge = 0;//(parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth) * -1;
         this.rightEdge = parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth;
@@ -54,12 +54,11 @@ M.MenuView = M.MovableView.extend({
     /**
      * Different calculation to find the middle of the swipe to decide if to close or open the menu
      */
-    onRelease: function(){
-
-        if( this._currentPos.deltaX > 0 ) {
-            this.toRight();
-        } else {
+    onRelease: function() {
+        if( this._currentPos.direction === Hammer.DIRECTION_LEFT ) {
             this.toLeft();
+        } else {
+            this.toRight();
         }
     },
 
@@ -68,11 +67,11 @@ M.MenuView = M.MovableView.extend({
      * @returns {$el|*}
      * @private
      */
-    _getMovableContent: function(){
+    _getMovableContent: function() {
         return this.$el.find('.movable-container');
     },
 
-    _assignTemplateValues: function(){
+    _assignTemplateValues: function() {
         M.MovableView.prototype._assignTemplateValues.apply(this, arguments);
         this._templateValues.icon = this.icon || '';
     }
