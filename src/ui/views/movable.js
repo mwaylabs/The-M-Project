@@ -310,6 +310,7 @@ M.MovableView = M.View.extend({
         this.$el.addClass('on-left');
         this._resetInlineCss();
         this._lastPos.x = 0;
+        this._$backdrop.css('opacity', '0');
     },
 
     /**
@@ -325,6 +326,7 @@ M.MovableView = M.View.extend({
         this._resetInlineCss();
         this._lastPos.x = 180;
         this._$backdrop.addClass('in');
+        this._$backdrop.css('opacity', '0.8');
     },
 
 
@@ -350,6 +352,16 @@ M.MovableView = M.View.extend({
     _setCss: function( position ) {
         var pos = parseInt(position.x, 10);
         this._$movableContent.css('-webkit-transform', 'translate3d(' + pos + 'px, 0, 0)');
+        this._$movableContent.css('-moz-transform', 'translate3d(' + pos + 'px, 0, 0)');
+        this._$movableContent.css('transform', 'translate3d(' + pos + 'px, 0, 0)');
+        var opacity = (parseInt(10-(this.rightEdge/position.x), 10)/10);
+        if(opacity < 0){
+            opacity = 0;
+        }
+        if(opacity > 1){
+            opacity = 1;
+        }
+        this._$backdrop.css('opacity', opacity);
     },
 
     /**

@@ -5,7 +5,7 @@
 .menuview {
 
   .fade.in{
-    opacity: 0.7;
+
   }
 
   //  position: absolute;
@@ -26,6 +26,13 @@
     }
   }
 
+  &.on-left.on-move{
+    .movable-backdrop{
+      right: 0;
+    }
+  }
+
+
   &.on-right,
   &.on-move {
 
@@ -34,9 +41,6 @@
       max-width: 100%;
     }
 
-    .movable-backdrop{
-      right: 0;
-    }
   }
 
   &.on-right {
@@ -59,6 +63,7 @@
     background: $black;
     left: 0;
     right: 0;
+    opacity: 0;
   }
 
   .movable-backdrop,
