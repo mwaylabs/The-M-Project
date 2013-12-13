@@ -15,11 +15,23 @@ M.SplitLayout = M.SwitchLayout.extend({
     _type: 'M.SplitLayout',
 
     /**
+     * Bootstrap grid class for the left container
+     * @type {String}
+     */
+    gridLeft: 'col-xs-4',
+
+    /**
+     * Bootstrap grid class for the right container
+     * @type {String}
+     */
+    gridRight: 'col-xs-8',
+
+    /**
      * The template of the Layout
      */
     template: '<div id="m-main" class="m-perspective">' +
-            '<div class="col-xs-4 leftContainer" data-childviews="left"></div>' +
-            '<div class="col-xs-8 rightContainer">' +
+            '<div id="leftContainer" data-childviews="left"></div>' +
+            '<div id="rightContainer">' +
               '<div class="m-page m-page-1">' +
                   '<div data-childviews="content_page1" class="content-wrapper"></div>' +
               '</div>' +
@@ -39,10 +51,10 @@ M.SplitLayout = M.SwitchLayout.extend({
     },
 
     _applyAdditionalBehaviour: function () {
-        var containerLeft = this.$el.find('[data-childviews="left"]');
-        var containerRight = this.$el.find('.rightContainer').eq(0);
-        this.applyAdditionalBehaviourLeftContainer(containerLeft, this);
-        this.applyAdditionalBehaviourRightContainer(containerRight, this);
+        var left = this._getLeftContainer();
+        var right = this._getRightContainer();
+        this.applyAdditionalBehaviourLeftContainer(left, this);
+        this.applyAdditionalBehaviourRightContainer(right, this);
     },
 
     /**
@@ -80,5 +92,35 @@ M.SplitLayout = M.SwitchLayout.extend({
         }
 
         return this;
+    },
+
+    _postRender: function() {
+        M.SwitchLayout.prototype._postRender.apply(this, arguments);
+
+        // Add grid classes
+        this._getLeftContainer().addClass(this.gridLeft);
+        this._getRightContainer().addClass(this.gridRight);
+
+        return this;
+    },
+
+    /**
+     * Returns an jQuery element which represents the left container
+     *
+     * @returns {*|Mixed}
+     * @private
+     */
+    _getLeftContainer: function() {
+        return this.$el.find('#leftContainer');
+    },
+
+    /**
+     * Returns an jQuery element which represents the right container
+     *
+     * @returns {*|Mixed}
+     * @private
+     */
+    _getRightContainer: function() {
+        return this.$el.find('#rightContainer');
     }
 });
