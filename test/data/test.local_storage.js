@@ -27,7 +27,45 @@ describe('M.LocalStorageStore', function() {
         });
     };
 
-    it('simple local store store', function( done ) {
+    it('simple model with LocalStorageStore', function( done ) {
+
+        TEST.SimpleModel = M.Model.extend({
+            store: M.LocalStorageStore.create(),
+            entity: 'test'
+        });
+
+        assert.typeOf(TEST.SimpleModel, 'function', 'Simple model successfully extended.');
+
+        TEST.Simple = TEST.SimpleModel.create({
+            firstname: 'Max',
+            lastname: 'Mustermann'
+        });
+
+        assert.typeOf(TEST.Simple, 'object', 'Simple model successfully created.');
+
+        TEST.Simple.save({}, // save existing data
+              {
+                  success: function(model) {
+                      assert.ok(model, 'new record exists.');
+
+                      TEST.id = model.id;
+
+                      assert.ok(TEST.id, 'new record has an id.');
+
+                      done();
+                  },
+                  error: function(model, error) {
+
+                      assert(false, 'error creating record: '+ error);
+
+                      done();
+                  }
+              }
+          );
+    });
+
+
+    it('simple collection with LocalStorageStore', function( done ) {
 
         TEST.SimpleModelCollection = M.Collection.extend({
             store: M.LocalStorageStore.create(),
@@ -72,8 +110,8 @@ describe('M.LocalStorageStore', function() {
             entity: {
                 name: 'test',
                 fields:  {
-                    _id:         { type: M.CONST.TYPE.STRING,  required: YES, index: YES },
-                    sureName:    { name: 'USERNAME', type: M.CONST.TYPE.STRING,  required: YES, index: YES },
+                    _id:         { type: M.CONST.TYPE.STRING,  required: YES },
+                    sureName:    { name: 'USERNAME', type: M.CONST.TYPE.STRING,  required: YES },
                     firstName:   { type: M.CONST.TYPE.STRING,  length: 200 },
                     age:         { type: M.CONST.TYPE.INTEGER }
                 }
