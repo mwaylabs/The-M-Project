@@ -4,6 +4,12 @@ exports.listen = function(server, resource) {
 
     var io = require('socket.io').listen( server, { resource: resource } );
 
+    // enable ore default transports
+    io.set('transports', [
+        'websocket',
+        'xhr-polling',
+        'jsonp-polling'
+    ]);
     var bikini = {
 
         io: io,
