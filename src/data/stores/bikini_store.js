@@ -129,7 +129,7 @@ M.BikiniStore = M.Store.extend({
     },
 
     createMsgCollection: function( endpoint ) {
-        if( this.options.useOfflineChange && endpoint ) {
+        if( this.options.useOfflineChanges && endpoint ) {
             var name = 'msg-' + endpoint.channel;
             var MsgCollection = M.Collection.extend({
                 model: M.Model.extend({ idAttribute: '_id' })
@@ -326,7 +326,7 @@ M.BikiniStore = M.Store.extend({
         model.sync.apply(model, [msg.method, model, {
             url: url,
             error: function( xhr, status ) {
-                if( !xhr.responseText && that.options.useOfflineChange ) {
+                if( !xhr.responseText && that.options.useOfflineChanges ) {
                     // this seams to be only a connection problem, so we keep the message an call success
                     that.handleCallback(options.success, msg.data);
                 } else {
