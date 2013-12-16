@@ -31,7 +31,7 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
     childViews: {},
 
     applyViews: function() {
-
+        this._attachedToDom();
     },
 
     _attachToDom: function() {

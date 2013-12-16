@@ -45,8 +45,8 @@
 
             M.SwitchLayout.prototype.applyViews.apply(this, [settings]);
 
-            if(!this.childViews[this.currentPage + '_header'] && settings.header){
-                this.addChildView(this.currentPage + '_header', settings.header);
+            if(!this.childViews[this._currentPage + '_header'] && settings.header){
+                this.setChildView(this._currentPage + '_header', settings.header);
             }
 
             if( settings.header && !this._firstRender ) {

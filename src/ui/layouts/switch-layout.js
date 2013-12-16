@@ -41,12 +41,12 @@ M.SwitchLayout = M.Layout.extend({
 
         if(!this.childViews[this._currentPage]){
             if(settings.content){
-                this.addChildView(this._currentPage, settings.content);
+                this.setChildView(this._currentPage, settings.content);
             }
 
         } else if(this.childViews[this._currentPage] !== settings.content){
             if(settings.content){
-                this.addChildView(this._currentPage, settings.content);
+                this.setChildView(this._currentPage, settings.content);
             }
 
         }
@@ -58,7 +58,7 @@ M.SwitchLayout = M.Layout.extend({
             this.$el.find('[data-childviews="' + this._currentPage + '"]').html(settings.content.render().$el);
         }
 
-
+        M.Layout.prototype.applyViews.apply(this, arguments);
         return this;
     },
 
