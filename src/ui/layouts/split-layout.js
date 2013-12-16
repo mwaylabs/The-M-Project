@@ -74,7 +74,7 @@ M.SplitLayout = M.SwitchLayout.extend({
      * @param layout {M.SplitLayout}
      */
     applyAdditionalBehaviourRightContainer: function (element, layout) {
-
+        element.addClass('col-xs-12');
     },
 
     /**

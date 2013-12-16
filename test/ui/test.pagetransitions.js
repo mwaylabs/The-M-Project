@@ -307,6 +307,20 @@ describe('M.PageTransitions', function () {
         });
 
         ctrl.show();
-    })
+    });
+
+    it('Create an instance', function() {
+        var a = M.Transitions.design();
+        var b = M.Transitions.design();
+
+        assert.isFalse(a === b);
+
+        a.init();
+        assert.isNull(b._pages);
+
+        assert.isDefined(a._pages);
+        assert.isDefined(a._pages[0]);
+        assert.lengthOf(a._pages, 2);
+    });
 
 });
