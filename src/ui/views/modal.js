@@ -53,6 +53,11 @@ M.ModalView = M.View.extend({
     _$backdrop: null,
 
     /**
+     * Is set to true on show. If the hide is called before the transition ends and _backdropWillAppear is set to false the backdrop gets hidden immediately
+     */
+    _backdropWillAppear: NO,
+
+    /**
      * Register internal events for this view.
      * @private
      */
@@ -136,8 +141,14 @@ M.ModalView = M.View.extend({
         that._$backdrop.appendTo('body');
 
         if( M.Animation.transitionSupport ) {
+            that._backdropWillAppear = YES;
+            that._$backdrop.on(M.Animation.transitionEndEventName, function() {
+                that._backdropWillAppear = NO;
+            });
             setTimeout(function() {
-                that._$backdrop.addClass('in');
+                if( that._$backdrop ) {
+                    that._$backdrop.addClass('in');
+                }
             }, 0);
         }
     },
@@ -149,16 +160,19 @@ M.ModalView = M.View.extend({
     _hideBackdrop: function() {
         var that = this;
         var callback = function() {
-            if(that._$backdrop) {
+            if( that._$backdrop ) {
                 that._$backdrop.remove();
                 that._$backdrop = null;
+                that._backdropWillAppear = NO;
             }
         };
         if( that._$backdrop ) {
-            if( M.Animation.transitionSupport ) {
+            if( M.Animation.transitionSupport && that._backdropWillAppear === NO ) {
                 that._$backdrop.on(M.Animation.transitionEndEventName, callback);
-                setTimeout(function(){
-                    that._$backdrop.removeClass('in');
+                setTimeout(function() {
+                    if( that._$backdrop ) {
+                        that._$backdrop.removeClass('in');
+                    }
                 }, 0);
             } else {
                 callback();
