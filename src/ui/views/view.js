@@ -857,16 +857,27 @@
             }
         },
 
+        /**
+         * Gets called if the view is visible in the dom. Typical usage is the calculaction of the widht or height.
+         * Calls for the same function for every child view and then the attachToDom for a user
+         * @private
+         */
         _attachedToDom: function() {
-            console.log(this._type);
             this._childViewsAttachToDom();
             this.attachedToDom();
         },
 
+        /**
+         * Gets called if the view is visible in the dom. Typical usage is the calculaction of the widht or height
+         */
         attachedToDom: function() {
 
         },
 
+        /**
+         * Calls _attachedToDom on every childView
+         * @private
+         */
         _childViewsAttachToDom: function() {
             _.each(this.childViews, function( child ) {
                 child._attachedToDom();
