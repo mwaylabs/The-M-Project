@@ -79,10 +79,10 @@
   .movable-container {
     left: ($m-menu-view-transition-width) * -1;
     background: transparent;
-    -webkit-transition: -webkit-transform 500ms ease;
-    -moz-transition: -moz-transform 500ms ease;
-    -o-transition: -o-transform 500ms ease;
-    transition: transform 500ms ease;
+    -webkit-transition: -webkit-transform $m-menu-transition ease;
+    -moz-transition: -moz-transform $m-menu-transition ease;
+    -o-transition: -o-transform $m-menu-transition ease;
+    transition: transform $m-menu-transition ease;
 
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
@@ -111,10 +111,10 @@
       -webkit-user-drag: none;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
-      -webkit-transition: -webkit-transform 500ms ease;
-      -moz-transition: -moz-transform 500ms ease;
-      -o-transition: -o-transform 500ms ease;
-      transition: transform 500ms ease;
+      -webkit-transition: -webkit-transform $m-menu-transition ease;
+      -moz-transition: -moz-transform $m-menu-transition ease;
+      -o-transition: -o-transform $m-menu-transition ease;
+      transition: transform $m-menu-transition ease;
       -webkit-transform: translate3d(0, 0, 0);
       -moz-transform: translate3d(0, 0, 0);
       -ms-transform: translate3d(0, 0, 0);

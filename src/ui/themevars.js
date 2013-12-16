@@ -112,7 +112,8 @@ M.ThemeVars = {
         "m-stencil-text-shadow": "rgba(255, 255, 255, 0.5) 0px 3px 3px",
         "m-menu-view-width": "200px",
         "m-menu-view-device-swipe-listener-width": "20px",
-        "m-menu-view-transition-width": "200px - 20px"
+        "m-menu-view-transition-width": "200px - 20px",
+        "m-menu-transition": "500ms"
     },
     "android_dark": {
         "m-primary-color": "#669900",
