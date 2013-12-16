@@ -58,5 +58,14 @@ _.extend(M.Controller.prototype, Backbone.Events, {
      */
     applicationReady: function(){
 
+    },
+
+    apply: function(router, args) {
+        if(!M._firstAppLoad) {
+            this.applicationStart.apply(this, args);
+            M._firstAppLoad = true;
+        } else {
+            this.show.apply(this, args);
+        }
     }
 });

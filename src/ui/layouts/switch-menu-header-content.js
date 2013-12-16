@@ -45,29 +45,16 @@
          * @returns {SwitchHeaderContentLayout}
          */
         applyViews: function( settings ) {
-
             if( !this.menu ) {
-                this.menu = M.MenuView.extend().create().render();
+                this.menu = M.MenuView.extend().create();
+                this.setChildView('menu', this.menu);
+                this.menu.setChildView('menu-content', settings.menuContent);
+                this.menu.render();
                 this.$el.append(this.menu.$el);
             }
             var that = this;
-//            var menuButton = M.ButtonView.extend({
-//                value: '',
-//                icon: 'fa-align-justify',
-//                events: {
-//                    tap: function() {
-//                        that.menu.toggle();
-//                    }
-//                }
-//            }).create();
-            //settings.header.addChildView('first', menuButton);
             M.SwitchHeaderContentLayout.prototype.applyViews.apply(this, [settings]);
 
-
-            if(!this._firstRender){
-                //insert the view
-                this.$el.find('[data-childviews="menu-content"]').html(settings.menuContent.render().$el);
-            }
             return this;
         }
     });

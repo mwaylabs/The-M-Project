@@ -91,6 +91,11 @@ M.MovableView = M.View.extend({
      */
     _$backdrop: null,
 
+    /**
+     * Timeout to fade out the menu.
+     */
+    transitionTimeout: null,
+
     initialize: function() {
         M.View.prototype.initialize.apply(this, arguments);
     },
@@ -140,6 +145,7 @@ M.MovableView = M.View.extend({
      * @private
      */
     _drag: function( event ) {
+        window.clearTimeout(this.transitionTimeout);
         var position = {};
         // the last position of the last touchend added with the current moved distance
         position.x = this._lastPos.x + event.gesture.deltaX;
@@ -315,12 +321,17 @@ M.MovableView = M.View.extend({
         this._setDimensions();
         //this.moveX(this.leftEdge, this.duration);
         this.$el.removeClass('on-right');
-        this.$el.removeClass('on-move');
         this._$backdrop.removeClass('in');
         this.$el.addClass('on-left');
         this._resetInlineCss();
         this._lastPos.x = 0;
         this._$backdrop.css('opacity', '0');
+        var that = this;
+        window.clearTimeout(this.transitionTimeout);
+        var animationDuration = parseInt(M.ThemeVars.get('m-menu-transition'), 10);
+        this.transitionTimeout = setTimeout(function(){
+            that.$el.removeClass('on-move');
+        }, animationDuration);
     },
 
     /**

@@ -708,6 +708,21 @@
         },
 
         /**
+         * Sets an childview to the given selector. If it doesn't exist it gets created.
+         * @param selector
+         * @param view
+         */
+        setChildView: function( selector, view ) {
+
+            if(!this.childViews[selector]){
+                this.addChildView(selector, view);
+            } else {
+                this.childViews[selector] = view;
+            }
+
+        },
+
+        /**
          * adds a childview to the view.
          * @param {String} selector - the selector to identify in which childview container the view should be added
          * @param {M.View} the view that should be added
@@ -840,6 +855,21 @@
             } else {
                 return '';
             }
+        },
+
+        _attachedToDom: function() {
+            this._childViewsAttachToDom();
+            this.attachedToDom();
+        },
+
+        attachedToDom: function() {
+
+        },
+
+        _childViewsAttachToDom: function() {
+            _.each(this.childViews, function( child ) {
+                child._attachedToDom();
+            }, this);
         }
 
     });

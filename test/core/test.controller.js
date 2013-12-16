@@ -28,6 +28,7 @@ describe('M.Controller', function () {
         assert.isDefined(instance.on);
         assert.isDefined(instance.off);
         assert.isDefined(instance.trigger);
+        assert.isDefined(instance.apply);
 
         assert.isFunction(instance.set);
         assert.isFunction(instance.get);
@@ -36,6 +37,7 @@ describe('M.Controller', function () {
         assert.isFunction(instance.on);
         assert.isFunction(instance.off);
         assert.isFunction(instance.trigger);
+        assert.isFunction(instance.apply);
     });
 
     it('set value', function() {

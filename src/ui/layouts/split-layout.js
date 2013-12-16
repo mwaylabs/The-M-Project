@@ -30,7 +30,14 @@ M.SplitLayout = M.SwitchLayout.extend({
      * The template of the Layout
      */
     template: '<div id="m-main" class="m-perspective">' +
-            '<div id="leftContainer" data-childviews="left"></div>' +
+            '<div id="leftContainer">' +
+              '<div class="m-page m-page-1">' +
+                  '<div data-childviews="left_page1"></div>' +
+              '</div>' +
+              '<div class="m-page m-page-2">' +
+                  '<div data-childviews="left_page2"></div>' +
+              '</div>' +
+            '</div>' +
             '<div id="rightContainer">' +
               '<div class="m-page m-page-1">' +
                   '<div data-childviews="content_page1" class="content-wrapper"></div>' +
@@ -83,19 +90,57 @@ M.SplitLayout = M.SwitchLayout.extend({
      * @returns {M.SplitLayout}
      */
     applyViews: function (settings) {
-        M.SwitchLayout.prototype.applyViews.apply(this, arguments);
+
+        this._currentContent = this._applyViews(this._currentContent, 'content', settings.content);
+        this._currentLeft = this._applyViews(this._currentLeft, 'left', settings.left);
 
         this._applyAdditionalBehaviour();
 
-        if(!this._firstRender && settings.left){
-            this.$el.find('[data-childviews="left"]').html(settings.left.render().$el);
-        }
 
         return this;
     },
 
+    _applyViews: function( current, name, view ){
+
+        var nameA = name + '_page1';
+        var nameB = name + '_page2';
+
+        if(current === null || current === undefined || current === nameB){
+            current = nameA;
+
+        } else if(current === nameA){
+            current = nameB;
+        }
+
+        if( view && !this.childViews[current] ) {
+            this.setChildView(current, view);
+        } else if( view &&  this.childViews[current] !== view ) {
+            this.setChildView(current, view);
+        }
+
+        if(!this._firstRender && view){
+            //clear the dom before inserting the view
+            this.$el.find('[data-childviews="' + current + '"]').html('');
+            //insert the view
+            this.$el.find('[data-childviews="' + current + '"]').html(view.render().$el);
+        }
+
+        M.Layout.prototype.applyViews.apply(this, arguments);
+
+        return current;
+    },
+
+    /**
+     * Initialize the Transitions on first render then call the prototype
+     * @private
+     */
     _postRender: function() {
-        M.SwitchLayout.prototype._postRender.apply(this, arguments);
+
+        if(this._firstRender){
+            this.rightTransition = M.PageTransitions.init(this.$el.find('#rightContainer'));
+            this.leftTransition = M.PageTransitions.init(this.$el.find('#leftContainer'));
+        }
+        M.Layout.prototype._postRender.apply(this, arguments);
 
         // Add grid classes
         this._getLeftContainer().addClass(this.gridLeft);
@@ -122,5 +167,15 @@ M.SplitLayout = M.SwitchLayout.extend({
      */
     _getRightContainer: function() {
         return this.$el.find('#rightContainer');
-    }
+    },
+
+    setTransition: function( name ) {
+        this.rightTransition.setTransition( name );
+        this.leftTransition.setTransition( name );
+    },
+
+    startTransition: function() {
+        this.rightTransition.startTransition();
+        this.leftTransition.startTransition();
+    },
 });
