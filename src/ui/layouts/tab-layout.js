@@ -127,6 +127,12 @@ M.TabLayout = M.Layout.extend({
                 }
             }
         }).create();
+    },
+
+    //TODO
+    _mergeChildView: function(selector, view){
+        this.childViews[selector] = view;
+        return this;
     }
 
 });

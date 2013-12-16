@@ -51,16 +51,16 @@
                 this.$el.append(this.menu.$el);
             }
             var that = this;
-            var menuButton = M.ButtonView.extend({
-                value: '',
-                icon: 'fa-align-justify',
-                events: {
-                    tap: function() {
-                        that.menu.toggle();
-                    }
-                }
-            }).create();
-            settings.header.addChildView('first', menuButton);
+//            var menuButton = M.ButtonView.extend({
+//                value: '',
+//                icon: 'fa-align-justify',
+//                events: {
+//                    tap: function() {
+//                        that.menu.toggle();
+//                    }
+//                }
+//            }).create();
+            //settings.header.addChildView('first', menuButton);
             M.SwitchHeaderContentLayout.prototype.applyViews.apply(this, [settings]);
 
 

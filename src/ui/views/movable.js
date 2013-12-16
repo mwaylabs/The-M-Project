@@ -31,11 +31,6 @@ M.MovableView = M.View.extend({
     _useTranslate: true,
 
     /**
-     * The timeout to hide the backdrop.
-     */
-    _backdropTimeout: null,
-
-    /**
      * Save the last position of the moveable element after the user releases the moveable element
      * x: the x position absolute to the window
      * y: the y position absolute to the window
@@ -48,7 +43,8 @@ M.MovableView = M.View.extend({
         x: 0,
         y: 0,
         deltaX: 0,
-        deltaY: 0
+        deltaY: 0,
+        direction: ''
     },
 
     /**
@@ -64,7 +60,8 @@ M.MovableView = M.View.extend({
         x: 0,
         y: 0,
         deltaX: 0,
-        deltaY: 0
+        deltaY: 0,
+        direction: ''
     },
 
     /**
@@ -110,7 +107,12 @@ M.MovableView = M.View.extend({
      * @private
      */
     _internalEvents: {
-        drag: function( event, element ) {
+        dragright: function( event, element ) {
+            // call the drag method of M.MovableView
+            element._drag(event, element);
+        },
+
+        dragleft: function( event, element ) {
             // call the drag method of M.MovableView
             element._drag(event, element);
         },
@@ -143,6 +145,7 @@ M.MovableView = M.View.extend({
         position.x = this._lastPos.x + event.gesture.deltaX;
         // cache the delta
         position.deltaX = event.gesture.deltaX;
+        position.direction = this._currentPos.deltaX > event.gesture.deltaX ? Hammer.DIRECTION_LEFT : Hammer.DIRECTION_RIGHT;
         // move the element
         this._move(position);
     },
@@ -152,7 +155,13 @@ M.MovableView = M.View.extend({
      * Get called on every touchend / after every drag to store the last point of the element for further calculations on the next drag start.
      * @private
      */
-    _touchEnd: function( event ) {
+    _touchEnd: function( event, element ) {
+
+
+        if(event.target !== this._$movableContent[0] && !this.$el.hasClass('on-move')){
+            return;
+        }
+
         // cache the dimensions of the view
         this._setDimensions();
 
@@ -164,6 +173,7 @@ M.MovableView = M.View.extend({
             // set the right edge of the element to the right edge of the container
             this._currentPos.x = this._containerWidth - this._movableWidth;
         }
+
         // cache the current position. The view needs this to calculate further drags
         this._lastPos = this._currentPos;
         // move the element to the position so it can't get lost out of the boundaries.
@@ -317,14 +327,13 @@ M.MovableView = M.View.extend({
      * Animate the movable to the right
      */
     toRight: function() {
-        clearTimeout(this._backdropTimeout);
         this._setDimensions();
         //this.moveX(this.rightEdge, this.duration);
         this.$el.addClass('on-right');
         this.$el.removeClass('on-left');
         this.$el.removeClass('on-move');
         this._resetInlineCss();
-        this._lastPos.x = 180;
+        this._lastPos.x = this.rightEdge;
         this._$backdrop.addClass('in');
         this._$backdrop.css('opacity', '0.8');
     },

@@ -714,12 +714,23 @@
          */
         addChildView: function( selector, view ) {
             if( _.isObject(selector) ) {
+                // this can be an object if the you use it as addChildViews function
+                /**
+                 * @example
+                 *
+                 * var children = {
+                 *  b1: M.View.extend(),
+                 *  b2: M.View.extend()
+                 * };
+                 *
+                 * M.View.create().addChildView(children);
+                 *
+                 */
                 _.each(selector, function( view, selector ) {
                     this._mergeChildView(selector, view);
-
                 }, this);
             } else {
-                this._mergeChildView(selector, view);
+                return this._mergeChildView(selector, view);
             }
             return this;
         },
@@ -732,7 +743,7 @@
          */
         _mergeChildView: function( selector, view ) {
             if( !(_.isString(selector)) || !(M.isView(view)) ) {
-                return;
+                return void 0;
             }
 
             var existingChildViews = this.childViews[selector];
