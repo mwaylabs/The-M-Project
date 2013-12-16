@@ -31,7 +31,7 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
     childViews: {},
 
     applyViews: function() {
-        this._attachedToDom();
+
     },
 
     _attachToDom: function() {
@@ -44,6 +44,11 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
 
     startTransition: function() {
         M.PageTransitions.startTransition();
+        this._attachedToDom();
+    },
+
+    isAnimating: function() {
+        return M.PageTransitions.isAnimating();
     },
 
     destroy: function() {

@@ -83,7 +83,7 @@ M.Application = M.Controller.extend({
     navigate: function( settings ) {
 
         // Prevent routing, if a transition is animating
-        if(M.PageTransitions.isAnimating() ) {
+        if(this._layout && this._layout.isAnimating && this._layout.isAnimating()) {
             return false;
         }
 

@@ -28,8 +28,6 @@ M.MovableView = M.View.extend({
 
     rightEdge: null,
 
-    _useTranslate: true,
-
     /**
      * Save the last position of the moveable element after the user releases the moveable element
      * x: the x position absolute to the window
@@ -85,25 +83,22 @@ M.MovableView = M.View.extend({
      */
     _$movableContent: null,
 
-    /**
-     * The Backdrop dom representation
-     * @type {jQuery DOM Object}
-     */
-    _$backdrop: null,
-
-    /**
-     * Timeout to fade out the menu.
-     */
-    transitionTimeout: null,
-
     initialize: function() {
         M.View.prototype.initialize.apply(this, arguments);
+        this.leftEdge = this.leftEdge || 0;
+        // if the right edge was defined by the user set it, otherwise initialize it in _setDimensions
+        this.rightEdge = this.rightEdge;
     },
 
     _postRender: function() {
         M.View.prototype._postRender.apply(this, arguments);
         this._$movableContent = this._getMovableContent();
-        this._$backdrop = this.$el.find('.movable-backdrop');
+    },
+
+    _attachedToDom: function(){
+        M.View.prototype._attachedToDom.apply(this, arguments);
+        this.toLeft();
+        this._setDimensions();
     },
 
     /**
@@ -145,7 +140,6 @@ M.MovableView = M.View.extend({
      * @private
      */
     _drag: function( event ) {
-        window.clearTimeout(this.transitionTimeout);
         var position = {};
         // the last position of the last touchend added with the current moved distance
         position.x = this._lastPos.x + event.gesture.deltaX;
@@ -168,9 +162,6 @@ M.MovableView = M.View.extend({
             return;
         }
 
-        // cache the dimensions of the view
-        this._setDimensions();
-
         // check the boundaries
         if( this._currentPos.x < this.leftEdge ) {
             // set the left edge of the element to the left edge of the container
@@ -187,15 +178,14 @@ M.MovableView = M.View.extend({
     },
 
     /**
-     * Gets called after the user stops interacting with the movable
+     * Move the movable Element to the left or right on release according to the direction. Overwrite this to enable a different behavior
      */
     onRelease: function() {
-        if( this._currentPos.x > (this._containerWidth / 2 ) - (this._movableWidth / 2) ) {
-            this.toRight();
-        } else {
+        if( this._currentPos.direction === Hammer.DIRECTION_LEFT ) {
             this.toLeft();
+        } else {
+            this.toRight();
         }
-
     },
 
     /**
@@ -242,18 +232,8 @@ M.MovableView = M.View.extend({
         var that = this;
         that._isAnimating = YES;
 
-        if( this._useTranslate ) {
-            that._isAnimating = NO;
-            that._currentPos.x = options.x;
-        } else {
-            this._$movableContent.animate({
-                left: options.x + 'px'
-            }, options.duration, function() {
-                that._isAnimating = NO;
-                that._currentPos.x = options.x;
-            });
-        }
-
+        that._isAnimating = NO;
+        that._currentPos.x = options.x;
     },
 
     /**
@@ -266,32 +246,13 @@ M.MovableView = M.View.extend({
     },
 
     /**
-     * Move the element on the x axis to the position defined in the param.
-     * @param {Number}
-     */
-    moveX: function( xPos, duration ) {
-        if( _.isNumber(xPos) ) {
-            if( _.isNumber(duration) ) {
-                this._animatedMove({
-                    x: xPos,
-                    duration: duration
-                });
-            } else {
-                this._move({
-                    x: xPos
-                });
-            }
-
-        }
-    },
-
-    /**
      * Moves the element. The best performance on old devices is with position absolute and setting the left and top property
      * @param position
      * @private
      */
     _move: function( position ) {
         var pos = parseInt(position.x, 10);
+
         if( pos > this.rightEdge ) {
             return;
         }
@@ -299,14 +260,9 @@ M.MovableView = M.View.extend({
             return;
         }
 
-        if( this._useTranslate ) {
-            this._removeCssClasses();
-            this.$el.addClass('on-move');
-            this._setCss(position);
-        } else {
-            // good for old devices
-            this._$movableContent.css('left', position.x + 'px');
-        }
+        this._removeCssClasses();
+        this.$el.addClass('on-move');
+        this._setCss(position);
 
         // if there is a position cache it
         if( position ) {
@@ -318,35 +274,28 @@ M.MovableView = M.View.extend({
      * Animate the moveable to the left
      */
     toLeft: function() {
-        this._setDimensions();
-        //this.moveX(this.leftEdge, this.duration);
         this.$el.removeClass('on-right');
-        this._$backdrop.removeClass('in');
         this.$el.addClass('on-left');
         this._resetInlineCss();
-        this._lastPos.x = 0;
-        this._$backdrop.css('opacity', '0');
-        var that = this;
-        window.clearTimeout(this.transitionTimeout);
-        var animationDuration = parseInt(M.ThemeVars.get('m-menu-transition'), 10);
-        this.transitionTimeout = setTimeout(function(){
-            that.$el.removeClass('on-move');
-        }, animationDuration);
+        this._lastPos.x = this.leftEdge;
+        this._setCss({
+            x: this._lastPos.x
+        });
+
     },
 
     /**
      * Animate the movable to the right
      */
     toRight: function() {
-        this._setDimensions();
-        //this.moveX(this.rightEdge, this.duration);
         this.$el.addClass('on-right');
         this.$el.removeClass('on-left');
         this.$el.removeClass('on-move');
         this._resetInlineCss();
         this._lastPos.x = this.rightEdge;
-        this._$backdrop.addClass('in');
-        this._$backdrop.css('opacity', '0.8');
+        this._setCss({
+            x: this._lastPos.x
+        });
     },
 
 
@@ -354,7 +303,6 @@ M.MovableView = M.View.extend({
      * Toggle between left and right animation
      */
     toggle: function() {
-
         if( this.$el.hasClass('on-left') ) {
             this.toRight();
         } else {
@@ -374,14 +322,6 @@ M.MovableView = M.View.extend({
         this._$movableContent.css('-webkit-transform', 'translate3d(' + pos + 'px, 0, 0)');
         this._$movableContent.css('-moz-transform', 'translate3d(' + pos + 'px, 0, 0)');
         this._$movableContent.css('transform', 'translate3d(' + pos + 'px, 0, 0)');
-        var opacity = (parseInt(10-(this.rightEdge/position.x), 10)/10);
-        if(opacity < 0){
-            opacity = 0;
-        }
-        if(opacity > 1){
-            opacity = 1;
-        }
-        this._$backdrop.css('opacity', opacity);
     },
 
     /**
