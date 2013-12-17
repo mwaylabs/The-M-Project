@@ -862,15 +862,15 @@
          * Calls for the same function for every child view and then the attachToDom for a user
          * @private
          */
-        _attachedToDom: function() {
-            this._childViewsAttachToDom();
-            this.attachedToDom();
+        _getsVisible: function() {
+            this._childViewsGetsVisible();
+            this.getsVisible();
         },
 
         /**
          * Gets called if the view is visible in the dom. Typical usage is the calculaction of the widht or height
          */
-        attachedToDom: function() {
+        getsVisible: function() {
 
         },
 
@@ -878,9 +878,9 @@
          * Calls _attachedToDom on every childView
          * @private
          */
-        _childViewsAttachToDom: function() {
+        _childViewsGetsVisible: function() {
             _.each(this.childViews, function( child ) {
-                child._attachedToDom();
+                child._getsVisible();
             }, this);
         }
 
