@@ -135,8 +135,7 @@ M.TemplateManager = M.Object.design({
     },
 
     'M.MenuView': {
-        defaultTemplate: '<div class="movable-backdrop fade"></div><div class="movable-container"><span><%= _value_ %></span><div class="menu-content" data-childviews="menu-content"></div></div>',
-        debug: '<div class="movable-backdrop fade"></div><div class="movable-container"><div class="movable-element"><% if(icon) { %> <i class="fa <%= icon %>"></i> <% } %></div><span><%= _value_ %></span><div class="menu-content" data-childviews="menu-content"></div></div>'
+        defaultTemplate: '<div class="movable-backdrop fade"></div><div class="movable-container"><span><%= _value_ %></span><div class="menu-content" data-childviews="menu-content"></div></div>'
     },
 
     _currentUI: 'defaultTemplate',

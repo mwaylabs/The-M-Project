@@ -2,11 +2,20 @@
 // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 
 /**
- * M.MenuView inherits from M.View
+ * M.MenuView inherits from M.View.
+ * To add childViews to this view name it 'menu-content'
  * @module M.MenuView
  *
  * @type {*}
  * @extends M.View
+ * @example
+ * var menu = M.MenuView.extend({},{
+        'menu-content': M.View.extend({},{
+            b1 : M.ButtonView.extend({value:'b1'}),
+            b2 : M.ButtonView.extend({value:'b2'})
+        })
+    }).create().render()
+ *
  */
 M.MenuView = M.MovableView.extend({
 
@@ -46,23 +55,21 @@ M.MenuView = M.MovableView.extend({
     /**
      * Timeout to fade out the menu.
      */
-    transitionTimeout: null,
+    _transitionTimeout: null,
+
 
     /**
-     * The moveable icon
-     * @type {String}
+     * basic css class is on-left to start on the left side
      */
-    icon: 'fa-align-justify',
-
-    cssClass: 'on-left',
+    _internalCssClasses: 'on-left',
 
     /**
      * calculate the leftEdge and rightEdge vars
      */
     initialize: function() {
         this._deviceSwipeListenerWidth = parseInt(M.ThemeVars.get('m-menu-view-device-swipe-listener-width'), 10);
-        this.leftEdge = 0;//(parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth) * -1;
-        this.rightEdge = parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth;
+        this.leftEdge = this.leftEdge || 0;
+        this.rightEdge = this.rightEdge || parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth;
         M.MovableView.prototype.initialize.apply(this, arguments);
     },
 
@@ -87,9 +94,9 @@ M.MenuView = M.MovableView.extend({
         this._$backdrop.removeClass('in');
         this._$backdrop.css('opacity', '0');
         var that = this;
-        window.clearTimeout(this.transitionTimeout);
+        window.clearTimeout(this._transitionTimeout);
         var animationDuration = parseInt(M.ThemeVars.get('m-menu-transition'), 10);
-        this.transitionTimeout = setTimeout(function() {
+        this._transitionTimeout = setTimeout(function() {
             that.$el.removeClass('on-move');
         }, animationDuration);
     },
@@ -130,11 +137,6 @@ M.MenuView = M.MovableView.extend({
         return this.$el.find('.movable-container');
     },
 
-    _assignTemplateValues: function() {
-        M.MovableView.prototype._assignTemplateValues.apply(this, arguments);
-        this._templateValues.icon = this.icon || '';
-    },
-
     /**
      * Get called on every touch move of the moveable element. Calculates the position of the element and calls the move method to the calculated points
      * @param event
@@ -142,6 +144,6 @@ M.MenuView = M.MovableView.extend({
      */
     _drag: function() {
         M.MovableView.prototype._drag.apply(this, arguments);
-        window.clearTimeout(this.transitionTimeout);
+        window.clearTimeout(this._transitionTimeout);
     }
 });

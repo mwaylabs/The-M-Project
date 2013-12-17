@@ -223,6 +223,10 @@ describe('M.TemplateManager', function() {
                 defaultTemplate: '<div><label><% if(label){%> <span class="needsclick label-descr"> <%= label %> <% }%> </span> <div class="toggleswitch"><input value="<%= _value_ %>" type="checkbox"><span class="switch-labels needsclick" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
             },
 
+            'M.MenuView': {
+                defaultTemplate: '<div class="movable-backdrop fade"></div><div class="movable-container"><span><%= _value_ %></span><div class="menu-content" data-childviews="menu-content"></div></div>'
+            },
+
             'M.ModalView': {
                 defaultTemplate: '<div data-childviews="content"><div>'
             }
