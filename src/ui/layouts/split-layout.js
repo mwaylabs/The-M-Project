@@ -29,7 +29,7 @@ M.SplitLayout = M.SwitchLayout.extend({
     /**
      * The template of the Layout
      */
-    template: '<div id="m-main" class="m-perspective">' + '<div id="leftContainer">' + '<div class="m-page m-page-1">' + '<div data-childviews="left_page1"></div>' + '</div>' + '<div class="m-page m-page-2">' + '<div data-childviews="left_page2"></div>' + '</div>' + '</div>' + '<div id="rightContainer">' + '<div class="m-page m-page-1">' + '<div data-childviews="content_page1" class="content-wrapper"></div>' + '</div>' + '<div class="m-page m-page-2">' + '<div data-childviews="content_page2" class="content-wrapper"></div>' + '</div>' + '</div>' + '</div>',
+    template: '<div id="m-main" class="m-perspective"><div id="leftContainer"><div class="m-page m-page-1"><div data-childviews="left_page1"></div></div><div class="m-page m-page-2"><div data-childviews="left_page2"></div></div></div><div id="rightContainer"><div class="m-page m-page-1"><div data-childviews="content_page1" class="content-wrapper"></div></div><div class="m-page m-page-2"><div data-childviews="content_page2" class="content-wrapper"></div></div></div></div>',
 
     /**
      * The SwitchLayout has two container to display the content. This attribute determines which of those 2 is active at the moment
@@ -74,27 +74,64 @@ M.SplitLayout = M.SwitchLayout.extend({
      */
     applyViews: function( settings, firstInit ) {
 
-        if( settings.content ) {
-            this._currentContent = this._applyViews(this._currentContent, 'content', settings.content);
-        }
+        var newContent = this._mapViews(this._currentContent, 'content', settings.content);
+        var newLeft = this._mapViews(this._currentLeft, 'left', settings.left);
 
-        if( settings.left ) {
-            this._currentLeft = this._applyViews(this._currentLeft, 'left', settings.left);
-        }
         this._applyAdditionalBehaviour();
+        this._startTransition(settings.left, settings.content);
 
+        this._currentContent = newContent;
+        this._currentLeft = newLeft;
 
         return this;
     },
 
-    _applyViews: function( current, name, view ) {
+    /**
+     * Starts a transition if the given page is currently not visible.
+     *
+     * @param leftView
+     * @param contentView
+     * @private
+     */
+    _startTransition: function( leftView, contentView ) {
 
-        var nameA = name + '_page1';
-        var nameB = name + '_page2';
+        var currentContentView = this.getChildView(this._currentContent);
+        var currentLeftView = this.getChildView(this._currentLeft);
+
+        if( currentContentView && currentContentView !== contentView ) {
+            this.rightTransition.startTransition();
+        }
+
+        if( currentLeftView && currentLeftView !== leftView ) {
+            this.leftTransition.startTransition();
+        }
+    },
+
+    /**
+     * This method is responsible to add the view in the layout template.
+     *
+     * @param current {String}
+     * @param dataChildViewName {String}
+     * @param view {M.View}
+     * @returns {String}
+     * @private
+     */
+    _mapViews: function( current, dataChildViewName, view ) {
+
+        var nameA = dataChildViewName + '_page1';
+        var nameB = dataChildViewName + '_page2';
+
+        if( this.getChildView(current) === view || !view ) {
+            if( !view ) {
+                // The given view is null so clear the dom
+                this.$el.find('[data-childviews="' + nameA + '"]').html('');
+                this.$el.find('[data-childviews="' + nameB + '"]').html('');
+            }
+            return current;
+        }
 
         if( current === null || current === undefined || current === nameB ) {
             current = nameA;
-
         } else if( current === nameA ) {
             current = nameB;
         }
@@ -124,14 +161,17 @@ M.SplitLayout = M.SwitchLayout.extend({
     _postRender: function() {
 
         if( this._firstRender ) {
-            this.rightTransition = M.PageTransitions.design().init(this.$el.find('#rightContainer'));
-            this.leftTransition = M.PageTransitions.design().init(this.$el.find('#leftContainer'));
+            // Init transitions
+            this.rightTransition = M.PageTransitions.design().init( this._getRightContainer() );
+            this.leftTransition = M.PageTransitions.design().init( this._getLeftContainer() );
         }
-        M.Layout.prototype._postRender.apply(this, arguments);
 
         // Add grid classes
         this._getLeftContainer().addClass(this.gridLeft);
         this._getRightContainer().addClass(this.gridRight);
+
+        // Call super
+        M.Layout.prototype._postRender.apply(this, arguments);
 
         return this;
     },

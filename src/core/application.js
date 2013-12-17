@@ -27,6 +27,11 @@ M.Application = M.Controller.extend({
     _debugView: null,
 
     /**
+     * This property is an indicator for the initial load of an app
+     */
+    isInitialLoad: null,
+
+    /**
      * This property contains an instance of the debug view.
      *
      * @private

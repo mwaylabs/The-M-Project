@@ -60,11 +60,13 @@ _.extend(M.Controller.prototype, Backbone.Events, {
 
     },
 
-    apply: function(router, args) {
-        if(!M._firstAppLoad) {
-            M._firstAppLoad = true;
+    apply: function( router, args ) {
+        var appInstance = global[M.APPLICATION_NAME];
+
+        if( appInstance.isInitialLoad ) {
             this.applicationStart.apply(this, args);
-            global[M.APPLICATION_NAME]._initReady();
+            appInstance.isInitialLoad = false;
+            appInstance._initReady();
         } else {
             this.show.apply(this, args);
         }

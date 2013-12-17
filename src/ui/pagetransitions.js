@@ -48,7 +48,11 @@ M.Transitions = M.Object.design({
     },
 
     startTransition: function() {
-        if( this._isAnimating ) {
+
+        // If a animation is running or the app is in the
+        // inital load process skip this transition.
+
+        if( this._isAnimating || (global[M.APPLICATION_NAME] && global[M.APPLICATION_NAME].isInitialLoad) ) {
             return false;
         }
 
