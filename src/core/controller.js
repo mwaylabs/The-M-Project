@@ -58,5 +58,17 @@ _.extend(M.Controller.prototype, Backbone.Events, {
      */
     applicationReady: function(){
 
+    },
+
+    apply: function( router, args ) {
+        var appInstance = global[M.APPLICATION_NAME];
+
+        if( appInstance.isInitialLoad ) {
+            this.applicationStart.apply(this, args);
+            appInstance.isInitialLoad = false;
+            appInstance._initReady();
+        } else {
+            this.show.apply(this, args);
+        }
     }
 });

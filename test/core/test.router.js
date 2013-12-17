@@ -20,16 +20,4 @@ describe('M.Router', function () {
         assert.equal(instance._type, 'M.Router');
     });
 
-    it('methods', function () {
-        assert.isDefined(instance.controllerDidLoad);
-        assert.isDefined(instance.callCallback);
-        assert.isDefined(instance.getCallBack);
-        assert.isDefined(instance.route);
-
-        assert.isFunction(instance.controllerDidLoad);
-        assert.isFunction(instance.callCallback);
-        assert.isFunction(instance.getCallBack);
-        assert.isFunction(instance.route);
-    });
-
 });

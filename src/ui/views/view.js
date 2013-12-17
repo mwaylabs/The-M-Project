@@ -754,6 +754,18 @@
         },
 
         /**
+         * Gets an childview by the given selector. If it doesn't exist it retuns null.
+         * @param selector
+         * @param {M.View}
+         */
+        getChildView: function( selector ) {
+            if(this.childViews[selector]) {
+                return this.childViews[selector];
+            }
+            return null;
+        },
+
+        /**
          * adds a childview to the view.
          * @param {String} selector - the selector to identify in which childview container the view should be added
          * @param {M.View} the view that should be added

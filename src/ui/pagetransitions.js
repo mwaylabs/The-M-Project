@@ -9,7 +9,7 @@
  * @type {*}
  * @extends M.Object
  */
-M.PageTransitions = M.Object.design({
+M.Transitions = M.Object.design({
     _transition: '',
     _main: null,
     _iterate: null,
@@ -43,10 +43,16 @@ M.PageTransitions = M.Object.design({
         });
 
         this._pages.eq(this._current).addClass('m-page-current');
+
+        return this;
     },
 
     startTransition: function() {
-        if( this._isAnimating ) {
+
+        // If a animation is running or the app is in the
+        // inital load process skip this transition.
+
+        if( this._isAnimating || (global[M.APPLICATION_NAME] && global[M.APPLICATION_NAME].isInitialLoad) ) {
             return false;
         }
 
@@ -124,7 +130,7 @@ M.PageTransitions = M.Object.design({
     }
 });
 
-M.PageTransitions.CONST = {
+M.Transitions.CONST = {
     NONE: 'none',
     MOVE_TO_LEFT_FROM_RIGHT: 'm-page-moveToLeft|m-page-moveFromRight',
     MOVE_TO_RIGHT_FROM_LEFT: 'm-page-moveToRight|m-page-moveFromLeft',
@@ -194,3 +200,5 @@ M.PageTransitions.CONST = {
     SIDES: 'm-page-rotateSidesOut|m-page-rotateSidesIn m-page-delay200',
     SLIDE: 'm-page-rotateSlideOut|m-page-rotateSlideIn'
 };
+
+M.PageTransitions = M.Transitions.design();

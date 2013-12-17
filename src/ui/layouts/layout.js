@@ -47,6 +47,10 @@ M.Layout = M.View.extend(/** @scope M.Layout.prototype */{
         this._getsVisible();
     },
 
+    isAnimating: function() {
+        return M.PageTransitions.isAnimating();
+    },
+
     destroy: function() {
         this.$el.remove();
         this.$el = null;

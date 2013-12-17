@@ -27,6 +27,12 @@ M.Application = M.Controller.extend({
     _debugView: null,
 
     /**
+     * This property is an indicator for the initial load of an app
+     * @type {boolean}
+     */
+    isInitialLoad: true,
+
+    /**
      * This property contains an instance of the debug view.
      *
      * @private
@@ -83,7 +89,7 @@ M.Application = M.Controller.extend({
     navigate: function( settings ) {
 
         // Prevent routing, if a transition is animating
-        if(M.PageTransitions.isAnimating() ) {
+        if(this._layout && this._layout.isAnimating && this._layout.isAnimating()) {
             return false;
         }
 
