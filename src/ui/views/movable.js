@@ -26,7 +26,16 @@ M.MovableView = M.View.extend({
 
     duration: 1000,
 
+    /**
+     * The right border to stop the moveable item
+     */
     rightEdge: null,
+
+    /**
+     * The right border to stop the moveable item used internal
+     */
+    _rightEdge: null,
+
 
     /**
      * Save the last position of the moveable element after the user releases the moveable element
@@ -87,7 +96,6 @@ M.MovableView = M.View.extend({
         M.View.prototype.initialize.apply(this, arguments);
         this.leftEdge = this.leftEdge || 0;
         // if the right edge was defined by the user set it, otherwise initialize it in _setDimensions
-        this.rightEdge = this.rightEdge;
     },
 
     _postRender: function() {
@@ -95,8 +103,8 @@ M.MovableView = M.View.extend({
         this._$movableContent = this._getMovableContent();
     },
 
-    _attachedToDom: function(){
-        M.View.prototype._attachedToDom.apply(this, arguments);
+    _getsVisible: function() {
+        M.View.prototype._getsVisible.apply(this, arguments);
         this.toLeft();
         this._setDimensions();
     },
@@ -158,7 +166,7 @@ M.MovableView = M.View.extend({
     _touchEnd: function( event, element ) {
 
 
-        if(event.target !== this._$movableContent[0] && !this.$el.hasClass('on-move')){
+        if( event.target !== this._$movableContent[0] && !this.$el.hasClass('on-move') ) {
             return;
         }
 
@@ -207,17 +215,12 @@ M.MovableView = M.View.extend({
      * @private
      */
     _setDimensions: function() {
-        // if they are not stored
-        if( !this._movableWidth || !this._containerWidth ) {
-            // get the outer width of the moveable
-            this._movableWidth = this._$movableContent.outerWidth();
-            // get the outer width of the container
-            this._containerWidth = this.$el.outerWidth();
-        }
-
-        if( this.rightEdge === null ) {
-            this.rightEdge = this._containerWidth - this._movableWidth;
-        }
+        // get the outer width of the moveable
+        this._movableWidth = this._$movableContent.outerWidth();
+        // get the outer width of the container
+        this._containerWidth = this.$el.outerWidth();
+        //default is the with of the outer object minus the moveable part
+        this._rightEdge = this.rightEdge || this._containerWidth - this._movableWidth;
     },
 
     /**
@@ -253,7 +256,7 @@ M.MovableView = M.View.extend({
     _move: function( position ) {
         var pos = parseInt(position.x, 10);
 
-        if( pos > this.rightEdge ) {
+        if( pos > this._rightEdge ) {
             return;
         }
         if( pos < this.leftEdge ) {
@@ -292,7 +295,7 @@ M.MovableView = M.View.extend({
         this.$el.removeClass('on-left');
         this.$el.removeClass('on-move');
         this._resetInlineCss();
-        this._lastPos.x = this.rightEdge;
+        this._lastPos.x = this._rightEdge;
         this._setCss({
             x: this._lastPos.x
         });

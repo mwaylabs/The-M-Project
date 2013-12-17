@@ -388,4 +388,96 @@ describe('M.View', function() {
         assert.isTrue(testView.$el.hasClass('e'));
     });
 
+    it.skip('setChildView', function() {
+        var test = function( testView ) {
+
+            assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[0]]));
+            assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[1]]));
+
+            assert.equal(testView.childViews[Object.keys(testView.childViews)[0]].getValue(), 'child3');
+            assert.equal(testView.childViews[Object.keys(testView.childViews)[1]].getValue(), 'child4');
+
+            assert.isTrue(M.isView(testView._getChildView(0)));
+            assert.isTrue(M.isView(testView._getChildView(1)));
+
+            assert.equal(testView._getChildView(0).getValue(), 'child3');
+            assert.equal(testView._getChildView(1).getValue(), 'child4');
+        }
+
+        var children = {
+            b3: M.View.create({value: 'child3'}),
+            b4: M.View.create({value: 'child4'})
+        };
+
+        var testView = M.View.create();
+        testView.setChildView(children);
+        test(testView);
+
+        var testView = M.View.extend({}).create();
+        testView.setChildView(children);
+        test(testView);
+
+        var testView = M.View.extend({}, {}).create();
+        testView.setChildView(children);
+        test(testView);
+
+
+        var testView = M.View.extend({}, {
+            b1: M.View.extend({
+                value: 'child1'
+            }),
+            b2: M.View.extend({
+                value: 'child2'
+            })
+        }).create();
+
+        testView.setChildView(children);
+
+        assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[0]]));
+        assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[1]]));
+        assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[2]]));
+        assert.isTrue(M.isView(testView.childViews[Object.keys(testView.childViews)[3]]));
+
+        assert.equal(testView.childViews[Object.keys(testView.childViews)[0]].getValue(), 'child1');
+        assert.equal(testView.childViews[Object.keys(testView.childViews)[1]].getValue(), 'child2');
+        assert.equal(testView.childViews[Object.keys(testView.childViews)[2]].getValue(), 'child3');
+        assert.equal(testView.childViews[Object.keys(testView.childViews)[3]].getValue(), 'child4');
+
+        assert.notEqual(testView.childViews[Object.keys(testView.childViews)[0]].getValue(), 'child3');
+        assert.notEqual(testView.childViews[Object.keys(testView.childViews)[1]].getValue(), 'child4');
+
+        assert.isTrue(M.isView(testView._getChildView(0)));
+        assert.isTrue(M.isView(testView._getChildView(1)));
+        assert.isTrue(M.isView(testView._getChildView(2)));
+        assert.isTrue(M.isView(testView._getChildView(3)));
+
+        assert.equal(testView._getChildView(0).getValue(), 'child1');
+        assert.equal(testView._getChildView(1).getValue(), 'child2');
+        assert.equal(testView._getChildView(2).getValue(), 'child3');
+        assert.equal(testView._getChildView(3).getValue(), 'child4');
+
+        assert.notEqual(testView._getChildView(0).getValue(), 'child3');
+        assert.notEqual(testView._getChildView(1).getValue(), 'child4');
+
+        //---
+
+        assert.isTrue(M.isView(testView._getChildView('0')));
+        assert.isTrue(M.isView(testView._getChildView('1')));
+        assert.isTrue(M.isView(testView._getChildView('2')));
+        assert.isTrue(M.isView(testView._getChildView('3')));
+
+        assert.equal(testView._getChildView('0').getValue(), 'child1');
+        assert.equal(testView._getChildView('1').getValue(), 'child2');
+        assert.equal(testView._getChildView('2').getValue(), 'child3');
+        assert.equal(testView._getChildView('3').getValue(), 'child4');
+
+        assert.notEqual(testView._getChildView('0').getValue(), 'child3');
+        assert.notEqual(testView._getChildView('1').getValue(), 'child4');
+
+        testView = null;
+
+
+    });
+
+
 });
