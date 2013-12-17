@@ -69,8 +69,13 @@ M.MenuView = M.MovableView.extend({
     initialize: function() {
         this._deviceSwipeListenerWidth = parseInt(M.ThemeVars.get('m-menu-view-device-swipe-listener-width'), 10);
         this.leftEdge = this.leftEdge || 0;
-        this.rightEdge = this.rightEdge || parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth;
+        this._rightEdge = this.rightEdge || parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth;
         M.MovableView.prototype.initialize.apply(this, arguments);
+    },
+
+    setDimensions: function() {
+        M.MovableView.prototype.setDimensions.apply(this, arguments);
+        this._rightEdge = this.rightEdge || parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth;
     },
 
     _postRender: function() {
@@ -83,9 +88,8 @@ M.MenuView = M.MovableView.extend({
      * Add background to the element.
      */
     toLeft: function() {
-        //copy of the prototype:
-        this._setDimensions();
         this.$el.removeClass('on-right');
+        //copy of the prototype:
         this.$el.addClass('on-left');
         this._resetInlineCss();
         this._lastPos.x = 0;
@@ -117,14 +121,32 @@ M.MenuView = M.MovableView.extend({
      * @private
      */
     _setCss: function( position ) {
-        M.MovableView.prototype._setCss.apply(this, arguments);
-        var opacity = (parseInt(10 - (this.rightEdge / position.x), 10) / 10);
+        if( position && position.x && typeof position.x !== 'undefined' ) {
+            var pos = parseInt(position.x, 10);
+            if( !isNaN(pos) ) {
+                this._setOpacity(this._getOpacityByPosition(position.x));
+                return M.MovableView.prototype._setCss.apply(this, arguments);
+            }
+        }
+        return void 0;
+    },
+
+    _getOpacityByPosition: function( position ) {
+        console.log(position);
+        var opacity = position === 0 ? position : (parseInt(10 - (this._rightEdge / position), 10) / 10);
         if( opacity < 0 ) {
             opacity = 0;
         }
         if( opacity > 1 ) {
             opacity = 1;
         }
+        if( !isNaN(opacity) ) {
+            return opacity;
+        }
+        return void 0;
+    },
+
+    _setOpacity: function( opacity ) {
         this._$backdrop.css('opacity', opacity);
     },
 
