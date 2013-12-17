@@ -34,6 +34,11 @@ M.ButtonView = M.View.extend({
      */
     enabled: YES,
 
+    initialize:function(){
+        this.value = this.value || '';
+        M.View.prototype.initialize.apply(this, arguments);
+    },
+
     _assignTemplateValues: function() {
         M.View.prototype._assignTemplateValues.apply(this, arguments);
         this._templateValues.icon = this.icon ? this.icon : '';
