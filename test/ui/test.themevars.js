@@ -25,6 +25,7 @@ describe('M.PageTransitions', function () {
 
 
     it('get variables', function () {
+        var themeVars = JSON.stringify(M.ThemeVars._vars);
         M.ThemeVars._vars = {
             default: {
                 "colorA": "#AAA",
@@ -43,5 +44,17 @@ describe('M.PageTransitions', function () {
         assert.equal(M.ThemeVars.get('colorA', 'ios'), '#AAA');
         assert.equal(M.ThemeVars.get('colorB', 'ios'), '#BABABA');
         assert.equal(M.ThemeVars.get('colorC', 'ios'), '#CCC');
+        M.ThemeVars._vars = JSON.parse(themeVars);
+    });
+
+    it('theme vars', function(){
+        assert.isDefined(M.ThemeVars, '1');
+        assert.isFunction(M.ThemeVars.get, '2');
+        assert.isDefined(M.ThemeVars._vars, '3');
+        assert.isDefined(M.ThemeVars._vars.default, '4');
+
+        assert.isDefined(M.ThemeVars._vars.default['m-menu-view-width'], JSON.stringify(M.ThemeVars._vars.default));
+        assert.equal(M.ThemeVars._vars.default['m-menu-view-width'], M.ThemeVars.get('m-menu-view-width', 'default'), '6');
+        assert.equal(M.ThemeVars._vars.default['m-menu-view-width'], M.ThemeVars.get('m-menu-view-width'), '7');
     });
 });

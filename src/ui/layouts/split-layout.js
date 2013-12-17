@@ -77,7 +77,6 @@ M.SplitLayout = M.SwitchLayout.extend({
         var newContent = this._mapViews(this._currentContent, 'content', settings.content);
         var newLeft = this._mapViews(this._currentLeft, 'left', settings.left);
 
-        this._applyAdditionalBehaviour();
         this._startTransition(settings.left, settings.content);
 
         this._currentContent = newContent;
@@ -164,6 +163,7 @@ M.SplitLayout = M.SwitchLayout.extend({
             // Init transitions
             this.rightTransition = M.PageTransitions.design().init( this._getRightContainer() );
             this.leftTransition = M.PageTransitions.design().init( this._getLeftContainer() );
+            this._applyAdditionalBehaviour();
         }
 
         // Add grid classes

@@ -92,6 +92,12 @@ M.MovableView = M.View.extend({
      */
     _$movableContent: null,
 
+    /**
+     * Determines if there is a current animation
+     * @private
+     */
+    _isAnimating: NO,
+
     initialize: function() {
         M.View.prototype.initialize.apply(this, arguments);
         this.leftEdge = this.leftEdge || 0;
@@ -106,7 +112,7 @@ M.MovableView = M.View.extend({
     _getsVisible: function() {
         M.View.prototype._getsVisible.apply(this, arguments);
         this.toLeft();
-        this._setDimensions();
+        this.setDimensions();
     },
 
     /**
@@ -137,12 +143,6 @@ M.MovableView = M.View.extend({
     },
 
     /**
-     * Determines if there is a current animation
-     * @private
-     */
-    _isAnimating: NO,
-
-    /**
      * Get called on every touch move of the moveable element. Calculates the position of the element and calls the move method to the calculated points
      * @param event
      * @private
@@ -164,7 +164,6 @@ M.MovableView = M.View.extend({
      * @private
      */
     _touchEnd: function( event, element ) {
-
 
         if( event.target !== this._$movableContent[0] && !this.$el.hasClass('on-move') ) {
             return;
@@ -214,29 +213,13 @@ M.MovableView = M.View.extend({
      * Cache the dimensions of the elements
      * @private
      */
-    _setDimensions: function() {
+    setDimensions: function() {
         // get the outer width of the moveable
         this._movableWidth = this._$movableContent.outerWidth();
         // get the outer width of the container
         this._containerWidth = this.$el.outerWidth();
         //default is the with of the outer object minus the moveable part
         this._rightEdge = this.rightEdge || this._containerWidth - this._movableWidth;
-    },
-
-    /**
-     * Move the movable with an animation
-     * @param options
-     * @private
-     */
-    _animatedMove: function( options ) {
-        if( this._isAnimating ) {
-            return;
-        }
-        var that = this;
-        that._isAnimating = YES;
-
-        that._isAnimating = NO;
-        that._currentPos.x = options.x;
     },
 
     /**
@@ -321,10 +304,17 @@ M.MovableView = M.View.extend({
      * @private
      */
     _setCss: function( position ) {
-        var pos = parseInt(position.x, 10);
-        this._$movableContent.css('-webkit-transform', 'translate3d(' + pos + 'px, 0, 0)');
-        this._$movableContent.css('-moz-transform', 'translate3d(' + pos + 'px, 0, 0)');
-        this._$movableContent.css('transform', 'translate3d(' + pos + 'px, 0, 0)');
+        if( position && position.x && typeof position.x !== 'undefined' ) {
+            var pos = parseInt(position.x, 10);
+            if( !isNaN(pos) ) {
+                this._$movableContent.css('-webkit-transform', 'translate3d(' + pos + 'px, 0, 0)');
+                this._$movableContent.css('-moz-transform', 'translate3d(' + pos + 'px, 0, 0)');
+                this._$movableContent.css('transform', 'translate3d(' + pos + 'px, 0, 0)');
+                return this;
+            }
+        }
+        return void 0;
+
     },
 
     /**
