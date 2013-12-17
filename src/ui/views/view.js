@@ -146,7 +146,6 @@
          */
         _value_: null,
 
-
         /**
          * The hammer.js event object
          */
@@ -617,8 +616,8 @@
         },
 
         _addClassNames: function() {
-
-            this.$el.addClass(this._type.split('.')[1].toLowerCase());
+            var viewCssClassName = this._getViewCssClassName();
+            this.$el.addClass(viewCssClassName);
             if( this.cssClass ) {
                 this.$el.addClass(this.cssClass);
             }
@@ -628,6 +627,38 @@
             if( this.grid ) {
                 this.$el.addClass(this.grid);
             }
+        },
+
+        /**
+         * Returns based on the _type property of the view the cssClassName. If the type starts with 'M.' it is in the M context. This will return the name of the view without 'M.' in lowercase.
+         * If the _type is not in the M context a check on whitespaces and dots is made. If there isn't a forbidden character the _type is returned as string.
+         * @returns {String}
+         * @private
+         * @example
+         * M.ButtonView.extend().create()._getViewCssClassName(); // buttonview
+         */
+        _getViewCssClassName: function() {
+            // return value. if there is a error/warning a empty string is returned
+            var cssClassName = null;
+            // if the name contains 'M.' like every view should from the framework
+            if( this._type.toString().indexOf('M.') === 0 ) {
+                // this is a View in the M context
+                cssClassName = this._type.split('M.')[1].toLowerCase();
+            } else {
+                cssClassName = this._type.toString();
+            }
+            // check if there are any whitespaces in the _type property and show a warning if there are any.
+            if( cssClassName.indexOf(' ') >= 0 ) {
+                console.warn('The View type contains whitespaces: ' + this._type + '. The _type property gets added to the css classes. Since there are whitespaces inside the name the view has multiple classes. To set a class overwrite _getViewCssClassName method of the view');
+                cssClassName = '';
+            }
+            // check if there are any dots in the _type property. If there are any don't add the cssClass
+            if( cssClassName.indexOf('.') >= 0 ) {
+                console.warn('The View type contains dots: ' + this._type + '. The _type property gets added to the css classes. Since there are dots inside the name we skiped this. To enable this featuer overwrite the _getViewCssClassName method');
+                cssClassName = '';
+            }
+            // a error should overwrite the cssClassName with an empty string. If this doesn't happen set the cssClassName to the type
+            return cssClassName;
         },
 
         _assignBinding: function() {
@@ -714,7 +745,7 @@
          */
         setChildView: function( selector, view ) {
 
-            if(!this.childViews[selector]){
+            if( !this.childViews[selector] ) {
                 this.addChildView(selector, view);
             } else {
                 this.childViews[selector] = view;
