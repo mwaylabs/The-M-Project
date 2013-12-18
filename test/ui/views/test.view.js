@@ -531,5 +531,89 @@ describe('M.View', function() {
 
     });
 
+    it('assignTemplateValues', function() {
+        var TESTVALUE = 'testvalue';
+        var testView = M.View.extend({}).create({value: TESTVALUE});
+        testView.render();
+        testView._templateValues;
+        var _templateValues = JSON.parse(JSON.stringify(testView._templateValues));
+        assert.isDefined(testView._templateValues);
+        assert.deepEqual(_templateValues, testView._templateValues);
+        assert.isNull(testView.assignTemplateValues());
+
+        var testProperties = {
+            a: 'a',
+            b: 'b'
+        }
+
+        testView.assignTemplateValues = function() {
+            return testProperties;
+        }
+
+        testView._assignTemplateValues();
+        assert.notEqual(_templateValues, testView._templateValues);
+        assert.isDefined(testView._templateValues.a);
+        assert.isDefined(testView._templateValues.b);
+        assert.isDefined(testView._templateValues._value);
+        assert.equal(testView._templateValues.a, 'a');
+        assert.equal(testView._templateValues.b, 'b');
+        assert.equal(testView._templateValues._value, TESTVALUE);
+
+
+        var testView = M.View.extend({
+            assignTemplateValues: function() {
+                return testProperties;
+            }
+        }).create({
+                value: TESTVALUE
+            });
+
+        assert.isDefined(testView._templateValues.a);
+        assert.isDefined(testView._templateValues.b);
+        assert.isDefined(testView._templateValues._value);
+        assert.equal(testView._templateValues.a, 'a');
+        assert.equal(testView._templateValues.b, 'b');
+        assert.equal(testView._templateValues._value, TESTVALUE);
+
+
+        var testView = M.View.extend({
+            assignTemplateValues: function() {
+                return testProperties;
+            }
+        }).create({
+                value: {
+                    a: 'xxxx'
+                }
+            });
+
+        assert.isDefined(testView._templateValues.a);
+        assert.isDefined(testView._templateValues.b);
+        assert.isUndefined(testView._templateValues._value);
+        assert.equal(testView._templateValues.a, 'a');
+        assert.equal(testView._templateValues.b, 'b');
+
+        assert.equal(testView.getValue().a, 'xxxx');
+
+        var testView = M.View.extend({
+            assignTemplateValues: function() {
+                return testProperties;
+            }
+        }).create({
+                value: {
+                    c: 'xxxx'
+                }
+            });
+
+        assert.isDefined(testView._templateValues.a);
+        assert.isDefined(testView._templateValues.b);
+        assert.isDefined(testView._templateValues.c);
+        assert.equal(testView._templateValues.a, 'a');
+        assert.equal(testView._templateValues.b, 'b');
+        assert.equal(testView._templateValues.c, 'xxxx');
+
+        assert.equal(testView.getValue().c, 'xxxx');
+
+    });
+
 
 });

@@ -39,6 +39,8 @@ M.RadiolistView = M.SelectionlistView.extend({
      */
     _template: _.tmpl(M.TemplateManager.get('M.RadiolistView')),
 
+    _templateString: M.TemplateManager.get('M.RadiolistView'),
+
     /**
      * The template of an option before initializing it.
      * @private

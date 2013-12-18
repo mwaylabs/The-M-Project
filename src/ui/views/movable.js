@@ -22,6 +22,8 @@ M.MovableView = M.View.extend({
      */
     _template: _.tmpl(M.TemplateManager.get('M.MovableView')),
 
+    _templateString: M.TemplateManager.get('M.MovableView'),
+
     leftEdge: 0,
 
     duration: 1000,

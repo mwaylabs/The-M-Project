@@ -12,6 +12,8 @@ M.ButtonGroupView = M.View.extend({
 
     _template: _.tmpl(M.TemplateManager.get('M.ButtonGroupView')),
 
+    _templateString: M.TemplateManager.get('M.ButtonGroupView'),
+
     _internalCssClasses: 'clearfix',
 
     setActive: function (view) {

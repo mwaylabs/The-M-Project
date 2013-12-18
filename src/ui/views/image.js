@@ -10,7 +10,10 @@
 M.ImageView = M.View.extend({
 
     _type: 'M.ImageView',
+
     _template: _.tmpl(M.TemplateManager.get('M.ImageView')),
+
+    _templateString: M.TemplateManager.get('M.ImageView'),
 
     /**
      * Represents the alt attribute of the img tag

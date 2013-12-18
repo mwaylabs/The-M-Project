@@ -10,17 +10,23 @@
 M.DebugView = M.View.extend({
 
     _type: 'M.DebugView',
+
     _template: _.tmpl(M.TemplateManager.get('M.DebugView')),
+
+    _templateString: M.TemplateManager.get('M.DebugView'),
+
     _debugViewIsHidden: YES,
+
     cssClass: 'bg',
+
     useAsScope: YES,
 
-    initialize: function () {
+    initialize: function() {
         M.View.prototype.initialize.apply(this, arguments);
         this._addShakeEvent();
     },
 
-    hide: function(){
+    hide: function() {
         this._debugViewIsHidden = YES;
         this.$el.hide();
     },
@@ -41,22 +47,22 @@ M.DebugView = M.View.extend({
         }
     },
 
-    toggleGrid: function () {
+    toggleGrid: function() {
         this.$el.toggleClass('bg');
         this.childViews['debug-grid'].$el.toggle();
     },
 
-    androidLightTheme: function(){
+    androidLightTheme: function() {
         this.resetTheme();
         $('html').addClass('android-light');
     },
 
-    iosTheme: function(){
+    iosTheme: function() {
         this.resetTheme();
         $('html').addClass('ios');
     },
 
-    resetTheme: function(){
+    resetTheme: function() {
         $('html').removeClass('android').removeClass('android-light').removeClass('android-dark').removeClass('ios');
     },
 
@@ -103,7 +109,7 @@ M.DebugView = M.View.extend({
         useElement: YES,
         template: (function() {
             var tpl = '<div class="debug-container"><div class="debug-grid col-xs-12"><div class="row">';
-            for(var i=0; i < 12; i++) {
+            for( var i = 0; i < 12; i++ ) {
                 tpl += '<div class="col-xs-1"><div class="inner"></div></div>';
             }
             tpl += '</div></div></div>';

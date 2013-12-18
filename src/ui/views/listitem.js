@@ -22,6 +22,8 @@ M.ListItemView = M.View.extend({
      */
     _template: _.tmpl(M.TemplateManager.get('M.ListItemView')),
 
+    _templateString: M.TemplateManager.get('M.ListItemView'),
+
     /**
      * The type of the listitem. Default is 'basic' and just displays the value
      * select from the M.ListItemView.CONS

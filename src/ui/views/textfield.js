@@ -76,6 +76,8 @@ M.TextfieldView = M.View.extend({
      */
     _template: _.tmpl(M.TemplateManager.get('M.TextfieldView')),
 
+    _templateString: M.TemplateManager.get('M.TextfieldView'),
+
     /**
      * If the type of the view is 'clear' use a custom text delete element
      */
@@ -113,7 +115,7 @@ M.TextfieldView = M.View.extend({
                 val = '';
             }
             value = M.Model.create({
-                _value: val
+                value: val
             });
         }
         // ensure that the value of a textfield is a model
@@ -127,7 +129,7 @@ M.TextfieldView = M.View.extend({
         // the possition of the icon
         this.cssClass = this.cssClass || 'right';
         // if there is a default value show the icon
-        if( this.getValue()._value === '' ) {
+        if( this.getValue().value === '' ) {
             this.cssClass += ' hidden-icon';
         }
         // toggle the icon when a value is set or empty
@@ -213,12 +215,19 @@ M.TextfieldView = M.View.extend({
             // add the clear functionality
             this.$el.find('i').on('click', function() {
                 // set the value empty...
-                that.value.set('_value', '');
+                that.value.set('value', '');
                 // and hide the clear icon
                 that.$el.addClass('hidden-icon');
             });
         }
         return this;
+    },
+
+    _extendTemplate: function(){
+
+        if( this.extendTemplate ) {
+            console.warn('Extend the Template of a M.TextFieldView is not possible. Overwrite the complete _template.');
+        }
     },
 
     /**

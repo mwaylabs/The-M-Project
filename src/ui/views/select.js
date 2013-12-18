@@ -15,6 +15,8 @@ M.SelectView = M.View.extend({
 
     template: M.TemplateManager.get('M.SelectView'),
 
+    _templateString: M.TemplateManager.get('M.SelectView'),
+
     _assignBinding: function () {
         M.View.prototype._assignBinding.apply(this, arguments);
         if (this.selectOptions) {

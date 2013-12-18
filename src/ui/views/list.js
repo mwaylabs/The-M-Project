@@ -14,6 +14,8 @@ M.ListView = M.View.extend({
 
     _template: _.tmpl(M.TemplateManager.get('M.ListView')),
 
+    _templateString: M.TemplateManager.get('M.ListView'),
+
     _render: function () {
         M.View.prototype._render.apply(this, arguments);
     },

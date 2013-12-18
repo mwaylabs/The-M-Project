@@ -76,7 +76,6 @@ describe('M.ButtonGroupView', function() {
     });
 
     it('setActive with given view and 1 button item', function() {
-
         var buttonGroup = M.ButtonGroupView.extend({}, {
 
             button1: M.ButtonView.extend({

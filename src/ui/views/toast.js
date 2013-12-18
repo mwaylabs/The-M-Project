@@ -22,6 +22,8 @@ M.Toast = M.View.extend({
      */
     template: '<div class="toast"><div id="<%= id %>"><%= text %></div></div>',
 
+    _templateString: '<div class="toast"><div id="<%= id %>"><%= text %></div></div>',
+
     /**
      * the id of the toast
      */

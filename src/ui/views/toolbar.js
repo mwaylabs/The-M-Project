@@ -21,6 +21,8 @@ M.ToolbarView = M.View.extend({
      * @private
      * @type {function}
      */
-    _template: _.tmpl(M.TemplateManager.get('M.ToolbarView'))
+    _template: _.tmpl(M.TemplateManager.get('M.ToolbarView')),
+
+    _templateString: M.TemplateManager.get('M.ToolbarView')
 
 });

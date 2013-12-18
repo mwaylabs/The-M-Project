@@ -37,6 +37,8 @@ M.TextView = M.View.extend({
      */
     _template: _.tmpl(M.TemplateManager.get('M.TextView')),
 
+    _templateString: M.TemplateManager.get('M.TextView'),
+
     /**
      * Add all the template values
      */

@@ -13,6 +13,8 @@ M.ToggleView = M.View.extend({
 
     _template: _.tmpl(M.TemplateManager.get('M.ToggleView')),
 
+    _templateString: M.TemplateManager.get('M.ToggleView'),
+
     initialize: function () {
         M.View.prototype.initialize.apply(this, arguments);
     },
