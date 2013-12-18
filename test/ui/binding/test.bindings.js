@@ -106,14 +106,14 @@ describe('M.View Bindings', function() {
         assert.isTrue(app.childViews.contentBinding2.getValue().a === TEST_ATTRIBUTE_1);
         assert.isTrue(app.childViews.contentBinding2.getValue().b === TEST_ATTRIBUTE_2);
 
-        assert.isTrue(app.childViews.contentBinding1._value_.get('a') === TEST_ATTRIBUTE_1);
-        assert.isTrue(app.childViews.contentBinding1._value_.get('b') === TEST_ATTRIBUTE_2);
-        assert.isTrue(app.childViews.contentBinding2._value_.get('a') === TEST_ATTRIBUTE_1);
-        assert.isTrue(app.childViews.contentBinding2._value_.get('b') === TEST_ATTRIBUTE_2);
+        assert.isTrue(app.childViews.contentBinding1._value.get('a') === TEST_ATTRIBUTE_1);
+        assert.isTrue(app.childViews.contentBinding1._value.get('b') === TEST_ATTRIBUTE_2);
+        assert.isTrue(app.childViews.contentBinding2._value.get('a') === TEST_ATTRIBUTE_1);
+        assert.isTrue(app.childViews.contentBinding2._value.get('b') === TEST_ATTRIBUTE_2);
 
-        assert.isTrue(app.model === app.childViews.contentBinding1._value_);
-        assert.isTrue(app.model === app.childViews.contentBinding2._value_);
-        assert.isTrue(app.childViews.contentBinding1._value_ === app.childViews.contentBinding2._value_);
+        assert.isTrue(app.model === app.childViews.contentBinding1._value);
+        assert.isTrue(app.model === app.childViews.contentBinding2._value);
+        assert.isTrue(app.childViews.contentBinding1._value === app.childViews.contentBinding2._value);
     });
 
     it('Stickit general', function() {
@@ -131,26 +131,26 @@ describe('M.View Bindings', function() {
         assert.isTrue(app.childViews.stickitA.getValue() === TEST_ATTRIBUTE_1);
         assert.isTrue(app.childViews.stickitB.getValue() === TEST_ATTRIBUTE_2);
 
-        assert.isTrue(app.childViews.stickitA._value_.model === app.model);
-        assert.isTrue(app.childViews.stickitA._value_.attribute === 'a');
-        assert.isTrue(app.childViews.stickitA._value_.model.get(app.childViews.stickitA._value_.attribute) === TEST_ATTRIBUTE_1);
-        assert.isTrue(app.childViews.stickitA._value_.model.attributes[app.childViews.stickitA._value_.attribute] === TEST_ATTRIBUTE_1);
+        assert.isTrue(app.childViews.stickitA._value.model === app.model);
+        assert.isTrue(app.childViews.stickitA._value.attribute === 'a');
+        assert.isTrue(app.childViews.stickitA._value.model.get(app.childViews.stickitA._value.attribute) === TEST_ATTRIBUTE_1);
+        assert.isTrue(app.childViews.stickitA._value.model.attributes[app.childViews.stickitA._value.attribute] === TEST_ATTRIBUTE_1);
 
-        assert.isTrue(app.childViews.stickitA._value_.model === app.model);
-        assert.isTrue(app.childViews.stickitB._value_.attribute === 'b');
-        assert.isTrue(app.childViews.stickitB._value_.model.get(app.childViews.stickitB._value_.attribute) === TEST_ATTRIBUTE_2);
-        assert.isTrue(app.childViews.stickitB._value_.model.attributes[app.childViews.stickitB._value_.attribute] === TEST_ATTRIBUTE_2);
+        assert.isTrue(app.childViews.stickitA._value.model === app.model);
+        assert.isTrue(app.childViews.stickitB._value.attribute === 'b');
+        assert.isTrue(app.childViews.stickitB._value.model.get(app.childViews.stickitB._value.attribute) === TEST_ATTRIBUTE_2);
+        assert.isTrue(app.childViews.stickitB._value.model.attributes[app.childViews.stickitB._value.attribute] === TEST_ATTRIBUTE_2);
 
         assert.isFalse(app.childViews.stickitA.getValue() === TEST_ATTRIBUTE_2);
         assert.isFalse(app.childViews.stickitB.getValue() === TEST_ATTRIBUTE_1);
 
-        assert.isFalse(app.childViews.stickitB._value_.attribute === 'a');
-        assert.isFalse(app.childViews.stickitB._value_.model.get(app.childViews.stickitB._value_.attribute) === TEST_ATTRIBUTE_1);
-        assert.isFalse(app.childViews.stickitB._value_.model.attributes[app.childViews.stickitB._value_.attribute] === TEST_ATTRIBUTE_1);
+        assert.isFalse(app.childViews.stickitB._value.attribute === 'a');
+        assert.isFalse(app.childViews.stickitB._value.model.get(app.childViews.stickitB._value.attribute) === TEST_ATTRIBUTE_1);
+        assert.isFalse(app.childViews.stickitB._value.model.attributes[app.childViews.stickitB._value.attribute] === TEST_ATTRIBUTE_1);
 
-        assert.isFalse(app.childViews.stickitA._value_.attribute === 'b');
-        assert.isFalse(app.childViews.stickitA._value_.model.get(app.childViews.stickitA._value_.attribute) === TEST_ATTRIBUTE_2);
-        assert.isFalse(app.childViews.stickitA._value_.model.attributes[app.childViews.stickitA._value_.attribute] === TEST_ATTRIBUTE_2);
+        assert.isFalse(app.childViews.stickitA._value.attribute === 'b');
+        assert.isFalse(app.childViews.stickitA._value.model.get(app.childViews.stickitA._value.attribute) === TEST_ATTRIBUTE_2);
+        assert.isFalse(app.childViews.stickitA._value.model.attributes[app.childViews.stickitA._value.attribute] === TEST_ATTRIBUTE_2);
 
 
         assert.isTrue(app.model.get('a') === app.childViews.stickitA.getValue());

@@ -103,7 +103,6 @@ describe('M.ActiveState implementation', function() {
         assert.isTrue(t1._events['touchend'].length > 1);
         assert.isTrue(t1._events['touchcancel'].length > 1);
 
-
         t1.el.dispatchEvent(touchstartEvent);
         assert.isTrue(t1.$el.hasClass('active'));
         assert.equal(eventCounter,1);
