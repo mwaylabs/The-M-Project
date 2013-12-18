@@ -29,6 +29,7 @@
         "NO": true,
         "Modernizr": false,
         "Hammer": false,
-        "FastClick": false
+        "FastClick": false,
+        "enquire": false
     }
 }
