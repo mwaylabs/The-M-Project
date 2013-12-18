@@ -123,7 +123,6 @@ describe('M.ActiveState implementation', function() {
 
     it('_registerActiveState at view with internalEvents and useElement', function() {
         var eventCounter = 0;
-
         var touchstartEvent = Hammer.DOCUMENT.createEvent('Event');
         touchstartEvent.initEvent('touchstart', true, true);
         touchstartEvent.gesture = {};

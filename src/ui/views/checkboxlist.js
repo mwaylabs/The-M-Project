@@ -21,6 +21,8 @@ M.CheckboxlistView = M.SelectionlistView.extend({
      */
     _template: _.tmpl(M.TemplateManager.get('M.CheckboxlistView')),
 
+    _templateString: M.TemplateManager.get('M.CheckboxlistView'),
+
     _optionTemplate: _.tmpl(M.TemplateManager.get('M.CheckboxOptionView')),
 
     _optionsContainer: 'checkbox'

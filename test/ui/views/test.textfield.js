@@ -60,7 +60,7 @@ describe('M.TextfieldView', function () {
 
         assert.isDefined(testView.value);
         assert.equal(testView.$el.find('input').attr('value'), VALUETEXT);
-        assert.equal(testView.$el.find('input').attr('data-binding'), '_value');
+        assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
 
         assert.isDefined(testView.label);
         assert.equal(testView.$el.find('label').text(), LABELTEXT);
@@ -107,7 +107,7 @@ describe('M.TextfieldView', function () {
         assert.isDefined(testView.value);
         assert.equal(testView.getValue(), '');
         assert.equal(testView.$el.find('input').attr('value'), '');
-        assert.equal(testView.$el.find('input').attr('data-binding'), '_value');
+        assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
 
         assert.isDefined(testView.label);
         assert.isNull(testView.label);
@@ -145,7 +145,7 @@ describe('M.TextfieldView', function () {
         assert.isUndefined(testView.value);
         assert.equal(testView.getValue(), '');
         assert.equal(testView.$el.find('input').attr('value'), '');
-        assert.equal(testView.$el.find('input').attr('data-binding'), '_value');
+        assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
 
         assert.isDefined(testView.label);
         assert.equal(testView.label, null);
@@ -181,7 +181,7 @@ describe('M.TextfieldView', function () {
         assert.isUndefined(testView.value);
         assert.equal(testView.getValue(), '');
         assert.equal(testView.$el.find('input').attr('value'), '');
-        assert.equal(testView.$el.find('input').attr('data-binding'), '_value');
+        assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
 
         assert.isDefined(testView.label);
         assert.isNull(testView.label);
@@ -328,27 +328,30 @@ describe('M.TextfieldView', function () {
             type: 'clear'
         }).create().render();
 
-        assert.equal(testView.getValue()._value, '');
+        assert.equal(testView.getValue().value, '');
 
         var testView = M.TextfieldView.extend({
             type: 'clear',
             value: M.Model.create({
-                _value: 'test1'
+                value: 'test1'
             })
-        }).create().render();
-        assert.equal(testView.getValue()._value, 'test1');
+        }).create()
+        testView.render();
+        assert.equal(testView.getValue().value, 'test1');
         testView.$el.find('input').val('test1a');
         testView.$el.find('input').trigger('change');
-        assert.equal(testView.getValue()._value, 'test1a');
+        assert.equal(testView.getValue().value, 'test1a');
 
         var testView = M.TextfieldView.extend({
             type: 'clear',
             value: 'test2'
-        }).create().render();
-        assert.equal(testView.getValue()._value, 'test2');
+        }).create();
+        testView.render();
+
+        assert.equal(testView.getValue().value, 'test2');
         testView.$el.find('input').val('test2a');
         testView.$el.find('input').trigger('change');
-        assert.equal(testView.getValue()._value, 'test2a');
+        assert.equal(testView.getValue().value, 'test2a');
 
 
         var testView = M.TextfieldView.create({
@@ -356,22 +359,22 @@ describe('M.TextfieldView', function () {
             value: 'test3'
         }).render();
 
-        assert.equal(testView.getValue()._value, 'test3');
+        assert.equal(testView.getValue().value, 'test3');
         testView.$el.find('input').val('test3a');
         testView.$el.find('input').trigger('change');
-        assert.equal(testView.getValue()._value, 'test3a');
+        assert.equal(testView.getValue().value, 'test3a');
 
         var testView = M.TextfieldView.create({
             type: 'clear',
             value: M.Model.create({
-                _value: 'test4'
+                value: 'test4'
             })
         }).render();
 
-        assert.equal(testView.getValue()._value, 'test4');
+        assert.equal(testView.getValue().value, 'test4');
         testView.$el.find('input').val('test4a');
         testView.$el.find('input').trigger('change');
-        assert.equal(testView.getValue()._value, 'test4a');
+        assert.equal(testView.getValue().value, 'test4a');
 
         var testView = M.TextfieldView.create({
             value: 'test5'
@@ -387,7 +390,7 @@ describe('M.TextfieldView', function () {
         var testView = M.TextfieldView.extend({
             type: 'clear',
             value: M.Model.create({
-                _value: ''
+                value: ''
             })
         }).create().render();
 
@@ -396,11 +399,49 @@ describe('M.TextfieldView', function () {
         var testView = M.TextfieldView.extend({
             type: 'clear',
             value: M.Model.create({
-                _value: 'test'
+                value: 'test'
             })
         }).create().render();
 
         assert.isFalse(testView.$el.hasClass('hidden-icon'));
-    })
+    });
+
+
+    it('TextfieldView with extendTemplate (this is not possible at the moment)', function(){
+
+
+        var testView = M.TextfieldView.extend({
+            type: 'clear',
+            extendTemplate: '<%= _value %>',
+            value: M.Model.create({
+                asdf: 'test1'
+            })
+        }).create();
+
+        testView.render();
+        assert.equal(testView.getValue().asdf, 'test1');
+        testView.$el.find('input').val('test1a');
+        testView.$el.find('input').trigger('change');
+        //you have to use value not _value -> using _value will corrupt the template
+        assert.equal(testView.getValue().asdf, 'test1');
+        //TODO how can this be achieved
+        //assert.equal(testView.getValue().asdf, 'test1a');
+
+        var testView = M.TextfieldView.create({
+            type: 'clear',
+            extendTemplate: '<%= _value %>',
+            value: M.Model.create({
+                _value: 'test4'
+            })
+        }).render();
+
+        assert.equal(testView.getValue()._value, 'test4');
+        testView.$el.find('input').val('test4a');
+        testView.$el.find('input').trigger('change');
+        assert.equal(testView.getValue()._value, 'test4');
+        //TODO how can this be achieved
+        //assert.equal(testView.getValue()._value, 'test4a');
+
+    });
 
 });

@@ -14,7 +14,7 @@ describe('Scope', function () {
 
         var testView = M.View.extend({scopeKey: 'test.prop' }).create(scope, null, true).render();
         assert.equal(testView.getValue, VAL);
-        assert.equal(testView.$el.find('[data-binding="_value"]').html(), VAL);
+        assert.equal(testView.$el.find('[data-binding="value"]').html(), VAL);
 
     });
 
@@ -31,7 +31,7 @@ describe('Scope', function () {
         var TestView = M.View.extend({scopeKey: 'test.prop' });
         var view = TestView.create(scope).render();
         assert.equal(view.getValue(), VAL);
-        assert.equal(view.$el.find('[data-binding="_value"]').html(), VAL);
+        assert.equal(view.$el.find('[data-binding="value"]').html(), VAL);
 
     });
 });

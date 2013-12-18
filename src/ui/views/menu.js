@@ -31,6 +31,8 @@ M.MenuView = M.MovableView.extend({
      */
     _template: _.tmpl(M.TemplateManager.get('M.MenuView')),
 
+    _templateString: M.TemplateManager.get('M.MenuView'),
+
     /**
      * The most left position of the menu
      */
@@ -132,7 +134,6 @@ M.MenuView = M.MovableView.extend({
     },
 
     _getOpacityByPosition: function( position ) {
-        console.log(position);
         var opacity = position === 0 ? position : (parseInt(10 - (this._rightEdge / position), 10) / 10);
         if( opacity < 0 ) {
             opacity = 0;

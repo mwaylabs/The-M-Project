@@ -21,6 +21,8 @@ M.SelectionlistView = M.View.extend({
      */
     _template: null,
 
+    _templateString: null,
+
     /**
      * The template of an option before initializing it.
      * @private
@@ -60,7 +62,7 @@ M.SelectionlistView = M.View.extend({
             _.each(this.selectOptions.collection, function (value) {
                 dom += this._optionTemplate({
                     name: this.cid + '-option',
-                    _value: value[this.selectOptions.valuePath || 'value'],
+                    value: value[this.selectOptions.valuePath || 'value'],
                     label: value[this.selectOptions.labelPath || 'label']
                 });
             }, this);

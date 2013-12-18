@@ -68,7 +68,9 @@
          * define a template based on the tmpl template engine
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get('M.View')),
+        _template: null, //_.tmpl(M.TemplateManager.get('M.View')),
+
+        _templateString: M.TemplateManager.get('M.View'),
 
         /**
          * use this property to define which data are given to the template
@@ -493,6 +495,29 @@
             return this;
         },
 
+        //        _assignTemplate: function( template ) {
+        //
+        //            template = template || this.template;
+        //            if( template ) {
+        //                // use a custom template set by extend or given as a parameter
+        //                if( typeof template === 'function' ) {
+        //                    this._template = template;
+        //                } else if( _.isString(template) ) {
+        //                    this._template = _.tmpl(template);
+        //                } else if( _.isObject(template) ) {
+        //                    this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']));
+        //                }
+        //            } else {
+        //                if( this._useStickit() ) {
+        //                    // if stickit is used use the tmpl template engine
+        //                    this._template = _.tmpl(this._templateString);
+        //                } else {
+        //                    // otherwise use the underscore template engine
+        //                }
+        //                this.template = this._template;
+        //            }
+        //        },
+
         _assignTemplate: function( template ) {
             template = template || this.template;
             if( template ) {
@@ -503,7 +528,15 @@
                 } else if( _.isObject(template) ) {
                     this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']));
                 }
-            } else if( this._template ) {
+            } else if( this._templateString ) {
+                if( this._useStickit() ) {
+                    // if stickit is used use the tmpl template engine
+                    this._template = _.tmpl(this._templateString);
+                } else {
+                    // otherwise use the
+                    //this._template = _.tmpl(this._templateString, null, {useStickitAttribute: NO});
+                    this._template = _.tmpl(this._templateString);
+                }
                 this.template = this._template;
             }
             return this;
@@ -524,17 +557,29 @@
             } else if( typeof _value === 'string' ) {
                 this._templateValues._value = _value;
             } else if( _value !== null && typeof _value === 'object' && this._hasI18NListener === NO ) {
-                this._templateValues = _value;
+                this._templateValues = M.Object.deepCopy(_value);
             } else if( this._hasI18NListener && _.isObject(_value) ) {
                 _.each(_value, function( value, key ) {
                     this._templateValues[key] = M.I18N.l(value.key, value.placeholder);
                 }, this);
             }
+
+            if(typeof this._templateValues._value !== 'undefined' && typeof this._templateValues.value === 'undefined'){
+                this._templateValues.value = this._templateValues._value;
+            } else {
+
+            }
+
+            _.extend(this._templateValues, this.assignTemplateValues());
+        },
+
+        assignTemplateValues: function(){
+            return null;
         },
 
         _extendTemplate: function() {
             if( this.extendTemplate ) {
-                this._templateValues._value = this.extendTemplate;
+                this._templateValues.value = this.extendTemplate;
                 this._template = _.tmpl(this.template(this._templateValues));
             }
         },
@@ -603,7 +648,7 @@
                 this._registerEvents();
             }
             this._addClassNames();
-            if( this.model ) {
+            if( this._useStickit() ) {
                 this._assignBinding();
                 this.stickit();
             }
@@ -627,6 +672,16 @@
             if( this.grid ) {
                 this.$el.addClass(this.grid);
             }
+        },
+
+
+        /**
+         * If there is a model defined we should use stickit for the two way binding
+         * @returns {Boolean|YES|*|Function}
+         * @private
+         */
+        _useStickit: function() {
+            return this.model ? YES : NO;
         },
 
         /**
@@ -668,18 +723,18 @@
             var selector = '';
 
             if( this.model && !M.isModel(_value) ) {
-                selector = '[data-binding="_value"]';
+                selector = '[data-binding="value"]';
                 bindings[selector] = {observe: '' + _value.attribute};
             } else if( this.collection ) {
-                selector = '[data-binding="_value"]';
-                bindings[selector] = {observe: '_value'};
+                selector = '[data-binding="value"]';
+                bindings[selector] = {observe: 'value'};
             } else if( this.model && M.isModel(_value) ) {
                 _.each(this.model.attributes, function( value, key ) {
                     var selector = '[data-binding="' + key + '"]';
                     bindings[selector] = {observe: '' + key};
                 }, this);
             } else if( this.templateExtend === null && this.scopeKey ) {
-                selector = '[data-binding="_value"]';
+                selector = '[data-binding="value"]';
                 bindings[selector] = {observe: '' + this.scopeKey};
             } else {
                 _.each(this._templateValues, function( value, key ) {
@@ -759,7 +814,7 @@
          * @param {M.View}
          */
         getChildView: function( selector ) {
-            if(this.childViews[selector]) {
+            if( this.childViews[selector] ) {
                 return this.childViews[selector];
             }
             return null;

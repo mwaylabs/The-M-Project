@@ -10,7 +10,11 @@
 M.SliderView = M.View.extend({
 
     _type: 'M.SliderView',
+
     _template: _.tmpl(M.TemplateManager.get('M.SliderView')),
+
+    _templateString: M.TemplateManager.get('M.SliderView'),
+
     _getEventOptions: function () {
         return {
             'prevent_default': false,

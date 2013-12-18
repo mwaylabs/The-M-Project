@@ -13,6 +13,8 @@ M.TextareaView = M.TextfieldView.extend({
 
     _template: _.tmpl(M.TemplateManager.get('M.TextareaView')),
 
+    _templateString: M.TemplateManager.get('M.TextareaView'),
+
     _attachToDom: function () {
         return YES;
     }
