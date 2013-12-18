@@ -77,7 +77,7 @@
         _templateValues: null,
 
         /**
-         * extend the default template with this one. It gets injected into the <%= _value_ %> placeholder
+         * extend the default template with this one. It gets injected into the <%= _value %> placeholder
          */
         templateExtend: null,
 
@@ -144,8 +144,7 @@
         /**
          * The Value of the view
          */
-        _value_: null,
-
+        _value: null,
 
         /**
          * The hammer.js event object
@@ -205,21 +204,21 @@
          */
         getValue: function() {
             if( this.model ) {
-                if( this._value_.hasOwnProperty('attribute') && this._value_.hasOwnProperty('model') ) {
-                    return this._value_.model.get(this._value_.attribute);
+                if( this._value.hasOwnProperty('attribute') && this._value.hasOwnProperty('model') ) {
+                    return this._value.model.get(this._value.attribute);
                 }
                 return this._getModel().attributes;
             } else {
-                return this._value_;
+                return this._value;
             }
         },
 
         _getValue: function() {
-            return this._value_;
+            return this._value;
         },
 
         _setValue: function( value ) {
-            this._value_ = value;
+            this._value = value;
         },
 
         getPropertyValue: function( propertyString, data ) {
@@ -267,7 +266,7 @@
         },
 
         _assignValue: function( options ) {
-            //don't write _value_ in the view definition - write value and here it gets assigned
+            //don't write _value in the view definition - write value and here it gets assigned
             if( this.value || (typeof this.value !== 'undefined' && this.value !== null) ) {
                 this._setValue(this.value);
             } else if( this.scopeKey ) {
@@ -276,15 +275,15 @@
                 this._setValue(options.value);
             }
 
-            var _value_ = this._getValue();
+            var _value = this._getValue();
 
-            if( _value_ ) {
-                if( M.isModel(_value_.model) ) {
-                    this._setModel(_value_.model);
-                } else if( M.isModel(_value_) ) {
-                    this._setModel(_value_);
-                } else if( M.isCollection(_value_) ) {
-                    this.collection = _value_;
+            if( _value ) {
+                if( M.isModel(_value.model) ) {
+                    this._setModel(_value.model);
+                } else if( M.isModel(_value) ) {
+                    this._setModel(_value);
+                } else if( M.isCollection(_value) ) {
+                    this.collection = _value;
                 }
             }
 
@@ -305,13 +304,13 @@
 
         _assignContentBinding: function() {
             var that = this;
-            var _value_ = this._getValue();
-            if( this.scopeKey && M.isModel(_value_) ) {
+            var _value = this._getValue();
+            if( this.scopeKey && M.isModel(_value) ) {
                 this.listenTo(this.scope, this.scopeKey, function( model ) {
                     that._setModel(model);
                     that.render();
                 });
-            } else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
+            } else if( this.scopeKey && _value && M.isModel(_value.model) && _value.attribute ) {
                 this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
                     that._setModel(model);
                     that.render();
@@ -512,22 +511,22 @@
 
         _assignTemplateValues: function() {
             this._templateValues = {};
-            var _value_ = this._getValue();
+            var _value = this._getValue();
 
             if( this.model ) {
-                if( M.isModel(_value_) ) {
+                if( M.isModel(_value) ) {
                     this._templateValues = M.Object.deepCopy(this.model.attributes);
                 } else {
-                    this._templateValues._value_ = this.model.get(_value_.attribute);
+                    this._templateValues._value = this.model.get(_value.attribute);
                 }
-            } else if( M.isI18NItem(_value_) ) {
-                this._templateValues._value_ = M.I18N.l(_value_.key, _value_.placeholder);
-            } else if( typeof _value_ === 'string' ) {
-                this._templateValues._value_ = _value_;
-            } else if( _value_ !== null && typeof _value_ === 'object' && this._hasI18NListener === NO ) {
-                this._templateValues = _value_;
-            } else if( this._hasI18NListener && _.isObject(_value_) ) {
-                _.each(_value_, function( value, key ) {
+            } else if( M.isI18NItem(_value) ) {
+                this._templateValues._value = M.I18N.l(_value.key, _value.placeholder);
+            } else if( typeof _value === 'string' ) {
+                this._templateValues._value = _value;
+            } else if( _value !== null && typeof _value === 'object' && this._hasI18NListener === NO ) {
+                this._templateValues = _value;
+            } else if( this._hasI18NListener && _.isObject(_value) ) {
+                _.each(_value, function( value, key ) {
                     this._templateValues[key] = M.I18N.l(value.key, value.placeholder);
                 }, this);
             }
@@ -535,7 +534,7 @@
 
         _extendTemplate: function() {
             if( this.extendTemplate ) {
-                this._templateValues._value_ = this.extendTemplate;
+                this._templateValues._value = this.extendTemplate;
                 this._template = _.tmpl(this.template(this._templateValues));
             }
         },
@@ -617,8 +616,8 @@
         },
 
         _addClassNames: function() {
-
-            this.$el.addClass(this._type.split('.')[1].toLowerCase());
+            var viewCssClassName = this._getViewCssClassName();
+            this.$el.addClass(viewCssClassName);
             if( this.cssClass ) {
                 this.$el.addClass(this.cssClass);
             }
@@ -630,25 +629,57 @@
             }
         },
 
+        /**
+         * Returns based on the _type property of the view the cssClassName. If the type starts with 'M.' it is in the M context. This will return the name of the view without 'M.' in lowercase.
+         * If the _type is not in the M context a check on whitespaces and dots is made. If there isn't a forbidden character the _type is returned as string.
+         * @returns {String}
+         * @private
+         * @example
+         * M.ButtonView.extend().create()._getViewCssClassName(); // buttonview
+         */
+        _getViewCssClassName: function() {
+            // return value. if there is a error/warning a empty string is returned
+            var cssClassName = null;
+            // if the name contains 'M.' like every view should from the framework
+            if( this._type.toString().indexOf('M.') === 0 ) {
+                // this is a View in the M context
+                cssClassName = this._type.split('M.')[1].toLowerCase();
+            } else {
+                cssClassName = this._type.toString();
+            }
+            // check if there are any whitespaces in the _type property and show a warning if there are any.
+            if( cssClassName.indexOf(' ') >= 0 ) {
+                console.warn('The View type contains whitespaces: ' + this._type + '. The _type property gets added to the css classes. Since there are whitespaces inside the name the view has multiple classes. To set a class overwrite _getViewCssClassName method of the view');
+                cssClassName = '';
+            }
+            // check if there are any dots in the _type property. If there are any don't add the cssClass
+            if( cssClassName.indexOf('.') >= 0 ) {
+                console.warn('The View type contains dots: ' + this._type + '. The _type property gets added to the css classes. Since there are dots inside the name we skiped this. To enable this featuer overwrite the _getViewCssClassName method');
+                cssClassName = '';
+            }
+            // a error should overwrite the cssClassName with an empty string. If this doesn't happen set the cssClassName to the type
+            return cssClassName;
+        },
+
         _assignBinding: function() {
             var bindings = {};
 
-            var _value_ = this._getValue();
+            var _value = this._getValue();
             var selector = '';
 
-            if( this.model && !M.isModel(_value_) ) {
-                selector = '[data-binding="_value_"]';
-                bindings[selector] = {observe: '' + _value_.attribute};
+            if( this.model && !M.isModel(_value) ) {
+                selector = '[data-binding="_value"]';
+                bindings[selector] = {observe: '' + _value.attribute};
             } else if( this.collection ) {
-                selector = '[data-binding="_value_"]';
-                bindings[selector] = {observe: '_value_'};
-            } else if( this.model && M.isModel(_value_) ) {
+                selector = '[data-binding="_value"]';
+                bindings[selector] = {observe: '_value'};
+            } else if( this.model && M.isModel(_value) ) {
                 _.each(this.model.attributes, function( value, key ) {
                     var selector = '[data-binding="' + key + '"]';
                     bindings[selector] = {observe: '' + key};
                 }, this);
             } else if( this.templateExtend === null && this.scopeKey ) {
-                selector = '[data-binding="_value_"]';
+                selector = '[data-binding="_value"]';
                 bindings[selector] = {observe: '' + this.scopeKey};
             } else {
                 _.each(this._templateValues, function( value, key ) {
@@ -714,7 +745,7 @@
          */
         setChildView: function( selector, view ) {
 
-            if(!this.childViews[selector]){
+            if( !this.childViews[selector] ) {
                 this.addChildView(selector, view);
             } else {
                 this.childViews[selector] = view;

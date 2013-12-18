@@ -351,6 +351,7 @@ describe('M.ToggleSwitchView', function() {
             offLabel: OFF
         }).create(scope, null, true).render();
 
+        debugger;
         assert.isTrue(toggleSwitch.$el.find('input').prop('checked'));
         assert.equal(toggleSwitch.getValue(), ON);
         assert.equal(scope.person.attributes.favorite, ON);

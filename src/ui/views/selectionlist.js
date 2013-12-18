@@ -60,7 +60,7 @@ M.SelectionlistView = M.View.extend({
             _.each(this.selectOptions.collection, function (value) {
                 dom += this._optionTemplate({
                     name: this.cid + '-option',
-                    _value_: value[this.selectOptions.valuePath || 'value'],
+                    _value: value[this.selectOptions.valuePath || 'value'],
                     label: value[this.selectOptions.labelPath || 'label']
                 });
             }, this);

@@ -388,6 +388,58 @@ describe('M.View', function() {
         assert.isTrue(testView.$el.hasClass('e'));
     });
 
+    it('_addClassNames with custom _type', function() {
+
+        var testView = M.ButtonView.extend().create().render();
+        assert.isTrue(testView.$el.hasClass('buttonview'));
+
+        var testView = M.ButtonView.extend({
+            _type: 'MyButtonView'
+        }).create().render();
+
+        assert.isTrue(testView.$el.hasClass('MyButtonView'));
+    });
+
+    it('_getViewCssClassName', function() {
+
+        var testView = M.View.extend().create();
+        assert.equal(testView._getViewCssClassName(), 'view');
+        testView._type = '';
+        assert.equal(testView._getViewCssClassName(), '');
+        testView._type = 'a';
+        assert.equal(testView._getViewCssClassName(), 'a');
+        testView._type = 'ä';
+        assert.equal(testView._getViewCssClassName(), 'ä');
+        testView._type = '0';
+        assert.equal(testView._getViewCssClassName(), '0');
+        testView._type = 0;
+        assert.equal(testView._getViewCssClassName(), '0');
+        testView._type = 10;
+        assert.equal(testView._getViewCssClassName(), '10');
+        testView._type = {};
+        assert.equal(testView._getViewCssClassName(), '');
+        testView._type = [];
+        assert.equal(testView._getViewCssClassName(), '');
+        testView._type = 'M.QWERTY';
+        assert.equal(testView._getViewCssClassName(), 'qwerty');
+        testView._type = 'AM.QWERTY';
+        assert.equal(testView._getViewCssClassName(), '');
+        testView._type = 'AM.QWE.RTY';
+        assert.equal(testView._getViewCssClassName(), '');
+        testView._type = 'A M.QWE.RT Y';
+        assert.equal(testView._getViewCssClassName(), '');
+        testView._type = ' M.QWERTY';
+        assert.equal(testView._getViewCssClassName(), '');
+        testView._type = 'M .QWERTY';
+        assert.equal(testView._getViewCssClassName(), '');
+        testView._type = 'M. QWERTY';
+        assert.equal(testView._getViewCssClassName(), '');
+        testView._type = ' ';
+        assert.equal(testView._getViewCssClassName(), '');
+        testView._type = '.';
+        assert.equal(testView._getViewCssClassName(), '');
+    });
+
     it.skip('setChildView', function() {
         var test = function( testView ) {
 

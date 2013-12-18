@@ -291,7 +291,7 @@ describe('M.PageTransitions', function () {
 
         assert.lengthOf($('.m-page', $stage), 2);
         assert.lengthOf($('.m-page-current', $stage), 1);
-        assert.equal($(".m-page-current [data-binding='_value_']", $stage).html(), 'TestPageAContent');
+        assert.equal($(".m-page-current [data-binding='_value']", $stage).html(), 'TestPageAContent');
     });
 
     it('make transition', function (done) {
@@ -300,7 +300,7 @@ describe('M.PageTransitions', function () {
             setTimeout(function () {
                 assert.lengthOf($('.m-page', $stage), 2);
                 assert.lengthOf($('.m-page-current', $stage), 1);
-                assert.equal($(".m-page-current [data-binding='_value_']", $stage).html(), 'TestPageBContent');
+                assert.equal($(".m-page-current [data-binding='_value']", $stage).html(), 'TestPageBContent');
 
                 done();
             }, 10)

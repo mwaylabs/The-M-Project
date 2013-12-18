@@ -59,17 +59,17 @@ M.ListItemView = M.View.extend({
 
                     grid: 'col-xs-12',
 
-                    _value_: M.Collection.create([
-                        {_value_: 'Android'},
-                        {_value_: 'Linux'},
-                        {_value_: 'Apple'},
-                        {_value_: 'Windows'}
+                    _value: M.Collection.create([
+                        {_value: 'Android'},
+                        {_value: 'Linux'},
+                        {_value: 'Apple'},
+                        {_value: 'Windows'}
                     ]),
 
                     listItemView: M.ListItemView.extend({
                         type: M.ListItemView.CONS.ICON,
                         getIcon: function() {
-                            return 'fa-' + this.model.get('_value_').toLocaleLowerCase();
+                            return 'fa-' + this.model.get('_value').toLocaleLowerCase();
                         }
                     })
 

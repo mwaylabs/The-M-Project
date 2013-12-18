@@ -37,7 +37,7 @@
                 placeholder: 'clear me',
                 //icon: 'fa-dot-circle-o',
                 value: M.Model.create({
-                    _value_: ''
+                    _value: ''
                 })
             })
  *
@@ -113,7 +113,7 @@ M.TextfieldView = M.View.extend({
                 val = '';
             }
             value = M.Model.create({
-                _value_: val
+                _value: val
             });
         }
         // ensure that the value of a textfield is a model
@@ -127,7 +127,7 @@ M.TextfieldView = M.View.extend({
         // the possition of the icon
         this.cssClass = this.cssClass || 'right';
         // if there is a default value show the icon
-        if( this.getValue()._value_ === '' ) {
+        if( this.getValue()._value === '' ) {
             this.cssClass += ' hidden-icon';
         }
         // toggle the icon when a value is set or empty
@@ -213,7 +213,7 @@ M.TextfieldView = M.View.extend({
             // add the clear functionality
             this.$el.find('i').on('click', function() {
                 // set the value empty...
-                that.value.set('_value_', '');
+                that.value.set('_value', '');
                 // and hide the clear icon
                 that.$el.addClass('hidden-icon');
             });

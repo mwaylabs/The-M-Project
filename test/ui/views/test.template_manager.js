@@ -118,29 +118,29 @@ describe('M.TemplateManager', function() {
 
         var templates = {
             'M.View': {
-                defaultTemplate: '<div><%= _value_ %></div>'
+                defaultTemplate: '<div><%= _value %></div>'
             },
 
             'M.TextView': {
-                defaultTemplate: '<div><% if(label) {  %><div class="label"><%= label %></div><% } %><div><% if(icon) {  %><div class="input-icon-addon"><i class="fa <%= icon %> fa-fw"></i><% } %><%= _value_ %></div>'
+                defaultTemplate: '<div><% if(label) {  %><div class="label"><%= label %></div><% } %><div><% if(icon) {  %><div class="input-icon-addon"><i class="fa <%= icon %> fa-fw"></i><% } %><%= _value %></div>'
             },
 
             'M.ButtonView': {
-                defaultTemplate: '<div class="button"><% if(icon) { %> <i class="fa <%= icon %>"></i> <% } %> <div data-binding="_value_"<% if(_value_) {  } %>><%= _value_ %></div></div>'
+                defaultTemplate: '<div class="button"><% if(icon) { %> <i class="fa <%= icon %>"></i> <% } %> <div data-binding="_value"<% if(_value) {  } %>><%= _value %></div></div>'
             },
 
             'M.ToolbarView': {
-                defaultTemplate: '<div><div data-childviews="first"></div> <div class="center" data-binding="_value_"><%= _value_ %></div> <div data-childviews="second"></div></div>'
+                defaultTemplate: '<div><div data-childviews="first"></div> <div class="center" data-binding="_value"><%= _value %></div> <div data-childviews="second"></div></div>'
             },
 
 
             //TODO implement label for=""
             'M.TextfieldView': {
-                defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><div class="<% if(icon) {  %> input-icon-addon<% } %>"><% if(icon) {  %><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value_ %>"></div><% if(label) {  %></label><% } %></div>'
+                defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><div class="<% if(icon) {  %> input-icon-addon<% } %>"><% if(icon) {  %><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value %>"></div><% if(label) {  %></label><% } %></div>'
             },
 
             'M.TextareaView': {
-                defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><textarea><%= _value_ %></textarea><% if(label) {  %></label><% } %></div>'
+                defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><textarea><%= _value %></textarea><% if(label) {  %></label><% } %></div>'
             },
 
             'M.ButtonGroupView': {
@@ -148,7 +148,7 @@ describe('M.TemplateManager', function() {
             },
 
             'M.SearchfieldView': {
-                defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>'
+                defaultTemplate: '<div contenteditable="true"><%= _value %></div>'
             },
 
             'M.ListView': {
@@ -156,15 +156,15 @@ describe('M.TemplateManager', function() {
             },
 
             'M.ListItemView': {
-                defaultTemplate: '<li><%= _value_ %></li>'
+                defaultTemplate: '<li><%= _value %></li>'
             },
 
             'M.ModelView': {
-                defaultTemplate: '<ul><%= _value_ %></ul>'
+                defaultTemplate: '<ul><%= _value %></ul>'
             },
 
             'M.LabelView': {
-                defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>'
+                defaultTemplate: '<div contenteditable="true"><%= _value %></div>'
             },
 
             'M.DebugView': {
@@ -172,11 +172,11 @@ describe('M.TemplateManager', function() {
             },
 
             'M.AccordionView': {
-                defaultTemplate: '<ul><%= _value_ %></ul>'
+                defaultTemplate: '<ul><%= _value %></ul>'
             },
 
             'M.AccordionItemView': {
-                defaultTemplate: '<ul><%= _value_ %></ul>'
+                defaultTemplate: '<ul><%= _value %></ul>'
             },
 
             'M.SliderView': {
@@ -188,7 +188,7 @@ describe('M.TemplateManager', function() {
             },
 
             'M.ImageView': {
-                defaultTemplate: '<img src="<%= _value_ %>" alt="<%= alt %>" />'
+                defaultTemplate: '<img src="<%= _value %>" alt="<%= alt %>" />'
             },
 
             'M.LoaderView': {
@@ -200,7 +200,7 @@ describe('M.TemplateManager', function() {
             },
 
             'M.SelectView': {
-                defaultTemplate: '<div class="selection-list<% if(isMultiple){ %> multiple<% } %>"><select<% if(isMultiple){ %> multiple<% } %>><%= _value_ %></select></div>'
+                defaultTemplate: '<div class="selection-list<% if(isMultiple){ %> multiple<% } %>"><select<% if(isMultiple){ %> multiple<% } %>><%= _value %></select></div>'
             },
 
             'M.RadiolistView': {
@@ -208,7 +208,7 @@ describe('M.TemplateManager', function() {
             },
 
             'M.RadioOptionView': {
-                defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value_ %>"><i class="needsclick fa"></i><%= label %></label>'
+                defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value %>"><i class="needsclick fa"></i><%= label %></label>'
             },
 
             'M.CheckboxlistView': {
@@ -216,15 +216,15 @@ describe('M.TemplateManager', function() {
             },
 
             'M.CheckboxOptionView': {
-                defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value_ %>"><i class="needsclick fa"></i> <%= label %></label>'
+                defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value %>"><i class="needsclick fa"></i> <%= label %></label>'
             },
 
             'M.ToggleSwitchView': {
-                defaultTemplate: '<div><label><% if(label){%> <span class="needsclick label-descr"> <%= label %> <% }%> </span> <div class="toggleswitch"><input value="<%= _value_ %>" type="checkbox"><span class="switch-labels needsclick" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
+                defaultTemplate: '<div><label><% if(label){%> <span class="needsclick label-descr"> <%= label %> <% }%> </span> <div class="toggleswitch"><input value="<%= _value %>" type="checkbox"><span class="switch-labels needsclick" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
             },
 
             'M.MenuView': {
-                defaultTemplate: '<div class="movable-backdrop fade"></div><div class="movable-container"><span><%= _value_ %></span><div class="menu-content" data-childviews="menu-content"></div></div>'
+                defaultTemplate: '<div class="movable-backdrop fade"></div><div class="movable-container"><span><%= _value %></span><div class="menu-content" data-childviews="menu-content"></div></div>'
             },
 
             'M.ModalView': {
