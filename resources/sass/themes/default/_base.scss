@@ -10,6 +10,10 @@ body {
   line-height: $m-primary-line-height;
 }
 
+#main{
+  height: 100%;
+}
+
 .clear {
   clear: both;
   float: none;
