@@ -40,32 +40,22 @@ M.SplitLayout = M.SwitchLayout.extend({
         M.View.prototype.initialize.apply(this, arguments);
     },
 
-    _applyAdditionalBehaviour: function() {
-        var left = this._getLeftContainer();
-        var right = this._getRightContainer();
-        this.applyAdditionalBehaviourLeftContainer(left, this);
-        this.applyAdditionalBehaviourRightContainer(right, this);
+    enquireMatch: function() {
+        this.$el.addClass('single').removeClass('full');
+        this._getLeftContainer().attr('class', '');
+
+        this.closeLeftContainer();
+        this._getRightContainer().addClass(this.gridRight).addClass('col-xs-12');
     },
 
-    /**
-     * Override this function to perform individual behaviour for the right container
-     *
-     * @param element {jQuery}
-     * @param layout {M.SplitLayout}
-     */
-    applyAdditionalBehaviourLeftContainer: function( element, layout ) {
-        element.addClass('hidden-xs');
+    enquireUnmatch: function() {
+        this.$el.addClass('full').removeClass('single');
+        this._getLeftContainer().attr('class', '');
+
+        this._getLeftContainer().addClass(this.gridLeft);
+        this._getRightContainer().addClass(this.gridRight);
     },
 
-    /**
-     * Override this function to perform individual behaviour for the left container
-     *
-     * @param element {jQuery}
-     * @param layout {M.SplitLayout}
-     */
-    applyAdditionalBehaviourRightContainer: function( element, layout ) {
-        element.addClass('col-xs-12');
-    },
 
     /**
      * Map views to dom
@@ -77,7 +67,6 @@ M.SplitLayout = M.SwitchLayout.extend({
         var newContent = this._mapViews(this._currentContent, 'content', settings.content);
         var newLeft = this._mapViews(this._currentLeft, 'left', settings.left);
 
-        this._applyAdditionalBehaviour();
         this._startTransition(settings.left, settings.content);
 
         this._currentContent = newContent;
@@ -160,15 +149,19 @@ M.SplitLayout = M.SwitchLayout.extend({
      */
     _postRender: function() {
 
-        if( this._firstRender ) {
-            // Init transitions
-            this.rightTransition = M.PageTransitions.design().init( this._getRightContainer() );
-            this.leftTransition = M.PageTransitions.design().init( this._getLeftContainer() );
-        }
-
         // Add grid classes
         this._getLeftContainer().addClass(this.gridLeft);
         this._getRightContainer().addClass(this.gridRight);
+
+        if( this._firstRender ) {
+            // Init transitions
+            this.rightTransition = M.PageTransitions.design().init(this._getRightContainer());
+            this.leftTransition = M.PageTransitions.design().init(this._getLeftContainer());
+            enquire.register('(max-width: 767px)', {
+                match: _.bind(this.enquireMatch, this),
+                unmatch: _.bind(this.enquireUnmatch, this),
+            });
+        }
 
         // Call super
         M.Layout.prototype._postRender.apply(this, arguments);
@@ -198,5 +191,21 @@ M.SplitLayout = M.SwitchLayout.extend({
 
     isAnimating: function() {
         return this.rightTransition.isAnimating() || this.leftTransition.isAnimating();
+    },
+
+    toggleLeftContainer: function() {
+        this._getLeftContainer().toggleClass('close');
+    },
+
+    openLeftContainer: function() {
+        this._getLeftContainer().removeClass('close');
+    },
+
+    closeLeftContainer: function() {
+
+        if( this.$el.hasClass('single') ) {
+            this._getLeftContainer().addClass('close');
+
+        }
     }
 });
