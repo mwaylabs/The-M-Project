@@ -37,7 +37,7 @@
                 placeholder: 'clear me',
                 //icon: 'fa-dot-circle-o',
                 value: M.Model.create({
-                    _value: ''
+                    value: ''
                 })
             })
  *
@@ -84,12 +84,17 @@ M.TextfieldView = M.View.extend({
     _useCustomClear: NO,
 
     /**
+     *
+     */
+    useCustomClear: NO,
+
+    /**
      * Initialize the TextfieldView
      */
     initialize: function( options ) {
-        if( this.type === 'clear' || options.type === 'clear' ) {
+        if( this.type === 'clear' || options.type === 'clear' || this.useCustomClear  ) {
             //override the type to a html tag attribute - the type gets passed to the template
-            this.type = 'text';
+            this.type = this.type || 'text';
             // to check if the type of the object was from type 'clear' set _useCustomClear to true
             this._useCustomClear = YES;
         }

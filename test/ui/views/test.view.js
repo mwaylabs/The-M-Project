@@ -616,4 +616,13 @@ describe('M.View', function() {
     });
 
 
+    it('_reactOnLocaleChanged', function(){
+
+        var testView = M.View.create();
+
+        assert.isFalse(testView._reactOnLocaleChanged());
+
+    });
+
+
 });

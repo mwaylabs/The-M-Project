@@ -52,7 +52,7 @@ M.isEntity = function( entity ) {
 };
 
 M.isI18NItem = function( entity ) {
-    return (entity && entity._type && entity._type === 'M.I18NItem');
+    return (entity && entity._type && entity._type === 'M.I18NItem') ? true : false;
 };
 
 M.isController = function( entity ) {

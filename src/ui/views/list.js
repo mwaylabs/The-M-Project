@@ -28,7 +28,6 @@ M.ListView = M.View.extend({
 
     initialize: function () {
         M.View.prototype.initialize.apply(this, arguments);
-
         if (this.collection) {
             this._applyListener();
         }

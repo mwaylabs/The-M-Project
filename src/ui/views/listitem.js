@@ -61,11 +61,11 @@ M.ListItemView = M.View.extend({
 
                     grid: 'col-xs-12',
 
-                    _value: M.Collection.create([
-                        {_value: 'Android'},
-                        {_value: 'Linux'},
-                        {_value: 'Apple'},
-                        {_value: 'Windows'}
+                    value: M.Collection.create([
+                        {value: 'Android'},
+                        {value: 'Linux'},
+                        {value: 'Apple'},
+                        {value: 'Windows'}
                     ]),
 
                     listItemView: M.ListItemView.extend({

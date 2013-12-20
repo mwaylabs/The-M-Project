@@ -91,6 +91,7 @@ describe('M.ImageView', function () {
 
         var test = function (testText) {
             testView = M.ImageView.extend({
+                value:'',
                 alt: testText
             }).create();
 

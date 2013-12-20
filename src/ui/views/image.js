@@ -35,12 +35,14 @@ M.ImageView = M.View.extend({
 
         M.View.prototype._assignTemplateValues.apply(this, arguments);
 
+        var _value = this._getValue();
+
         if (this.model) {
-            if (M.isModel(this._value)) {
+            if (M.isModel(_value)) {
             } else {
                 this._templateValues.alt = this.model.get(this.alt.attribute);
             }
-        } else if (this._value || typeof this._value === 'string') {
+        } else if (_value || typeof _value === 'string') {
             this._templateValues.alt = this.alt;
         }
         return this;

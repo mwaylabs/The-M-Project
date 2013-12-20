@@ -72,6 +72,10 @@ describe('M Namespace', function () {
         assert.isFalse(M.isCollection(M.Controller.extend().create()));
         assert.isFalse(M.isCollection(M.Controller.extend({_type:''}).create()));
 
+        assert.isFalse(M.isCollection(M.I18NItem.create()));
+//        assert.isFalse(M.isCollection(M.I18NItem.extend().create()));
+//        assert.isFalse(M.isCollection(M.I18NItem.extend({_type:''}).create()));
+
     });
 
     it('M.isModel', function () {
@@ -96,7 +100,9 @@ describe('M Namespace', function () {
         assert.isFalse(M.isModel(M.Controller.create()));
         assert.isFalse(M.isModel(M.Controller.extend().create()));
         assert.isFalse(M.isModel(M.Controller.extend({_type:''}).create()));
-
+        assert.isFalse(M.isModel(M.I18NItem.create()));
+//        assert.isFalse(M.isModel(M.I18NItem.extend().create()));
+//        assert.isFalse(M.isModel(M.I18NItem.extend({_type:''}).create()));
     });
 
 
@@ -124,6 +130,9 @@ describe('M Namespace', function () {
         assert.isFalse(M.isView(M.Controller.extend().create()));
         assert.isFalse(M.isView(M.Controller.extend({_type:''}).create()));
 
+        assert.isFalse(M.isView(M.I18NItem.create()));
+//        assert.isFalse(M.isView(M.I18NItem.extend().create()));
+//        assert.isFalse(M.isView(M.I18NItem.extend({_type:''}).create()));
     });
 
     it('M.isController', function () {
@@ -145,10 +154,40 @@ describe('M Namespace', function () {
         assert.isFalse(M.isController(M.View.extend().create()));
         assert.isFalse(M.isController(M.View.extend({_type:''}).create()));
 
+        assert.isFalse(M.isController(M.I18NItem.create()));
+//        assert.isFalse(M.isController(M.I18NItem.extend().create()));
+//        assert.isFalse(M.isController(M.I18NItem.extend({_type:''}).create()));
+
         assert.isFalse(M.isController(M.Controller));
         assert.isTrue(M.isController(M.Controller.create()));
         assert.isTrue(M.isController(M.Controller.extend().create()));
         assert.isTrue(M.isController(M.Controller.extend({_type:''}).create()));
+
+    });
+
+    it('M.isI18NItem', function () {
+
+        assert.isFalse(M.isI18NItem());
+        assert.isFalse(M.isI18NItem(''));
+        assert.isFalse(M.isI18NItem(0));
+        assert.isFalse(M.isI18NItem(1));
+        assert.isFalse(M.isI18NItem({}));
+        assert.isFalse(M.isI18NItem([]));
+        assert.isFalse(M.isI18NItem(M.Collection));
+        assert.isFalse(M.isI18NItem(M.Collection.create()));
+        assert.isFalse(M.isI18NItem(M.Collection.extend().create()));
+        assert.isFalse(M.isI18NItem(M.Model));
+        assert.isFalse(M.isI18NItem(M.Model.create()));
+        assert.isFalse(M.isI18NItem(M.Model.extend().create()));
+        assert.isFalse(M.isI18NItem(M.View));
+        assert.isFalse(M.isI18NItem(M.View.create()));
+        assert.isFalse(M.isI18NItem(M.View.extend().create()));
+        assert.isFalse(M.isI18NItem(M.View.extend({_type:''}).create()));
+
+        assert.isTrue(M.isI18NItem(M.I18NItem));
+        //assert.isTrue(M.isI18NItem(M.I18NItem.create()));
+        //assert.isTrue(M.isI18NItem(M.isI18NItem.extend().create()));
+        //assert.isTrue(M.isI18NItem(M.isI18NItem.extend({_type:''}).create()));
 
     });
 

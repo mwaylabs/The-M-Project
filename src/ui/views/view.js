@@ -299,8 +299,13 @@
             return this;
         },
 
+        /**
+         * Returns true if either the value or the label is from type M.I18NItem
+         * @returns {*}
+         * @private
+         */
         _reactOnLocaleChanged: function() {
-            return (this.value || this.label);
+            return M.isI18NItem(this.value) || M.isI18NItem(this.label);
         },
 
 
@@ -558,13 +563,13 @@
                 this._templateValues._value = _value;
             } else if( _value !== null && typeof _value === 'object' && this._hasI18NListener === NO ) {
                 this._templateValues = M.Object.deepCopy(_value);
-            } else if( this._hasI18NListener && _.isObject(_value) ) {
+            } else if( this._hasI18NListener ) {
                 _.each(_value, function( value, key ) {
                     this._templateValues[key] = M.I18N.l(value.key, value.placeholder);
                 }, this);
             }
 
-            if(typeof this._templateValues._value !== 'undefined' && typeof this._templateValues.value === 'undefined'){
+            if( typeof this._templateValues._value !== 'undefined' && typeof this._templateValues.value === 'undefined' ) {
                 this._templateValues.value = this._templateValues._value;
             } else {
 
@@ -573,7 +578,7 @@
             _.extend(this._templateValues, this.assignTemplateValues());
         },
 
-        assignTemplateValues: function(){
+        assignTemplateValues: function() {
             return null;
         },
 
