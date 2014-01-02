@@ -10,7 +10,7 @@ describe('M.ListView', function () {
     });
 
     it('the value has a value attribute', function(){
-        var testView = M.ListView.extend({
+        var TV = M.ListView.extend({
 
             value: M.Collection.create([
                 {lastname: 'item 1', firstname: 'a', value: 1},
@@ -23,7 +23,10 @@ describe('M.ListView', function () {
             listItemView: M.ListItemView.extend({
                 extendTemplate: '<span><%= lastname %></span><span><%= firstname %></span><span><%= value %></span>'
             })
-        }).create().render();
+        });
+
+        var testView = TV.create();
+        testView.render();
 
         assert.isDefined(testView.$el);
         assert.lengthOf(testView.$el.find('[data-binding="value"]'), 5);
@@ -31,6 +34,7 @@ describe('M.ListView', function () {
         assert.lengthOf(testView.$el.find('[data-binding="lastname"]'), 5);
 
         testView = null;
+        TV = null;
 
     })
 

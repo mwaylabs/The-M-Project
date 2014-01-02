@@ -94,10 +94,6 @@ M.ListItemView = M.View.extend({
         if( this.type === M.ListItemView.CONST.LINKED || this.type === M.ListItemView.CONST.ICON ) {
             this.template = _.tmpl(M.TemplateManager.get('M.ListItemViewLinked'));
         }
-
-        if( this.templateExtend ) {
-            this.template = _.tmpl(this.template({value: this.templateExtend}));
-        }
     },
 
     _assignTemplateValues: function() {
