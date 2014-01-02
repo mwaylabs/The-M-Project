@@ -57,7 +57,7 @@ describe('M.View', function() {
         });
         assert.equal(testView.getValue(), TEST_STRING);
         testView.render();
-        assert.lengthOf(testView.$el.find('[data-binding]'), 1);
+        assert.lengthOf(testView.$el.find('div'), 1);
         TEST_STRING = null;
         testView = null;
     });
@@ -623,6 +623,4 @@ describe('M.View', function() {
         assert.isFalse(testView._reactOnLocaleChanged());
 
     });
-
-
 });
