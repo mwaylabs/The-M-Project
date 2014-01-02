@@ -545,7 +545,7 @@
 
         _assignTemplate: function( template ) {
             template = template || this.template;
-            if( template ) {
+            if( typeof template !== 'undefined' && template !== null ) {
                 if( typeof template === 'function' ) {
                     this._template = template;
                 } else if( _.isString(template) ) {

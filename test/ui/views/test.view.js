@@ -623,4 +623,22 @@ describe('M.View', function() {
         assert.isFalse(testView._reactOnLocaleChanged());
 
     });
+
+    it('template attribute', function(){
+
+        var testView = M.View.extend().create().render();
+        assert.equal(testView._template(), _.tmpl(M.TemplateManager.get('M.View'), null, {useStickitAttribute: false})());
+
+        var spanTemplate = '<span></span>';
+        var testView = M.View.extend({
+            template: spanTemplate
+        }).create().render();
+        assert.equal(testView._template(), _.tmpl(spanTemplate, null, {useStickitAttribute: false})());
+
+        var emptyTemplate = '';
+        var testView = M.View.extend({
+            template: emptyTemplate
+        }).create().render();
+        assert.equal(testView._template(), _.tmpl(emptyTemplate, null, {useStickitAttribute: false})());
+    });
 });

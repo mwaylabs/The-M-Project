@@ -36,6 +36,6 @@ describe('M.ListView', function () {
         testView = null;
         TV = null;
 
-    })
+    });
 
 });
