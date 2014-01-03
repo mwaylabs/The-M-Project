@@ -20,7 +20,7 @@ M.ListItemView = M.View.extend({
      * The template of the view
      *
      */
-    _template: _.tmpl(M.TemplateManager.get('M.ListItemView')),
+    _template: null, //_.tmpl(M.TemplateManager.get('M.ListItemView')),
 
     _templateString: M.TemplateManager.get('M.ListItemView'),
 
@@ -78,7 +78,10 @@ M.ListItemView = M.View.extend({
                 })
      */
     getIcon: function() {
-        return this.model.get('icon') || this.icon;
+        if(this.model){
+            return this.model.get('icon');
+        }
+        return this.icon;
     },
 
     /**
@@ -108,6 +111,10 @@ M.ListItemView = M.View.extend({
         if( this.enabled === NO && this.disable ) {
             this.disable();
         }
+    },
+
+    _renderChildViewToDom: function(dom, child) {
+        this._appendToDom(dom.find('li'), child.render().$el);
     }
 
 }).implements([M.ActiveState, M.ViewEnableState]);

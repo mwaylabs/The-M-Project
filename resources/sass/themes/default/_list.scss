@@ -14,6 +14,7 @@
         border-bottom: 1px solid #ddd;
         list-style: none;
         cursor: pointer;
+        overflow: hidden;
       }
 
       &.disabled li {
