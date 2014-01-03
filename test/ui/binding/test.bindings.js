@@ -319,4 +319,12 @@ describe('M.View Bindings', function() {
         jInput.trigger('change');
         assert.isTrue(app.model.get('a') === TEST_ATTRIBUTE_3);
     });
+
+    it('multiple $el set with html clear html before', function() {
+        var mymodel = M.Model.create({value:'a'})
+        var view = M.View.extend({value:mymodel, useElement: YES, tagName: 'h1'}).create().render()
+        //console.log(view.$el.html());
+        mymodel.set('value', 'b');
+        //console.log(view.$el.html());
+    });
 });

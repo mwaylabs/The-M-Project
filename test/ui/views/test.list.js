@@ -38,4 +38,42 @@ describe('M.ListView', function () {
 
     });
 
+    it('list item with child views', function(){
+
+        var TV = M.ListView.extend({
+
+            value: M.Collection.create([
+                {lastname: 'item 1', firstname: 'a', value: 1},
+                {lastname: 'item 2', firstname: 'b', value: 2},
+                {lastname: 'item 3', firstname: 'c', value: 3},
+                {lastname: 'item 4', firstname: 'd', value: 4},
+                {lastname: 'item 5', firstname: 'e', value: 5}
+            ]),
+
+            listItemView: M.ListItemView.extend({}, {
+
+                lastname: M.View.extend({
+                    useParentValue: YES,
+                    extendTemplate: '<%= lastname %>',
+                }),
+                firstname: M.View.extend({
+                    useParentValue: YES,
+                    extendTemplate: '<%= firstname %>',
+                }),
+                val: M.View.extend({
+                    useParentValue: YES,
+                    extendTemplate: '<%= value %>',
+                })
+            })
+        });
+
+        var testView = TV.create();
+        testView.render();
+
+        testView = null;
+
+        TV = null;
+
+    });
+
 });
