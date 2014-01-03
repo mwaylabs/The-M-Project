@@ -198,6 +198,11 @@
         _originalEvents: null,
 
         /**
+         * A childview gets the value set from his parent. So the childview has the same value as his parent
+         */
+        useParentValue: NO,
+
+        /**
          * Set the model of the view
          * @param { M.Model } The Model to be set
          * @returns {View}
@@ -240,6 +245,20 @@
 
         _setValue: function( value ) {
             this._value = value;
+        },
+
+        /**
+         * If a childView has set useParentValue to true the value from the current view gets assigned
+         * @param value
+         * @private
+         */
+        _setChildViewValue: function(value){
+
+            _.each(this.childViews, function(child){
+                if(child.useParentValue){
+                    child._setValue(value);
+                }
+            }, this);
         },
 
         getPropertyValue: function( propertyString, data ) {
@@ -641,31 +660,43 @@
 
             if( !this.childViews ) {
                 return;
-                //this.childViews = this._getChildViews();
             }
             _.each(this.childViews, function( child, name ) {
-                var dom = this.$el;
-                //                if( this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').addBack().length ) {
-                //                    dom = this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').addBack();
-                //                }
-                if( this.$el.find('[data-childviews="' + name + '"]').length ) {
-                    dom = this.$el.find('[data-childviews="' + name + '"]');
-                    dom.addClass(name);
-                }
+                var dom = this._getChildViewRenderDom(name);
 
                 if( typeof child.render === 'function' ) {
-                    dom.append(child.render().$el);
-                    child.delegateEvents();
+                    this._renderChildView(dom, child);
                 } else if( _.isArray(child) ) {
                     _.each(child, function( c ) {
-                        dom.append(c.render().$el);
-                        c.delegateEvents();
+                        this._renderChildView(dom, c);
                     });
                 }
 
             }, this);
 
             return this;
+        },
+
+        _getChildViewRenderDom: function(name) {
+            var dom = this.$el;
+            if( this.$el.find('[data-childviews="' + name + '"]').length ) {
+                dom = this.$el.find('[data-childviews="' + name + '"]');
+                dom.addClass(name);
+            }
+            return dom;
+        },
+
+        _renderChildView: function( dom, child ) {
+            this._renderChildViewToDom(dom, child);
+            child.delegateEvents();
+        },
+
+        _renderChildViewToDom: function( dom, child ) {
+            this._appendToDom(dom, child.render().$el);
+        },
+
+        _appendToDom: function( dom, element ) {
+            dom.append(element);
         },
 
         _postRender: function() {
@@ -1057,6 +1088,10 @@
                 f.childViews[name] = childView;
             });
         }
+
+        // set the value of the childview to this value
+        f._setChildViewValue(f._getValue());
+
         return f;
     };
 
