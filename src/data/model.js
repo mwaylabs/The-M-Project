@@ -9,7 +9,7 @@
  * @extends Backbone.Model
  */
 M.Model = Backbone.Model.extend({
-    constructor: function (attributes, options) {
+    constructor: function( attributes, options ) {
         this.init(attributes, options);
         Backbone.Model.apply(this, arguments);
     }
@@ -30,17 +30,19 @@ _.extend(M.Model.prototype, M.Object, {
 
     changedSinceSync: {},
 
-    init: function (attributes, options) {
+    logon: M.Security.logon,
+
+    init: function( attributes, options ) {
         options = options || {};
 
         this.collection = options.collection || this.collection;
         this.idAttribute = options.idAttribute || this.idAttribute;
         this.store = this.store || (this.collection ? this.collection.store : null) || options.store;
-        if (this.store && _.isFunction(this.store.initModel)) {
+        if( this.store && _.isFunction(this.store.initModel) ) {
             this.store.initModel(this, options);
         }
         this.entity = this.entity || (this.collection ? this.collection.entity : null) || options.entity;
-        if (this.entity) {
+        if( this.entity ) {
             this.entity = M.Entity.from(this.entity, { model: this.constructor, typeMapping: options.typeMapping });
             this.idAttribute = this.entity.idAttribute || this.idAttribute;
         }
@@ -49,63 +51,63 @@ _.extend(M.Model.prototype, M.Object, {
         this.on('sync', this.onSync, this);
     },
 
-    sync: function (method, model, options) {
-        var store = (options ? options.store : null) || this.store;
-        if (store && _.isFunction(store.sync)) {
-            // Ensure that we have the appropriate request data.
-            return store.sync.apply(this, arguments);
-        } else {
-            var that = this;
-            var args = arguments;
-            options = options || {};
-            options.credentials = options.credentials || this.credentials;
-            M.Security.logon(options, function (result) {
+    sync: function( method, model, options ) {
+        options = options || {};
+        options.credentials = options.credentials || this.credentials;
+        var store = (options.store ? options.store : null) || this.store;
+        var that = this;
+        var args = arguments;
+
+        this.logon(options, function( result ) {
+            if( store && _.isFunction(store.sync) ) {
+                return store.sync.apply(that, args);
+            } else {
                 return Backbone.sync.apply(that, args);
-            });
-        }
+            }
+        });
     },
 
-    onChange: function (model, options) {
+    onChange: function( model, options ) {
         // For each `set` attribute, update or delete the current value.
         var attrs = model.changedAttributes();
-        if (_.isObject(attrs)) {
-            for (var key in attrs) {
+        if( _.isObject(attrs) ) {
+            for( var key in attrs ) {
                 this.changedSinceSync[key] = attrs[key];
             }
         }
     },
 
-    onSync: function (model, options) {
+    onSync: function( model, options ) {
         this.changedSinceSync = {};
     },
 
-    getUrlRoot: function () {
-        if (this.urlRoot) {
+    getUrlRoot: function() {
+        if( this.urlRoot ) {
             return _.isFunction(this.urlRoot) ? this.urlRoot() : this.urlRoot;
-        } else if (this.collection) {
+        } else if( this.collection ) {
             return this.collection.getUrlRoot();
-        } else if (this.url) {
+        } else if( this.url ) {
             var url = _.isFunction(this.url) ? this.url() : this.url;
-            if (url && this.id && url.indexOf(this.id) > 0) {
+            if( url && this.id && url.indexOf(this.id) > 0 ) {
                 return url.substr(0, url.indexOf(this.id));
             }
             return url;
         }
     },
 
-    toJSON: function (options) {
+    toJSON: function( options ) {
         options = options || {};
         var entity = options.entity || this.entity;
-        if (M.isEntity(entity)) {
+        if( M.isEntity(entity) ) {
             return entity.fromAttributes(options.attrs || this.attributes);
         }
         return options.attrs || _.clone(this.attributes);
     },
 
-    parse: function (resp, options) {
+    parse: function( resp, options ) {
         options = options || {};
         var entity = options.entity || this.entity;
-        if (M.isEntity(entity)) {
+        if( M.isEntity(entity) ) {
             return entity.toAttributes(resp);
         }
         return resp;

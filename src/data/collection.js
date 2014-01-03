@@ -38,6 +38,8 @@ _.extend(M.Collection.prototype, M.Object, {
 
     options: null,
 
+    logon: M.Security.logon,
+
     init: function (options) {
         options = options || {};
         this.store = options.store || this.store || (this.model ? this.model.prototype.store : null);
@@ -107,18 +109,19 @@ _.extend(M.Collection.prototype, M.Object, {
     },
 
     sync: function (method, model, options) {
-        var store = (options ? options.store : null) || this.store;
-        if (store && _.isFunction(store.sync)) {
-            return store.sync.apply(this, arguments);
-        } else {
-            var that = this;
-            var args = arguments;
-            options = options || {};
-            options.credentials = options.credentials || this.credentials;
-            M.Security.logon(options, function (result) {
+        options = options || {};
+        options.credentials = options.credentials || this.credentials;
+        var store = (options.store ? options.store : null) || this.store;
+        var that = this;
+        var args = arguments;
+
+        this.logon(options, function (result) {
+            if (store && _.isFunction(store.sync)) {
+                return store.sync.apply(that, args);
+            } else {
                 return Backbone.sync.apply(that, args);
-            });
-        }
+            }
+        });
     },
 
     /**
