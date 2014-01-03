@@ -23,7 +23,6 @@
 
 // @include ./connection/request.js
 // @include ./connection/request_manager.js
-// @include ./connection/socket_io.js
 
 
 // @include ./data/field.js
