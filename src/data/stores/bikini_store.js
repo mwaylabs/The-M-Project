@@ -22,9 +22,9 @@
  *      model: MyModel,
  *      url: 'http://myBikiniServer.com:8200/bikini/myCollection',
  *      store: new M.BikiniStore( {
- *          useLocalStore:   true, // (default) store the data for offline use
- *          useSocketNotify: true, // (default) register at the server for live updates
- *          useOfflineChanges: true // (default) allow changes to the offline data
+ *          useLocalStore:   YES, // (default) store the data for offline use
+ *          useSocketNotify: YES, // (default) register at the server for live updates
+ *          useOfflineChanges: YES // (default) allow changes to the offline data
  *      })
  * });
  *
@@ -32,8 +32,6 @@
 M.BikiniStore = M.Store.extend({
 
     _type: 'M.BikiniStore',
-
-    _transactionFailed: false,
 
     _selector: null,
 
@@ -43,11 +41,11 @@ M.BikiniStore = M.Store.extend({
 
     localStore: M.WebSqlStore,
 
-    useLocalStore: true,
+    useLocalStore: YES,
 
-    useSocketNotify: true,
+    useSocketNotify: YES,
 
-    useOfflineChanges: true,
+    useOfflineChanges: YES,
 
     typeMapping: {
         'binary': 'text',
@@ -63,6 +61,10 @@ M.BikiniStore = M.Store.extend({
         this.options.socketPath = this.socketPath;
         this.options.localStore = this.localStore;
         this.options.typeMapping = this.typeMapping;
+        if( this.options.useSocketNotify && typeof io !== 'object' ) {
+            console.log('Socket.IO not present !!');
+            this.options.useSocketNotify = NO;
+        }
         _.extend(this.options, options || {});
     },
 
@@ -145,18 +147,21 @@ M.BikiniStore = M.Store.extend({
 
     createSocket: function( endpoint, collection, name ) {
         if( this.options.useSocketNotify && endpoint.socketPath && endpoint ) {
+            var that = this;
+            var url = endpoint.host;
             var path = endpoint.path;
             path = endpoint.socketPath || (path + (path.charAt(path.length - 1) === '/' ? '' : '/' ) + 'live');
             // remove leading /
             var resource = (path && path.indexOf('/') === 0) ? path.substr(1) : path;
-            var that = this;
-            var socket = M.SocketIO.create({
-                host: endpoint.host,
-                resource: resource,
-                connected: function() {
-                    that._bindChannel(socket, endpoint, name);
-                    that.sendMessages(endpoint, collection);
-                }
+
+            var socket = io.connect(url, { resource: resource });
+            socket.on('connect', function() {
+                that._bindChannel(socket, endpoint, name);
+                that.onConnect(endpoint, collection);
+            });
+            socket.on('disconnect', function() {
+                console.log('socket.io: disconnect');
+                that.onDisconnect();
             });
             return socket;
         }
@@ -203,10 +208,23 @@ M.BikiniStore = M.Store.extend({
         return hash;
     },
 
+    onConnect: function( endpoint, collection ) {
+        this.sendMessages(endpoint, collection);
+    },
+
+    onDisconnect: function() {
+    },
+
     onMessage: function( msg ) {
         if( msg && msg.method ) {
             var localStore = this.endpoint ? this.endpoint.localStore : null;
-            var options = { store: localStore, merge: true, fromMessage: true, entity: this.entity, parse: true };
+            var options = {
+                store: localStore,
+                entity: this.entity,
+                merge: YES,
+                fromMessage: YES,
+                parse: YES
+            };
             var attrs = msg.data;
 
             switch( msg.method ) {
@@ -224,9 +242,13 @@ M.BikiniStore = M.Store.extend({
                 case 'delete':
                     if( msg.id ) {
                         if( msg.id === 'all' ) {
-                            while((model = this.first())) {
+                            while( (model = this.first()) ) {
                                 if( localStore ) {
-                                    localStore.sync.apply(this, ['delete', model, { store: localStore, fromMessage: true } ]);
+                                    localStore.sync.apply(this, [
+                                        'delete',
+                                        model,
+                                        { store: localStore, fromMessage: YES }
+                                    ]);
                                 }
                                 this.remove(model);
                             }
@@ -281,22 +303,25 @@ M.BikiniStore = M.Store.extend({
         if( method && model ) {
             var changes = model.changedSinceSync;
             var data = null;
-            var storeMsg = false;
+            var storeMsg = YES;
             switch( method ) {
                 case 'update':
                 case 'create':
                     data = options.attrs || model.toJSON();
-                    storeMsg = true;
                     break;
+
                 case 'patch':
                     if( _.isEmpty(changes) ) {
                         return;
                     }
                     data = model.toJSON({ attrs: changes });
-                    storeMsg = true;
                     break;
+
                 case 'delete':
-                    storeMsg = true;
+                    break;
+
+                default:
+                    storeMsg = NO;
                     break;
             }
             var msg = {

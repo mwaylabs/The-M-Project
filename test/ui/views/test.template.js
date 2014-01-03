@@ -1,4 +1,4 @@
-describe('M.View Templates', function() {
+describe.skip ('M.View Templates', function() {
 
     it('data binding', function() {
 

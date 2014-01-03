@@ -91,6 +91,7 @@ _.extend(M.Collection.prototype, M.Object, {
     },
 
     destroy: function (options) {
+        options = options || {};
         var success = options.success;
         if (this.length > 0) {
             options.success = function () {
