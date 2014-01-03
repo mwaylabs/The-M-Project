@@ -113,7 +113,28 @@ describe('M.WebSqlStore', function() {
 
     });
 
-    it('create record', function(done) {
+    it('create record 1', function(done) {
+
+        TEST.Tests.create(TEST.data,
+            {
+                success: function(model) {
+                    assert.ok(model, 'new record exists.');
+
+                    TEST.id = model.id;
+
+                    assert.ok(TEST.id, 'new record has an id.');
+
+                    done();
+                },
+                error: function(error) {
+                    assert.ok(false, 'new record created: '+ JSON.stringify(error));
+                    done();
+                }
+            }
+        );
+    });
+
+    it('create record 2', function(done) {
 
         TEST.Tests.create(TEST.data,
             {
@@ -162,6 +183,7 @@ describe('M.WebSqlStore', function() {
         model.fetch({
             success: function() {
                 assert.ok(true, 'model has been fetched.');
+                assert.equal(model.id, TEST.id, "found record has the correct id");
                 assert.equal(model.get('firstName'), TEST.data.firstName, "found record has the correct 'firstname' value");
                 assert.equal(model.get('USERNAME'), TEST.data.sureName, "found record has the correct 'USERNAME' value");
                 assert.equal(model.get('age'), TEST.data.age, "found record has the correct 'age' value");

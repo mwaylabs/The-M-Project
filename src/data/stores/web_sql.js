@@ -285,9 +285,9 @@ M.WebSqlStore = M.Store.extend({
         return sql;
     },
 
-    _sqlDelete: function( models, options, entity ) {
+    _sqlDelete: function(options, entity ) {
         var sql = 'DELETE FROM \'' + entity.name + '\'';
-        var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(models, entity);
+        var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(options, entity);
         if( where ) {
             sql += ' WHERE ' + where;
         }
@@ -307,13 +307,13 @@ M.WebSqlStore = M.Store.extend({
         return sql;
     },
 
-    _sqlWhereFromData: function( models, entity ) {
+    _sqlWhereFromData: function(options, entity ) {
         var that = this;
         var ids = [];
-        if( models && entity && entity.idAttribute ) {
+        if( options && options.models && entity && entity.idAttribute ) {
             var id, key = entity.idAttribute;
             var field = this.getField(entity, key);
-            _.each(models, function( model ) {
+            _.each(options.models, function( model ) {
                 id = model.id;
                 if( !_.isUndefined(id) ) {
                     ids.push(that._sqlValue(id, field));
@@ -477,6 +477,8 @@ M.WebSqlStore = M.Store.extend({
             var isCollection = M.isCollection(result);
             if( isCollection ) {
                 result = [];
+            } else {
+                options.models = [ result ];
             }
             var stm = this._sqlSelect(options, entity);
             var that = this;
@@ -525,7 +527,8 @@ M.WebSqlStore = M.Store.extend({
     _delete: function( models, options ) {
         var entity = this.getEntity(options);
         if( this._checkDb(options) && this._checkEntity(options, entity) ) {
-            var sql = this._sqlDelete(models, options, entity);
+            options.models = models;
+            var sql = this._sqlDelete(options, entity);
             // reset flag
             this._executeTransaction(options, [sql]);
         }
