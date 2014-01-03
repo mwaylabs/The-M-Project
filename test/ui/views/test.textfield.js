@@ -60,7 +60,7 @@ describe('M.TextfieldView', function () {
 
         assert.isDefined(testView.value);
         assert.equal(testView.$el.find('input').attr('value'), VALUETEXT);
-        assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
+        //assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
 
         assert.isDefined(testView.label);
         assert.equal(testView.$el.find('label').text(), LABELTEXT);
@@ -107,7 +107,7 @@ describe('M.TextfieldView', function () {
         assert.isDefined(testView.value);
         assert.equal(testView.getValue(), '');
         assert.equal(testView.$el.find('input').attr('value'), '');
-        assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
+//        assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
 
         assert.isDefined(testView.label);
         assert.isNull(testView.label);
@@ -145,7 +145,7 @@ describe('M.TextfieldView', function () {
         assert.isUndefined(testView.value);
         assert.equal(testView.getValue(), '');
         assert.equal(testView.$el.find('input').attr('value'), '');
-        assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
+//        assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
 
         assert.isDefined(testView.label);
         assert.equal(testView.label, null);
@@ -181,7 +181,7 @@ describe('M.TextfieldView', function () {
         assert.isUndefined(testView.value);
         assert.equal(testView.getValue(), '');
         assert.equal(testView.$el.find('input').attr('value'), '');
-        assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
+//        assert.equal(testView.$el.find('input').attr('data-binding'), 'value');
 
         assert.isDefined(testView.label);
         assert.isNull(testView.label);

@@ -57,7 +57,7 @@ describe('M.View', function() {
         });
         assert.equal(testView.getValue(), TEST_STRING);
         testView.render();
-        assert.lengthOf(testView.$el.find('[data-binding]'), 1);
+        assert.lengthOf(testView.$el.find('div'), 1);
         TEST_STRING = null;
         testView = null;
     });
@@ -624,5 +624,21 @@ describe('M.View', function() {
 
     });
 
+    it('template attribute', function(){
 
+        var testView = M.View.extend().create().render();
+        assert.equal(testView._template(), _.tmpl(M.TemplateManager.get('M.View'), null, {useStickitAttribute: false})());
+
+        var spanTemplate = '<span></span>';
+        var testView = M.View.extend({
+            template: spanTemplate
+        }).create().render();
+        assert.equal(testView._template(), _.tmpl(spanTemplate, null, {useStickitAttribute: false})());
+
+        var emptyTemplate = '';
+        var testView = M.View.extend({
+            template: emptyTemplate
+        }).create().render();
+        assert.equal(testView._template(), _.tmpl(emptyTemplate, null, {useStickitAttribute: false})());
+    });
 });

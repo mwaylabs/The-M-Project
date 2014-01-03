@@ -19,7 +19,7 @@
         constructor: function( options ) {
             this.cid = _.uniqueId('view');
             options = options || {};
-            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'onSet', 'onGet', 'enabled'];
+            var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'binding', 'computedValue', 'onSet', 'onGet', 'enabled'];
             _.extend(this, _.pick(options, viewOptions));
             this._ensureElement();
             this.initialize.apply(this, arguments);
@@ -81,7 +81,7 @@
         /**
          * extend the default template with this one. It gets injected into the <%= _value %> placeholder
          */
-        templateExtend: null,
+        extendTemplate: null,
 
         /**
          * Indicates if this is the view was rendered before
@@ -174,6 +174,25 @@
         scopeKey: null,
 
         /**
+         * Same as scopeKey
+         *
+         *  @type: {String}
+         *  @example
+         *
+         *  var scope = M.Controller.extend({
+         *      person: M.Model.create({
+         *          favorite: ON
+         *      })
+         *   }).create();
+         *
+         * var toggleSwitch = M.ToggleSwitchView.extend({
+         *   binding: 'person.favorite',
+         * }).create(scope, null, true).render();
+         *
+         */
+        binding: null,
+
+        /**
          * Store the given events inside this attribute. The events object is set to null to prefent backbone of setting events. To not loose the information it gets stored.
          */
         _originalEvents: null,
@@ -247,6 +266,7 @@
          */
 
         initialize: function( options ) {
+            this.scopeKey = this.scopeKey || this.binding;
             this._registerView();
             this._addInterfaces();
             this._assignValue(options);
@@ -525,7 +545,7 @@
 
         _assignTemplate: function( template ) {
             template = template || this.template;
-            if( template ) {
+            if( typeof template !== 'undefined' && template !== null ) {
                 if( typeof template === 'function' ) {
                     this._template = template;
                 } else if( _.isString(template) ) {
@@ -539,8 +559,8 @@
                     this._template = _.tmpl(this._templateString);
                 } else {
                     // otherwise use the
-                    //this._template = _.tmpl(this._templateString, null, {useStickitAttribute: NO});
-                    this._template = _.tmpl(this._templateString);
+                    this._template = _.tmpl(this._templateString, null, {useStickitAttribute: NO});
+                    //this._template = _.tmpl(this._templateString);
                 }
                 this.template = this._template;
             }
@@ -584,8 +604,9 @@
 
         _extendTemplate: function() {
             if( this.extendTemplate ) {
+                var template = _.template(this._templateString);
                 this._templateValues.value = this.extendTemplate;
-                this._template = _.tmpl(this.template(this._templateValues));
+                this._template = _.tmpl(template(this._templateValues));
             }
         },
 
@@ -738,7 +759,7 @@
                     var selector = '[data-binding="' + key + '"]';
                     bindings[selector] = {observe: '' + key};
                 }, this);
-            } else if( this.templateExtend === null && this.scopeKey ) {
+            } else if( this.extendTemplate === null && this.scopeKey ) {
                 selector = '[data-binding="value"]';
                 bindings[selector] = {observe: '' + this.scopeKey};
             } else {
@@ -997,9 +1018,15 @@
      */
     M.View.extend = function( options, childViews ) {
         options = options || {};
+
         if( childViews ) {
             options._childViews = childViews;
         }
+
+        if( options.childViews ) {
+            options._childViews = options.childViews;
+        }
+
         return Backbone.View.extend.apply(this, [options]);
     };
 
