@@ -641,4 +641,46 @@ describe('M.View', function() {
         }).create().render();
         assert.equal(testView._template(), _.tmpl(emptyTemplate, null, {useStickitAttribute: false})());
     });
+
+
+    it('Parent View', function(){
+
+
+        var parent = M.View.extend({
+
+        }, {
+            c1: M.View.extend({
+
+            }, {
+                c11: M.View.extend({
+
+                }, {
+                    c111: M.View.extend({
+
+                    })
+                })
+            })
+        }).create();
+
+        assert.equal(parent.childViews.c1._parentView.cid, parent.cid);
+        assert.equal(parent.childViews.c1.childViews.c11._parentView._parentView.cid, parent.cid);
+        assert.equal(parent.childViews.c1.childViews.c11.childViews.c111._parentView._parentView._parentView.cid, parent.cid);
+
+        assert.equal(parent.childViews.c1.getParent().cid, parent.cid);
+        assert.equal(parent.childViews.c1.childViews.c11.getParent().getParent().cid, parent.cid);
+        assert.equal(parent.childViews.c1.childViews.c11.childViews.c111.getParent().getParent().getParent().cid, parent.cid);
+
+        assert.deepEqual(parent.childViews.c1._parentView, parent);
+        assert.deepEqual(parent.childViews.c1.childViews.c11._parentView._parentView, parent);
+        assert.deepEqual(parent.childViews.c1.childViews.c11.childViews.c111._parentView._parentView._parentView, parent);
+
+        assert.deepEqual(parent.childViews.c1.getParent(), parent);
+        assert.deepEqual(parent.childViews.c1.childViews.c11.getParent().getParent(), parent);
+        assert.deepEqual(parent.childViews.c1.childViews.c11.childViews.c111.getParent().getParent().getParent(), parent);
+
+        assert.deepEqual(parent.childViews.c1.childViews.c11.getParent(), parent.childViews.c1);
+        assert.deepEqual(parent.childViews.c1.childViews.c11.childViews.c111.getParent(), parent.childViews.c1.childViews.c11);
+
+    });
+
 });
