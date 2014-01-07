@@ -43,7 +43,9 @@
      * @type {Function}
      */
 
-    M.View.design = M.design;
+    M.View.design = function (obj, childViews, isScope) {
+        return this.extend().create(obj, childViews, isScope);
+    };
 
     M.View.implements = M.implements;
 
