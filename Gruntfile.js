@@ -132,7 +132,8 @@ module.exports = function (grunt) {
             dev: {                            // Target
                 options: {                       // Target options
                     style: 'expanded',
-                    loadPath: ['bower_components']
+                    loadPath: ['bower_components'],
+                    lineNumbers: true
                 },
                 files: {
                     '.tmp/themproject.css':'resources/sass/themproject.scss',

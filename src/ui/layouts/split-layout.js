@@ -40,23 +40,6 @@ M.SplitLayout = M.SwitchLayout.extend({
         M.View.prototype.initialize.apply(this, arguments);
     },
 
-    enquireMatch: function() {
-        this.$el.addClass('single').removeClass('full');
-        this._getLeftContainer().attr('class', '');
-
-        this.closeLeftContainer();
-        this._getRightContainer().addClass(this.gridRight).addClass('col-xs-12');
-    },
-
-    enquireUnmatch: function() {
-        this.$el.addClass('full').removeClass('single');
-        this._getLeftContainer().attr('class', '');
-
-        this._getLeftContainer().addClass(this.gridLeft);
-        this._getRightContainer().addClass(this.gridRight);
-    },
-
-
     /**
      * Map views to dom
      * @param settings
@@ -157,16 +140,71 @@ M.SplitLayout = M.SwitchLayout.extend({
             // Init transitions
             this.rightTransition = M.PageTransitions.design().init(this._getRightContainer());
             this.leftTransition = M.PageTransitions.design().init(this._getLeftContainer());
-            enquire.register('(max-width: 767px)', {
-                match: _.bind(this.enquireMatch, this),
-                unmatch: _.bind(this.enquireUnmatch, this),
-            });
+
+            setTimeout(_.bind(this._initRequire, this), 0);
         }
 
         // Call super
         M.Layout.prototype._postRender.apply(this, arguments);
 
         return this;
+    },
+
+    /**
+     * Initialize the media queries helper 'enquire.js'
+     *
+     * @private
+     */
+    _initRequire: function() {
+
+        // On mobile devices we only support the portrait orientation
+        if( Modernizr.Detectizr.device.type === 'mobile' ) {
+            this._onPortrait();
+            return;
+        }
+
+        enquire.register('screen and (orientation: landscape)', {
+            match: _.bind(this._onLandscape, this),
+            unmatch: _.bind(this._onPortrait, this)
+        });
+
+        if (window.innerWidth < window.innerHeight) {
+            this._onPortrait();
+        } else {
+            this._onLandscape();
+        }
+    },
+
+    _onLandscape: function() {
+        console.log('onLandscape');
+
+        this.$el.addClass('full').removeClass('single');
+        this._getLeftContainer().attr('class', '');
+
+        this._getLeftContainer().addClass(this.gridLeft);
+        this._getRightContainer().addClass(this.gridRight);
+
+        this.onLandscape();
+    },
+
+    _onPortrait: function() {
+        console.log('onPortrait');
+
+        this.$el.addClass('single').removeClass('full');
+        this._getLeftContainer().attr('class', '');
+
+        this.closeLeftContainer();
+        this._getRightContainer().addClass(this.gridRight).addClass('col-xs-12');
+
+        this.onPortrait();
+    },
+
+    onLandscape: function() {
+
+    },
+
+    onPortrait: function() {
+
     },
 
     /**
@@ -209,3 +247,27 @@ M.SplitLayout = M.SwitchLayout.extend({
         }
     }
 });
+
+// iOS 7 orientation change bug
+// https://github.com/WickyNilliams/enquire.js/issues/79#issuecomment-27275481
+(function () {
+    if (Modernizr.Detectizr.device.os === 'ios') {
+        document.addEventListener('DOMContentLoaded', function () {
+            var shim = document.createElement('div');
+            shim.id = 'ios7-matchMedia-fix';
+            document.body.appendChild(shim);
+
+            var timer,
+                forceReflow = function () {
+                    // Triggering a reflow/repaint fixes the problem.
+                    shim.style.width = (window.innerWidth / 2) + 'px';
+                },
+                onResize = function () {
+                    clearTimeout(timer);
+                    timer = setTimeout(forceReflow, 100);
+                };
+
+            window.addEventListener('resize', onResize, false);
+        });
+    }
+})();
