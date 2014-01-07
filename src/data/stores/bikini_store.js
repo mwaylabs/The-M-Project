@@ -47,6 +47,8 @@ M.BikiniStore = M.Store.extend({
 
     useOfflineChanges: YES,
 
+    isConnected: NO,
+
     typeMapping: {
         'binary': 'text',
         'date': 'string'
@@ -76,7 +78,6 @@ M.BikiniStore = M.Store.extend({
         var entity = this.getEntity(collection.entity);
         if( url && entity ) {
             var name = entity.name;
-            var idAttribute = entity.idAttribute;
             var hash = this._hashCode(url);
             var credentials = entity.credentials || collection.credentials;
             var user = credentials && credentials.username ? credentials.username : '';
@@ -95,17 +96,18 @@ M.BikiniStore = M.Store.extend({
                 endpoint.entity = entity;
                 endpoint.channel = channel;
                 endpoint.credentials = credentials;
+                endpoint.collection = collection;
                 endpoint.socketPath = this.options.socketPath;
                 endpoint.localStore = this.createLocalStore(endpoint);
                 endpoint.messages = this.createMsgCollection(endpoint);
-                endpoint.socket = this.createSocket(endpoint, collection);
-                endpoint.info = this.fetchServerInfo(endpoint, collection);
+                endpoint.socket = this.createSocket(endpoint);
+                endpoint.info = this.fetchServerInfo(endpoint);
                 that.endpoints[hash] = endpoint;
             }
             collection.endpoint = endpoint;
             collection.listenTo(this, endpoint.channel, this.onMessage, collection);
             if( endpoint.messages && !endpoint.socket ) {
-                that.sendMessages(endpoint, collection);
+                that.sendMessages(endpoint);
             }
         }
     },
@@ -145,44 +147,47 @@ M.BikiniStore = M.Store.extend({
         }
     },
 
-    createSocket: function( endpoint, collection, name ) {
+    createSocket: function( endpoint, name ) {
         if( this.options.useSocketNotify && endpoint.socketPath && endpoint ) {
             var that = this;
-            var url = endpoint.host;
+            var url  = endpoint.host;
             var path = endpoint.path;
             path = endpoint.socketPath || (path + (path.charAt(path.length - 1) === '/' ? '' : '/' ) + 'live');
             // remove leading /
             var resource = (path && path.indexOf('/') === 0) ? path.substr(1) : path;
 
-            var socket = io.connect(url, { resource: resource });
-            socket.on('connect', function() {
-                that._bindChannel(socket, endpoint, name);
-                that.onConnect(endpoint, collection);
+            endpoint.socket = io.connect(url, { resource: resource });
+            endpoint.socket.on('connect', function() {
+                that._bindChannel(endpoint, name);
+                that.onConnect(endpoint);
             });
-            socket.on('disconnect', function() {
+            endpoint.socket.on('disconnect', function() {
                 console.log('socket.io: disconnect');
-                that.onDisconnect();
+                that.onDisconnect(endpoint);
             });
-            return socket;
+            return endpoint.socket;
         }
     },
 
-    _bindChannel: function( socket, endpoint, name ) {
+    _bindChannel: function(endpoint, name ) {
         var that = this;
-        var channel = endpoint.channel;
-        var time = this.getLastMessageTime(channel);
-        name = name || endpoint.entity.name;
-        socket.on(channel, function( msg ) {
-            if( msg ) {
-                that.setLastMessageTime(channel, msg.time);
-                that.trigger(channel, msg);
-            }
-        });
-        socket.emit('bind', {
-            entity: name,
-            channel: channel,
-            time: time
-        });
+        if (endpoint && endpoint.socket) {
+            var channel = endpoint.channel;
+            var socket  = endpoint.socket;
+            var time    = this.getLastMessageTime(channel);
+            name = name || endpoint.entity.name;
+            socket.on(channel, function( msg ) {
+                if( msg ) {
+                    that.setLastMessageTime(channel, msg.time);
+                    that.trigger(channel, msg);
+                }
+            });
+            socket.emit('bind', {
+                entity: name,
+                channel: channel,
+                time: time
+            });
+        }
     },
 
     getLastMessageTime: function( channel ) {
@@ -208,11 +213,16 @@ M.BikiniStore = M.Store.extend({
         return hash;
     },
 
-    onConnect: function( endpoint, collection ) {
-        this.sendMessages(endpoint, collection);
+    onConnect: function( endpoint ) {
+        this.isConnected = YES;
+        this.sendMessages(endpoint );
     },
 
-    onDisconnect: function() {
+    onDisconnect: function(endpoint) {
+        this.isConnected = NO;
+        if (endpoint.socket && endpoint.socket.socket) {
+            endpoint.socket.socket.onDisconnect();
+        }
     },
 
     onMessage: function( msg ) {
@@ -353,6 +363,7 @@ M.BikiniStore = M.Store.extend({
             error: function( xhr, status ) {
                 if( !xhr.responseText && that.options.useOfflineChanges ) {
                     // this seams to be only a connection problem, so we keep the message an call success
+                    that.onDisconnect(endpoint);
                     that.handleCallback(options.success, msg.data);
                 } else {
                     that.removeMessage(endpoint, msg, function( endpoint, msg ) {
@@ -362,6 +373,9 @@ M.BikiniStore = M.Store.extend({
                 }
             },
             success: function( data ) {
+                if (!that.isConnected) {
+                    that.onConnect(endpoint);
+                }
                 that.removeMessage(endpoint, msg, function( endpoint, msg ) {
                     if( options.success ) {
                         var resp = data;
@@ -409,7 +423,7 @@ M.BikiniStore = M.Store.extend({
         }
     },
 
-    fetchServerInfo: function( endpoint, collection ) {
+    fetchServerInfo: function( endpoint ) {
         var that = this;
         if( endpoint && endpoint.baseUrl ) {
             var info = new M.Model();
@@ -424,7 +438,7 @@ M.BikiniStore = M.Store.extend({
                         endpoint.socketPath = info.get('socketPath');
                         var name = info.get('entity') || endpoint.entity.name;
                         if( that.options.useSocketNotify ) {
-                            that.createSocket(endpoint, collection, name);
+                            that.createSocket(endpoint, name);
                         }
                     }
                 },
@@ -433,8 +447,8 @@ M.BikiniStore = M.Store.extend({
         }
     },
 
-    sendMessages: function( endpoint, collection ) {
-        if( endpoint && endpoint.messages && collection ) {
+    sendMessages: function( endpoint ) {
+        if( endpoint && endpoint.messages && endpoint.collection ) {
             var that = this;
             endpoint.messages.each(function( message ) {
                 var msg;
@@ -444,7 +458,7 @@ M.BikiniStore = M.Store.extend({
                 }
                 var channel = message.get('channel');
                 if( msg && channel ) {
-                    var model = that.createModel({ collection: collection }, msg.data);
+                    var model = that.createModel({ collection: endpoint.collection }, msg.data);
                     that.emitMessage(endpoint, msg, {}, model);
                 } else {
                     message.destroy();
