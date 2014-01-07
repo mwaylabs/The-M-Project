@@ -204,6 +204,19 @@
 
         /**
          * A childview gets the value set from his parent. So the childview has the same value as his parent
+         * @example
+         * var view = M.View.extend({
+         *     value:'foo'
+         *   },
+         *   {
+         *     c1: M.View.extend({
+         *       useParentValue: YES
+         *     })
+         * }).create();
+         *
+         * view.getValue(); // 'foo'
+         * view.childViews.c1.getValue(); // 'foo' 
+         *
          */
         useParentValue: NO,
 
