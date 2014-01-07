@@ -215,7 +215,7 @@
          * }).create();
          *
          * view.getValue(); // 'foo'
-         * view.childViews.c1.getValue(); // 'foo' 
+         * view.childViews.c1.getValue(); // 'foo'
          *
          */
         useParentValue: NO,
@@ -228,6 +228,17 @@
          */
         _setModel: function (value) {
             this.model = value;
+            return this;
+        },
+
+        /**
+         * Set the collection of the view
+         * @param { M.Collection } The Collection to be set
+         * @returns {View}
+         * @private
+         */
+        _setCollection: function (value) {
+            this.collection = value;
             return this;
         },
 
@@ -372,6 +383,11 @@
             if (this.scopeKey && M.isModel(_value)) {
                 this.listenTo(this.scope, this.scopeKey, function (model) {
                     that._setModel(model);
+                    that.render();
+                });
+            } else if (this.scopeKey && M.isCollection(_value)) {
+                this.listenTo(this.scope, this.scopeKey, function (model) {
+                    that._setCollection(model);
                     that.render();
                 });
             } else if (this.scopeKey && _value && M.isModel(_value.model) && _value.attribute) {
