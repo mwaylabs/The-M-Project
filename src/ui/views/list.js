@@ -109,11 +109,15 @@ M.ListView = M.View.extend({
      * @private
      * @returns {M.ListView}
      */
-    _renderChildViews: function () {
-        if (this.collection) {
+    _renderChildViews: function() {
+        if( this.collection ) {
             // add all models to the view
-            this.renderItems(this.collection.models);
+            this._renderItems(this.collection.filter(this.filterBy, this));
         }
+        // TODO: evaluate this:
+        //        else if(this.getValue()) {
+        //            this._renderItems(this.collection.filter(this.filterBy, context));
+        //        }
         return this;
     },
 
@@ -121,11 +125,11 @@ M.ListView = M.View.extend({
      * The initialization of the view
      * @returns {M.ListView}
      */
-    initialize: function () {
+    initialize: function() {
         // call super
         M.View.prototype.initialize.apply(this, arguments);
         // if there is a collection add collection listener
-        if (this.collection) {
+        if( this.collection ) {
             this._applyListener();
         }
         // initialize the mapping to cache the access to a view
@@ -134,32 +138,29 @@ M.ListView = M.View.extend({
     },
 
     /**
-     * Adds listeners 'add', 'fetch, 'change', 'remove', 'filter' and 'sort'for the collection.
+     * Adds listeners 'add', 'fetch, 'change', 'remove' and 'sort'for the collection.
      * @private
      * @returns {M.ListView}
      */
-    _applyListener: function () {
-        this.listenTo(this.collection, 'add', function (model) {
+    _applyListener: function() {
+        this.listenTo(this.collection, 'add', function( model ) {
             // add an item to the view
             this.addItem(model);
         });
 
-        this.listenTo(this.collection, 'fetch', function () {
+        this.listenTo(this.collection, 'fetch', function() {
             // TODO: implement behavior
         });
-        this.listenTo(this.collection, 'change', function () {
+        this.listenTo(this.collection, 'change', function() {
             // TODO: implement behavior
         });
-        this.listenTo(this.collection, 'remove', function (model) {
+        this.listenTo(this.collection, 'remove', function( model ) {
             this._viewModelMapping[model.cid].$el.remove();
         });
 
-        this.listenTo(this.collection, 'filter', function () {
-            // TODO: implement behavior
-        });
-
-        this.listenTo(this.collection, 'sort', function () {
-            // TODO: implement behavior
+        this.listenTo(this.collection, 'sort', function() {
+            // TODO: implement a better behavior
+            this.render();
         });
 
         return this;
@@ -170,9 +171,9 @@ M.ListView = M.View.extend({
      * @param models
      * @returns {M.ListView}
      */
-    renderItems: function (models) {
-        _.each(models, function (model, index) {
-            this.renderItem(model, index);
+    _renderItems: function( models ) {
+        _.each(models, function( model, index ) {
+            this._renderEntry(model, index);
         }, this);
         return this;
     },
@@ -183,7 +184,7 @@ M.ListView = M.View.extend({
      * @param index the index of the entry
      * @returns {M.ListView}
      */
-    renderItem: function (model, index) {
+    _renderEntry: function( model, index ) {
         this._renderItem(this._getListItemHeader(model, index));
         this._renderItem(this._getListItem(model, index));
         this._renderItem(this._getListItemFooter(model, index));
@@ -196,20 +197,20 @@ M.ListView = M.View.extend({
      * @returns {M.ListView|undefined}
      * @private
      */
-    _renderItem: function (listItemView) {
+    _renderItem: function( listItemView ) {
 
         // if there is no given view return undefined
-        if (!listItemView) {
+        if( !listItemView ) {
             return void 0;
         }
 
-        if (M.View.prototype.isPrototypeOf(listItemView.prototype) && _.isFunction(listItemView)) {
+        if( M.View.prototype.isPrototypeOf(listItemView.prototype) && _.isFunction(listItemView) ) {
             listItemView = listItemView.create();
         }
 
         listItemView.render();
         this.$el.find('[data-childviews="list"]').append(listItemView.$el);
-        if (listItemView.model && listItemView.model.cid) {
+        if( listItemView.model && listItemView.model.cid ) {
             this._viewModelMapping[listItemView.model.cid] = listItemView;
         }
         listItemView.delegateEvents();
@@ -223,9 +224,10 @@ M.ListView = M.View.extend({
      * @returns {M.ListView}
      * @private
      */
-    _getListItem: function (model, index) {
+    _getListItem: function( model, index ) {
+
         // if the getListItem function is implemented return an instance of the view that gets returned from the getListItem function
-        if (_.isFunction(this.getListItem)) {
+        if( _.isFunction(this.getListItem) ) {
             return this.getListItem(model, index).create({
                 scope: this.scope,
                 value: model
@@ -233,7 +235,7 @@ M.ListView = M.View.extend({
         }
 
         // if the getListItem function is not implemented but the listItemView property return an instance of the listItemView property
-        if (this.listItemView) {
+        if( this.listItemView ) {
             return this.listItemView.create({
                 scope: this.scope,
                 value: model
@@ -263,9 +265,9 @@ M.ListView = M.View.extend({
      * @returns {*}
      * @private
      */
-    _getListItemHeader: function (model, index) {
+    _getListItemHeader: function( model, index ) {
         // if the user overwrites the getListItemHeader with a function return that
-        if (_.isFunction(this.getListItemHeader)) {
+        if( _.isFunction(this.getListItemHeader) ) {
             return this.getListItemHeader(model, index);
         }
         return this.getListItemHeader;
@@ -283,9 +285,9 @@ M.ListView = M.View.extend({
      * @returns {*}
      * @private
      */
-    _getListItemFooter: function (model, index) {
+    _getListItemFooter: function( model, index ) {
         // if the user overwrites the getListItemHeader with a function return that
-        if (_.isFunction(this.getListItemFooter)) {
+        if( _.isFunction(this.getListItemFooter) ) {
             return this.getListItemFooter(model, index);
         }
         return this.getListItemFooter;
@@ -297,5 +299,51 @@ M.ListView = M.View.extend({
      * @param index
      * @type {Function}
      */
-    getListItemFooter: null
+    getListItemFooter: null,
+
+    /**
+     * Gets called for every collection entry. Return true to add the entry to the list and false to remove it from the list view
+     * @param model
+     * @returns {*}
+     */
+    filterBy: function( model ) {
+        return this.getFilterValue();
+    },
+
+    /**
+     * Trigger a filter on the list. This will not effect the collection only the visibility of a list entry
+     * The given filterValue is accessable with the getter: getFilterValue
+     * @param filterValue
+     * @returns {*}
+     */
+    filter: function( filterValue ) {
+        this.setFilterValue(filterValue);
+        this.$el.find('[data-childviews="list"]').empty();
+        this._renderChildViews();
+        return this;
+    },
+
+    /**
+     * Stores an object to access in the filterBy method.
+     * The value can be set via setFilterValue and get with getFilterValue.
+     */
+    _filterValue: true,
+
+    /**
+     * Sets the _filterValue property
+     * @param filterValue
+     * @returns {*}
+     */
+    setFilterValue: function( filterValue ) {
+        this._filterValue = filterValue;
+        return this;
+    },
+
+    /**
+     * Return the _filterValue property
+     * @returns {boolean}
+     */
+    getFilterValue: function() {
+        return this._filterValue;
+    }
 });
