@@ -2,14 +2,38 @@
 .splitlayout {
 
   .m-perspective {
-  display: -webkit-box;
-  display: -webkit-flexbox;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: flex;
+    display: -webkit-box;
+    display: -webkit-flexbox;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: flex;
   }
 
   .m-page {
-    height:100%
+    height: 100%
+  }
+
+  &.single #leftContainer {
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    width: 180px;
+    z-index: 9999;
+    overflow: hidden;
+    background: #fbfbfb;
+  }
+
+  .close {
+    display: none;
+  }
+
+  #leftContainer {
+    border-right: 1px solid #ccc;
+    background: #fbfbfb;
+  }
+
+  .toolbarview {
+    position: relative;
   }
 }

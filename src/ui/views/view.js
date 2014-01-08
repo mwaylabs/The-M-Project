@@ -736,7 +736,7 @@
                 } else if (_.isArray(child)) {
                     _.each(child, function (c) {
                         this._renderChildView(dom, c);
-                    });
+                    }, this);
                 }
 
             }, this);

@@ -90,7 +90,7 @@ M.Transitions = M.Object.design({
                 that._onEndAnimation(currPage, nextPage);
             }
         });
-        currPage.addClass(outClass);
+
 
         $(nextPage[0]).on(animEndEventName, function() {
             nextPage.off(animEndEventName);
@@ -99,7 +99,11 @@ M.Transitions = M.Object.design({
                 that._onEndAnimation(currPage, nextPage);
             }
         });
-        nextPage.addClass(inClass);
+
+        setTimeout(function() {
+            nextPage.addClass(inClass);
+            currPage.addClass(outClass);
+        },0);
     },
 
     setTransition: function( name ) {
