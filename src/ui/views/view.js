@@ -288,6 +288,9 @@
             _.each(this.childViews, function (child) {
                 if (child.useParentValue) {
                     child._setValue(value);
+                    if( M.isModel(value)){
+                        child._setModel(value);
+                    }
                 }
             }, this);
         },
