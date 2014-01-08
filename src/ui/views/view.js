@@ -43,7 +43,9 @@
      * @type {Function}
      */
 
-    M.View.design = M.design;
+    M.View.design = function (obj, childViews, isScope) {
+        return this.extend().create(obj, childViews, isScope);
+    };
 
     M.View.implements = M.implements;
 
@@ -215,7 +217,7 @@
          * }).create();
          *
          * view.getValue(); // 'foo'
-         * view.childViews.c1.getValue(); // 'foo' 
+         * view.childViews.c1.getValue(); // 'foo'
          *
          */
         useParentValue: NO,
@@ -228,6 +230,17 @@
          */
         _setModel: function (value) {
             this.model = value;
+            return this;
+        },
+
+        /**
+         * Set the collection of the view
+         * @param { M.Collection } The Collection to be set
+         * @returns {View}
+         * @private
+         */
+        _setCollection: function (value) {
+            this.collection = value;
             return this;
         },
 
@@ -374,6 +387,11 @@
                     that._setModel(model);
                     that.render();
                 });
+            } else if (this.scopeKey && M.isCollection(_value)) {
+                this.listenTo(this.scope, this.scopeKey, function (model) {
+                    that._setCollection(model);
+                    that.render();
+                });
             } else if (this.scopeKey && _value && M.isModel(_value.model) && _value.attribute) {
                 this.listenTo(this.scope, this.scopeKey.split('.')[0], function (model) {
                     that._setModel(model);
@@ -426,28 +444,59 @@
          */
         _addInternalEvents: function () {
             if (this._internalEvents) {
-                _.each(this._internalEvents, function (internalEvent, eventType) {
-                    //if the _internalEvents isn't an array create one
-                    var internal = _.isArray(internalEvent) ? internalEvent : [internalEvent];
-                    //if the object has no _events or the object is not an array create one
-                    this._events[eventType] = _.isArray(this._events[eventType]) ? this._events[eventType] : [];
-                    //merge the interanl and external events
-                    this._events[eventType] = this._events[eventType].concat(internal);
-                }, this);
+                this._addEvents(this._internalEvents);
             }
         },
 
+        /**
+         * Loop over the given events and add them.
+         * @private
+         */
+        _addEvents: function(events){
+            _.each(events, function (event, eventType) {
+                this._addEvent(event, eventType);
+            }, this);
+        },
+
+        /**
+         * Add a event to a view.
+         * Events are stored inside the _events object. Every event has an array with callbacks that are called when the event type was triggered.
+         * The callbacks are allways stored in an array.
+         *
+         * @private
+         */
+        _addEvent:function(event, eventType){
+            //if the event isn't an array create one
+            var internal = _.isArray(event) ? event : [event];
+            //if the object has no _events or the object is not an array create one
+            this._events[eventType] = _.isArray(this._events[eventType]) ? this._events[eventType] : [];
+            //merge the internal and external events
+            this._events[eventType] = this._events[eventType].concat(internal);
+        },
+
+        /**
+         * There are some custom events e.q. pressing the enter key. These custom events are bound in this method.
+         *
+         * @private
+         */
         _addCustomEvents: function () {
+            // only bind custom events if there are any
             if (!this._events) {
                 return;
             }
             var that = this;
+            // store all custom events
             var customEvents = {
+                // create the custom event: enter
                 enter: {
+                    // the original event type that is triggered
                     'origin': 'keyup',
+                    // the callback for the keyup
                     'callback': function (event) {
+                        // this callback gets called on every keyup so filter only the enter events
                         if (event.keyCode === 13) {
-                            that._events.enter.apply(that.scope, arguments);
+                            // if enter was pressed call the function
+                            that._events.enter[0].apply(that.scope, arguments);
                         }
 
                     }
@@ -455,7 +504,7 @@
             };
             for (var event in this._events) {
                 if (customEvents.hasOwnProperty(event)) {
-                    this._events[customEvents[event].origin] = customEvents[event].callback;
+                    this._addEvent(customEvents[event].callback, customEvents[event].origin);
                 }
             }
         },
