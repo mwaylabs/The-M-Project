@@ -61,7 +61,61 @@
                             }
                         });
                     }
-                })
+                });
+
+ // SortBy Example:
+
+ var collection = M.Collection.create([
+ {lastname: 'black', firstname: 'anton'},
+ {lastname: 'müller', firstname: 'aron'},
+ {lastname: 'müller', firstname: 'absinthe'},
+ {lastname: 'akkerman', firstname: 'bernhard'},
+ {lastname: 'kewlman', firstname: 'coolio'},
+ {lastname: 'null', firstname: 'druk'},
+ {lastname: 'bender', firstname: 'dirk'},
+ {lastname: 'false', firstname: 'eric'},
+ {lastname: 'drop table *;', firstname: 'erico'}
+ ]);
+
+ var testView = M.ListView.extend({
+
+            value: collection,
+
+            filterBy: function(model) {
+
+                if(this.getFilterValue() === true){
+                    return true;
+                }
+                var val = this.getFilterValue();
+                if(model.get('firstname').indexOf(val.val) >= 0 || model.get('lastname').indexOf(val.val)  >= 0){
+                    return true;
+                }
+
+                return false;
+            },
+
+            getListItem: function( model, index ) {
+                return M.ListItemView.extend({
+                    childViews: {
+                        firstname: M.View.extend({
+                            useParentValue: YES,
+                            extendTemplate: '<%= firstname %>'
+                        }),
+                        lastname: M.View.extend({
+                            useParentValue: YES,
+                            extendTemplate: '<%= lastname %>'
+                        })
+                    }
+                });
+            }
+        }).create().render();
+ // display only the first entry
+ testView.filter({val: 'anton'});
+ // display all
+ testView.filter();
+ // or
+ testView.setFilterValue(true);
+ testView.filter();
  *
  *
  */
@@ -305,6 +359,7 @@ M.ListView = M.View.extend({
      * Gets called for every collection entry. Return true to add the entry to the list and false to remove it from the list view
      * @param model
      * @returns {*}
+     *
      */
     filterBy: function( model ) {
         return this.getFilterValue();
@@ -335,7 +390,8 @@ M.ListView = M.View.extend({
      * @returns {*}
      */
     setFilterValue: function( filterValue ) {
-        this._filterValue = filterValue;
+        var val = typeof filterValue === 'undefined' ? YES : filterValue;
+        this._filterValue = val;
         return this;
     },
 
