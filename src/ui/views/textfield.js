@@ -74,7 +74,7 @@ M.TextfieldView = M.View.extend({
     /**
      * the template of the input
      */
-    _template: _.tmpl(M.TemplateManager.get('M.TextfieldView')),
+    _template: null, //_.tmpl(M.TemplateManager.get('M.TextfieldView')),
 
     _templateString: M.TemplateManager.get('M.TextfieldView'),
 
@@ -229,10 +229,10 @@ M.TextfieldView = M.View.extend({
     },
 
     _extendTemplate: function(){
-
         if( this.extendTemplate ) {
-            console.warn('Extend the Template of a M.TextFieldView is not possible. Overwrite the complete _template.');
+            console.warn('Extend the Template of a M.TextFieldView is possible but be aware that the value attribute of the input is set with this string. Otherwise overwrite _templateString.');
         }
+        M.View.prototype._extendTemplate.apply(this, arguments);
     },
 
     /**
