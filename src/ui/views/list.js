@@ -199,7 +199,7 @@ M.ListView = M.View.extend({
     _applyListener: function() {
         this.listenTo(this.collection, 'add', function( model ) {
             // add an item to the view
-            this.addItem(model);
+            this._renderEntry(model);
         });
 
         this.listenTo(this.collection, 'fetch', function() {
@@ -239,16 +239,33 @@ M.ListView = M.View.extend({
      * @returns {M.ListView}
      */
     _renderEntry: function( model, index ) {
-        this._renderItem(this._getListItemHeader(model, index));
-        this._renderItem(this._getListItem(model, index));
-        this._renderItem(this._getListItemFooter(model, index));
+        var row = {
+            header: this._getListItemHeader(model, index),
+            item: this._getListItem(model, index),
+            footer: this._getListItemFooter(model, index)
+        };
+
+        row = this._renderListItemRow(row);
+        this._cacheListItemRow(row, model.cid);
         return this;
+    },
+
+    _renderListItemRow: function( row ) {
+        var rowCopy = {};
+        _.each(row, function( listItemView, ident ) {
+            rowCopy[ident] = this._renderItem(listItemView);
+        }, this);
+        return rowCopy;
+    },
+
+    _cacheListItemRow: function( listItemRow, identifier ) {
+        this._viewModelMapping[identifier] = listItemRow;
     },
 
     /**
      * Renders the given view to the list.
      * @param listItemView
-     * @returns {M.ListView|undefined}
+     * @returns {M.ListItemView|undefined}
      * @private
      */
     _renderItem: function( listItemView ) {
@@ -264,11 +281,8 @@ M.ListView = M.View.extend({
 
         listItemView.render();
         this.$el.find('[data-childviews="list"]').append(listItemView.$el);
-        if( listItemView.model && listItemView.model.cid ) {
-            this._viewModelMapping[listItemView.model.cid] = listItemView;
-        }
         listItemView.delegateEvents();
-        return this;
+        return listItemView;
     },
 
     /**
@@ -356,6 +370,12 @@ M.ListView = M.View.extend({
     getListItemFooter: null,
 
     /**
+     * If set to false: apply a filter on a list will only show and hide the given elements. If the property is set to true every listitem gets instanciated (may course velocity issues)
+     * @type {BOOLEAN}
+     */
+    useRenderUpdateFilter: NO,
+
+    /**
      * Gets called for every collection entry. Return true to add the entry to the list and false to remove it from the list view
      * @param model
      * @returns {*}
@@ -366,15 +386,101 @@ M.ListView = M.View.extend({
     },
 
     /**
+     * Creates new instances on every filter
+     * @param filterValue
+     * @returns {*}
+     */
+    _renderUpdateFilter: function( filterValue ) {
+        // empty the current list
+        this.$el.find('[data-childviews="list"]').empty();
+        // render the list items
+        this._renderChildViews();
+        return this;
+    },
+
+    /**
+     * Toggles hide/show on the DOM element on filter
+     * @param filterValue
+     * @returns {*}
+     */
+    _showHideFilter: function() {
+        // hide the current list
+        this.$el.find('[data-childviews="list"] .listitemview').hide();
+        // array of all elements to show
+        var listItems = this.collection.filter(this.filterBy, this);
+
+        _.each(listItems, function( model, index ) {
+
+            // if it is a simple listItemView then just call the show method
+            if( this.listItemView ) {
+                this._showFilterElement(model.cid);
+            } else {
+                // if getters and setters are defined get the row. Usually it contains header, item and footer
+                var row = this._viewModelMapping[model.cid];
+                // if a getter for the header is defined
+                if( _.isFunction(this.getListItemHeader) ) {
+                    // call the get header item with the current header view to manipulate it
+                    this.getListItemHeader(model, index, row.header);
+                    // then show it
+                    this._showFilterElement(model.cid, 'header');
+                }
+                if( _.isFunction(this.getListItem) ) {
+                    // call the get item with the current item view to manipulate it
+                    this.getListItem(model, index, row.item);
+                    // then show it
+                    this._showFilterElement(model.cid, 'item');
+                }
+                if( _.isFunction(this.getListItemFooter) ) {
+                    // call the get footer item with the current footer view to manipulate it
+                    this.getListItemFooter(model, index, row.footer);
+                    // then show it
+                    this._showFilterElement(model.cid, 'footer');
+                }
+            }
+        }, this);
+    },
+
+    /**
+     * Gets used if useRenderUpdateFilter is set to true to toggle all hidden list items
+     * @param identifier
+     * @param elementSpecification
+     * @private
+     */
+    _showFilterElement: function( identifier, elementSpecification ) {
+        // if set to header, footer or item
+        if(elementSpecification){
+            // get the view from the cache
+            var view = this._viewModelMapping[identifier];
+            if(view[elementSpecification] && view[elementSpecification].$el){
+                // show it
+                view[elementSpecification].$el.show();
+            }
+        } else {
+            // loop over the cached views and show them
+            // this should be the same as:
+            // view.item
+            this._viewModelMapping[identifier].item.$el.show();
+//            _.each(this._viewModelMapping[identifier], function(view){
+//                view.$el.show();
+//            }, this);
+        }
+    },
+
+    /**
      * Trigger a filter on the list. This will not effect the collection only the visibility of a list entry
      * The given filterValue is accessable with the getter: getFilterValue
+     * If this.useRenderUpdateFilter is set to true all list elements are instanciatet per filter call. If the property is set to false the DOM of every elements gets hidden or shown.
      * @param filterValue
      * @returns {*}
      */
     filter: function( filterValue ) {
+
         this.setFilterValue(filterValue);
-        this.$el.find('[data-childviews="list"]').empty();
-        this._renderChildViews();
+        if( this.useRenderUpdateFilter ) {
+            this._renderUpdateFilter();
+        } else {
+            this._showHideFilter();
+        }
         return this;
     },
 

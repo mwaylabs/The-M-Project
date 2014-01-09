@@ -325,7 +325,68 @@ describe('M.ListView', function() {
         assert.isFalse(testView.getFilterValue());
     });
 
-    it('filter implementation', function() {
+    it('filter implementation useRenderUpdateFilter = true', function() {
+
+        var collection = M.Collection.create([
+            {lastname: 'black', firstname: 'anton'},
+            {lastname: 'müller', firstname: 'aron'},
+            {lastname: 'müller', firstname: 'absinthe'},
+            {lastname: 'akkerman', firstname: 'bernhard'},
+            {lastname: 'kewlman', firstname: 'coolio'},
+            {lastname: 'null', firstname: 'druk'},
+            {lastname: 'bender', firstname: 'dirk'},
+            {lastname: 'false', firstname: 'eric'},
+            {lastname: 'drop table *;', firstname: 'erico'}
+        ]);
+
+        var testView = M.ListView.extend({
+
+            useRenderUpdateFilter: YES,
+
+            value: collection,
+
+            filterBy: function(model) {
+
+                if(this.getFilterValue() === true){
+                    return true;
+                }
+                var val = this.getFilterValue();
+                if(model.get('firstname').indexOf(val.val) >= 0 || model.get('lastname').indexOf(val.val)  >= 0){
+                    return true;
+                }
+
+                return false;
+            },
+
+            getListItem: function( model, index ) {
+                return M.ListItemView.extend({
+                    childViews: {
+                        firstname: M.View.extend({
+                            useParentValue: YES,
+                            extendTemplate: '<%= firstname %>'
+                        }),
+                        lastname: M.View.extend({
+                            useParentValue: YES,
+                            extendTemplate: '<%= lastname %>'
+                        })
+                    }
+                });
+            }
+        }).create().render();
+
+        assert.lengthOf(testView.$el.find('ul .listitemView'), collection.models.length);
+        testView.filter({val: 'anton'});
+        assert.lengthOf(testView.$el.find('ul .listitemView'), 1);
+        testView.filter(true);
+        assert.lengthOf(testView.$el.find('ul .listitemView'), collection.models.length);
+        testView.filter({val: 'a'});
+        assert.lengthOf(testView.$el.find('ul .listitemView'), 7);
+        testView.setFilterValue(true);
+        testView.filter();
+        assert.lengthOf(testView.$el.find('ul .listitemView'), collection.models.length);
+    });
+
+    it('filter implementation useRenderUpdateFilter = false', function() {
 
         var collection = M.Collection.create([
             {lastname: 'black', firstname: 'anton'},
@@ -374,14 +435,14 @@ describe('M.ListView', function() {
 
         assert.lengthOf(testView.$el.find('ul .listitemView'), collection.models.length);
         testView.filter({val: 'anton'});
-        assert.lengthOf(testView.$el.find('ul .listitemView'), 1);
+        assert.lengthOf(testView.$el.find('[style*="display: block"]'), 1);
         testView.filter(true);
-        assert.lengthOf(testView.$el.find('ul .listitemView'), collection.models.length);
+        assert.lengthOf(testView.$el.find('[style*="display: block"]'), collection.models.length);
         testView.filter({val: 'a'});
-        assert.lengthOf(testView.$el.find('ul .listitemView'), 7);
+        assert.lengthOf(testView.$el.find('[style*="display: block"]'), 7);
         testView.setFilterValue(true);
         testView.filter();
-        assert.lengthOf(testView.$el.find('ul .listitemView'), collection.models.length);
+        assert.lengthOf(testView.$el.find('[style*="display: block"]'), collection.models.length);
     });
 
 });
