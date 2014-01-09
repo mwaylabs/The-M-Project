@@ -199,7 +199,7 @@ M.ListView = M.View.extend({
     _applyListener: function() {
         this.listenTo(this.collection, 'add', function( model ) {
             // add an item to the view
-            this.addItem(model);
+            this._renderEntry(model);
         });
 
         this.listenTo(this.collection, 'fetch', function() {
