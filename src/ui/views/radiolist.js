@@ -37,15 +37,13 @@ M.RadiolistView = M.SelectionlistView.extend({
      * The template of the object before initializing it.
      * @private
      */
-    _template: _.tmpl(M.TemplateManager.get('M.RadiolistView')),
-
-    _templateString: M.TemplateManager.get('M.RadiolistView'),
+    _templateString: M.TemplateManager.get('radiolist.ejs'),
 
     /**
      * The template of an option before initializing it.
      * @private
      */
-    _optionTemplate: _.tmpl(M.TemplateManager.get('M.RadioOptionView')),
+    _optionTemplate: _.tmpl(M.TemplateManager.get('radiooption.ejs')),
 
     /**
      * Selector name which is used internally to determine the parent dom element.

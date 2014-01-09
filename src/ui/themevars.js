@@ -1,4 +1,4 @@
-// Copyright (c) 2013 M-Way Solutions GmbH
+// Copyright (c) 2014 M-Way Solutions GmbH
 // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 
 ////////////////////////////////////////////////////////////////

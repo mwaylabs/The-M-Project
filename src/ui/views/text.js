@@ -35,9 +35,7 @@ M.TextView = M.View.extend({
     /**
      * the template of the input
      */
-    _template: _.tmpl(M.TemplateManager.get('M.TextView')),
-
-    _templateString: M.TemplateManager.get('M.TextView'),
+    _templateString: M.TemplateManager.get('text.ejs'),
 
     /**
      * Add all the template values

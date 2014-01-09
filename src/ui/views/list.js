@@ -149,7 +149,7 @@ M.ListView = M.View.extend({
      * @type {String}
      * @private
      */
-    _templateString: M.TemplateManager.get('M.ListView'),
+    _templateString: M.TemplateManager.get('list.ejs'),
 
     /**
      * The blueprint for every list item. Overwrite the property with a view prototype to display every list entry with this object.

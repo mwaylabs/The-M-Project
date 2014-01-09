@@ -7168,7 +7168,7 @@
      * @extends M.Object
      * @example
      *
-     * var tpl = M.TemplateManager.get('M.ListView');
+     * var tpl = M.TemplateManager.get('ListView');
      * console.log( tpl ); // <ul data-childviews="list"></ul>
      *
      */
@@ -7582,7 +7582,7 @@
              * define a template based on the tmpl template engine
              * @private
              */
-            _template: _.tmpl(M.TemplateManager.get('M.View')),
+            _template: _.tmpl(M.TemplateManager.get('View')),
     
             /**
              * use this property to define which data are given to the template
@@ -8563,7 +8563,7 @@
         /**
          * the template of the input
          */
-        _template: _.tmpl(M.TemplateManager.get('M.TextfieldView')),
+        _template: _.tmpl(M.TemplateManager.get('TextfieldView')),
     
         /**
          * If the type of the view is 'clear' use a custom text delete element
@@ -8738,7 +8738,7 @@
     
         placeholder: 'Search',
     
-        _template: _.tmpl(M.TemplateManager.get('M.SearchfieldView')),
+        _template: _.tmpl(M.TemplateManager.get('SearchfieldView')),
     
         initialize: function () {
             M.View.prototype.initialize.apply(this);
@@ -8763,7 +8763,7 @@
     
         _type: 'M.TextareaView',
     
-        _template: _.tmpl(M.TemplateManager.get('M.TextareaView')),
+        _template: _.tmpl(M.TemplateManager.get('TextareaView')),
     
         _attachToDom: function () {
             return YES;
@@ -8791,7 +8791,7 @@
          * The template of the view
          *
          */
-        _template: _.tmpl(M.TemplateManager.get('M.ListItemView')),
+        _template: _.tmpl(M.TemplateManager.get('ListItemView')),
     
         /**
          * The type of the listitem. Default is 'basic' and just displays the value
@@ -8861,7 +8861,7 @@
             }
     
             if( this.type === M.ListItemView.CONST.LINKED || this.type === M.ListItemView.CONST.ICON ) {
-                this.template = _.tmpl(M.TemplateManager.get('M.ListItemViewLinked'));
+                this.template = _.tmpl(M.TemplateManager.get('ListItemViewLinked'));
             }
     
             if( this.templateExtend ) {
@@ -8916,7 +8916,7 @@
          * The template of the object before initializing it.
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get('M.ButtonView')),
+        _template: _.tmpl(M.TemplateManager.get('ButtonView')),
     
         /**
          * The active state of the button. Use isActive and setActive to change this property.
@@ -8982,7 +8982,7 @@
     
         _viewModelMapping: null,
     
-        _template: _.tmpl(M.TemplateManager.get('M.ListView')),
+        _template: _.tmpl(M.TemplateManager.get('ListView')),
     
         _render: function () {
             M.View.prototype._render.apply(this, arguments);
@@ -9072,7 +9072,7 @@
     M.SliderView = M.View.extend({
     
         _type: 'M.SliderView',
-        _template: _.tmpl(M.TemplateManager.get('M.SliderView')),
+        _template: _.tmpl(M.TemplateManager.get('SliderView')),
         _getEventOptions: function () {
             return {
                 'prevent_default': false,
@@ -9093,7 +9093,7 @@
     M.DialogView = M.View.extend({
     
         _type: 'M.DialogView',
-        _template: _.tmpl(M.TemplateManager.get('M.DialogView'))
+        _template: _.tmpl(M.TemplateManager.get('DialogView'))
     
     
     });
@@ -9110,7 +9110,7 @@
     
         _type: 'M.ToggleView',
     
-        _template: _.tmpl(M.TemplateManager.get('M.ToggleView')),
+        _template: _.tmpl(M.TemplateManager.get('ToggleView')),
     
         initialize: function () {
             M.View.prototype.initialize.apply(this, arguments);
@@ -9138,7 +9138,7 @@
     M.ImageView = M.View.extend({
     
         _type: 'M.ImageView',
-        _template: _.tmpl(M.TemplateManager.get('M.ImageView')),
+        _template: _.tmpl(M.TemplateManager.get('ImageView')),
     
         /**
          * Represents the alt attribute of the img tag
@@ -9324,7 +9324,7 @@
          * @private
          * @type {function}
          */
-        _template: _.tmpl(M.TemplateManager.get('M.ToolbarView'))
+        _template: _.tmpl(M.TemplateManager.get('ToolbarView'))
     
     });
     // Copyright (c) 2013 M-Way Solutions GmbH
@@ -9342,7 +9342,7 @@
     
         isMultiple: NO,
     
-        template: M.TemplateManager.get('M.SelectView'),
+        template: M.TemplateManager.get('SelectView'),
     
         _assignBinding: function () {
             M.View.prototype._assignBinding.apply(this, arguments);
@@ -9371,7 +9371,7 @@
     
         _type: 'M.ButtonGroupView',
     
-        _template: _.tmpl(M.TemplateManager.get('M.ButtonGroupView')),
+        _template: _.tmpl(M.TemplateManager.get('ButtonGroupView')),
     
         _internalCssClasses: 'clearfix',
     
@@ -9576,13 +9576,13 @@
          * The template of the object before initializing it.
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get('M.RadiolistView')),
+        _template: _.tmpl(M.TemplateManager.get('RadiolistView')),
     
         /**
          * The template of an option before initializing it.
          * @private
          */
-        _optionTemplate: _.tmpl(M.TemplateManager.get('M.RadioOptionView')),
+        _optionTemplate: _.tmpl(M.TemplateManager.get('RadioOptionView')),
     
         /**
          * Selector name which is used internally to determine the parent dom element.
@@ -9614,9 +9614,9 @@
          * The template of the object before initializing it.
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get('M.CheckboxlistView')),
+        _template: _.tmpl(M.TemplateManager.get('CheckboxlistView')),
     
-        _optionTemplate: _.tmpl(M.TemplateManager.get('M.CheckboxOptionView')),
+        _optionTemplate: _.tmpl(M.TemplateManager.get('CheckboxOptionView')),
     
         _optionsContainer: 'checkbox'
     
@@ -9679,7 +9679,7 @@
          * @param {object} _templateValues
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get('M.ToggleSwitchView')),
+        _template: _.tmpl(M.TemplateManager.get('ToggleSwitchView')),
     
         /**
          * The container to put the options in
@@ -9844,7 +9844,7 @@
          * The template of the object before initializing it.
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get('M.ModalView')),
+        _template: _.tmpl(M.TemplateManager.get('ModalView')),
     
         /**
          * Determines if the modal is shown or not. Access it by calling isShown()
@@ -10061,7 +10061,7 @@
              * @private
              * @type {function}
              */
-            _template: _.tmpl(M.TemplateManager.get('M.LoaderView')),
+            _template: _.tmpl(M.TemplateManager.get('LoaderView')),
     
             /**
              * This function needs to be implemented to render the view if there is no value given
@@ -10130,7 +10130,7 @@
         /**
          * the template of the input
          */
-        _template: _.tmpl(M.TemplateManager.get('M.TextView')),
+        _template: _.tmpl(M.TemplateManager.get('TextView')),
     
         /**
          * Add all the template values
@@ -10180,7 +10180,7 @@
     M.DebugView = M.View.extend({
     
         _type: 'M.DebugView',
-        _template: _.tmpl(M.TemplateManager.get('M.DebugView')),
+        _template: _.tmpl(M.TemplateManager.get('DebugView')),
         _debugViewIsHidden: YES,
         cssClass: 'bg',
         useAsScope: YES,

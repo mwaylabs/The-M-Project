@@ -20,9 +20,7 @@ M.MovableView = M.View.extend({
      * The template of the object before initializing it.
      * @private
      */
-    _template: _.tmpl(M.TemplateManager.get('M.MovableView')),
-
-    _templateString: M.TemplateManager.get('M.MovableView'),
+    _templateString: M.TemplateManager.get('movable.ejs'),
 
     leftEdge: 0,
 

@@ -1,4 +1,5 @@
 
+// @include ./templates.js
 // @include ./utility/animation.js
 // @include ./ui/themevars.js
 // @include ./ui/views/template_manager.js

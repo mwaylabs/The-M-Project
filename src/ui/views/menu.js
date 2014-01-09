@@ -29,9 +29,7 @@ M.MenuView = M.MovableView.extend({
      * The template of the object before initializing it.
      * @private
      */
-    _template: _.tmpl(M.TemplateManager.get('M.MenuView')),
-
-    _templateString: M.TemplateManager.get('M.MenuView'),
+    _templateString: M.TemplateManager.get('menu.ejs'),
 
     /**
      * The most left position of the menu

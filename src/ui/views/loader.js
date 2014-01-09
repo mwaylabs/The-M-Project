@@ -64,9 +64,7 @@ M.LoaderView = M.ModalView.extend({
          * @private
          * @type {function}
          */
-        _template: _.tmpl(M.TemplateManager.get('M.LoaderView')),
-
-        _templateString: M.TemplateManager.get('M.LoaderView'),
+        _templateString: M.TemplateManager.get('loader.ejs'),
 
         /**
          * This function needs to be implemented to render the view if there is no value given

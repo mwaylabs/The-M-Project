@@ -11,9 +11,7 @@ M.DebugView = M.View.extend({
 
     _type: 'M.DebugView',
 
-    _template: _.tmpl(M.TemplateManager.get('M.DebugView')),
-
-    _templateString: M.TemplateManager.get('M.DebugView'),
+    _templateString: M.TemplateManager.get('debug.ejs'),
 
     _debugViewIsHidden: YES,
 

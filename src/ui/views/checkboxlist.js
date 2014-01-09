@@ -19,11 +19,9 @@ M.CheckboxlistView = M.SelectionlistView.extend({
      * The template of the object before initializing it.
      * @private
      */
-    _template: _.tmpl(M.TemplateManager.get('M.CheckboxlistView')),
+    _templateString: M.TemplateManager.get('checkboxlist.ejs'),
 
-    _templateString: M.TemplateManager.get('M.CheckboxlistView'),
-
-    _optionTemplate: _.tmpl(M.TemplateManager.get('M.CheckboxOptionView')),
+    _optionTemplate: _.tmpl(M.TemplateManager.get('checkboxoption.ejs')),
 
     _optionsContainer: 'checkbox'
 

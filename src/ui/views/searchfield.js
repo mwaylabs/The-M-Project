@@ -13,9 +13,7 @@ M.SearchfieldView = M.TextfieldView.extend({
 
     placeholder: 'Search',
 
-    _template: _.tmpl(M.TemplateManager.get('M.SearchfieldView')),
-
-    _templateString: M.TemplateManager.get('M.SearchfieldView'),
+    _templateString: M.TemplateManager.get('searchfield.ejs'),
 
     initialize: function () {
         M.View.prototype.initialize.apply(this);

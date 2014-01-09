@@ -1,13 +1,40 @@
 describe('M.TemplateManager', function() {
 
-    var uiTemplates = ['defaultTemplate', 'bootstrap', 'topcoat', 'jqm'];
+    var uiTemplates = ['default'];
     var TEST_TEMPLATE = '<div></div>';
+    var TEMPLATE_VIEW_NAME = 'templateForTestPurposes.ejs';
+    var ALL_M_VIEWS = [
+        'View',
+        'TextfieldView',
+        'SearchfieldView',
+        'TextareaView',
+        'ListItemView',
+        'ButtonView',
+        'ListView',
+        'SliderView',
+        'DialogView',
+        'ToggleView',
+        'ImageView',
+        'ToolbarView',
+        'SelectView',
+        'ButtonGroupView',
+        'RadiolistView',
+        'CheckboxlistView',
+        'ToggleSwitchView',
+        'ModalView',
+        'TextView',
+        'DebugView',
+        'MovableView',
+        'MenuView'
+    ];
 
-    var ALL_M_VIEWS = _.filter(Object.keys(M.TemplateManager), function( value, key ) {
-        return (value.indexOf('M.') >= 0);
-    });
+    var convertFilename = function( filename ) {
+        if( filename != 'View' ) {
+            filename = filename.slice(0, filename.lastIndexOf('View'));
+        }
+        return filename.toLowerCase() + '.ejs';
+    }
 
-    var TEMPLATE_VIEW_NAME = 'M.TemplateForTestPurposes';
 
     it('General', function() {
 
@@ -24,9 +51,10 @@ describe('M.TemplateManager', function() {
 
     it('View templates', function() {
 
-        for( var view in ALL_M_VIEWS ) {
-            for( var template in uiTemplates ) {
-                var viewTemplate = M.TemplateManager.get(ALL_M_VIEWS[view], uiTemplates[template]);
+        for( var theme in M.Templates ) {
+
+            for( var template in M.Templates[theme] ) {
+                var viewTemplate = M.TemplateManager.get(template, theme);
                 assert.isString(viewTemplate);
                 assert.isTrue(viewTemplate.indexOf('<') === 0);
             }
@@ -35,76 +63,63 @@ describe('M.TemplateManager', function() {
     });
 
     it('defaultTheme is defined for every view', function() {
-
-        for( var view in ALL_M_VIEWS ) {
-            for( var template in uiTemplates ) {
-                assert.isDefined(M.TemplateManager[ALL_M_VIEWS[view]]['defaultTemplate']);
-            }
-        }
-
+        _.each(ALL_M_VIEWS, function( item ) {
+            var filename = convertFilename(item)
+            var instanceTemplate = M[item].create()._templateString;
+            assert.equal(instanceTemplate, M.TemplateManager.get(filename), filename);
+        });
     });
 
     describe('Get Function', function() {
 
         var testForSpecificTheme = function( theme ) {
-            M.TemplateManager[TEMPLATE_VIEW_NAME] = {};
-            M.TemplateManager[TEMPLATE_VIEW_NAME][theme] = TEST_TEMPLATE;
+            M.Templates[theme] = {};
+            M.Templates[theme][TEMPLATE_VIEW_NAME] = TEST_TEMPLATE;
 
-
-            M.TemplateManager._currentUI = 'defaultTemplate';
-            assert.isUndefined(M.TemplateManager.get(TEMPLATE_VIEW_NAME));
+            M.TemplateManager._currentUI = 'default';
+            assert.isNull(M.TemplateManager.get(TEMPLATE_VIEW_NAME));
             assert.isDefined(M.TemplateManager.get(TEMPLATE_VIEW_NAME, theme));
             M.TemplateManager._currentUI = theme;
             assert.isDefined(M.TemplateManager.get(TEMPLATE_VIEW_NAME));
         };
 
-        var testForSpecificThemeWithOwnTemplate = function(theme){
+        var testForSpecificThemeWithOwnTemplate = function( theme ) {
             M.TemplateManager._currentUI = theme
-            M.TemplateManager[TEMPLATE_VIEW_NAME] = {
-                defaultTemplate: TEST_TEMPLATE
-            };
-            assert.isDefined(M.TemplateManager[TEMPLATE_VIEW_NAME]);
-            M.TemplateManager[TEMPLATE_VIEW_NAME][theme] = TEST_TEMPLATE + theme;
-            assert.isTrue(M.TemplateManager.get(TEMPLATE_VIEW_NAME) === TEST_TEMPLATE + theme);
-            assert.isTrue(M.TemplateManager.get(TEMPLATE_VIEW_NAME, theme) === TEST_TEMPLATE + theme);
+            M.Templates[theme] = {};
+            M.Templates[theme][TEMPLATE_VIEW_NAME] = TEST_TEMPLATE;
+
+            assert.isDefined(M.Templates[theme][TEMPLATE_VIEW_NAME]);
+            assert.isTrue(M.TemplateManager.get(TEMPLATE_VIEW_NAME) === TEST_TEMPLATE);
+            assert.isTrue(M.TemplateManager.get(TEMPLATE_VIEW_NAME, theme) === TEST_TEMPLATE);
         }
+
+        it('test a pseudoTheme', function() {
+            testForSpecificTheme('pseudoTheme');
+        });
 
         it('templates are accessable', function() {
 
             var testTemplate = function( view ) {
                 for( var template in uiTemplates ) {
                     var viewTemplate = M.TemplateManager.get(view, uiTemplates[template]);
-                    assert.isTrue(viewTemplate === TEST_TEMPLATE);
+                    assert.equal(viewTemplate, TEST_TEMPLATE);
                 }
             };
 
-            assert.isUndefined(M.TemplateManager[TEMPLATE_VIEW_NAME]);
-            M.TemplateManager[TEMPLATE_VIEW_NAME] = {
-                defaultTemplate: TEST_TEMPLATE
-            };
+            M.Templates.default[TEMPLATE_VIEW_NAME] = TEST_TEMPLATE
             testTemplate(TEMPLATE_VIEW_NAME);
-
         });
 
 
-        it('test a pseudoTheme', function() {
-            testForSpecificTheme('pseudoTheme');
-        });
-
-        it('test for specific theme', function() {
-            for( var view in ALL_M_VIEWS ) {
-                testForSpecificTheme(ALL_M_VIEWS[view]);
-            }
-        });
 
         it('test for specific theme with own template', function() {
             for( var view in ALL_M_VIEWS ) {
-                testForSpecificThemeWithOwnTemplate(ALL_M_VIEWS[view]);
+               testForSpecificThemeWithOwnTemplate(convertFilename(ALL_M_VIEWS[view]));
             }
         });
 
         it('get a not defined template', function() {
-            assert.isTrue(M.TemplateManager.get('IamNotDefined') === M.TemplateManager.get('M.View'));
+           assert.isTrue(M.TemplateManager.get('IamNotDefined') === M.TemplateManager.get('View'));
         });
 
         after(function() {
@@ -113,133 +128,4 @@ describe('M.TemplateManager', function() {
         });
 
     });
-
-    it('Templates for every view should be equal to this one', function(){
-
-        var templates = {
-            'M.View': {
-                defaultTemplate: '<div><%= value %></div>'
-            },
-
-            'M.TextView': {
-                defaultTemplate: '<div><% if(label) {  %><div class="label"><%= label %></div><% } %><div><% if(icon) {  %><div class="input-icon-addon"><i class="fa <%= icon %> fa-fw"></i><% } %><%= value %></div>'
-            },
-
-            'M.ButtonView': {
-                defaultTemplate: '<div class="button"><% if(icon) { %> <i class="fa <%= icon %>"></i> <% } %> <div data-binding="value"<% if(value) {  } %>><%= value %></div></div>'
-            },
-
-            'M.ToolbarView': {
-                defaultTemplate: '<div><div data-childviews="first"></div> <div class="center" data-binding="value"><%= value %></div> <div data-childviews="second"></div></div>'
-            },
-
-
-            //TODO implement label for=""
-            'M.TextfieldView': {
-                defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><div class="<% if(icon) {  %> input-icon-addon<% } %>"><% if(icon) {  %><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= value %>"></div><% if(label) {  %></label><% } %></div>'
-            },
-
-            'M.TextareaView': {
-                defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><textarea><%= value %></textarea><% if(label) {  %></label><% } %></div>'
-            },
-
-            'M.ButtonGroupView': {
-                defaultTemplate: '<div class="clearfix" data-childviews="buttons"></div>'
-            },
-
-            'M.SearchfieldView': {
-                defaultTemplate: '<div contenteditable="true"><%= value %></div>'
-            },
-
-            'M.ListView': {
-                defaultTemplate: '<ul data-childviews="list"></ul>'
-            },
-
-            'M.ListItemView': {
-                defaultTemplate: '<li><%= value %></li>'
-            },
-
-            'M.ModelView': {
-                defaultTemplate: '<ul><%= value %></ul>'
-            },
-
-            'M.LabelView': {
-                defaultTemplate: '<div contenteditable="true"><%= value %></div>'
-            },
-
-            'M.DebugView': {
-                defaultTemplate: '<div><div data-childviews="debug-menu"></div><div data-childviews="debug-grid"></div></div>'
-            },
-
-            'M.AccordionView': {
-                defaultTemplate: '<ul><%= value %></ul>'
-            },
-
-            'M.AccordionItemView': {
-                defaultTemplate: '<ul><%= value %></ul>'
-            },
-
-            'M.SliderView': {
-                defaultTemplate: '<input type="range">'
-            },
-
-            'M.ToggleView': {
-                defaultTemplate: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>'
-            },
-
-            'M.ImageView': {
-                defaultTemplate: '<img src="<%= value %>" alt="<%= alt %>" />'
-            },
-
-            'M.LoaderView': {
-                defaultTemplate: '<div class="m-view m-overlayview m-loaderview m-loaderview-show" style="display: block;"> <div class="m-view m-overlayview-inner m-loaderview-inner"> <div class="m-view m-labelview m-loaderview-inner-message"></div> <div class="m-view m-loaderview-inner-icon m-loaderview-inner-icon-only"> <div class="m-view m-loaderview-inner-icon-1"></div> <div class="m-view m-loaderview-inner-icon-2"></div> <div class="m-view m-loaderview-inner-icon-3"></div> <div class="m-view m-loaderview-inner-icon-4"></div> <div class="m-view m-loaderview-inner-icon-5"></div> <div class="m-view m-loaderview-inner-icon-6"></div> <div class="m-view m-loaderview-inner-icon-7"></div> <div class="m-view m-loaderview-inner-icon-8"></div> </div> </div> </div>'
-            },
-
-            'M.DialogView': {
-                defaultTemplate: '<div></div>'
-            },
-
-            'M.SelectView': {
-                defaultTemplate: '<div class="selection-list<% if(isMultiple){ %> multiple<% } %>"><select<% if(isMultiple){ %> multiple<% } %>><%= value %></select></div>'
-            },
-
-            'M.RadiolistView': {
-                defaultTemplate: '<div><%= label %><div data-childviews="radio-options"></div></div>'
-            },
-
-            'M.RadioOptionView': {
-                defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= value %>"><i class="needsclick fa"></i><%= label %></label>'
-            },
-
-            'M.CheckboxlistView': {
-                defaultTemplate: '<div><%= label %><div data-childviews="checkbox-options"></div></div>'
-            },
-
-            'M.CheckboxOptionView': {
-                defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= value %>"><i class="needsclick fa"></i> <%= label %></label>'
-            },
-
-            'M.ToggleSwitchView': {
-                defaultTemplate: '<div><label><% if(label){%> <span class="needsclick label-descr"> <%= label %> <% }%> </span> <div class="toggleswitch"><input value="<%= value %>" type="checkbox"><span class="switch-labels needsclick" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
-            },
-
-            'M.MenuView': {
-                defaultTemplate: '<div class="movable-backdrop fade"></div><div class="movable-container"><span><%= value %></span><div class="menu-content" data-childviews="menu-content"></div></div>'
-            },
-
-            'M.ModalView': {
-                defaultTemplate: '<div data-childviews="content"><div>'
-            }
-        }
-
-
-        _.each(templates, function(template, name){
-            var templateFromTemplateManager = M.TemplateManager.get(name)
-            assert.equal(templateFromTemplateManager, template.defaultTemplate, 'template for ' + name + ' is not as expectedf' );
-        });
-
-
-    });
-
-
 });

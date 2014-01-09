@@ -13,9 +13,7 @@ M.SelectView = M.View.extend({
 
     isMultiple: NO,
 
-    template: M.TemplateManager.get('M.SelectView'),
-
-    _templateString: M.TemplateManager.get('M.SelectView'),
+    _templateString: M.TemplateManager.get('select.ejs'),
 
     _assignBinding: function () {
         M.View.prototype._assignBinding.apply(this, arguments);

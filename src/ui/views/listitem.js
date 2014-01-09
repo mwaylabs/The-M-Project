@@ -20,9 +20,7 @@ M.ListItemView = M.View.extend({
      * The template of the view
      *
      */
-    _template: null, //_.tmpl(M.TemplateManager.get('M.ListItemView')),
-
-    _templateString: M.TemplateManager.get('M.ListItemView'),
+    _templateString: M.TemplateManager.get('listitem.ejs'),
 
     /**
      * The type of the listitem. Default is 'basic' and just displays the value
@@ -95,7 +93,7 @@ M.ListItemView = M.View.extend({
         }
 
         if( this.type === M.ListItemView.CONST.LINKED || this.type === M.ListItemView.CONST.ICON ) {
-            this.template = _.tmpl(M.TemplateManager.get('M.ListItemViewLinked'));
+            this.template = _.tmpl(M.TemplateManager.get('listitemlinked.ejs'));
         }
     },
 

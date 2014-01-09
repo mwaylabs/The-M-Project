@@ -25,7 +25,7 @@
     "grunt-preprocess": "~3.0.1",
     "grunt-mocha": "~0.4.6",
     "grunt-jsonlint": "~1.0.4",
-    "lodash": "~2.4.0",
+    "lodash": "~2.4.1",
     "time-grunt": "~0.2.3",
     "grunt-jsdoc": "~0.4.2",
     "grunt-curl": "~1.2.1",

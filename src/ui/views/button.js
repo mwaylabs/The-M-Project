@@ -20,9 +20,7 @@ M.ButtonView = M.View.extend({
      * The template of the object before initializing it.
      * @private
      */
-    _template: _.tmpl(M.TemplateManager.get('M.ButtonView')),
-
-    _templateString: M.TemplateManager.get('M.ButtonView'),
+    _templateString: M.TemplateManager.get('button.ejs'),
 
     /**
      * The active state of the button. Use isActive and setActive to change this property.

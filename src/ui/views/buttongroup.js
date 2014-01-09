@@ -10,9 +10,7 @@ M.ButtonGroupView = M.View.extend({
 
     _type: 'M.ButtonGroupView',
 
-    _template: _.tmpl(M.TemplateManager.get('M.ButtonGroupView')),
-
-    _templateString: M.TemplateManager.get('M.ButtonGroupView'),
+    _templateString: M.TemplateManager.get('buttongroup.ejs'),
 
     _internalCssClasses: 'clearfix',
 

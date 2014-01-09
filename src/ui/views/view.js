@@ -70,9 +70,9 @@
          * define a template based on the tmpl template engine
          * @private
          */
-        _template: null, //_.tmpl(M.TemplateManager.get('M.View')),
+        _template: null, //_.tmpl(M.TemplateManager.get('View')),
 
-        _templateString: M.TemplateManager.get('M.View'),
+        _templateString: M.TemplateManager.get('view.ejs'),
 
         /**
          * use this property to define which data are given to the template

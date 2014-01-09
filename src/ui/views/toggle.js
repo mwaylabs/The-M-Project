@@ -11,9 +11,7 @@ M.ToggleView = M.View.extend({
 
     _type: 'M.ToggleView',
 
-    _template: _.tmpl(M.TemplateManager.get('M.ToggleView')),
-
-    _templateString: M.TemplateManager.get('M.ToggleView'),
+    _templateString: M.TemplateManager.get('toggle.ejs'),
 
     initialize: function () {
         M.View.prototype.initialize.apply(this, arguments);

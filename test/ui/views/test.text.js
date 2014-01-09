@@ -19,8 +19,8 @@ describe('M.TextView', function () {
         assert.isDefined(testView.icon);
         assert.isNull(testView.icon);
 
-        assert.isDefined(testView._template);
-        assert.isFunction(testView._template);
+        assert.isDefined(testView._templateString);
+        assert.isString(testView._templateString);
 
         testView = null;
 

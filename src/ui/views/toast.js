@@ -20,9 +20,7 @@ M.Toast = M.View.extend({
      * the template of the toast
      *
      */
-    template: '<div class="toast"><div id="<%= id %>"><%= text %></div></div>',
-
-    _templateString: '<div class="toast"><div id="<%= id %>"><%= text %></div></div>',
+    _templateString: M.TemplateManager.get('toast.ejs'),
 
     /**
      * the id of the toast

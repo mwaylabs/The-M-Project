@@ -627,7 +627,7 @@ describe('M.View', function() {
     it('template attribute', function(){
 
         var testView = M.View.extend().create().render();
-        assert.equal(testView._template(), _.tmpl(M.TemplateManager.get('M.View'), null, {useStickitAttribute: false})());
+        assert.equal(testView._template(), _.tmpl(M.TemplateManager.get('view.ejs'), null, {useStickitAttribute: false})());
 
         var spanTemplate = '<span></span>';
         var testView = M.View.extend({

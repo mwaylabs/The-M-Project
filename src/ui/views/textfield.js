@@ -74,9 +74,9 @@ M.TextfieldView = M.View.extend({
     /**
      * the template of the input
      */
-    _template: null, //_.tmpl(M.TemplateManager.get('M.TextfieldView')),
+    _template: null, //_.tmpl(M.TemplateManager.get('TextfieldView')),
 
-    _templateString: M.TemplateManager.get('M.TextfieldView'),
+    _templateString: M.TemplateManager.get('textfield.ejs'),
 
     /**
      * If the type of the view is 'clear' use a custom text delete element

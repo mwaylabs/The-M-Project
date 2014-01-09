@@ -11,9 +11,7 @@ M.TextareaView = M.TextfieldView.extend({
 
     _type: 'M.TextareaView',
 
-    _template: _.tmpl(M.TemplateManager.get('M.TextareaView')),
-
-    _templateString: M.TemplateManager.get('M.TextareaView'),
+    _templateString: M.TemplateManager.get('textarea.ejs'),
 
     _attachToDom: function () {
         return YES;

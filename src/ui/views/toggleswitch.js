@@ -53,9 +53,7 @@ M.ToggleSwitchView = M.View.extend({
      * @param {object} _templateValues
      * @private
      */
-    _template: _.tmpl(M.TemplateManager.get('M.ToggleSwitchView')),
-
-    _templateString: M.TemplateManager.get('M.ToggleSwitchView'),
+    _templateString: M.TemplateManager.get('toggleswitch.ejs'),
 
     /**
      * The container to put the options in

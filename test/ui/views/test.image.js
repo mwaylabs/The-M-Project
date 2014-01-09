@@ -18,7 +18,7 @@ describe('M.ImageView', function () {
         assert.equal(testView.alt, '');
 
         assert.isDefined(testView._template);
-        assert.isFunction(testView._template);
+        assert.isString(testView._templateString);
 
         testView = null;
 

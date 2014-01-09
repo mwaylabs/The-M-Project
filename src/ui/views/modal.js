@@ -29,9 +29,7 @@ M.ModalView = M.View.extend({
      * The template of the object before initializing it.
      * @private
      */
-    _template: _.tmpl(M.TemplateManager.get('M.ModalView')),
-
-    _templateString: M.TemplateManager.get('M.ModalView'),
+    _templateString: M.TemplateManager.get('modal.ejs'),
 
     /**
      * Determines if the modal is shown or not. Access it by calling isShown()
