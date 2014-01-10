@@ -146,7 +146,8 @@ M.ThemeVars = {
     }
 },
     get: function (name, theme) {
-        var theme = theme || M.ThemeVars.CONST.DEFAULT;
+        var theme = theme || M.Environment.device.os;
+
         var result = this._vars[theme] ? this._vars[theme][name] : false;
         if (!result && theme != M.ThemeVars.CONST.DEFAULT) {
             result = this._vars[M.ThemeVars.CONST.DEFAULT][name];
@@ -159,11 +160,9 @@ M.ThemeVars = {
 }
 
 M.ThemeVars.CONST = {
-
     IOS: 'ios',
-    'ANDROID_DARK': 'android_dark',
-    'ANDROID_LIGHT': 'android_light',
-    'ANDROID': 'android_dark',
+    ANDROID_DARK: 'android_dark',
+    ANDROID_LIGHT: 'android_light',
+    ANDROID: 'android_dark',
     DEFAULT: 'default'
-
 }
