@@ -44,15 +44,16 @@ M.ThemeVars = {
         "grid-gutter-width": "30px",
         "lightenPercentage": "15%",
         "lightenPercentageLight": "5%",
+        "m-button-icon-only-width": "50px",
         "m-button-border-width": "1px",
         "m-button-border-color": "#1092d3",
         "m-button-text-color": "#1092d3",
         "m-button-border-radius": "4px",
         "m-button-border-style": "solid",
-        "m-button-padding-bottom": "6px",
+        "m-button-padding-bottom": "10px",
         "m-button-padding-top": "10px",
         "m-button-padding-left-right": "10px",
-        "m-button-padding": "10px 10px 6px 10px",
+        "m-button-padding": "10px 10px 10px 10px",
         "m-button-primary-border-color": "#6c64ff",
         "m-button-primary-text-color": "#6c64ff",
         "m-button-primary-background-color": "#FFFFFF",
@@ -92,7 +93,7 @@ M.ThemeVars = {
         "tablayout-menu-button-padding": "13px 0 0 0",
         "tablayout-menu-scroll-button-width": "200px",
         "switch-header-content-padding": "4px 0 0 0",
-        "header-top": "3px",
+        "header-top": "4px",
         "m-header-icon-only-font-size": "2.4rem",
         "m-primary-font-family": "\"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
         "m-primary-font-weight": "300",
@@ -146,7 +147,8 @@ M.ThemeVars = {
     }
 },
     get: function (name, theme) {
-        var theme = theme || M.ThemeVars.CONST.DEFAULT;
+        var theme = theme || M.Environment.device.os;
+
         var result = this._vars[theme] ? this._vars[theme][name] : false;
         if (!result && theme != M.ThemeVars.CONST.DEFAULT) {
             result = this._vars[M.ThemeVars.CONST.DEFAULT][name];
@@ -159,11 +161,9 @@ M.ThemeVars = {
 }
 
 M.ThemeVars.CONST = {
-
     IOS: 'ios',
-    'ANDROID_DARK': 'android_dark',
-    'ANDROID_LIGHT': 'android_light',
-    'ANDROID': 'android_dark',
+    ANDROID_DARK: 'android_dark',
+    ANDROID_LIGHT: 'android_light',
+    ANDROID: 'android_dark',
     DEFAULT: 'default'
-
 }

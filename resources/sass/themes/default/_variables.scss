@@ -47,12 +47,13 @@ $lightenPercentage: 15%;
 $lightenPercentageLight: 5%;
 
 // Button
+$m-button-icon-only-width: 50px;
 $m-button-border-width: 1px;
 $m-button-border-color: $blue;
 $m-button-text-color: $blue;
 $m-button-border-radius: 4px;
 $m-button-border-style: solid;
-$m-button-padding-bottom: 6px;
+$m-button-padding-bottom: 10px;
 $m-button-padding-top: 10px;
 $m-button-padding-left-right: 10px;
 $m-button-padding: $m-button-padding-top $m-button-padding-left-right $m-button-padding-bottom $m-button-padding-left-right;
@@ -111,7 +112,7 @@ $tablayout-menu-scroll-button-width: 200px;
 
 //swtichheadercontent
 $switch-header-content-padding: 4px 0 0 0;
-$header-top: 3px;
+$header-top: 4px;
 $m-header-icon-only-font-size: 2.4rem;
 
 // Default

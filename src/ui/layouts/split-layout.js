@@ -176,8 +176,6 @@ M.SplitLayout = M.SwitchLayout.extend({
     },
 
     _onLandscape: function() {
-        console.log('onLandscape');
-
         this.$el.addClass('full').removeClass('single');
         this._getLeftContainer().attr('class', '');
 
@@ -188,8 +186,6 @@ M.SplitLayout = M.SwitchLayout.extend({
     },
 
     _onPortrait: function() {
-        console.log('onPortrait');
-
         this.$el.addClass('single').removeClass('full');
         this._getLeftContainer().attr('class', '');
 

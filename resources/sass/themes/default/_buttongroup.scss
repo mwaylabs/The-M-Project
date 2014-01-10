@@ -25,7 +25,7 @@
     }
 
     &:first-child {
-      padding-left: $grid-gutter-width / 2;
+      //padding-left: $grid-gutter-width / 2;
 
       .button {
         border-top-left-radius: $m-button-border-radius;
@@ -33,7 +33,7 @@
       }
     }
     &:last-child {
-      padding-right: $grid-gutter-width / 2;
+      //padding-right: $grid-gutter-width / 2;
 
       .button {
         border-right-width: $m-button-border-width;

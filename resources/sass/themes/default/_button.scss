@@ -1,5 +1,7 @@
 .buttonview {
-  min-width: 63px;
+.fa {
+   font-size: $m-primary-font-size * 1.4;
+  }
 }
 
 .button {
@@ -26,7 +28,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: inline-block;
     width: 100%;
   }
 
@@ -35,20 +36,20 @@
 .has-icon{
   .right i,
   &.right i{
-    right: $m-button-padding-left-right / 2;
+    right: $m-button-padding-left-right;
     left: auto;
   }
 
   .left i,
   &.left i{
-    left: $m-button-padding-left-right / 2;
+    left: $m-button-padding-left-right;
     right: auto;
   }
 
   i{
     position: absolute;
     left: $m-button-padding-left-right;
-    top: $m-button-padding-top * 1.5;
+    top: $m-button-padding-top * 1.1;
   }
 
   .right .button div,
@@ -65,6 +66,8 @@
 
 .is-icon-only{
   .button{
+    width: $m-button-icon-only-width + ($m-button-padding-left-right * 3);
+    padding-bottom: $m-button-padding-top - 1;
     div{
       display: none;
     }

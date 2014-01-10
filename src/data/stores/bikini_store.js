@@ -178,7 +178,9 @@ M.BikiniStore = M.Store.extend({
             name = name || endpoint.entity.name;
             socket.on(channel, function( msg ) {
                 if( msg ) {
-                    that.setLastMessageTime(channel, msg.time);
+                    if (that.options.useLocalStore) {
+                        that.setLastMessageTime(channel, msg.time);
+                    }
                     that.trigger(channel, msg);
                 }
             });
@@ -413,7 +415,9 @@ M.BikiniStore = M.Store.extend({
                 success: function() {
                     changes.each(function( msg ) {
                         if( msg.time && msg.method ) {
-                            that.setLastMessageTime(endpoint.channel, msg.time);
+                            if (that.options.useLocalStore) {
+                                that.setLastMessageTime(endpoint.channel, msg.time);
+                            }
                             that.trigger(endpoint.channel, msg);
                         }
                     });
