@@ -5,8 +5,24 @@
   position: absolute;
   top: 0;
 
-  .button{
-    margin-top: 0;
+  .buttonview {
+    .button {
+      margin-top: 0;
+      background: none;
+      color: $white;
+      border: none;
+    }
+
+    &.is-icon-only {
+
+      .button {
+        width: $m-button-icon-only-width;
+        padding: 6px $m-button-padding-left-right 4px $m-button-padding-left-right;
+      }
+      .fa {
+        font-size: $m-primary-font-size * 2;
+      }
+    }
   }
 
 }
