@@ -1,8 +1,8 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
-* Copyright: (c) 2013 M-Way Solutions GmbH.
-* Version:   2.0.0-beta
-* Date:      Thu Dec 05 2013 13:36:04
+* Copyright: (c) 2014 M-Way Solutions GmbH.
+* Version:   2.0.0-beta2
+* Date:      Fri Jan 10 2014 18:16:19
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 
@@ -28,7 +28,7 @@
      * Version number of current release
      * @type {String}
      */
-    M.Version = M.version = '2.0.0-beta';
+    M.Version = M.version = '2.0.0-beta2';
     
     /**
      * Empty function to be used when
@@ -63,7 +63,7 @@
     };
     
     M.isI18NItem = function( entity ) {
-        return (entity && entity._type && entity._type === 'M.I18NItem');
+        return (entity && entity._type && entity._type === 'M.I18NItem') ? true : false;
     };
     
     M.isController = function( entity ) {
@@ -1191,6 +1191,18 @@
          */
         applicationReady: function(){
     
+        },
+    
+        apply: function( router, args ) {
+            var appInstance = global[M.APPLICATION_NAME];
+    
+            if( appInstance.isInitialLoad ) {
+                this.applicationStart.apply(this, args);
+                appInstance.isInitialLoad = false;
+                appInstance._initReady();
+            } else {
+                this.show.apply(this, args);
+            }
         }
     });
     // Copyright (c) 2013 M-Way Solutions GmbH
@@ -1220,6 +1232,12 @@
         _isReady: NO,
     
         _debugView: null,
+    
+        /**
+         * This property is an indicator for the initial load of an app
+         * @type {boolean}
+         */
+        isInitialLoad: true,
     
         /**
          * This property contains an instance of the debug view.
@@ -1276,6 +1294,11 @@
         },
     
         navigate: function( settings ) {
+    
+            // Prevent routing, if a transition is animating
+            if(this._layout && this._layout.isAnimating && this._layout.isAnimating()) {
+                return false;
+            }
     
             var url = settings.route;
             var path = '';
@@ -1375,97 +1398,7 @@
     
     _.extend(M.Router.prototype, M.Object, {
     
-        _type: 'M.Router',
-    
-        _visitedRoutes: {},
-    
-        initialize: function() {
-    
-        },
-    
-        controllerDidLoad: function( name, controller, res, callback ) {
-            var _callback = this.getCallBack(controller);
-            if(_.isFunction(_callback)){
-                _callback.apply(controller, [res]);
-            }
-            callback();
-            global[M.APPLICATION_NAME]._initReady();
-        },
-    
-        callCallback: function( route, name, controller, res, callback ) {
-    
-    
-            var that = this;
-            if( _.isString(controller) ) {
-                require([controller], function( ctrl ) {
-                    that.controllerDidLoad(name, ctrl, res, callback);
-                });
-            } else if( M.Controller.prototype.isPrototypeOf(controller) ) {
-                setTimeout(function() {
-                    that.controllerDidLoad(name, controller, res, callback);
-                }, 0);
-            }
-    
-            return this;
-        },
-    
-        getCallBack: function( controller ) {
-    
-            var _callback = null;
-            if( Object.keys(this._visitedRoutes).length === 0 ) {
-                _callback = controller.applicationStart;
-            } else {
-                // prevent a show, if an transition is animating
-                if(!M.PageTransitions._isAnimating){
-                    _callback = controller.show;
-                }
-    
-            }
-            return _callback;
-        },
-    
-        route: function( route, name, controller ) {
-    
-            if( !_.isRegExp(route) ) {
-                route = this._routeToRegExp(route);
-            }
-            if( _.isFunction(name) ) {
-                controller = name;
-                name = '';
-            }
-            if( !controller ) {
-                controller = this[name];
-            }
-    
-            var router = this;
-    
-            Backbone.history.route(route, function( fragment ) {
-                var res = {};
-                _.each(router.routes, function( val, key ) {
-                    if(name === val){
-                        var reg = /\(?(\/:[^)]+)\)?$/;
-                        ///^page4\(?(/:[^)]+)\)?$/
-                        var exec = reg.exec(key);
-                        if( exec && exec.length ) {
-                            var s = exec.slice(1);
-                            res = s[0].replace('/:', '');
-                        }
-                    }
-                }, this);
-                var args = router._extractParameters(route, fragment);
-                res = _.object([res], args);
-                args.unshift(!router._visitedRoutes[name]);
-                router.controllerDidLoad( name, controller, res, function() {
-                    router.trigger.apply(router, ['route:' + name].concat(args));
-                    router.trigger('route', name, args);
-                    Backbone.history.trigger('route', router, name, args);
-                    if( !router._visitedRoutes[name] ) {
-                        router._visitedRoutes[name] = true;
-                    }
-                });
-            });
-            return this;
-        }
+        _type: 'M.Router'
     
     });
     // Copyright (c) 2013 M-Way Solutions GmbH
@@ -1745,7 +1678,7 @@
          * Loads the locale file and puts it into dictionary
          */
         loadFileForLocale: function () {
-            var fileUrl = 'i18n/' + this._activeLocale + '.json';
+            var fileUrl = 'i18n/' + this._activeLocale + '.js';
     
             // set locale for moment.js
             moment.lang(this._activeLocale.substr(0, 2));
@@ -2797,13 +2730,6 @@
             this.cancel();
         },
     
-        setAuthentication: function( xhr, credentials ) {
-            if( credentials && credentials.username && xhr && M.Base64 ) {
-                var basicAuth = M.Base64.encode(encodeURIComponent(credentials.username + ':' + (credentials.password || '')));
-                xhr.setRequestHeader('Authorization', 'Basic ' + basicAuth);
-            }
-        },
-    
         /*
          url = "http://example.com:3000/pathname/?search=test#hash";
     
@@ -3064,208 +2990,6 @@
             _.each(this._requests, function( request, id ) {
                 this.cancelRequest(id);
             }, this);
-        }
-    
-    });
-    // Copyright (c) 2013 M-Way Solutions GmbH
-    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
-    
-    /**
-     *
-     * @module M.SocketIO
-     *
-     * @extends M.Object
-     */
-    M.SocketIO = M.Object.design(/** @scope M.SocketIO.prototype */{
-    
-        /**
-         * The type of this object.
-         *
-         * @type String
-         */
-        _type: 'M.SocketIO',
-    
-        /**
-         * The host name of the socket.io server.
-         *
-         * @type String
-         */
-        host: '',
-    
-        /**
-         * The path to the socket.io instance on the server.
-         *
-         * @type String
-         */
-        path: '',
-    
-        /**
-         * The resource to the socket.io instance on the server.
-         *
-         * @type String
-         */
-        resource: '',
-    
-        /**
-         * The path to the socket.io.js client script on the server.
-         *
-         * @type String
-         */
-        script: 'libs/socket.io.js',
-    
-        /**
-         * This property is used to specifiy all events for a socket within an application.
-         *
-         * @type {Object}
-         */
-        events: null,
-    
-        /**
-         * This property contains the socket connection.
-         *
-         * @type {Object}
-         */
-        _socket: null,
-    
-        /**
-         * This property contains a socket's event handlers for all events.
-         *
-         * @type {Object}
-         */
-        _events: null,
-    
-        /**
-         * This method is based on M.Object's extend() but adds some request specific features.
-         * It creates a new instance of M.SocketIO based on the given configuration properties.
-         *
-         * @param obj
-         * @returns {M.Request}
-         */
-        create: function( obj ) {
-            return this.design(obj);
-        },
-    
-        emit: function( event, data, callback ) {
-            this._socket.emit(event, data, callback);
-        },
-    
-        on: function( eventType, handler ) {
-            var that = this;
-            this._socket.on(eventType, function( data ) {
-                that.handleCallback(handler, data);
-            });
-        },
-    
-        disconnect: function() {
-            var that = this;
-            if( this._socket ) {
-                this._socket.removeAllListeners();
-                this._socket.on('connect', function( data ) {
-                    that.connected(data);
-                });
-                this._socket.on('disconnect', function( data ) {
-                    that.disconnected(data);
-                });
-            }
-            this._socket.disconnect();
-        },
-    
-        connect: function( param ) {
-            var that = this;
-            var url = this.host; //  + '/'  + this.path;
-            if( param ) {
-                url += '?' + (_.isString(param) ? param : $.param(param));
-            }
-            var options = this.resource ? { resource: this.resource } : {};
-            this._socket = io.connect(url, options);
-            this._socket.on('connect', function( data ) {
-                that.connected(data);
-            });
-            that._registerEvents();
-        },
-    
-        ready: function() {
-            this.connect();
-        },
-    
-        error: function( message ) {
-            console.log(message);
-        },
-    
-        /**
-         * This method returns the event handler of a certain event type of a socket.
-         *
-         * @param eventType
-         * @returns {*}
-         */
-        getEventHandler: function( eventType ) {
-            return this._events[eventType];
-        },
-    
-        /**
-         * M.SocketIO's _init method.
-         *
-         * @private
-         */
-        _init: function() {
-            if( Object.getPrototypeOf(this) === M.SocketIO ) {
-                this._initEvents();
-                var x = x || {};
-                if( typeof io === 'object' ) {
-                    this.ready();
-                } else {
-                    console.log('Socket.IO not present !!');
-                }
-            }
-        },
-    
-        /**
-         * This method is used to init a socket's event lists.
-         *
-         * @private
-         */
-        _initEvents: function() {
-            this.events = this.events || {};
-            this._events = {};
-    
-            _.each(this.events, function( handler ) {
-                this._addEvent(name, handler);
-            }, this);
-        },
-    
-        _addEvent: function( eventName, handler ) {
-            if( _.isFunction(handler) ) {
-                handler = { action: handler };
-            }
-            if( !handler.target ) {
-                handler.target = this;
-            }
-            this._events[eventName] = handler;
-        },
-    
-        /**
-         * This method registers all socket's events.
-         *
-         * @private
-         */
-        _registerEvents: function() {
-            var that = this;
-            this._socket.on('disconnect', function( data ) {
-                that.disconnect(data);
-            });
-            _.each(this._events, function( handler, eventType ) {
-                this._socket.on(eventType, function( data ) {
-                    that.handleCallback(handler, data);
-                });
-            }, this);
-        },
-    
-        connected: function() {
-    
-        },
-    
-        disconnected: function() {
-    
         }
     
     });
@@ -3962,11 +3686,11 @@
     
     /**
      *
-     * @module M.Model
+     * @module M.Security
      *
      * @type {{logon: Function, logonBasicAuth: Function, logonMcapAuth: Function, getHost: Function}}
      */
-    M.Security = {
+    M.Security = M.Object.design({
     
     
         logon: function (options, callback) {
@@ -3975,65 +3699,28 @@
                 switch (credentials.type) {
                     case 'basic':
                         return this.logonBasicAuth(options, callback);
-                    case 'mcap':
-                        return this.logonMcapAuth(options, callback);
                 }
             }
-            callback();
+            this.handleCallback(callback);
         },
     
         logonBasicAuth: function (options, callback) {
             var credentials = options.credentials;
             options.beforeSend = function (xhr) {
-                M.Request.setAuthentication(xhr, credentials);
+                M.Security.setBasicAuth(xhr, credentials);
             };
-            callback();
+            this.handleCallback(callback);
         },
     
-        logonMcapAuth: function (options, callback) {
-            var credentials = options.credentials;
-            if (credentials) {
-                options.beforeSend = function (xhr) {
-                    if (credentials.cookie) {
-                        xhr.setRequestHeader('JSESSIONID', credentials.cookie);
-                    }
-                };
-                if (!credentials.cookie) {
-                    var host = this.getHost(options);
-                    Backbone.ajax({
-                        url: host + '/gofer/security-login' +
-                            '?j_username=' + credentials.username +
-                            '&j_password=' + credentials.password +
-                            '&j_organization=system',
-                        success: function (result) {
-                            var m = document.cookie.match(/JSESSIONID=([^;]*)/);
-                            credentials.cookie = (m && m.length > 1) ? m[1] : '.';
-                            callback(result);
-                        },
-                        error: function (error) {
-                            credentials.cookie = '.';
-                            callback(error);
-                        }
-                    });
-                } else {
-                    callback();
-                }
+        setBasicAuth: function( xhr, credentials ) {
+            if( credentials && credentials.username && xhr && M.Base64 ) {
+                var basicAuth = M.Base64.encode(encodeURIComponent(credentials.username + ':' + (credentials.password || '')));
+                xhr.setRequestHeader('Authorization', 'Basic ' + basicAuth);
             }
-        },
-    
-        getHost: function (options) {
-            if (options.credentials && options.credentials.host) {
-                return options.credentials.host;
-            } else if (options.host) {
-                return options.host;
-            } else if (options.url) {
-                var href = M.Request.getLocation(options.url);
-                return href.protocol + '//' + href.host;
-            }
-            return '';
         }
     
-    };
+    });
+    
     // Copyright (c) 2013 M-Way Solutions GmbH
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
@@ -4045,7 +3732,7 @@
      * @extends Backbone.Model
      */
     M.Model = Backbone.Model.extend({
-        constructor: function (attributes, options) {
+        constructor: function( attributes, options ) {
             this.init(attributes, options);
             Backbone.Model.apply(this, arguments);
         }
@@ -4066,17 +3753,19 @@
     
         changedSinceSync: {},
     
-        init: function (attributes, options) {
+        logon: M.Security.logon,
+    
+        init: function( attributes, options ) {
             options = options || {};
     
             this.collection = options.collection || this.collection;
             this.idAttribute = options.idAttribute || this.idAttribute;
             this.store = this.store || (this.collection ? this.collection.store : null) || options.store;
-            if (this.store && _.isFunction(this.store.initModel)) {
+            if( this.store && _.isFunction(this.store.initModel) ) {
                 this.store.initModel(this, options);
             }
             this.entity = this.entity || (this.collection ? this.collection.entity : null) || options.entity;
-            if (this.entity) {
+            if( this.entity ) {
                 this.entity = M.Entity.from(this.entity, { model: this.constructor, typeMapping: options.typeMapping });
                 this.idAttribute = this.entity.idAttribute || this.idAttribute;
             }
@@ -4085,63 +3774,63 @@
             this.on('sync', this.onSync, this);
         },
     
-        sync: function (method, model, options) {
-            var store = (options ? options.store : null) || this.store;
-            if (store && _.isFunction(store.sync)) {
-                // Ensure that we have the appropriate request data.
-                return store.sync.apply(this, arguments);
-            } else {
-                var that = this;
-                var args = arguments;
-                options = options || {};
-                options.credentials = options.credentials || this.credentials;
-                M.Security.logon(options, function (result) {
+        sync: function( method, model, options ) {
+            options = options || {};
+            options.credentials = options.credentials || this.credentials;
+            var store = (options.store ? options.store : null) || this.store;
+            var that = this;
+            var args = arguments;
+    
+            this.logon(options, function( result ) {
+                if( store && _.isFunction(store.sync) ) {
+                    return store.sync.apply(that, args);
+                } else {
                     return Backbone.sync.apply(that, args);
-                });
-            }
+                }
+            });
         },
     
-        onChange: function (model, options) {
+        onChange: function( model, options ) {
             // For each `set` attribute, update or delete the current value.
             var attrs = model.changedAttributes();
-            if (_.isObject(attrs)) {
-                for (var key in attrs) {
+            if( _.isObject(attrs) ) {
+                for( var key in attrs ) {
                     this.changedSinceSync[key] = attrs[key];
                 }
             }
         },
     
-        onSync: function (model, options) {
+        onSync: function( model, options ) {
             this.changedSinceSync = {};
         },
     
-        getUrlRoot: function () {
-            if (this.urlRoot) {
+        getUrlRoot: function() {
+            if( this.urlRoot ) {
                 return _.isFunction(this.urlRoot) ? this.urlRoot() : this.urlRoot;
-            } else if (this.collection) {
+            } else if( this.collection ) {
                 return this.collection.getUrlRoot();
-            } else if (this.url) {
+            } else if( this.url ) {
                 var url = _.isFunction(this.url) ? this.url() : this.url;
-                if (url && this.id && url.indexOf(this.id) > 0) {
+                if( url && this.id && url.indexOf(this.id) > 0 ) {
                     return url.substr(0, url.indexOf(this.id));
                 }
                 return url;
             }
         },
     
-        toJSON: function (options) {
+        toJSON: function( options ) {
             options = options || {};
             var entity = options.entity || this.entity;
-            if (M.isEntity(entity)) {
+            if( M.isEntity(entity) ) {
                 return entity.fromAttributes(options.attrs || this.attributes);
             }
             return options.attrs || _.clone(this.attributes);
         },
     
-        parse: function (resp, options) {
+        parse: function( resp, options ) {
             options = options || {};
             var entity = options.entity || this.entity;
-            if (M.isEntity(entity)) {
+            if( M.isEntity(entity) ) {
                 return entity.toAttributes(resp);
             }
             return resp;
@@ -4188,6 +3877,8 @@
         entity: null,
     
         options: null,
+    
+        logon: M.Security.logon,
     
         init: function (options) {
             options = options || {};
@@ -4240,6 +3931,7 @@
         },
     
         destroy: function (options) {
+            options = options || {};
             var success = options.success;
             if (this.length > 0) {
                 options.success = function () {
@@ -4258,42 +3950,28 @@
         },
     
         sync: function (method, model, options) {
-            var store = (options ? options.store : null) || this.store;
-            if (store && _.isFunction(store.sync)) {
-                return store.sync.apply(this, arguments);
-            } else {
-                var that = this;
-                var args = arguments;
-                options = options || {};
-                options.credentials = options.credentials || this.credentials;
-                M.Security.logon(options, function (result) {
+            options = options || {};
+            options.credentials = options.credentials || this.credentials;
+            var store = (options.store ? options.store : null) || this.store;
+            var that = this;
+            var args = arguments;
+    
+            this.logon(options, function (result) {
+                if (store && _.isFunction(store.sync)) {
+                    return store.sync.apply(that, args);
+                } else {
                     return Backbone.sync.apply(that, args);
-                });
-            }
+                }
+            });
         },
     
-        _updateUrl: function () {
-            var params = this.getUrlParams();
-            if (this.options) {
-                this.url = this.getUrlRoot();
-                if (this.options.query) {
-                    params.query = encodeURIComponent(JSON.stringify(this.options.query));
-                }
-                if (this.options.fields) {
-                    params.fields = encodeURIComponent(JSON.stringify(this.options.fields));
-                }
-                if (this.options.sort) {
-                    params.sort = encodeURIComponent(JSON.stringify(this.options.sort));
-                }
-                if (!_.isEmpty(params)) {
-                    this.url += '?';
-                    var a = [];
-                    for (var k in params) {
-                        a.push(k + (params[k] ? '=' + params[k] : ''));
-                    }
-                    this.url += a.join('&');
-                }
-            }
+        /**
+         * save all containing models
+         */
+        save: function() {
+            this.each(function(model) {
+                model.save();
+            });
         },
     
         getUrlParams: function (url) {
@@ -4320,6 +3998,30 @@
     
         applyFilter: function (callback) {
             this.trigger('filter', this.filter(callback));
+        },
+    
+        _updateUrl: function () {
+            var params = this.getUrlParams();
+            if (this.options) {
+                this.url = this.getUrlRoot();
+                if (this.options.query) {
+                    params.query = encodeURIComponent(JSON.stringify(this.options.query));
+                }
+                if (this.options.fields) {
+                    params.fields = encodeURIComponent(JSON.stringify(this.options.fields));
+                }
+                if (this.options.sort) {
+                    params.sort = encodeURIComponent(JSON.stringify(this.options.sort));
+                }
+                if (!_.isEmpty(params)) {
+                    this.url += '?';
+                    var a = [];
+                    for (var k in params) {
+                        a.push(k + (params[k] ? '=' + params[k] : ''));
+                    }
+                    this.url += a.join('&');
+                }
+            }
         }
     
     });
@@ -5466,6 +5168,14 @@
             if( obj.finish ) {
                 this.handleCallback.apply(this, [ obj.finish ].concat(args));
             }
+        },
+    
+        CONST: {
+            ERROR_NO_ENTITY: 'No valid entity specified',
+            ERROR_LOAD_DATA: 'Error while loading data from store',
+            ERROR_SAVE_DATA: 'Error while saving data to the store',
+            ERROR_LOAD_IDS:  'Error while loading ids from store',
+            ERROR_SAVE_IDS:  'Error while saving ids to the store'
         }
     
     });
@@ -5484,9 +5194,12 @@
      *
      * @example
      *
+     * // The LocalStorageStore will save each model data as a json under his id,
+     * // and keeps all id's under an extra key for faster access
+     *
      * var MyCollection = M.Collection.extend({
-     *      model: MyModel,
-     *      store: new M.LocalStorageStore()
+     *      store: M.LocalStorageStore.create(),
+     *      entity: 'myEntityName'
      * });
      *
      */
@@ -5540,7 +5253,21 @@
             if( attrs ) {
                 that.handleSuccess(options, attrs);
             } else {
-                that.handleError(options);
+                that.handleError(options, M.Store.CONST.ERROR_NO_ENTITY);
+            }
+        },
+    
+        drop: function( options ) {
+            var entity = this.getEntity(options);
+            if( entity && entity.name ) {
+                var keys   = this._findAllKeys(entity);
+                for (var i=0; i<keys.length; i++) {
+                    localStorage.removeItem(keys[i]);
+                }
+                localStorage.removeItem('__ids__' + entity.name);
+                this.handleSuccess(options);
+            } else {
+                this.handleError(options, M.Store.CONST.ERROR_NO_ENTITY);
             }
         },
     
@@ -5559,7 +5286,7 @@
                         this._delItemId(id);
                     }
                 } catch( e ) {
-                    M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while loading data from local storage: ', e);
+                    M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_LOAD_DATA, e);
                 }
             }
             return attrs;
@@ -5571,7 +5298,7 @@
                     localStorage.setItem(this._getKey(entity, id), JSON.stringify(attrs));
                     this._addItemId(entity, id);
                 } catch( e ) {
-                    M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while saving data to local storage: ', e);
+                    M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_SAVE_DATA, e);
                 }
             }
         },
@@ -5599,6 +5326,21 @@
             }
         },
     
+        _findAllKeys: function (entity) {
+            var keys = [];
+            var prefixItem = this._getKey(entity, '');
+            if( prefixItem ) {
+                var key, len = localStorage.length;
+                for (var i=0; i < len; i++) {
+                    key = localStorage.key(i);
+                    if (key && key === prefixItem) {
+                        keys.push(key);
+                    }
+                }
+            }
+            return keys;
+        },
+    
         _getItemIds: function( entity ) {
             try {
                 var key = '__ids__' + entity.name;
@@ -5607,7 +5349,7 @@
                 }
                 return this.ids[entity.name];
             } catch( e ) {
-                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while loading ids from local storage: ', e);
+                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_LOAD_IDS, e);
             }
         },
     
@@ -5616,7 +5358,7 @@
                 var key = '__ids__' + entity.name;
                 localStorage.setItem(key, JSON.stringify(ids));
             } catch( e ) {
-                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while saving ids to local storage: ', e);
+                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_SAVE_IDS, e);
             }
         }
     });
@@ -5634,8 +5376,8 @@
      *
      * @example
      *
-     * The default configuration will save the complete model data as json
-     * into a database column with the name "data"
+     * // The default configuration will save the complete model data as json
+     * // into a database column with the name "data"
      *
      * var MyCollection = M.Collection.extend({
      *      model: MyModel,
@@ -5643,8 +5385,8 @@
      *      store: new M.WebSqlStorageStore()
      * });
      *
-     * If you want to use specific columns you can specify the fields
-     * in the entity of your model like this:
+     * // If you want to use specific columns you can specify the fields
+     * // in the entity of your model like this:
      *
      * var MyModel = M.Model.extend({
      *      idAttribute: 'id',
@@ -5753,7 +5495,7 @@
             this._select(null, options);
         },
     
-        dropTable: function( options ) {
+        drop: function( options ) {
             this._dropTable(options);
         },
     
@@ -5907,9 +5649,9 @@
             return sql;
         },
     
-        _sqlDelete: function( models, options, entity ) {
+        _sqlDelete: function(options, entity ) {
             var sql = 'DELETE FROM \'' + entity.name + '\'';
-            var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(models, entity);
+            var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(options, entity);
             if( where ) {
                 sql += ' WHERE ' + where;
             }
@@ -5929,13 +5671,13 @@
             return sql;
         },
     
-        _sqlWhereFromData: function( models, entity ) {
+        _sqlWhereFromData: function(options, entity ) {
             var that = this;
             var ids = [];
-            if( models && entity && entity.idAttribute ) {
+            if( options && options.models && entity && entity.idAttribute ) {
                 var id, key = entity.idAttribute;
                 var field = this.getField(entity, key);
-                _.each(models, function( model ) {
+                _.each(options.models, function( model ) {
                     id = model.id;
                     if( !_.isUndefined(id) ) {
                         ids.push(that._sqlValue(id, field));
@@ -6099,6 +5841,8 @@
                 var isCollection = M.isCollection(result);
                 if( isCollection ) {
                     result = [];
+                } else {
+                    options.models = [ result ];
                 }
                 var stm = this._sqlSelect(options, entity);
                 var that = this;
@@ -6147,7 +5891,8 @@
         _delete: function( models, options ) {
             var entity = this.getEntity(options);
             if( this._checkDb(options) && this._checkEntity(options, entity) ) {
-                var sql = this._sqlDelete(models, options, entity);
+                options.models = models;
+                var sql = this._sqlDelete(options, entity);
                 // reset flag
                 this._executeTransaction(options, [sql]);
             }
@@ -6241,17 +5986,17 @@
      *
      * @example
      *
-     * The default configuration will save the complete model data as a json,
-     * and the offline change log to a local WebSql database, synchronize it
-     * trough REST calls with the server and receive live updates via a socket.io connection.
+     * // The default configuration will save the complete model data as a json,
+     * // and the offline change log to a local WebSql database, synchronize it
+     * // trough REST calls with the server and receive live updates via a socket.io connection.
      *
      * var MyCollection = M.Collection.extend({
      *      model: MyModel,
      *      url: 'http://myBikiniServer.com:8200/bikini/myCollection',
      *      store: new M.BikiniStore( {
-     *          useLocalStore:   true, // (default) store the data for offline use
-     *          useSocketNotify: true, // (default) register at the server for live updates
-     *          useOfflineChanges: true // (default) allow changes to the offline data
+     *          useLocalStore:   YES, // (default) store the data for offline use
+     *          useSocketNotify: YES, // (default) register at the server for live updates
+     *          useOfflineChanges: YES // (default) allow changes to the offline data
      *      })
      * });
      *
@@ -6259,8 +6004,6 @@
     M.BikiniStore = M.Store.extend({
     
         _type: 'M.BikiniStore',
-    
-        _transactionFailed: false,
     
         _selector: null,
     
@@ -6270,11 +6013,13 @@
     
         localStore: M.WebSqlStore,
     
-        useLocalStore: true,
+        useLocalStore: YES,
     
-        useSocketNotify: true,
+        useSocketNotify: YES,
     
-        useOfflineChanges: true,
+        useOfflineChanges: YES,
+    
+        isConnected: NO,
     
         typeMapping: {
             'binary': 'text',
@@ -6290,6 +6035,10 @@
             this.options.socketPath = this.socketPath;
             this.options.localStore = this.localStore;
             this.options.typeMapping = this.typeMapping;
+            if( this.options.useSocketNotify && typeof io !== 'object' ) {
+                console.log('Socket.IO not present !!');
+                this.options.useSocketNotify = NO;
+            }
             _.extend(this.options, options || {});
         },
     
@@ -6301,7 +6050,6 @@
             var entity = this.getEntity(collection.entity);
             if( url && entity ) {
                 var name = entity.name;
-                var idAttribute = entity.idAttribute;
                 var hash = this._hashCode(url);
                 var credentials = entity.credentials || collection.credentials;
                 var user = credentials && credentials.username ? credentials.username : '';
@@ -6320,17 +6068,18 @@
                     endpoint.entity = entity;
                     endpoint.channel = channel;
                     endpoint.credentials = credentials;
+                    endpoint.collection = collection;
                     endpoint.socketPath = this.options.socketPath;
                     endpoint.localStore = this.createLocalStore(endpoint);
                     endpoint.messages = this.createMsgCollection(endpoint);
-                    endpoint.socket = this.createSocket(endpoint, collection);
-                    endpoint.info = this.fetchServerInfo(endpoint, collection);
+                    endpoint.socket = this.createSocket(endpoint);
+                    endpoint.info = this.fetchServerInfo(endpoint);
                     that.endpoints[hash] = endpoint;
                 }
                 collection.endpoint = endpoint;
                 collection.listenTo(this, endpoint.channel, this.onMessage, collection);
                 if( endpoint.messages && !endpoint.socket ) {
-                    that.sendMessages(endpoint, collection);
+                    that.sendMessages(endpoint);
                 }
             }
         },
@@ -6356,7 +6105,7 @@
         },
     
         createMsgCollection: function( endpoint ) {
-            if( this.options.useOfflineChange && endpoint ) {
+            if( this.options.useOfflineChanges && endpoint ) {
                 var name = 'msg-' + endpoint.channel;
                 var MsgCollection = M.Collection.extend({
                     model: M.Model.extend({ idAttribute: '_id' })
@@ -6370,41 +6119,49 @@
             }
         },
     
-        createSocket: function( endpoint, collection, name ) {
+        createSocket: function( endpoint, name ) {
             if( this.options.useSocketNotify && endpoint.socketPath && endpoint ) {
+                var that = this;
+                var url  = endpoint.host;
                 var path = endpoint.path;
                 path = endpoint.socketPath || (path + (path.charAt(path.length - 1) === '/' ? '' : '/' ) + 'live');
                 // remove leading /
                 var resource = (path && path.indexOf('/') === 0) ? path.substr(1) : path;
-                var that = this;
-                var socket = M.SocketIO.create({
-                    host: endpoint.host,
-                    resource: resource,
-                    connected: function() {
-                        that._bindChannel(socket, endpoint, name);
-                        that.sendMessages(endpoint, collection);
-                    }
+    
+                endpoint.socket = io.connect(url, { resource: resource });
+                endpoint.socket.on('connect', function() {
+                    that._bindChannel(endpoint, name);
+                    that.onConnect(endpoint);
                 });
-                return socket;
+                endpoint.socket.on('disconnect', function() {
+                    console.log('socket.io: disconnect');
+                    that.onDisconnect(endpoint);
+                });
+                return endpoint.socket;
             }
         },
     
-        _bindChannel: function( socket, endpoint, name ) {
+        _bindChannel: function(endpoint, name ) {
             var that = this;
-            var channel = endpoint.channel;
-            var time = this.getLastMessageTime(channel);
-            name = name || endpoint.entity.name;
-            socket.on(channel, function( msg ) {
-                if( msg ) {
-                    that.setLastMessageTime(channel, msg.time);
-                    that.trigger(channel, msg);
-                }
-            });
-            socket.emit('bind', {
-                entity: name,
-                channel: channel,
-                time: time
-            });
+            if (endpoint && endpoint.socket) {
+                var channel = endpoint.channel;
+                var socket  = endpoint.socket;
+                var time    = this.getLastMessageTime(channel);
+                name = name || endpoint.entity.name;
+                socket.on(channel, function( msg ) {
+                    if( msg ) {
+                        if (that.options.useLocalStore) {
+                            that.setLastMessageTime(channel, msg.time);
+                        }
+                        that.trigger(channel, msg);
+                    }
+                });
+                socket.emit('bind', {
+                    entity: name,
+                    channel: channel,
+                    time: time
+                });
+            }
         },
     
         getLastMessageTime: function( channel ) {
@@ -6430,10 +6187,28 @@
             return hash;
         },
     
+        onConnect: function( endpoint ) {
+            this.isConnected = YES;
+            this.sendMessages(endpoint );
+        },
+    
+        onDisconnect: function(endpoint) {
+            this.isConnected = NO;
+            if (endpoint.socket && endpoint.socket.socket) {
+                endpoint.socket.socket.onDisconnect();
+            }
+        },
+    
         onMessage: function( msg ) {
             if( msg && msg.method ) {
                 var localStore = this.endpoint ? this.endpoint.localStore : null;
-                var options = { store: localStore, merge: true, fromMessage: true, entity: this.entity, parse: true };
+                var options = {
+                    store: localStore,
+                    entity: this.entity,
+                    merge: YES,
+                    fromMessage: YES,
+                    parse: YES
+                };
                 var attrs = msg.data;
     
                 switch( msg.method ) {
@@ -6451,9 +6226,13 @@
                     case 'delete':
                         if( msg.id ) {
                             if( msg.id === 'all' ) {
-                                while((model = this.first())) {
+                                while( (model = this.first()) ) {
                                     if( localStore ) {
-                                        localStore.sync.apply(this, ['delete', model, { store: localStore, fromMessage: true } ]);
+                                        localStore.sync.apply(this, [
+                                            'delete',
+                                            model,
+                                            { store: localStore, fromMessage: YES }
+                                        ]);
                                     }
                                     this.remove(model);
                                 }
@@ -6508,22 +6287,25 @@
             if( method && model ) {
                 var changes = model.changedSinceSync;
                 var data = null;
-                var storeMsg = false;
+                var storeMsg = YES;
                 switch( method ) {
                     case 'update':
                     case 'create':
                         data = options.attrs || model.toJSON();
-                        storeMsg = true;
                         break;
+    
                     case 'patch':
                         if( _.isEmpty(changes) ) {
                             return;
                         }
                         data = model.toJSON({ attrs: changes });
-                        storeMsg = true;
                         break;
+    
                     case 'delete':
-                        storeMsg = true;
+                        break;
+    
+                    default:
+                        storeMsg = NO;
                         break;
                 }
                 var msg = {
@@ -6553,8 +6335,9 @@
             model.sync.apply(model, [msg.method, model, {
                 url: url,
                 error: function( xhr, status ) {
-                    if( !xhr.responseText && that.options.useOfflineChange ) {
+                    if( !xhr.responseText && that.options.useOfflineChanges ) {
                         // this seams to be only a connection problem, so we keep the message an call success
+                        that.onDisconnect(endpoint);
                         that.handleCallback(options.success, msg.data);
                     } else {
                         that.removeMessage(endpoint, msg, function( endpoint, msg ) {
@@ -6564,6 +6347,9 @@
                     }
                 },
                 success: function( data ) {
+                    if (!that.isConnected) {
+                        that.onConnect(endpoint);
+                    }
                     that.removeMessage(endpoint, msg, function( endpoint, msg ) {
                         if( options.success ) {
                             var resp = data;
@@ -6601,7 +6387,9 @@
                     success: function() {
                         changes.each(function( msg ) {
                             if( msg.time && msg.method ) {
-                                that.setLastMessageTime(endpoint.channel, msg.time);
+                                if (that.options.useLocalStore) {
+                                    that.setLastMessageTime(endpoint.channel, msg.time);
+                                }
                                 that.trigger(endpoint.channel, msg);
                             }
                         });
@@ -6611,7 +6399,7 @@
             }
         },
     
-        fetchServerInfo: function( endpoint, collection ) {
+        fetchServerInfo: function( endpoint ) {
             var that = this;
             if( endpoint && endpoint.baseUrl ) {
                 var info = new M.Model();
@@ -6626,7 +6414,7 @@
                             endpoint.socketPath = info.get('socketPath');
                             var name = info.get('entity') || endpoint.entity.name;
                             if( that.options.useSocketNotify ) {
-                                that.createSocket(endpoint, collection, name);
+                                that.createSocket(endpoint, name);
                             }
                         }
                     },
@@ -6635,8 +6423,8 @@
             }
         },
     
-        sendMessages: function( endpoint, collection ) {
-            if( endpoint && endpoint.messages && collection ) {
+        sendMessages: function( endpoint ) {
+            if( endpoint && endpoint.messages && endpoint.collection ) {
                 var that = this;
                 endpoint.messages.each(function( message ) {
                     var msg;
@@ -6646,7 +6434,7 @@
                     }
                     var channel = message.get('channel');
                     if( msg && channel ) {
-                        var model = that.createModel({ collection: collection }, msg.data);
+                        var model = that.createModel({ collection: endpoint.collection }, msg.data);
                         that.emitMessage(endpoint, msg, {}, model);
                     } else {
                         message.destroy();
@@ -6829,6 +6617,9 @@
             events.touchcancel = events.touchcancel || [];
             events.mousedown = events.touchstart || [];
             events.mouseup = events.touchend || [];
+            // Bugifx for android <4.1 devices. If a touch start happens and a scrolling, no touchend is fired.
+            events.touchmove = events.touchmove || [];
+            events.touchleave = events.touchleave || [];
     
             // be sure that the events are arrays
             events.touchstart = _.isArray(events.touchstart) ? events.touchstart : [events.touchstart];
@@ -6836,6 +6627,8 @@
             events.touchcancel = _.isArray(events.touchcancel) ? events.touchcancel : [events.touchcancel];
             events.mousedown = _.isArray(events.mousedown) ? events.mousedown : [events.mousedown];
             events.mouseup = _.isArray(events.mouseup) ? events.mouseup : [events.mouseup];
+            events.touchmove = _.isArray(events.touchmove) ? events.touchmove : [events.touchmove];
+            events.touchleave = _.isArray(events.touchleave) ? events.touchleave : [events.touchleave];
     
             // touchstrart callback - add the class 'active'
             var touchstart = function setActiveStateOnTouchstart(event, element){
@@ -6861,6 +6654,8 @@
             events.touchcancel.push(touchcancel);
             events.mousedown.push(touchstart);
             events.mouseup.push(touchend);
+            events.touchmove.push(touchend);
+            events.touchleave.push(touchend);
     
             // overwrite the interal events with the swap element
             context._internalEvents = events;
@@ -6924,6 +6719,16 @@
     
     
     
+    // Copyright (c) 2014 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
+    ////////////////////////////////////////////////////////////////
+    // DO NOT EDIT THIS FILE - it is generated by grunt
+    ////////////////////////////////////////////////////////////////
+    
+    /* jshint -W109 */
+    M.Templates = {"default":{"accordion.ejs":"<ul><%= value %></ul>","accordionitem.ejs":"<ul><%= value %></ul>","button.ejs":"<div class=\"button\"><% if(icon) { %> <i class=\"fa <%= icon %>\"></i> <% } %> <div data-binding=\"value\"<% if(value) {  } %>><%= value %></div></div>","buttongroup.ejs":"<div class=\"clearfix\" data-childviews=\"buttons\"></div>","checkboxlist.ejs":"<div><%= label %><div data-childviews=\"checkbox-options\"></div></div>","checkboxoption.ejs":"<label><input type=\"checkbox\" name=\"<%= name %>\" value=\"<%= value %>\"><i class=\"needsclick fa\"></i> <%= label %></label>","debug.ejs":"<div><div data-childviews=\"debug-menu\"></div><div data-childviews=\"debug-grid\"></div></div>","dialog.ejs":"<div></div>","image.ejs":"<img src=\"<%= value %>\" alt=\"<%= alt %>\"/>","label.ejs":"<div contenteditable=\"true\"><%= value %></div>","list.ejs":"<ul data-childviews=\"list\"></ul>","listitem.ejs":"<li><%= value %></li>","listitemlinked.ejs":"<li><span><%= value %></span><i class=\"fa <%= icon %>\"></i></li>","loader.ejs":"<div class=\"m-view m-overlayview m-loaderview m-loaderview-show\" style=\"display: block;\"> <div class=\"m-view m-overlayview-inner m-loaderview-inner\"> <div class=\"m-view m-labelview m-loaderview-inner-message\"></div> <div class=\"m-view m-loaderview-inner-icon m-loaderview-inner-icon-only\"> <div class=\"m-view m-loaderview-inner-icon-1\"></div> <div class=\"m-view m-loaderview-inner-icon-2\"></div> <div class=\"m-view m-loaderview-inner-icon-3\"></div> <div class=\"m-view m-loaderview-inner-icon-4\"></div> <div class=\"m-view m-loaderview-inner-icon-5\"></div> <div class=\"m-view m-loaderview-inner-icon-6\"></div> <div class=\"m-view m-loaderview-inner-icon-7\"></div> <div class=\"m-view m-loaderview-inner-icon-8\"></div> </div> </div> </div>","menu.ejs":"<div class=\"movable-backdrop fade\"></div><div class=\"movable-container\"><span><%= value %></span><div class=\"menu-content\" data-childviews=\"menu-content\"></div></div>","modal.ejs":"<div data-childviews=\"content\"><div>","model.ejs":"<ul><%= value %></ul>","movable.ejs":"<div class=\"movable-element\"><%= value %></div>","radiolist.ejs":"<div><%= label %><div data-childviews=\"radio-options\"></div></div>","radiooption.ejs":"<label><input type=\"radio\" name=\"<%= name %>\" value=\"<%= value %>\"><i class=\"needsclick fa\"></i><%= label %></label>","searchfield.ejs":"<div contenteditable=\"true\"><%= value %></div>","select.ejs":"<div class=\"selection-list<% if(isMultiple){ %> multiple<% } %>\"><select<% if(isMultiple){ %> multiple<% } %>><%= value %></select></div>","slider.ejs":"<input type=\"range\">","tabbarbuttongroup.ejs":"<div></div>","text.ejs":"<div><% if(label) {  %><div class=\"label\"><%= label %></div><% } %><div><% if(icon) {  %><div class=\"input-icon-addon\"><i class=\"fa <%= icon %> fa-fw\"></i><% } %><%= value %></div>","textarea.ejs":"<div><% if(label) {  %><label><%= label %><% } %><textarea><%= value %></textarea><% if(label) {  %></label><% } %></div>","textfield.ejs":"<div><% if(label) {  %><label><%= label %><% } %><div class=\"<% if(icon) {  %> input-icon-addon<% } %>\"><% if(icon) {  %><i class=\"fa <%= icon %> fa-fw\"></i><% } %><input type=\"<%= type %>\" <% if(placeholder) { %> placeholder=\"<%= placeholder %>\"<% } %> value=\"<%= value %>\"></div><% if(label) {  %></label><% } %></div>","toast.ejs":"<div class=\"toast\"><div id=\"<%= id %>\"><%= text %></div></div>","toggle.ejs":"<div><div data-childviews=\"first\"></div><div data-childviews=\"second\"></div></div>","toggleswitch.ejs":"<div>\n    <div class=\"toggleswitch-value-listener\" contenteditable=\"true\"><%= value %></div>\n\n    <% if(label){%>\n        <div class=\"label-descr\"> <%= label %></div>\n    <% }%>\n    <div class=\"movable-grid\">\n        <div class=\"movable-container\">\n              <% if(onLabel){%>\n                  <div class=\"on-value\"><%= onLabel %></div>\n              <% }%>\n\n              <% if(onLabel){%>\n                  <div class=\"off-value\"><%= offLabel %></div>\n              <% }%>\n\n              <% if(onLabel){%>\n                  <div class=\"movable-element\"></div>\n              <% }%>\n        </div>\n    </div>\n</div>\n\n","toolbar.ejs":"<div><div data-childviews=\"first\"></div> <div class=\"center\" data-binding=\"value\"><%= value %></div> <div data-childviews=\"second\"></div></div>","view.ejs":"<div><%= value %></div>"}};
+    /* jshint +W109 */
     // Copyright (c) 2013 M-Way Solutions GmbH
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
@@ -6990,7 +6795,7 @@
             return cssEvents[ Modernizr.prefixed('transition') ];
         }())
     });
-    // Copyright (c) 2013 M-Way Solutions GmbH
+    // Copyright (c) 2014 M-Way Solutions GmbH
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
     ////////////////////////////////////////////////////////////////
@@ -7036,15 +6841,16 @@
             "grid-gutter-width": "30px",
             "lightenPercentage": "15%",
             "lightenPercentageLight": "5%",
+            "m-button-icon-only-width": "50px",
             "m-button-border-width": "1px",
             "m-button-border-color": "#1092d3",
             "m-button-text-color": "#1092d3",
             "m-button-border-radius": "4px",
             "m-button-border-style": "solid",
-            "m-button-padding-bottom": "6px",
+            "m-button-padding-bottom": "10px",
             "m-button-padding-top": "10px",
             "m-button-padding-left-right": "10px",
-            "m-button-padding": "10px 10px 6px 10px",
+            "m-button-padding": "10px 10px 10px 10px",
             "m-button-primary-border-color": "#6c64ff",
             "m-button-primary-text-color": "#6c64ff",
             "m-button-primary-background-color": "#FFFFFF",
@@ -7084,7 +6890,8 @@
             "tablayout-menu-button-padding": "13px 0 0 0",
             "tablayout-menu-scroll-button-width": "200px",
             "switch-header-content-padding": "4px 0 0 0",
-            "header-top": "3px",
+            "header-top": "4px",
+            "m-header-icon-only-font-size": "2.4rem",
             "m-primary-font-family": "\"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif",
             "m-primary-font-weight": "300",
             "m-primary-font-size": "1.6rem",
@@ -7100,7 +6907,11 @@
             "selection-color": "#c3c3c3",
             "selection-checked-color": "#1092d3",
             "m-list-item-color": "#2dcca2",
-            "m-stencil-text-shadow": "rgba(255, 255, 255, 0.5) 0px 3px 3px"
+            "m-stencil-text-shadow": "rgba(255, 255, 255, 0.5) 0px 3px 3px",
+            "m-menu-view-width": "200px",
+            "m-menu-view-device-swipe-listener-width": "20px",
+            "m-menu-view-transition-width": "200px - 20px",
+            "m-menu-transition": "500ms"
         },
         "android_dark": {
             "m-primary-color": "#669900",
@@ -7133,7 +6944,8 @@
         }
     },
         get: function (name, theme) {
-            var theme = theme || M.ThemeVars.CONST.DEFAULT;
+            var theme = theme || M.Environment.device.os;
+    
             var result = this._vars[theme] ? this._vars[theme][name] : false;
             if (!result && theme != M.ThemeVars.CONST.DEFAULT) {
                 result = this._vars[M.ThemeVars.CONST.DEFAULT][name];
@@ -7146,13 +6958,11 @@
     }
     
     M.ThemeVars.CONST = {
-    
         IOS: 'ios',
-        'ANDROID_DARK': 'android_dark',
-        'ANDROID_LIGHT': 'android_light',
-        'ANDROID': 'android_dark',
+        ANDROID_DARK: 'android_dark',
+        ANDROID_LIGHT: 'android_light',
+        ANDROID: 'android_dark',
         DEFAULT: 'default'
-    
     }
     // Copyright (c) 2013 M-Way Solutions GmbH
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
@@ -7174,119 +6984,7 @@
      */
     M.TemplateManager = M.Object.design({
     
-        'M.View': {
-            defaultTemplate: '<div><%= _value_ %></div>'
-        },
-    
-        'M.TextView': {
-            defaultTemplate: '<div><% if(label) {  %><div class="label"><%= label %></div><% } %><div><% if(icon) {  %><div class="input-icon-addon"><i class="fa <%= icon %> fa-fw"></i><% } %><%= _value_ %></div>'
-        },
-    
-        'M.ButtonView': {
-            defaultTemplate: '<div class="button"><% if(icon) { %> <i class="fa <%= icon %>"></i> <% } %> <div data-binding="_value_"<% if(_value_) {  } %>><%= _value_ %></div></div>'
-        },
-    
-        'M.ToolbarView': {
-            defaultTemplate: '<div><div data-childviews="first"></div> <div class="center" data-binding="_value_"><%= _value_ %></div> <div data-childviews="second"></div></div>'
-        },
-    
-        //TODO implement label for=""
-        'M.TextfieldView': {
-            defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><div class="<% if(icon) {  %> input-icon-addon<% } %>"><% if(icon) {  %><i class="fa <%= icon %> fa-fw"></i><% } %><input type="<%= type %>" <% if(placeholder) { %> placeholder="<%= placeholder %>"<% } %> value="<%= _value_ %>"></div><% if(label) {  %></label><% } %></div>'
-        },
-        'M.TextareaView': {
-            defaultTemplate: '<div><% if(label) {  %><label><%= label %><% } %><textarea><%= _value_ %></textarea><% if(label) {  %></label><% } %></div>'
-        },
-    
-        'M.ButtonGroupView': {
-            defaultTemplate: '<div class="clearfix" data-childviews="buttons"></div>'
-        },
-    
-        'M.SearchfieldView': {
-            defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>'
-        },
-    
-        'M.ListView': {
-            defaultTemplate: '<ul data-childviews="list"></ul>'
-        },
-    
-        'M.ListItemView': {
-            defaultTemplate: '<li><%= _value_ %></li>'
-        },
-    
-        'M.ListItemViewLinked': {
-            defaultTemplate: '<li><span><%= _value_ %></span><i class="fa <%= icon %>"></i></li>'
-        },
-    
-        'M.ModelView': {
-            defaultTemplate: '<ul><%= _value_ %></ul>'
-        },
-    
-        'M.LabelView': {
-            defaultTemplate: '<div contenteditable="true"><%= _value_ %></div>'
-        },
-    
-        'M.DebugView': {
-            defaultTemplate: '<div><div data-childviews="debug-menu"></div><div data-childviews="debug-grid"></div></div>'
-        },
-    
-        'M.AccordionView': {
-            defaultTemplate: '<ul><%= _value_ %></ul>'
-        },
-    
-        'M.AccordionItemView': {
-            defaultTemplate: '<ul><%= _value_ %></ul>'
-        },
-    
-        'M.SliderView': {
-            defaultTemplate: '<input type="range">'
-        },
-    
-        'M.ToggleView': {
-            defaultTemplate: '<div><div data-childviews="first"></div><div data-childviews="second"></div></div>'
-        },
-    
-        'M.ImageView': {
-            defaultTemplate: '<img src="<%= _value_ %>" alt="<%= alt %>" />'
-        },
-    
-        'M.LoaderView': {
-            defaultTemplate: '<div class="m-view m-overlayview m-loaderview m-loaderview-show" style="display: block;"> <div class="m-view m-overlayview-inner m-loaderview-inner"> <div class="m-view m-labelview m-loaderview-inner-message"></div> <div class="m-view m-loaderview-inner-icon m-loaderview-inner-icon-only"> <div class="m-view m-loaderview-inner-icon-1"></div> <div class="m-view m-loaderview-inner-icon-2"></div> <div class="m-view m-loaderview-inner-icon-3"></div> <div class="m-view m-loaderview-inner-icon-4"></div> <div class="m-view m-loaderview-inner-icon-5"></div> <div class="m-view m-loaderview-inner-icon-6"></div> <div class="m-view m-loaderview-inner-icon-7"></div> <div class="m-view m-loaderview-inner-icon-8"></div> </div> </div> </div>'
-        },
-    
-        'M.DialogView': {
-            defaultTemplate: '<div></div>'
-        },
-    
-        'M.SelectView': {
-            defaultTemplate: '<div class="selection-list<% if(isMultiple){ %> multiple<% } %>"><select<% if(isMultiple){ %> multiple<% } %>><%= _value_ %></select></div>'
-        },
-    
-        'M.RadiolistView': {
-            defaultTemplate: '<div><%= label %><div data-childviews="radio-options"></div></div>'
-        },
-    
-        'M.RadioOptionView': {
-            defaultTemplate: '<label><input type="radio" name="<%= name %>" value="<%= _value_ %>"><i class="needsclick fa"></i><%= label %></label>'
-        },
-    
-        'M.CheckboxlistView': {
-            defaultTemplate: '<div><%= label %><div data-childviews="checkbox-options"></div></div>'
-        },
-    
-        'M.CheckboxOptionView': {
-            defaultTemplate: '<label><input type="checkbox" name="<%= name %>" value="<%= _value_ %>"><i class="needsclick fa"></i> <%= label %></label>'
-        },
-    
-        'M.ToggleSwitchView': {
-            defaultTemplate: '<div><label><% if(label){%> <span class="needsclick label-descr"> <%= label %> <% }%> </span> <div class="toggleswitch"><input value="<%= _value_ %>" type="checkbox"><span class="switch-labels needsclick" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>'
-        },
-    
-        'M.ModalView': {
-            defaultTemplate: '<div data-childviews="content"><div>'
-        },
-    
-        _currentUI: 'defaultTemplate',
+        _currentUI: 'default',
     
         /**
          * Returns the template with the given name or
@@ -7299,19 +6997,17 @@
     
             ui = ui || M.TemplateManager._currentUI;
     
-            if( !this[template] ) {
-                template = 'M.View';
+            var tpl = M.Templates[ui][template];
+    
+            if(tpl) {
+                return tpl;
             }
     
-            if( this[template] ) {
-                //use TMP.TemplateManager._currentUI because this function is called in another this context
-                var tpl = this[template][ui];
-                if( !tpl ) {
-                    return this[template].defaultTemplate;
-                } else {
-                    return tpl;
-                }
+            if(ui !== 'default') {
+                return this.get(template, 'default');
             }
+    
+            return null;
         }
     });
     
@@ -7326,7 +7022,7 @@
      * @type {*}
      * @extends M.Object
      */
-    M.PageTransitions = M.Object.design({
+    M.Transitions = M.Object.design({
         _transition: '',
         _main: null,
         _iterate: null,
@@ -7351,7 +7047,7 @@
     
         init: function( main ) {
             this._main = main ? main : $('#m-main');
-            this._pages = this._main.children('div.m-page');
+            this._pages = this._main.find('div.m-page');
             this._pagesCount = this._pages.length;
     
             this._pages.each(function() {
@@ -7360,10 +7056,16 @@
             });
     
             this._pages.eq(this._current).addClass('m-page-current');
+    
+            return this;
         },
     
         startTransition: function() {
-            if( this._isAnimating ) {
+    
+            // If a animation is running or the app is in the
+            // inital load process skip this transition.
+    
+            if( this._isAnimating || (global[M.APPLICATION_NAME] && global[M.APPLICATION_NAME].isInitialLoad) ) {
                 return false;
             }
     
@@ -7377,14 +7079,15 @@
             } else {
                 this._current = 0;
             }
+    
+            if( !this._transition ) {
+                this._transition = this.getDefaultTransition();
+            }
+    
             var nextPage = this._pages.eq(this._current).addClass('m-page-current');
             if( !M.Animation.animationSupport || this._transition === M.PageTransitions.CONST.NONE ) {
                 this._onEndAnimation(currPage, nextPage);
                 return;
-            }
-    
-            if( !this._transition ) {
-                this._transition = this.getDefaultTransition();
             }
     
             var transitionClasses = this._transition.split('|');
@@ -7400,7 +7103,7 @@
                     that._onEndAnimation(currPage, nextPage);
                 }
             });
-            currPage.addClass(outClass);
+    
     
             $(nextPage[0]).on(animEndEventName, function() {
                 nextPage.off(animEndEventName);
@@ -7409,7 +7112,11 @@
                     that._onEndAnimation(currPage, nextPage);
                 }
             });
-            nextPage.addClass(inClass);
+    
+            setTimeout(function() {
+                nextPage.addClass(inClass);
+                currPage.addClass(outClass);
+            },0);
         },
     
         setTransition: function( name ) {
@@ -7440,7 +7147,7 @@
         }
     });
     
-    M.PageTransitions.CONST = {
+    M.Transitions.CONST = {
         NONE: 'none',
         MOVE_TO_LEFT_FROM_RIGHT: 'm-page-moveToLeft|m-page-moveFromRight',
         MOVE_TO_RIGHT_FROM_LEFT: 'm-page-moveToRight|m-page-moveFromLeft',
@@ -7511,11 +7218,13 @@
         SLIDE: 'm-page-rotateSlideOut|m-page-rotateSlideIn'
     };
     
+    M.PageTransitions = M.Transitions.design();
+    
     
     // Copyright (c) 2013 M-Way Solutions GmbH
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
-    (function() {
+    (function () {
     
         /**
          * M.View inherits from Backbone.View
@@ -7530,10 +7239,10 @@
              * @constructor
              * @param {options} Attributes for the current Instance
              */
-            constructor: function( options ) {
+            constructor: function (options) {
                 this.cid = _.uniqueId('view');
                 options = options || {};
-                var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'computedValue', 'onSet', 'onGet', 'enabled'];
+                var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'binding', 'computedValue', 'onSet', 'onGet', 'enabled'];
                 _.extend(this, _.pick(options, viewOptions));
                 this._ensureElement();
                 this.initialize.apply(this, arguments);
@@ -7557,7 +7266,9 @@
          * @type {Function}
          */
     
-        M.View.design = M.design;
+        M.View.design = function (obj, childViews, isScope) {
+            return this.extend().create(obj, childViews, isScope);
+        };
     
         M.View.implements = M.implements;
     
@@ -7582,7 +7293,9 @@
              * define a template based on the tmpl template engine
              * @private
              */
-            _template: _.tmpl(M.TemplateManager.get('View')),
+            _template: null, //_.tmpl(M.TemplateManager.get('View')),
+    
+            _templateString: M.TemplateManager.get('view.ejs'),
     
             /**
              * use this property to define which data are given to the template
@@ -7591,9 +7304,9 @@
             _templateValues: null,
     
             /**
-             * extend the default template with this one. It gets injected into the <%= _value_ %> placeholder
+             * extend the default template with this one. It gets injected into the <%= _value %> placeholder
              */
-            templateExtend: null,
+            extendTemplate: null,
     
             /**
              * Indicates if this is the view was rendered before
@@ -7658,14 +7371,18 @@
             /**
              * The Value of the view
              */
-            _value_: null,
-    
+            _value: null,
     
             /**
              * The hammer.js event object
              */
             _hammertime: null,
     
+            /**
+             * The parent of the view.
+             * @type {M.View}
+             */
+            _parentView: null,
     
             /**
              * Use this property to access a model from the given scope. The scope needs to be a M.Controller if you want to use a nested scopeKey
@@ -7687,9 +7404,46 @@
             scopeKey: null,
     
             /**
+             * Same as scopeKey
+             *
+             *  @type: {String}
+             *  @example
+             *
+             *  var scope = M.Controller.extend({
+             *      person: M.Model.create({
+             *          favorite: ON
+             *      })
+             *   }).create();
+             *
+             * var toggleSwitch = M.ToggleSwitchView.extend({
+             *   binding: 'person.favorite',
+             * }).create(scope, null, true).render();
+             *
+             */
+            binding: null,
+    
+            /**
              * Store the given events inside this attribute. The events object is set to null to prefent backbone of setting events. To not loose the information it gets stored.
              */
             _originalEvents: null,
+    
+            /**
+             * A childview gets the value set from his parent. So the childview has the same value as his parent
+             * @example
+             * var view = M.View.extend({
+             *     value:'foo'
+             *   },
+             *   {
+             *     c1: M.View.extend({
+             *       useParentValue: YES
+             *     })
+             * }).create();
+             *
+             * view.getValue(); // 'foo'
+             * view.childViews.c1.getValue(); // 'foo'
+             *
+             */
+            useParentValue: NO,
     
             /**
              * Set the model of the view
@@ -7697,8 +7451,19 @@
              * @returns {View}
              * @private
              */
-            _setModel: function( value ) {
+            _setModel: function (value) {
                 this.model = value;
+                return this;
+            },
+    
+            /**
+             * Set the collection of the view
+             * @param { M.Collection } The Collection to be set
+             * @returns {View}
+             * @private
+             */
+            _setCollection: function (value) {
+                this.collection = value;
                 return this;
             },
     
@@ -7708,7 +7473,7 @@
              * @returns {M.Model}
              * @private
              */
-            _getModel: function() {
+            _getModel: function () {
                 return this.model;
             },
     
@@ -7717,31 +7482,48 @@
              * Get the value of a view. If the value is a M.Model return its attributes.
              * @returns {*}
              */
-            getValue: function() {
-                if( this.model ) {
-                    if( this._value_.hasOwnProperty('attribute') && this._value_.hasOwnProperty('model') ) {
-                        return this._value_.model.get(this._value_.attribute);
+            getValue: function () {
+                if (this.model) {
+                    if (this._value.hasOwnProperty('attribute') && this._value.hasOwnProperty('model')) {
+                        return this._value.model.get(this._value.attribute);
                     }
                     return this._getModel().attributes;
                 } else {
-                    return this._value_;
+                    return this._value;
                 }
             },
     
-            _getValue: function() {
-                return this._value_;
+            _getValue: function () {
+                return this._value;
             },
     
-            _setValue: function( value ) {
-                this._value_ = value;
+            _setValue: function (value) {
+                this._value = value;
             },
     
-            getPropertyValue: function( propertyString, data ) {
+            /**
+             * If a childView has set useParentValue to true the value from the current view gets assigned
+             * @param value
+             * @private
+             */
+            _setChildViewValue: function (value) {
+    
+                _.each(this.childViews, function (child) {
+                    if (child.useParentValue) {
+                        child._setValue(value);
+                        if( M.isModel(value)){
+                            child._setModel(value);
+                        }
+                    }
+                }, this);
+            },
+    
+            getPropertyValue: function (propertyString, data) {
                 var o = data;
-                _.each(propertyString.split('.'), function( key ) {
-                    if( o[key] ) {
+                _.each(propertyString.split('.'), function (key) {
+                    if (o[key]) {
                         o = o[key];
-                    } else if( M.isModel(o) || M.isCollection(o) ) {
+                    } else if (M.isModel(o) || M.isCollection(o)) {
                         //o = o.get(key);
                         o = {
                             model: o,
@@ -7759,7 +7541,8 @@
              * @returns {*}
              */
     
-            initialize: function( options ) {
+            initialize: function (options) {
+                this.scopeKey = this.scopeKey || this.binding;
                 this._registerView();
                 this._addInterfaces();
                 this._assignValue(options);
@@ -7767,7 +7550,7 @@
                 this._mapEventsToScope(this.scope);
                 this._addInternalEvents();
                 this._addCustomEvents(this.scope);
-                if( !this.useElement ) {
+                if (!this.useElement) {
                     this._registerEvents();
                 }
                 this._assignContentBinding();
@@ -7776,34 +7559,34 @@
                 return this;
             },
     
-            _registerView: function() {
+            _registerView: function () {
                 M.ViewManager.registerView(this);
             },
     
-            _assignValue: function( options ) {
-                //don't write _value_ in the view definition - write value and here it gets assigned
-                if( this.value || (typeof this.value !== 'undefined' && this.value !== null) ) {
+            _assignValue: function (options) {
+                //don't write _value in the view definition - write value and here it gets assigned
+                if (this.value || (typeof this.value !== 'undefined' && this.value !== null)) {
                     this._setValue(this.value);
-                } else if( this.scopeKey ) {
+                } else if (this.scopeKey) {
                     this._setValue(this.getPropertyValue(this.scopeKey, this.scope));
-                } else if( options && options.value ) {
+                } else if (options && options.value) {
                     this._setValue(options.value);
                 }
     
-                var _value_ = this._getValue();
+                var _value = this._getValue();
     
-                if( _value_ ) {
-                    if( M.isModel(_value_.model) ) {
-                        this._setModel(_value_.model);
-                    } else if( M.isModel(_value_) ) {
-                        this._setModel(_value_);
-                    } else if( M.isCollection(_value_) ) {
-                        this.collection = _value_;
+                if (_value) {
+                    if (M.isModel(_value.model)) {
+                        this._setModel(_value.model);
+                    } else if (M.isModel(_value)) {
+                        this._setModel(_value);
+                    } else if (M.isCollection(_value)) {
+                        this.collection = _value;
                     }
                 }
     
-                if( this._reactOnLocaleChanged() ) {
-                    M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
+                if (this._reactOnLocaleChanged()) {
+                    M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function () {
                         this.render();
                     }, this);
                     this._hasI18NListener = YES;
@@ -7812,21 +7595,31 @@
                 return this;
             },
     
-            _reactOnLocaleChanged: function() {
-                return (this.value || this.label);
+            /**
+             * Returns true if either the value or the label is from type M.I18NItem
+             * @returns {*}
+             * @private
+             */
+            _reactOnLocaleChanged: function () {
+                return M.isI18NItem(this.value) || M.isI18NItem(this.label);
             },
     
     
-            _assignContentBinding: function() {
+            _assignContentBinding: function () {
                 var that = this;
-                var _value_ = this._getValue();
-                if( this.scopeKey && M.isModel(_value_) ) {
-                    this.listenTo(this.scope, this.scopeKey, function( model ) {
+                var _value = this._getValue();
+                if (this.scopeKey && M.isModel(_value)) {
+                    this.listenTo(this.scope, this.scopeKey, function (model) {
                         that._setModel(model);
                         that.render();
                     });
-                } else if( this.scopeKey && _value_ && M.isModel(_value_.model) && _value_.attribute ) {
-                    this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
+                } else if (this.scopeKey && M.isCollection(_value)) {
+                    this.listenTo(this.scope, this.scopeKey, function (model) {
+                        that._setCollection(model);
+                        that.render();
+                    });
+                } else if (this.scopeKey && _value && M.isModel(_value.model) && _value.attribute) {
+                    this.listenTo(this.scope, this.scopeKey.split('.')[0], function (model) {
                         that._setModel(model);
                         that.render();
                     });
@@ -7845,14 +7638,14 @@
              * @returns {View}
              * @private
              */
-            _mapEventsToScope: function( scope ) {
+            _mapEventsToScope: function (scope) {
                 // A swap object for the given events to assign it later to the _events object.
                 var events = {};
-                if( this.events ) {
-                    _.each(this.events, function( value, key ) {
+                if (this.events) {
+                    _.each(this.events, function (value, key) {
                         var callback = value;
                         // If the event callback type is an string, search in the given scope for a function
-                        if( typeof value === 'string' && scope && typeof scope[value] === 'function' ) {
+                        if (typeof value === 'string' && scope && typeof scope[value] === 'function') {
                             callback = scope[value];
                         }
                         // Create an array for the specific eventtype
@@ -7875,43 +7668,74 @@
              * Merge the internal events with the external ones.
              * @private
              */
-            _addInternalEvents: function() {
-                if( this._internalEvents ) {
-                    _.each(this._internalEvents, function( internalEvent, eventType ) {
-                        //if the _internalEvents isn't an array create one
-                        var internal = _.isArray(internalEvent) ? internalEvent : [internalEvent];
-                        //if the object has no _events or the object is not an array create one
-                        this._events[eventType] = _.isArray(this._events[eventType]) ? this._events[eventType] : [];
-                        //merge the interanl and external events
-                        this._events[eventType] = this._events[eventType].concat(internal);
-                    }, this);
+            _addInternalEvents: function () {
+                if (this._internalEvents) {
+                    this._addEvents(this._internalEvents);
                 }
             },
     
-            _addCustomEvents: function() {
-                if( !this._events ) {
+            /**
+             * Loop over the given events and add them.
+             * @private
+             */
+            _addEvents: function(events){
+                _.each(events, function (event, eventType) {
+                    this._addEvent(event, eventType);
+                }, this);
+            },
+    
+            /**
+             * Add a event to a view.
+             * Events are stored inside the _events object. Every event has an array with callbacks that are called when the event type was triggered.
+             * The callbacks are allways stored in an array.
+             *
+             * @private
+             */
+            _addEvent:function(event, eventType){
+                //if the event isn't an array create one
+                var internal = _.isArray(event) ? event : [event];
+                //if the object has no _events or the object is not an array create one
+                this._events[eventType] = _.isArray(this._events[eventType]) ? this._events[eventType] : [];
+                //merge the internal and external events
+                this._events[eventType] = this._events[eventType].concat(internal);
+            },
+    
+            /**
+             * There are some custom events e.q. pressing the enter key. These custom events are bound in this method.
+             *
+             * @private
+             */
+            _addCustomEvents: function () {
+                // only bind custom events if there are any
+                if (!this._events) {
                     return;
                 }
                 var that = this;
+                // store all custom events
                 var customEvents = {
+                    // create the custom event: enter
                     enter: {
+                        // the original event type that is triggered
                         'origin': 'keyup',
-                        'callback': function( event ) {
-                            if( event.keyCode === 13 ) {
-                                that._events.enter.apply(that.scope, arguments);
+                        // the callback for the keyup
+                        'callback': function (event) {
+                            // this callback gets called on every keyup so filter only the enter events
+                            if (event.keyCode === 13) {
+                                // if enter was pressed call the function
+                                that._events.enter[0].apply(that.scope, arguments);
                             }
     
                         }
                     }
                 };
-                for( var event in this._events ) {
-                    if( customEvents.hasOwnProperty(event) ) {
-                        this._events[customEvents[event].origin] = customEvents[event].callback;
+                for (var event in this._events) {
+                    if (customEvents.hasOwnProperty(event)) {
+                        this._addEvent(customEvents[event].callback, customEvents[event].origin);
                     }
                 }
             },
     
-            _getEventOptions: function() {
+            _getEventOptions: function () {
     
                 // No Ghost click on Android
                 var preventDefault = false;
@@ -7930,22 +7754,24 @@
              *
              * @private
              */
-            _registerEvents: function() {
-                if( this._events ) {
+            _registerEvents: function () {
+                if (this._events) {
                     var that = this;
     
                     this._eventCallback = {};
-                    Object.keys(this._events).forEach(function( eventName ) {
+                    Object.keys(this._events).forEach(function (eventName) {
     
                         this._hammertime = new Hammer(that.el, that._getEventOptions());
     
-                        this._eventCallback[eventName] = function( event ) {
-                            if( that._hammertime.enabled === NO ) {
+                        this._eventCallback[eventName] = function (event) {
+                            // for debug purposes
+                            //M.Toast.show(eventName, 200);
+                            if (that._hammertime.enabled === NO) {
                                 return;
                             }
                             var args = Array.prototype.slice.call(arguments);
                             args.push(that);
-                            _.each(that._events[event.type], function( func ) {
+                            _.each(that._events[event.type], function (func) {
                                 func.apply(that.scope, args);
                             }, that);
                         };
@@ -7960,8 +7786,8 @@
              * See hammer.js docu: https://github.com/EightMedia/hammer.js/wiki/Instance-methods#hammertimeoffgesture-handler
              * @private
              */
-            _disableEvents: function() {
-                if(this._hammertime){
+            _disableEvents: function () {
+                if (this._hammertime) {
                     this._hammertime.enable(NO);
                 }
             },
@@ -7971,8 +7797,8 @@
              * See hammer.js docu: https://github.com/EightMedia/hammer.js/wiki/Instance-methods#hammertimeoffgesture-handler
              * @private
              */
-            _enableEvents: function() {
-                if(this._hammertime){
+            _enableEvents: function () {
+                if (this._hammertime) {
                     this._hammertime.enable(YES);
                 }
             },
@@ -7981,7 +7807,7 @@
              *
              * @returns {Boolean} if events are active or not
              */
-            isEnabled: function() {
+            isEnabled: function () {
                 return this._hammertime.enabled;
             },
     
@@ -7989,7 +7815,7 @@
              * implement render function
              * @returns {this}
              */
-            render: function() {
+            render: function () {
                 //this._assignValue();
                 this._preRender();
                 this._render();
@@ -7998,7 +7824,7 @@
                 return this;
             },
     
-            _preRender: function() {
+            _preRender: function () {
                 this._assignTemplate();
                 this._assignTemplateValues();
                 this._extendTemplate();
@@ -8006,62 +7832,106 @@
                 return this;
             },
     
-            _assignTemplate: function( template ) {
+            //        _assignTemplate: function( template ) {
+            //
+            //            template = template || this.template;
+            //            if( template ) {
+            //                // use a custom template set by extend or given as a parameter
+            //                if( typeof template === 'function' ) {
+            //                    this._template = template;
+            //                } else if( _.isString(template) ) {
+            //                    this._template = _.tmpl(template);
+            //                } else if( _.isObject(template) ) {
+            //                    this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']));
+            //                }
+            //            } else {
+            //                if( this._useStickit() ) {
+            //                    // if stickit is used use the tmpl template engine
+            //                    this._template = _.tmpl(this._templateString);
+            //                } else {
+            //                    // otherwise use the underscore template engine
+            //                }
+            //                this.template = this._template;
+            //            }
+            //        },
+    
+            _assignTemplate: function (template) {
                 template = template || this.template;
-                if( template ) {
-                    if( typeof template === 'function' ) {
+                if (typeof template !== 'undefined' && template !== null) {
+                    if (typeof template === 'function') {
                         this._template = template;
-                    } else if( _.isString(template) ) {
+                    } else if (_.isString(template)) {
                         this._template = _.tmpl(template);
-                    } else if( _.isObject(template) ) {
+                    } else if (_.isObject(template)) {
                         this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']));
                     }
-                } else if( this._template ) {
+                } else if (this._templateString) {
+                    if (this._useStickit()) {
+                        // if stickit is used use the tmpl template engine
+                        this._template = _.tmpl(this._templateString);
+                    } else {
+                        // otherwise use the
+                        this._template = _.tmpl(this._templateString, null, {useStickitAttribute: NO});
+                        //this._template = _.tmpl(this._templateString);
+                    }
                     this.template = this._template;
                 }
                 return this;
             },
     
-            _assignTemplateValues: function() {
+            _assignTemplateValues: function () {
                 this._templateValues = {};
-                var _value_ = this._getValue();
+                var _value = this._getValue();
     
-                if( this.model ) {
-                    if( M.isModel(_value_) ) {
+                if (this.model) {
+                    if (M.isModel(_value)) {
                         this._templateValues = M.Object.deepCopy(this.model.attributes);
                     } else {
-                        this._templateValues._value_ = this.model.get(_value_.attribute);
+                        this._templateValues._value = this.model.get(_value.attribute);
                     }
-                } else if( M.isI18NItem(_value_) ) {
-                    this._templateValues._value_ = M.I18N.l(_value_.key, _value_.placeholder);
-                } else if( typeof _value_ === 'string' ) {
-                    this._templateValues._value_ = _value_;
-                } else if( _value_ !== null && typeof _value_ === 'object' && this._hasI18NListener === NO ) {
-                    this._templateValues = _value_;
-                } else if( this._hasI18NListener && _.isObject(_value_) ) {
-                    _.each(_value_, function( value, key ) {
+                } else if (M.isI18NItem(_value)) {
+                    this._templateValues._value = M.I18N.l(_value.key, _value.placeholder);
+                } else if (typeof _value === 'string') {
+                    this._templateValues._value = _value;
+                } else if (_value !== null && typeof _value === 'object' && this._hasI18NListener === NO) {
+                    this._templateValues = M.Object.deepCopy(_value);
+                } else if (this._hasI18NListener) {
+                    _.each(_value, function (value, key) {
                         this._templateValues[key] = M.I18N.l(value.key, value.placeholder);
                     }, this);
                 }
+    
+                if (typeof this._templateValues._value !== 'undefined' && typeof this._templateValues.value === 'undefined') {
+                    this._templateValues.value = this._templateValues._value;
+                } else {
+    
+                }
+    
+                _.extend(this._templateValues, this.assignTemplateValues());
             },
     
-            _extendTemplate: function() {
-                if( this.extendTemplate ) {
-                    this._templateValues._value_ = this.extendTemplate;
-                    this._template = _.tmpl(this.template(this._templateValues));
+            assignTemplateValues: function () {
+                return null;
+            },
+    
+            _extendTemplate: function () {
+                if (this.extendTemplate) {
+                    var template = _.template(this._templateString);
+                    this._templateValues.value = this.extendTemplate;
+                    this._template = _.tmpl(template(this._templateValues));
                 }
             },
     
-            preRender: function() {
+            preRender: function () {
     
             },
     
-            _render: function() {
+            _render: function () {
                 var dom = this._template(this._templateValues);
     
-                if( this.useElement ) {
+                if (this.useElement) {
                     this.setElement(dom);
-                } else if( this._attachToDom() ) {
+                } else if (this._attachToDom()) {
                     this.$el.html(dom);
                 } else {
                     this.$el.html('');
@@ -8075,34 +7945,24 @@
              * @returns {boolean}
              * @private
              */
-            _attachToDom: function() {
+            _attachToDom: function () {
                 return this.getValue() !== null;
             },
     
-            _renderChildViews: function() {
+            _renderChildViews: function () {
     
-                if( !this.childViews ) {
+                if (!this.childViews) {
                     return;
-                    //this.childViews = this._getChildViews();
                 }
-                _.each(this.childViews, function( child, name ) {
-                    var dom = this.$el;
-                    //                if( this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').addBack().length ) {
-                    //                    dom = this.$el.find('[data-childviews="' + this.cid + '_' + name + '"]').addBack();
-                    //                }
-                    if( this.$el.find('[data-childviews="' + name + '"]').length ) {
-                        dom = this.$el.find('[data-childviews="' + name + '"]');
-                        dom.addClass(name);
-                    }
+                _.each(this.childViews, function (child, name) {
+                    var dom = this._getChildViewRenderDom(name);
     
-                    if( typeof child.render === 'function' ) {
-                        dom.append(child.render().$el);
-                        child.delegateEvents();
-                    } else if( _.isArray(child) ) {
-                        _.each(child, function( c ) {
-                            dom.append(c.render().$el);
-                            c.delegateEvents();
-                        });
+                    if (typeof child.render === 'function') {
+                        this._renderChildView(dom, child);
+                    } else if (_.isArray(child)) {
+                        _.each(child, function (c) {
+                            this._renderChildView(dom, c);
+                        }, this);
                     }
     
                 }, this);
@@ -8110,17 +7970,39 @@
                 return this;
             },
     
-            _postRender: function() {
+            _getChildViewRenderDom: function (name) {
+                var dom = this.$el;
+                if (this.$el.find('[data-childviews="' + name + '"]').length) {
+                    dom = this.$el.find('[data-childviews="' + name + '"]');
+                    dom.addClass(name);
+                }
+                return dom;
+            },
+    
+            _renderChildView: function (dom, child) {
+                this._renderChildViewToDom(dom, child);
+                child.delegateEvents();
+            },
+    
+            _renderChildViewToDom: function (dom, child) {
+                this._appendToDom(dom, child.render().$el);
+            },
+    
+            _appendToDom: function (dom, element) {
+                dom.append(element);
+            },
+    
+            _postRender: function () {
                 //use element can be given from the parent element
-                if( this.useElement ) {
+                if (this.useElement) {
                     this._registerEvents();
                 }
                 this._addClassNames();
-                if( this.model ) {
+                if (this._useStickit()) {
                     this._assignBinding();
                     this.stickit();
                 }
-                if( this.model && this.useElement ) {
+                if (this.model && this.useElement) {
                     //console.warn('be aware that stickit only works if you define useElement with NO');
                 }
                 this.postRender();
@@ -8128,57 +8010,99 @@
                 return this;
             },
     
-            _addClassNames: function() {
-    
-                this.$el.addClass(this._type.split('.')[1].toLowerCase());
-                if( this.cssClass ) {
+            _addClassNames: function () {
+                var viewCssClassName = this._getViewCssClassName();
+                this.$el.addClass(viewCssClassName);
+                if (this.cssClass) {
                     this.$el.addClass(this.cssClass);
                 }
-                if( this._internalCssClasses ) {
+                if (this._internalCssClasses) {
                     this.$el.addClass(this._internalCssClasses);
                 }
-                if( this.grid ) {
+                if (this.grid) {
                     this.$el.addClass(this.grid);
                 }
             },
     
-            _assignBinding: function() {
+    
+            /**
+             * If there is a model defined we should use stickit for the two way binding
+             * @returns {Boolean|YES|*|Function}
+             * @private
+             */
+            _useStickit: function () {
+                return this.model ? YES : NO;
+            },
+    
+            /**
+             * Returns based on the _type property of the view the cssClassName. If the type starts with 'M.' it is in the M context. This will return the name of the view without 'M.' in lowercase.
+             * If the _type is not in the M context a check on whitespaces and dots is made. If there isn't a forbidden character the _type is returned as string.
+             * @returns {String}
+             * @private
+             * @example
+             * M.ButtonView.extend().create()._getViewCssClassName(); // buttonview
+             */
+            _getViewCssClassName: function () {
+                // return value. if there is a error/warning a empty string is returned
+                var cssClassName = null;
+                // if the name contains 'M.' like every view should from the framework
+                if (this._type.toString().indexOf('M.') === 0) {
+                    // this is a View in the M context
+                    cssClassName = this._type.split('M.')[1].toLowerCase();
+                } else {
+                    cssClassName = this._type.toString();
+                }
+                // check if there are any whitespaces in the _type property and show a warning if there are any.
+                if (cssClassName.indexOf(' ') >= 0) {
+                    console.warn('The View type contains whitespaces: ' + this._type + '. The _type property gets added to the css classes. Since there are whitespaces inside the name the view has multiple classes. To set a class overwrite _getViewCssClassName method of the view');
+                    cssClassName = '';
+                }
+                // check if there are any dots in the _type property. If there are any don't add the cssClass
+                if (cssClassName.indexOf('.') >= 0) {
+                    console.warn('The View type contains dots: ' + this._type + '. The _type property gets added to the css classes. Since there are dots inside the name we skiped this. To enable this featuer overwrite the _getViewCssClassName method');
+                    cssClassName = '';
+                }
+                // a error should overwrite the cssClassName with an empty string. If this doesn't happen set the cssClassName to the type
+                return cssClassName;
+            },
+    
+            _assignBinding: function () {
                 var bindings = {};
     
-                var _value_ = this._getValue();
+                var _value = this._getValue();
                 var selector = '';
     
-                if( this.model && !M.isModel(_value_) ) {
-                    selector = '[data-binding="_value_"]';
-                    bindings[selector] = {observe: '' + _value_.attribute};
-                } else if( this.collection ) {
-                    selector = '[data-binding="_value_"]';
-                    bindings[selector] = {observe: '_value_'};
-                } else if( this.model && M.isModel(_value_) ) {
-                    _.each(this.model.attributes, function( value, key ) {
+                if (this.model && !M.isModel(_value)) {
+                    selector = '[data-binding="value"]';
+                    bindings[selector] = {observe: '' + _value.attribute};
+                } else if (this.collection) {
+                    selector = '[data-binding="value"]';
+                    bindings[selector] = {observe: 'value'};
+                } else if (this.model && M.isModel(_value)) {
+                    _.each(this.model.attributes, function (value, key) {
                         var selector = '[data-binding="' + key + '"]';
                         bindings[selector] = {observe: '' + key};
                     }, this);
-                } else if( this.templateExtend === null && this.scopeKey ) {
-                    selector = '[data-binding="_value_"]';
+                } else if (this.extendTemplate === null && this.scopeKey) {
+                    selector = '[data-binding="value"]';
                     bindings[selector] = {observe: '' + this.scopeKey};
                 } else {
-                    _.each(this._templateValues, function( value, key ) {
+                    _.each(this._templateValues, function (value, key) {
                         selector = '[data-binding="' + key + '"]';
                         bindings[selector] = {observe: '' + key};
                     }, this);
                 }
     
-                _.each(bindings, function( value, key ) {
-                    if( typeof this.onGet === 'function' ) {
-                        bindings[key].onGet = function( value ) {
+                _.each(bindings, function (value, key) {
+                    if (typeof this.onGet === 'function') {
+                        bindings[key].onGet = function (value) {
                             var ret = this.onGet(value);
                             return ret;
                         };
                     }
     
-                    if( typeof this.onSet === 'function' ) {
-                        bindings[key].onSet = function( value ) {
+                    if (typeof this.onSet === 'function') {
+                        bindings[key].onSet = function (value) {
                             var ret = this.onSet(value);
                             return ret;
                         };
@@ -8190,27 +8114,27 @@
                 return this;
             },
     
-            postRender: function() {
+            postRender: function () {
     
             },
     
-            updateTemplate: function() {
+            updateTemplate: function () {
                 var template = this.template || M.TemplateManager.get(this._type);
                 this._assignTemplate(template);
                 this._updateChildViewsTemplate();
                 return this;
             },
     
-            _updateChildViewsTemplate: function() {
+            _updateChildViewsTemplate: function () {
     
-                if( !this.childViews ) {
+                if (!this.childViews) {
                     return;
                 }
-                _.each(this.childViews, function( child ) {
-                    if( typeof child.updateTemplate === 'function' ) {
+                _.each(this.childViews, function (child) {
+                    if (typeof child.updateTemplate === 'function') {
                         child.updateTemplate();
-                    } else if( _.isArray(child) ) {
-                        _.each(child, function( c ) {
+                    } else if (_.isArray(child)) {
+                        _.each(child, function (c) {
                             c.updateTemplate();
                         });
                     }
@@ -8219,15 +8143,87 @@
                 return this;
             },
     
-            addChildView: function( selector, view ) {
-                if( _.isObject(selector) ) {
-                    _.each(selector, function( view, selector ) {
-                        this.childViews[selector] = view;
-                    }, this);
+            /**
+             * Sets an childview to the given selector. If it doesn't exist it gets created.
+             * @param selector
+             * @param view
+             */
+            setChildView: function (selector, view) {
+    
+                if (!this.childViews[selector]) {
+                    this.addChildView(selector, view);
                 } else {
                     this.childViews[selector] = view;
                 }
     
+            },
+    
+            /**
+             * Gets an childview by the given selector. If it doesn't exist it retuns null.
+             * @param selector
+             * @param {M.View}
+             */
+            getChildView: function (selector) {
+                if (this.childViews[selector]) {
+                    return this.childViews[selector];
+                }
+                return null;
+            },
+    
+            /**
+             * adds a childview to the view.
+             * @param {String} selector - the selector to identify in which childview container the view should be added
+             * @param {M.View} the view that should be added
+             */
+            addChildView: function (selector, view) {
+                if (_.isObject(selector)) {
+                    // this can be an object if the you use it as addChildViews function
+                    /**
+                     * @example
+                     *
+                     * var children = {
+                     *  b1: M.View.extend(),
+                     *  b2: M.View.extend()
+                     * };
+                     *
+                     * M.View.create().addChildView(children);
+                     *
+                     */
+                    _.each(selector, function (view, selector) {
+                        this._mergeChildView(selector, view);
+                    }, this);
+                } else {
+                    return this._mergeChildView(selector, view);
+                }
+                return this;
+            },
+    
+            /**
+             * Appends a child view to the given selector. If there is already a childview for the given selector, create an array an add the old and the new one.
+             * @param {String} selector - the selector to identify in which childview container the view should be added
+             * @param {M.View} the view that should be added
+             * @private
+             */
+            _mergeChildView: function (selector, view) {
+                if (!(_.isString(selector)) || !(M.isView(view))) {
+                    return void 0;
+                }
+    
+                var existingChildViews = this.childViews[selector];
+    
+                if (_.isArray(existingChildViews)) {
+                    existingChildViews.push(view);
+                } else if (_.isObject(existingChildViews)) {
+                    var container = [];
+                    container.push(existingChildViews);
+                    container.push(view);
+                    this.childViews[selector] = container;
+                    container = null;
+                } else {
+                    this.childViews[selector] = view;
+                }
+    
+                return this;
             },
     
             /**
@@ -8253,7 +8249,7 @@
              * //Log again
              * getEventListeners(view.el); //Object {touchstart: Array[1], mousedown: Array[1]}
              */
-            _unbindEvent: function( eventtype ) {
+            _unbindEvent: function (eventtype) {
                 this._hammertime.off(eventtype, this._eventCallback[eventtype]);
             },
     
@@ -8276,9 +8272,9 @@
              * testView._getChildView('child2');  //child2
              * testView._getChildView('child2');  //child2
              */
-            _getChildView: function( identifier ) {
+            _getChildView: function (identifier) {
                 var ident = parseInt(identifier, 10);
-                if( !_.isNaN(ident) ) {
+                if (!_.isNaN(ident)) {
                     identifier = ident;
                 }
                 var childName = _.isNumber(identifier) ? Object.keys(this.childViews)[identifier] : identifier;
@@ -8299,14 +8295,58 @@
              * }
              *
              */
-            _getInternationalizedTemplateValue: function( text ) {
-                if( M.isI18NItem(text) ) {
+            _getInternationalizedTemplateValue: function (text) {
+                if (M.isI18NItem(text)) {
                     return M.I18N.l(text.key, text.placeholder);
-                } else if( text ) {
+                } else if (text) {
                     return text;
                 } else {
                     return '';
                 }
+            },
+    
+            /**
+             * Gets called if the view is visible in the dom. Typical usage is the calculaction of the widht or height.
+             * Calls for the same function for every child view and then the attachToDom for a user
+             * @private
+             */
+            _getsVisible: function () {
+                this._childViewsGetsVisible();
+                this.getsVisible();
+            },
+    
+            /**
+             * Gets called if the view is visible in the dom. Typical usage is the calculaction of the widht or height
+             */
+            getsVisible: function () {
+    
+            },
+    
+            /**
+             * Calls _attachedToDom on every childView
+             * @private
+             */
+            _childViewsGetsVisible: function () {
+                _.each(this.childViews, function (child) {
+                    child._getsVisible();
+                }, this);
+            },
+    
+            /**
+             * Getter for the parent view
+             * @returns {M.View}
+             * @example
+             * var parent = M.View.extend({},
+             {
+                 c1: M.View.extend({})
+             }).create();
+    
+             parent.childViews.c1.getParent() === parent //true
+             *
+             *
+             */
+            getParent: function () {
+                return this._parentView;
             }
     
         });
@@ -8317,11 +8357,17 @@
          * @param childViews
          * @returns {*}
          */
-        M.View.extend = function( options, childViews ) {
+        M.View.extend = function (options, childViews) {
             options = options || {};
-            if( childViews ) {
+    
+            if (childViews) {
                 options._childViews = childViews;
             }
+    
+            if (options.childViews) {
+                options._childViews = options.childViews;
+            }
+    
             return Backbone.View.extend.apply(this, [options]);
         };
     
@@ -8330,28 +8376,36 @@
          * @param scope
          * @returns {this}
          */
-        M.View.create = function( scope, childViews, isScope ) {
+        M.View.create = function (scope, childViews, isScope) {
     
             var _scope = isScope || M.isController(scope) ? {scope: scope} : scope;
     
             var f = new this(_scope);
             f.childViews = {};
-            if( f._childViews ) {
-                _.each(f._childViews, function( childView, name ) {
+            if (f._childViews) {
+                _.each(f._childViews, function (childView, name) {
                     var _scope = scope;
-                    if( f.useAsScope === YES ) {
+                    if (f.useAsScope === YES) {
                         _scope = f;
     
                     }
                     f.childViews[name] = childView.create(_scope || f, null, true);
+                    // set the this as parentView in the current childView
+                    f.childViews[name]._parentView = f;
                 });
             }
-            if( childViews ) {
+            if (childViews) {
                 f.childViews = f.childViews || {};
-                _.each(childViews, function( childView, name ) {
+                _.each(childViews, function (childView, name) {
                     f.childViews[name] = childView;
+                    // set the this as parentView in the current childView
+                    f.childViews[name]._parentView = f;
                 });
             }
+    
+            // set the value of the childview to this value
+            f._setChildViewValue(f._getValue());
+    
             return f;
         };
     
@@ -8389,7 +8443,7 @@
         childViews: {},
     
         applyViews: function() {
-    
+            this._getsVisible();
         },
     
         _attachToDom: function() {
@@ -8402,6 +8456,11 @@
     
         startTransition: function() {
             M.PageTransitions.startTransition();
+            this._getsVisible();
+        },
+    
+        isAnimating: function() {
+            return M.PageTransitions.isAnimating();
         },
     
         destroy: function() {
@@ -8526,7 +8585,7 @@
                     placeholder: 'clear me',
                     //icon: 'fa-dot-circle-o',
                     value: M.Model.create({
-                        _value_: ''
+                        value: ''
                     })
                 })
      *
@@ -8563,7 +8622,9 @@
         /**
          * the template of the input
          */
-        _template: _.tmpl(M.TemplateManager.get('TextfieldView')),
+        _template: null, //_.tmpl(M.TemplateManager.get('TextfieldView')),
+    
+        _templateString: M.TemplateManager.get('textfield.ejs'),
     
         /**
          * If the type of the view is 'clear' use a custom text delete element
@@ -8571,12 +8632,17 @@
         _useCustomClear: NO,
     
         /**
+         *
+         */
+        useCustomClear: NO,
+    
+        /**
          * Initialize the TextfieldView
          */
         initialize: function( options ) {
-            if( this.type === 'clear' || options.type === 'clear' ) {
+            if( this.type === 'clear' || options.type === 'clear' || this.useCustomClear  ) {
                 //override the type to a html tag attribute - the type gets passed to the template
-                this.type = 'text';
+                this.type = this.type || 'text';
                 // to check if the type of the object was from type 'clear' set _useCustomClear to true
                 this._useCustomClear = YES;
             }
@@ -8602,7 +8668,7 @@
                     val = '';
                 }
                 value = M.Model.create({
-                    _value_: val
+                    value: val
                 });
             }
             // ensure that the value of a textfield is a model
@@ -8616,7 +8682,7 @@
             // the possition of the icon
             this.cssClass = this.cssClass || 'right';
             // if there is a default value show the icon
-            if( this.getValue()._value_ === '' ) {
+            if( this.getValue().value === '' ) {
                 this.cssClass += ' hidden-icon';
             }
             // toggle the icon when a value is set or empty
@@ -8702,12 +8768,19 @@
                 // add the clear functionality
                 this.$el.find('i').on('click', function() {
                     // set the value empty...
-                    that.value.set('_value_', '');
+                    that.value.set('value', '');
                     // and hide the clear icon
                     that.$el.addClass('hidden-icon');
                 });
             }
             return this;
+        },
+    
+        _extendTemplate: function(){
+            if( this.extendTemplate ) {
+                console.warn('Extend the Template of a M.TextFieldView is possible but be aware that the value attribute of the input is set with this string. Otherwise overwrite _templateString.');
+            }
+            M.View.prototype._extendTemplate.apply(this, arguments);
         },
     
         /**
@@ -8738,7 +8811,7 @@
     
         placeholder: 'Search',
     
-        _template: _.tmpl(M.TemplateManager.get('SearchfieldView')),
+        _templateString: M.TemplateManager.get('searchfield.ejs'),
     
         initialize: function () {
             M.View.prototype.initialize.apply(this);
@@ -8763,7 +8836,7 @@
     
         _type: 'M.TextareaView',
     
-        _template: _.tmpl(M.TemplateManager.get('TextareaView')),
+        _templateString: M.TemplateManager.get('textarea.ejs'),
     
         _attachToDom: function () {
             return YES;
@@ -8791,7 +8864,7 @@
          * The template of the view
          *
          */
-        _template: _.tmpl(M.TemplateManager.get('ListItemView')),
+        _templateString: M.TemplateManager.get('listitem.ejs'),
     
         /**
          * The type of the listitem. Default is 'basic' and just displays the value
@@ -8830,24 +8903,27 @@
     
                         grid: 'col-xs-12',
     
-                        _value_: M.Collection.create([
-                            {_value_: 'Android'},
-                            {_value_: 'Linux'},
-                            {_value_: 'Apple'},
-                            {_value_: 'Windows'}
+                        value: M.Collection.create([
+                            {value: 'Android'},
+                            {value: 'Linux'},
+                            {value: 'Apple'},
+                            {value: 'Windows'}
                         ]),
     
                         listItemView: M.ListItemView.extend({
                             type: M.ListItemView.CONS.ICON,
                             getIcon: function() {
-                                return 'fa-' + this.model.get('_value_').toLocaleLowerCase();
+                                return 'fa-' + this.model.get('_value').toLocaleLowerCase();
                             }
                         })
     
                     })
          */
         getIcon: function() {
-            return this.model.get('icon') || this.icon;
+            if(this.model){
+                return this.model.get('icon');
+            }
+            return this.icon;
         },
     
         /**
@@ -8861,11 +8937,7 @@
             }
     
             if( this.type === M.ListItemView.CONST.LINKED || this.type === M.ListItemView.CONST.ICON ) {
-                this.template = _.tmpl(M.TemplateManager.get('ListItemViewLinked'));
-            }
-    
-            if( this.templateExtend ) {
-                this.template = _.tmpl(this.template({value: this.templateExtend}));
+                this.template = _.tmpl(M.TemplateManager.get('listitemlinked.ejs'));
             }
         },
     
@@ -8881,6 +8953,10 @@
             if( this.enabled === NO && this.disable ) {
                 this.disable();
             }
+        },
+    
+        _renderChildViewToDom: function(dom, child) {
+            this._appendToDom(dom.find('li'), child.render().$el);
         }
     
     }).implements([M.ActiveState, M.ViewEnableState]);
@@ -8916,7 +8992,7 @@
          * The template of the object before initializing it.
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get('ButtonView')),
+        _templateString: M.TemplateManager.get('button.ejs'),
     
         /**
          * The active state of the button. Use isActive and setActive to change this property.
@@ -8929,6 +9005,11 @@
          * @type {Boolean}
          */
         enabled: YES,
+    
+        initialize:function(){
+            this.value = this.value || '';
+            M.View.prototype.initialize.apply(this, arguments);
+        },
     
         _assignTemplateValues: function() {
             M.View.prototype._assignTemplateValues.apply(this, arguments);
@@ -8976,88 +9057,510 @@
      *
      * @type {*}
      * @extends M.View
+     * @example
+     * M.ListView.extend({
+    
+                        value: M.Collection.create([
+                            {lastname: 'black', firstname: 'anton', header: true},
+                            {lastname: 'müller', firstname: 'aron'},
+                            {lastname: 'müller', firstname: 'absinthe', footer: true},
+                            {lastname: 'akkerman', firstname: 'bernhard', header: true, footer: true},
+                            {lastname: 'kewlman', firstname: 'coolio', header: true, footer: true},
+                            {lastname: 'null', firstname: 'druk', header: true},
+                            {lastname: 'bender', firstname: 'dirk',footer: true},
+                            {lastname: 'false', firstname: 'eric', header: true},
+                            {lastname: 'drop table *;', firstname: 'erico', header: true, footer: true}
+                        ]),
+    
+                        getListItemHeader: function(model, index){
+                            if(model.get('header')){
+                                return M.ListItemView.extend({
+                                    cssClass: 'listHeader',
+                                    value: 'Start: ' + model.get('firstname').slice(0,1).toUpperCase(),
+                                    enabled: NO
+                                });
+                            }
+                        },
+    
+                        getListItemFooter: function(model, index){
+                            if(model.get('footer')){
+                                return M.ListItemView.extend({
+                                    cssClass: 'listFooter',
+                                    value: 'End: ' + model.get('firstname').slice(0,1).toUpperCase(),
+                                    enabled: NO
+                                });
+                            }
+                        },
+    
+                        getListItem: function(model, index){
+    
+                            var cssClass = 'even';
+                            if(index % 2){
+                                cssClass = 'odd'
+                            }
+                            return M.ListItemView.extend({
+                                cssClass: cssClass,
+                                childViews: {
+                                    firstname: M.View.extend({
+                                        useParentValue: YES,
+                                        extendTemplate: '<%= firstname %>'
+                                    }),
+                                    lastname: M.View.extend({
+                                        useParentValue: YES,
+                                        extendTemplate: '<%= lastname %>'
+                                    })
+                                }
+                            });
+                        }
+                    });
+    
+     // SortBy Example:
+    
+     var collection = M.Collection.create([
+     {lastname: 'black', firstname: 'anton'},
+     {lastname: 'müller', firstname: 'aron'},
+     {lastname: 'müller', firstname: 'absinthe'},
+     {lastname: 'akkerman', firstname: 'bernhard'},
+     {lastname: 'kewlman', firstname: 'coolio'},
+     {lastname: 'null', firstname: 'druk'},
+     {lastname: 'bender', firstname: 'dirk'},
+     {lastname: 'false', firstname: 'eric'},
+     {lastname: 'drop table *;', firstname: 'erico'}
+     ]);
+    
+     var testView = M.ListView.extend({
+    
+                value: collection,
+    
+                filterBy: function(model) {
+    
+                    if(this.getFilterValue() === true){
+                        return true;
+                    }
+                    var val = this.getFilterValue();
+                    if(model.get('firstname').indexOf(val.val) >= 0 || model.get('lastname').indexOf(val.val)  >= 0){
+                        return true;
+                    }
+    
+                    return false;
+                },
+    
+                getListItem: function( model, index ) {
+                    return M.ListItemView.extend({
+                        childViews: {
+                            firstname: M.View.extend({
+                                useParentValue: YES,
+                                extendTemplate: '<%= firstname %>'
+                            }),
+                            lastname: M.View.extend({
+                                useParentValue: YES,
+                                extendTemplate: '<%= lastname %>'
+                            })
+                        }
+                    });
+                }
+            }).create().render();
+     // display only the first entry
+     testView.filter({val: 'anton'});
+     // display all
+     testView.filter();
+     // or
+     testView.setFilterValue(true);
+     testView.filter();
+     *
+     *
      */
     M.ListView = M.View.extend({
+    
+    
+        /**
+         * The type of the view
+         * @type {String}
+         * @private
+         */
         _type: 'M.ListView',
     
+        /**
+         * A map to access the view with the model cid
+         * @type {Object}
+         * @private
+         */
         _viewModelMapping: null,
     
-        _template: _.tmpl(M.TemplateManager.get('ListView')),
     
-        _render: function () {
-            M.View.prototype._render.apply(this, arguments);
-        },
+        /**
+         * The template of the view
+         * @type {function}
+         * @private
+         */
+        _template: null,
     
-        _renderChildViews: function () {
-            if (this.collection) {
-                this.addItems(this.collection.models);
+        /**
+         * The template blueprint of the view
+         * @type {String}
+         * @private
+         */
+        _templateString: M.TemplateManager.get('list.ejs'),
+    
+        /**
+         * The blueprint for every list item. Overwrite the property with a view prototype to display every list entry with this object.
+         * @type {function}
+         */
+        listItemView: null,
+    
+    
+        /**
+         * The childViews of a list are the items therefore the renderChildViews implements its own add strategie
+         * @private
+         * @returns {M.ListView}
+         */
+        _renderChildViews: function() {
+            if( this.collection ) {
+                // add all models to the view
+                this._renderItems(this.collection.filter(this.filterBy, this));
             }
+            // TODO: evaluate this:
+            //        else if(this.getValue()) {
+            //            this._renderItems(this.collection.filter(this.filterBy, context));
+            //        }
+            return this;
         },
     
-        initialize: function () {
+        /**
+         * The initialization of the view
+         * @returns {M.ListView}
+         */
+        initialize: function() {
+            // call super
             M.View.prototype.initialize.apply(this, arguments);
-    
-            if (this.collection) {
+            // if there is a collection add collection listener
+            if( this.collection ) {
                 this._applyListener();
             }
+            // initialize the mapping to cache the access to a view
             this._viewModelMapping = {};
+            return this;
         },
     
-        _applyListener: function () {
-    
-    
-            this.listenTo(this.collection, 'add', function (model) {
-                //console.log('add');
-                this.addItem(model);
+        /**
+         * Adds listeners 'add', 'fetch, 'change', 'remove' and 'sort'for the collection.
+         * @private
+         * @returns {M.ListView}
+         */
+        _applyListener: function() {
+            this.listenTo(this.collection, 'add', function( model ) {
+                // add an item to the view
+                this._renderEntry(model);
             });
     
-            this.listenTo(this.collection, 'fetch', function () {
-                //console.log('fetch');
-                //that.addAll();
+            this.listenTo(this.collection, 'fetch', function() {
+                // TODO: implement behavior
             });
-            this.listenTo(this.collection, 'change', function () {
-                //console.log('change!');
-                //that.addAll();
+            this.listenTo(this.collection, 'change', function() {
+                // TODO: implement behavior
             });
-            this.listenTo(this.collection, 'remove', function (model) {
+            this.listenTo(this.collection, 'remove', function( model ) {
                 this._viewModelMapping[model.cid].$el.remove();
             });
     
-            this.listenTo(this.collection, 'filter', function () {
-                //console.log('filter');
-                //this.addItems(models);
+            this.listenTo(this.collection, 'sort', function() {
+                // TODO: implement a better behavior
+                this.render();
             });
     
-            this.listenTo(this.collection, 'sort', function () {
-                //this.addItems(this.collection.models);
-            });
+            return this;
         },
     
-        addItems: function (models) {
-            _.each(models, function (model) {
-                this.addItem(model);
+        /**
+         * renders all items of the view
+         * @param models
+         * @returns {M.ListView}
+         */
+        _renderItems: function( models ) {
+            _.each(models, function( model, index ) {
+                this._renderEntry(model, index);
             }, this);
+            return this;
         },
     
-        addItem: function (model) {
-            var listItemView = null;
-            if (this.listItemView) {
-                listItemView = this.listItemView.create({
-                    scope: this.scope,
-                    value: model
-                });
-            } else {
-                listItemView = M.ListItemView.create({
-                    scope: this.scope,
-                    value: model,
-                    enable: NO
-                });
+        /**
+         * Render a single entry. First render its header then the actual content and then as last a possible footer.
+         * @param model the model of the entry
+         * @param index the index of the entry
+         * @returns {M.ListView}
+         */
+        _renderEntry: function( model, index ) {
+            var row = {
+                header: this._getListItemHeader(model, index),
+                item: this._getListItem(model, index),
+                footer: this._getListItemFooter(model, index)
+            };
+    
+            row = this._renderListItemRow(row);
+            this._cacheListItemRow(row, model.cid);
+            return this;
+        },
+    
+        _renderListItemRow: function( row ) {
+            var rowCopy = {};
+            _.each(row, function( listItemView, ident ) {
+                rowCopy[ident] = this._renderItem(listItemView);
+            }, this);
+            return rowCopy;
+        },
+    
+        _cacheListItemRow: function( listItemRow, identifier ) {
+            this._viewModelMapping[identifier] = listItemRow;
+        },
+    
+        /**
+         * Renders the given view to the list.
+         * @param listItemView
+         * @returns {M.ListItemView|undefined}
+         * @private
+         */
+        _renderItem: function( listItemView ) {
+    
+            // if there is no given view return undefined
+            if( !listItemView ) {
+                return void 0;
+            }
+    
+            if( M.View.prototype.isPrototypeOf(listItemView.prototype) && _.isFunction(listItemView) ) {
+                listItemView = listItemView.create();
             }
     
             listItemView.render();
             this.$el.find('[data-childviews="list"]').append(listItemView.$el);
-            this._viewModelMapping[listItemView.model.cid] = listItemView;
             listItemView.delegateEvents();
+            return listItemView;
+        },
+    
+        /**
+         * Returns a instance of a ListItem. The highest priority has the getListItem getter. then the listItemView property. If nothing is given a M.ListItemView instance gets returned.
+         * @param model
+         * @param index
+         * @returns {M.ListView}
+         * @private
+         */
+        _getListItem: function( model, index ) {
+    
+            // if the getListItem function is implemented return an instance of the view that gets returned from the getListItem function
+            if( _.isFunction(this.getListItem) ) {
+                return this.getListItem(model, index).create({
+                    scope: this.scope,
+                    value: model
+                });
+            }
+    
+            // if the getListItem function is not implemented but the listItemView property return an instance of the listItemView property
+            if( this.listItemView ) {
+                return this.listItemView.create({
+                    scope: this.scope,
+                    value: model
+                });
+            }
+    
+            // if none of the above kicks in return a instance of the ListItemView
+            return M.ListItemView.create({
+                scope: this.scope,
+                value: model,
+                enable: NO
+            });
+        },
+    
+        /**
+         * Overwrite this with a function that gets called for every listItem. Return a View prototype of the content that represents an entry
+         * @param model
+         * @param index
+         * @type {Function}
+         */
+        getListItem: null,
+    
+        /**
+         * Internal call for the list item header
+         * @param model
+         * @param index
+         * @returns {*}
+         * @private
+         */
+        _getListItemHeader: function( model, index ) {
+            // if the user overwrites the getListItemHeader with a function return that
+            if( _.isFunction(this.getListItemHeader) ) {
+                return this.getListItemHeader(model, index);
+            }
+            return this.getListItemHeader;
+        },
+    
+        /**
+         * Overwrite this with a function that gets called for every listItem. Return a View prototype of the content that represents an entry. This will be displayed above the getListItem element.
+         */
+        getListItemHeader: null,
+    
+        /**
+         * Internal call for the list item footer
+         * @param model
+         * @param index
+         * @returns {*}
+         * @private
+         */
+        _getListItemFooter: function( model, index ) {
+            // if the user overwrites the getListItemHeader with a function return that
+            if( _.isFunction(this.getListItemFooter) ) {
+                return this.getListItemFooter(model, index);
+            }
+            return this.getListItemFooter;
+        },
+    
+        /**
+         * Overwrite this with a function that gets called for every listItem. Return a View prototype of the content that represents an entry. This will be displayed below the getListItem element.
+         * @param model
+         * @param index
+         * @type {Function}
+         */
+        getListItemFooter: null,
+    
+        /**
+         * If set to false: apply a filter on a list will only show and hide the given elements. If the property is set to true every listitem gets instanciated (may course velocity issues)
+         * @type {BOOLEAN}
+         */
+        useRenderUpdateFilter: NO,
+    
+        /**
+         * Gets called for every collection entry. Return true to add the entry to the list and false to remove it from the list view
+         * @param model
+         * @returns {*}
+         *
+         */
+        filterBy: function( model ) {
+            return this.getFilterValue();
+        },
+    
+        /**
+         * Creates new instances on every filter
+         * @param filterValue
+         * @returns {*}
+         */
+        _renderUpdateFilter: function( filterValue ) {
+            // empty the current list
+            this.$el.find('[data-childviews="list"]').empty();
+            // render the list items
+            this._renderChildViews();
+            return this;
+        },
+    
+        /**
+         * Toggles hide/show on the DOM element on filter
+         * @param filterValue
+         * @returns {*}
+         */
+        _showHideFilter: function() {
+            // hide the current list
+            this.$el.find('[data-childviews="list"] .listitemview').hide();
+            // array of all elements to show
+            var listItems = this.collection.filter(this.filterBy, this);
+    
+            _.each(listItems, function( model, index ) {
+    
+                // if it is a simple listItemView then just call the show method
+                if( this.listItemView ) {
+                    this._showFilterElement(model.cid);
+                } else {
+                    // if getters and setters are defined get the row. Usually it contains header, item and footer
+                    var row = this._viewModelMapping[model.cid];
+                    // if a getter for the header is defined
+                    if( _.isFunction(this.getListItemHeader) ) {
+                        // call the get header item with the current header view to manipulate it
+                        this.getListItemHeader(model, index, row.header);
+                        // then show it
+                        this._showFilterElement(model.cid, 'header');
+                    }
+                    if( _.isFunction(this.getListItem) ) {
+                        // call the get item with the current item view to manipulate it
+                        this.getListItem(model, index, row.item);
+                        // then show it
+                        this._showFilterElement(model.cid, 'item');
+                    }
+                    if( _.isFunction(this.getListItemFooter) ) {
+                        // call the get footer item with the current footer view to manipulate it
+                        this.getListItemFooter(model, index, row.footer);
+                        // then show it
+                        this._showFilterElement(model.cid, 'footer');
+                    }
+                }
+            }, this);
+        },
+    
+        /**
+         * Gets used if useRenderUpdateFilter is set to true to toggle all hidden list items
+         * @param identifier
+         * @param elementSpecification
+         * @private
+         */
+        _showFilterElement: function( identifier, elementSpecification ) {
+            // if set to header, footer or item
+            if(elementSpecification){
+                // get the view from the cache
+                var view = this._viewModelMapping[identifier];
+                if(view[elementSpecification] && view[elementSpecification].$el){
+                    // show it
+                    view[elementSpecification].$el.show();
+                }
+            } else {
+                // loop over the cached views and show them
+                // this should be the same as:
+                // view.item
+                this._viewModelMapping[identifier].item.$el.show();
+    //            _.each(this._viewModelMapping[identifier], function(view){
+    //                view.$el.show();
+    //            }, this);
+            }
+        },
+    
+        /**
+         * Trigger a filter on the list. This will not effect the collection only the visibility of a list entry
+         * The given filterValue is accessable with the getter: getFilterValue
+         * If this.useRenderUpdateFilter is set to true all list elements are instanciatet per filter call. If the property is set to false the DOM of every elements gets hidden or shown.
+         * @param filterValue
+         * @returns {*}
+         */
+        filter: function( filterValue ) {
+    
+            if(typeof filterValue !== 'undefined'){
+                this.setFilterValue(filterValue);
+            }
+    
+            if( this.useRenderUpdateFilter ) {
+                this._renderUpdateFilter();
+            } else {
+                this._showHideFilter();
+            }
+            return this;
+        },
+    
+        /**
+         * Stores an object to access in the filterBy method.
+         * The value can be set via setFilterValue and get with getFilterValue.
+         */
+        _filterValue: true,
+    
+        /**
+         * Sets the _filterValue property
+         * @param filterValue
+         * @returns {*}
+         */
+        setFilterValue: function( filterValue ) {
+            var val = typeof filterValue === 'undefined' ? YES : filterValue;
+            this._filterValue = val;
+            return this;
+        },
+    
+        /**
+         * Return the _filterValue property
+         * @returns {boolean}
+         */
+        getFilterValue: function() {
+            return this._filterValue;
         }
     });
     // Copyright (c) 2013 M-Way Solutions GmbH
@@ -9072,7 +9575,9 @@
     M.SliderView = M.View.extend({
     
         _type: 'M.SliderView',
-        _template: _.tmpl(M.TemplateManager.get('SliderView')),
+    
+        _templateString: M.TemplateManager.get('slider.ejs'),
+    
         _getEventOptions: function () {
             return {
                 'prevent_default': false,
@@ -9093,8 +9598,8 @@
     M.DialogView = M.View.extend({
     
         _type: 'M.DialogView',
-        _template: _.tmpl(M.TemplateManager.get('DialogView'))
     
+        _templateString: M.TemplateManager.get('dialog.ejs')
     
     });
     // Copyright (c) 2013 M-Way Solutions GmbH
@@ -9110,7 +9615,7 @@
     
         _type: 'M.ToggleView',
     
-        _template: _.tmpl(M.TemplateManager.get('ToggleView')),
+        _templateString: M.TemplateManager.get('toggle.ejs'),
     
         initialize: function () {
             M.View.prototype.initialize.apply(this, arguments);
@@ -9138,7 +9643,8 @@
     M.ImageView = M.View.extend({
     
         _type: 'M.ImageView',
-        _template: _.tmpl(M.TemplateManager.get('ImageView')),
+    
+        _templateString: M.TemplateManager.get('image.ejs'),
     
         /**
          * Represents the alt attribute of the img tag
@@ -9160,12 +9666,14 @@
     
             M.View.prototype._assignTemplateValues.apply(this, arguments);
     
+            var _value = this._getValue();
+    
             if (this.model) {
-                if (M.isModel(this._value_)) {
+                if (M.isModel(_value)) {
                 } else {
                     this._templateValues.alt = this.model.get(this.alt.attribute);
                 }
-            } else if (this._value_ || typeof this._value_ === 'string') {
+            } else if (_value || typeof _value === 'string') {
                 this._templateValues.alt = this.alt;
             }
             return this;
@@ -9193,7 +9701,7 @@
          * the template of the toast
          *
          */
-        template: '<div class="toast"><div id="<%= id %>"><%= text %></div></div>',
+        _templateString: M.TemplateManager.get('toast.ejs'),
     
         /**
          * the id of the toast
@@ -9258,10 +9766,11 @@
      * @param {Number} milliseconds to show the toast
      * @returns {M.Toast}
      */
-    M.Toast.show = function( options ) {
+    M.Toast.show = function( options, timeout ) {
         if( typeof options === 'string' ) {
             options = {
-                text: options
+                text: options,
+                timeout: timeout
             };
         }
     
@@ -9324,7 +9833,7 @@
          * @private
          * @type {function}
          */
-        _template: _.tmpl(M.TemplateManager.get('ToolbarView'))
+        _templateString: M.TemplateManager.get('toolbar.ejs')
     
     });
     // Copyright (c) 2013 M-Way Solutions GmbH
@@ -9342,7 +9851,7 @@
     
         isMultiple: NO,
     
-        template: M.TemplateManager.get('SelectView'),
+        _templateString: M.TemplateManager.get('select.ejs'),
     
         _assignBinding: function () {
             M.View.prototype._assignBinding.apply(this, arguments);
@@ -9371,7 +9880,7 @@
     
         _type: 'M.ButtonGroupView',
     
-        _template: _.tmpl(M.TemplateManager.get('ButtonGroupView')),
+        _templateString: M.TemplateManager.get('buttongroup.ejs'),
     
         _internalCssClasses: 'clearfix',
     
@@ -9458,8 +9967,11 @@
      * @extends M.View
      */
     M.TabView = M.View.extend({
+    
         _type: 'M.TabView',
+    
         cssClass: 'm-page m-tab'
+    
     });
     // Copyright (c) 2013 M-Way Solutions GmbH
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
@@ -9483,6 +9995,8 @@
          * @private
          */
         _template: null,
+    
+        _templateString: null,
     
         /**
          * The template of an option before initializing it.
@@ -9523,7 +10037,7 @@
                 _.each(this.selectOptions.collection, function (value) {
                     dom += this._optionTemplate({
                         name: this.cid + '-option',
-                        _value_: value[this.selectOptions.valuePath || 'value'],
+                        value: value[this.selectOptions.valuePath || 'value'],
                         label: value[this.selectOptions.labelPath || 'label']
                     });
                 }, this);
@@ -9576,13 +10090,13 @@
          * The template of the object before initializing it.
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get('RadiolistView')),
+        _templateString: M.TemplateManager.get('radiolist.ejs'),
     
         /**
          * The template of an option before initializing it.
          * @private
          */
-        _optionTemplate: _.tmpl(M.TemplateManager.get('RadioOptionView')),
+        _optionTemplate: _.tmpl(M.TemplateManager.get('radiooption.ejs')),
     
         /**
          * Selector name which is used internally to determine the parent dom element.
@@ -9614,9 +10128,9 @@
          * The template of the object before initializing it.
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get('CheckboxlistView')),
+        _templateString: M.TemplateManager.get('checkboxlist.ejs'),
     
-        _optionTemplate: _.tmpl(M.TemplateManager.get('CheckboxOptionView')),
+        _optionTemplate: _.tmpl(M.TemplateManager.get('checkboxoption.ejs')),
     
         _optionsContainer: 'checkbox'
     
@@ -9624,195 +10138,6 @@
     
     
     
-    // Copyright (c) 2013 M-Way Solutions GmbH
-    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
-    
-    /**
-     * The default label value for M.ToggleSwitch off state
-     * @type {string}
-     * @constant
-     */
-    M.TOGGLE_SWITCH_OFF = 'off';
-    /**
-     * The default label value for M.ToggleSwitch on state
-     * @type {string}
-     * @constant
-     */
-    M.TOGGLE_SWITCH_ON = 'on';
-    
-    /**
-     * @module M.ToggleSwitchView
-     *
-     * @type {*}
-     * @extends M.View
-     * @example
-     *
-     * var scope = {
-                person: M.Model.create({
-                    name: 'egon',
-                    birthday: '1383751054966',
-                    favorite: NO
-                })
-            };
-    
-     var toggleSwitch = M.ToggleSwitchView.extend({
-                scopeKey: 'person.favorite',
-                onValue: YES,
-                offValue: NO,
-                onLabel: 'on',
-                offLabel: 'off'
-            }).create(scope, null, true);
-     *
-     */
-    M.ToggleSwitchView = M.View.extend({
-    
-        /**
-         * The type of the view
-         * @type {string}
-         * @private
-         */
-        _type: 'M.ToggleSwitchView',
-    
-        /**
-         * The Template of the view before initializing it
-         * @type function
-         * @param {object} _templateValues
-         * @private
-         */
-        _template: _.tmpl(M.TemplateManager.get('ToggleSwitchView')),
-    
-        /**
-         * The container to put the options in
-         * @private
-         */
-        _optionsContainer: 'toggleswitch',
-    
-        /**
-         * The value of the on state
-         * @default
-         * @type {*}
-         */
-        onValue: YES,
-    
-        /**
-         * The value of the off state
-         * @default
-         * @type {*}
-         */
-        offValue: NO,
-    
-        /**
-         * The label on the view of the on state
-         * @default
-         * @type {string}
-         */
-        onLabel: M.TOGGLE_SWITCH_ON,
-    
-        /**
-         * The label on the view of the off state
-         * @default
-         * @type {string}
-         */
-        offLabel: M.TOGGLE_SWITCH_OFF,
-    
-        /**
-         * Use stickit to bind the values like it is done in the M.SelectionListView
-         * @private
-         */
-        selectOptions: null,
-    
-        /**
-         * Clear the floating
-         * @default
-         * @type {string}
-         * @private
-         */
-        _internalCssClasses: 'clear',
-    
-        /**
-         * Add all the template values
-         * @private
-         */
-        _assignTemplateValues: function () {
-            M.View.prototype._assignTemplateValues.apply(this, arguments);
-            this._addLabelToTemplateValues();
-            this._addOnLabelToTemplateValues();
-            this._addOffLabelToTemplateValues();
-    
-        },
-    
-        /**
-         * Initialize the View.
-         * Before the View gets initialized add stickit support
-         * @param options
-         */
-        initialize: function (options) {
-            this._setSelectOptions();
-            M.View.prototype.initialize.apply(this, arguments);
-            if (this.getValue() === null) {
-                this._setValue(this.offValue);
-            }
-        },
-    
-        /**
-         * Use intern the stickit API.
-         * @private
-         */
-        _setSelectOptions: function () {
-            this.selectOptions = {
-                collection: []
-            };
-        },
-    
-        /**
-         * @private
-         * @returns {Object} returns onValue if the the value equals onValue or onLabel otherwise offValue
-         */
-        onGet: function () {
-            var val = this.getValue();
-            if (val === this.onValue || val === this.onLabel) {
-                return this.onValue;
-            } else {
-                return this.offValue;
-            }
-        },
-    
-        /**
-         * @private
-         * @returns {Object} returns onValue if checked or if unchecked the offValue
-         */
-        onSet: function () {
-            if (this.$el.find('input').prop('checked')) {
-                return this.onValue;
-            } else {
-                return this.offValue;
-            }
-        },
-    
-        /**
-         * Gets a internationalized version of the label and add this to the templateValues
-         * @private
-         */
-        _addLabelToTemplateValues: function () {
-            this._templateValues.label = this._getInternationalizedTemplateValue(this.label);
-        },
-    
-        /**
-         * Gets a internationalized version of the label and add this to the templateValues
-         * @private
-         */
-        _addOnLabelToTemplateValues: function () {
-            this._templateValues.onLabel = this.onLabel || M.TOGGLE_SWITCH_ON;
-        },
-    
-        /**
-         * Gets a internationalized version of the label and add this to the templateValues
-         * @private
-         */
-        _addOffLabelToTemplateValues: function () {
-            this._templateValues.offLabel = this.offLabel || M.TOGGLE_SWITCH_OFF;
-        }
-    });
     // Copyright (c) 2013 M-Way Solutions GmbH
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
@@ -9844,7 +10169,7 @@
          * The template of the object before initializing it.
          * @private
          */
-        _template: _.tmpl(M.TemplateManager.get('ModalView')),
+        _templateString: M.TemplateManager.get('modal.ejs'),
     
         /**
          * Determines if the modal is shown or not. Access it by calling isShown()
@@ -9866,6 +10191,11 @@
          * @type {$}
          */
         _$backdrop: null,
+    
+        /**
+         * Is set to true on show. If the hide is called before the transition ends and _backdropWillAppear is set to false the backdrop gets hidden immediately
+         */
+        _backdropWillAppear: NO,
     
         /**
          * Register internal events for this view.
@@ -9951,8 +10281,14 @@
             that._$backdrop.appendTo('body');
     
             if( M.Animation.transitionSupport ) {
+                that._backdropWillAppear = YES;
+                that._$backdrop.on(M.Animation.transitionEndEventName, function() {
+                    that._backdropWillAppear = NO;
+                });
                 setTimeout(function() {
-                    that._$backdrop.addClass('in');
+                    if( that._$backdrop ) {
+                        that._$backdrop.addClass('in');
+                    }
                 }, 0);
             }
         },
@@ -9964,16 +10300,19 @@
         _hideBackdrop: function() {
             var that = this;
             var callback = function() {
-                if(that._$backdrop) {
+                if( that._$backdrop ) {
                     that._$backdrop.remove();
                     that._$backdrop = null;
+                    that._backdropWillAppear = NO;
                 }
             };
             if( that._$backdrop ) {
-                if( M.Animation.transitionSupport ) {
+                if( M.Animation.transitionSupport && that._backdropWillAppear === NO ) {
                     that._$backdrop.on(M.Animation.transitionEndEventName, callback);
-                    setTimeout(function(){
-                        that._$backdrop.removeClass('in');
+                    setTimeout(function() {
+                        if( that._$backdrop ) {
+                            that._$backdrop.removeClass('in');
+                        }
                     }, 0);
                 } else {
                     callback();
@@ -10061,7 +10400,7 @@
              * @private
              * @type {function}
              */
-            _template: _.tmpl(M.TemplateManager.get('LoaderView')),
+            _templateString: M.TemplateManager.get('loader.ejs'),
     
             /**
              * This function needs to be implemented to render the view if there is no value given
@@ -10130,7 +10469,7 @@
         /**
          * the template of the input
          */
-        _template: _.tmpl(M.TemplateManager.get('TextView')),
+        _templateString: M.TemplateManager.get('text.ejs'),
     
         /**
          * Add all the template values
@@ -10180,17 +10519,21 @@
     M.DebugView = M.View.extend({
     
         _type: 'M.DebugView',
-        _template: _.tmpl(M.TemplateManager.get('DebugView')),
+    
+        _templateString: M.TemplateManager.get('debug.ejs'),
+    
         _debugViewIsHidden: YES,
+    
         cssClass: 'bg',
+    
         useAsScope: YES,
     
-        initialize: function () {
+        initialize: function() {
             M.View.prototype.initialize.apply(this, arguments);
             this._addShakeEvent();
         },
     
-        hide: function(){
+        hide: function() {
             this._debugViewIsHidden = YES;
             this.$el.hide();
         },
@@ -10211,22 +10554,22 @@
             }
         },
     
-        toggleGrid: function () {
+        toggleGrid: function() {
             this.$el.toggleClass('bg');
             this.childViews['debug-grid'].$el.toggle();
         },
     
-        androidLightTheme: function(){
+        androidLightTheme: function() {
             this.resetTheme();
             $('html').addClass('android-light');
         },
     
-        iosTheme: function(){
+        iosTheme: function() {
             this.resetTheme();
             $('html').addClass('ios');
         },
     
-        resetTheme: function(){
+        resetTheme: function() {
             $('html').removeClass('android').removeClass('android-light').removeClass('android-dark').removeClass('ios');
         },
     
@@ -10273,13 +10616,732 @@
             useElement: YES,
             template: (function() {
                 var tpl = '<div class="debug-container"><div class="debug-grid col-xs-12"><div class="row">';
-                for(var i=0; i < 12; i++) {
+                for( var i = 0; i < 12; i++ ) {
                     tpl += '<div class="col-xs-1"><div class="inner"></div></div>';
                 }
                 tpl += '</div></div></div>';
                 return tpl;
             })()
         })
+    });
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
+    /**
+     * M.MovableView inherits from M.View
+     * @module M.MovableView
+     *
+     * @type {*}
+     * @extends M.View
+     */
+    M.MovableView = M.View.extend({
+    
+        /**
+         * The type of the object
+         * @private
+         */
+        _type: 'M.MovableView',
+    
+        /**
+         * The template of the object before initializing it.
+         * @private
+         */
+        _templateString: M.TemplateManager.get('movable.ejs'),
+    
+        leftEdge: 0,
+    
+        duration: 1000,
+    
+        /**
+         * The right border to stop the moveable item
+         */
+        rightEdge: null,
+    
+        /**
+         * The right border to stop the moveable item used internal
+         */
+        _rightEdge: null,
+    
+    
+        /**
+         * Save the last position of the moveable element after the user releases the moveable element
+         * x: the x position absolute to the window
+         * y: the y position absolute to the window
+         * deltay: the difference from the draging startpoint on the x axis
+         * deltaY: the difference from the draging startpoint on the y axis
+         * @type {Object}
+         * @private
+         */
+        _lastPos: {
+            x: 0,
+            y: 0,
+            deltaX: 0,
+            deltaY: 0,
+            direction: ''
+        },
+    
+        /**
+         * Save the current position for every move of the moveable element
+         * x: the x position absolute to the window
+         * y: the y position absolute to the window
+         * deltay: the difference from the draging startpoint on the x axis
+         * deltaY: the difference from the draging startpoint on the y axis
+         * @type {Object}
+         * @private
+         */
+        _currentPos: {
+            x: 0,
+            y: 0,
+            deltaX: 0,
+            deltaY: 0,
+            direction: ''
+        },
+    
+        /**
+         * The widht of the moveable item. To calculate the edge of the moveable element
+         * @type {Number|String}
+         * @private
+         */
+        _movableWidth: null,
+    
+        /**
+         * The width of the container. To calculate the edge of the moveable element
+         * @type {Number|String}
+         * @private
+         */
+    
+        _containerWidth: null,
+    
+        /**
+         * DOM that should be moved
+         * @type {jQuery DOM Object}
+         */
+        _$movableContent: null,
+    
+        /**
+         * Determines if there is a current animation
+         * @private
+         */
+        _isAnimating: NO,
+    
+        initialize: function() {
+            M.View.prototype.initialize.apply(this, arguments);
+            this.leftEdge = this.leftEdge || 0;
+            // if the right edge was defined by the user set it, otherwise initialize it in _setDimensions
+        },
+    
+        _postRender: function() {
+            M.View.prototype._postRender.apply(this, arguments);
+            this._$movableContent = this._getMovableContent();
+        },
+    
+        _getsVisible: function() {
+            M.View.prototype._getsVisible.apply(this, arguments);
+            this.toLeft();
+            this.setDimensions();
+        },
+    
+        /**
+         * Drag and TouchEnd are registered for the Movable-Element
+         * @type {Object}
+         * @private
+         */
+        _internalEvents: {
+            dragright: function( event, element ) {
+                // call the drag method of M.MovableView
+                element._drag(event, element);
+            },
+    
+            dragleft: function( event, element ) {
+                // call the drag method of M.MovableView
+                element._drag(event, element);
+            },
+    
+            touchend: function( event, element ) {
+                // call the touchend method of M.MovableView
+                element._touchEnd(event, element);
+            },
+    
+            mouseup: function( event, element ) {
+                // call the touchend method of M.MovableView
+                element._touchEnd(event, element);
+            }
+        },
+    
+        /**
+         * Get called on every touch move of the moveable element. Calculates the position of the element and calls the move method to the calculated points
+         * @param event
+         * @private
+         */
+        _drag: function( event ) {
+            var position = {};
+            // the last position of the last touchend added with the current moved distance
+            position.x = this._lastPos.x + event.gesture.deltaX;
+            // cache the delta
+            position.deltaX = event.gesture.deltaX;
+            position.direction = this._currentPos.deltaX > event.gesture.deltaX ? Hammer.DIRECTION_LEFT : Hammer.DIRECTION_RIGHT;
+            // move the element
+            this._move(position);
+        },
+    
+        /**
+         * /**
+         * Get called on every touchend / after every drag to store the last point of the element for further calculations on the next drag start.
+         * @private
+         */
+        _touchEnd: function( event, element ) {
+    
+            if( event.target !== this._$movableContent[0] && !this.$el.hasClass('on-move') ) {
+                return;
+            }
+    
+            // check the boundaries
+            if( this._currentPos.x < this.leftEdge ) {
+                // set the left edge of the element to the left edge of the container
+                this._currentPos.x = this.leftEdge;
+            } else if( this._containerWidth < this._currentPos.x + this._movableWidth ) {
+                // set the right edge of the element to the right edge of the container
+                this._currentPos.x = this._containerWidth - this._movableWidth;
+            }
+    
+            // cache the current position. The view needs this to calculate further drags
+            this._lastPos = this._currentPos;
+            // move the element to the position so it can't get lost out of the boundaries.
+            this.onRelease();
+        },
+    
+        /**
+         * Move the movable Element to the left or right on release according to the direction. Overwrite this to enable a different behavior
+         */
+        onRelease: function() {
+            if( this._currentPos.direction === Hammer.DIRECTION_LEFT ) {
+                this.toLeft();
+            } else {
+                this.toRight();
+            }
+        },
+    
+        /**
+         * Overwrite the default hammer configuration. This needs to be done to get a constant move tracking on the drag event
+         * @returns {{prevent_default: boolean, no_mouseevents: boolean, stop_browser_behavior: boolean}}
+         * @private
+         */
+        _getEventOptions: function() {
+            return {
+                'prevent_default': true,
+                'no_mouseevents': true,
+                'stop_browser_behavior': {
+                    // this also triggers onselectstart=false for IE
+                    userSelect: 'none',
+                    // this makes the element blocking in IE10 >, you could experiment with the value
+                    // see for more options this issue; https://github.com/EightMedia/hammer.js/issues/241
+                    touchAction: 'none',
+                    touchCallout: 'none',
+                    contentZooming: 'none',
+                    userDrag: 'none'
+                }
+            };
+        },
+    
+    
+        /**
+         * Cache the dimensions of the elements
+         * @private
+         */
+        setDimensions: function() {
+            // get the outer width of the moveable
+            this._movableWidth = this._$movableContent.outerWidth();
+            // get the outer width of the container
+            this._containerWidth = this.$el.outerWidth();
+            //default is the with of the outer object minus the moveable part
+            this._rightEdge = this.rightEdge || this._containerWidth - this._movableWidth;
+        },
+    
+        /**
+         * Returns the element that should be animated
+         * @returns {*|Cursor|Mixed}
+         * @private
+         */
+        _getMovableContent: function() {
+            return this.$el.find('.movable-element');
+        },
+    
+        /**
+         * Moves the element. The best performance on old devices is with position absolute and setting the left and top property
+         * @param position
+         * @private
+         */
+        _move: function( position ) {
+            var pos = parseInt(position.x, 10);
+    
+            if( pos > this._rightEdge ) {
+                return;
+            }
+            if( pos < this.leftEdge ) {
+                return;
+            }
+    
+            this._removeCssClasses();
+            this.$el.addClass('on-move');
+            this._setCss(position);
+    
+            // if there is a position cache it
+            if( position ) {
+                this._currentPos = position;
+            }
+        },
+    
+        /**
+         * Animate the moveable to the left
+         */
+        toLeft: function() {
+            this.$el.removeClass('on-right');
+            this.$el.addClass('on-left');
+            this._resetInlineCss();
+            this._lastPos.x = this.leftEdge;
+            this._setCss({
+                x: this._lastPos.x
+            });
+    
+        },
+    
+        /**
+         * Animate the movable to the right
+         */
+        toRight: function() {
+            this.$el.addClass('on-right');
+            this.$el.removeClass('on-left');
+            this.$el.removeClass('on-move');
+            this._resetInlineCss();
+            this._lastPos.x = this._rightEdge;
+            this._setCss({
+                x: this._lastPos.x
+            });
+        },
+    
+    
+        /**
+         * Toggle between left and right animation
+         */
+        toggle: function() {
+            if( this.$el.hasClass('on-left') ) {
+                this.toRight();
+            } else {
+                this.toLeft();
+            }
+            return this;
+        },
+    
+    
+        /**
+         * Applies the css to the movable element
+         * @param position
+         * @private
+         */
+        _setCss: function( position ) {
+            if( position && position.x && typeof position.x !== 'undefined' ) {
+                var pos = parseInt(position.x, 10);
+                if( !isNaN(pos) ) {
+                    this._$movableContent.css('-webkit-transform', 'translate3d(' + pos + 'px, 0, 0)');
+                    this._$movableContent.css('-moz-transform', 'translate3d(' + pos + 'px, 0, 0)');
+                    this._$movableContent.css('transform', 'translate3d(' + pos + 'px, 0, 0)');
+                    return this;
+                }
+            }
+            return void 0;
+    
+        },
+    
+        /**
+         * Removes all css classes set by itself
+         * @private
+         */
+        _removeCssClasses: function() {
+            this.$el.removeClass('to-left');
+            this.$el.removeClass('to-right');
+            this.$el.removeClass('on-move');
+        },
+    
+        /**
+         * Removes all inline styles. Done because it was the easiest way to remove the transform of the move
+         * @param position
+         * @private
+         */
+        _resetInlineCss: function( position ) {
+            this._$movableContent.attr('style', '');
+        },
+    
+        /**
+         * This function needs to be implemented to render the view if there is no value given
+         * @returns {Boolean|Function|YES}
+         * @private
+         */
+        _attachToDom: function() {
+            return YES;
+        }
+    
+    
+    });
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
+    /**
+     * @module M.ToggleSwitchView
+     *
+     * @type {*}
+     * @extends M.ToggleSwitchView
+     * @example
+     *
+     * M.ToggleSwitchView.extend({
+        grid: 'col-xs-12',
+        label: 'Wifi',
+        offLabel: 'Off',
+        onLabel: 'On',
+        scopeKey: 'settings',
+        extendTemplate: '<%= wifistatus  %>',
+        onValue: '1',
+        offValue: '2'
+     })
+     *
+     *
+     */
+    M.ToggleSwitchView = M.MovableView.extend({
+    
+        /**
+         * The type of the view
+         * @type {string}
+         * @private
+         */
+        _type: 'M.ToggleSwitchView',
+    
+        /**
+         * The Template of the view before initializing it
+         * @type function
+         * @param {object} _templateValues
+         * @private
+         */
+        _templateString: M.TemplateManager.get('toggleswitch.ejs'),
+    
+        /**
+         * The value of the on state
+         * @default
+         * @type {*}
+         */
+        onValue: YES,
+    
+        /**
+         * The value of the off state
+         * @default
+         * @type {*}
+         */
+        offValue: NO,
+    
+        /**
+         * The label on the view of the on state
+         * @default
+         * @type {string}
+         */
+        onLabel: M.TOGGLE_SWITCH_ON,
+    
+        /**
+         * The label on the view of the off state
+         * @default
+         * @type {string}
+         */
+        offLabel: M.TOGGLE_SWITCH_OFF,
+    
+        rightEdge: 35,
+    
+        /**
+         * Use stickit to bind the values like it is done in the M.SelectionListView
+         * @private
+         */
+        selectOptions: null,
+    
+        /**
+         * Add all the template values
+         * @private
+         */
+        _assignTemplateValues: function() {
+            M.View.prototype._assignTemplateValues.apply(this, arguments);
+            this._addLabelToTemplateValues();
+            this._addOnLabelToTemplateValues();
+            this._addOffLabelToTemplateValues();
+    
+        },
+    
+        /**
+         * Initialize the View.
+         * Before the View gets initialized add stickit support
+         * @param options
+         */
+        initialize: function( options ) {
+            this._setSelectOptions();
+            var that = this;
+            this._internalEvents.tap = function() {
+                that.toggle();
+            };
+            M.View.prototype.initialize.apply(this, arguments);
+            if( this.getValue() === null ) {
+                this._setValue(this.offValue);
+            }
+        },
+    
+        /**
+         * Use intern the stickit API.
+         * @private
+         */
+        _setSelectOptions: function() {
+            this.selectOptions = {
+                collection: []
+            };
+        },
+    
+        /**
+         * @private
+         * @returns {Object} returns onValue if the the value equals onValue or onLabel otherwise offValue
+         */
+        onGet: function( value ) {
+            if( value === this.onValue || value === this.onLabel ) {
+                M.MovableView.prototype.toLeft.apply(this, arguments);
+                return this.onValue;
+            } else {
+                M.MovableView.prototype.toRight.apply(this, arguments);
+                return this.offValue;
+            }
+        },
+    
+        /**
+         * @private
+         * @returns {Object} returns onValue if checked or if unchecked the offValue
+         */
+        onSet: function() {
+            if( this.$el.hasClass('on-left') ) {
+                return this.onValue;
+            } else if( this.$el.hasClass('on-right') ) {
+                return this.offValue;
+            }
+        },
+    
+        toLeft: function() {
+            M.MovableView.prototype.toLeft.apply(this, arguments);
+            this._$valueContainer.trigger('change');
+        },
+    
+        toRight: function() {
+            M.MovableView.prototype.toRight.apply(this, arguments);
+            this._$valueContainer.trigger('change');
+        },
+    
+        _$valueContainer: null,
+    
+        _postRender: function() {
+            M.MovableView.prototype._postRender.apply(this, arguments);
+            this._$valueContainer = this.$el.find('[contenteditable="true"]');
+        },
+    
+        /**
+         * Gets a internationalized version of the label and add this to the templateValues
+         * @private
+         */
+        _addLabelToTemplateValues: function() {
+            this._templateValues.label = this._getInternationalizedTemplateValue(this.label);
+        },
+    
+        /**
+         * Gets a internationalized version of the label and add this to the templateValues
+         * @private
+         */
+        _addOnLabelToTemplateValues: function() {
+            this._templateValues.onLabel = this.onLabel || M.TOGGLE_SWITCH_ON;
+        },
+    
+        /**
+         * Gets a internationalized version of the label and add this to the templateValues
+         * @private
+         */
+        _addOffLabelToTemplateValues: function() {
+            this._templateValues.offLabel = this.offLabel || M.TOGGLE_SWITCH_OFF;
+        }
+    });
+    
+    /**
+     * Constant that specifies the behaviour of the ItemView
+     * @type {{LINKED: number, BASIC: number, ICON: number}}
+     */
+    M.ToggleSwitchView.CONST = {
+        TOGGLE_SWITCH_ON: 1,
+        TOGGLE_SWITCH_OFF: 2
+    };
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
+    /**
+     * M.MenuView inherits from M.View.
+     * To add childViews to this view name it 'menu-content'
+     * @module M.MenuView
+     *
+     * @type {*}
+     * @extends M.View
+     * @example
+     * var menu = M.MenuView.extend({},{
+            'menu-content': M.View.extend({},{
+                b1 : M.ButtonView.extend({value:'b1'}),
+                b2 : M.ButtonView.extend({value:'b2'})
+            })
+        }).create().render()
+     *
+     */
+    M.MenuView = M.MovableView.extend({
+    
+        /**
+         * The type of the object
+         * @private
+         */
+        _type: 'M.MenuView',
+    
+        /**
+         * The template of the object before initializing it.
+         * @private
+         */
+        _templateString: M.TemplateManager.get('menu.ejs'),
+    
+        /**
+         * The most left position of the menu
+         */
+        leftEdge: 0,
+    
+        /**
+         * The most right position of the menu
+         */
+        rightEdge: null,
+    
+        /**
+         * The Backdrop dom representation
+         * @type {jQuery DOM Object}
+         */
+        _$backdrop: null,
+    
+        /**
+         * The 'padding' of the element that listens to the drag from outside the device
+         */
+        _deviceSwipeListenerWidth: 0,
+    
+        /**
+         * Timeout to fade out the menu.
+         */
+        _transitionTimeout: null,
+    
+    
+        /**
+         * basic css class is on-left to start on the left side
+         */
+        _internalCssClasses: 'on-left',
+    
+        /**
+         * calculate the leftEdge and rightEdge vars
+         */
+        initialize: function() {
+            this._deviceSwipeListenerWidth = parseInt(M.ThemeVars.get('m-menu-view-device-swipe-listener-width'), 10);
+            this.leftEdge = this.leftEdge || 0;
+            this._rightEdge = this.rightEdge || parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth;
+            M.MovableView.prototype.initialize.apply(this, arguments);
+        },
+    
+        setDimensions: function() {
+            M.MovableView.prototype.setDimensions.apply(this, arguments);
+            this._rightEdge = this.rightEdge || parseInt(M.ThemeVars.get('m-menu-view-width'), 10) - this._deviceSwipeListenerWidth;
+        },
+    
+        _postRender: function() {
+            this._$backdrop = this.$el.find('.movable-backdrop');
+            M.MovableView.prototype._postRender.apply(this, arguments);
+        },
+    
+        /**
+         * Animate the moveable to the left
+         * Add background to the element.
+         */
+        toLeft: function() {
+            this.$el.removeClass('on-right');
+            //copy of the prototype:
+            this.$el.addClass('on-left');
+            this._resetInlineCss();
+            this._lastPos.x = 0;
+    
+            // add backdrop functionality
+            this._$backdrop.removeClass('in');
+            this._$backdrop.css('opacity', '0');
+            var that = this;
+            window.clearTimeout(this._transitionTimeout);
+            var animationDuration = parseInt(M.ThemeVars.get('m-menu-transition'), 10);
+            this._transitionTimeout = setTimeout(function() {
+                that.$el.removeClass('on-move');
+            }, animationDuration);
+        },
+    
+        /**
+         * Animate the movable to the right.
+         * Add background to the element.
+         */
+        toRight: function() {
+            M.MovableView.prototype.toRight.apply(this, arguments);
+            this._$backdrop.addClass('in');
+            this._$backdrop.css('opacity', '0.8');
+        },
+    
+        /**
+         * Applies the css to the movable element with background
+         * @param position
+         * @private
+         */
+        _setCss: function( position ) {
+            if( position && position.x && typeof position.x !== 'undefined' ) {
+                var pos = parseInt(position.x, 10);
+                if( !isNaN(pos) ) {
+                    this._setOpacity(this._getOpacityByPosition(position.x));
+                    return M.MovableView.prototype._setCss.apply(this, arguments);
+                }
+            }
+            return void 0;
+        },
+    
+        _getOpacityByPosition: function( position ) {
+            var opacity = position === 0 ? position : (parseInt(10 - (this._rightEdge / position), 10) / 10);
+            if( opacity < 0 ) {
+                opacity = 0;
+            }
+            if( opacity > 1 ) {
+                opacity = 1;
+            }
+            if( !isNaN(opacity) ) {
+                return opacity;
+            }
+            return void 0;
+        },
+    
+        _setOpacity: function( opacity ) {
+            this._$backdrop.css('opacity', opacity);
+        },
+    
+        /**
+         * Returns the complete DOM node to be swipeable.
+         * @returns {$el|*}
+         * @private
+         */
+        _getMovableContent: function() {
+            return this.$el.find('.movable-container');
+        },
+    
+        /**
+         * Get called on every touch move of the moveable element. Calculates the position of the element and calls the move method to the calculated points
+         * @param event
+         * @private
+         */
+        _drag: function() {
+            M.MovableView.prototype._drag.apply(this, arguments);
+            window.clearTimeout(this._transitionTimeout);
+        }
     });
     
     // Copyright (c) 2013 M-Way Solutions GmbH
@@ -10375,12 +11437,12 @@
     
             if(!this.childViews[this._currentPage]){
                 if(settings.content){
-                    this.addChildView(this._currentPage, settings.content);
+                    this.setChildView(this._currentPage, settings.content);
                 }
     
             } else if(this.childViews[this._currentPage] !== settings.content){
                 if(settings.content){
-                    this.addChildView(this._currentPage, settings.content);
+                    this.setChildView(this._currentPage, settings.content);
                 }
     
             }
@@ -10392,7 +11454,7 @@
                 this.$el.find('[data-childviews="' + this._currentPage + '"]').html(settings.content.render().$el);
             }
     
-    
+            M.Layout.prototype.applyViews.apply(this, arguments);
             return this;
         },
     
@@ -10563,7 +11625,7 @@
             this.$el.addClass(this.scrolling ? 'scrolling' : '');
             this.$scrollContainer = this.$el.find('[data-childviews=tab-menu]');
             if(this.scrolling){
-                var width = parseInt(M.ThemeVars.get('tablayout-menu-scroll-button-width', M.Environment.device.os), 10) * Object.keys(this._tabMenu.childViews).length;
+                var width = parseInt(M.ThemeVars.get('tablayout-menu-scroll-button-width'), 10) * Object.keys(this._tabMenu.childViews).length;
                 this.$scrollContainer.children('.tabbarbuttongroupview').css('width', width + 'px');
             }
     
@@ -10591,7 +11653,7 @@
             var toPos = index * buttonWidth - 50;
             if( this.smoothScrollAnimation ) {
     
-                this.$scrollContainer.animate({
+                this.$scrollContainer.stop().animate({
                     scrollLeft: toPos
                 }, 200);
     
@@ -10656,6 +11718,12 @@
                     }
                 }
             }).create();
+        },
+    
+        //TODO
+        _mergeChildView: function(selector, view){
+            this.childViews[selector] = view;
+            return this;
         }
     
     });
@@ -10706,8 +11774,8 @@
     
                 M.SwitchLayout.prototype.applyViews.apply(this, [settings]);
     
-                if(!this.childViews[this.currentPage + '_header'] && settings.header){
-                    this.addChildView(this.currentPage + '_header', settings.header);
+                if(!this.childViews[this._currentPage + '_header'] && settings.header){
+                    this.setChildView(this._currentPage + '_header', settings.header);
                 }
     
                 if( settings.header && !this._firstRender ) {
@@ -10721,5 +11789,398 @@
     
     
     })(this);
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
+    (function( scope ) {
+    
+        /**
+         * the switchlayout template
+         * @type {string}
+         */
+        var switchTemplate = M.SwitchLayout.prototype.template;
+        /**
+         * the header template
+         * @type {string}
+         */
+    
+        var headerTemplate = M.HeaderLayout.prototype.template;
+        /**
+         * add a header to the both content container
+         * @type {string}
+         */
+        var myTemplate = switchTemplate.replace(/m-page-1">/gi, 'm-page-1">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page1_header"'));
+        myTemplate = myTemplate.replace(/m-page-2">/gi, 'm-page-2">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page2_header"'));
+    
+        /**
+         * A Switchlayout with a header and content
+         * @type {*|Object|void}
+         */
+        M.SwitchMenuHeaderContentLayout = M.SwitchHeaderContentLayout.extend({
+    
+            _type: 'M.SwitchHeaderContentLayout',
+    
+            /**
+             * the template - a combination of the header and switch template
+             * @type {string}
+             */
+            template: myTemplate,
+    
+            cssClass:'switch-menu-header-content-layout',
+    
+            menu: null,
+    
+            /**
+             * The content gets mapped to the DOM via the Switchlayout. Then map the header to the Layout.
+             * @param {Object} the views to display
+             * @returns {SwitchHeaderContentLayout}
+             */
+            applyViews: function( settings ) {
+                if( !this.menu ) {
+                    this.menu = M.MenuView.extend().create();
+                    this.setChildView('menu', this.menu);
+                    this.menu.setChildView('menu-content', settings.menuContent);
+                    this.menu.render();
+                    this.$el.append(this.menu.$el);
+                }
+                var that = this;
+                M.SwitchHeaderContentLayout.prototype.applyViews.apply(this, [settings]);
+    
+                return this;
+            }
+        });
+    
+    })(this);
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
+    (function( scope ) {
+    
+        /**
+         * the switchlayout template
+         * @type {string}
+         */
+        var switchTemplate = M.SwitchLayout.prototype.template;
+        /**
+         * the header template
+         * @type {string}
+         */
+        var headerTemplate = M.HeaderLayout.prototype.template;
+        /**
+         * add a header to the both content container
+         * @type {string}
+         */
+        var myTemplate = switchTemplate.replace(/m-page-1">/gi, 'm-page-1">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page1_header"'));
+        myTemplate = myTemplate.replace(/m-page-2">/gi, 'm-page-2">' + headerTemplate.replace(/data-childviews="header"/gi, 'data-childviews="content_page2_header"'));
+    
+        /**
+         * A Switchlayout with a header and content
+         * @type {*|Object|void}
+         */
+        M.SwitchHeaderContentLayout = M.SwitchLayout.extend({
+    
+            _type: 'M.SwitchHeaderContentLayout',
+    
+            /**
+             * the template - a combination of the header and switch template
+             * @type {string}
+             */
+            template: myTemplate,
+    
+            cssClass:'switch-header-content-layout',
+    
+            /**
+             * The content gets mapped to the DOM via the Switchlayout. Then map the header to the Layout.
+             * @param {Object} the views to display
+             * @returns {SwitchHeaderContentLayout}
+             */
+            applyViews: function( settings ) {
+    
+                M.SwitchLayout.prototype.applyViews.apply(this, [settings]);
+    
+                if(!this.childViews[this._currentPage + '_header'] && settings.header){
+                    this.setChildView(this._currentPage + '_header', settings.header);
+                }
+    
+                if( settings.header && !this._firstRender ) {
+                    this.$el.find('[data-childviews="' + this._currentPage + '_header' + '"]').html('');
+                    this.$el.find('[data-childviews="' + this._currentPage + '_header' + '"]').html(settings.header.render().$el);
+                }
+    
+                return this;
+            }
+        });
+    
+    
+    })(this);
+    // Copyright (c) 2013 M-Way Solutions GmbH
+    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
+    
+    /**
+     *
+     * @module M.SwitchLayout
+     * @type {*}
+     * @extends M.Layout
+     */
+    M.SplitLayout = M.SwitchLayout.extend({
+    
+        /**
+         * The type of the Layout
+         */
+        _type: 'M.SplitLayout',
+    
+        /**
+         * Bootstrap grid class for the left container
+         * @type {String}
+         */
+        gridLeft: 'col-xs-4',
+    
+        /**
+         * Bootstrap grid class for the right container
+         * @type {String}
+         */
+        gridRight: 'col-xs-8',
+    
+        /**
+         * The template of the Layout
+         */
+        template: '<div id="m-main" class="m-perspective"><div id="leftContainer"><div class="m-page m-page-1"><div data-childviews="left_page1"></div></div><div class="m-page m-page-2"><div data-childviews="left_page2"></div></div></div><div id="rightContainer"><div class="m-page m-page-1"><div data-childviews="content_page1" class="content-wrapper"></div></div><div class="m-page m-page-2"><div data-childviews="content_page2" class="content-wrapper"></div></div></div></div>',
+    
+        /**
+         * The SwitchLayout has two container to display the content. This attribute determines which of those 2 is active at the moment
+         */
+        _currentPage: null,
+    
+        initialize: function() {
+            M.View.prototype.initialize.apply(this, arguments);
+        },
+    
+        /**
+         * Map views to dom
+         * @param settings
+         * @returns {M.SplitLayout}
+         */
+        applyViews: function( settings, firstInit ) {
+    
+            var newContent = this._mapViews(this._currentContent, 'content', settings.content);
+            var newLeft = this._mapViews(this._currentLeft, 'left', settings.left);
+    
+            this._startTransition(settings.left, settings.content);
+    
+            this._currentContent = newContent;
+            this._currentLeft = newLeft;
+    
+            return this;
+        },
+    
+        /**
+         * Starts a transition if the given page is currently not visible.
+         *
+         * @param leftView
+         * @param contentView
+         * @private
+         */
+        _startTransition: function( leftView, contentView ) {
+    
+            var currentContentView = this.getChildView(this._currentContent);
+            var currentLeftView = this.getChildView(this._currentLeft);
+    
+            if( currentContentView && currentContentView !== contentView ) {
+                this.rightTransition.startTransition();
+            }
+    
+            if( currentLeftView && currentLeftView !== leftView ) {
+                this.leftTransition.startTransition();
+            }
+        },
+    
+        /**
+         * This method is responsible to add the view in the layout template.
+         *
+         * @param current {String}
+         * @param dataChildViewName {String}
+         * @param view {M.View}
+         * @returns {String}
+         * @private
+         */
+        _mapViews: function( current, dataChildViewName, view ) {
+    
+            var nameA = dataChildViewName + '_page1';
+            var nameB = dataChildViewName + '_page2';
+    
+            if( this.getChildView(current) === view || !view ) {
+                if( !view ) {
+                    // The given view is null so clear the dom
+                    this.$el.find('[data-childviews="' + nameA + '"]').html('');
+                    this.$el.find('[data-childviews="' + nameB + '"]').html('');
+                }
+                return current;
+            }
+    
+            if( current === null || current === undefined || current === nameB ) {
+                current = nameA;
+            } else if( current === nameA ) {
+                current = nameB;
+            }
+    
+            if( view && !this.childViews[current] ) {
+                this.setChildView(current, view);
+            } else if( view && this.childViews[current] !== view ) {
+                this.setChildView(current, view);
+            }
+    
+            if( !this._firstRender && view ) {
+                //clear the dom before inserting the view
+                this.$el.find('[data-childviews="' + current + '"]').html('');
+                //insert the view
+                this.$el.find('[data-childviews="' + current + '"]').html(view.render().$el);
+            }
+    
+            M.Layout.prototype.applyViews.apply(this, arguments);
+    
+            return current;
+        },
+    
+        /**
+         * Initialize the Transitions on first render then call the prototype
+         * @private
+         */
+        _postRender: function() {
+    
+            // Add grid classes
+            this._getLeftContainer().addClass(this.gridLeft);
+            this._getRightContainer().addClass(this.gridRight);
+    
+            if( this._firstRender ) {
+                // Init transitions
+                this.rightTransition = M.PageTransitions.design().init(this._getRightContainer());
+                this.leftTransition = M.PageTransitions.design().init(this._getLeftContainer());
+    
+                setTimeout(_.bind(this._initRequire, this), 0);
+            }
+    
+            // Call super
+            M.Layout.prototype._postRender.apply(this, arguments);
+    
+            return this;
+        },
+    
+        /**
+         * Initialize the media queries helper 'enquire.js'
+         *
+         * @private
+         */
+        _initRequire: function() {
+    
+            // On mobile devices we only support the portrait orientation
+            if( Modernizr.Detectizr.device.type === 'mobile' ) {
+                this._onPortrait();
+                return;
+            }
+    
+            enquire.register('screen and (orientation: landscape)', {
+                match: _.bind(this._onLandscape, this),
+                unmatch: _.bind(this._onPortrait, this)
+            });
+    
+            if (window.innerWidth < window.innerHeight) {
+                this._onPortrait();
+            } else {
+                this._onLandscape();
+            }
+        },
+    
+        _onLandscape: function() {
+            this.$el.addClass('full').removeClass('single');
+            this._getLeftContainer().attr('class', '');
+    
+            this._getLeftContainer().addClass(this.gridLeft);
+            this._getRightContainer().addClass(this.gridRight);
+    
+            this.onLandscape();
+        },
+    
+        _onPortrait: function() {
+            this.$el.addClass('single').removeClass('full');
+            this._getLeftContainer().attr('class', '');
+    
+            this.closeLeftContainer();
+            this._getRightContainer().addClass(this.gridRight).addClass('col-xs-12');
+    
+            this.onPortrait();
+        },
+    
+        onLandscape: function() {
+    
+        },
+    
+        onPortrait: function() {
+    
+        },
+    
+        /**
+         * Returns an jQuery element which represents the left container
+         *
+         * @returns {*|Mixed}
+         * @private
+         */
+        _getLeftContainer: function() {
+            return this.$el.find('#leftContainer');
+        },
+    
+        /**
+         * Returns an jQuery element which represents the right container
+         *
+         * @returns {*|Mixed}
+         * @private
+         */
+        _getRightContainer: function() {
+            return this.$el.find('#rightContainer');
+        },
+    
+        isAnimating: function() {
+            return this.rightTransition.isAnimating() || this.leftTransition.isAnimating();
+        },
+    
+        toggleLeftContainer: function() {
+            this._getLeftContainer().toggleClass('close');
+        },
+    
+        openLeftContainer: function() {
+            this._getLeftContainer().removeClass('close');
+        },
+    
+        closeLeftContainer: function() {
+    
+            if( this.$el.hasClass('single') ) {
+                this._getLeftContainer().addClass('close');
+    
+            }
+        }
+    });
+    
+    // iOS 7 orientation change bug
+    // https://github.com/WickyNilliams/enquire.js/issues/79#issuecomment-27275481
+    (function () {
+        if (Modernizr.Detectizr.device.os === 'ios') {
+            document.addEventListener('DOMContentLoaded', function () {
+                var shim = document.createElement('div');
+                shim.id = 'ios7-matchMedia-fix';
+                document.body.appendChild(shim);
+    
+                var timer,
+                    forceReflow = function () {
+                        // Triggering a reflow/repaint fixes the problem.
+                        shim.style.width = (window.innerWidth / 2) + 'px';
+                    },
+                    onResize = function () {
+                        clearTimeout(timer);
+                        timer = setTimeout(forceReflow, 100);
+                    };
+    
+                window.addEventListener('resize', onResize, false);
+            });
+        }
+    })();
 
 })(this, Backbone, _, $);

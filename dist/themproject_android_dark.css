@@ -1,12 +1,16 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
-* Copyright: (c) 2013 M-Way Solutions GmbH.
-* Version:   2.0.0-beta
-* Date:      Tue Dec 10 2013 16:27:28
+* Copyright: (c) 2014 M-Way Solutions GmbH.
+* Version:   2.0.0-beta2
+* Date:      Fri Jan 10 2014 18:16:20
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 .android-dark {
   /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
+  @-ms-viewport {
+    width: device-width;
+}
+
   /* animation sets */
   /* move from / to  */
   /* fade */
@@ -2043,14 +2047,6 @@
 
   /* animation delay classes */
   /********************************************************************************************************************************************************************************/
-  /*Inspiered by and thanks to*/
-  /*
-   * Copyright (c) 2013 Thibaut Courouble
-   * http://www.cssflow.com
-   *
-   * Licensed under the MIT License:
-   * http://www.opensource.org/licenses/mit-license.php
-   */
   @-webkit-keyframes m-loaderview-inner-message-opacity {
     0% {
       color: #333333;
@@ -2381,83 +2377,6 @@
 .android-dark table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-@media print {
-  .android-dark {
-    @page {
-      margin: 2cm .5cm;
-}
-
-  }
-  .android-dark * {
-    text-shadow: none !important;
-    color: #000 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-  }
-  .android-dark a,
-  .android-dark a:visited {
-    text-decoration: underline;
-  }
-  .android-dark a[href]:after {
-    content: " (" attr(href) ")";
-  }
-  .android-dark abbr[title]:after {
-    content: " (" attr(title) ")";
-  }
-  .android-dark a[href^="javascript:"]:after,
-  .android-dark a[href^="#"]:after {
-    content: "";
-  }
-  .android-dark pre,
-  .android-dark blockquote {
-    border: 1px solid #999;
-    page-break-inside: avoid;
-  }
-  .android-dark thead {
-    display: table-header-group;
-  }
-  .android-dark tr,
-  .android-dark img {
-    page-break-inside: avoid;
-  }
-  .android-dark img {
-    max-width: 100% !important;
-  }
-  .android-dark p,
-  .android-dark h2,
-  .android-dark h3 {
-    orphans: 3;
-    widows: 3;
-  }
-  .android-dark h2,
-  .android-dark h3 {
-    page-break-after: avoid;
-  }
-  .android-dark select {
-    background: #fff !important;
-  }
-  .android-dark .navbar {
-    display: none;
-  }
-  .android-dark .table td,
-  .android-dark .table th {
-    background-color: #fff !important;
-  }
-  .android-dark .btn > .caret,
-  .android-dark .dropup > .btn > .caret {
-    border-top-color: #000 !important;
-  }
-  .android-dark .label {
-    border: 1px solid #000;
-  }
-  .android-dark .table {
-    border-collapse: collapse !important;
-  }
-  .android-dark .table-bordered th,
-  .android-dark .table-bordered td {
-    border: 1px solid #ddd !important;
-  }
 }
 .android-dark *,
 .android-dark *:before,
@@ -4262,679 +4181,6 @@
 .android-dark input[type="button"].btn-block {
   width: 100%;
 }
-.android-dark .container {
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.android-dark .container:before, .android-dark .container:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
-}
-.android-dark .container:after {
-  clear: both;
-}
-.android-dark .row {
-  margin-left: -15px;
-  margin-right: -15px;
-}
-.android-dark .row:before, .android-dark .row:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
-}
-.android-dark .row:after {
-  clear: both;
-}
-.android-dark .col-xs-12, .android-dark .col-sm-12, .android-dark .col-md-12, .android-dark .col-lg-12, .android-dark .col-xs-11, .android-dark .col-sm-11, .android-dark .col-md-11, .android-dark .col-lg-11, .android-dark .col-xs-10, .android-dark .col-sm-10, .android-dark .col-md-10, .android-dark .col-lg-10, .android-dark .col-xs-9, .android-dark .col-sm-9, .android-dark .col-md-9, .android-dark .col-lg-9, .android-dark .col-xs-8, .android-dark .col-sm-8, .android-dark .col-md-8, .android-dark .col-lg-8, .android-dark .col-xs-7, .android-dark .col-sm-7, .android-dark .col-md-7, .android-dark .col-lg-7, .android-dark .col-xs-6, .android-dark .col-sm-6, .android-dark .col-md-6, .android-dark .col-lg-6, .android-dark .col-xs-5, .android-dark .col-sm-5, .android-dark .col-md-5, .android-dark .col-lg-5, .android-dark .col-xs-4, .android-dark .col-sm-4, .android-dark .col-md-4, .android-dark .col-lg-4, .android-dark .col-xs-3, .android-dark .col-sm-3, .android-dark .col-md-3, .android-dark .col-lg-3, .android-dark .col-xs-2, .android-dark .col-sm-2, .android-dark .col-md-2, .android-dark .col-lg-2, .android-dark .col-xs-1, .android-dark .col-sm-1, .android-dark .col-md-1, .android-dark .col-lg-1 {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.android-dark .col-xs-12, .android-dark .col-xs-11, .android-dark .col-xs-10, .android-dark .col-xs-9, .android-dark .col-xs-8, .android-dark .col-xs-7, .android-dark .col-xs-6, .android-dark .col-xs-5, .android-dark .col-xs-4, .android-dark .col-xs-3, .android-dark .col-xs-2, .android-dark .col-xs-1 {
-  float: left;
-}
-.android-dark .col-xs-1 {
-  width: 8.33333%;
-}
-.android-dark .col-xs-2 {
-  width: 16.66667%;
-}
-.android-dark .col-xs-3 {
-  width: 25%;
-}
-.android-dark .col-xs-4 {
-  width: 33.33333%;
-}
-.android-dark .col-xs-5 {
-  width: 41.66667%;
-}
-.android-dark .col-xs-6 {
-  width: 50%;
-}
-.android-dark .col-xs-7 {
-  width: 58.33333%;
-}
-.android-dark .col-xs-8 {
-  width: 66.66667%;
-}
-.android-dark .col-xs-9 {
-  width: 75%;
-}
-.android-dark .col-xs-10 {
-  width: 83.33333%;
-}
-.android-dark .col-xs-11 {
-  width: 91.66667%;
-}
-.android-dark .col-xs-12 {
-  width: 100%;
-}
-.android-dark .col-xs-pull-0 {
-  right: 0%;
-}
-.android-dark .col-xs-pull-1 {
-  right: 8.33333%;
-}
-.android-dark .col-xs-pull-2 {
-  right: 16.66667%;
-}
-.android-dark .col-xs-pull-3 {
-  right: 25%;
-}
-.android-dark .col-xs-pull-4 {
-  right: 33.33333%;
-}
-.android-dark .col-xs-pull-5 {
-  right: 41.66667%;
-}
-.android-dark .col-xs-pull-6 {
-  right: 50%;
-}
-.android-dark .col-xs-pull-7 {
-  right: 58.33333%;
-}
-.android-dark .col-xs-pull-8 {
-  right: 66.66667%;
-}
-.android-dark .col-xs-pull-9 {
-  right: 75%;
-}
-.android-dark .col-xs-pull-10 {
-  right: 83.33333%;
-}
-.android-dark .col-xs-pull-11 {
-  right: 91.66667%;
-}
-.android-dark .col-xs-pull-12 {
-  right: 100%;
-}
-.android-dark .col-xs-push-0 {
-  left: 0%;
-}
-.android-dark .col-xs-push-1 {
-  left: 8.33333%;
-}
-.android-dark .col-xs-push-2 {
-  left: 16.66667%;
-}
-.android-dark .col-xs-push-3 {
-  left: 25%;
-}
-.android-dark .col-xs-push-4 {
-  left: 33.33333%;
-}
-.android-dark .col-xs-push-5 {
-  left: 41.66667%;
-}
-.android-dark .col-xs-push-6 {
-  left: 50%;
-}
-.android-dark .col-xs-push-7 {
-  left: 58.33333%;
-}
-.android-dark .col-xs-push-8 {
-  left: 66.66667%;
-}
-.android-dark .col-xs-push-9 {
-  left: 75%;
-}
-.android-dark .col-xs-push-10 {
-  left: 83.33333%;
-}
-.android-dark .col-xs-push-11 {
-  left: 91.66667%;
-}
-.android-dark .col-xs-push-12 {
-  left: 100%;
-}
-.android-dark .col-xs-offset-0 {
-  margin-left: 0%;
-}
-.android-dark .col-xs-offset-1 {
-  margin-left: 8.33333%;
-}
-.android-dark .col-xs-offset-2 {
-  margin-left: 16.66667%;
-}
-.android-dark .col-xs-offset-3 {
-  margin-left: 25%;
-}
-.android-dark .col-xs-offset-4 {
-  margin-left: 33.33333%;
-}
-.android-dark .col-xs-offset-5 {
-  margin-left: 41.66667%;
-}
-.android-dark .col-xs-offset-6 {
-  margin-left: 50%;
-}
-.android-dark .col-xs-offset-7 {
-  margin-left: 58.33333%;
-}
-.android-dark .col-xs-offset-8 {
-  margin-left: 66.66667%;
-}
-.android-dark .col-xs-offset-9 {
-  margin-left: 75%;
-}
-.android-dark .col-xs-offset-10 {
-  margin-left: 83.33333%;
-}
-.android-dark .col-xs-offset-11 {
-  margin-left: 91.66667%;
-}
-.android-dark .col-xs-offset-12 {
-  margin-left: 100%;
-}
-@media (min-width: 768px) {
-  .android-dark .container {
-    width: 750px;
-  }
-  .android-dark .col-sm-12, .android-dark .col-sm-11, .android-dark .col-sm-10, .android-dark .col-sm-9, .android-dark .col-sm-8, .android-dark .col-sm-7, .android-dark .col-sm-6, .android-dark .col-sm-5, .android-dark .col-sm-4, .android-dark .col-sm-3, .android-dark .col-sm-2, .android-dark .col-sm-1 {
-    float: left;
-  }
-  .android-dark .col-sm-1 {
-    width: 8.33333%;
-  }
-  .android-dark .col-sm-2 {
-    width: 16.66667%;
-  }
-  .android-dark .col-sm-3 {
-    width: 25%;
-  }
-  .android-dark .col-sm-4 {
-    width: 33.33333%;
-  }
-  .android-dark .col-sm-5 {
-    width: 41.66667%;
-  }
-  .android-dark .col-sm-6 {
-    width: 50%;
-  }
-  .android-dark .col-sm-7 {
-    width: 58.33333%;
-  }
-  .android-dark .col-sm-8 {
-    width: 66.66667%;
-  }
-  .android-dark .col-sm-9 {
-    width: 75%;
-  }
-  .android-dark .col-sm-10 {
-    width: 83.33333%;
-  }
-  .android-dark .col-sm-11 {
-    width: 91.66667%;
-  }
-  .android-dark .col-sm-12 {
-    width: 100%;
-  }
-  .android-dark .col-sm-pull-0 {
-    right: 0%;
-  }
-  .android-dark .col-sm-pull-1 {
-    right: 8.33333%;
-  }
-  .android-dark .col-sm-pull-2 {
-    right: 16.66667%;
-  }
-  .android-dark .col-sm-pull-3 {
-    right: 25%;
-  }
-  .android-dark .col-sm-pull-4 {
-    right: 33.33333%;
-  }
-  .android-dark .col-sm-pull-5 {
-    right: 41.66667%;
-  }
-  .android-dark .col-sm-pull-6 {
-    right: 50%;
-  }
-  .android-dark .col-sm-pull-7 {
-    right: 58.33333%;
-  }
-  .android-dark .col-sm-pull-8 {
-    right: 66.66667%;
-  }
-  .android-dark .col-sm-pull-9 {
-    right: 75%;
-  }
-  .android-dark .col-sm-pull-10 {
-    right: 83.33333%;
-  }
-  .android-dark .col-sm-pull-11 {
-    right: 91.66667%;
-  }
-  .android-dark .col-sm-pull-12 {
-    right: 100%;
-  }
-  .android-dark .col-sm-push-0 {
-    left: 0%;
-  }
-  .android-dark .col-sm-push-1 {
-    left: 8.33333%;
-  }
-  .android-dark .col-sm-push-2 {
-    left: 16.66667%;
-  }
-  .android-dark .col-sm-push-3 {
-    left: 25%;
-  }
-  .android-dark .col-sm-push-4 {
-    left: 33.33333%;
-  }
-  .android-dark .col-sm-push-5 {
-    left: 41.66667%;
-  }
-  .android-dark .col-sm-push-6 {
-    left: 50%;
-  }
-  .android-dark .col-sm-push-7 {
-    left: 58.33333%;
-  }
-  .android-dark .col-sm-push-8 {
-    left: 66.66667%;
-  }
-  .android-dark .col-sm-push-9 {
-    left: 75%;
-  }
-  .android-dark .col-sm-push-10 {
-    left: 83.33333%;
-  }
-  .android-dark .col-sm-push-11 {
-    left: 91.66667%;
-  }
-  .android-dark .col-sm-push-12 {
-    left: 100%;
-  }
-  .android-dark .col-sm-offset-0 {
-    margin-left: 0%;
-  }
-  .android-dark .col-sm-offset-1 {
-    margin-left: 8.33333%;
-  }
-  .android-dark .col-sm-offset-2 {
-    margin-left: 16.66667%;
-  }
-  .android-dark .col-sm-offset-3 {
-    margin-left: 25%;
-  }
-  .android-dark .col-sm-offset-4 {
-    margin-left: 33.33333%;
-  }
-  .android-dark .col-sm-offset-5 {
-    margin-left: 41.66667%;
-  }
-  .android-dark .col-sm-offset-6 {
-    margin-left: 50%;
-  }
-  .android-dark .col-sm-offset-7 {
-    margin-left: 58.33333%;
-  }
-  .android-dark .col-sm-offset-8 {
-    margin-left: 66.66667%;
-  }
-  .android-dark .col-sm-offset-9 {
-    margin-left: 75%;
-  }
-  .android-dark .col-sm-offset-10 {
-    margin-left: 83.33333%;
-  }
-  .android-dark .col-sm-offset-11 {
-    margin-left: 91.66667%;
-  }
-  .android-dark .col-sm-offset-12 {
-    margin-left: 100%;
-  }
-}
-@media (min-width: 992px) {
-  .android-dark .container {
-    width: 970px;
-  }
-  .android-dark .col-md-12, .android-dark .col-md-11, .android-dark .col-md-10, .android-dark .col-md-9, .android-dark .col-md-8, .android-dark .col-md-7, .android-dark .col-md-6, .android-dark .col-md-5, .android-dark .col-md-4, .android-dark .col-md-3, .android-dark .col-md-2, .android-dark .col-md-1 {
-    float: left;
-  }
-  .android-dark .col-md-1 {
-    width: 8.33333%;
-  }
-  .android-dark .col-md-2 {
-    width: 16.66667%;
-  }
-  .android-dark .col-md-3 {
-    width: 25%;
-  }
-  .android-dark .col-md-4 {
-    width: 33.33333%;
-  }
-  .android-dark .col-md-5 {
-    width: 41.66667%;
-  }
-  .android-dark .col-md-6 {
-    width: 50%;
-  }
-  .android-dark .col-md-7 {
-    width: 58.33333%;
-  }
-  .android-dark .col-md-8 {
-    width: 66.66667%;
-  }
-  .android-dark .col-md-9 {
-    width: 75%;
-  }
-  .android-dark .col-md-10 {
-    width: 83.33333%;
-  }
-  .android-dark .col-md-11 {
-    width: 91.66667%;
-  }
-  .android-dark .col-md-12 {
-    width: 100%;
-  }
-  .android-dark .col-md-pull-0 {
-    right: 0%;
-  }
-  .android-dark .col-md-pull-1 {
-    right: 8.33333%;
-  }
-  .android-dark .col-md-pull-2 {
-    right: 16.66667%;
-  }
-  .android-dark .col-md-pull-3 {
-    right: 25%;
-  }
-  .android-dark .col-md-pull-4 {
-    right: 33.33333%;
-  }
-  .android-dark .col-md-pull-5 {
-    right: 41.66667%;
-  }
-  .android-dark .col-md-pull-6 {
-    right: 50%;
-  }
-  .android-dark .col-md-pull-7 {
-    right: 58.33333%;
-  }
-  .android-dark .col-md-pull-8 {
-    right: 66.66667%;
-  }
-  .android-dark .col-md-pull-9 {
-    right: 75%;
-  }
-  .android-dark .col-md-pull-10 {
-    right: 83.33333%;
-  }
-  .android-dark .col-md-pull-11 {
-    right: 91.66667%;
-  }
-  .android-dark .col-md-pull-12 {
-    right: 100%;
-  }
-  .android-dark .col-md-push-0 {
-    left: 0%;
-  }
-  .android-dark .col-md-push-1 {
-    left: 8.33333%;
-  }
-  .android-dark .col-md-push-2 {
-    left: 16.66667%;
-  }
-  .android-dark .col-md-push-3 {
-    left: 25%;
-  }
-  .android-dark .col-md-push-4 {
-    left: 33.33333%;
-  }
-  .android-dark .col-md-push-5 {
-    left: 41.66667%;
-  }
-  .android-dark .col-md-push-6 {
-    left: 50%;
-  }
-  .android-dark .col-md-push-7 {
-    left: 58.33333%;
-  }
-  .android-dark .col-md-push-8 {
-    left: 66.66667%;
-  }
-  .android-dark .col-md-push-9 {
-    left: 75%;
-  }
-  .android-dark .col-md-push-10 {
-    left: 83.33333%;
-  }
-  .android-dark .col-md-push-11 {
-    left: 91.66667%;
-  }
-  .android-dark .col-md-push-12 {
-    left: 100%;
-  }
-  .android-dark .col-md-offset-0 {
-    margin-left: 0%;
-  }
-  .android-dark .col-md-offset-1 {
-    margin-left: 8.33333%;
-  }
-  .android-dark .col-md-offset-2 {
-    margin-left: 16.66667%;
-  }
-  .android-dark .col-md-offset-3 {
-    margin-left: 25%;
-  }
-  .android-dark .col-md-offset-4 {
-    margin-left: 33.33333%;
-  }
-  .android-dark .col-md-offset-5 {
-    margin-left: 41.66667%;
-  }
-  .android-dark .col-md-offset-6 {
-    margin-left: 50%;
-  }
-  .android-dark .col-md-offset-7 {
-    margin-left: 58.33333%;
-  }
-  .android-dark .col-md-offset-8 {
-    margin-left: 66.66667%;
-  }
-  .android-dark .col-md-offset-9 {
-    margin-left: 75%;
-  }
-  .android-dark .col-md-offset-10 {
-    margin-left: 83.33333%;
-  }
-  .android-dark .col-md-offset-11 {
-    margin-left: 91.66667%;
-  }
-  .android-dark .col-md-offset-12 {
-    margin-left: 100%;
-  }
-}
-@media (min-width: 1200px) {
-  .android-dark .container {
-    width: 1170px;
-  }
-  .android-dark .col-lg-12, .android-dark .col-lg-11, .android-dark .col-lg-10, .android-dark .col-lg-9, .android-dark .col-lg-8, .android-dark .col-lg-7, .android-dark .col-lg-6, .android-dark .col-lg-5, .android-dark .col-lg-4, .android-dark .col-lg-3, .android-dark .col-lg-2, .android-dark .col-lg-1 {
-    float: left;
-  }
-  .android-dark .col-lg-1 {
-    width: 8.33333%;
-  }
-  .android-dark .col-lg-2 {
-    width: 16.66667%;
-  }
-  .android-dark .col-lg-3 {
-    width: 25%;
-  }
-  .android-dark .col-lg-4 {
-    width: 33.33333%;
-  }
-  .android-dark .col-lg-5 {
-    width: 41.66667%;
-  }
-  .android-dark .col-lg-6 {
-    width: 50%;
-  }
-  .android-dark .col-lg-7 {
-    width: 58.33333%;
-  }
-  .android-dark .col-lg-8 {
-    width: 66.66667%;
-  }
-  .android-dark .col-lg-9 {
-    width: 75%;
-  }
-  .android-dark .col-lg-10 {
-    width: 83.33333%;
-  }
-  .android-dark .col-lg-11 {
-    width: 91.66667%;
-  }
-  .android-dark .col-lg-12 {
-    width: 100%;
-  }
-  .android-dark .col-lg-pull-0 {
-    right: 0%;
-  }
-  .android-dark .col-lg-pull-1 {
-    right: 8.33333%;
-  }
-  .android-dark .col-lg-pull-2 {
-    right: 16.66667%;
-  }
-  .android-dark .col-lg-pull-3 {
-    right: 25%;
-  }
-  .android-dark .col-lg-pull-4 {
-    right: 33.33333%;
-  }
-  .android-dark .col-lg-pull-5 {
-    right: 41.66667%;
-  }
-  .android-dark .col-lg-pull-6 {
-    right: 50%;
-  }
-  .android-dark .col-lg-pull-7 {
-    right: 58.33333%;
-  }
-  .android-dark .col-lg-pull-8 {
-    right: 66.66667%;
-  }
-  .android-dark .col-lg-pull-9 {
-    right: 75%;
-  }
-  .android-dark .col-lg-pull-10 {
-    right: 83.33333%;
-  }
-  .android-dark .col-lg-pull-11 {
-    right: 91.66667%;
-  }
-  .android-dark .col-lg-pull-12 {
-    right: 100%;
-  }
-  .android-dark .col-lg-push-0 {
-    left: 0%;
-  }
-  .android-dark .col-lg-push-1 {
-    left: 8.33333%;
-  }
-  .android-dark .col-lg-push-2 {
-    left: 16.66667%;
-  }
-  .android-dark .col-lg-push-3 {
-    left: 25%;
-  }
-  .android-dark .col-lg-push-4 {
-    left: 33.33333%;
-  }
-  .android-dark .col-lg-push-5 {
-    left: 41.66667%;
-  }
-  .android-dark .col-lg-push-6 {
-    left: 50%;
-  }
-  .android-dark .col-lg-push-7 {
-    left: 58.33333%;
-  }
-  .android-dark .col-lg-push-8 {
-    left: 66.66667%;
-  }
-  .android-dark .col-lg-push-9 {
-    left: 75%;
-  }
-  .android-dark .col-lg-push-10 {
-    left: 83.33333%;
-  }
-  .android-dark .col-lg-push-11 {
-    left: 91.66667%;
-  }
-  .android-dark .col-lg-push-12 {
-    left: 100%;
-  }
-  .android-dark .col-lg-offset-0 {
-    margin-left: 0%;
-  }
-  .android-dark .col-lg-offset-1 {
-    margin-left: 8.33333%;
-  }
-  .android-dark .col-lg-offset-2 {
-    margin-left: 16.66667%;
-  }
-  .android-dark .col-lg-offset-3 {
-    margin-left: 25%;
-  }
-  .android-dark .col-lg-offset-4 {
-    margin-left: 33.33333%;
-  }
-  .android-dark .col-lg-offset-5 {
-    margin-left: 41.66667%;
-  }
-  .android-dark .col-lg-offset-6 {
-    margin-left: 50%;
-  }
-  .android-dark .col-lg-offset-7 {
-    margin-left: 58.33333%;
-  }
-  .android-dark .col-lg-offset-8 {
-    margin-left: 66.66667%;
-  }
-  .android-dark .col-lg-offset-9 {
-    margin-left: 75%;
-  }
-  .android-dark .col-lg-offset-10 {
-    margin-left: 83.33333%;
-  }
-  .android-dark .col-lg-offset-11 {
-    margin-left: 91.66667%;
-  }
-  .android-dark .col-lg-offset-12 {
-    margin-left: 100%;
-  }
-}
 .android-dark .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -4999,7 +4245,416 @@
 .android-dark .affix {
   position: fixed;
 }
-.android-dark .ellipsis, .android-dark .form, .android-dark .selection, .android-dark .radiolistview label, .android-dark .checkboxlistview label, .android-dark .textfieldview input, .android-dark .textfieldview .input-icon-addon, .android-dark .button div, .android-dark .textfieldview .input-icon-addon input {
+.android-dark .visible-xs,
+.android-dark tr.visible-xs,
+.android-dark th.visible-xs,
+.android-dark td.visible-xs {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .android-dark .visible-xs {
+    display: block !important;
+  }
+  .android-dark tr.visible-xs {
+    display: table-row !important;
+  }
+  .android-dark th.visible-xs,
+  .android-dark td.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android-dark .visible-xs.visible-sm {
+    display: block !important;
+  }
+  .android-dark tr.visible-xs.visible-sm {
+    display: table-row !important;
+  }
+  .android-dark th.visible-xs.visible-sm,
+  .android-dark td.visible-xs.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android-dark .visible-xs.visible-md {
+    display: block !important;
+  }
+  .android-dark tr.visible-xs.visible-md {
+    display: table-row !important;
+  }
+  .android-dark th.visible-xs.visible-md,
+  .android-dark td.visible-xs.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android-dark .visible-xs.visible-lg {
+    display: block !important;
+  }
+  .android-dark tr.visible-xs.visible-lg {
+    display: table-row !important;
+  }
+  .android-dark th.visible-xs.visible-lg,
+  .android-dark td.visible-xs.visible-lg {
+    display: table-cell !important;
+  }
+}
+.android-dark .visible-sm,
+.android-dark tr.visible-sm,
+.android-dark th.visible-sm,
+.android-dark td.visible-sm {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .android-dark .visible-sm.visible-xs {
+    display: block !important;
+  }
+  .android-dark tr.visible-sm.visible-xs {
+    display: table-row !important;
+  }
+  .android-dark th.visible-sm.visible-xs,
+  .android-dark td.visible-sm.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android-dark .visible-sm {
+    display: block !important;
+  }
+  .android-dark tr.visible-sm {
+    display: table-row !important;
+  }
+  .android-dark th.visible-sm,
+  .android-dark td.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android-dark .visible-sm.visible-md {
+    display: block !important;
+  }
+  .android-dark tr.visible-sm.visible-md {
+    display: table-row !important;
+  }
+  .android-dark th.visible-sm.visible-md,
+  .android-dark td.visible-sm.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android-dark .visible-sm.visible-lg {
+    display: block !important;
+  }
+  .android-dark tr.visible-sm.visible-lg {
+    display: table-row !important;
+  }
+  .android-dark th.visible-sm.visible-lg,
+  .android-dark td.visible-sm.visible-lg {
+    display: table-cell !important;
+  }
+}
+.android-dark .visible-md,
+.android-dark tr.visible-md,
+.android-dark th.visible-md,
+.android-dark td.visible-md {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .android-dark .visible-md.visible-xs {
+    display: block !important;
+  }
+  .android-dark tr.visible-md.visible-xs {
+    display: table-row !important;
+  }
+  .android-dark th.visible-md.visible-xs,
+  .android-dark td.visible-md.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android-dark .visible-md.visible-sm {
+    display: block !important;
+  }
+  .android-dark tr.visible-md.visible-sm {
+    display: table-row !important;
+  }
+  .android-dark th.visible-md.visible-sm,
+  .android-dark td.visible-md.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android-dark .visible-md {
+    display: block !important;
+  }
+  .android-dark tr.visible-md {
+    display: table-row !important;
+  }
+  .android-dark th.visible-md,
+  .android-dark td.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android-dark .visible-md.visible-lg {
+    display: block !important;
+  }
+  .android-dark tr.visible-md.visible-lg {
+    display: table-row !important;
+  }
+  .android-dark th.visible-md.visible-lg,
+  .android-dark td.visible-md.visible-lg {
+    display: table-cell !important;
+  }
+}
+.android-dark .visible-lg,
+.android-dark tr.visible-lg,
+.android-dark th.visible-lg,
+.android-dark td.visible-lg {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .android-dark .visible-lg.visible-xs {
+    display: block !important;
+  }
+  .android-dark tr.visible-lg.visible-xs {
+    display: table-row !important;
+  }
+  .android-dark th.visible-lg.visible-xs,
+  .android-dark td.visible-lg.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android-dark .visible-lg.visible-sm {
+    display: block !important;
+  }
+  .android-dark tr.visible-lg.visible-sm {
+    display: table-row !important;
+  }
+  .android-dark th.visible-lg.visible-sm,
+  .android-dark td.visible-lg.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android-dark .visible-lg.visible-md {
+    display: block !important;
+  }
+  .android-dark tr.visible-lg.visible-md {
+    display: table-row !important;
+  }
+  .android-dark th.visible-lg.visible-md,
+  .android-dark td.visible-lg.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android-dark .visible-lg {
+    display: block !important;
+  }
+  .android-dark tr.visible-lg {
+    display: table-row !important;
+  }
+  .android-dark th.visible-lg,
+  .android-dark td.visible-lg {
+    display: table-cell !important;
+  }
+}
+.android-dark .hidden-xs {
+  display: block !important;
+}
+.android-dark tr.hidden-xs {
+  display: table-row !important;
+}
+.android-dark th.hidden-xs,
+.android-dark td.hidden-xs {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .android-dark .hidden-xs,
+  .android-dark tr.hidden-xs,
+  .android-dark th.hidden-xs,
+  .android-dark td.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android-dark .hidden-xs.hidden-sm,
+  .android-dark tr.hidden-xs.hidden-sm,
+  .android-dark th.hidden-xs.hidden-sm,
+  .android-dark td.hidden-xs.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android-dark .hidden-xs.hidden-md,
+  .android-dark tr.hidden-xs.hidden-md,
+  .android-dark th.hidden-xs.hidden-md,
+  .android-dark td.hidden-xs.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android-dark .hidden-xs.hidden-lg,
+  .android-dark tr.hidden-xs.hidden-lg,
+  .android-dark th.hidden-xs.hidden-lg,
+  .android-dark td.hidden-xs.hidden-lg {
+    display: none !important;
+  }
+}
+.android-dark .hidden-sm {
+  display: block !important;
+}
+.android-dark tr.hidden-sm {
+  display: table-row !important;
+}
+.android-dark th.hidden-sm,
+.android-dark td.hidden-sm {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .android-dark .hidden-sm.hidden-xs,
+  .android-dark tr.hidden-sm.hidden-xs,
+  .android-dark th.hidden-sm.hidden-xs,
+  .android-dark td.hidden-sm.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android-dark .hidden-sm,
+  .android-dark tr.hidden-sm,
+  .android-dark th.hidden-sm,
+  .android-dark td.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android-dark .hidden-sm.hidden-md,
+  .android-dark tr.hidden-sm.hidden-md,
+  .android-dark th.hidden-sm.hidden-md,
+  .android-dark td.hidden-sm.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android-dark .hidden-sm.hidden-lg,
+  .android-dark tr.hidden-sm.hidden-lg,
+  .android-dark th.hidden-sm.hidden-lg,
+  .android-dark td.hidden-sm.hidden-lg {
+    display: none !important;
+  }
+}
+.android-dark .hidden-md {
+  display: block !important;
+}
+.android-dark tr.hidden-md {
+  display: table-row !important;
+}
+.android-dark th.hidden-md,
+.android-dark td.hidden-md {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .android-dark .hidden-md.hidden-xs,
+  .android-dark tr.hidden-md.hidden-xs,
+  .android-dark th.hidden-md.hidden-xs,
+  .android-dark td.hidden-md.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android-dark .hidden-md.hidden-sm,
+  .android-dark tr.hidden-md.hidden-sm,
+  .android-dark th.hidden-md.hidden-sm,
+  .android-dark td.hidden-md.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android-dark .hidden-md,
+  .android-dark tr.hidden-md,
+  .android-dark th.hidden-md,
+  .android-dark td.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android-dark .hidden-md.hidden-lg,
+  .android-dark tr.hidden-md.hidden-lg,
+  .android-dark th.hidden-md.hidden-lg,
+  .android-dark td.hidden-md.hidden-lg {
+    display: none !important;
+  }
+}
+.android-dark .hidden-lg {
+  display: block !important;
+}
+.android-dark tr.hidden-lg {
+  display: table-row !important;
+}
+.android-dark th.hidden-lg,
+.android-dark td.hidden-lg {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .android-dark .hidden-lg.hidden-xs,
+  .android-dark tr.hidden-lg.hidden-xs,
+  .android-dark th.hidden-lg.hidden-xs,
+  .android-dark td.hidden-lg.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android-dark .hidden-lg.hidden-sm,
+  .android-dark tr.hidden-lg.hidden-sm,
+  .android-dark th.hidden-lg.hidden-sm,
+  .android-dark td.hidden-lg.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android-dark .hidden-lg.hidden-md,
+  .android-dark tr.hidden-lg.hidden-md,
+  .android-dark th.hidden-lg.hidden-md,
+  .android-dark td.hidden-lg.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android-dark .hidden-lg,
+  .android-dark tr.hidden-lg,
+  .android-dark th.hidden-lg,
+  .android-dark td.hidden-lg {
+    display: none !important;
+  }
+}
+.android-dark .visible-print,
+.android-dark tr.visible-print,
+.android-dark th.visible-print,
+.android-dark td.visible-print {
+  display: none !important;
+}
+@media print {
+  .android-dark .visible-print {
+    display: block !important;
+  }
+  .android-dark tr.visible-print {
+    display: table-row !important;
+  }
+  .android-dark th.visible-print,
+  .android-dark td.visible-print {
+    display: table-cell !important;
+  }
+  .android-dark .hidden-print,
+  .android-dark tr.hidden-print,
+  .android-dark th.hidden-print,
+  .android-dark td.hidden-print {
+    display: none !important;
+  }
+}
+.android-dark .ellipsis, .android-dark .form, .android-dark .selection, .android-dark .radiolistview label, .android-dark .checkboxlistview label, .android-dark .textfieldview input, .android-dark .textfieldview .input-icon-addon, .android-dark .button div, .android-dark .textfieldview .input-icon-addon input, .android-dark .toggleswitchview .label-descr, .android-dark .toggleswitchview .on-value,
+.android-dark .toggleswitchview .off-value {
   white-space: nowrap !important;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -5027,14 +4682,14 @@
   right: 0;
   top: 0;
   bottom: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 .android-dark .input, .android-dark .checkboxlistview input[type="checkbox"] {
   outline: none;
 }
 .android-dark .margin0010, .android-dark .button, .android-dark .listview, .android-dark .selection-list, .android-dark .tabbarbuttongroupview,
-.android-dark .buttongroupview, .android-dark .radiolistview, .android-dark .checkboxlistview, .android-dark .toggleswitchview, .android-dark .textview {
+.android-dark .buttongroupview, .android-dark .radiolistview, .android-dark .checkboxlistview, .android-dark .textview {
   margin-bottom: 20px;
 }
 .android-dark .margin1000 {
@@ -5050,13 +4705,13 @@
 .android-dark .switch-header-content-layout .first, .android-dark .toolbarview .first {
   position: absolute;
   left: 10px;
-  top: 3px;
+  top: 4px;
 }
 .android-dark .header-second, .android-dark .switch-menu-header-content-layout .second,
 .android-dark .switch-header-content-layout .second, .android-dark .toolbarview .second {
   position: absolute;
   right: 10px;
-  top: 3px;
+  top: 4px;
 }
 .android-dark .stencil, .android-dark .textview.stencil i, .android-dark .textview.stencil div div {
   color: transparent;
@@ -5076,6 +4731,9 @@
   font-size: 1.6rem;
   font-color: black;
   line-height: 2.2rem;
+}
+.android-dark #main {
+  height: 100%;
 }
 .android-dark .clear {
   clear: both;
@@ -6069,6 +5727,36 @@
   top: 50px;
   background: white;
 }
+.android-dark .splitlayout .m-perspective {
+  display: -webkit-box;
+  display: -webkit-flexbox;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: flex;
+}
+.android-dark .splitlayout .m-page {
+  height: 100%;
+}
+.android-dark .splitlayout.single #leftContainer {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  width: 180px;
+  z-index: 9999;
+  overflow: hidden;
+  background: #fbfbfb;
+}
+.android-dark .splitlayout .close {
+  display: none;
+}
+.android-dark .splitlayout #leftContainer {
+  border-right: 1px solid #ccc;
+  background: #fbfbfb;
+}
+.android-dark .splitlayout .toolbarview {
+  position: relative;
+}
 .android-dark h1,
 .android-dark h2,
 .android-dark h3,
@@ -6146,15 +5834,30 @@
   position: absolute;
   top: 0;
 }
-.android-dark .toolbarview .button {
+.android-dark .toolbarview .buttonview .button {
   margin-top: 0;
+  background: none;
+  color: white;
+  border: none;
 }
-.android-dark .buttonview {
-  min-width: 63px;
+.android-dark .toolbarview .buttonview.active .button {
+  background: none;
+  color: #99cc00;
+}
+.android-dark .toolbarview .buttonview.is-icon-only .button {
+  width: 50px;
+  padding: 6px 10px 4px 10px;
+  text-align: left;
+}
+.android-dark .toolbarview .buttonview.is-icon-only .fa {
+  font-size: 3.2rem;
+}
+.android-dark .buttonview .fa {
+  font-size: 2.24rem;
 }
 .android-dark .button {
   position: relative;
-  padding: 10px 10px 6px 10px;
+  padding: 10px 10px 10px 10px;
   font-weight: normal;
   text-align: center;
   white-space: nowrap;
@@ -6174,21 +5877,20 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: inline-block;
   width: 100%;
 }
 .android-dark .has-icon .right i, .android-dark .has-icon.right i {
-  right: 5px;
+  right: 10px;
   left: auto;
 }
 .android-dark .has-icon .left i, .android-dark .has-icon.left i {
-  left: 5px;
+  left: 10px;
   right: auto;
 }
 .android-dark .has-icon i {
   position: absolute;
   left: 10px;
-  top: 15px;
+  top: 11px;
 }
 .android-dark .has-icon .right .button div, .android-dark .has-icon.right .button div {
   padding-right: 10px;
@@ -6196,6 +5898,10 @@
 .android-dark .has-icon .button div,
 .android-dark .has-icon .left .button div, .android-dark .has-icon.left .button div {
   padding-left: 10px;
+}
+.android-dark .is-icon-only .button {
+  width: 80px;
+  padding-bottom: 9px;
 }
 .android-dark .is-icon-only .button div {
   display: none;
@@ -6316,6 +6022,7 @@
   border-bottom: 1px solid #ddd;
   list-style: none;
   cursor: pointer;
+  overflow: hidden;
 }
 .android-dark .listview ul .listitemview.disabled li {
   cursor: default;
@@ -6484,18 +6191,10 @@
 .android-dark .buttongroupview .buttonview .button {
   border-right-width: 0;
 }
-.android-dark .tabbarbuttongroupview .buttonview:first-child,
-.android-dark .buttongroupview .buttonview:first-child {
-  padding-left: 15px;
-}
 .android-dark .tabbarbuttongroupview .buttonview:first-child .button,
 .android-dark .buttongroupview .buttonview:first-child .button {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-}
-.android-dark .tabbarbuttongroupview .buttonview:last-child,
-.android-dark .buttongroupview .buttonview:last-child {
-  padding-right: 15px;
 }
 .android-dark .tabbarbuttongroupview .buttonview:last-child .button,
 .android-dark .buttongroupview .buttonview:last-child .button {
@@ -6553,85 +6252,6 @@
 .android-dark .checkboxlistview input[type="checkbox"]:checked + i:before {
   content: '\f058';
   color: #1092d3;
-}
-.android-dark .toggleswitchview label .label-descr {
-  display: block;
-  float: left;
-}
-.android-dark .toggleswitchview .toggleswitch {
-  position: relative;
-  display: block;
-  vertical-align: top;
-  width: 56px;
-  padding: 0;
-  border-radius: 4px;
-  cursor: pointer;
-  overflow: hidden;
-}
-.android-dark .toggleswitchview input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-}
-.android-dark .toggleswitchview .switch-labels {
-  position: relative;
-  display: block;
-  font-size: 16px;
-  background: #f2f2f2;
-  border-radius: inherit;
-  text-indent: -9999px;
-}
-.android-dark .toggleswitchview .switch-labels:before, .android-dark .toggleswitchview .switch-labels:after {
-  text-indent: 0;
-  position: absolute;
-  display: block;
-  top: 0px;
-  line-height: 2.2rem;
-}
-.android-dark .toggleswitchview .switch-labels:before {
-  content: attr(data-offLabel);
-  right: 10px;
-  color: #c3c3c3;
-}
-.android-dark .toggleswitchview .switch-labels:after {
-  content: attr(data-onLabel);
-  left: 10px;
-  color: white;
-  opacity: 0;
-}
-.android-dark .toggleswitchview input:checked + .switch-labels {
-  background: #99cc00;
-}
-.android-dark .toggleswitchview input:checked + .switch-labels:before {
-  opacity: 0;
-}
-.android-dark .toggleswitchview input:checked + .switch-labels:after {
-  opacity: 1;
-}
-.android-dark .toggleswitchview .switch-handle {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 16px;
-  height: 16px;
-  background: white;
-  border-radius: 4px;
-}
-.android-dark .toggleswitchview .switch-handle {
-  background: #1092d3;
-}
-.android-dark .toggleswitchview input:checked + .switch-labels .switch-handle {
-  background: #f45b42;
-}
-.android-dark .toggleswitchview input:checked + .switch-labels .switch-handle {
-  left: 35.2px;
-}
-.android-dark .webgl .switch-handle {
-  -webkit-transition: left 0.15s ease-out;
-  -moz-transition: left 0.15s ease-out;
-  -o-transition: left 0.15s ease-out;
-  transition: left 0.15s ease-out;
 }
 .android-dark .m-loaderview, .android-dark .m-popupview {
   -khtml-opacity: 0;
@@ -6796,49 +6416,159 @@
   height: 50px;
   text-align: center;
 }
+.android-dark .header .is-icon-only {
+  font-size: 2.4rem;
+}
 .android-dark .movableview {
-  padding-left: 20px;
-  background: #00cc09;
   position: relative;
   overflow: hidden;
   width: 100%;
   height: 100px;
 }
-.android-dark .movableview .movable-element, .android-dark .movableview .menuview {
+.android-dark .movableview .movable-element {
   display: block;
   height: 100px;
   width: 100px;
-  background: #cc3500;
-  -webkit-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  -webkit-transform: translate3d(0, 0, 0);
 }
-.android-dark .movableview .movable-element, .android-dark .movableview .menuview {
+.android-dark .toggleswitchview {
+  position: relative;
+  overflow: hidden;
+  height: 46px;
+}
+.android-dark .toggleswitchview .label-descr,
+.android-dark .toggleswitchview .movable-container,
+.android-dark .toggleswitchview .movable-grid {
+  height: 41px;
+}
+.android-dark .toggleswitchview .label-descr {
+  display: block;
+  position: relative;
+  padding: 14px 80px 0 0;
+}
+.android-dark .toggleswitchview .toggleswitch-value-listener {
+  display: none;
+}
+.android-dark .toggleswitchview .movable-grid {
+  min-width: 80px;
+  display: inline-block;
   position: absolute;
-  left: 0;
+  right: 12px;
+  top: 5px;
+}
+.android-dark .toggleswitchview .movable-container {
+  position: absolute;
+  bottom: 0;
+  width: 76px;
+  border-radius: 36px;
+  padding: 3px 3px 0 3px;
+}
+.android-dark .toggleswitchview.on-left .movable-container {
+  background: #d5d5d5;
+}
+.android-dark .toggleswitchview.on-right .movable-container {
+  background: #669900;
+}
+.android-dark .toggleswitchview .movable-element {
+  position: absolute;
+  height: 36px;
+  width: 36px;
+  border-radius: 36px;
+  border: 1px solid white;
+  background: white;
+}
+.android-dark .toggleswitchview .on-value,
+.android-dark .toggleswitchview .off-value {
+  color: white;
+  max-width: 30px;
+}
+.android-dark .toggleswitchview .on-value {
+  position: absolute;
+  left: 6px;
+  top: 9px;
+}
+.android-dark .toggleswitchview .off-value {
+  position: absolute;
+  right: 8px;
+  top: 9px;
 }
 .android-dark .has-menu {
   overflow: visible;
 }
-.android-dark .menuview {
-  position: absolute;
-  top: 0;
+.android-dark .menuview.on-move .movable-container {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+.android-dark .menuview.on-left.on-move .movable-backdrop {
+  right: 0;
+}
+.android-dark .menuview.on-right .movable-container, .android-dark .menuview.on-move .movable-container {
+  right: 0;
+  max-width: 100%;
+}
+.android-dark .menuview.on-left .movable-backdrop {
+  right: 100%;
+}
+.android-dark .menuview .movable-backdrop {
+  background: black;
   left: 0;
+  right: 0;
+  opacity: 0;
+}
+.android-dark .menuview .movable-backdrop,
+.android-dark .menuview .movable-container {
+  position: absolute;
+  top: 50px;
   bottom: 0;
   display: block;
-  background: green;
-  width: 200px;
+  overflow: hidden;
 }
-.android-dark .menuview .movable-element, .android-dark .menuview .menuview {
+.android-dark .menuview .movable-container {
+  left: -180px;
+  background: transparent;
+  -webkit-transition: -webkit-transform 500ms ease;
+  -moz-transition: -moz-transform 500ms ease;
+  -o-transition: -o-transform 500ms ease;
+  transition: transform 500ms ease;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.android-dark .menuview .movable-container .movable-element {
   position: absolute;
-  left: 190px;
+  left: 180px;
   display: block;
-  height: 100px;
-  width: 100px;
-  background: #cc3500;
+  height: 50px;
+  width: 50px;
+  background: transparent;
+  font-size: 3.6rem;
+  padding: 8px 0 0 7px;
+  border: 1px solid #a6a6a6;
+  border-left: none;
+  border-right-width: 1px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   -webkit-user-select: none;
   -webkit-user-drag: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transition: -webkit-transform 500ms ease;
+  -moz-transition: -moz-transform 500ms ease;
+  -o-transition: -o-transform 500ms ease;
+  transition: transform 500ms ease;
   -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.android-dark .menu-content {
+  display: block;
+  background: white;
+  height: 100%;
+  width: 180px;
+  margin-right: 20px;
+  overflow-y: auto;
 }
