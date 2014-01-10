@@ -475,7 +475,10 @@ M.ListView = M.View.extend({
      */
     filter: function( filterValue ) {
 
-        this.setFilterValue(filterValue);
+        if(typeof filterValue !== 'undefined'){
+            this.setFilterValue(filterValue);
+        }
+
         if( this.useRenderUpdateFilter ) {
             this._renderUpdateFilter();
         } else {
