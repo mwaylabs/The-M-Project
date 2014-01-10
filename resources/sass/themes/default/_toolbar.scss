@@ -9,8 +9,16 @@
     .button {
       margin-top: 0;
       background: none;
-      color: $white;
+      color: $m-primary-active-text-color;
       border: none;
+
+    }
+
+    &.active{
+      .button {
+        background: none;
+        color: $m-primary-active-color;
+      }
     }
 
     &.is-icon-only {
@@ -18,6 +26,7 @@
       .button {
         width: $m-button-icon-only-width;
         padding: 6px $m-button-padding-left-right 4px $m-button-padding-left-right;
+        text-align: left;
       }
       .fa {
         font-size: $m-primary-font-size * 2;
