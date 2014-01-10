@@ -3,7 +3,7 @@
 
 /**
  *
- * @module M.Model
+ * @module M.Security
  *
  * @type {{logon: Function, logonBasicAuth: Function, logonMcapAuth: Function, getHost: Function}}
  */

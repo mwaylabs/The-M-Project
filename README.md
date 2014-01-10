@@ -1,5 +1,5 @@
 ![The-M-Project Absinthe][logo]
-# The-M-Project 2.0 (Absinthe) Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=absinthe)](https://travis-ci.org/mwaylabs/The-M-Project)
+# The-M-Project 2.0 (Absinthe) Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=master)](https://travis-ci.org/mwaylabs/The-M-Project)
 
 The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great mobile apps, easy and fast.
 
@@ -69,15 +69,18 @@ The-M-Project 1.x as we call it was from our point of view pretty good, but has 
 	- BlackBerry Z10
 
 ## Demo
+### Kitchensink Demo
+[![Try the Kitchensink][tryKitchensink]](http://www.the-m-project.org/apps/absinthe/kitchensink/index.html)
+
+The Kitchensink gives a good overview of all Views and Layouts so far. Play around and see what the The-M-Project offers to you.
+
 Beside the Kitchensink we have a second ready to launch sample app called Addressbook.
 
-### Kitchensink Demo
-[Try the Kitchensink](http://www.the-m-project.org/apps/absinthe/kitchensink/index.html)
-The Kitchensink gives a good overview of all Views and Layouts so far. Play arround and see what the The-M-Project offers to you.
 
 ### Addressbook Demo
-[Try the Addressbook](http://www.the-m-project.org/apps/absinthe/addressbook/index.html)
-The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://www.the-m-project.org/apps/addressbook/index.html) in different browser windows or devices for the full experience. A small [node.js](http://nodejs.org/) server is connected to a [MongoDB](http://www.mongodb.org/). The application syncronises via bikini the contact collection and stores it to the [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database) Database. This guarantees offline and online manipulation of the data.
+[![Try the Addressbook][tryAddressbook]](http://www.the-m-project.org/apps/absinthe/addressbook/index.html)
+
+The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://www.the-m-project.org/apps/absinthe/addressbook/index.html) in different browser windows or devices for the full experience. A small [node.js](http://nodejs.org/) server is connected to a [MongoDB](http://www.mongodb.org/). The application syncronises via bikini the contact collection and stores it to the [WebSQL](http://en.wikipedia.org/wiki/Web_SQL_Database) Database. This guarantees offline and online manipulation of the data.
 
 ## Roadmap
 
@@ -88,16 +91,16 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 - The-M-Project v.2.0 beta 2
 	- MenuView
 	- SideMenu
-	- Themes for Android and iOS
 	- MenuLayout
-    - touchable ToggleSwitch
+    	- Scaffold for MenuLayout
 - The-M-Project v.2.0 RC1
-	- Scaffold for MenuLayout
+	- touchable ToggleSwitch
 	- Feedback from the Community
 	- Complete documentation
 	- Tutorials
 	- More Samples
-	- test coverage >90% https://coveralls.io/r/mwaylabs/generator-m?branch=
+	- test coverage >100% https://coveralls.io/r/mwaylabs/generator-m?branch=
+	- Themes for Android and iOS
 
 - The-M-Project v.2.0
 	- Final release
@@ -382,6 +385,8 @@ For more informations about SASS Compass just visit their [website](http://compa
 [switch-layout]: http://www.the-m-project.org/docs/absinthe/img/layouts/Swipe_Blank.png
 [logo]: http://www.the-m-project.org/docs/absinthe/img/the-m-project-logo.png
 [styleguide-image]: http://www.the-m-project.org/docs/absinthe/img/styleguide.png
+[tryKitchensink]: http://www.the-m-project.org/docs/absinthe/img/try-kitchensink.png
+[tryAddressbook]: http://www.the-m-project.org/docs/absinthe/img/try-addressbook.png
 
 ## Development Process
 
