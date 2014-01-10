@@ -2,43 +2,26 @@
 // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 
 /**
- * The default label value for M.ToggleSwitch off state
- * @type {string}
- * @constant
- */
-M.TOGGLE_SWITCH_OFF = 'off';
-/**
- * The default label value for M.ToggleSwitch on state
- * @type {string}
- * @constant
- */
-M.TOGGLE_SWITCH_ON = 'on';
-
-/**
  * @module M.ToggleSwitchView
  *
  * @type {*}
- * @extends M.View
+ * @extends M.ToggleSwitchView
  * @example
  *
- * var scope = {
-            person: M.Model.create({
-                name: 'egon',
-                birthday: '1383751054966',
-                favorite: NO
-            })
-        };
-
- var toggleSwitch = M.ToggleSwitchView.extend({
-            scopeKey: 'person.favorite',
-            onValue: YES,
-            offValue: NO,
-            onLabel: 'on',
-            offLabel: 'off'
-        }).create(scope, null, true);
+ * M.ToggleSwitchView.extend({
+    grid: 'col-xs-12',
+    label: 'Wifi',
+    offLabel: 'Off',
+    onLabel: 'On',
+    scopeKey: 'settings',
+    extendTemplate: '<%= wifistatus  %>',
+    onValue: '1',
+    offValue: '2'
+ })
+ *
  *
  */
-M.ToggleSwitchView = M.View.extend({
+M.ToggleSwitchView = M.MovableView.extend({
 
     /**
      * The type of the view
@@ -54,12 +37,6 @@ M.ToggleSwitchView = M.View.extend({
      * @private
      */
     _templateString: M.TemplateManager.get('toggleswitch.ejs'),
-
-    /**
-     * The container to put the options in
-     * @private
-     */
-    _optionsContainer: 'toggleswitch',
 
     /**
      * The value of the on state
@@ -89,6 +66,8 @@ M.ToggleSwitchView = M.View.extend({
      */
     offLabel: M.TOGGLE_SWITCH_OFF,
 
+    rightEdge: 35,
+
     /**
      * Use stickit to bind the values like it is done in the M.SelectionListView
      * @private
@@ -96,18 +75,10 @@ M.ToggleSwitchView = M.View.extend({
     selectOptions: null,
 
     /**
-     * Clear the floating
-     * @default
-     * @type {string}
-     * @private
-     */
-    _internalCssClasses: 'clear',
-
-    /**
      * Add all the template values
      * @private
      */
-    _assignTemplateValues: function () {
+    _assignTemplateValues: function() {
         M.View.prototype._assignTemplateValues.apply(this, arguments);
         this._addLabelToTemplateValues();
         this._addOnLabelToTemplateValues();
@@ -120,10 +91,14 @@ M.ToggleSwitchView = M.View.extend({
      * Before the View gets initialized add stickit support
      * @param options
      */
-    initialize: function (options) {
+    initialize: function( options ) {
         this._setSelectOptions();
+        var that = this;
+        this._internalEvents.tap = function() {
+            that.toggle();
+        };
         M.View.prototype.initialize.apply(this, arguments);
-        if (this.getValue() === null) {
+        if( this.getValue() === null ) {
             this._setValue(this.offValue);
         }
     },
@@ -132,7 +107,7 @@ M.ToggleSwitchView = M.View.extend({
      * Use intern the stickit API.
      * @private
      */
-    _setSelectOptions: function () {
+    _setSelectOptions: function() {
         this.selectOptions = {
             collection: []
         };
@@ -142,11 +117,12 @@ M.ToggleSwitchView = M.View.extend({
      * @private
      * @returns {Object} returns onValue if the the value equals onValue or onLabel otherwise offValue
      */
-    onGet: function () {
-        var val = this.getValue();
-        if (val === this.onValue || val === this.onLabel) {
+    onGet: function( value ) {
+        if( value === this.onValue || value === this.onLabel ) {
+            M.MovableView.prototype.toLeft.apply(this, arguments);
             return this.onValue;
         } else {
+            M.MovableView.prototype.toRight.apply(this, arguments);
             return this.offValue;
         }
     },
@@ -155,19 +131,36 @@ M.ToggleSwitchView = M.View.extend({
      * @private
      * @returns {Object} returns onValue if checked or if unchecked the offValue
      */
-    onSet: function () {
-        if (this.$el.find('input').prop('checked')) {
+    onSet: function() {
+        if( this.$el.hasClass('on-left') ) {
             return this.onValue;
-        } else {
+        } else if( this.$el.hasClass('on-right') ) {
             return this.offValue;
         }
+    },
+
+    toLeft: function() {
+        M.MovableView.prototype.toLeft.apply(this, arguments);
+        this._$valueContainer.trigger('change');
+    },
+
+    toRight: function() {
+        M.MovableView.prototype.toRight.apply(this, arguments);
+        this._$valueContainer.trigger('change');
+    },
+
+    _$valueContainer: null,
+
+    _postRender: function() {
+        M.MovableView.prototype._postRender.apply(this, arguments);
+        this._$valueContainer = this.$el.find('[contenteditable="true"]');
     },
 
     /**
      * Gets a internationalized version of the label and add this to the templateValues
      * @private
      */
-    _addLabelToTemplateValues: function () {
+    _addLabelToTemplateValues: function() {
         this._templateValues.label = this._getInternationalizedTemplateValue(this.label);
     },
 
@@ -175,7 +168,7 @@ M.ToggleSwitchView = M.View.extend({
      * Gets a internationalized version of the label and add this to the templateValues
      * @private
      */
-    _addOnLabelToTemplateValues: function () {
+    _addOnLabelToTemplateValues: function() {
         this._templateValues.onLabel = this.onLabel || M.TOGGLE_SWITCH_ON;
     },
 
@@ -183,7 +176,16 @@ M.ToggleSwitchView = M.View.extend({
      * Gets a internationalized version of the label and add this to the templateValues
      * @private
      */
-    _addOffLabelToTemplateValues: function () {
+    _addOffLabelToTemplateValues: function() {
         this._templateValues.offLabel = this.offLabel || M.TOGGLE_SWITCH_OFF;
     }
 });
+
+/**
+ * Constant that specifies the behaviour of the ItemView
+ * @type {{LINKED: number, BASIC: number, ICON: number}}
+ */
+M.ToggleSwitchView.CONST = {
+    TOGGLE_SWITCH_ON: 1,
+    TOGGLE_SWITCH_OFF: 2
+};

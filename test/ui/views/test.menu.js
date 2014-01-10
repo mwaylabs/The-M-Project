@@ -92,7 +92,7 @@ describe('M.MenuView', function () {
         var eventOptions = testView._getEventOptions();
         assert.isTrue(eventOptions['prevent_default']);
         assert.isTrue(eventOptions['no_mouseevents']);
-        assert.isTrue(eventOptions['stop_browser_behavior']);
+        assert.isObject(eventOptions['stop_browser_behavior']);
 
     });
 

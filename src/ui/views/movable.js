@@ -204,7 +204,16 @@ M.MovableView = M.View.extend({
         return {
             'prevent_default': true,
             'no_mouseevents': true,
-            'stop_browser_behavior': true
+            'stop_browser_behavior': {
+                // this also triggers onselectstart=false for IE
+                userSelect: 'none',
+                // this makes the element blocking in IE10 >, you could experiment with the value
+                // see for more options this issue; https://github.com/EightMedia/hammer.js/issues/241
+                touchAction: 'none',
+                touchCallout: 'none',
+                contentZooming: 'none',
+                userDrag: 'none'
+            }
         };
     },
 

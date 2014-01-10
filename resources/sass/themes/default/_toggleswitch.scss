@@ -1,118 +1,77 @@
-/*Inspiered by and thanks to*/
-/*
- * Copyright (c) 2013 Thibaut Courouble
- * http://www.cssflow.com
- *
- * Licensed under the MIT License:
- * http://www.opensource.org/licenses/mit-license.php
- */
+.toggleswitchview {
 
-.toggleswitchview{
+  position: relative;
+  overflow: hidden;
+  height: 46px;
 
-  @extend .margin0010;
-
-  label .label-descr{
-    display: block;
-    float: left;
+  .label-descr,
+  .movable-container,
+  .movable-grid{
+    height: 41px;
   }
 
-  .toggleswitch {
+
+  .label-descr{
+    display: block;
     position: relative;
-    display: block;
-    vertical-align: top;
-    width: $m-primary-calc-font-size * 3.5;
-    padding: 0;
-    border-radius: $m-button-border-radius;
-    cursor: pointer;
-    overflow: hidden;
+    padding: 14px 80px 0 0;
+    @extend .ellipsis;
   }
 
-  input {
+  .toggleswitch-value-listener{
+    display: none;
+  }
+
+  .movable-grid{
+    min-width: 80px;
+    display: inline-block;
     position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
+    right: 12px;
+    top: 5px;
   }
 
-  .switch-labels {
-    position: relative;
-    display: block;
-    font-size: $m-primary-calc-font-size;
-    background: $darkwhite;
-    border-radius: inherit;
-    text-indent: -9999px;
-  }
-
-  .switch-labels:before, .switch-labels:after {
-    text-indent: 0;
+  .movable-container {
     position: absolute;
-    display: block;
-    top: floor(($m-primary-calc-font-size / 4) - 4);
-    line-height: $m-primary-line-height;
+    bottom: 0;
+    width: 76px;
+    border-radius: 36px;
+    padding: 3px 3px 0 3px;
   }
 
-  .switch-labels:before {
-    content: attr(data-offLabel);
-    right: $m-primary-calc-font-size / 1.6;
-    color: $grey;
+  &.on-left .movable-container{
+    background: $m-primary-disabled-color;
   }
 
-  .switch-labels:after {
-    content: attr(data-onLabel);
-    left: $m-primary-calc-font-size / 1.6;
-    color: $m-primary-active-text-color;
-    opacity: 0;
+  &.on-right .movable-container{
+    background: $m-primary-color;
   }
 
-  input:checked + .switch-labels {
-    background: $m-primary-active-color;
-  }
-  input:checked + .switch-labels:before {
-    opacity: 0;
-  }
-  input:checked + .switch-labels:after {
-    opacity: 1;
-  }
-
-  .switch-handle {
+  .movable-element {
     position: absolute;
-    top: floor(($m-primary-calc-font-size / 4) - 1);
-    left: floor(($m-primary-calc-font-size / 4) - 1);
-    width: $m-primary-calc-font-size;
-    height: $m-primary-calc-font-size;
+    height: 36px;
+    width: 36px;
+    border-radius: 36px;
+    border: 1px solid $white;
     background: $white;
-    border-radius: $m-button-border-radius;
   }
 
-  .switch-handle{
-    background: $blue;
+  .on-value,
+  .off-value{
+    color: $white;
+    max-width: 30px;
+    @extend .ellipsis;
   }
 
-  input:checked + .switch-labels .switch-handle{
-    background: $orange;
+  .on-value {
+    position: absolute;
+    left: 6px;
+    top: 9px;
   }
 
-  //.switch-handle:before {
-  //  content: '';
-  //  position: absolute;
-  //  top: 50%;
-  //  left: 50%;
-  //  margin: -6px 0 0 -6px;
-  //  width: 12px;
-  //  height: 12px;
-  //  background: #f9f9f9;
-  //  border-radius: 6px;
-  //  border: 1px solid red;
-  //}
-
-  input:checked + .switch-labels .switch-handle {
-    left: $m-primary-calc-font-size * 2.2;
+  .off-value {
+    position: absolute;
+    right: 8px;
+    top: 9px;
   }
-}
 
-.webgl .switch-handle{
-  -webkit-transition: left 0.15s ease-out;
-  -moz-transition: left 0.15s ease-out;
-  -o-transition: left 0.15s ease-out;
-  transition: left 0.15s ease-out;
 }

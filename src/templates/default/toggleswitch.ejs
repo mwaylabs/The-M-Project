@@ -1,1 +1,23 @@
-<div><label><% if(label){%> <span class="needsclick label-descr"> <%= label %> <% }%> </span> <div class="toggleswitch"><input value="<%= value %>" type="checkbox"><span class="switch-labels needsclick" data-onLabel="<%= onLabel %>" data-offLabel="<%= offLabel %>">switchlabel<span class="switch-handle"></span></span></div></label></div>
+<div>
+    <div class="toggleswitch-value-listener" contenteditable="true"><%= value %></div>
+
+    <% if(label){%>
+        <div class="label-descr"> <%= label %></div>
+    <% }%>
+    <div class="movable-grid">
+        <div class="movable-container">
+              <% if(onLabel){%>
+                  <div class="on-value"><%= onLabel %></div>
+              <% }%>
+
+              <% if(onLabel){%>
+                  <div class="off-value"><%= offLabel %></div>
+              <% }%>
+
+              <% if(onLabel){%>
+                  <div class="movable-element"></div>
+              <% }%>
+        </div>
+    </div>
+</div>
+

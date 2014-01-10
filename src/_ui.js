@@ -28,12 +28,12 @@
 // @include ./ui/views/selectionlist.js
 // @include ./ui/views/radiolist.js
 // @include ./ui/views/checkboxlist.js
-// @include ./ui/views/toggleswitch.js
 // @include ./ui/views/modal.js
 // @include ./ui/views/loader.js
 // @include ./ui/views/text.js
 // @include ./ui/views/debug.js
 // @include ./ui/views/movable.js
+// @include ./ui/views/toggleswitch.js
 // @include ./ui/views/menu.js
 
 // @include ./ui/layouts/header-layout.js
