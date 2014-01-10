@@ -1,12 +1,16 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
-* Copyright: (c) 2013 M-Way Solutions GmbH.
-* Version:   2.0.0-beta
-* Date:      Tue Dec 10 2013 16:27:28
+* Copyright: (c) 2014 M-Way Solutions GmbH.
+* Version:   2.0.0-beta2
+* Date:      Fri Jan 10 2014 18:16:20
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 .android, .android-light {
   /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
+  @-ms-viewport {
+    width: device-width;
+}
+
   /* animation sets */
   /* move from / to  */
   /* fade */
@@ -2043,14 +2047,6 @@
 
   /* animation delay classes */
   /********************************************************************************************************************************************************************************/
-  /*Inspiered by and thanks to*/
-  /*
-   * Copyright (c) 2013 Thibaut Courouble
-   * http://www.cssflow.com
-   *
-   * Licensed under the MIT License:
-   * http://www.opensource.org/licenses/mit-license.php
-   */
   @-webkit-keyframes m-loaderview-inner-message-opacity {
     0% {
       color: #333333;
@@ -2413,93 +2409,6 @@
 .android table, .android-light table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-@media print {
-  .android, .android-light {
-    @page {
-      margin: 2cm .5cm;
-}
-
-  }
-  .android *, .android-light * {
-    text-shadow: none !important;
-    color: #000 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-  }
-  .android a,
-  .android a:visited, .android-light a,
-  .android-light a:visited {
-    text-decoration: underline;
-  }
-  .android a[href]:after, .android-light a[href]:after {
-    content: " (" attr(href) ")";
-  }
-  .android abbr[title]:after, .android-light abbr[title]:after {
-    content: " (" attr(title) ")";
-  }
-  .android a[href^="javascript:"]:after,
-  .android a[href^="#"]:after, .android-light a[href^="javascript:"]:after,
-  .android-light a[href^="#"]:after {
-    content: "";
-  }
-  .android pre,
-  .android blockquote, .android-light pre,
-  .android-light blockquote {
-    border: 1px solid #999;
-    page-break-inside: avoid;
-  }
-  .android thead, .android-light thead {
-    display: table-header-group;
-  }
-  .android tr,
-  .android img, .android-light tr,
-  .android-light img {
-    page-break-inside: avoid;
-  }
-  .android img, .android-light img {
-    max-width: 100% !important;
-  }
-  .android p,
-  .android h2,
-  .android h3, .android-light p,
-  .android-light h2,
-  .android-light h3 {
-    orphans: 3;
-    widows: 3;
-  }
-  .android h2,
-  .android h3, .android-light h2,
-  .android-light h3 {
-    page-break-after: avoid;
-  }
-  .android select, .android-light select {
-    background: #fff !important;
-  }
-  .android .navbar, .android-light .navbar {
-    display: none;
-  }
-  .android .table td,
-  .android .table th, .android-light .table td,
-  .android-light .table th {
-    background-color: #fff !important;
-  }
-  .android .btn > .caret,
-  .android .dropup > .btn > .caret, .android-light .btn > .caret,
-  .android-light .dropup > .btn > .caret {
-    border-top-color: #000 !important;
-  }
-  .android .label, .android-light .label {
-    border: 1px solid #000;
-  }
-  .android .table, .android-light .table {
-    border-collapse: collapse !important;
-  }
-  .android .table-bordered th,
-  .android .table-bordered td, .android-light .table-bordered th,
-  .android-light .table-bordered td {
-    border: 1px solid #ddd !important;
-  }
 }
 .android *,
 .android *:before,
@@ -4479,679 +4388,6 @@
 .android-light input[type="button"].btn-block {
   width: 100%;
 }
-.android .container, .android-light .container {
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.android .container:before, .android .container:after, .android-light .container:before, .android-light .container:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
-}
-.android .container:after, .android-light .container:after {
-  clear: both;
-}
-.android .row, .android-light .row {
-  margin-left: -15px;
-  margin-right: -15px;
-}
-.android .row:before, .android .row:after, .android-light .row:before, .android-light .row:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
-}
-.android .row:after, .android-light .row:after {
-  clear: both;
-}
-.android .col-xs-12, .android .col-sm-12, .android .col-md-12, .android .col-lg-12, .android .col-xs-11, .android .col-sm-11, .android .col-md-11, .android .col-lg-11, .android .col-xs-10, .android .col-sm-10, .android .col-md-10, .android .col-lg-10, .android .col-xs-9, .android .col-sm-9, .android .col-md-9, .android .col-lg-9, .android .col-xs-8, .android .col-sm-8, .android .col-md-8, .android .col-lg-8, .android .col-xs-7, .android .col-sm-7, .android .col-md-7, .android .col-lg-7, .android .col-xs-6, .android .col-sm-6, .android .col-md-6, .android .col-lg-6, .android .col-xs-5, .android .col-sm-5, .android .col-md-5, .android .col-lg-5, .android .col-xs-4, .android .col-sm-4, .android .col-md-4, .android .col-lg-4, .android .col-xs-3, .android .col-sm-3, .android .col-md-3, .android .col-lg-3, .android .col-xs-2, .android .col-sm-2, .android .col-md-2, .android .col-lg-2, .android .col-xs-1, .android .col-sm-1, .android .col-md-1, .android .col-lg-1, .android-light .col-xs-12, .android-light .col-sm-12, .android-light .col-md-12, .android-light .col-lg-12, .android-light .col-xs-11, .android-light .col-sm-11, .android-light .col-md-11, .android-light .col-lg-11, .android-light .col-xs-10, .android-light .col-sm-10, .android-light .col-md-10, .android-light .col-lg-10, .android-light .col-xs-9, .android-light .col-sm-9, .android-light .col-md-9, .android-light .col-lg-9, .android-light .col-xs-8, .android-light .col-sm-8, .android-light .col-md-8, .android-light .col-lg-8, .android-light .col-xs-7, .android-light .col-sm-7, .android-light .col-md-7, .android-light .col-lg-7, .android-light .col-xs-6, .android-light .col-sm-6, .android-light .col-md-6, .android-light .col-lg-6, .android-light .col-xs-5, .android-light .col-sm-5, .android-light .col-md-5, .android-light .col-lg-5, .android-light .col-xs-4, .android-light .col-sm-4, .android-light .col-md-4, .android-light .col-lg-4, .android-light .col-xs-3, .android-light .col-sm-3, .android-light .col-md-3, .android-light .col-lg-3, .android-light .col-xs-2, .android-light .col-sm-2, .android-light .col-md-2, .android-light .col-lg-2, .android-light .col-xs-1, .android-light .col-sm-1, .android-light .col-md-1, .android-light .col-lg-1 {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.android .col-xs-12, .android .col-xs-11, .android .col-xs-10, .android .col-xs-9, .android .col-xs-8, .android .col-xs-7, .android .col-xs-6, .android .col-xs-5, .android .col-xs-4, .android .col-xs-3, .android .col-xs-2, .android .col-xs-1, .android-light .col-xs-12, .android-light .col-xs-11, .android-light .col-xs-10, .android-light .col-xs-9, .android-light .col-xs-8, .android-light .col-xs-7, .android-light .col-xs-6, .android-light .col-xs-5, .android-light .col-xs-4, .android-light .col-xs-3, .android-light .col-xs-2, .android-light .col-xs-1 {
-  float: left;
-}
-.android .col-xs-1, .android-light .col-xs-1 {
-  width: 8.33333%;
-}
-.android .col-xs-2, .android-light .col-xs-2 {
-  width: 16.66667%;
-}
-.android .col-xs-3, .android-light .col-xs-3 {
-  width: 25%;
-}
-.android .col-xs-4, .android-light .col-xs-4 {
-  width: 33.33333%;
-}
-.android .col-xs-5, .android-light .col-xs-5 {
-  width: 41.66667%;
-}
-.android .col-xs-6, .android-light .col-xs-6 {
-  width: 50%;
-}
-.android .col-xs-7, .android-light .col-xs-7 {
-  width: 58.33333%;
-}
-.android .col-xs-8, .android-light .col-xs-8 {
-  width: 66.66667%;
-}
-.android .col-xs-9, .android-light .col-xs-9 {
-  width: 75%;
-}
-.android .col-xs-10, .android-light .col-xs-10 {
-  width: 83.33333%;
-}
-.android .col-xs-11, .android-light .col-xs-11 {
-  width: 91.66667%;
-}
-.android .col-xs-12, .android-light .col-xs-12 {
-  width: 100%;
-}
-.android .col-xs-pull-0, .android-light .col-xs-pull-0 {
-  right: 0%;
-}
-.android .col-xs-pull-1, .android-light .col-xs-pull-1 {
-  right: 8.33333%;
-}
-.android .col-xs-pull-2, .android-light .col-xs-pull-2 {
-  right: 16.66667%;
-}
-.android .col-xs-pull-3, .android-light .col-xs-pull-3 {
-  right: 25%;
-}
-.android .col-xs-pull-4, .android-light .col-xs-pull-4 {
-  right: 33.33333%;
-}
-.android .col-xs-pull-5, .android-light .col-xs-pull-5 {
-  right: 41.66667%;
-}
-.android .col-xs-pull-6, .android-light .col-xs-pull-6 {
-  right: 50%;
-}
-.android .col-xs-pull-7, .android-light .col-xs-pull-7 {
-  right: 58.33333%;
-}
-.android .col-xs-pull-8, .android-light .col-xs-pull-8 {
-  right: 66.66667%;
-}
-.android .col-xs-pull-9, .android-light .col-xs-pull-9 {
-  right: 75%;
-}
-.android .col-xs-pull-10, .android-light .col-xs-pull-10 {
-  right: 83.33333%;
-}
-.android .col-xs-pull-11, .android-light .col-xs-pull-11 {
-  right: 91.66667%;
-}
-.android .col-xs-pull-12, .android-light .col-xs-pull-12 {
-  right: 100%;
-}
-.android .col-xs-push-0, .android-light .col-xs-push-0 {
-  left: 0%;
-}
-.android .col-xs-push-1, .android-light .col-xs-push-1 {
-  left: 8.33333%;
-}
-.android .col-xs-push-2, .android-light .col-xs-push-2 {
-  left: 16.66667%;
-}
-.android .col-xs-push-3, .android-light .col-xs-push-3 {
-  left: 25%;
-}
-.android .col-xs-push-4, .android-light .col-xs-push-4 {
-  left: 33.33333%;
-}
-.android .col-xs-push-5, .android-light .col-xs-push-5 {
-  left: 41.66667%;
-}
-.android .col-xs-push-6, .android-light .col-xs-push-6 {
-  left: 50%;
-}
-.android .col-xs-push-7, .android-light .col-xs-push-7 {
-  left: 58.33333%;
-}
-.android .col-xs-push-8, .android-light .col-xs-push-8 {
-  left: 66.66667%;
-}
-.android .col-xs-push-9, .android-light .col-xs-push-9 {
-  left: 75%;
-}
-.android .col-xs-push-10, .android-light .col-xs-push-10 {
-  left: 83.33333%;
-}
-.android .col-xs-push-11, .android-light .col-xs-push-11 {
-  left: 91.66667%;
-}
-.android .col-xs-push-12, .android-light .col-xs-push-12 {
-  left: 100%;
-}
-.android .col-xs-offset-0, .android-light .col-xs-offset-0 {
-  margin-left: 0%;
-}
-.android .col-xs-offset-1, .android-light .col-xs-offset-1 {
-  margin-left: 8.33333%;
-}
-.android .col-xs-offset-2, .android-light .col-xs-offset-2 {
-  margin-left: 16.66667%;
-}
-.android .col-xs-offset-3, .android-light .col-xs-offset-3 {
-  margin-left: 25%;
-}
-.android .col-xs-offset-4, .android-light .col-xs-offset-4 {
-  margin-left: 33.33333%;
-}
-.android .col-xs-offset-5, .android-light .col-xs-offset-5 {
-  margin-left: 41.66667%;
-}
-.android .col-xs-offset-6, .android-light .col-xs-offset-6 {
-  margin-left: 50%;
-}
-.android .col-xs-offset-7, .android-light .col-xs-offset-7 {
-  margin-left: 58.33333%;
-}
-.android .col-xs-offset-8, .android-light .col-xs-offset-8 {
-  margin-left: 66.66667%;
-}
-.android .col-xs-offset-9, .android-light .col-xs-offset-9 {
-  margin-left: 75%;
-}
-.android .col-xs-offset-10, .android-light .col-xs-offset-10 {
-  margin-left: 83.33333%;
-}
-.android .col-xs-offset-11, .android-light .col-xs-offset-11 {
-  margin-left: 91.66667%;
-}
-.android .col-xs-offset-12, .android-light .col-xs-offset-12 {
-  margin-left: 100%;
-}
-@media (min-width: 768px) {
-  .android .container, .android-light .container {
-    width: 750px;
-  }
-  .android .col-sm-12, .android .col-sm-11, .android .col-sm-10, .android .col-sm-9, .android .col-sm-8, .android .col-sm-7, .android .col-sm-6, .android .col-sm-5, .android .col-sm-4, .android .col-sm-3, .android .col-sm-2, .android .col-sm-1, .android-light .col-sm-12, .android-light .col-sm-11, .android-light .col-sm-10, .android-light .col-sm-9, .android-light .col-sm-8, .android-light .col-sm-7, .android-light .col-sm-6, .android-light .col-sm-5, .android-light .col-sm-4, .android-light .col-sm-3, .android-light .col-sm-2, .android-light .col-sm-1 {
-    float: left;
-  }
-  .android .col-sm-1, .android-light .col-sm-1 {
-    width: 8.33333%;
-  }
-  .android .col-sm-2, .android-light .col-sm-2 {
-    width: 16.66667%;
-  }
-  .android .col-sm-3, .android-light .col-sm-3 {
-    width: 25%;
-  }
-  .android .col-sm-4, .android-light .col-sm-4 {
-    width: 33.33333%;
-  }
-  .android .col-sm-5, .android-light .col-sm-5 {
-    width: 41.66667%;
-  }
-  .android .col-sm-6, .android-light .col-sm-6 {
-    width: 50%;
-  }
-  .android .col-sm-7, .android-light .col-sm-7 {
-    width: 58.33333%;
-  }
-  .android .col-sm-8, .android-light .col-sm-8 {
-    width: 66.66667%;
-  }
-  .android .col-sm-9, .android-light .col-sm-9 {
-    width: 75%;
-  }
-  .android .col-sm-10, .android-light .col-sm-10 {
-    width: 83.33333%;
-  }
-  .android .col-sm-11, .android-light .col-sm-11 {
-    width: 91.66667%;
-  }
-  .android .col-sm-12, .android-light .col-sm-12 {
-    width: 100%;
-  }
-  .android .col-sm-pull-0, .android-light .col-sm-pull-0 {
-    right: 0%;
-  }
-  .android .col-sm-pull-1, .android-light .col-sm-pull-1 {
-    right: 8.33333%;
-  }
-  .android .col-sm-pull-2, .android-light .col-sm-pull-2 {
-    right: 16.66667%;
-  }
-  .android .col-sm-pull-3, .android-light .col-sm-pull-3 {
-    right: 25%;
-  }
-  .android .col-sm-pull-4, .android-light .col-sm-pull-4 {
-    right: 33.33333%;
-  }
-  .android .col-sm-pull-5, .android-light .col-sm-pull-5 {
-    right: 41.66667%;
-  }
-  .android .col-sm-pull-6, .android-light .col-sm-pull-6 {
-    right: 50%;
-  }
-  .android .col-sm-pull-7, .android-light .col-sm-pull-7 {
-    right: 58.33333%;
-  }
-  .android .col-sm-pull-8, .android-light .col-sm-pull-8 {
-    right: 66.66667%;
-  }
-  .android .col-sm-pull-9, .android-light .col-sm-pull-9 {
-    right: 75%;
-  }
-  .android .col-sm-pull-10, .android-light .col-sm-pull-10 {
-    right: 83.33333%;
-  }
-  .android .col-sm-pull-11, .android-light .col-sm-pull-11 {
-    right: 91.66667%;
-  }
-  .android .col-sm-pull-12, .android-light .col-sm-pull-12 {
-    right: 100%;
-  }
-  .android .col-sm-push-0, .android-light .col-sm-push-0 {
-    left: 0%;
-  }
-  .android .col-sm-push-1, .android-light .col-sm-push-1 {
-    left: 8.33333%;
-  }
-  .android .col-sm-push-2, .android-light .col-sm-push-2 {
-    left: 16.66667%;
-  }
-  .android .col-sm-push-3, .android-light .col-sm-push-3 {
-    left: 25%;
-  }
-  .android .col-sm-push-4, .android-light .col-sm-push-4 {
-    left: 33.33333%;
-  }
-  .android .col-sm-push-5, .android-light .col-sm-push-5 {
-    left: 41.66667%;
-  }
-  .android .col-sm-push-6, .android-light .col-sm-push-6 {
-    left: 50%;
-  }
-  .android .col-sm-push-7, .android-light .col-sm-push-7 {
-    left: 58.33333%;
-  }
-  .android .col-sm-push-8, .android-light .col-sm-push-8 {
-    left: 66.66667%;
-  }
-  .android .col-sm-push-9, .android-light .col-sm-push-9 {
-    left: 75%;
-  }
-  .android .col-sm-push-10, .android-light .col-sm-push-10 {
-    left: 83.33333%;
-  }
-  .android .col-sm-push-11, .android-light .col-sm-push-11 {
-    left: 91.66667%;
-  }
-  .android .col-sm-push-12, .android-light .col-sm-push-12 {
-    left: 100%;
-  }
-  .android .col-sm-offset-0, .android-light .col-sm-offset-0 {
-    margin-left: 0%;
-  }
-  .android .col-sm-offset-1, .android-light .col-sm-offset-1 {
-    margin-left: 8.33333%;
-  }
-  .android .col-sm-offset-2, .android-light .col-sm-offset-2 {
-    margin-left: 16.66667%;
-  }
-  .android .col-sm-offset-3, .android-light .col-sm-offset-3 {
-    margin-left: 25%;
-  }
-  .android .col-sm-offset-4, .android-light .col-sm-offset-4 {
-    margin-left: 33.33333%;
-  }
-  .android .col-sm-offset-5, .android-light .col-sm-offset-5 {
-    margin-left: 41.66667%;
-  }
-  .android .col-sm-offset-6, .android-light .col-sm-offset-6 {
-    margin-left: 50%;
-  }
-  .android .col-sm-offset-7, .android-light .col-sm-offset-7 {
-    margin-left: 58.33333%;
-  }
-  .android .col-sm-offset-8, .android-light .col-sm-offset-8 {
-    margin-left: 66.66667%;
-  }
-  .android .col-sm-offset-9, .android-light .col-sm-offset-9 {
-    margin-left: 75%;
-  }
-  .android .col-sm-offset-10, .android-light .col-sm-offset-10 {
-    margin-left: 83.33333%;
-  }
-  .android .col-sm-offset-11, .android-light .col-sm-offset-11 {
-    margin-left: 91.66667%;
-  }
-  .android .col-sm-offset-12, .android-light .col-sm-offset-12 {
-    margin-left: 100%;
-  }
-}
-@media (min-width: 992px) {
-  .android .container, .android-light .container {
-    width: 970px;
-  }
-  .android .col-md-12, .android .col-md-11, .android .col-md-10, .android .col-md-9, .android .col-md-8, .android .col-md-7, .android .col-md-6, .android .col-md-5, .android .col-md-4, .android .col-md-3, .android .col-md-2, .android .col-md-1, .android-light .col-md-12, .android-light .col-md-11, .android-light .col-md-10, .android-light .col-md-9, .android-light .col-md-8, .android-light .col-md-7, .android-light .col-md-6, .android-light .col-md-5, .android-light .col-md-4, .android-light .col-md-3, .android-light .col-md-2, .android-light .col-md-1 {
-    float: left;
-  }
-  .android .col-md-1, .android-light .col-md-1 {
-    width: 8.33333%;
-  }
-  .android .col-md-2, .android-light .col-md-2 {
-    width: 16.66667%;
-  }
-  .android .col-md-3, .android-light .col-md-3 {
-    width: 25%;
-  }
-  .android .col-md-4, .android-light .col-md-4 {
-    width: 33.33333%;
-  }
-  .android .col-md-5, .android-light .col-md-5 {
-    width: 41.66667%;
-  }
-  .android .col-md-6, .android-light .col-md-6 {
-    width: 50%;
-  }
-  .android .col-md-7, .android-light .col-md-7 {
-    width: 58.33333%;
-  }
-  .android .col-md-8, .android-light .col-md-8 {
-    width: 66.66667%;
-  }
-  .android .col-md-9, .android-light .col-md-9 {
-    width: 75%;
-  }
-  .android .col-md-10, .android-light .col-md-10 {
-    width: 83.33333%;
-  }
-  .android .col-md-11, .android-light .col-md-11 {
-    width: 91.66667%;
-  }
-  .android .col-md-12, .android-light .col-md-12 {
-    width: 100%;
-  }
-  .android .col-md-pull-0, .android-light .col-md-pull-0 {
-    right: 0%;
-  }
-  .android .col-md-pull-1, .android-light .col-md-pull-1 {
-    right: 8.33333%;
-  }
-  .android .col-md-pull-2, .android-light .col-md-pull-2 {
-    right: 16.66667%;
-  }
-  .android .col-md-pull-3, .android-light .col-md-pull-3 {
-    right: 25%;
-  }
-  .android .col-md-pull-4, .android-light .col-md-pull-4 {
-    right: 33.33333%;
-  }
-  .android .col-md-pull-5, .android-light .col-md-pull-5 {
-    right: 41.66667%;
-  }
-  .android .col-md-pull-6, .android-light .col-md-pull-6 {
-    right: 50%;
-  }
-  .android .col-md-pull-7, .android-light .col-md-pull-7 {
-    right: 58.33333%;
-  }
-  .android .col-md-pull-8, .android-light .col-md-pull-8 {
-    right: 66.66667%;
-  }
-  .android .col-md-pull-9, .android-light .col-md-pull-9 {
-    right: 75%;
-  }
-  .android .col-md-pull-10, .android-light .col-md-pull-10 {
-    right: 83.33333%;
-  }
-  .android .col-md-pull-11, .android-light .col-md-pull-11 {
-    right: 91.66667%;
-  }
-  .android .col-md-pull-12, .android-light .col-md-pull-12 {
-    right: 100%;
-  }
-  .android .col-md-push-0, .android-light .col-md-push-0 {
-    left: 0%;
-  }
-  .android .col-md-push-1, .android-light .col-md-push-1 {
-    left: 8.33333%;
-  }
-  .android .col-md-push-2, .android-light .col-md-push-2 {
-    left: 16.66667%;
-  }
-  .android .col-md-push-3, .android-light .col-md-push-3 {
-    left: 25%;
-  }
-  .android .col-md-push-4, .android-light .col-md-push-4 {
-    left: 33.33333%;
-  }
-  .android .col-md-push-5, .android-light .col-md-push-5 {
-    left: 41.66667%;
-  }
-  .android .col-md-push-6, .android-light .col-md-push-6 {
-    left: 50%;
-  }
-  .android .col-md-push-7, .android-light .col-md-push-7 {
-    left: 58.33333%;
-  }
-  .android .col-md-push-8, .android-light .col-md-push-8 {
-    left: 66.66667%;
-  }
-  .android .col-md-push-9, .android-light .col-md-push-9 {
-    left: 75%;
-  }
-  .android .col-md-push-10, .android-light .col-md-push-10 {
-    left: 83.33333%;
-  }
-  .android .col-md-push-11, .android-light .col-md-push-11 {
-    left: 91.66667%;
-  }
-  .android .col-md-push-12, .android-light .col-md-push-12 {
-    left: 100%;
-  }
-  .android .col-md-offset-0, .android-light .col-md-offset-0 {
-    margin-left: 0%;
-  }
-  .android .col-md-offset-1, .android-light .col-md-offset-1 {
-    margin-left: 8.33333%;
-  }
-  .android .col-md-offset-2, .android-light .col-md-offset-2 {
-    margin-left: 16.66667%;
-  }
-  .android .col-md-offset-3, .android-light .col-md-offset-3 {
-    margin-left: 25%;
-  }
-  .android .col-md-offset-4, .android-light .col-md-offset-4 {
-    margin-left: 33.33333%;
-  }
-  .android .col-md-offset-5, .android-light .col-md-offset-5 {
-    margin-left: 41.66667%;
-  }
-  .android .col-md-offset-6, .android-light .col-md-offset-6 {
-    margin-left: 50%;
-  }
-  .android .col-md-offset-7, .android-light .col-md-offset-7 {
-    margin-left: 58.33333%;
-  }
-  .android .col-md-offset-8, .android-light .col-md-offset-8 {
-    margin-left: 66.66667%;
-  }
-  .android .col-md-offset-9, .android-light .col-md-offset-9 {
-    margin-left: 75%;
-  }
-  .android .col-md-offset-10, .android-light .col-md-offset-10 {
-    margin-left: 83.33333%;
-  }
-  .android .col-md-offset-11, .android-light .col-md-offset-11 {
-    margin-left: 91.66667%;
-  }
-  .android .col-md-offset-12, .android-light .col-md-offset-12 {
-    margin-left: 100%;
-  }
-}
-@media (min-width: 1200px) {
-  .android .container, .android-light .container {
-    width: 1170px;
-  }
-  .android .col-lg-12, .android .col-lg-11, .android .col-lg-10, .android .col-lg-9, .android .col-lg-8, .android .col-lg-7, .android .col-lg-6, .android .col-lg-5, .android .col-lg-4, .android .col-lg-3, .android .col-lg-2, .android .col-lg-1, .android-light .col-lg-12, .android-light .col-lg-11, .android-light .col-lg-10, .android-light .col-lg-9, .android-light .col-lg-8, .android-light .col-lg-7, .android-light .col-lg-6, .android-light .col-lg-5, .android-light .col-lg-4, .android-light .col-lg-3, .android-light .col-lg-2, .android-light .col-lg-1 {
-    float: left;
-  }
-  .android .col-lg-1, .android-light .col-lg-1 {
-    width: 8.33333%;
-  }
-  .android .col-lg-2, .android-light .col-lg-2 {
-    width: 16.66667%;
-  }
-  .android .col-lg-3, .android-light .col-lg-3 {
-    width: 25%;
-  }
-  .android .col-lg-4, .android-light .col-lg-4 {
-    width: 33.33333%;
-  }
-  .android .col-lg-5, .android-light .col-lg-5 {
-    width: 41.66667%;
-  }
-  .android .col-lg-6, .android-light .col-lg-6 {
-    width: 50%;
-  }
-  .android .col-lg-7, .android-light .col-lg-7 {
-    width: 58.33333%;
-  }
-  .android .col-lg-8, .android-light .col-lg-8 {
-    width: 66.66667%;
-  }
-  .android .col-lg-9, .android-light .col-lg-9 {
-    width: 75%;
-  }
-  .android .col-lg-10, .android-light .col-lg-10 {
-    width: 83.33333%;
-  }
-  .android .col-lg-11, .android-light .col-lg-11 {
-    width: 91.66667%;
-  }
-  .android .col-lg-12, .android-light .col-lg-12 {
-    width: 100%;
-  }
-  .android .col-lg-pull-0, .android-light .col-lg-pull-0 {
-    right: 0%;
-  }
-  .android .col-lg-pull-1, .android-light .col-lg-pull-1 {
-    right: 8.33333%;
-  }
-  .android .col-lg-pull-2, .android-light .col-lg-pull-2 {
-    right: 16.66667%;
-  }
-  .android .col-lg-pull-3, .android-light .col-lg-pull-3 {
-    right: 25%;
-  }
-  .android .col-lg-pull-4, .android-light .col-lg-pull-4 {
-    right: 33.33333%;
-  }
-  .android .col-lg-pull-5, .android-light .col-lg-pull-5 {
-    right: 41.66667%;
-  }
-  .android .col-lg-pull-6, .android-light .col-lg-pull-6 {
-    right: 50%;
-  }
-  .android .col-lg-pull-7, .android-light .col-lg-pull-7 {
-    right: 58.33333%;
-  }
-  .android .col-lg-pull-8, .android-light .col-lg-pull-8 {
-    right: 66.66667%;
-  }
-  .android .col-lg-pull-9, .android-light .col-lg-pull-9 {
-    right: 75%;
-  }
-  .android .col-lg-pull-10, .android-light .col-lg-pull-10 {
-    right: 83.33333%;
-  }
-  .android .col-lg-pull-11, .android-light .col-lg-pull-11 {
-    right: 91.66667%;
-  }
-  .android .col-lg-pull-12, .android-light .col-lg-pull-12 {
-    right: 100%;
-  }
-  .android .col-lg-push-0, .android-light .col-lg-push-0 {
-    left: 0%;
-  }
-  .android .col-lg-push-1, .android-light .col-lg-push-1 {
-    left: 8.33333%;
-  }
-  .android .col-lg-push-2, .android-light .col-lg-push-2 {
-    left: 16.66667%;
-  }
-  .android .col-lg-push-3, .android-light .col-lg-push-3 {
-    left: 25%;
-  }
-  .android .col-lg-push-4, .android-light .col-lg-push-4 {
-    left: 33.33333%;
-  }
-  .android .col-lg-push-5, .android-light .col-lg-push-5 {
-    left: 41.66667%;
-  }
-  .android .col-lg-push-6, .android-light .col-lg-push-6 {
-    left: 50%;
-  }
-  .android .col-lg-push-7, .android-light .col-lg-push-7 {
-    left: 58.33333%;
-  }
-  .android .col-lg-push-8, .android-light .col-lg-push-8 {
-    left: 66.66667%;
-  }
-  .android .col-lg-push-9, .android-light .col-lg-push-9 {
-    left: 75%;
-  }
-  .android .col-lg-push-10, .android-light .col-lg-push-10 {
-    left: 83.33333%;
-  }
-  .android .col-lg-push-11, .android-light .col-lg-push-11 {
-    left: 91.66667%;
-  }
-  .android .col-lg-push-12, .android-light .col-lg-push-12 {
-    left: 100%;
-  }
-  .android .col-lg-offset-0, .android-light .col-lg-offset-0 {
-    margin-left: 0%;
-  }
-  .android .col-lg-offset-1, .android-light .col-lg-offset-1 {
-    margin-left: 8.33333%;
-  }
-  .android .col-lg-offset-2, .android-light .col-lg-offset-2 {
-    margin-left: 16.66667%;
-  }
-  .android .col-lg-offset-3, .android-light .col-lg-offset-3 {
-    margin-left: 25%;
-  }
-  .android .col-lg-offset-4, .android-light .col-lg-offset-4 {
-    margin-left: 33.33333%;
-  }
-  .android .col-lg-offset-5, .android-light .col-lg-offset-5 {
-    margin-left: 41.66667%;
-  }
-  .android .col-lg-offset-6, .android-light .col-lg-offset-6 {
-    margin-left: 50%;
-  }
-  .android .col-lg-offset-7, .android-light .col-lg-offset-7 {
-    margin-left: 58.33333%;
-  }
-  .android .col-lg-offset-8, .android-light .col-lg-offset-8 {
-    margin-left: 66.66667%;
-  }
-  .android .col-lg-offset-9, .android-light .col-lg-offset-9 {
-    margin-left: 75%;
-  }
-  .android .col-lg-offset-10, .android-light .col-lg-offset-10 {
-    margin-left: 83.33333%;
-  }
-  .android .col-lg-offset-11, .android-light .col-lg-offset-11 {
-    margin-left: 91.66667%;
-  }
-  .android .col-lg-offset-12, .android-light .col-lg-offset-12 {
-    margin-left: 100%;
-  }
-}
 .android .fade, .android-light .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -5216,7 +4452,506 @@
 .android .affix, .android-light .affix {
   position: fixed;
 }
-.android .ellipsis, .android .form, .android .selection, .android .radiolistview label, .android .checkboxlistview label, .android .textfieldview input, .android .textfieldview .input-icon-addon, .android-light .radiolistview .android label, .android-light .checkboxlistview .android label, .android-light .textfieldview .android input, .android-light .textfieldview .android .input-icon-addon, .android .button div, .android-light .button .android div, .android .textfieldview .input-icon-addon input, .android-light .ellipsis, .android-light .form, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon, .android .button .android-light div, .android-light .button div, .android-light .textfieldview .input-icon-addon input {
+.android .visible-xs,
+.android tr.visible-xs,
+.android th.visible-xs,
+.android td.visible-xs, .android-light .visible-xs,
+.android-light tr.visible-xs,
+.android-light th.visible-xs,
+.android-light td.visible-xs {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .android .visible-xs, .android-light .visible-xs {
+    display: block !important;
+  }
+  .android tr.visible-xs, .android-light tr.visible-xs {
+    display: table-row !important;
+  }
+  .android th.visible-xs,
+  .android td.visible-xs, .android-light th.visible-xs,
+  .android-light td.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android .visible-xs.visible-sm, .android-light .visible-xs.visible-sm {
+    display: block !important;
+  }
+  .android tr.visible-xs.visible-sm, .android-light tr.visible-xs.visible-sm {
+    display: table-row !important;
+  }
+  .android th.visible-xs.visible-sm,
+  .android td.visible-xs.visible-sm, .android-light th.visible-xs.visible-sm,
+  .android-light td.visible-xs.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android .visible-xs.visible-md, .android-light .visible-xs.visible-md {
+    display: block !important;
+  }
+  .android tr.visible-xs.visible-md, .android-light tr.visible-xs.visible-md {
+    display: table-row !important;
+  }
+  .android th.visible-xs.visible-md,
+  .android td.visible-xs.visible-md, .android-light th.visible-xs.visible-md,
+  .android-light td.visible-xs.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android .visible-xs.visible-lg, .android-light .visible-xs.visible-lg {
+    display: block !important;
+  }
+  .android tr.visible-xs.visible-lg, .android-light tr.visible-xs.visible-lg {
+    display: table-row !important;
+  }
+  .android th.visible-xs.visible-lg,
+  .android td.visible-xs.visible-lg, .android-light th.visible-xs.visible-lg,
+  .android-light td.visible-xs.visible-lg {
+    display: table-cell !important;
+  }
+}
+.android .visible-sm,
+.android tr.visible-sm,
+.android th.visible-sm,
+.android td.visible-sm, .android-light .visible-sm,
+.android-light tr.visible-sm,
+.android-light th.visible-sm,
+.android-light td.visible-sm {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .android .visible-sm.visible-xs, .android-light .visible-sm.visible-xs {
+    display: block !important;
+  }
+  .android tr.visible-sm.visible-xs, .android-light tr.visible-sm.visible-xs {
+    display: table-row !important;
+  }
+  .android th.visible-sm.visible-xs,
+  .android td.visible-sm.visible-xs, .android-light th.visible-sm.visible-xs,
+  .android-light td.visible-sm.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android .visible-sm, .android-light .visible-sm {
+    display: block !important;
+  }
+  .android tr.visible-sm, .android-light tr.visible-sm {
+    display: table-row !important;
+  }
+  .android th.visible-sm,
+  .android td.visible-sm, .android-light th.visible-sm,
+  .android-light td.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android .visible-sm.visible-md, .android-light .visible-sm.visible-md {
+    display: block !important;
+  }
+  .android tr.visible-sm.visible-md, .android-light tr.visible-sm.visible-md {
+    display: table-row !important;
+  }
+  .android th.visible-sm.visible-md,
+  .android td.visible-sm.visible-md, .android-light th.visible-sm.visible-md,
+  .android-light td.visible-sm.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android .visible-sm.visible-lg, .android-light .visible-sm.visible-lg {
+    display: block !important;
+  }
+  .android tr.visible-sm.visible-lg, .android-light tr.visible-sm.visible-lg {
+    display: table-row !important;
+  }
+  .android th.visible-sm.visible-lg,
+  .android td.visible-sm.visible-lg, .android-light th.visible-sm.visible-lg,
+  .android-light td.visible-sm.visible-lg {
+    display: table-cell !important;
+  }
+}
+.android .visible-md,
+.android tr.visible-md,
+.android th.visible-md,
+.android td.visible-md, .android-light .visible-md,
+.android-light tr.visible-md,
+.android-light th.visible-md,
+.android-light td.visible-md {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .android .visible-md.visible-xs, .android-light .visible-md.visible-xs {
+    display: block !important;
+  }
+  .android tr.visible-md.visible-xs, .android-light tr.visible-md.visible-xs {
+    display: table-row !important;
+  }
+  .android th.visible-md.visible-xs,
+  .android td.visible-md.visible-xs, .android-light th.visible-md.visible-xs,
+  .android-light td.visible-md.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android .visible-md.visible-sm, .android-light .visible-md.visible-sm {
+    display: block !important;
+  }
+  .android tr.visible-md.visible-sm, .android-light tr.visible-md.visible-sm {
+    display: table-row !important;
+  }
+  .android th.visible-md.visible-sm,
+  .android td.visible-md.visible-sm, .android-light th.visible-md.visible-sm,
+  .android-light td.visible-md.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android .visible-md, .android-light .visible-md {
+    display: block !important;
+  }
+  .android tr.visible-md, .android-light tr.visible-md {
+    display: table-row !important;
+  }
+  .android th.visible-md,
+  .android td.visible-md, .android-light th.visible-md,
+  .android-light td.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android .visible-md.visible-lg, .android-light .visible-md.visible-lg {
+    display: block !important;
+  }
+  .android tr.visible-md.visible-lg, .android-light tr.visible-md.visible-lg {
+    display: table-row !important;
+  }
+  .android th.visible-md.visible-lg,
+  .android td.visible-md.visible-lg, .android-light th.visible-md.visible-lg,
+  .android-light td.visible-md.visible-lg {
+    display: table-cell !important;
+  }
+}
+.android .visible-lg,
+.android tr.visible-lg,
+.android th.visible-lg,
+.android td.visible-lg, .android-light .visible-lg,
+.android-light tr.visible-lg,
+.android-light th.visible-lg,
+.android-light td.visible-lg {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .android .visible-lg.visible-xs, .android-light .visible-lg.visible-xs {
+    display: block !important;
+  }
+  .android tr.visible-lg.visible-xs, .android-light tr.visible-lg.visible-xs {
+    display: table-row !important;
+  }
+  .android th.visible-lg.visible-xs,
+  .android td.visible-lg.visible-xs, .android-light th.visible-lg.visible-xs,
+  .android-light td.visible-lg.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android .visible-lg.visible-sm, .android-light .visible-lg.visible-sm {
+    display: block !important;
+  }
+  .android tr.visible-lg.visible-sm, .android-light tr.visible-lg.visible-sm {
+    display: table-row !important;
+  }
+  .android th.visible-lg.visible-sm,
+  .android td.visible-lg.visible-sm, .android-light th.visible-lg.visible-sm,
+  .android-light td.visible-lg.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android .visible-lg.visible-md, .android-light .visible-lg.visible-md {
+    display: block !important;
+  }
+  .android tr.visible-lg.visible-md, .android-light tr.visible-lg.visible-md {
+    display: table-row !important;
+  }
+  .android th.visible-lg.visible-md,
+  .android td.visible-lg.visible-md, .android-light th.visible-lg.visible-md,
+  .android-light td.visible-lg.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android .visible-lg, .android-light .visible-lg {
+    display: block !important;
+  }
+  .android tr.visible-lg, .android-light tr.visible-lg {
+    display: table-row !important;
+  }
+  .android th.visible-lg,
+  .android td.visible-lg, .android-light th.visible-lg,
+  .android-light td.visible-lg {
+    display: table-cell !important;
+  }
+}
+.android .hidden-xs, .android-light .hidden-xs {
+  display: block !important;
+}
+.android tr.hidden-xs, .android-light tr.hidden-xs {
+  display: table-row !important;
+}
+.android th.hidden-xs,
+.android td.hidden-xs, .android-light th.hidden-xs,
+.android-light td.hidden-xs {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .android .hidden-xs,
+  .android tr.hidden-xs,
+  .android th.hidden-xs,
+  .android td.hidden-xs, .android-light .hidden-xs,
+  .android-light tr.hidden-xs,
+  .android-light th.hidden-xs,
+  .android-light td.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android .hidden-xs.hidden-sm,
+  .android tr.hidden-xs.hidden-sm,
+  .android th.hidden-xs.hidden-sm,
+  .android td.hidden-xs.hidden-sm, .android-light .hidden-xs.hidden-sm,
+  .android-light tr.hidden-xs.hidden-sm,
+  .android-light th.hidden-xs.hidden-sm,
+  .android-light td.hidden-xs.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android .hidden-xs.hidden-md,
+  .android tr.hidden-xs.hidden-md,
+  .android th.hidden-xs.hidden-md,
+  .android td.hidden-xs.hidden-md, .android-light .hidden-xs.hidden-md,
+  .android-light tr.hidden-xs.hidden-md,
+  .android-light th.hidden-xs.hidden-md,
+  .android-light td.hidden-xs.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android .hidden-xs.hidden-lg,
+  .android tr.hidden-xs.hidden-lg,
+  .android th.hidden-xs.hidden-lg,
+  .android td.hidden-xs.hidden-lg, .android-light .hidden-xs.hidden-lg,
+  .android-light tr.hidden-xs.hidden-lg,
+  .android-light th.hidden-xs.hidden-lg,
+  .android-light td.hidden-xs.hidden-lg {
+    display: none !important;
+  }
+}
+.android .hidden-sm, .android-light .hidden-sm {
+  display: block !important;
+}
+.android tr.hidden-sm, .android-light tr.hidden-sm {
+  display: table-row !important;
+}
+.android th.hidden-sm,
+.android td.hidden-sm, .android-light th.hidden-sm,
+.android-light td.hidden-sm {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .android .hidden-sm.hidden-xs,
+  .android tr.hidden-sm.hidden-xs,
+  .android th.hidden-sm.hidden-xs,
+  .android td.hidden-sm.hidden-xs, .android-light .hidden-sm.hidden-xs,
+  .android-light tr.hidden-sm.hidden-xs,
+  .android-light th.hidden-sm.hidden-xs,
+  .android-light td.hidden-sm.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android .hidden-sm,
+  .android tr.hidden-sm,
+  .android th.hidden-sm,
+  .android td.hidden-sm, .android-light .hidden-sm,
+  .android-light tr.hidden-sm,
+  .android-light th.hidden-sm,
+  .android-light td.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android .hidden-sm.hidden-md,
+  .android tr.hidden-sm.hidden-md,
+  .android th.hidden-sm.hidden-md,
+  .android td.hidden-sm.hidden-md, .android-light .hidden-sm.hidden-md,
+  .android-light tr.hidden-sm.hidden-md,
+  .android-light th.hidden-sm.hidden-md,
+  .android-light td.hidden-sm.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android .hidden-sm.hidden-lg,
+  .android tr.hidden-sm.hidden-lg,
+  .android th.hidden-sm.hidden-lg,
+  .android td.hidden-sm.hidden-lg, .android-light .hidden-sm.hidden-lg,
+  .android-light tr.hidden-sm.hidden-lg,
+  .android-light th.hidden-sm.hidden-lg,
+  .android-light td.hidden-sm.hidden-lg {
+    display: none !important;
+  }
+}
+.android .hidden-md, .android-light .hidden-md {
+  display: block !important;
+}
+.android tr.hidden-md, .android-light tr.hidden-md {
+  display: table-row !important;
+}
+.android th.hidden-md,
+.android td.hidden-md, .android-light th.hidden-md,
+.android-light td.hidden-md {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .android .hidden-md.hidden-xs,
+  .android tr.hidden-md.hidden-xs,
+  .android th.hidden-md.hidden-xs,
+  .android td.hidden-md.hidden-xs, .android-light .hidden-md.hidden-xs,
+  .android-light tr.hidden-md.hidden-xs,
+  .android-light th.hidden-md.hidden-xs,
+  .android-light td.hidden-md.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android .hidden-md.hidden-sm,
+  .android tr.hidden-md.hidden-sm,
+  .android th.hidden-md.hidden-sm,
+  .android td.hidden-md.hidden-sm, .android-light .hidden-md.hidden-sm,
+  .android-light tr.hidden-md.hidden-sm,
+  .android-light th.hidden-md.hidden-sm,
+  .android-light td.hidden-md.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android .hidden-md,
+  .android tr.hidden-md,
+  .android th.hidden-md,
+  .android td.hidden-md, .android-light .hidden-md,
+  .android-light tr.hidden-md,
+  .android-light th.hidden-md,
+  .android-light td.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android .hidden-md.hidden-lg,
+  .android tr.hidden-md.hidden-lg,
+  .android th.hidden-md.hidden-lg,
+  .android td.hidden-md.hidden-lg, .android-light .hidden-md.hidden-lg,
+  .android-light tr.hidden-md.hidden-lg,
+  .android-light th.hidden-md.hidden-lg,
+  .android-light td.hidden-md.hidden-lg {
+    display: none !important;
+  }
+}
+.android .hidden-lg, .android-light .hidden-lg {
+  display: block !important;
+}
+.android tr.hidden-lg, .android-light tr.hidden-lg {
+  display: table-row !important;
+}
+.android th.hidden-lg,
+.android td.hidden-lg, .android-light th.hidden-lg,
+.android-light td.hidden-lg {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .android .hidden-lg.hidden-xs,
+  .android tr.hidden-lg.hidden-xs,
+  .android th.hidden-lg.hidden-xs,
+  .android td.hidden-lg.hidden-xs, .android-light .hidden-lg.hidden-xs,
+  .android-light tr.hidden-lg.hidden-xs,
+  .android-light th.hidden-lg.hidden-xs,
+  .android-light td.hidden-lg.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .android .hidden-lg.hidden-sm,
+  .android tr.hidden-lg.hidden-sm,
+  .android th.hidden-lg.hidden-sm,
+  .android td.hidden-lg.hidden-sm, .android-light .hidden-lg.hidden-sm,
+  .android-light tr.hidden-lg.hidden-sm,
+  .android-light th.hidden-lg.hidden-sm,
+  .android-light td.hidden-lg.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .android .hidden-lg.hidden-md,
+  .android tr.hidden-lg.hidden-md,
+  .android th.hidden-lg.hidden-md,
+  .android td.hidden-lg.hidden-md, .android-light .hidden-lg.hidden-md,
+  .android-light tr.hidden-lg.hidden-md,
+  .android-light th.hidden-lg.hidden-md,
+  .android-light td.hidden-lg.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .android .hidden-lg,
+  .android tr.hidden-lg,
+  .android th.hidden-lg,
+  .android td.hidden-lg, .android-light .hidden-lg,
+  .android-light tr.hidden-lg,
+  .android-light th.hidden-lg,
+  .android-light td.hidden-lg {
+    display: none !important;
+  }
+}
+.android .visible-print,
+.android tr.visible-print,
+.android th.visible-print,
+.android td.visible-print, .android-light .visible-print,
+.android-light tr.visible-print,
+.android-light th.visible-print,
+.android-light td.visible-print {
+  display: none !important;
+}
+@media print {
+  .android .visible-print, .android-light .visible-print {
+    display: block !important;
+  }
+  .android tr.visible-print, .android-light tr.visible-print {
+    display: table-row !important;
+  }
+  .android th.visible-print,
+  .android td.visible-print, .android-light th.visible-print,
+  .android-light td.visible-print {
+    display: table-cell !important;
+  }
+  .android .hidden-print,
+  .android tr.hidden-print,
+  .android th.hidden-print,
+  .android td.hidden-print, .android-light .hidden-print,
+  .android-light tr.hidden-print,
+  .android-light th.hidden-print,
+  .android-light td.hidden-print {
+    display: none !important;
+  }
+}
+.android .ellipsis, .android .form, .android .selection, .android .radiolistview label, .android .checkboxlistview label, .android .textfieldview input, .android .textfieldview .input-icon-addon, .android-light .radiolistview .android label, .android-light .checkboxlistview .android label, .android-light .textfieldview .android input, .android-light .textfieldview .android .input-icon-addon, .android .button div, .android-light .button .android div, .android .textfieldview .input-icon-addon input, .android .toggleswitchview .label-descr, .android-light .toggleswitchview .android .label-descr, .android .toggleswitchview .on-value,
+.android .toggleswitchview .off-value, .android-light .toggleswitchview .android .on-value,
+.android-light .toggleswitchview .android .off-value, .android-light .ellipsis, .android-light .form, .android-light .selection, .android .radiolistview .android-light label, .android-light .radiolistview label, .android .checkboxlistview .android-light label, .android-light .checkboxlistview label, .android .textfieldview .android-light input, .android-light .textfieldview input, .android .textfieldview .android-light .input-icon-addon, .android-light .textfieldview .input-icon-addon, .android .button .android-light div, .android-light .button div, .android-light .textfieldview .input-icon-addon input, .android .toggleswitchview .android-light .label-descr, .android-light .toggleswitchview .label-descr, .android .toggleswitchview .android-light .on-value,
+.android .toggleswitchview .android-light .off-value, .android-light .toggleswitchview .on-value,
+.android-light .toggleswitchview .off-value {
   white-space: nowrap !important;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -5247,15 +4982,15 @@
   right: 0;
   top: 0;
   bottom: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 .android .input, .android .checkboxlistview input[type="checkbox"], .android-light .checkboxlistview .android input[type="checkbox"], .android-light .input, .android .checkboxlistview .android-light input[type="checkbox"], .android-light .checkboxlistview input[type="checkbox"] {
   outline: none;
 }
 .android .margin0010, .android .button, .android .listview, .android .selection-list, .android .tabbarbuttongroupview,
-.android .buttongroupview, .android .radiolistview, .android .checkboxlistview, .android .toggleswitchview, .android .textview, .android-light .margin0010, .android-light .button, .android-light .listview, .android-light .selection-list, .android-light .tabbarbuttongroupview,
-.android-light .buttongroupview, .android-light .radiolistview, .android-light .checkboxlistview, .android-light .toggleswitchview, .android-light .textview {
+.android .buttongroupview, .android .radiolistview, .android .checkboxlistview, .android .textview, .android-light .margin0010, .android-light .button, .android-light .listview, .android-light .selection-list, .android-light .tabbarbuttongroupview,
+.android-light .buttongroupview, .android-light .radiolistview, .android-light .checkboxlistview, .android-light .textview {
   margin-bottom: 20px;
 }
 .android .margin1000, .android-light .margin1000 {
@@ -5274,7 +5009,7 @@
 .android-light .switch-header-content-layout .first, .android .toolbarview .android-light .first, .android-light .toolbarview .first {
   position: absolute;
   left: 10px;
-  top: 3px;
+  top: 4px;
 }
 .android .header-second, .android .switch-menu-header-content-layout .second,
 .android .switch-header-content-layout .second, .android-light .switch-menu-header-content-layout .android .second,
@@ -5283,7 +5018,7 @@
 .android-light .switch-header-content-layout .second, .android .toolbarview .android-light .second, .android-light .toolbarview .second {
   position: absolute;
   right: 10px;
-  top: 3px;
+  top: 4px;
 }
 .android .stencil, .android .textview.stencil i, .android .textview.stencil div div, .android-light .textview.stencil .android i, .android-light .textview.stencil div .android div, .android-light .stencil, .android .textview.stencil .android-light i, .android .textview.stencil div .android-light div, .android-light .textview.stencil i, .android-light .textview.stencil div div {
   color: transparent;
@@ -5303,6 +5038,9 @@
   font-size: 1.6rem;
   font-color: black;
   line-height: 2.2rem;
+}
+.android #main, .android-light #main {
+  height: 100%;
 }
 .android .clear, .android-light .clear {
   clear: both;
@@ -6307,6 +6045,36 @@
   top: 50px;
   background: white;
 }
+.android .splitlayout .m-perspective, .android-light .splitlayout .m-perspective {
+  display: -webkit-box;
+  display: -webkit-flexbox;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: flex;
+}
+.android .splitlayout .m-page, .android-light .splitlayout .m-page {
+  height: 100%;
+}
+.android .splitlayout.single #leftContainer, .android-light .splitlayout.single #leftContainer {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  width: 180px;
+  z-index: 9999;
+  overflow: hidden;
+  background: #fbfbfb;
+}
+.android .splitlayout .close, .android-light .splitlayout .close {
+  display: none;
+}
+.android .splitlayout #leftContainer, .android-light .splitlayout #leftContainer {
+  border-right: 1px solid #ccc;
+  background: #fbfbfb;
+}
+.android .splitlayout .toolbarview, .android-light .splitlayout .toolbarview {
+  position: relative;
+}
 .android h1,
 .android h2,
 .android h3,
@@ -6389,15 +6157,30 @@
   position: absolute;
   top: 0;
 }
-.android .toolbarview .button, .android-light .toolbarview .button {
+.android .toolbarview .buttonview .button, .android-light .toolbarview .buttonview .button {
   margin-top: 0;
+  background: none;
+  color: white;
+  border: none;
 }
-.android .buttonview, .android-light .buttonview {
-  min-width: 63px;
+.android .toolbarview .buttonview.active .button, .android-light .toolbarview .buttonview.active .button {
+  background: none;
+  color: #99cc00;
+}
+.android .toolbarview .buttonview.is-icon-only .button, .android-light .toolbarview .buttonview.is-icon-only .button {
+  width: 50px;
+  padding: 6px 10px 4px 10px;
+  text-align: left;
+}
+.android .toolbarview .buttonview.is-icon-only .fa, .android-light .toolbarview .buttonview.is-icon-only .fa {
+  font-size: 3.2rem;
+}
+.android .buttonview .fa, .android-light .buttonview .fa {
+  font-size: 2.24rem;
 }
 .android .button, .android-light .button {
   position: relative;
-  padding: 10px 10px 6px 10px;
+  padding: 10px 10px 10px 10px;
   font-weight: normal;
   text-align: center;
   white-space: nowrap;
@@ -6417,21 +6200,20 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: inline-block;
   width: 100%;
 }
 .android .has-icon .right i, .android .has-icon.right i, .android-light .has-icon .right i, .android-light .has-icon.right i {
-  right: 5px;
+  right: 10px;
   left: auto;
 }
 .android .has-icon .left i, .android .has-icon.left i, .android-light .has-icon .left i, .android-light .has-icon.left i {
-  left: 5px;
+  left: 10px;
   right: auto;
 }
 .android .has-icon i, .android-light .has-icon i {
   position: absolute;
   left: 10px;
-  top: 15px;
+  top: 11px;
 }
 .android .has-icon .right .button div, .android .has-icon.right .button div, .android-light .has-icon .right .button div, .android-light .has-icon.right .button div {
   padding-right: 10px;
@@ -6440,6 +6222,10 @@
 .android .has-icon .left .button div, .android .has-icon.left .button div, .android-light .has-icon .button div,
 .android-light .has-icon .left .button div, .android-light .has-icon.left .button div {
   padding-left: 10px;
+}
+.android .is-icon-only .button, .android-light .is-icon-only .button {
+  width: 80px;
+  padding-bottom: 9px;
 }
 .android .is-icon-only .button div, .android-light .is-icon-only .button div {
   display: none;
@@ -6562,6 +6348,7 @@
   border-bottom: 1px solid #ddd;
   list-style: none;
   cursor: pointer;
+  overflow: hidden;
 }
 .android .listview ul .listitemview.disabled li, .android-light .listview ul .listitemview.disabled li {
   cursor: default;
@@ -6736,21 +6523,11 @@
 .android-light .buttongroupview .buttonview .button {
   border-right-width: 0;
 }
-.android .tabbarbuttongroupview .buttonview:first-child,
-.android .buttongroupview .buttonview:first-child, .android-light .tabbarbuttongroupview .buttonview:first-child,
-.android-light .buttongroupview .buttonview:first-child {
-  padding-left: 15px;
-}
 .android .tabbarbuttongroupview .buttonview:first-child .button,
 .android .buttongroupview .buttonview:first-child .button, .android-light .tabbarbuttongroupview .buttonview:first-child .button,
 .android-light .buttongroupview .buttonview:first-child .button {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-}
-.android .tabbarbuttongroupview .buttonview:last-child,
-.android .buttongroupview .buttonview:last-child, .android-light .tabbarbuttongroupview .buttonview:last-child,
-.android-light .buttongroupview .buttonview:last-child {
-  padding-right: 15px;
 }
 .android .tabbarbuttongroupview .buttonview:last-child .button,
 .android .buttongroupview .buttonview:last-child .button, .android-light .tabbarbuttongroupview .buttonview:last-child .button,
@@ -6809,85 +6586,6 @@
 .android .checkboxlistview input[type="checkbox"]:checked + i:before, .android-light .checkboxlistview input[type="checkbox"]:checked + i:before {
   content: '\f058';
   color: #1092d3;
-}
-.android .toggleswitchview label .label-descr, .android-light .toggleswitchview label .label-descr {
-  display: block;
-  float: left;
-}
-.android .toggleswitchview .toggleswitch, .android-light .toggleswitchview .toggleswitch {
-  position: relative;
-  display: block;
-  vertical-align: top;
-  width: 56px;
-  padding: 0;
-  border-radius: 4px;
-  cursor: pointer;
-  overflow: hidden;
-}
-.android .toggleswitchview input, .android-light .toggleswitchview input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-}
-.android .toggleswitchview .switch-labels, .android-light .toggleswitchview .switch-labels {
-  position: relative;
-  display: block;
-  font-size: 16px;
-  background: #f2f2f2;
-  border-radius: inherit;
-  text-indent: -9999px;
-}
-.android .toggleswitchview .switch-labels:before, .android .toggleswitchview .switch-labels:after, .android-light .toggleswitchview .switch-labels:before, .android-light .toggleswitchview .switch-labels:after {
-  text-indent: 0;
-  position: absolute;
-  display: block;
-  top: 0px;
-  line-height: 2.2rem;
-}
-.android .toggleswitchview .switch-labels:before, .android-light .toggleswitchview .switch-labels:before {
-  content: attr(data-offLabel);
-  right: 10px;
-  color: #c3c3c3;
-}
-.android .toggleswitchview .switch-labels:after, .android-light .toggleswitchview .switch-labels:after {
-  content: attr(data-onLabel);
-  left: 10px;
-  color: white;
-  opacity: 0;
-}
-.android .toggleswitchview input:checked + .switch-labels, .android-light .toggleswitchview input:checked + .switch-labels {
-  background: #99cc00;
-}
-.android .toggleswitchview input:checked + .switch-labels:before, .android-light .toggleswitchview input:checked + .switch-labels:before {
-  opacity: 0;
-}
-.android .toggleswitchview input:checked + .switch-labels:after, .android-light .toggleswitchview input:checked + .switch-labels:after {
-  opacity: 1;
-}
-.android .toggleswitchview .switch-handle, .android-light .toggleswitchview .switch-handle {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 16px;
-  height: 16px;
-  background: white;
-  border-radius: 4px;
-}
-.android .toggleswitchview .switch-handle, .android-light .toggleswitchview .switch-handle {
-  background: #1092d3;
-}
-.android .toggleswitchview input:checked + .switch-labels .switch-handle, .android-light .toggleswitchview input:checked + .switch-labels .switch-handle {
-  background: #f45b42;
-}
-.android .toggleswitchview input:checked + .switch-labels .switch-handle, .android-light .toggleswitchview input:checked + .switch-labels .switch-handle {
-  left: 35.2px;
-}
-.android .webgl .switch-handle, .android-light .webgl .switch-handle {
-  -webkit-transition: left 0.15s ease-out;
-  -moz-transition: left 0.15s ease-out;
-  -o-transition: left 0.15s ease-out;
-  transition: left 0.15s ease-out;
 }
 .android .m-loaderview, .android .m-popupview, .android-light .m-loaderview, .android-light .m-popupview {
   -khtml-opacity: 0;
@@ -7052,51 +6750,165 @@
   height: 50px;
   text-align: center;
 }
+.android .header .is-icon-only, .android-light .header .is-icon-only {
+  font-size: 2.4rem;
+}
 .android .movableview, .android-light .movableview {
-  padding-left: 20px;
-  background: #00cc09;
   position: relative;
   overflow: hidden;
   width: 100%;
   height: 100px;
 }
-.android .movableview .movable-element, .android .movableview .menuview, .android-light .movableview .movable-element, .android-light .movableview .menuview {
+.android .movableview .movable-element, .android-light .movableview .movable-element {
   display: block;
   height: 100px;
   width: 100px;
-  background: #cc3500;
-  -webkit-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  -webkit-transform: translate3d(0, 0, 0);
 }
-.android .movableview .movable-element, .android .movableview .menuview, .android-light .movableview .movable-element, .android-light .movableview .menuview {
+.android .toggleswitchview, .android-light .toggleswitchview {
+  position: relative;
+  overflow: hidden;
+  height: 46px;
+}
+.android .toggleswitchview .label-descr,
+.android .toggleswitchview .movable-container,
+.android .toggleswitchview .movable-grid, .android-light .toggleswitchview .label-descr,
+.android-light .toggleswitchview .movable-container,
+.android-light .toggleswitchview .movable-grid {
+  height: 41px;
+}
+.android .toggleswitchview .label-descr, .android-light .toggleswitchview .label-descr {
+  display: block;
+  position: relative;
+  padding: 14px 80px 0 0;
+}
+.android .toggleswitchview .toggleswitch-value-listener, .android-light .toggleswitchview .toggleswitch-value-listener {
+  display: none;
+}
+.android .toggleswitchview .movable-grid, .android-light .toggleswitchview .movable-grid {
+  min-width: 80px;
+  display: inline-block;
   position: absolute;
-  left: 0;
+  right: 12px;
+  top: 5px;
+}
+.android .toggleswitchview .movable-container, .android-light .toggleswitchview .movable-container {
+  position: absolute;
+  bottom: 0;
+  width: 76px;
+  border-radius: 36px;
+  padding: 3px 3px 0 3px;
+}
+.android .toggleswitchview.on-left .movable-container, .android-light .toggleswitchview.on-left .movable-container {
+  background: #d5d5d5;
+}
+.android .toggleswitchview.on-right .movable-container, .android-light .toggleswitchview.on-right .movable-container {
+  background: #669900;
+}
+.android .toggleswitchview .movable-element, .android-light .toggleswitchview .movable-element {
+  position: absolute;
+  height: 36px;
+  width: 36px;
+  border-radius: 36px;
+  border: 1px solid white;
+  background: white;
+}
+.android .toggleswitchview .on-value,
+.android .toggleswitchview .off-value, .android-light .toggleswitchview .on-value,
+.android-light .toggleswitchview .off-value {
+  color: white;
+  max-width: 30px;
+}
+.android .toggleswitchview .on-value, .android-light .toggleswitchview .on-value {
+  position: absolute;
+  left: 6px;
+  top: 9px;
+}
+.android .toggleswitchview .off-value, .android-light .toggleswitchview .off-value {
+  position: absolute;
+  right: 8px;
+  top: 9px;
 }
 .android .has-menu, .android-light .has-menu {
   overflow: visible;
 }
-.android .menuview, .android-light .menuview {
-  position: absolute;
-  top: 0;
+.android .menuview.on-move .movable-container, .android-light .menuview.on-move .movable-container {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+.android .menuview.on-left.on-move .movable-backdrop, .android-light .menuview.on-left.on-move .movable-backdrop {
+  right: 0;
+}
+.android .menuview.on-right .movable-container, .android .menuview.on-move .movable-container, .android-light .menuview.on-right .movable-container, .android-light .menuview.on-move .movable-container {
+  right: 0;
+  max-width: 100%;
+}
+.android .menuview.on-left .movable-backdrop, .android-light .menuview.on-left .movable-backdrop {
+  right: 100%;
+}
+.android .menuview .movable-backdrop, .android-light .menuview .movable-backdrop {
+  background: black;
   left: 0;
+  right: 0;
+  opacity: 0;
+}
+.android .menuview .movable-backdrop,
+.android .menuview .movable-container, .android-light .menuview .movable-backdrop,
+.android-light .menuview .movable-container {
+  position: absolute;
+  top: 50px;
   bottom: 0;
   display: block;
-  background: green;
-  width: 200px;
+  overflow: hidden;
 }
-.android .menuview .movable-element, .android .menuview .menuview, .android-light .menuview .movable-element, .android-light .menuview .menuview {
+.android .menuview .movable-container, .android-light .menuview .movable-container {
+  left: -180px;
+  background: transparent;
+  -webkit-transition: -webkit-transform 500ms ease;
+  -moz-transition: -moz-transform 500ms ease;
+  -o-transition: -o-transform 500ms ease;
+  transition: transform 500ms ease;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.android .menuview .movable-container .movable-element, .android-light .menuview .movable-container .movable-element {
   position: absolute;
-  left: 190px;
+  left: 180px;
   display: block;
-  height: 100px;
-  width: 100px;
-  background: #cc3500;
+  height: 50px;
+  width: 50px;
+  background: transparent;
+  font-size: 3.6rem;
+  padding: 8px 0 0 7px;
+  border: 1px solid #a6a6a6;
+  border-left: none;
+  border-right-width: 1px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   -webkit-user-select: none;
   -webkit-user-drag: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transition: -webkit-transform 500ms ease;
+  -moz-transition: -moz-transform 500ms ease;
+  -o-transition: -o-transform 500ms ease;
+  transition: transform 500ms ease;
   -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.android .menu-content, .android-light .menu-content {
+  display: block;
+  background: white;
+  height: 100%;
+  width: 180px;
+  margin-right: 20px;
+  overflow-y: auto;
 }
 .android .selection-list:after, .android-light .selection-list:after {
   -webkit-transform: rotate(-45deg);

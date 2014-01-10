@@ -1,8 +1,8 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
-* Copyright: (c) 2013 M-Way Solutions GmbH.
-* Version:   2.0.0-beta
-* Date:      Thu Dec 05 2013 13:36:04
+* Copyright: (c) 2014 M-Way Solutions GmbH.
+* Version:   2.0.0-beta2
+* Date:      Fri Jan 10 2014 18:16:19
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 
@@ -28,7 +28,7 @@
      * Version number of current release
      * @type {String}
      */
-    M.Version = M.version = '2.0.0-beta';
+    M.Version = M.version = '2.0.0-beta2';
     
     /**
      * Empty function to be used when
@@ -63,7 +63,7 @@
     };
     
     M.isI18NItem = function( entity ) {
-        return (entity && entity._type && entity._type === 'M.I18NItem');
+        return (entity && entity._type && entity._type === 'M.I18NItem') ? true : false;
     };
     
     M.isController = function( entity ) {
@@ -1191,6 +1191,18 @@
          */
         applicationReady: function(){
     
+        },
+    
+        apply: function( router, args ) {
+            var appInstance = global[M.APPLICATION_NAME];
+    
+            if( appInstance.isInitialLoad ) {
+                this.applicationStart.apply(this, args);
+                appInstance.isInitialLoad = false;
+                appInstance._initReady();
+            } else {
+                this.show.apply(this, args);
+            }
         }
     });
     // Copyright (c) 2013 M-Way Solutions GmbH
@@ -1220,6 +1232,12 @@
         _isReady: NO,
     
         _debugView: null,
+    
+        /**
+         * This property is an indicator for the initial load of an app
+         * @type {boolean}
+         */
+        isInitialLoad: true,
     
         /**
          * This property contains an instance of the debug view.
@@ -1276,6 +1294,11 @@
         },
     
         navigate: function( settings ) {
+    
+            // Prevent routing, if a transition is animating
+            if(this._layout && this._layout.isAnimating && this._layout.isAnimating()) {
+                return false;
+            }
     
             var url = settings.route;
             var path = '';
@@ -1375,97 +1398,7 @@
     
     _.extend(M.Router.prototype, M.Object, {
     
-        _type: 'M.Router',
-    
-        _visitedRoutes: {},
-    
-        initialize: function() {
-    
-        },
-    
-        controllerDidLoad: function( name, controller, res, callback ) {
-            var _callback = this.getCallBack(controller);
-            if(_.isFunction(_callback)){
-                _callback.apply(controller, [res]);
-            }
-            callback();
-            global[M.APPLICATION_NAME]._initReady();
-        },
-    
-        callCallback: function( route, name, controller, res, callback ) {
-    
-    
-            var that = this;
-            if( _.isString(controller) ) {
-                require([controller], function( ctrl ) {
-                    that.controllerDidLoad(name, ctrl, res, callback);
-                });
-            } else if( M.Controller.prototype.isPrototypeOf(controller) ) {
-                setTimeout(function() {
-                    that.controllerDidLoad(name, controller, res, callback);
-                }, 0);
-            }
-    
-            return this;
-        },
-    
-        getCallBack: function( controller ) {
-    
-            var _callback = null;
-            if( Object.keys(this._visitedRoutes).length === 0 ) {
-                _callback = controller.applicationStart;
-            } else {
-                // prevent a show, if an transition is animating
-                if(!M.PageTransitions._isAnimating){
-                    _callback = controller.show;
-                }
-    
-            }
-            return _callback;
-        },
-    
-        route: function( route, name, controller ) {
-    
-            if( !_.isRegExp(route) ) {
-                route = this._routeToRegExp(route);
-            }
-            if( _.isFunction(name) ) {
-                controller = name;
-                name = '';
-            }
-            if( !controller ) {
-                controller = this[name];
-            }
-    
-            var router = this;
-    
-            Backbone.history.route(route, function( fragment ) {
-                var res = {};
-                _.each(router.routes, function( val, key ) {
-                    if(name === val){
-                        var reg = /\(?(\/:[^)]+)\)?$/;
-                        ///^page4\(?(/:[^)]+)\)?$/
-                        var exec = reg.exec(key);
-                        if( exec && exec.length ) {
-                            var s = exec.slice(1);
-                            res = s[0].replace('/:', '');
-                        }
-                    }
-                }, this);
-                var args = router._extractParameters(route, fragment);
-                res = _.object([res], args);
-                args.unshift(!router._visitedRoutes[name]);
-                router.controllerDidLoad( name, controller, res, function() {
-                    router.trigger.apply(router, ['route:' + name].concat(args));
-                    router.trigger('route', name, args);
-                    Backbone.history.trigger('route', router, name, args);
-                    if( !router._visitedRoutes[name] ) {
-                        router._visitedRoutes[name] = true;
-                    }
-                });
-            });
-            return this;
-        }
+        _type: 'M.Router'
     
     });
     // Copyright (c) 2013 M-Way Solutions GmbH
@@ -1745,7 +1678,7 @@
          * Loads the locale file and puts it into dictionary
          */
         loadFileForLocale: function () {
-            var fileUrl = 'i18n/' + this._activeLocale + '.json';
+            var fileUrl = 'i18n/' + this._activeLocale + '.js';
     
             // set locale for moment.js
             moment.lang(this._activeLocale.substr(0, 2));
@@ -2797,13 +2730,6 @@
             this.cancel();
         },
     
-        setAuthentication: function( xhr, credentials ) {
-            if( credentials && credentials.username && xhr && M.Base64 ) {
-                var basicAuth = M.Base64.encode(encodeURIComponent(credentials.username + ':' + (credentials.password || '')));
-                xhr.setRequestHeader('Authorization', 'Basic ' + basicAuth);
-            }
-        },
-    
         /*
          url = "http://example.com:3000/pathname/?search=test#hash";
     
@@ -3064,208 +2990,6 @@
             _.each(this._requests, function( request, id ) {
                 this.cancelRequest(id);
             }, this);
-        }
-    
-    });
-    // Copyright (c) 2013 M-Way Solutions GmbH
-    // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
-    
-    /**
-     *
-     * @module M.SocketIO
-     *
-     * @extends M.Object
-     */
-    M.SocketIO = M.Object.design(/** @scope M.SocketIO.prototype */{
-    
-        /**
-         * The type of this object.
-         *
-         * @type String
-         */
-        _type: 'M.SocketIO',
-    
-        /**
-         * The host name of the socket.io server.
-         *
-         * @type String
-         */
-        host: '',
-    
-        /**
-         * The path to the socket.io instance on the server.
-         *
-         * @type String
-         */
-        path: '',
-    
-        /**
-         * The resource to the socket.io instance on the server.
-         *
-         * @type String
-         */
-        resource: '',
-    
-        /**
-         * The path to the socket.io.js client script on the server.
-         *
-         * @type String
-         */
-        script: 'libs/socket.io.js',
-    
-        /**
-         * This property is used to specifiy all events for a socket within an application.
-         *
-         * @type {Object}
-         */
-        events: null,
-    
-        /**
-         * This property contains the socket connection.
-         *
-         * @type {Object}
-         */
-        _socket: null,
-    
-        /**
-         * This property contains a socket's event handlers for all events.
-         *
-         * @type {Object}
-         */
-        _events: null,
-    
-        /**
-         * This method is based on M.Object's extend() but adds some request specific features.
-         * It creates a new instance of M.SocketIO based on the given configuration properties.
-         *
-         * @param obj
-         * @returns {M.Request}
-         */
-        create: function( obj ) {
-            return this.design(obj);
-        },
-    
-        emit: function( event, data, callback ) {
-            this._socket.emit(event, data, callback);
-        },
-    
-        on: function( eventType, handler ) {
-            var that = this;
-            this._socket.on(eventType, function( data ) {
-                that.handleCallback(handler, data);
-            });
-        },
-    
-        disconnect: function() {
-            var that = this;
-            if( this._socket ) {
-                this._socket.removeAllListeners();
-                this._socket.on('connect', function( data ) {
-                    that.connected(data);
-                });
-                this._socket.on('disconnect', function( data ) {
-                    that.disconnected(data);
-                });
-            }
-            this._socket.disconnect();
-        },
-    
-        connect: function( param ) {
-            var that = this;
-            var url = this.host; //  + '/'  + this.path;
-            if( param ) {
-                url += '?' + (_.isString(param) ? param : $.param(param));
-            }
-            var options = this.resource ? { resource: this.resource } : {};
-            this._socket = io.connect(url, options);
-            this._socket.on('connect', function( data ) {
-                that.connected(data);
-            });
-            that._registerEvents();
-        },
-    
-        ready: function() {
-            this.connect();
-        },
-    
-        error: function( message ) {
-            console.log(message);
-        },
-    
-        /**
-         * This method returns the event handler of a certain event type of a socket.
-         *
-         * @param eventType
-         * @returns {*}
-         */
-        getEventHandler: function( eventType ) {
-            return this._events[eventType];
-        },
-    
-        /**
-         * M.SocketIO's _init method.
-         *
-         * @private
-         */
-        _init: function() {
-            if( Object.getPrototypeOf(this) === M.SocketIO ) {
-                this._initEvents();
-                var x = x || {};
-                if( typeof io === 'object' ) {
-                    this.ready();
-                } else {
-                    console.log('Socket.IO not present !!');
-                }
-            }
-        },
-    
-        /**
-         * This method is used to init a socket's event lists.
-         *
-         * @private
-         */
-        _initEvents: function() {
-            this.events = this.events || {};
-            this._events = {};
-    
-            _.each(this.events, function( handler ) {
-                this._addEvent(name, handler);
-            }, this);
-        },
-    
-        _addEvent: function( eventName, handler ) {
-            if( _.isFunction(handler) ) {
-                handler = { action: handler };
-            }
-            if( !handler.target ) {
-                handler.target = this;
-            }
-            this._events[eventName] = handler;
-        },
-    
-        /**
-         * This method registers all socket's events.
-         *
-         * @private
-         */
-        _registerEvents: function() {
-            var that = this;
-            this._socket.on('disconnect', function( data ) {
-                that.disconnect(data);
-            });
-            _.each(this._events, function( handler, eventType ) {
-                this._socket.on(eventType, function( data ) {
-                    that.handleCallback(handler, data);
-                });
-            }, this);
-        },
-    
-        connected: function() {
-    
-        },
-    
-        disconnected: function() {
-    
         }
     
     });
@@ -3962,11 +3686,11 @@
     
     /**
      *
-     * @module M.Model
+     * @module M.Security
      *
      * @type {{logon: Function, logonBasicAuth: Function, logonMcapAuth: Function, getHost: Function}}
      */
-    M.Security = {
+    M.Security = M.Object.design({
     
     
         logon: function (options, callback) {
@@ -3975,65 +3699,28 @@
                 switch (credentials.type) {
                     case 'basic':
                         return this.logonBasicAuth(options, callback);
-                    case 'mcap':
-                        return this.logonMcapAuth(options, callback);
                 }
             }
-            callback();
+            this.handleCallback(callback);
         },
     
         logonBasicAuth: function (options, callback) {
             var credentials = options.credentials;
             options.beforeSend = function (xhr) {
-                M.Request.setAuthentication(xhr, credentials);
+                M.Security.setBasicAuth(xhr, credentials);
             };
-            callback();
+            this.handleCallback(callback);
         },
     
-        logonMcapAuth: function (options, callback) {
-            var credentials = options.credentials;
-            if (credentials) {
-                options.beforeSend = function (xhr) {
-                    if (credentials.cookie) {
-                        xhr.setRequestHeader('JSESSIONID', credentials.cookie);
-                    }
-                };
-                if (!credentials.cookie) {
-                    var host = this.getHost(options);
-                    Backbone.ajax({
-                        url: host + '/gofer/security-login' +
-                            '?j_username=' + credentials.username +
-                            '&j_password=' + credentials.password +
-                            '&j_organization=system',
-                        success: function (result) {
-                            var m = document.cookie.match(/JSESSIONID=([^;]*)/);
-                            credentials.cookie = (m && m.length > 1) ? m[1] : '.';
-                            callback(result);
-                        },
-                        error: function (error) {
-                            credentials.cookie = '.';
-                            callback(error);
-                        }
-                    });
-                } else {
-                    callback();
-                }
+        setBasicAuth: function( xhr, credentials ) {
+            if( credentials && credentials.username && xhr && M.Base64 ) {
+                var basicAuth = M.Base64.encode(encodeURIComponent(credentials.username + ':' + (credentials.password || '')));
+                xhr.setRequestHeader('Authorization', 'Basic ' + basicAuth);
             }
-        },
-    
-        getHost: function (options) {
-            if (options.credentials && options.credentials.host) {
-                return options.credentials.host;
-            } else if (options.host) {
-                return options.host;
-            } else if (options.url) {
-                var href = M.Request.getLocation(options.url);
-                return href.protocol + '//' + href.host;
-            }
-            return '';
         }
     
-    };
+    });
+    
     // Copyright (c) 2013 M-Way Solutions GmbH
     // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
     
@@ -4045,7 +3732,7 @@
      * @extends Backbone.Model
      */
     M.Model = Backbone.Model.extend({
-        constructor: function (attributes, options) {
+        constructor: function( attributes, options ) {
             this.init(attributes, options);
             Backbone.Model.apply(this, arguments);
         }
@@ -4066,17 +3753,19 @@
     
         changedSinceSync: {},
     
-        init: function (attributes, options) {
+        logon: M.Security.logon,
+    
+        init: function( attributes, options ) {
             options = options || {};
     
             this.collection = options.collection || this.collection;
             this.idAttribute = options.idAttribute || this.idAttribute;
             this.store = this.store || (this.collection ? this.collection.store : null) || options.store;
-            if (this.store && _.isFunction(this.store.initModel)) {
+            if( this.store && _.isFunction(this.store.initModel) ) {
                 this.store.initModel(this, options);
             }
             this.entity = this.entity || (this.collection ? this.collection.entity : null) || options.entity;
-            if (this.entity) {
+            if( this.entity ) {
                 this.entity = M.Entity.from(this.entity, { model: this.constructor, typeMapping: options.typeMapping });
                 this.idAttribute = this.entity.idAttribute || this.idAttribute;
             }
@@ -4085,63 +3774,63 @@
             this.on('sync', this.onSync, this);
         },
     
-        sync: function (method, model, options) {
-            var store = (options ? options.store : null) || this.store;
-            if (store && _.isFunction(store.sync)) {
-                // Ensure that we have the appropriate request data.
-                return store.sync.apply(this, arguments);
-            } else {
-                var that = this;
-                var args = arguments;
-                options = options || {};
-                options.credentials = options.credentials || this.credentials;
-                M.Security.logon(options, function (result) {
+        sync: function( method, model, options ) {
+            options = options || {};
+            options.credentials = options.credentials || this.credentials;
+            var store = (options.store ? options.store : null) || this.store;
+            var that = this;
+            var args = arguments;
+    
+            this.logon(options, function( result ) {
+                if( store && _.isFunction(store.sync) ) {
+                    return store.sync.apply(that, args);
+                } else {
                     return Backbone.sync.apply(that, args);
-                });
-            }
+                }
+            });
         },
     
-        onChange: function (model, options) {
+        onChange: function( model, options ) {
             // For each `set` attribute, update or delete the current value.
             var attrs = model.changedAttributes();
-            if (_.isObject(attrs)) {
-                for (var key in attrs) {
+            if( _.isObject(attrs) ) {
+                for( var key in attrs ) {
                     this.changedSinceSync[key] = attrs[key];
                 }
             }
         },
     
-        onSync: function (model, options) {
+        onSync: function( model, options ) {
             this.changedSinceSync = {};
         },
     
-        getUrlRoot: function () {
-            if (this.urlRoot) {
+        getUrlRoot: function() {
+            if( this.urlRoot ) {
                 return _.isFunction(this.urlRoot) ? this.urlRoot() : this.urlRoot;
-            } else if (this.collection) {
+            } else if( this.collection ) {
                 return this.collection.getUrlRoot();
-            } else if (this.url) {
+            } else if( this.url ) {
                 var url = _.isFunction(this.url) ? this.url() : this.url;
-                if (url && this.id && url.indexOf(this.id) > 0) {
+                if( url && this.id && url.indexOf(this.id) > 0 ) {
                     return url.substr(0, url.indexOf(this.id));
                 }
                 return url;
             }
         },
     
-        toJSON: function (options) {
+        toJSON: function( options ) {
             options = options || {};
             var entity = options.entity || this.entity;
-            if (M.isEntity(entity)) {
+            if( M.isEntity(entity) ) {
                 return entity.fromAttributes(options.attrs || this.attributes);
             }
             return options.attrs || _.clone(this.attributes);
         },
     
-        parse: function (resp, options) {
+        parse: function( resp, options ) {
             options = options || {};
             var entity = options.entity || this.entity;
-            if (M.isEntity(entity)) {
+            if( M.isEntity(entity) ) {
                 return entity.toAttributes(resp);
             }
             return resp;
@@ -4188,6 +3877,8 @@
         entity: null,
     
         options: null,
+    
+        logon: M.Security.logon,
     
         init: function (options) {
             options = options || {};
@@ -4240,6 +3931,7 @@
         },
     
         destroy: function (options) {
+            options = options || {};
             var success = options.success;
             if (this.length > 0) {
                 options.success = function () {
@@ -4258,42 +3950,28 @@
         },
     
         sync: function (method, model, options) {
-            var store = (options ? options.store : null) || this.store;
-            if (store && _.isFunction(store.sync)) {
-                return store.sync.apply(this, arguments);
-            } else {
-                var that = this;
-                var args = arguments;
-                options = options || {};
-                options.credentials = options.credentials || this.credentials;
-                M.Security.logon(options, function (result) {
+            options = options || {};
+            options.credentials = options.credentials || this.credentials;
+            var store = (options.store ? options.store : null) || this.store;
+            var that = this;
+            var args = arguments;
+    
+            this.logon(options, function (result) {
+                if (store && _.isFunction(store.sync)) {
+                    return store.sync.apply(that, args);
+                } else {
                     return Backbone.sync.apply(that, args);
-                });
-            }
+                }
+            });
         },
     
-        _updateUrl: function () {
-            var params = this.getUrlParams();
-            if (this.options) {
-                this.url = this.getUrlRoot();
-                if (this.options.query) {
-                    params.query = encodeURIComponent(JSON.stringify(this.options.query));
-                }
-                if (this.options.fields) {
-                    params.fields = encodeURIComponent(JSON.stringify(this.options.fields));
-                }
-                if (this.options.sort) {
-                    params.sort = encodeURIComponent(JSON.stringify(this.options.sort));
-                }
-                if (!_.isEmpty(params)) {
-                    this.url += '?';
-                    var a = [];
-                    for (var k in params) {
-                        a.push(k + (params[k] ? '=' + params[k] : ''));
-                    }
-                    this.url += a.join('&');
-                }
-            }
+        /**
+         * save all containing models
+         */
+        save: function() {
+            this.each(function(model) {
+                model.save();
+            });
         },
     
         getUrlParams: function (url) {
@@ -4320,6 +3998,30 @@
     
         applyFilter: function (callback) {
             this.trigger('filter', this.filter(callback));
+        },
+    
+        _updateUrl: function () {
+            var params = this.getUrlParams();
+            if (this.options) {
+                this.url = this.getUrlRoot();
+                if (this.options.query) {
+                    params.query = encodeURIComponent(JSON.stringify(this.options.query));
+                }
+                if (this.options.fields) {
+                    params.fields = encodeURIComponent(JSON.stringify(this.options.fields));
+                }
+                if (this.options.sort) {
+                    params.sort = encodeURIComponent(JSON.stringify(this.options.sort));
+                }
+                if (!_.isEmpty(params)) {
+                    this.url += '?';
+                    var a = [];
+                    for (var k in params) {
+                        a.push(k + (params[k] ? '=' + params[k] : ''));
+                    }
+                    this.url += a.join('&');
+                }
+            }
         }
     
     });
@@ -5466,6 +5168,14 @@
             if( obj.finish ) {
                 this.handleCallback.apply(this, [ obj.finish ].concat(args));
             }
+        },
+    
+        CONST: {
+            ERROR_NO_ENTITY: 'No valid entity specified',
+            ERROR_LOAD_DATA: 'Error while loading data from store',
+            ERROR_SAVE_DATA: 'Error while saving data to the store',
+            ERROR_LOAD_IDS:  'Error while loading ids from store',
+            ERROR_SAVE_IDS:  'Error while saving ids to the store'
         }
     
     });
@@ -5484,9 +5194,12 @@
      *
      * @example
      *
+     * // The LocalStorageStore will save each model data as a json under his id,
+     * // and keeps all id's under an extra key for faster access
+     *
      * var MyCollection = M.Collection.extend({
-     *      model: MyModel,
-     *      store: new M.LocalStorageStore()
+     *      store: M.LocalStorageStore.create(),
+     *      entity: 'myEntityName'
      * });
      *
      */
@@ -5540,7 +5253,21 @@
             if( attrs ) {
                 that.handleSuccess(options, attrs);
             } else {
-                that.handleError(options);
+                that.handleError(options, M.Store.CONST.ERROR_NO_ENTITY);
+            }
+        },
+    
+        drop: function( options ) {
+            var entity = this.getEntity(options);
+            if( entity && entity.name ) {
+                var keys   = this._findAllKeys(entity);
+                for (var i=0; i<keys.length; i++) {
+                    localStorage.removeItem(keys[i]);
+                }
+                localStorage.removeItem('__ids__' + entity.name);
+                this.handleSuccess(options);
+            } else {
+                this.handleError(options, M.Store.CONST.ERROR_NO_ENTITY);
             }
         },
     
@@ -5559,7 +5286,7 @@
                         this._delItemId(id);
                     }
                 } catch( e ) {
-                    M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while loading data from local storage: ', e);
+                    M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_LOAD_DATA, e);
                 }
             }
             return attrs;
@@ -5571,7 +5298,7 @@
                     localStorage.setItem(this._getKey(entity, id), JSON.stringify(attrs));
                     this._addItemId(entity, id);
                 } catch( e ) {
-                    M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while saving data to local storage: ', e);
+                    M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_SAVE_DATA, e);
                 }
             }
         },
@@ -5599,6 +5326,21 @@
             }
         },
     
+        _findAllKeys: function (entity) {
+            var keys = [];
+            var prefixItem = this._getKey(entity, '');
+            if( prefixItem ) {
+                var key, len = localStorage.length;
+                for (var i=0; i < len; i++) {
+                    key = localStorage.key(i);
+                    if (key && key === prefixItem) {
+                        keys.push(key);
+                    }
+                }
+            }
+            return keys;
+        },
+    
         _getItemIds: function( entity ) {
             try {
                 var key = '__ids__' + entity.name;
@@ -5607,7 +5349,7 @@
                 }
                 return this.ids[entity.name];
             } catch( e ) {
-                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while loading ids from local storage: ', e);
+                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_LOAD_IDS, e);
             }
         },
     
@@ -5616,7 +5358,7 @@
                 var key = '__ids__' + entity.name;
                 localStorage.setItem(key, JSON.stringify(ids));
             } catch( e ) {
-                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, 'Error while saving ids to local storage: ', e);
+                M.Logger.error(M.CONST.LOGGER.TAG_FRAMEWORK_DATA, M.Store.CONST.ERROR_SAVE_IDS, e);
             }
         }
     });
@@ -5634,8 +5376,8 @@
      *
      * @example
      *
-     * The default configuration will save the complete model data as json
-     * into a database column with the name "data"
+     * // The default configuration will save the complete model data as json
+     * // into a database column with the name "data"
      *
      * var MyCollection = M.Collection.extend({
      *      model: MyModel,
@@ -5643,8 +5385,8 @@
      *      store: new M.WebSqlStorageStore()
      * });
      *
-     * If you want to use specific columns you can specify the fields
-     * in the entity of your model like this:
+     * // If you want to use specific columns you can specify the fields
+     * // in the entity of your model like this:
      *
      * var MyModel = M.Model.extend({
      *      idAttribute: 'id',
@@ -5753,7 +5495,7 @@
             this._select(null, options);
         },
     
-        dropTable: function( options ) {
+        drop: function( options ) {
             this._dropTable(options);
         },
     
@@ -5907,9 +5649,9 @@
             return sql;
         },
     
-        _sqlDelete: function( models, options, entity ) {
+        _sqlDelete: function(options, entity ) {
             var sql = 'DELETE FROM \'' + entity.name + '\'';
-            var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(models, entity);
+            var where = this._sqlWhere(options, entity) || this._sqlWhereFromData(options, entity);
             if( where ) {
                 sql += ' WHERE ' + where;
             }
@@ -5929,13 +5671,13 @@
             return sql;
         },
     
-        _sqlWhereFromData: function( models, entity ) {
+        _sqlWhereFromData: function(options, entity ) {
             var that = this;
             var ids = [];
-            if( models && entity && entity.idAttribute ) {
+            if( options && options.models && entity && entity.idAttribute ) {
                 var id, key = entity.idAttribute;
                 var field = this.getField(entity, key);
-                _.each(models, function( model ) {
+                _.each(options.models, function( model ) {
                     id = model.id;
                     if( !_.isUndefined(id) ) {
                         ids.push(that._sqlValue(id, field));
@@ -6099,6 +5841,8 @@
                 var isCollection = M.isCollection(result);
                 if( isCollection ) {
                     result = [];
+                } else {
+                    options.models = [ result ];
                 }
                 var stm = this._sqlSelect(options, entity);
                 var that = this;
@@ -6147,7 +5891,8 @@
         _delete: function( models, options ) {
             var entity = this.getEntity(options);
             if( this._checkDb(options) && this._checkEntity(options, entity) ) {
-                var sql = this._sqlDelete(models, options, entity);
+                options.models = models;
+                var sql = this._sqlDelete(options, entity);
                 // reset flag
                 this._executeTransaction(options, [sql]);
             }
@@ -6241,17 +5986,17 @@
      *
      * @example
      *
-     * The default configuration will save the complete model data as a json,
-     * and the offline change log to a local WebSql database, synchronize it
-     * trough REST calls with the server and receive live updates via a socket.io connection.
+     * // The default configuration will save the complete model data as a json,
+     * // and the offline change log to a local WebSql database, synchronize it
+     * // trough REST calls with the server and receive live updates via a socket.io connection.
      *
      * var MyCollection = M.Collection.extend({
      *      model: MyModel,
      *      url: 'http://myBikiniServer.com:8200/bikini/myCollection',
      *      store: new M.BikiniStore( {
-     *          useLocalStore:   true, // (default) store the data for offline use
-     *          useSocketNotify: true, // (default) register at the server for live updates
-     *          useOfflineChanges: true // (default) allow changes to the offline data
+     *          useLocalStore:   YES, // (default) store the data for offline use
+     *          useSocketNotify: YES, // (default) register at the server for live updates
+     *          useOfflineChanges: YES // (default) allow changes to the offline data
      *      })
      * });
      *
@@ -6259,8 +6004,6 @@
     M.BikiniStore = M.Store.extend({
     
         _type: 'M.BikiniStore',
-    
-        _transactionFailed: false,
     
         _selector: null,
     
@@ -6270,11 +6013,13 @@
     
         localStore: M.WebSqlStore,
     
-        useLocalStore: true,
+        useLocalStore: YES,
     
-        useSocketNotify: true,
+        useSocketNotify: YES,
     
-        useOfflineChanges: true,
+        useOfflineChanges: YES,
+    
+        isConnected: NO,
     
         typeMapping: {
             'binary': 'text',
@@ -6290,6 +6035,10 @@
             this.options.socketPath = this.socketPath;
             this.options.localStore = this.localStore;
             this.options.typeMapping = this.typeMapping;
+            if( this.options.useSocketNotify && typeof io !== 'object' ) {
+                console.log('Socket.IO not present !!');
+                this.options.useSocketNotify = NO;
+            }
             _.extend(this.options, options || {});
         },
     
@@ -6301,7 +6050,6 @@
             var entity = this.getEntity(collection.entity);
             if( url && entity ) {
                 var name = entity.name;
-                var idAttribute = entity.idAttribute;
                 var hash = this._hashCode(url);
                 var credentials = entity.credentials || collection.credentials;
                 var user = credentials && credentials.username ? credentials.username : '';
@@ -6320,17 +6068,18 @@
                     endpoint.entity = entity;
                     endpoint.channel = channel;
                     endpoint.credentials = credentials;
+                    endpoint.collection = collection;
                     endpoint.socketPath = this.options.socketPath;
                     endpoint.localStore = this.createLocalStore(endpoint);
                     endpoint.messages = this.createMsgCollection(endpoint);
-                    endpoint.socket = this.createSocket(endpoint, collection);
-                    endpoint.info = this.fetchServerInfo(endpoint, collection);
+                    endpoint.socket = this.createSocket(endpoint);
+                    endpoint.info = this.fetchServerInfo(endpoint);
                     that.endpoints[hash] = endpoint;
                 }
                 collection.endpoint = endpoint;
                 collection.listenTo(this, endpoint.channel, this.onMessage, collection);
                 if( endpoint.messages && !endpoint.socket ) {
-                    that.sendMessages(endpoint, collection);
+                    that.sendMessages(endpoint);
                 }
             }
         },
@@ -6356,7 +6105,7 @@
         },
     
         createMsgCollection: function( endpoint ) {
-            if( this.options.useOfflineChange && endpoint ) {
+            if( this.options.useOfflineChanges && endpoint ) {
                 var name = 'msg-' + endpoint.channel;
                 var MsgCollection = M.Collection.extend({
                     model: M.Model.extend({ idAttribute: '_id' })
@@ -6370,41 +6119,49 @@
             }
         },
     
-        createSocket: function( endpoint, collection, name ) {
+        createSocket: function( endpoint, name ) {
             if( this.options.useSocketNotify && endpoint.socketPath && endpoint ) {
+                var that = this;
+                var url  = endpoint.host;
                 var path = endpoint.path;
                 path = endpoint.socketPath || (path + (path.charAt(path.length - 1) === '/' ? '' : '/' ) + 'live');
                 // remove leading /
                 var resource = (path && path.indexOf('/') === 0) ? path.substr(1) : path;
-                var that = this;
-                var socket = M.SocketIO.create({
-                    host: endpoint.host,
-                    resource: resource,
-                    connected: function() {
-                        that._bindChannel(socket, endpoint, name);
-                        that.sendMessages(endpoint, collection);
-                    }
+    
+                endpoint.socket = io.connect(url, { resource: resource });
+                endpoint.socket.on('connect', function() {
+                    that._bindChannel(endpoint, name);
+                    that.onConnect(endpoint);
                 });
-                return socket;
+                endpoint.socket.on('disconnect', function() {
+                    console.log('socket.io: disconnect');
+                    that.onDisconnect(endpoint);
+                });
+                return endpoint.socket;
             }
         },
     
-        _bindChannel: function( socket, endpoint, name ) {
+        _bindChannel: function(endpoint, name ) {
             var that = this;
-            var channel = endpoint.channel;
-            var time = this.getLastMessageTime(channel);
-            name = name || endpoint.entity.name;
-            socket.on(channel, function( msg ) {
-                if( msg ) {
-                    that.setLastMessageTime(channel, msg.time);
-                    that.trigger(channel, msg);
-                }
-            });
-            socket.emit('bind', {
-                entity: name,
-                channel: channel,
-                time: time
-            });
+            if (endpoint && endpoint.socket) {
+                var channel = endpoint.channel;
+                var socket  = endpoint.socket;
+                var time    = this.getLastMessageTime(channel);
+                name = name || endpoint.entity.name;
+                socket.on(channel, function( msg ) {
+                    if( msg ) {
+                        if (that.options.useLocalStore) {
+                            that.setLastMessageTime(channel, msg.time);
+                        }
+                        that.trigger(channel, msg);
+                    }
+                });
+                socket.emit('bind', {
+                    entity: name,
+                    channel: channel,
+                    time: time
+                });
+            }
         },
     
         getLastMessageTime: function( channel ) {
@@ -6430,10 +6187,28 @@
             return hash;
         },
     
+        onConnect: function( endpoint ) {
+            this.isConnected = YES;
+            this.sendMessages(endpoint );
+        },
+    
+        onDisconnect: function(endpoint) {
+            this.isConnected = NO;
+            if (endpoint.socket && endpoint.socket.socket) {
+                endpoint.socket.socket.onDisconnect();
+            }
+        },
+    
         onMessage: function( msg ) {
             if( msg && msg.method ) {
                 var localStore = this.endpoint ? this.endpoint.localStore : null;
-                var options = { store: localStore, merge: true, fromMessage: true, entity: this.entity, parse: true };
+                var options = {
+                    store: localStore,
+                    entity: this.entity,
+                    merge: YES,
+                    fromMessage: YES,
+                    parse: YES
+                };
                 var attrs = msg.data;
     
                 switch( msg.method ) {
@@ -6451,9 +6226,13 @@
                     case 'delete':
                         if( msg.id ) {
                             if( msg.id === 'all' ) {
-                                while((model = this.first())) {
+                                while( (model = this.first()) ) {
                                     if( localStore ) {
-                                        localStore.sync.apply(this, ['delete', model, { store: localStore, fromMessage: true } ]);
+                                        localStore.sync.apply(this, [
+                                            'delete',
+                                            model,
+                                            { store: localStore, fromMessage: YES }
+                                        ]);
                                     }
                                     this.remove(model);
                                 }
@@ -6508,22 +6287,25 @@
             if( method && model ) {
                 var changes = model.changedSinceSync;
                 var data = null;
-                var storeMsg = false;
+                var storeMsg = YES;
                 switch( method ) {
                     case 'update':
                     case 'create':
                         data = options.attrs || model.toJSON();
-                        storeMsg = true;
                         break;
+    
                     case 'patch':
                         if( _.isEmpty(changes) ) {
                             return;
                         }
                         data = model.toJSON({ attrs: changes });
-                        storeMsg = true;
                         break;
+    
                     case 'delete':
-                        storeMsg = true;
+                        break;
+    
+                    default:
+                        storeMsg = NO;
                         break;
                 }
                 var msg = {
@@ -6553,8 +6335,9 @@
             model.sync.apply(model, [msg.method, model, {
                 url: url,
                 error: function( xhr, status ) {
-                    if( !xhr.responseText && that.options.useOfflineChange ) {
+                    if( !xhr.responseText && that.options.useOfflineChanges ) {
                         // this seams to be only a connection problem, so we keep the message an call success
+                        that.onDisconnect(endpoint);
                         that.handleCallback(options.success, msg.data);
                     } else {
                         that.removeMessage(endpoint, msg, function( endpoint, msg ) {
@@ -6564,6 +6347,9 @@
                     }
                 },
                 success: function( data ) {
+                    if (!that.isConnected) {
+                        that.onConnect(endpoint);
+                    }
                     that.removeMessage(endpoint, msg, function( endpoint, msg ) {
                         if( options.success ) {
                             var resp = data;
@@ -6601,7 +6387,9 @@
                     success: function() {
                         changes.each(function( msg ) {
                             if( msg.time && msg.method ) {
-                                that.setLastMessageTime(endpoint.channel, msg.time);
+                                if (that.options.useLocalStore) {
+                                    that.setLastMessageTime(endpoint.channel, msg.time);
+                                }
                                 that.trigger(endpoint.channel, msg);
                             }
                         });
@@ -6611,7 +6399,7 @@
             }
         },
     
-        fetchServerInfo: function( endpoint, collection ) {
+        fetchServerInfo: function( endpoint ) {
             var that = this;
             if( endpoint && endpoint.baseUrl ) {
                 var info = new M.Model();
@@ -6626,7 +6414,7 @@
                             endpoint.socketPath = info.get('socketPath');
                             var name = info.get('entity') || endpoint.entity.name;
                             if( that.options.useSocketNotify ) {
-                                that.createSocket(endpoint, collection, name);
+                                that.createSocket(endpoint, name);
                             }
                         }
                     },
@@ -6635,8 +6423,8 @@
             }
         },
     
-        sendMessages: function( endpoint, collection ) {
-            if( endpoint && endpoint.messages && collection ) {
+        sendMessages: function( endpoint ) {
+            if( endpoint && endpoint.messages && endpoint.collection ) {
                 var that = this;
                 endpoint.messages.each(function( message ) {
                     var msg;
@@ -6646,7 +6434,7 @@
                     }
                     var channel = message.get('channel');
                     if( msg && channel ) {
-                        var model = that.createModel({ collection: collection }, msg.data);
+                        var model = that.createModel({ collection: endpoint.collection }, msg.data);
                         that.emitMessage(endpoint, msg, {}, model);
                     } else {
                         message.destroy();
@@ -6829,6 +6617,9 @@
             events.touchcancel = events.touchcancel || [];
             events.mousedown = events.touchstart || [];
             events.mouseup = events.touchend || [];
+            // Bugifx for android <4.1 devices. If a touch start happens and a scrolling, no touchend is fired.
+            events.touchmove = events.touchmove || [];
+            events.touchleave = events.touchleave || [];
     
             // be sure that the events are arrays
             events.touchstart = _.isArray(events.touchstart) ? events.touchstart : [events.touchstart];
@@ -6836,6 +6627,8 @@
             events.touchcancel = _.isArray(events.touchcancel) ? events.touchcancel : [events.touchcancel];
             events.mousedown = _.isArray(events.mousedown) ? events.mousedown : [events.mousedown];
             events.mouseup = _.isArray(events.mouseup) ? events.mouseup : [events.mouseup];
+            events.touchmove = _.isArray(events.touchmove) ? events.touchmove : [events.touchmove];
+            events.touchleave = _.isArray(events.touchleave) ? events.touchleave : [events.touchleave];
     
             // touchstrart callback - add the class 'active'
             var touchstart = function setActiveStateOnTouchstart(event, element){
@@ -6861,6 +6654,8 @@
             events.touchcancel.push(touchcancel);
             events.mousedown.push(touchstart);
             events.mouseup.push(touchend);
+            events.touchmove.push(touchend);
+            events.touchleave.push(touchend);
     
             // overwrite the interal events with the swap element
             context._internalEvents = events;

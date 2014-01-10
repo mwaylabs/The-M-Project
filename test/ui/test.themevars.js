@@ -1,4 +1,4 @@
-describe('M.PageTransitions', function () {
+describe('M.ThemeVars', function () {
 
 
     it('basic', function () {

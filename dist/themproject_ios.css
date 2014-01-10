@@ -1,12 +1,16 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
-* Copyright: (c) 2013 M-Way Solutions GmbH.
-* Version:   2.0.0-beta
-* Date:      Tue Dec 10 2013 16:27:28
+* Copyright: (c) 2014 M-Way Solutions GmbH.
+* Version:   2.0.0-beta2
+* Date:      Fri Jan 10 2014 18:16:20
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 .ios {
   /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
+  @-ms-viewport {
+    width: device-width;
+}
+
   /* animation sets */
   /* move from / to  */
   /* fade */
@@ -2043,14 +2047,6 @@
 
   /* animation delay classes */
   /********************************************************************************************************************************************************************************/
-  /*Inspiered by and thanks to*/
-  /*
-   * Copyright (c) 2013 Thibaut Courouble
-   * http://www.cssflow.com
-   *
-   * Licensed under the MIT License:
-   * http://www.opensource.org/licenses/mit-license.php
-   */
   @-webkit-keyframes m-loaderview-inner-message-opacity {
     0% {
       color: #333333;
@@ -2389,83 +2385,6 @@
 .ios table {
   border-collapse: collapse;
   border-spacing: 0;
-}
-@media print {
-  .ios {
-    @page {
-      margin: 2cm .5cm;
-}
-
-  }
-  .ios * {
-    text-shadow: none !important;
-    color: #000 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-  }
-  .ios a,
-  .ios a:visited {
-    text-decoration: underline;
-  }
-  .ios a[href]:after {
-    content: " (" attr(href) ")";
-  }
-  .ios abbr[title]:after {
-    content: " (" attr(title) ")";
-  }
-  .ios a[href^="javascript:"]:after,
-  .ios a[href^="#"]:after {
-    content: "";
-  }
-  .ios pre,
-  .ios blockquote {
-    border: 1px solid #999;
-    page-break-inside: avoid;
-  }
-  .ios thead {
-    display: table-header-group;
-  }
-  .ios tr,
-  .ios img {
-    page-break-inside: avoid;
-  }
-  .ios img {
-    max-width: 100% !important;
-  }
-  .ios p,
-  .ios h2,
-  .ios h3 {
-    orphans: 3;
-    widows: 3;
-  }
-  .ios h2,
-  .ios h3 {
-    page-break-after: avoid;
-  }
-  .ios select {
-    background: #fff !important;
-  }
-  .ios .navbar {
-    display: none;
-  }
-  .ios .table td,
-  .ios .table th {
-    background-color: #fff !important;
-  }
-  .ios .btn > .caret,
-  .ios .dropup > .btn > .caret {
-    border-top-color: #000 !important;
-  }
-  .ios .label {
-    border: 1px solid #000;
-  }
-  .ios .table {
-    border-collapse: collapse !important;
-  }
-  .ios .table-bordered th,
-  .ios .table-bordered td {
-    border: 1px solid #ddd !important;
-  }
 }
 .ios *,
 .ios *:before,
@@ -4270,679 +4189,6 @@
 .ios input[type="button"].btn-block {
   width: 100%;
 }
-.ios .container {
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.ios .container:before, .ios .container:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
-}
-.ios .container:after {
-  clear: both;
-}
-.ios .row {
-  margin-left: -15px;
-  margin-right: -15px;
-}
-.ios .row:before, .ios .row:after {
-  content: " ";
-  /* 1 */
-  display: table;
-  /* 2 */
-}
-.ios .row:after {
-  clear: both;
-}
-.ios .col-xs-12, .ios .col-sm-12, .ios .col-md-12, .ios .col-lg-12, .ios .col-xs-11, .ios .col-sm-11, .ios .col-md-11, .ios .col-lg-11, .ios .col-xs-10, .ios .col-sm-10, .ios .col-md-10, .ios .col-lg-10, .ios .col-xs-9, .ios .col-sm-9, .ios .col-md-9, .ios .col-lg-9, .ios .col-xs-8, .ios .col-sm-8, .ios .col-md-8, .ios .col-lg-8, .ios .col-xs-7, .ios .col-sm-7, .ios .col-md-7, .ios .col-lg-7, .ios .col-xs-6, .ios .col-sm-6, .ios .col-md-6, .ios .col-lg-6, .ios .col-xs-5, .ios .col-sm-5, .ios .col-md-5, .ios .col-lg-5, .ios .col-xs-4, .ios .col-sm-4, .ios .col-md-4, .ios .col-lg-4, .ios .col-xs-3, .ios .col-sm-3, .ios .col-md-3, .ios .col-lg-3, .ios .col-xs-2, .ios .col-sm-2, .ios .col-md-2, .ios .col-lg-2, .ios .col-xs-1, .ios .col-sm-1, .ios .col-md-1, .ios .col-lg-1 {
-  position: relative;
-  min-height: 1px;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.ios .col-xs-12, .ios .col-xs-11, .ios .col-xs-10, .ios .col-xs-9, .ios .col-xs-8, .ios .col-xs-7, .ios .col-xs-6, .ios .col-xs-5, .ios .col-xs-4, .ios .col-xs-3, .ios .col-xs-2, .ios .col-xs-1 {
-  float: left;
-}
-.ios .col-xs-1 {
-  width: 8.33333%;
-}
-.ios .col-xs-2 {
-  width: 16.66667%;
-}
-.ios .col-xs-3 {
-  width: 25%;
-}
-.ios .col-xs-4 {
-  width: 33.33333%;
-}
-.ios .col-xs-5 {
-  width: 41.66667%;
-}
-.ios .col-xs-6 {
-  width: 50%;
-}
-.ios .col-xs-7 {
-  width: 58.33333%;
-}
-.ios .col-xs-8 {
-  width: 66.66667%;
-}
-.ios .col-xs-9 {
-  width: 75%;
-}
-.ios .col-xs-10 {
-  width: 83.33333%;
-}
-.ios .col-xs-11 {
-  width: 91.66667%;
-}
-.ios .col-xs-12 {
-  width: 100%;
-}
-.ios .col-xs-pull-0 {
-  right: 0%;
-}
-.ios .col-xs-pull-1 {
-  right: 8.33333%;
-}
-.ios .col-xs-pull-2 {
-  right: 16.66667%;
-}
-.ios .col-xs-pull-3 {
-  right: 25%;
-}
-.ios .col-xs-pull-4 {
-  right: 33.33333%;
-}
-.ios .col-xs-pull-5 {
-  right: 41.66667%;
-}
-.ios .col-xs-pull-6 {
-  right: 50%;
-}
-.ios .col-xs-pull-7 {
-  right: 58.33333%;
-}
-.ios .col-xs-pull-8 {
-  right: 66.66667%;
-}
-.ios .col-xs-pull-9 {
-  right: 75%;
-}
-.ios .col-xs-pull-10 {
-  right: 83.33333%;
-}
-.ios .col-xs-pull-11 {
-  right: 91.66667%;
-}
-.ios .col-xs-pull-12 {
-  right: 100%;
-}
-.ios .col-xs-push-0 {
-  left: 0%;
-}
-.ios .col-xs-push-1 {
-  left: 8.33333%;
-}
-.ios .col-xs-push-2 {
-  left: 16.66667%;
-}
-.ios .col-xs-push-3 {
-  left: 25%;
-}
-.ios .col-xs-push-4 {
-  left: 33.33333%;
-}
-.ios .col-xs-push-5 {
-  left: 41.66667%;
-}
-.ios .col-xs-push-6 {
-  left: 50%;
-}
-.ios .col-xs-push-7 {
-  left: 58.33333%;
-}
-.ios .col-xs-push-8 {
-  left: 66.66667%;
-}
-.ios .col-xs-push-9 {
-  left: 75%;
-}
-.ios .col-xs-push-10 {
-  left: 83.33333%;
-}
-.ios .col-xs-push-11 {
-  left: 91.66667%;
-}
-.ios .col-xs-push-12 {
-  left: 100%;
-}
-.ios .col-xs-offset-0 {
-  margin-left: 0%;
-}
-.ios .col-xs-offset-1 {
-  margin-left: 8.33333%;
-}
-.ios .col-xs-offset-2 {
-  margin-left: 16.66667%;
-}
-.ios .col-xs-offset-3 {
-  margin-left: 25%;
-}
-.ios .col-xs-offset-4 {
-  margin-left: 33.33333%;
-}
-.ios .col-xs-offset-5 {
-  margin-left: 41.66667%;
-}
-.ios .col-xs-offset-6 {
-  margin-left: 50%;
-}
-.ios .col-xs-offset-7 {
-  margin-left: 58.33333%;
-}
-.ios .col-xs-offset-8 {
-  margin-left: 66.66667%;
-}
-.ios .col-xs-offset-9 {
-  margin-left: 75%;
-}
-.ios .col-xs-offset-10 {
-  margin-left: 83.33333%;
-}
-.ios .col-xs-offset-11 {
-  margin-left: 91.66667%;
-}
-.ios .col-xs-offset-12 {
-  margin-left: 100%;
-}
-@media (min-width: 768px) {
-  .ios .container {
-    width: 750px;
-  }
-  .ios .col-sm-12, .ios .col-sm-11, .ios .col-sm-10, .ios .col-sm-9, .ios .col-sm-8, .ios .col-sm-7, .ios .col-sm-6, .ios .col-sm-5, .ios .col-sm-4, .ios .col-sm-3, .ios .col-sm-2, .ios .col-sm-1 {
-    float: left;
-  }
-  .ios .col-sm-1 {
-    width: 8.33333%;
-  }
-  .ios .col-sm-2 {
-    width: 16.66667%;
-  }
-  .ios .col-sm-3 {
-    width: 25%;
-  }
-  .ios .col-sm-4 {
-    width: 33.33333%;
-  }
-  .ios .col-sm-5 {
-    width: 41.66667%;
-  }
-  .ios .col-sm-6 {
-    width: 50%;
-  }
-  .ios .col-sm-7 {
-    width: 58.33333%;
-  }
-  .ios .col-sm-8 {
-    width: 66.66667%;
-  }
-  .ios .col-sm-9 {
-    width: 75%;
-  }
-  .ios .col-sm-10 {
-    width: 83.33333%;
-  }
-  .ios .col-sm-11 {
-    width: 91.66667%;
-  }
-  .ios .col-sm-12 {
-    width: 100%;
-  }
-  .ios .col-sm-pull-0 {
-    right: 0%;
-  }
-  .ios .col-sm-pull-1 {
-    right: 8.33333%;
-  }
-  .ios .col-sm-pull-2 {
-    right: 16.66667%;
-  }
-  .ios .col-sm-pull-3 {
-    right: 25%;
-  }
-  .ios .col-sm-pull-4 {
-    right: 33.33333%;
-  }
-  .ios .col-sm-pull-5 {
-    right: 41.66667%;
-  }
-  .ios .col-sm-pull-6 {
-    right: 50%;
-  }
-  .ios .col-sm-pull-7 {
-    right: 58.33333%;
-  }
-  .ios .col-sm-pull-8 {
-    right: 66.66667%;
-  }
-  .ios .col-sm-pull-9 {
-    right: 75%;
-  }
-  .ios .col-sm-pull-10 {
-    right: 83.33333%;
-  }
-  .ios .col-sm-pull-11 {
-    right: 91.66667%;
-  }
-  .ios .col-sm-pull-12 {
-    right: 100%;
-  }
-  .ios .col-sm-push-0 {
-    left: 0%;
-  }
-  .ios .col-sm-push-1 {
-    left: 8.33333%;
-  }
-  .ios .col-sm-push-2 {
-    left: 16.66667%;
-  }
-  .ios .col-sm-push-3 {
-    left: 25%;
-  }
-  .ios .col-sm-push-4 {
-    left: 33.33333%;
-  }
-  .ios .col-sm-push-5 {
-    left: 41.66667%;
-  }
-  .ios .col-sm-push-6 {
-    left: 50%;
-  }
-  .ios .col-sm-push-7 {
-    left: 58.33333%;
-  }
-  .ios .col-sm-push-8 {
-    left: 66.66667%;
-  }
-  .ios .col-sm-push-9 {
-    left: 75%;
-  }
-  .ios .col-sm-push-10 {
-    left: 83.33333%;
-  }
-  .ios .col-sm-push-11 {
-    left: 91.66667%;
-  }
-  .ios .col-sm-push-12 {
-    left: 100%;
-  }
-  .ios .col-sm-offset-0 {
-    margin-left: 0%;
-  }
-  .ios .col-sm-offset-1 {
-    margin-left: 8.33333%;
-  }
-  .ios .col-sm-offset-2 {
-    margin-left: 16.66667%;
-  }
-  .ios .col-sm-offset-3 {
-    margin-left: 25%;
-  }
-  .ios .col-sm-offset-4 {
-    margin-left: 33.33333%;
-  }
-  .ios .col-sm-offset-5 {
-    margin-left: 41.66667%;
-  }
-  .ios .col-sm-offset-6 {
-    margin-left: 50%;
-  }
-  .ios .col-sm-offset-7 {
-    margin-left: 58.33333%;
-  }
-  .ios .col-sm-offset-8 {
-    margin-left: 66.66667%;
-  }
-  .ios .col-sm-offset-9 {
-    margin-left: 75%;
-  }
-  .ios .col-sm-offset-10 {
-    margin-left: 83.33333%;
-  }
-  .ios .col-sm-offset-11 {
-    margin-left: 91.66667%;
-  }
-  .ios .col-sm-offset-12 {
-    margin-left: 100%;
-  }
-}
-@media (min-width: 992px) {
-  .ios .container {
-    width: 970px;
-  }
-  .ios .col-md-12, .ios .col-md-11, .ios .col-md-10, .ios .col-md-9, .ios .col-md-8, .ios .col-md-7, .ios .col-md-6, .ios .col-md-5, .ios .col-md-4, .ios .col-md-3, .ios .col-md-2, .ios .col-md-1 {
-    float: left;
-  }
-  .ios .col-md-1 {
-    width: 8.33333%;
-  }
-  .ios .col-md-2 {
-    width: 16.66667%;
-  }
-  .ios .col-md-3 {
-    width: 25%;
-  }
-  .ios .col-md-4 {
-    width: 33.33333%;
-  }
-  .ios .col-md-5 {
-    width: 41.66667%;
-  }
-  .ios .col-md-6 {
-    width: 50%;
-  }
-  .ios .col-md-7 {
-    width: 58.33333%;
-  }
-  .ios .col-md-8 {
-    width: 66.66667%;
-  }
-  .ios .col-md-9 {
-    width: 75%;
-  }
-  .ios .col-md-10 {
-    width: 83.33333%;
-  }
-  .ios .col-md-11 {
-    width: 91.66667%;
-  }
-  .ios .col-md-12 {
-    width: 100%;
-  }
-  .ios .col-md-pull-0 {
-    right: 0%;
-  }
-  .ios .col-md-pull-1 {
-    right: 8.33333%;
-  }
-  .ios .col-md-pull-2 {
-    right: 16.66667%;
-  }
-  .ios .col-md-pull-3 {
-    right: 25%;
-  }
-  .ios .col-md-pull-4 {
-    right: 33.33333%;
-  }
-  .ios .col-md-pull-5 {
-    right: 41.66667%;
-  }
-  .ios .col-md-pull-6 {
-    right: 50%;
-  }
-  .ios .col-md-pull-7 {
-    right: 58.33333%;
-  }
-  .ios .col-md-pull-8 {
-    right: 66.66667%;
-  }
-  .ios .col-md-pull-9 {
-    right: 75%;
-  }
-  .ios .col-md-pull-10 {
-    right: 83.33333%;
-  }
-  .ios .col-md-pull-11 {
-    right: 91.66667%;
-  }
-  .ios .col-md-pull-12 {
-    right: 100%;
-  }
-  .ios .col-md-push-0 {
-    left: 0%;
-  }
-  .ios .col-md-push-1 {
-    left: 8.33333%;
-  }
-  .ios .col-md-push-2 {
-    left: 16.66667%;
-  }
-  .ios .col-md-push-3 {
-    left: 25%;
-  }
-  .ios .col-md-push-4 {
-    left: 33.33333%;
-  }
-  .ios .col-md-push-5 {
-    left: 41.66667%;
-  }
-  .ios .col-md-push-6 {
-    left: 50%;
-  }
-  .ios .col-md-push-7 {
-    left: 58.33333%;
-  }
-  .ios .col-md-push-8 {
-    left: 66.66667%;
-  }
-  .ios .col-md-push-9 {
-    left: 75%;
-  }
-  .ios .col-md-push-10 {
-    left: 83.33333%;
-  }
-  .ios .col-md-push-11 {
-    left: 91.66667%;
-  }
-  .ios .col-md-push-12 {
-    left: 100%;
-  }
-  .ios .col-md-offset-0 {
-    margin-left: 0%;
-  }
-  .ios .col-md-offset-1 {
-    margin-left: 8.33333%;
-  }
-  .ios .col-md-offset-2 {
-    margin-left: 16.66667%;
-  }
-  .ios .col-md-offset-3 {
-    margin-left: 25%;
-  }
-  .ios .col-md-offset-4 {
-    margin-left: 33.33333%;
-  }
-  .ios .col-md-offset-5 {
-    margin-left: 41.66667%;
-  }
-  .ios .col-md-offset-6 {
-    margin-left: 50%;
-  }
-  .ios .col-md-offset-7 {
-    margin-left: 58.33333%;
-  }
-  .ios .col-md-offset-8 {
-    margin-left: 66.66667%;
-  }
-  .ios .col-md-offset-9 {
-    margin-left: 75%;
-  }
-  .ios .col-md-offset-10 {
-    margin-left: 83.33333%;
-  }
-  .ios .col-md-offset-11 {
-    margin-left: 91.66667%;
-  }
-  .ios .col-md-offset-12 {
-    margin-left: 100%;
-  }
-}
-@media (min-width: 1200px) {
-  .ios .container {
-    width: 1170px;
-  }
-  .ios .col-lg-12, .ios .col-lg-11, .ios .col-lg-10, .ios .col-lg-9, .ios .col-lg-8, .ios .col-lg-7, .ios .col-lg-6, .ios .col-lg-5, .ios .col-lg-4, .ios .col-lg-3, .ios .col-lg-2, .ios .col-lg-1 {
-    float: left;
-  }
-  .ios .col-lg-1 {
-    width: 8.33333%;
-  }
-  .ios .col-lg-2 {
-    width: 16.66667%;
-  }
-  .ios .col-lg-3 {
-    width: 25%;
-  }
-  .ios .col-lg-4 {
-    width: 33.33333%;
-  }
-  .ios .col-lg-5 {
-    width: 41.66667%;
-  }
-  .ios .col-lg-6 {
-    width: 50%;
-  }
-  .ios .col-lg-7 {
-    width: 58.33333%;
-  }
-  .ios .col-lg-8 {
-    width: 66.66667%;
-  }
-  .ios .col-lg-9 {
-    width: 75%;
-  }
-  .ios .col-lg-10 {
-    width: 83.33333%;
-  }
-  .ios .col-lg-11 {
-    width: 91.66667%;
-  }
-  .ios .col-lg-12 {
-    width: 100%;
-  }
-  .ios .col-lg-pull-0 {
-    right: 0%;
-  }
-  .ios .col-lg-pull-1 {
-    right: 8.33333%;
-  }
-  .ios .col-lg-pull-2 {
-    right: 16.66667%;
-  }
-  .ios .col-lg-pull-3 {
-    right: 25%;
-  }
-  .ios .col-lg-pull-4 {
-    right: 33.33333%;
-  }
-  .ios .col-lg-pull-5 {
-    right: 41.66667%;
-  }
-  .ios .col-lg-pull-6 {
-    right: 50%;
-  }
-  .ios .col-lg-pull-7 {
-    right: 58.33333%;
-  }
-  .ios .col-lg-pull-8 {
-    right: 66.66667%;
-  }
-  .ios .col-lg-pull-9 {
-    right: 75%;
-  }
-  .ios .col-lg-pull-10 {
-    right: 83.33333%;
-  }
-  .ios .col-lg-pull-11 {
-    right: 91.66667%;
-  }
-  .ios .col-lg-pull-12 {
-    right: 100%;
-  }
-  .ios .col-lg-push-0 {
-    left: 0%;
-  }
-  .ios .col-lg-push-1 {
-    left: 8.33333%;
-  }
-  .ios .col-lg-push-2 {
-    left: 16.66667%;
-  }
-  .ios .col-lg-push-3 {
-    left: 25%;
-  }
-  .ios .col-lg-push-4 {
-    left: 33.33333%;
-  }
-  .ios .col-lg-push-5 {
-    left: 41.66667%;
-  }
-  .ios .col-lg-push-6 {
-    left: 50%;
-  }
-  .ios .col-lg-push-7 {
-    left: 58.33333%;
-  }
-  .ios .col-lg-push-8 {
-    left: 66.66667%;
-  }
-  .ios .col-lg-push-9 {
-    left: 75%;
-  }
-  .ios .col-lg-push-10 {
-    left: 83.33333%;
-  }
-  .ios .col-lg-push-11 {
-    left: 91.66667%;
-  }
-  .ios .col-lg-push-12 {
-    left: 100%;
-  }
-  .ios .col-lg-offset-0 {
-    margin-left: 0%;
-  }
-  .ios .col-lg-offset-1 {
-    margin-left: 8.33333%;
-  }
-  .ios .col-lg-offset-2 {
-    margin-left: 16.66667%;
-  }
-  .ios .col-lg-offset-3 {
-    margin-left: 25%;
-  }
-  .ios .col-lg-offset-4 {
-    margin-left: 33.33333%;
-  }
-  .ios .col-lg-offset-5 {
-    margin-left: 41.66667%;
-  }
-  .ios .col-lg-offset-6 {
-    margin-left: 50%;
-  }
-  .ios .col-lg-offset-7 {
-    margin-left: 58.33333%;
-  }
-  .ios .col-lg-offset-8 {
-    margin-left: 66.66667%;
-  }
-  .ios .col-lg-offset-9 {
-    margin-left: 75%;
-  }
-  .ios .col-lg-offset-10 {
-    margin-left: 83.33333%;
-  }
-  .ios .col-lg-offset-11 {
-    margin-left: 91.66667%;
-  }
-  .ios .col-lg-offset-12 {
-    margin-left: 100%;
-  }
-}
 .ios .fade {
   opacity: 0;
   -webkit-transition: opacity 0.15s linear;
@@ -5007,7 +4253,416 @@
 .ios .affix {
   position: fixed;
 }
-.ios .ellipsis, .ios .form, .ios .selection, .ios .radiolistview label, .ios .checkboxlistview label, .ios .textfieldview input, .ios .textfieldview .input-icon-addon, .ios .button div, .ios .textfieldview .input-icon-addon input {
+.ios .visible-xs,
+.ios tr.visible-xs,
+.ios th.visible-xs,
+.ios td.visible-xs {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .ios .visible-xs {
+    display: block !important;
+  }
+  .ios tr.visible-xs {
+    display: table-row !important;
+  }
+  .ios th.visible-xs,
+  .ios td.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .ios .visible-xs.visible-sm {
+    display: block !important;
+  }
+  .ios tr.visible-xs.visible-sm {
+    display: table-row !important;
+  }
+  .ios th.visible-xs.visible-sm,
+  .ios td.visible-xs.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .ios .visible-xs.visible-md {
+    display: block !important;
+  }
+  .ios tr.visible-xs.visible-md {
+    display: table-row !important;
+  }
+  .ios th.visible-xs.visible-md,
+  .ios td.visible-xs.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .ios .visible-xs.visible-lg {
+    display: block !important;
+  }
+  .ios tr.visible-xs.visible-lg {
+    display: table-row !important;
+  }
+  .ios th.visible-xs.visible-lg,
+  .ios td.visible-xs.visible-lg {
+    display: table-cell !important;
+  }
+}
+.ios .visible-sm,
+.ios tr.visible-sm,
+.ios th.visible-sm,
+.ios td.visible-sm {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .ios .visible-sm.visible-xs {
+    display: block !important;
+  }
+  .ios tr.visible-sm.visible-xs {
+    display: table-row !important;
+  }
+  .ios th.visible-sm.visible-xs,
+  .ios td.visible-sm.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .ios .visible-sm {
+    display: block !important;
+  }
+  .ios tr.visible-sm {
+    display: table-row !important;
+  }
+  .ios th.visible-sm,
+  .ios td.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .ios .visible-sm.visible-md {
+    display: block !important;
+  }
+  .ios tr.visible-sm.visible-md {
+    display: table-row !important;
+  }
+  .ios th.visible-sm.visible-md,
+  .ios td.visible-sm.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .ios .visible-sm.visible-lg {
+    display: block !important;
+  }
+  .ios tr.visible-sm.visible-lg {
+    display: table-row !important;
+  }
+  .ios th.visible-sm.visible-lg,
+  .ios td.visible-sm.visible-lg {
+    display: table-cell !important;
+  }
+}
+.ios .visible-md,
+.ios tr.visible-md,
+.ios th.visible-md,
+.ios td.visible-md {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .ios .visible-md.visible-xs {
+    display: block !important;
+  }
+  .ios tr.visible-md.visible-xs {
+    display: table-row !important;
+  }
+  .ios th.visible-md.visible-xs,
+  .ios td.visible-md.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .ios .visible-md.visible-sm {
+    display: block !important;
+  }
+  .ios tr.visible-md.visible-sm {
+    display: table-row !important;
+  }
+  .ios th.visible-md.visible-sm,
+  .ios td.visible-md.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .ios .visible-md {
+    display: block !important;
+  }
+  .ios tr.visible-md {
+    display: table-row !important;
+  }
+  .ios th.visible-md,
+  .ios td.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .ios .visible-md.visible-lg {
+    display: block !important;
+  }
+  .ios tr.visible-md.visible-lg {
+    display: table-row !important;
+  }
+  .ios th.visible-md.visible-lg,
+  .ios td.visible-md.visible-lg {
+    display: table-cell !important;
+  }
+}
+.ios .visible-lg,
+.ios tr.visible-lg,
+.ios th.visible-lg,
+.ios td.visible-lg {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .ios .visible-lg.visible-xs {
+    display: block !important;
+  }
+  .ios tr.visible-lg.visible-xs {
+    display: table-row !important;
+  }
+  .ios th.visible-lg.visible-xs,
+  .ios td.visible-lg.visible-xs {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .ios .visible-lg.visible-sm {
+    display: block !important;
+  }
+  .ios tr.visible-lg.visible-sm {
+    display: table-row !important;
+  }
+  .ios th.visible-lg.visible-sm,
+  .ios td.visible-lg.visible-sm {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .ios .visible-lg.visible-md {
+    display: block !important;
+  }
+  .ios tr.visible-lg.visible-md {
+    display: table-row !important;
+  }
+  .ios th.visible-lg.visible-md,
+  .ios td.visible-lg.visible-md {
+    display: table-cell !important;
+  }
+}
+@media (min-width: 1200px) {
+  .ios .visible-lg {
+    display: block !important;
+  }
+  .ios tr.visible-lg {
+    display: table-row !important;
+  }
+  .ios th.visible-lg,
+  .ios td.visible-lg {
+    display: table-cell !important;
+  }
+}
+.ios .hidden-xs {
+  display: block !important;
+}
+.ios tr.hidden-xs {
+  display: table-row !important;
+}
+.ios th.hidden-xs,
+.ios td.hidden-xs {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .ios .hidden-xs,
+  .ios tr.hidden-xs,
+  .ios th.hidden-xs,
+  .ios td.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .ios .hidden-xs.hidden-sm,
+  .ios tr.hidden-xs.hidden-sm,
+  .ios th.hidden-xs.hidden-sm,
+  .ios td.hidden-xs.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .ios .hidden-xs.hidden-md,
+  .ios tr.hidden-xs.hidden-md,
+  .ios th.hidden-xs.hidden-md,
+  .ios td.hidden-xs.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .ios .hidden-xs.hidden-lg,
+  .ios tr.hidden-xs.hidden-lg,
+  .ios th.hidden-xs.hidden-lg,
+  .ios td.hidden-xs.hidden-lg {
+    display: none !important;
+  }
+}
+.ios .hidden-sm {
+  display: block !important;
+}
+.ios tr.hidden-sm {
+  display: table-row !important;
+}
+.ios th.hidden-sm,
+.ios td.hidden-sm {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .ios .hidden-sm.hidden-xs,
+  .ios tr.hidden-sm.hidden-xs,
+  .ios th.hidden-sm.hidden-xs,
+  .ios td.hidden-sm.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .ios .hidden-sm,
+  .ios tr.hidden-sm,
+  .ios th.hidden-sm,
+  .ios td.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .ios .hidden-sm.hidden-md,
+  .ios tr.hidden-sm.hidden-md,
+  .ios th.hidden-sm.hidden-md,
+  .ios td.hidden-sm.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .ios .hidden-sm.hidden-lg,
+  .ios tr.hidden-sm.hidden-lg,
+  .ios th.hidden-sm.hidden-lg,
+  .ios td.hidden-sm.hidden-lg {
+    display: none !important;
+  }
+}
+.ios .hidden-md {
+  display: block !important;
+}
+.ios tr.hidden-md {
+  display: table-row !important;
+}
+.ios th.hidden-md,
+.ios td.hidden-md {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .ios .hidden-md.hidden-xs,
+  .ios tr.hidden-md.hidden-xs,
+  .ios th.hidden-md.hidden-xs,
+  .ios td.hidden-md.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .ios .hidden-md.hidden-sm,
+  .ios tr.hidden-md.hidden-sm,
+  .ios th.hidden-md.hidden-sm,
+  .ios td.hidden-md.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .ios .hidden-md,
+  .ios tr.hidden-md,
+  .ios th.hidden-md,
+  .ios td.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .ios .hidden-md.hidden-lg,
+  .ios tr.hidden-md.hidden-lg,
+  .ios th.hidden-md.hidden-lg,
+  .ios td.hidden-md.hidden-lg {
+    display: none !important;
+  }
+}
+.ios .hidden-lg {
+  display: block !important;
+}
+.ios tr.hidden-lg {
+  display: table-row !important;
+}
+.ios th.hidden-lg,
+.ios td.hidden-lg {
+  display: table-cell !important;
+}
+@media (max-width: 767px) {
+  .ios .hidden-lg.hidden-xs,
+  .ios tr.hidden-lg.hidden-xs,
+  .ios th.hidden-lg.hidden-xs,
+  .ios td.hidden-lg.hidden-xs {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .ios .hidden-lg.hidden-sm,
+  .ios tr.hidden-lg.hidden-sm,
+  .ios th.hidden-lg.hidden-sm,
+  .ios td.hidden-lg.hidden-sm {
+    display: none !important;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .ios .hidden-lg.hidden-md,
+  .ios tr.hidden-lg.hidden-md,
+  .ios th.hidden-lg.hidden-md,
+  .ios td.hidden-lg.hidden-md {
+    display: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .ios .hidden-lg,
+  .ios tr.hidden-lg,
+  .ios th.hidden-lg,
+  .ios td.hidden-lg {
+    display: none !important;
+  }
+}
+.ios .visible-print,
+.ios tr.visible-print,
+.ios th.visible-print,
+.ios td.visible-print {
+  display: none !important;
+}
+@media print {
+  .ios .visible-print {
+    display: block !important;
+  }
+  .ios tr.visible-print {
+    display: table-row !important;
+  }
+  .ios th.visible-print,
+  .ios td.visible-print {
+    display: table-cell !important;
+  }
+  .ios .hidden-print,
+  .ios tr.hidden-print,
+  .ios th.hidden-print,
+  .ios td.hidden-print {
+    display: none !important;
+  }
+}
+.ios .ellipsis, .ios .form, .ios .selection, .ios .radiolistview label, .ios .checkboxlistview label, .ios .textfieldview input, .ios .textfieldview .input-icon-addon, .ios .button div, .ios .textfieldview .input-icon-addon input, .ios .toggleswitchview .label-descr, .ios .toggleswitchview .on-value,
+.ios .toggleswitchview .off-value {
   white-space: nowrap !important;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -5035,14 +4690,14 @@
   right: 0;
   top: 0;
   bottom: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 .ios .input, .ios .checkboxlistview input[type="checkbox"] {
   outline: none;
 }
 .ios .margin0010, .ios .button, .ios .listview, .ios .selection-list, .ios .tabbarbuttongroupview,
-.ios .buttongroupview, .ios .radiolistview, .ios .checkboxlistview, .ios .toggleswitchview, .ios .textview {
+.ios .buttongroupview, .ios .radiolistview, .ios .checkboxlistview, .ios .textview {
   margin-bottom: 20px;
 }
 .ios .margin1000 {
@@ -5058,13 +4713,13 @@
 .ios .switch-header-content-layout .first, .ios .toolbarview .first {
   position: absolute;
   left: 10px;
-  top: 3px;
+  top: 4px;
 }
 .ios .header-second, .ios .switch-menu-header-content-layout .second,
 .ios .switch-header-content-layout .second, .ios .toolbarview .second {
   position: absolute;
   right: 10px;
-  top: 3px;
+  top: 4px;
 }
 .ios .stencil, .ios .textview.stencil i, .ios .textview.stencil div div {
   color: transparent;
@@ -5084,6 +4739,9 @@
   font-size: 1.6rem;
   font-color: black;
   line-height: 2.2rem;
+}
+.ios #main {
+  height: 100%;
 }
 .ios .clear {
   clear: both;
@@ -6077,6 +5735,36 @@
   top: 50px;
   background: white;
 }
+.ios .splitlayout .m-perspective {
+  display: -webkit-box;
+  display: -webkit-flexbox;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: flex;
+}
+.ios .splitlayout .m-page {
+  height: 100%;
+}
+.ios .splitlayout.single #leftContainer {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  width: 180px;
+  z-index: 9999;
+  overflow: hidden;
+  background: #fbfbfb;
+}
+.ios .splitlayout .close {
+  display: none;
+}
+.ios .splitlayout #leftContainer {
+  border-right: 1px solid #ccc;
+  background: #fbfbfb;
+}
+.ios .splitlayout .toolbarview {
+  position: relative;
+}
 .ios h1,
 .ios h2,
 .ios h3,
@@ -6154,11 +5842,26 @@
   position: absolute;
   top: 0;
 }
-.ios .toolbarview .button {
+.ios .toolbarview .buttonview .button {
   margin-top: 0;
+  background: none;
+  color: #007aff;
+  border: none;
 }
-.ios .buttonview {
-  min-width: 63px;
+.ios .toolbarview .buttonview.active .button {
+  background: none;
+  color: #d5d5d5;
+}
+.ios .toolbarview .buttonview.is-icon-only .button {
+  width: 50px;
+  padding: 6px 10px 4px 10px;
+  text-align: left;
+}
+.ios .toolbarview .buttonview.is-icon-only .fa {
+  font-size: 3.2rem;
+}
+.ios .buttonview .fa {
+  font-size: 2.24rem;
 }
 .ios .button {
   position: relative;
@@ -6182,21 +5885,20 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: inline-block;
   width: 100%;
 }
 .ios .has-icon .right i, .ios .has-icon.right i {
-  right: 5px;
+  right: 10px;
   left: auto;
 }
 .ios .has-icon .left i, .ios .has-icon.left i {
-  left: 5px;
+  left: 10px;
   right: auto;
 }
 .ios .has-icon i {
   position: absolute;
   left: 10px;
-  top: 15px;
+  top: 11px;
 }
 .ios .has-icon .right .button div, .ios .has-icon.right .button div {
   padding-right: 10px;
@@ -6204,6 +5906,10 @@
 .ios .has-icon .button div,
 .ios .has-icon .left .button div, .ios .has-icon.left .button div {
   padding-left: 10px;
+}
+.ios .is-icon-only .button {
+  width: 80px;
+  padding-bottom: 9px;
 }
 .ios .is-icon-only .button div {
   display: none;
@@ -6324,6 +6030,7 @@
   border-bottom: 1px solid #ddd;
   list-style: none;
   cursor: pointer;
+  overflow: hidden;
 }
 .ios .listview ul .listitemview.disabled li {
   cursor: default;
@@ -6492,18 +6199,10 @@
 .ios .buttongroupview .buttonview .button {
   border-right-width: 0;
 }
-.ios .tabbarbuttongroupview .buttonview:first-child,
-.ios .buttongroupview .buttonview:first-child {
-  padding-left: 15px;
-}
 .ios .tabbarbuttongroupview .buttonview:first-child .button,
 .ios .buttongroupview .buttonview:first-child .button {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-}
-.ios .tabbarbuttongroupview .buttonview:last-child,
-.ios .buttongroupview .buttonview:last-child {
-  padding-right: 15px;
 }
 .ios .tabbarbuttongroupview .buttonview:last-child .button,
 .ios .buttongroupview .buttonview:last-child .button {
@@ -6561,85 +6260,6 @@
 .ios .checkboxlistview input[type="checkbox"]:checked + i:before {
   content: '\f058';
   color: #59c8fa;
-}
-.ios .toggleswitchview label .label-descr {
-  display: block;
-  float: left;
-}
-.ios .toggleswitchview .toggleswitch {
-  position: relative;
-  display: block;
-  vertical-align: top;
-  width: 56px;
-  padding: 0;
-  border-radius: 4px;
-  cursor: pointer;
-  overflow: hidden;
-}
-.ios .toggleswitchview input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-}
-.ios .toggleswitchview .switch-labels {
-  position: relative;
-  display: block;
-  font-size: 16px;
-  background: #f2f2f2;
-  border-radius: inherit;
-  text-indent: -9999px;
-}
-.ios .toggleswitchview .switch-labels:before, .ios .toggleswitchview .switch-labels:after {
-  text-indent: 0;
-  position: absolute;
-  display: block;
-  top: 0px;
-  line-height: 2.2rem;
-}
-.ios .toggleswitchview .switch-labels:before {
-  content: attr(data-offLabel);
-  right: 10px;
-  color: #8e8e93;
-}
-.ios .toggleswitchview .switch-labels:after {
-  content: attr(data-onLabel);
-  left: 10px;
-  color: #007aff;
-  opacity: 0;
-}
-.ios .toggleswitchview input:checked + .switch-labels {
-  background: #d5d5d5;
-}
-.ios .toggleswitchview input:checked + .switch-labels:before {
-  opacity: 0;
-}
-.ios .toggleswitchview input:checked + .switch-labels:after {
-  opacity: 1;
-}
-.ios .toggleswitchview .switch-handle {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 16px;
-  height: 16px;
-  background: white;
-  border-radius: 4px;
-}
-.ios .toggleswitchview .switch-handle {
-  background: #59c8fa;
-}
-.ios .toggleswitchview input:checked + .switch-labels .switch-handle {
-  background: #f45b42;
-}
-.ios .toggleswitchview input:checked + .switch-labels .switch-handle {
-  left: 35.2px;
-}
-.ios .webgl .switch-handle {
-  -webkit-transition: left 0.15s ease-out;
-  -moz-transition: left 0.15s ease-out;
-  -o-transition: left 0.15s ease-out;
-  transition: left 0.15s ease-out;
 }
 .ios .m-loaderview, .ios .m-popupview {
   -khtml-opacity: 0;
@@ -6804,51 +6424,161 @@
   height: 50px;
   text-align: center;
 }
+.ios .header .is-icon-only {
+  font-size: 2.4rem;
+}
 .ios .movableview {
-  padding-left: 20px;
-  background: #00cc09;
   position: relative;
   overflow: hidden;
   width: 100%;
   height: 100px;
 }
-.ios .movableview .movable-element, .ios .movableview .menuview {
+.ios .movableview .movable-element {
   display: block;
   height: 100px;
   width: 100px;
-  background: #cc3500;
-  -webkit-user-select: none;
-  -webkit-user-drag: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  -webkit-transform: translate3d(0, 0, 0);
 }
-.ios .movableview .movable-element, .ios .movableview .menuview {
+.ios .toggleswitchview {
+  position: relative;
+  overflow: hidden;
+  height: 46px;
+}
+.ios .toggleswitchview .label-descr,
+.ios .toggleswitchview .movable-container,
+.ios .toggleswitchview .movable-grid {
+  height: 41px;
+}
+.ios .toggleswitchview .label-descr {
+  display: block;
+  position: relative;
+  padding: 14px 80px 0 0;
+}
+.ios .toggleswitchview .toggleswitch-value-listener {
+  display: none;
+}
+.ios .toggleswitchview .movable-grid {
+  min-width: 80px;
+  display: inline-block;
   position: absolute;
-  left: 0;
+  right: 12px;
+  top: 5px;
+}
+.ios .toggleswitchview .movable-container {
+  position: absolute;
+  bottom: 0;
+  width: 76px;
+  border-radius: 36px;
+  padding: 3px 3px 0 3px;
+}
+.ios .toggleswitchview.on-left .movable-container {
+  background: #d5d5d5;
+}
+.ios .toggleswitchview.on-right .movable-container {
+  background: #1092d3;
+}
+.ios .toggleswitchview .movable-element {
+  position: absolute;
+  height: 36px;
+  width: 36px;
+  border-radius: 36px;
+  border: 1px solid white;
+  background: white;
+}
+.ios .toggleswitchview .on-value,
+.ios .toggleswitchview .off-value {
+  color: white;
+  max-width: 30px;
+}
+.ios .toggleswitchview .on-value {
+  position: absolute;
+  left: 6px;
+  top: 9px;
+}
+.ios .toggleswitchview .off-value {
+  position: absolute;
+  right: 8px;
+  top: 9px;
 }
 .ios .has-menu {
   overflow: visible;
 }
-.ios .menuview {
-  position: absolute;
-  top: 0;
+.ios .menuview.on-move .movable-container {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+}
+.ios .menuview.on-left.on-move .movable-backdrop {
+  right: 0;
+}
+.ios .menuview.on-right .movable-container, .ios .menuview.on-move .movable-container {
+  right: 0;
+  max-width: 100%;
+}
+.ios .menuview.on-left .movable-backdrop {
+  right: 100%;
+}
+.ios .menuview .movable-backdrop {
+  background: black;
   left: 0;
+  right: 0;
+  opacity: 0;
+}
+.ios .menuview .movable-backdrop,
+.ios .menuview .movable-container {
+  position: absolute;
+  top: 50px;
   bottom: 0;
   display: block;
-  background: green;
-  width: 200px;
+  overflow: hidden;
 }
-.ios .menuview .movable-element, .ios .menuview .menuview {
+.ios .menuview .movable-container {
+  left: -180px;
+  background: transparent;
+  -webkit-transition: -webkit-transform 500ms ease;
+  -moz-transition: -moz-transform 500ms ease;
+  -o-transition: -o-transform 500ms ease;
+  transition: transform 500ms ease;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.ios .menuview .movable-container .movable-element {
   position: absolute;
-  left: 190px;
+  left: 180px;
   display: block;
-  height: 100px;
-  width: 100px;
-  background: #cc3500;
+  height: 50px;
+  width: 50px;
+  background: transparent;
+  font-size: 3.6rem;
+  padding: 8px 0 0 7px;
+  border: 1px solid #a6a6a6;
+  border-left: none;
+  border-right-width: 1px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   -webkit-user-select: none;
   -webkit-user-drag: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transition: -webkit-transform 500ms ease;
+  -moz-transition: -moz-transform 500ms ease;
+  -o-transition: -o-transform 500ms ease;
+  transition: transform 500ms ease;
   -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.ios .menu-content {
+  display: block;
+  background: white;
+  height: 100%;
+  width: 180px;
+  margin-right: 20px;
+  overflow-y: auto;
 }
 .ios .tabbarbuttongroupview .buttonview.active .button,
 .ios .buttongroupview .buttonview.active .button {
