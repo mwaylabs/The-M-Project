@@ -1,9 +1,9 @@
 .toolbarview {
   height: $tablayout-menu-height;
-  width: 100%;
+  //width: 100%;
   background: $m-primary-color;
-  position: absolute;
-  top: 0;
+  //position: absolute;
+  //top: 0;
 
   .buttonview {
     .button {
@@ -11,6 +11,8 @@
       background: none;
       color: $m-primary-active-text-color;
       border: none;
+      padding-left: 0;
+      padding-right: 0;
 
     }
 
@@ -40,10 +42,18 @@
   @extend .header-first;
 }
 
+.toolbarview .first .view > div{
+  float: left;
+}
+
 .toolbarview .center {
   @extend .header-center;
 }
 
 .toolbarview .second {
   @extend .header-second;
+}
+
+.toolbarview .second .view > div{
+  float: left;
 }
