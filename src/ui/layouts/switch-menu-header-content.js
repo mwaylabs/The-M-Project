@@ -35,7 +35,7 @@
          */
         template: myTemplate,
 
-        cssClass:'switch-menu-header-content-layout',
+        cssClass: 'switch-menu-header-content-layout',
 
         menu: null,
 
@@ -46,11 +46,18 @@
          */
         applyViews: function( settings ) {
             if( !this.menu ) {
-                this.menu = M.MenuView.extend().create();
-                this.setChildView('menu', this.menu);
-                this.menu.setChildView('menu-content', settings.menuContent);
-                this.menu.render();
-                this.$el.append(this.menu.$el);
+                if( settings.menuContent && M.MenuView.prototype.isPrototypeOf(settings.menuContent) ) {
+                    this.menu = settings.menuContent;
+                    this.setChildView('menu', settings.menuContent);
+                    this.menu.render();
+                    this.$el.append(this.menu.$el);
+                } else {
+                    this.menu = M.MenuView.extend().create();
+                    this.setChildView('menu', this.menu);
+                    this.menu.setChildView('menu-content', settings.menuContent);
+                    this.menu.render();
+                    this.$el.append(this.menu.$el);
+                }
             }
             var that = this;
             M.SwitchHeaderContentLayout.prototype.applyViews.apply(this, [settings]);
