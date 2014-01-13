@@ -85,10 +85,10 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 ## Roadmap
 
 ### Absinthe release
-- The-M-Project v.2.0 beta 1 (We are here)
+- The-M-Project v.2.0 beta 1 
 	- All the fancy stuff we mentioned above
 
-- The-M-Project v.2.0 beta 2
+- The-M-Project v.2.0 beta 2 (We are here)
 	- MenuView
 	- SideMenu
 	- MenuLayout
