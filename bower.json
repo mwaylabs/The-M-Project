@@ -16,12 +16,14 @@
     "sample",
     "server",
     "utils",
+    "tasks",
     "doc-template",
     "Gruntfile.js",
     "*.sh",
     "*.md",
     "*.json",
-    "*.txt"
+    "*.txt",
+    "*.bat"
   ],
   "dependencies": {
     "backbone": "~1.1.0",
