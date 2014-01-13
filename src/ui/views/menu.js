@@ -9,7 +9,14 @@
  * @type {*}
  * @extends M.View
  * @example
- * var menu = M.MenuView.extend({},{
+ * var menu = M.MenuView.extend({
+ *     onOpen: function(){
+ *         console.log('menu open');
+ *     },
+ *     onClose: function(){
+ *         console.log('menu close');
+ *     }
+ * },{
         'menu-content': M.View.extend({},{
             b1 : M.ButtonView.extend({value:'b1'}),
             b2 : M.ButtonView.extend({value:'b2'})
@@ -103,6 +110,7 @@ M.MenuView = M.MovableView.extend({
         this._transitionTimeout = setTimeout(function() {
             that.$el.removeClass('on-move');
         }, animationDuration);
+        this._onClose();
     },
 
     /**
@@ -113,6 +121,7 @@ M.MenuView = M.MovableView.extend({
         M.MovableView.prototype.toRight.apply(this, arguments);
         this._$backdrop.addClass('in');
         this._$backdrop.css('opacity', '0.8');
+        this._onOpen();
     },
 
     /**
@@ -166,5 +175,37 @@ M.MenuView = M.MovableView.extend({
     _drag: function() {
         M.MovableView.prototype._drag.apply(this, arguments);
         window.clearTimeout(this._transitionTimeout);
+    },
+
+    /**
+     * Internal on close function. Gets called when the menu is closed
+     * @private
+     */
+    _onClose: function(){
+        this.onClose();
+    },
+
+    /**
+     * Internal on open function. Gets called when the menu is closed
+     * @private
+     */
+    _onOpen: function(){
+        this.onOpen();
+    },
+
+    /**
+     * Gets called when the menu is closed.
+     * @private
+     */
+    onClose: function(){
+
+    },
+
+    /**
+     * Gets called when the menu is opened.
+     * @private
+     */
+    onOpen: function(){
+
     }
 });
