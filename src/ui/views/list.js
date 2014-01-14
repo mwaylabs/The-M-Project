@@ -169,9 +169,9 @@ M.ListView = M.View.extend({
             this._renderItems(this.collection.filter(this.filterBy, this));
         }
         // TODO: evaluate this:
-        //        else if(this.getValue()) {
-        //            this._renderItems(this.collection.filter(this.filterBy, context));
-        //        }
+        else if( _.isArray(this.getValue()) ) {
+            this._renderItems(this.getValue());
+        }
         return this;
     },
 
