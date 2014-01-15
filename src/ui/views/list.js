@@ -164,6 +164,11 @@ M.ListView = M.View.extend({
      * @returns {M.ListView}
      */
     _renderChildViews: function() {
+        // gets also called for filtering with useRenderUpdateFilter so skip that - because in this case the filtervalue is needed
+        if( !this.useRenderUpdateFilter ) {
+            //reset the filtervalue if the view gets rerendered
+            this._filterValue = true;
+        }
         if( this.collection ) {
             // add all models to the view
             this._renderItems(this.collection.filter(this.filterBy, this));
