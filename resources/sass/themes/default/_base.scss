@@ -47,3 +47,12 @@ body {
   padding-left: 15px;
   padding-bottom: 5px;
 }
+
+@media (min-width: 1200px){
+  body{
+    background-color: #F3F3F3;
+  }
+  #main{
+    border: 1px solid #D6D6D6;
+  }
+}
