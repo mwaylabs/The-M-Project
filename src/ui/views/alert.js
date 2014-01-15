@@ -3,31 +3,22 @@
 
 /**
  *
- * The base implementation of a loader. Calling the show/toggle shows the loader.
+ * The base implementation of a alert. You can show the alert view by calling the show function.
+ * For displaying text in the alert view you can pass the show function your String as an argument.
  * Calling multiple times the show function with a different text will update the text.
- * Call hide/toggle for every show to hide the Loader.
- * To force the hidding pass true to the hide call
+ * Call hide/toggle for every show to hide the alert view.
+ * To force the hiding pass true to the hide call
  *
- * @module M.LoaderView
+ * @module M.AlertView
  * @extends M.ModalView
  * @type {*|Object|void}
  *
  * @example
- * var loader = M.LoaderView.extend().create().render();
- * //show loader
- * loader.show('loading');
+ * var alert = M.AlertView.extend().create().render();
+ * //show alert
+ * alert.show('Warning!');
  * //hide loader
- * loader.hide();
- * //show loader
- * loader.toggle('loading second time');
- * //hide loader
- * loader.toggle();
- * //show loader
- * loader.show('loading');
- * //udpte text
- * loader.show('still loading');
- * //force hidding
- * loader.hide(true);
+ * alert.hide();
  *
  */
 M.AlertView = M.ModalView.extend({
@@ -40,13 +31,15 @@ M.AlertView = M.ModalView.extend({
     _type: 'M.AlertView',
 
     /**
-     * Defines that the loader view can't be closed by clicking on the overlay.
+     * Defines that the alert view can't be closed by clicking on the overlay.
      * @type {String}
      */
     hideOnOverlayClick: NO,
 
     useAsScope: YES,
-
+    /**
+     * Gets called when user clicks on the ok button
+     */
     ok: function(){
 
     },
@@ -69,9 +62,9 @@ M.AlertView = M.ModalView.extend({
     },
 
     /**
-     * Show the loader
-     * @param {String} text - The text for the Loader
-     * @returns {LoaderView}
+     * Show the alert view
+     * @param {String} text - The text for the alert view
+     * @returns {AlertView}
      */
     show: function( text ) {
         text = text || '';
@@ -125,19 +118,27 @@ M.AlertView = M.ModalView.extend({
 
 /**
  *
- * @module M.Loader
+ * @module M.Alert
  * @static
- * Static implementation of the LoaderView
+ * Static implementation of the Alert view
  *
  * @type {*|Prompt|String|this}
  * @example
- * M.ButtonView.extend({
-    grid: 'col-xs-12',
-    value: 'Toggle LoaderView',
-    events: {
-        tap: function() {
-            M.Loader.toggle();
-        }
-    }
+ * alertButton: M.ButtonView.extend({
+                grid: 'col-xs-12 col-sm-6 col-md-4',
+                value: 'Show Alert',
+                events: {
+                    tap: function() {
+                        M.AlertView.extend( {
+                            ok: function(){
+                            console.log('ok');
+                        },
+                            cancel: function(){
+                                console.log('cancel');
+                            }
+                        }).create().render().show('Hallo ich bin ein alert');
+                    }
+                }
+            })
  */
 M.Alert = M.AlertView.create().render();
