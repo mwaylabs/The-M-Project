@@ -214,7 +214,10 @@ M.ListView = M.View.extend({
             // TODO: implement behavior
         });
         this.listenTo(this.collection, 'remove', function( model ) {
-            this._viewModelMapping[model.cid].$el.remove();
+            var v = this._viewModelMapping[model.cid];
+            if (v && v.$el) {
+                v.$el.remove();
+            }
         });
 
         this.listenTo(this.collection, 'sort', function() {

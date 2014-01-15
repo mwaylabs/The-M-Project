@@ -96,7 +96,6 @@ M.BikiniStore = M.Store.extend({
                 endpoint.entity = entity;
                 endpoint.channel = channel;
                 endpoint.credentials = credentials;
-                endpoint.collection = collection;
                 endpoint.socketPath = this.options.socketPath;
                 endpoint.localStore = this.createLocalStore(endpoint);
                 endpoint.messages = this.createMsgCollection(endpoint);
@@ -106,9 +105,6 @@ M.BikiniStore = M.Store.extend({
             }
             collection.endpoint = endpoint;
             collection.listenTo(this, endpoint.channel, this.onMessage, collection);
-            if( endpoint.messages && !endpoint.socket ) {
-                that.sendMessages(endpoint);
-            }
         }
     },
 
@@ -126,7 +122,7 @@ M.BikiniStore = M.Store.extend({
                 name: endpoint.channel,
                 idAttribute: idAttribute
             };
-            return new this.options.localStore({
+            return this.options.localStore.create({
                 entities: entities
             });
         }
@@ -134,15 +130,17 @@ M.BikiniStore = M.Store.extend({
 
     createMsgCollection: function( endpoint ) {
         if( this.options.useOfflineChanges && endpoint ) {
-            var name = 'msg-' + endpoint.channel;
-            var MsgCollection = M.Collection.extend({
-                model: M.Model.extend({ idAttribute: '_id' })
+            var messages = M.Collection.design({
+                url: endpoint.url,
+                entity: 'msg-' + endpoint.channel,
+                store: this.options.localStore.create()
             });
-            var messages = new MsgCollection({
-                entity: name,
-                store: new this.options.localStore()
+            var that = this;
+            messages.fetch({
+                success: function() {
+                    that.sendMessages(endpoint);
+                }
             });
-            messages.fetch();
             return messages;
         }
     },
@@ -178,10 +176,10 @@ M.BikiniStore = M.Store.extend({
             name = name || endpoint.entity.name;
             socket.on(channel, function( msg ) {
                 if( msg ) {
+                    that.trigger(channel, msg);
                     if (that.options.useLocalStore) {
                         that.setLastMessageTime(channel, msg.time);
                     }
-                    that.trigger(channel, msg);
                 }
             });
             socket.emit('bind', {
@@ -217,6 +215,7 @@ M.BikiniStore = M.Store.extend({
 
     onConnect: function( endpoint ) {
         this.isConnected = YES;
+        this.fetchChanges(endpoint );
         this.sendMessages(endpoint );
     },
 
@@ -300,8 +299,8 @@ M.BikiniStore = M.Store.extend({
                 // do backbone rest
                 that.addMessage(method, model, // we don't need to call callbacks if an other store handle this
                     endpoint.localStore ? {} : options, endpoint);
-            } else if( method === 'read' && time ) {
-                that.fetchChanges(endpoint, time);
+            } else if( method === 'read' ) {
+                that.fetchChanges(endpoint);
             }
             if( endpoint.localStore ) {
                 options.store = endpoint.localStore;
@@ -406,9 +405,11 @@ M.BikiniStore = M.Store.extend({
         }]);
     },
 
-    fetchChanges: function( endpoint, time ) {
+    fetchChanges: function( endpoint ) {
         var that = this;
-        if( endpoint && endpoint.baseUrl && time ) {
+        var channel = endpoint ? endpoint.channel : '';
+        var time = that.getLastMessageTime(channel);
+        if( endpoint && endpoint.baseUrl && channel && time ) {
             var changes = new M.Collection({});
             changes.fetch({
                 url: endpoint.baseUrl + '/changes/' + time,
@@ -416,9 +417,9 @@ M.BikiniStore = M.Store.extend({
                     changes.each(function( msg ) {
                         if( msg.time && msg.method ) {
                             if (that.options.useLocalStore) {
-                                that.setLastMessageTime(endpoint.channel, msg.time);
+                                that.setLastMessageTime(channel, msg.time);
                             }
-                            that.trigger(endpoint.channel, msg);
+                            that.trigger(channel, msg);
                         }
                     });
                 },
@@ -452,7 +453,7 @@ M.BikiniStore = M.Store.extend({
     },
 
     sendMessages: function( endpoint ) {
-        if( endpoint && endpoint.messages && endpoint.collection ) {
+        if( endpoint && endpoint.messages ) {
             var that = this;
             endpoint.messages.each(function( message ) {
                 var msg;
@@ -462,7 +463,7 @@ M.BikiniStore = M.Store.extend({
                 }
                 var channel = message.get('channel');
                 if( msg && channel ) {
-                    var model = that.createModel({ collection: endpoint.collection }, msg.data);
+                    var model = that.createModel({ collection: endpoint.messages }, msg.data);
                     that.emitMessage(endpoint, msg, {}, model);
                 } else {
                     message.destroy();
@@ -521,5 +522,4 @@ M.BikiniStore = M.Store.extend({
             }
         }
     }
-
 });
