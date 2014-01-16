@@ -11,6 +11,7 @@ The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great 
 - [What's new](#whats-new)
 - [Demo](#demo)
 - [Roadmap](#roadmap)
+- [Changelog](#changelog)
 - [Further Reading and Repositories](#further-reading-and-repositories)
 - [Application Lifecycle](#application-lifecycle)
 - [Folder structure](#folder-structure)
@@ -88,7 +89,7 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 - The-M-Project v.2.0 beta 1 
 	- All the fancy stuff we mentioned above
 
-- The-M-Project v.2.0 beta 2 (We are here)
+- The-M-Project v.2.0 beta 2 (We are here - tagname beta3)
 	- MenuView
 	- SideMenu
 	- MenuLayout
@@ -105,6 +106,29 @@ The Addressbook is the sample app for [Bikini](#bikini). [Open the app](http://w
 - The-M-Project v.2.0
 	- Final release
 
+### Changelog
+## The-M-Project v.2.0 beta 3
+### Quickfixes like:
+- Ignore unnecessary files and folder
+- MenuView update/improvements
+- CSS/SASS update/improvements
+- Buttongroup setActive
+- enhanced API for M.ViewManager.getView
+- fixes to offline data handling
+- Filter for M.ListView
+
+## The-M-Project v.2.0 beta 2
+- CSS/SASS update/improvements
+  - M.ToolbarView
+  - M.ButtonView
+- Refactoring View: templates to single files
+- Implemented Switch layout
+- Getter for M.ListView
+- Improved online/offline detection of bikini
+- Implemented M.MenuView and MenuLayout
+
+## The-M-Project v.2.0 beta 1
+- Initial beta release
 ### Future plans
 
 - The-M-Project 2.1
