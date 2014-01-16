@@ -14,33 +14,34 @@ M.ButtonGroupView = M.View.extend({
 
     _internalCssClasses: 'clearfix',
 
-    setActive: function (view) {
+    setActive: function( view ) {
 
         var setActiveView = M.isView(view) ? view : this._getChildView(view);
-        _.each(this.childViews, function (child) {
+        _.each(this.childViews, function( child ) {
             child.deactivate();
         }, this);
         setActiveView.activate();
     },
 
-    getActive: function () {
-        return _.find(this._childViews, function (view) {
+    getActive: function() {
+        return _.find(this._childViews, function( view ) {
             return view.isActive();
         }, this);
     },
 
-    initialize: function () {
+    initialize: function() {
         M.View.prototype.initialize.apply(this, arguments);
         var that = this;
-        if (this._childViews) {
-            _.each(this._childViews, function (child, key) {
+        if( this._childViews ) {
+            _.each(this._childViews, function( child, key ) {
+
                 this._childViews[key] = child.extend({
                     _isInButtonGroup: YES,
                     _internalEvents: {
-                        touchstart: [function (events, element) {
+                        touchstart: [function( events, element ) {
                             that.setActive(element);
                         }],
-                        mousedown: [function (events, element) {
+                        mousedown: [function( events, element ) {
                             that.setActive(element);
                         }]
                     }
@@ -50,7 +51,16 @@ M.ButtonGroupView = M.View.extend({
 
     },
 
-    _addClassNames: function(){
+    _preRender: function() {
+        M.View.prototype._preRender.apply(this, arguments);
+        _.each(this.childViews, function( child ) {
+            if( child.selected ) {
+                this.setActive(child);
+            }
+        }, this);
+    },
+
+    _addClassNames: function() {
         M.View.prototype._addClassNames.apply(this, arguments);
     }
 });

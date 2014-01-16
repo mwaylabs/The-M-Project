@@ -668,7 +668,7 @@
                 }
             } else if (M.isI18NItem(_value)) {
                 this._templateValues._value = M.I18N.l(_value.key, _value.placeholder);
-            } else if (typeof _value === 'string') {
+            } else if (typeof _value === 'string' || typeof _value === 'number') {
                 this._templateValues._value = _value;
             } else if (_value !== null && typeof _value === 'object' && this._hasI18NListener === NO) {
                 this._templateValues = M.Object.deepCopy(_value);

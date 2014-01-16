@@ -164,14 +164,19 @@ M.ListView = M.View.extend({
      * @returns {M.ListView}
      */
     _renderChildViews: function() {
+        // gets also called for filtering with useRenderUpdateFilter so skip that - because in this case the filtervalue is needed
+        if( !this.useRenderUpdateFilter ) {
+            //reset the filtervalue if the view gets rerendered
+            this._filterValue = true;
+        }
         if( this.collection ) {
             // add all models to the view
             this._renderItems(this.collection.filter(this.filterBy, this));
         }
         // TODO: evaluate this:
-        //        else if(this.getValue()) {
-        //            this._renderItems(this.collection.filter(this.filterBy, context));
-        //        }
+        else if( _.isArray(this.getValue()) ) {
+            this._renderItems(this.getValue());
+        }
         return this;
     },
 
@@ -209,7 +214,10 @@ M.ListView = M.View.extend({
             // TODO: implement behavior
         });
         this.listenTo(this.collection, 'remove', function( model ) {
-            this._viewModelMapping[model.cid].$el.remove();
+            var v = this._viewModelMapping[model.cid];
+            if (v && v.$el) {
+                v.$el.remove();
+            }
         });
 
         this.listenTo(this.collection, 'sort', function() {

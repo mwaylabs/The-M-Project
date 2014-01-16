@@ -1,6 +1,6 @@
 {
   "name": "The-M-Project",
-  "version": "2.0.0-beta2",
+  "version": "2.0.0-beta3",
   "main": [
     "./dist/*.js",
     "./dist/*.css"
@@ -16,12 +16,14 @@
     "sample",
     "server",
     "utils",
+    "tasks",
     "doc-template",
     "Gruntfile.js",
     "*.sh",
     "*.md",
     "*.json",
-    "*.txt"
+    "*.txt",
+    "*.bat"
   ],
   "dependencies": {
     "backbone": "~1.1.0",
