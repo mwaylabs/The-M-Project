@@ -1,8 +1,8 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Copyright: (c) 2014 M-Way Solutions GmbH.
-* Version:   2.0.0-beta3
-* Date:      Wed Jan 15 2014 11:34:13
+* Version:   2.0.0-beta2
+* Date:      Fri Jan 10 2014 18:16:20
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 .ios {
@@ -4712,13 +4712,13 @@
 .ios .header-first, .ios .switch-menu-header-content-layout .first,
 .ios .switch-header-content-layout .first, .ios .toolbarview .first {
   position: absolute;
-  left: 0px;
+  left: 10px;
   top: 4px;
 }
 .ios .header-second, .ios .switch-menu-header-content-layout .second,
 .ios .switch-header-content-layout .second, .ios .toolbarview .second {
   position: absolute;
-  right: 0px;
+  right: 10px;
   top: 4px;
 }
 .ios .stencil, .ios .textview.stencil i, .ios .textview.stencil div div {
@@ -5837,15 +5837,16 @@
 }
 .ios .toolbarview {
   height: 50px;
+  width: 100%;
   background: #1092d3;
+  position: absolute;
+  top: 0;
 }
 .ios .toolbarview .buttonview .button {
   margin-top: 0;
   background: none;
-  color: white;
+  color: #007aff;
   border: none;
-  padding-left: 0;
-  padding-right: 0;
 }
 .ios .toolbarview .buttonview.active .button {
   background: none;
@@ -5858,12 +5859,6 @@
 }
 .ios .toolbarview .buttonview.is-icon-only .fa {
   font-size: 3.2rem;
-}
-.ios .toolbarview .first .view > div {
-  float: left;
-}
-.ios .toolbarview .second .view > div {
-  float: left;
 }
 .ios .buttonview .fa {
   font-size: 2.24rem;
@@ -6050,7 +6045,7 @@
 }
 .ios .listview .listitemview.active,
 .ios .listview .listview ul li.active {
-  background-color: #d5d5d5;
+  background: #d5d5d5;
   color: #007aff;
 }
 .ios .textfieldview label {
@@ -6424,7 +6419,7 @@
   padding: 10px;
 }
 .ios .header {
-  background: #1092d3;
+  background: #59c8fa;
   color: white;
   height: 50px;
   text-align: center;
@@ -6656,6 +6651,9 @@
 .ios .checkboxlistview input[type="checkbox"]:checked:before {
   color: #59c8fa;
   content: '\2713';
+}
+.ios .toggleswitchview {
+  display: none;
 }
 .ios .tablayout .m-tab {
   top: 0;

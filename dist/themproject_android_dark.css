@@ -1,8 +1,8 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Copyright: (c) 2014 M-Way Solutions GmbH.
-* Version:   2.0.0-beta3
-* Date:      Wed Jan 15 2014 11:34:13
+* Version:   2.0.0-beta2
+* Date:      Fri Jan 10 2014 18:16:20
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 .android-dark {
@@ -4704,13 +4704,13 @@
 .android-dark .header-first, .android-dark .switch-menu-header-content-layout .first,
 .android-dark .switch-header-content-layout .first, .android-dark .toolbarview .first {
   position: absolute;
-  left: 0px;
+  left: 10px;
   top: 4px;
 }
 .android-dark .header-second, .android-dark .switch-menu-header-content-layout .second,
 .android-dark .switch-header-content-layout .second, .android-dark .toolbarview .second {
   position: absolute;
-  right: 0px;
+  right: 10px;
   top: 4px;
 }
 .android-dark .stencil, .android-dark .textview.stencil i, .android-dark .textview.stencil div div {
@@ -5829,15 +5829,16 @@
 }
 .android-dark .toolbarview {
   height: 50px;
+  width: 100%;
   background: #669900;
+  position: absolute;
+  top: 0;
 }
 .android-dark .toolbarview .buttonview .button {
   margin-top: 0;
   background: none;
   color: white;
   border: none;
-  padding-left: 0;
-  padding-right: 0;
 }
 .android-dark .toolbarview .buttonview.active .button {
   background: none;
@@ -5850,12 +5851,6 @@
 }
 .android-dark .toolbarview .buttonview.is-icon-only .fa {
   font-size: 3.2rem;
-}
-.android-dark .toolbarview .first .view > div {
-  float: left;
-}
-.android-dark .toolbarview .second .view > div {
-  float: left;
 }
 .android-dark .buttonview .fa {
   font-size: 2.24rem;
@@ -6042,7 +6037,7 @@
 }
 .android-dark .listview .listitemview.active,
 .android-dark .listview .listview ul li.active {
-  background-color: #99cc00;
+  background: #99cc00;
   color: white;
 }
 .android-dark .textfieldview label {
@@ -6416,7 +6411,7 @@
   padding: 10px;
 }
 .android-dark .header {
-  background: #669900;
+  background: #1092d3;
   color: white;
   height: 50px;
   text-align: center;

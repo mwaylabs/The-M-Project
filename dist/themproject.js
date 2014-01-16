@@ -1,8 +1,8 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Copyright: (c) 2014 M-Way Solutions GmbH.
-* Version:   2.0.0-beta3
-* Date:      Wed Jan 15 2014 11:34:12
+* Version:   2.0.0-beta2
+* Date:      Fri Jan 10 2014 18:16:19
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 
@@ -28,7 +28,7 @@
      * Version number of current release
      * @type {String}
      */
-    M.Version = M.version = '2.0.0-beta3';
+    M.Version = M.version = '2.0.0-beta2';
     
     /**
      * Empty function to be used when
@@ -1426,6 +1426,7 @@
          * @param view
          */
         registerView: function( view ) {
+    
             if( !_.isObject(this._allViews) ) {
                 this._allViews = {};
             }
@@ -1443,114 +1444,24 @@
         },
     
         /**
-         *
-         * Returns the view to the given parameter. Returns an array with the all found views. If none is found an empty array gets returned
          * @example M.ViewManager.getView($0) // $0 is a selected DOM element
          * @param searchterm
-         * @returns {Array}
-         * var testView = M.View.extend({
-                value: 0
-            }, {
-                child: M.View.extend({
-                    value: 1
-                }, {
-                    child: M.TextView.extend({
-                        value: 2
-                    }, {
-                        child: M.ButtonView.extend({
-                            value: 3
-                        })
-                    })
-                })
-            }).create().render();
-    
-         var children = M.ViewManager.getView('child'); // [child, child, child]
-         children[0].getValue(); //1
-         children[1].getValue(); //2
-         children[2].getValue(); //3
-    
-         var children = M.ViewManager.getView('child', testView.childViews.child); // [child, child]
-         children[0].getValue(); //2
-         children[1].getValue(); //3
-    
-         var children = M.ViewManager.getView(testView.el); // [child]
-         children[0].getValue(); //0
-    
-         var children = M.ViewManager.getView('child', M.ButtonView.prototype._type); // [child]
-         children[0].getValue(); //3
-         *
+         * @returns {*}
          */
-        getView: function( searchterm, specifier ) {
+        getView: function( searchterm ) {
     
-            var foundViews = [];
-            // if no search term is given return false
             if( !searchterm ) {
-                return foundViews;
+                return false;
             }
     
             if( this._allViews[searchterm] ) {
-                // if the search term is a cid return that one
-                foundViews.push(this._allViews[searchterm]);
-                return foundViews;
+                return this._allViews[searchterm];
             } else if( searchterm.DOCUMENT_NODE ) {
-                // if the search term is a DOM element search for it
-                foundViews.push(this._getViewByDom(searchterm));
-                return foundViews;
-            } else if( typeof searchterm === 'string' ) {
-                if( M.isView(specifier) ) {
-                    // if the searchterm is a string and the specifier is a M.View
-                    // use the specifier as root element and find every childview with the given searchterm
-                    this._getViewInScope(searchterm, specifier, foundViews);
-                    return foundViews;
-                } else if( typeof searchterm === 'string' ) {
-                    // if the searchterm is a string and the specifier is a string
-                    // use the specifier as type
-                    _.each(this._allViews, function( view ) {
-                        // loop over all views
-                        if( view.childViews && view.childViews.hasOwnProperty(searchterm) ) {
-                            // if the child view contains the child view
-                            if( typeof specifier === 'string' ) {
-                                // use the specifier as type
-                                if( view.childViews[searchterm] && view.childViews[searchterm]._type === specifier ) {
-                                    foundViews.push(view.childViews[searchterm]);
-                                }
-                            } else {
-                                foundViews.push(view.childViews[searchterm]);
-                            }
-    
-                        }
-                    }, this);
-                }
-    
-                return foundViews;
-            }
-            return foundViews;
-        },
-    
-        /**
-         * Compares all views with the given dom
-         * @param searchterm
-         * @returns {M.View}
-         * @private
-         */
-        _getViewByDom: function( dom ) {
-            return _.find(this._allViews, function( view ) {
-                return (view.el === dom);
-            });
-        },
-    
-        _getViewInScope: function( searchTerm, scope, foundElements ) {
-            if( scope.childViews !== {} ) {
-                if( scope.childViews.hasOwnProperty(searchTerm) ) {
-                    foundElements.push(scope.childViews[searchTerm]);
-                }
-                for( var childView in scope.childViews ) {
-                    this._getViewInScope(searchTerm, scope.childViews[childView], foundElements);
-                }
+                return _.find(this._allViews, function( view ) {
+                    return (view.el === searchterm);
+                });
             }
         }
-    
-    
     
     });
     // Copyright (c) 2013 M-Way Solutions GmbH
@@ -6157,6 +6068,7 @@
                     endpoint.entity = entity;
                     endpoint.channel = channel;
                     endpoint.credentials = credentials;
+                    endpoint.collection = collection;
                     endpoint.socketPath = this.options.socketPath;
                     endpoint.localStore = this.createLocalStore(endpoint);
                     endpoint.messages = this.createMsgCollection(endpoint);
@@ -6166,6 +6078,9 @@
                 }
                 collection.endpoint = endpoint;
                 collection.listenTo(this, endpoint.channel, this.onMessage, collection);
+                if( endpoint.messages && !endpoint.socket ) {
+                    that.sendMessages(endpoint);
+                }
             }
         },
     
@@ -6183,7 +6098,7 @@
                     name: endpoint.channel,
                     idAttribute: idAttribute
                 };
-                return this.options.localStore.create({
+                return new this.options.localStore({
                     entities: entities
                 });
             }
@@ -6191,17 +6106,15 @@
     
         createMsgCollection: function( endpoint ) {
             if( this.options.useOfflineChanges && endpoint ) {
-                var messages = M.Collection.design({
-                    url: endpoint.url,
-                    entity: 'msg-' + endpoint.channel,
-                    store: this.options.localStore.create()
+                var name = 'msg-' + endpoint.channel;
+                var MsgCollection = M.Collection.extend({
+                    model: M.Model.extend({ idAttribute: '_id' })
                 });
-                var that = this;
-                messages.fetch({
-                    success: function() {
-                        that.sendMessages(endpoint);
-                    }
+                var messages = new MsgCollection({
+                    entity: name,
+                    store: new this.options.localStore()
                 });
+                messages.fetch();
                 return messages;
             }
         },
@@ -6237,10 +6150,10 @@
                 name = name || endpoint.entity.name;
                 socket.on(channel, function( msg ) {
                     if( msg ) {
-                        that.trigger(channel, msg);
                         if (that.options.useLocalStore) {
                             that.setLastMessageTime(channel, msg.time);
                         }
+                        that.trigger(channel, msg);
                     }
                 });
                 socket.emit('bind', {
@@ -6276,7 +6189,6 @@
     
         onConnect: function( endpoint ) {
             this.isConnected = YES;
-            this.fetchChanges(endpoint );
             this.sendMessages(endpoint );
         },
     
@@ -6360,8 +6272,8 @@
                     // do backbone rest
                     that.addMessage(method, model, // we don't need to call callbacks if an other store handle this
                         endpoint.localStore ? {} : options, endpoint);
-                } else if( method === 'read' ) {
-                    that.fetchChanges(endpoint);
+                } else if( method === 'read' && time ) {
+                    that.fetchChanges(endpoint, time);
                 }
                 if( endpoint.localStore ) {
                     options.store = endpoint.localStore;
@@ -6466,11 +6378,9 @@
             }]);
         },
     
-        fetchChanges: function( endpoint ) {
+        fetchChanges: function( endpoint, time ) {
             var that = this;
-            var channel = endpoint ? endpoint.channel : '';
-            var time = that.getLastMessageTime(channel);
-            if( endpoint && endpoint.baseUrl && channel && time ) {
+            if( endpoint && endpoint.baseUrl && time ) {
                 var changes = new M.Collection({});
                 changes.fetch({
                     url: endpoint.baseUrl + '/changes/' + time,
@@ -6478,9 +6388,9 @@
                         changes.each(function( msg ) {
                             if( msg.time && msg.method ) {
                                 if (that.options.useLocalStore) {
-                                    that.setLastMessageTime(channel, msg.time);
+                                    that.setLastMessageTime(endpoint.channel, msg.time);
                                 }
-                                that.trigger(channel, msg);
+                                that.trigger(endpoint.channel, msg);
                             }
                         });
                     },
@@ -6514,7 +6424,7 @@
         },
     
         sendMessages: function( endpoint ) {
-            if( endpoint && endpoint.messages ) {
+            if( endpoint && endpoint.messages && endpoint.collection ) {
                 var that = this;
                 endpoint.messages.each(function( message ) {
                     var msg;
@@ -6524,7 +6434,7 @@
                     }
                     var channel = message.get('channel');
                     if( msg && channel ) {
-                        var model = that.createModel({ collection: endpoint.messages }, msg.data);
+                        var model = that.createModel({ collection: endpoint.collection }, msg.data);
                         that.emitMessage(endpoint, msg, {}, model);
                     } else {
                         message.destroy();
@@ -6583,6 +6493,7 @@
                 }
             }
         }
+    
     });
     
     
@@ -7980,7 +7891,7 @@
                     }
                 } else if (M.isI18NItem(_value)) {
                     this._templateValues._value = M.I18N.l(_value.key, _value.placeholder);
-                } else if (typeof _value === 'string' || typeof _value === 'number') {
+                } else if (typeof _value === 'string') {
                     this._templateValues._value = _value;
                 } else if (_value !== null && typeof _value === 'object' && this._hasI18NListener === NO) {
                     this._templateValues = M.Object.deepCopy(_value);
@@ -9304,19 +9215,14 @@
          * @returns {M.ListView}
          */
         _renderChildViews: function() {
-            // gets also called for filtering with useRenderUpdateFilter so skip that - because in this case the filtervalue is needed
-            if( !this.useRenderUpdateFilter ) {
-                //reset the filtervalue if the view gets rerendered
-                this._filterValue = true;
-            }
             if( this.collection ) {
                 // add all models to the view
                 this._renderItems(this.collection.filter(this.filterBy, this));
             }
             // TODO: evaluate this:
-            else if( _.isArray(this.getValue()) ) {
-                this._renderItems(this.getValue());
-            }
+            //        else if(this.getValue()) {
+            //            this._renderItems(this.collection.filter(this.filterBy, context));
+            //        }
             return this;
         },
     
@@ -9354,10 +9260,7 @@
                 // TODO: implement behavior
             });
             this.listenTo(this.collection, 'remove', function( model ) {
-                var v = this._viewModelMapping[model.cid];
-                if (v && v.$el) {
-                    v.$el.remove();
-                }
+                this._viewModelMapping[model.cid].$el.remove();
             });
     
             this.listenTo(this.collection, 'sort', function() {
@@ -9981,34 +9884,33 @@
     
         _internalCssClasses: 'clearfix',
     
-        setActive: function( view ) {
+        setActive: function (view) {
     
             var setActiveView = M.isView(view) ? view : this._getChildView(view);
-            _.each(this.childViews, function( child ) {
+            _.each(this.childViews, function (child) {
                 child.deactivate();
             }, this);
             setActiveView.activate();
         },
     
-        getActive: function() {
-            return _.find(this._childViews, function( view ) {
+        getActive: function () {
+            return _.find(this._childViews, function (view) {
                 return view.isActive();
             }, this);
         },
     
-        initialize: function() {
+        initialize: function () {
             M.View.prototype.initialize.apply(this, arguments);
             var that = this;
-            if( this._childViews ) {
-                _.each(this._childViews, function( child, key ) {
-    
+            if (this._childViews) {
+                _.each(this._childViews, function (child, key) {
                     this._childViews[key] = child.extend({
                         _isInButtonGroup: YES,
                         _internalEvents: {
-                            touchstart: [function( events, element ) {
+                            touchstart: [function (events, element) {
                                 that.setActive(element);
                             }],
-                            mousedown: [function( events, element ) {
+                            mousedown: [function (events, element) {
                                 that.setActive(element);
                             }]
                         }
@@ -10018,16 +9920,7 @@
     
         },
     
-        _preRender: function() {
-            M.View.prototype._preRender.apply(this, arguments);
-            _.each(this.childViews, function( child ) {
-                if( child.selected ) {
-                    this.setActive(child);
-                }
-            }, this);
-        },
-    
-        _addClassNames: function() {
+        _addClassNames: function(){
             M.View.prototype._addClassNames.apply(this, arguments);
         }
     });
@@ -11291,14 +11184,7 @@
      * @type {*}
      * @extends M.View
      * @example
-     * var menu = M.MenuView.extend({
-     *     onOpen: function(){
-     *         console.log('menu open');
-     *     },
-     *     onClose: function(){
-     *         console.log('menu close');
-     *     }
-     * },{
+     * var menu = M.MenuView.extend({},{
             'menu-content': M.View.extend({},{
                 b1 : M.ButtonView.extend({value:'b1'}),
                 b2 : M.ButtonView.extend({value:'b2'})
@@ -11392,7 +11278,6 @@
             this._transitionTimeout = setTimeout(function() {
                 that.$el.removeClass('on-move');
             }, animationDuration);
-            this._onClose();
         },
     
         /**
@@ -11403,7 +11288,6 @@
             M.MovableView.prototype.toRight.apply(this, arguments);
             this._$backdrop.addClass('in');
             this._$backdrop.css('opacity', '0.8');
-            this._onOpen();
         },
     
         /**
@@ -11457,38 +11341,6 @@
         _drag: function() {
             M.MovableView.prototype._drag.apply(this, arguments);
             window.clearTimeout(this._transitionTimeout);
-        },
-    
-        /**
-         * Internal on close function. Gets called when the menu is closed
-         * @private
-         */
-        _onClose: function(){
-            this.onClose();
-        },
-    
-        /**
-         * Internal on open function. Gets called when the menu is closed
-         * @private
-         */
-        _onOpen: function(){
-            this.onOpen();
-        },
-    
-        /**
-         * Gets called when the menu is closed.
-         * @private
-         */
-        onClose: function(){
-    
-        },
-    
-        /**
-         * Gets called when the menu is opened.
-         * @private
-         */
-        onOpen: function(){
-    
         }
     });
     
@@ -11974,7 +11826,7 @@
              */
             template: myTemplate,
     
-            cssClass: 'switch-menu-header-content-layout',
+            cssClass:'switch-menu-header-content-layout',
     
             menu: null,
     
@@ -11985,18 +11837,11 @@
              */
             applyViews: function( settings ) {
                 if( !this.menu ) {
-                    if( settings.menuContent && M.MenuView.prototype.isPrototypeOf(settings.menuContent) ) {
-                        this.menu = settings.menuContent;
-                        this.setChildView('menu', settings.menuContent);
-                        this.menu.render();
-                        this.$el.append(this.menu.$el);
-                    } else {
-                        this.menu = M.MenuView.extend().create();
-                        this.setChildView('menu', this.menu);
-                        this.menu.setChildView('menu-content', settings.menuContent);
-                        this.menu.render();
-                        this.$el.append(this.menu.$el);
-                    }
+                    this.menu = M.MenuView.extend().create();
+                    this.setChildView('menu', this.menu);
+                    this.menu.setChildView('menu-content', settings.menuContent);
+                    this.menu.render();
+                    this.$el.append(this.menu.$el);
                 }
                 var that = this;
                 M.SwitchHeaderContentLayout.prototype.applyViews.apply(this, [settings]);

@@ -1,8 +1,8 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Copyright: (c) 2014 M-Way Solutions GmbH.
-* Version:   2.0.0-beta3
-* Date:      Wed Jan 15 2014 11:34:13
+* Version:   2.0.0-beta2
+* Date:      Fri Jan 10 2014 18:16:20
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
@@ -2942,14 +2942,14 @@ td.visible-print {
 .header-first, .switch-menu-header-content-layout .first,
 .switch-header-content-layout .first, .toolbarview .first {
   position: absolute;
-  left: 0px;
+  left: 10px;
   top: 4px;
 }
 
 .header-second, .switch-menu-header-content-layout .second,
 .switch-header-content-layout .second, .toolbarview .second {
   position: absolute;
-  right: 0px;
+  right: 10px;
   top: 4px;
 }
 
@@ -6256,15 +6256,16 @@ html, body {
 
 .toolbarview {
   height: 50px;
+  width: 100%;
   background: #1092d3;
+  position: absolute;
+  top: 0;
 }
 .toolbarview .buttonview .button {
   margin-top: 0;
   background: none;
   color: white;
   border: none;
-  padding-left: 0;
-  padding-right: 0;
 }
 .toolbarview .buttonview.active .button {
   background: none;
@@ -6277,14 +6278,6 @@ html, body {
 }
 .toolbarview .buttonview.is-icon-only .fa {
   font-size: 3.2rem;
-}
-
-.toolbarview .first .view > div {
-  float: left;
-}
-
-.toolbarview .second .view > div {
-  float: left;
 }
 
 .buttonview .fa {
@@ -6480,7 +6473,7 @@ html, body {
 }
 .listview .listitemview.active,
 .listview .listview ul li.active {
-  background-color: #0e7cb4;
+  background: #0e7cb4;
   color: white;
 }
 
