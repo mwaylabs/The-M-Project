@@ -49,8 +49,14 @@ describe('M Namespace', function () {
     
     });
 
-    it('M.isCollection', function () {
+    it('M.Validator', function () {
 
+        assert.isDefined(validator);
+        assert.isDefined(M.Validator);
+        assert.deepEqual(M.Validator, validator);
+    });
+
+    it('M.isCollection', function () {
         assert.isFalse(M.isCollection());
         assert.isFalse(M.isCollection(''));
         assert.isFalse(M.isCollection(0));

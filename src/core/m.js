@@ -93,3 +93,12 @@ YES = true;
  * @type {Boolean}
  */
 NO = false;
+
+
+/**
+ * Add validator to the M namespace.
+ * Validator: https://github.com/chriso/validator.js
+ */
+if(validator){
+    M.Validator = validator;
+}
