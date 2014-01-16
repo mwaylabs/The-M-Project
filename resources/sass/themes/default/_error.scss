@@ -1,0 +1,50 @@
+.m-error {
+
+  position: relative;
+
+  & .m-error-message {
+
+    position: absolute;
+    top: 50%;
+    right: 2px;
+    padding: 2px 5px;
+    background: $white;
+    border: 1px solid $error;
+    margin-top: ($m-primary-font-size-small) * -1;
+    border-radius: $m-button-border-radius;
+    font-size: $m-primary-font-size-small;
+
+    & i {
+      color: $error;
+      padding: 0 5px;
+    }
+
+  }
+
+  &.textfieldview input {
+    border-color: $error;
+  }
+
+  &.textfieldview .m-error-message {
+    right: 36px;
+    bottom: 12px;
+    top: auto;
+  }
+
+  &.toggleswitchview {
+
+    .m-error-message {
+      right: 100px;
+    }
+
+    .movable-container {
+      border: 1px solid $error;
+      padding: 2px 3px 0 3px;
+    }
+  }
+
+  & .m-label {
+    color: $error;
+  }
+
+}

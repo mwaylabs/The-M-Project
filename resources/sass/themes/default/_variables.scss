@@ -30,6 +30,8 @@ $black: #000000;
 $white: #FFFFFF;
 $darkwhite: #F2F2F2;
 
+$error: $darkred;
+
 // Debug colors
 $debug-1: #02ccb9;
 $debug-2: #00cc09;
@@ -66,8 +68,8 @@ $m-button-success-border-color: $green;
 $m-button-success-text-color: $green;
 $m-button-success-background-color: $white;
 // Button color error
-$m-button-error-border-color: $red;
-$m-button-error-text-color: $red;
+$m-button-error-border-color: $error;
+$m-button-error-text-color: $error;
 $m-button-error-background-color: $white;
 // Button color warning
 $m-button-warning-border-color: $orange;
@@ -119,6 +121,8 @@ $m-header-icon-only-font-size: 2.4rem;
 $m-primary-font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 $m-primary-font-weight: 300;
 $m-primary-font-size: 1.6rem;
+$m-primary-font-size-small: 1.2rem;
+$m-primary-font-size-very-small: 1.0rem;
 // use this to calculate on instead of the font size
 $m-primary-calc-font-size: 16px;
 $m-primary-line-height: 2.2rem;
@@ -149,3 +153,5 @@ $m-menu-view-width: 200px;
 $m-menu-view-device-swipe-listener-width: 20px;
 $m-menu-view-transition-width: $m-menu-view-width - $m-menu-view-device-swipe-listener-width;
 $m-menu-transition: 500ms;
+
+

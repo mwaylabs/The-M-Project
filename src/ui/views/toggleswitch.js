@@ -66,7 +66,7 @@ M.ToggleSwitchView = M.MovableView.extend({
      */
     offLabel: M.TOGGLE_SWITCH_OFF,
 
-    rightEdge: 35,
+    rightEdge: 34,
 
     /**
      * Use stickit to bind the values like it is done in the M.SelectionListView
@@ -119,10 +119,10 @@ M.ToggleSwitchView = M.MovableView.extend({
      */
     onGet: function( value ) {
         if( value === this.onValue || value === this.onLabel ) {
-            M.MovableView.prototype.toLeft.apply(this, arguments);
+            M.MovableView.prototype.toRight.apply(this, arguments);
             return this.onValue;
         } else {
-            M.MovableView.prototype.toRight.apply(this, arguments);
+            M.MovableView.prototype.toLeft.apply(this, arguments);
             return this.offValue;
         }
     },
@@ -132,28 +132,42 @@ M.ToggleSwitchView = M.MovableView.extend({
      * @returns {Object} returns onValue if checked or if unchecked the offValue
      */
     onSet: function() {
+        var value = null;
         if( this.$el.hasClass('on-left') ) {
-            return this.onValue;
+            value = this.offValue;
         } else if( this.$el.hasClass('on-right') ) {
-            return this.offValue;
+            value = this.onValue;
         }
+        return value;
     },
 
     toLeft: function() {
+
         M.MovableView.prototype.toLeft.apply(this, arguments);
-        this._$valueContainer.trigger('change');
+        if(this.model){
+            this._$valueContainer.trigger('change');
+        } else {
+            this._setValue(this.offValue);
+            this._validate(this.getValue(), this.firstRender);
+        }
+
     },
 
     toRight: function() {
         M.MovableView.prototype.toRight.apply(this, arguments);
-        this._$valueContainer.trigger('change');
+        if(this.model){
+            this._$valueContainer.trigger('change');
+        } else {
+            this._setValue(this.onValue);
+            this._validate(this.getValue(), this.firstRender);
+        }
     },
 
     _$valueContainer: null,
 
     _postRender: function() {
-        M.MovableView.prototype._postRender.apply(this, arguments);
         this._$valueContainer = this.$el.find('[contenteditable="true"]');
+        M.MovableView.prototype._postRender.apply(this, arguments);
     },
 
     /**
@@ -178,6 +192,17 @@ M.ToggleSwitchView = M.MovableView.extend({
      */
     _addOffLabelToTemplateValues: function() {
         this._templateValues.offLabel = this.offLabel || M.TOGGLE_SWITCH_OFF;
+    },
+
+    /**
+     * Move the movable Element to the left or right on release according to the direction. Overwrite this to enable a different behavior
+     */
+    onRelease: function() {
+        if( this._currentPos.direction === Hammer.DIRECTION_LEFT ) {
+            this.toLeft();
+        } else if( this._currentPos.direction === Hammer.DIRECTION_RIGHT ){
+            this.toRight();
+        }
     }
 });
 

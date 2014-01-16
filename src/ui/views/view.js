@@ -1,7 +1,7 @@
 // Copyright (c) 2013 M-Way Solutions GmbH
 // http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 
-(function () {
+(function() {
 
     /**
      * M.View inherits from Backbone.View
@@ -16,7 +16,7 @@
          * @constructor
          * @param {options} Attributes for the current Instance
          */
-        constructor: function (options) {
+        constructor: function( options ) {
             this.cid = _.uniqueId('view');
             options = options || {};
             var viewOptions = ['scope', 'model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events', 'scopeKey', 'binding', 'computedValue', 'onSet', 'onGet', 'enabled'];
@@ -43,7 +43,7 @@
      * @type {Function}
      */
 
-    M.View.design = function (obj, childViews, isScope) {
+    M.View.design = function( obj, childViews, isScope ) {
         return this.extend().create(obj, childViews, isScope);
     };
 
@@ -228,7 +228,7 @@
          * @returns {View}
          * @private
          */
-        _setModel: function (value) {
+        _setModel: function( value ) {
             this.model = value;
             return this;
         },
@@ -239,7 +239,7 @@
          * @returns {View}
          * @private
          */
-        _setCollection: function (value) {
+        _setCollection: function( value ) {
             this.collection = value;
             return this;
         },
@@ -250,7 +250,7 @@
          * @returns {M.Model}
          * @private
          */
-        _getModel: function () {
+        _getModel: function() {
             return this.model;
         },
 
@@ -259,9 +259,9 @@
          * Get the value of a view. If the value is a M.Model return its attributes.
          * @returns {*}
          */
-        getValue: function () {
-            if (this.model) {
-                if (this._value.hasOwnProperty('attribute') && this._value.hasOwnProperty('model')) {
+        getValue: function() {
+            if( this.model ) {
+                if( this._value.hasOwnProperty('attribute') && this._value.hasOwnProperty('model') ) {
                     return this._value.model.get(this._value.attribute);
                 }
                 return this._getModel().attributes;
@@ -270,11 +270,11 @@
             }
         },
 
-        _getValue: function () {
+        _getValue: function() {
             return this._value;
         },
 
-        _setValue: function (value) {
+        _setValue: function( value ) {
             this._value = value;
         },
 
@@ -283,24 +283,24 @@
          * @param value
          * @private
          */
-        _setChildViewValue: function (value) {
+        _setChildViewValue: function( value ) {
 
-            _.each(this.childViews, function (child) {
-                if (child.useParentValue) {
+            _.each(this.childViews, function( child ) {
+                if( child.useParentValue ) {
                     child._setValue(value);
-                    if( M.isModel(value)){
+                    if( M.isModel(value) ) {
                         child._setModel(value);
                     }
                 }
             }, this);
         },
 
-        getPropertyValue: function (propertyString, data) {
+        getPropertyValue: function( propertyString, data ) {
             var o = data;
-            _.each(propertyString.split('.'), function (key) {
-                if (o[key]) {
+            _.each(propertyString.split('.'), function( key ) {
+                if( o[key] ) {
                     o = o[key];
-                } else if (M.isModel(o) || M.isCollection(o)) {
+                } else if( M.isModel(o) || M.isCollection(o) ) {
                     //o = o.get(key);
                     o = {
                         model: o,
@@ -318,7 +318,7 @@
          * @returns {*}
          */
 
-        initialize: function (options) {
+        initialize: function( options ) {
             this.scopeKey = this.scopeKey || this.binding;
             this._registerView();
             this._addInterfaces();
@@ -327,7 +327,7 @@
             this._mapEventsToScope(this.scope);
             this._addInternalEvents();
             this._addCustomEvents(this.scope);
-            if (!this.useElement) {
+            if( !this.useElement ) {
                 this._registerEvents();
             }
             this._assignContentBinding();
@@ -336,34 +336,34 @@
             return this;
         },
 
-        _registerView: function () {
+        _registerView: function() {
             M.ViewManager.registerView(this);
         },
 
-        _assignValue: function (options) {
+        _assignValue: function( options ) {
             //don't write _value in the view definition - write value and here it gets assigned
-            if (this.value || (typeof this.value !== 'undefined' && this.value !== null)) {
+            if( this.value || (typeof this.value !== 'undefined' && this.value !== null) ) {
                 this._setValue(this.value);
-            } else if (this.scopeKey) {
+            } else if( this.scopeKey ) {
                 this._setValue(this.getPropertyValue(this.scopeKey, this.scope));
-            } else if (options && options.value) {
+            } else if( options && options.value ) {
                 this._setValue(options.value);
             }
 
             var _value = this._getValue();
 
-            if (_value) {
-                if (M.isModel(_value.model)) {
+            if( _value ) {
+                if( M.isModel(_value.model) ) {
                     this._setModel(_value.model);
-                } else if (M.isModel(_value)) {
+                } else if( M.isModel(_value) ) {
                     this._setModel(_value);
-                } else if (M.isCollection(_value)) {
+                } else if( M.isCollection(_value) ) {
                     this.collection = _value;
                 }
             }
 
-            if (this._reactOnLocaleChanged()) {
-                M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function () {
+            if( this._reactOnLocaleChanged() ) {
+                M.I18N.on(M.CONST.I18N.LOCALE_CHANGED, function() {
                     this.render();
                 }, this);
                 this._hasI18NListener = YES;
@@ -377,26 +377,26 @@
          * @returns {*}
          * @private
          */
-        _reactOnLocaleChanged: function () {
+        _reactOnLocaleChanged: function() {
             return M.isI18NItem(this.value) || M.isI18NItem(this.label);
         },
 
 
-        _assignContentBinding: function () {
+        _assignContentBinding: function() {
             var that = this;
             var _value = this._getValue();
-            if (this.scopeKey && M.isModel(_value)) {
-                this.listenTo(this.scope, this.scopeKey, function (model) {
+            if( this.scopeKey && M.isModel(_value) ) {
+                this.listenTo(this.scope, this.scopeKey, function( model ) {
                     that._setModel(model);
                     that.render();
                 });
-            } else if (this.scopeKey && M.isCollection(_value)) {
-                this.listenTo(this.scope, this.scopeKey, function (model) {
+            } else if( this.scopeKey && M.isCollection(_value) ) {
+                this.listenTo(this.scope, this.scopeKey, function( model ) {
                     that._setCollection(model);
                     that.render();
                 });
-            } else if (this.scopeKey && _value && M.isModel(_value.model) && _value.attribute) {
-                this.listenTo(this.scope, this.scopeKey.split('.')[0], function (model) {
+            } else if( this.scopeKey && _value && M.isModel(_value.model) && _value.attribute ) {
+                this.listenTo(this.scope, this.scopeKey.split('.')[0], function( model ) {
                     that._setModel(model);
                     that.render();
                 });
@@ -415,14 +415,14 @@
          * @returns {View}
          * @private
          */
-        _mapEventsToScope: function (scope) {
+        _mapEventsToScope: function( scope ) {
             // A swap object for the given events to assign it later to the _events object.
             var events = {};
-            if (this.events) {
-                _.each(this.events, function (value, key) {
+            if( this.events ) {
+                _.each(this.events, function( value, key ) {
                     var callback = value;
                     // If the event callback type is an string, search in the given scope for a function
-                    if (typeof value === 'string' && scope && typeof scope[value] === 'function') {
+                    if( typeof value === 'string' && scope && typeof scope[value] === 'function' ) {
                         callback = scope[value];
                     }
                     // Create an array for the specific eventtype
@@ -445,8 +445,8 @@
          * Merge the internal events with the external ones.
          * @private
          */
-        _addInternalEvents: function () {
-            if (this._internalEvents) {
+        _addInternalEvents: function() {
+            if( this._internalEvents ) {
                 this._addEvents(this._internalEvents);
             }
         },
@@ -455,8 +455,8 @@
          * Loop over the given events and add them.
          * @private
          */
-        _addEvents: function(events){
-            _.each(events, function (event, eventType) {
+        _addEvents: function( events ) {
+            _.each(events, function( event, eventType ) {
                 this._addEvent(event, eventType);
             }, this);
         },
@@ -468,7 +468,7 @@
          *
          * @private
          */
-        _addEvent:function(event, eventType){
+        _addEvent: function( event, eventType ) {
             //if the event isn't an array create one
             var internal = _.isArray(event) ? event : [event];
             //if the object has no _events or the object is not an array create one
@@ -482,9 +482,9 @@
          *
          * @private
          */
-        _addCustomEvents: function () {
+        _addCustomEvents: function() {
             // only bind custom events if there are any
-            if (!this._events) {
+            if( !this._events ) {
                 return;
             }
             var that = this;
@@ -495,9 +495,9 @@
                     // the original event type that is triggered
                     'origin': 'keyup',
                     // the callback for the keyup
-                    'callback': function (event) {
+                    'callback': function( event ) {
                         // this callback gets called on every keyup so filter only the enter events
-                        if (event.keyCode === 13) {
+                        if( event.keyCode === 13 ) {
                             // if enter was pressed call the function
                             that._events.enter[0].apply(that.scope, arguments);
                         }
@@ -505,14 +505,14 @@
                     }
                 }
             };
-            for (var event in this._events) {
-                if (customEvents.hasOwnProperty(event)) {
+            for( var event in this._events ) {
+                if( customEvents.hasOwnProperty(event) ) {
                     this._addEvent(customEvents[event].callback, customEvents[event].origin);
                 }
             }
         },
 
-        _getEventOptions: function () {
+        _getEventOptions: function() {
 
             // No Ghost click on Android
             var preventDefault = false;
@@ -531,24 +531,24 @@
          *
          * @private
          */
-        _registerEvents: function () {
-            if (this._events) {
+        _registerEvents: function() {
+            if( this._events ) {
                 var that = this;
 
                 this._eventCallback = {};
-                Object.keys(this._events).forEach(function (eventName) {
+                Object.keys(this._events).forEach(function( eventName ) {
 
                     this._hammertime = new Hammer(that.el, that._getEventOptions());
 
-                    this._eventCallback[eventName] = function (event) {
+                    this._eventCallback[eventName] = function( event ) {
                         // for debug purposes
                         //M.Toast.show(eventName, 200);
-                        if (that._hammertime.enabled === NO) {
+                        if( that._hammertime.enabled === NO ) {
                             return;
                         }
                         var args = Array.prototype.slice.call(arguments);
                         args.push(that);
-                        _.each(that._events[event.type], function (func) {
+                        _.each(that._events[event.type], function( func ) {
                             func.apply(that.scope, args);
                         }, that);
                     };
@@ -563,8 +563,8 @@
          * See hammer.js docu: https://github.com/EightMedia/hammer.js/wiki/Instance-methods#hammertimeoffgesture-handler
          * @private
          */
-        _disableEvents: function () {
-            if (this._hammertime) {
+        _disableEvents: function() {
+            if( this._hammertime ) {
                 this._hammertime.enable(NO);
             }
         },
@@ -574,8 +574,8 @@
          * See hammer.js docu: https://github.com/EightMedia/hammer.js/wiki/Instance-methods#hammertimeoffgesture-handler
          * @private
          */
-        _enableEvents: function () {
-            if (this._hammertime) {
+        _enableEvents: function() {
+            if( this._hammertime ) {
                 this._hammertime.enable(YES);
             }
         },
@@ -584,7 +584,7 @@
          *
          * @returns {Boolean} if events are active or not
          */
-        isEnabled: function () {
+        isEnabled: function() {
             return this._hammertime.enabled;
         },
 
@@ -592,7 +592,7 @@
          * implement render function
          * @returns {this}
          */
-        render: function () {
+        render: function() {
             //this._assignValue();
             this._preRender();
             this._render();
@@ -601,7 +601,7 @@
             return this;
         },
 
-        _preRender: function () {
+        _preRender: function() {
             this._assignTemplate();
             this._assignTemplateValues();
             this._extendTemplate();
@@ -632,18 +632,18 @@
         //            }
         //        },
 
-        _assignTemplate: function (template) {
+        _assignTemplate: function( template ) {
             template = template || this.template;
-            if (typeof template !== 'undefined' && template !== null) {
-                if (typeof template === 'function') {
+            if( typeof template !== 'undefined' && template !== null ) {
+                if( typeof template === 'function' ) {
                     this._template = template;
-                } else if (_.isString(template)) {
+                } else if( _.isString(template) ) {
                     this._template = _.tmpl(template);
-                } else if (_.isObject(template)) {
+                } else if( _.isObject(template) ) {
                     this._template = _.tmpl(M.TemplateManager.get.apply(this, ['template']));
                 }
-            } else if (this._templateString) {
-                if (this._useStickit()) {
+            } else if( this._templateString ) {
+                if( this._useStickit() ) {
                     // if stickit is used use the tmpl template engine
                     this._template = _.tmpl(this._templateString);
                 } else {
@@ -656,29 +656,29 @@
             return this;
         },
 
-        _assignTemplateValues: function () {
+        _assignTemplateValues: function() {
             this._templateValues = {};
             var _value = this._getValue();
 
-            if (this.model) {
-                if (M.isModel(_value)) {
+            if( this.model ) {
+                if( M.isModel(_value) ) {
                     this._templateValues = M.Object.deepCopy(this.model.attributes);
                 } else {
                     this._templateValues._value = this.model.get(_value.attribute);
                 }
-            } else if (M.isI18NItem(_value)) {
+            } else if( M.isI18NItem(_value) ) {
                 this._templateValues._value = M.I18N.l(_value.key, _value.placeholder);
-            } else if (typeof _value === 'string' || typeof _value === 'number') {
+            } else if( typeof _value === 'string' || typeof _value === 'number' ) {
                 this._templateValues._value = _value;
-            } else if (_value !== null && typeof _value === 'object' && this._hasI18NListener === NO) {
+            } else if( _value !== null && typeof _value === 'object' && this._hasI18NListener === NO ) {
                 this._templateValues = M.Object.deepCopy(_value);
-            } else if (this._hasI18NListener) {
-                _.each(_value, function (value, key) {
+            } else if( this._hasI18NListener ) {
+                _.each(_value, function( value, key ) {
                     this._templateValues[key] = M.I18N.l(value.key, value.placeholder);
                 }, this);
             }
 
-            if (typeof this._templateValues._value !== 'undefined' && typeof this._templateValues.value === 'undefined') {
+            if( typeof this._templateValues._value !== 'undefined' && typeof this._templateValues.value === 'undefined' ) {
                 this._templateValues.value = this._templateValues._value;
             } else {
 
@@ -687,28 +687,28 @@
             _.extend(this._templateValues, this.assignTemplateValues());
         },
 
-        assignTemplateValues: function () {
+        assignTemplateValues: function() {
             return null;
         },
 
-        _extendTemplate: function () {
-            if (this.extendTemplate) {
+        _extendTemplate: function() {
+            if( this.extendTemplate ) {
                 var template = _.template(this._templateString);
                 this._templateValues.value = this.extendTemplate;
                 this._template = _.tmpl(template(this._templateValues));
             }
         },
 
-        preRender: function () {
+        preRender: function() {
 
         },
 
-        _render: function () {
+        _render: function() {
             var dom = this._template(this._templateValues);
 
-            if (this.useElement) {
+            if( this.useElement ) {
                 this.setElement(dom);
-            } else if (this._attachToDom()) {
+            } else if( this._attachToDom() ) {
                 this.$el.html(dom);
             } else {
                 this.$el.html('');
@@ -722,22 +722,22 @@
          * @returns {boolean}
          * @private
          */
-        _attachToDom: function () {
+        _attachToDom: function() {
             return this.getValue() !== null;
         },
 
-        _renderChildViews: function () {
+        _renderChildViews: function() {
 
-            if (!this.childViews) {
+            if( !this.childViews ) {
                 return;
             }
-            _.each(this.childViews, function (child, name) {
+            _.each(this.childViews, function( child, name ) {
                 var dom = this._getChildViewRenderDom(name);
 
-                if (typeof child.render === 'function') {
+                if( typeof child.render === 'function' ) {
                     this._renderChildView(dom, child);
-                } else if (_.isArray(child)) {
-                    _.each(child, function (c) {
+                } else if( _.isArray(child) ) {
+                    _.each(child, function( c ) {
                         this._renderChildView(dom, c);
                     }, this);
                 }
@@ -747,39 +747,39 @@
             return this;
         },
 
-        _getChildViewRenderDom: function (name) {
+        _getChildViewRenderDom: function( name ) {
             var dom = this.$el;
-            if (this.$el.find('[data-childviews="' + name + '"]').length) {
+            if( this.$el.find('[data-childviews="' + name + '"]').length ) {
                 dom = this.$el.find('[data-childviews="' + name + '"]');
                 dom.addClass(name);
             }
             return dom;
         },
 
-        _renderChildView: function (dom, child) {
+        _renderChildView: function( dom, child ) {
             this._renderChildViewToDom(dom, child);
             child.delegateEvents();
         },
 
-        _renderChildViewToDom: function (dom, child) {
+        _renderChildViewToDom: function( dom, child ) {
             this._appendToDom(dom, child.render().$el);
         },
 
-        _appendToDom: function (dom, element) {
+        _appendToDom: function( dom, element ) {
             dom.append(element);
         },
 
-        _postRender: function () {
+        _postRender: function() {
             //use element can be given from the parent element
-            if (this.useElement) {
+            if( this.useElement ) {
                 this._registerEvents();
             }
             this._addClassNames();
-            if (this._useStickit()) {
+            if( this._useStickit() ) {
                 this._assignBinding();
                 this.stickit();
             }
-            if (this.model && this.useElement) {
+            if( this.model && this.useElement ) {
                 //console.warn('be aware that stickit only works if you define useElement with NO');
             }
             this.postRender();
@@ -787,16 +787,16 @@
             return this;
         },
 
-        _addClassNames: function () {
+        _addClassNames: function() {
             var viewCssClassName = this._getViewCssClassName();
             this.$el.addClass(viewCssClassName);
-            if (this.cssClass) {
+            if( this.cssClass ) {
                 this.$el.addClass(this.cssClass);
             }
-            if (this._internalCssClasses) {
+            if( this._internalCssClasses ) {
                 this.$el.addClass(this._internalCssClasses);
             }
-            if (this.grid) {
+            if( this.grid ) {
                 this.$el.addClass(this.grid);
             }
         },
@@ -807,7 +807,7 @@
          * @returns {Boolean|YES|*|Function}
          * @private
          */
-        _useStickit: function () {
+        _useStickit: function() {
             return this.model ? YES : NO;
         },
 
@@ -819,23 +819,23 @@
          * @example
          * M.ButtonView.extend().create()._getViewCssClassName(); // buttonview
          */
-        _getViewCssClassName: function () {
+        _getViewCssClassName: function() {
             // return value. if there is a error/warning a empty string is returned
             var cssClassName = null;
             // if the name contains 'M.' like every view should from the framework
-            if (this._type.toString().indexOf('M.') === 0) {
+            if( this._type.toString().indexOf('M.') === 0 ) {
                 // this is a View in the M context
                 cssClassName = this._type.split('M.')[1].toLowerCase();
             } else {
                 cssClassName = this._type.toString();
             }
             // check if there are any whitespaces in the _type property and show a warning if there are any.
-            if (cssClassName.indexOf(' ') >= 0) {
+            if( cssClassName.indexOf(' ') >= 0 ) {
                 console.warn('The View type contains whitespaces: ' + this._type + '. The _type property gets added to the css classes. Since there are whitespaces inside the name the view has multiple classes. To set a class overwrite _getViewCssClassName method of the view');
                 cssClassName = '';
             }
             // check if there are any dots in the _type property. If there are any don't add the cssClass
-            if (cssClassName.indexOf('.') >= 0) {
+            if( cssClassName.indexOf('.') >= 0 ) {
                 console.warn('The View type contains dots: ' + this._type + '. The _type property gets added to the css classes. Since there are dots inside the name we skiped this. To enable this featuer overwrite the _getViewCssClassName method');
                 cssClassName = '';
             }
@@ -843,44 +843,53 @@
             return cssClassName;
         },
 
-        _assignBinding: function () {
+        _assignBinding: function() {
             var bindings = {};
 
             var _value = this._getValue();
             var selector = '';
 
-            if (this.model && !M.isModel(_value)) {
+            if( this.model && !M.isModel(_value) ) {
                 selector = '[data-binding="value"]';
                 bindings[selector] = {observe: '' + _value.attribute};
-            } else if (this.collection) {
+            } else if( this.collection ) {
                 selector = '[data-binding="value"]';
                 bindings[selector] = {observe: 'value'};
-            } else if (this.model && M.isModel(_value)) {
-                _.each(this.model.attributes, function (value, key) {
+            } else if( this.model && M.isModel(_value) ) {
+                _.each(this.model.attributes, function( value, key ) {
                     var selector = '[data-binding="' + key + '"]';
                     bindings[selector] = {observe: '' + key};
                 }, this);
-            } else if (this.extendTemplate === null && this.scopeKey) {
+            } else if( this.extendTemplate === null && this.scopeKey ) {
                 selector = '[data-binding="value"]';
                 bindings[selector] = {observe: '' + this.scopeKey};
             } else {
-                _.each(this._templateValues, function (value, key) {
+                _.each(this._templateValues, function( value, key ) {
                     selector = '[data-binding="' + key + '"]';
                     bindings[selector] = {observe: '' + key};
                 }, this);
             }
 
-            _.each(bindings, function (value, key) {
-                if (typeof this.onGet === 'function') {
-                    bindings[key].onGet = function (value) {
-                        var ret = this.onGet(value);
+            _.each(bindings, function( value, key ) {
+                if( typeof this.onGet === 'function' || typeof this.validate === 'function' ) {
+                    bindings[key].onGet = function( value ) {
+                        var ret = value;
+                        if( typeof this.onGet === 'function' ) {
+                            ret = this.onGet(value);
+                        }
+                        this._validate(ret, this._firstRender);
                         return ret;
+
                     };
                 }
 
-                if (typeof this.onSet === 'function') {
-                    bindings[key].onSet = function (value) {
-                        var ret = this.onSet(value);
+                if( typeof this.onSet === 'function' || typeof this.validate === 'function' ) {
+                    bindings[key].onSet = function( value ) {
+                        var ret = value;
+                        if( typeof this.onSet === 'function' ) {
+                            ret = this.onSet(value);
+                        }
+                        this._validate(ret, this._firstRender);
                         return ret;
                     };
                 }
@@ -891,27 +900,27 @@
             return this;
         },
 
-        postRender: function () {
+        postRender: function() {
 
         },
 
-        updateTemplate: function () {
+        updateTemplate: function() {
             var template = this.template || M.TemplateManager.get(this._type);
             this._assignTemplate(template);
             this._updateChildViewsTemplate();
             return this;
         },
 
-        _updateChildViewsTemplate: function () {
+        _updateChildViewsTemplate: function() {
 
-            if (!this.childViews) {
+            if( !this.childViews ) {
                 return;
             }
-            _.each(this.childViews, function (child) {
-                if (typeof child.updateTemplate === 'function') {
+            _.each(this.childViews, function( child ) {
+                if( typeof child.updateTemplate === 'function' ) {
                     child.updateTemplate();
-                } else if (_.isArray(child)) {
-                    _.each(child, function (c) {
+                } else if( _.isArray(child) ) {
+                    _.each(child, function( c ) {
                         c.updateTemplate();
                     });
                 }
@@ -925,9 +934,9 @@
          * @param selector
          * @param view
          */
-        setChildView: function (selector, view) {
+        setChildView: function( selector, view ) {
 
-            if (!this.childViews[selector]) {
+            if( !this.childViews[selector] ) {
                 this.addChildView(selector, view);
             } else {
                 this.childViews[selector] = view;
@@ -940,8 +949,8 @@
          * @param selector
          * @param {M.View}
          */
-        getChildView: function (selector) {
-            if (this.childViews[selector]) {
+        getChildView: function( selector ) {
+            if( this.childViews[selector] ) {
                 return this.childViews[selector];
             }
             return null;
@@ -952,8 +961,8 @@
          * @param {String} selector - the selector to identify in which childview container the view should be added
          * @param {M.View} the view that should be added
          */
-        addChildView: function (selector, view) {
-            if (_.isObject(selector)) {
+        addChildView: function( selector, view ) {
+            if( _.isObject(selector) ) {
                 // this can be an object if the you use it as addChildViews function
                 /**
                  * @example
@@ -966,7 +975,7 @@
                  * M.View.create().addChildView(children);
                  *
                  */
-                _.each(selector, function (view, selector) {
+                _.each(selector, function( view, selector ) {
                     this._mergeChildView(selector, view);
                 }, this);
             } else {
@@ -981,16 +990,16 @@
          * @param {M.View} the view that should be added
          * @private
          */
-        _mergeChildView: function (selector, view) {
-            if (!(_.isString(selector)) || !(M.isView(view))) {
+        _mergeChildView: function( selector, view ) {
+            if( !(_.isString(selector)) || !(M.isView(view)) ) {
                 return void 0;
             }
 
             var existingChildViews = this.childViews[selector];
 
-            if (_.isArray(existingChildViews)) {
+            if( _.isArray(existingChildViews) ) {
                 existingChildViews.push(view);
-            } else if (_.isObject(existingChildViews)) {
+            } else if( _.isObject(existingChildViews) ) {
                 var container = [];
                 container.push(existingChildViews);
                 container.push(view);
@@ -1026,7 +1035,7 @@
          * //Log again
          * getEventListeners(view.el); //Object {touchstart: Array[1], mousedown: Array[1]}
          */
-        _unbindEvent: function (eventtype) {
+        _unbindEvent: function( eventtype ) {
             this._hammertime.off(eventtype, this._eventCallback[eventtype]);
         },
 
@@ -1049,9 +1058,9 @@
          * testView._getChildView('child2');  //child2
          * testView._getChildView('child2');  //child2
          */
-        _getChildView: function (identifier) {
+        _getChildView: function( identifier ) {
             var ident = parseInt(identifier, 10);
-            if (!_.isNaN(ident)) {
+            if( !_.isNaN(ident) ) {
                 identifier = ident;
             }
             var childName = _.isNumber(identifier) ? Object.keys(this.childViews)[identifier] : identifier;
@@ -1072,10 +1081,10 @@
          * }
          *
          */
-        _getInternationalizedTemplateValue: function (text) {
-            if (M.isI18NItem(text)) {
+        _getInternationalizedTemplateValue: function( text ) {
+            if( M.isI18NItem(text) ) {
                 return M.I18N.l(text.key, text.placeholder);
-            } else if (text) {
+            } else if( text ) {
                 return text;
             } else {
                 return '';
@@ -1087,7 +1096,7 @@
          * Calls for the same function for every child view and then the attachToDom for a user
          * @private
          */
-        _getsVisible: function () {
+        _getsVisible: function() {
             this._childViewsGetsVisible();
             this.getsVisible();
         },
@@ -1095,7 +1104,7 @@
         /**
          * Gets called if the view is visible in the dom. Typical usage is the calculaction of the widht or height
          */
-        getsVisible: function () {
+        getsVisible: function() {
 
         },
 
@@ -1103,8 +1112,8 @@
          * Calls _attachedToDom on every childView
          * @private
          */
-        _childViewsGetsVisible: function () {
-            _.each(this.childViews, function (child) {
+        _childViewsGetsVisible: function() {
+            _.each(this.childViews, function( child ) {
                 child._getsVisible();
             }, this);
         },
@@ -1122,8 +1131,62 @@
          *
          *
          */
-        getParent: function () {
+        getParent: function() {
             return this._parentView;
+        },
+
+
+        /**
+         * Returns the markup for the error message
+         * @param errorText
+         * @returns {*|jQuery|HTMLElement}
+         * @private
+         */
+        _getErrorDom: function( errorText ) {
+            if(errorText){
+                return $('<div><span>' + errorText + '</span><i class="fa fa-exclamation-circle"></i></div>');
+            }
+
+        },
+
+        /**
+         * Add the error message to the elements dom
+         * @param dom
+         * @private
+         */
+        _addErrorMessage: function( dom ) {
+            this.$el.append(dom);
+        },
+
+        /**
+         * Show the error message with the given string
+         * @param errorText {String}
+         */
+        showError: function( errorText ) {
+            var $error = this.$el.find('.m-error-message');
+            if( $error.length > 0 ) {
+                $error.find('.m-error-message').html(errorText);
+            } else {
+                var errorDom = this._getErrorDom(errorText);
+                if(errorDom){
+                    this._addErrorMessage(errorDom.addClass('m-error-message'));
+                }
+                this.$el.addClass('m-error');
+            }
+        },
+
+        /**
+         * Hide the error message
+         */
+        hideError: function() {
+            this.$el.find('.m-error-message').remove();
+            this.$el.removeClass('m-error');
+        },
+
+        _validate: function(value, firstRender) {
+            if( _.isFunction(this.validate) ) {
+                this.validate(value, firstRender);
+            }
         }
 
     });
@@ -1134,14 +1197,14 @@
      * @param childViews
      * @returns {*}
      */
-    M.View.extend = function (options, childViews) {
+    M.View.extend = function( options, childViews ) {
         options = options || {};
 
-        if (childViews) {
+        if( childViews ) {
             options._childViews = childViews;
         }
 
-        if (options.childViews) {
+        if( options.childViews ) {
             options._childViews = options.childViews;
         }
 
@@ -1153,16 +1216,16 @@
      * @param scope
      * @returns {this}
      */
-    M.View.create = function (scope, childViews, isScope) {
+    M.View.create = function( scope, childViews, isScope ) {
 
         var _scope = isScope || M.isController(scope) ? {scope: scope} : scope;
 
         var f = new this(_scope);
         f.childViews = {};
-        if (f._childViews) {
-            _.each(f._childViews, function (childView, name) {
+        if( f._childViews ) {
+            _.each(f._childViews, function( childView, name ) {
                 var _scope = scope;
-                if (f.useAsScope === YES) {
+                if( f.useAsScope === YES ) {
                     _scope = f;
 
                 }
@@ -1171,9 +1234,9 @@
                 f.childViews[name]._parentView = f;
             });
         }
-        if (childViews) {
+        if( childViews ) {
             f.childViews = f.childViews || {};
-            _.each(childViews, function (childView, name) {
+            _.each(childViews, function( childView, name ) {
                 f.childViews[name] = childView;
                 // set the this as parentView in the current childView
                 f.childViews[name]._parentView = f;

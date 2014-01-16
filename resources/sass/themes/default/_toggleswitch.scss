@@ -2,16 +2,16 @@
 
   position: relative;
   overflow: hidden;
-  height: 46px;
+  height: 47px;
 
-  .label-descr,
+  .m-label,
   .movable-container,
   .movable-grid{
-    height: 41px;
+    height: 42px;
   }
 
 
-  .label-descr{
+  .m-label{
     display: block;
     position: relative;
     padding: 14px 80px 0 0;
@@ -64,13 +64,13 @@
 
   .on-value {
     position: absolute;
-    left: 6px;
+    left: 12px;
     top: 9px;
   }
 
   .off-value {
     position: absolute;
-    right: 8px;
+    right: 12px;
     top: 9px;
   }
 

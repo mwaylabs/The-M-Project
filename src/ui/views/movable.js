@@ -105,8 +105,8 @@ M.MovableView = M.View.extend({
     },
 
     _postRender: function() {
-        M.View.prototype._postRender.apply(this, arguments);
         this._$movableContent = this._getMovableContent();
+        M.View.prototype._postRender.apply(this, arguments);
     },
 
     _getsVisible: function() {
@@ -181,7 +181,8 @@ M.MovableView = M.View.extend({
         // cache the current position. The view needs this to calculate further drags
         this._lastPos = this._currentPos;
         // move the element to the position so it can't get lost out of the boundaries.
-        this.onRelease();
+        this.onRelease(event);
+        this._currentPos.direction = '';
     },
 
     /**
