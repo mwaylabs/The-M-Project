@@ -1,8 +1,8 @@
 /*!
 * Project:   The M-Project - Mobile HTML5 Application Framework
 * Copyright: (c) 2014 M-Way Solutions GmbH.
-* Version:   2.0.0-beta2
-* Date:      Fri Jan 10 2014 18:16:20
+* Version:   2.0.0-beta3
+* Date:      Wed Jan 15 2014 11:34:13
 * License:   http://github.com/mwaylabs/The-M-Project/blob/absinthe/MIT-LICENSE.txt
 */
 .android, .android-light {
@@ -5008,7 +5008,7 @@
 .android .switch-header-content-layout .android-light .first, .android-light .switch-menu-header-content-layout .first,
 .android-light .switch-header-content-layout .first, .android .toolbarview .android-light .first, .android-light .toolbarview .first {
   position: absolute;
-  left: 10px;
+  left: 0px;
   top: 4px;
 }
 .android .header-second, .android .switch-menu-header-content-layout .second,
@@ -5017,7 +5017,7 @@
 .android .switch-header-content-layout .android-light .second, .android-light .switch-menu-header-content-layout .second,
 .android-light .switch-header-content-layout .second, .android .toolbarview .android-light .second, .android-light .toolbarview .second {
   position: absolute;
-  right: 10px;
+  right: 0px;
   top: 4px;
 }
 .android .stencil, .android .textview.stencil i, .android .textview.stencil div div, .android-light .textview.stencil .android i, .android-light .textview.stencil div .android div, .android-light .stencil, .android .textview.stencil .android-light i, .android .textview.stencil div .android-light div, .android-light .textview.stencil i, .android-light .textview.stencil div div {
@@ -6152,16 +6152,15 @@
 }
 .android .toolbarview, .android-light .toolbarview {
   height: 50px;
-  width: 100%;
   background: #669900;
-  position: absolute;
-  top: 0;
 }
 .android .toolbarview .buttonview .button, .android-light .toolbarview .buttonview .button {
   margin-top: 0;
   background: none;
   color: white;
   border: none;
+  padding-left: 0;
+  padding-right: 0;
 }
 .android .toolbarview .buttonview.active .button, .android-light .toolbarview .buttonview.active .button {
   background: none;
@@ -6174,6 +6173,12 @@
 }
 .android .toolbarview .buttonview.is-icon-only .fa, .android-light .toolbarview .buttonview.is-icon-only .fa {
   font-size: 3.2rem;
+}
+.android .toolbarview .first .view > div, .android-light .toolbarview .first .view > div {
+  float: left;
+}
+.android .toolbarview .second .view > div, .android-light .toolbarview .second .view > div {
+  float: left;
 }
 .android .buttonview .fa, .android-light .buttonview .fa {
   font-size: 2.24rem;
@@ -6364,7 +6369,7 @@
 .android .listview .listitemview.active,
 .android .listview .listview ul li.active, .android-light .listview .listitemview.active,
 .android-light .listview .listview ul li.active {
-  background: #99cc00;
+  background-color: #99cc00;
   color: white;
 }
 .android .textfieldview label, .android-light .textfieldview label {
@@ -6745,7 +6750,7 @@
   padding: 10px;
 }
 .android .header, .android-light .header {
-  background: #1092d3;
+  background: #669900;
   color: white;
   height: 50px;
   text-align: center;

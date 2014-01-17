@@ -3,10 +3,9 @@
 // @include ./utility/animation.js
 // @include ./ui/themevars.js
 // @include ./ui/views/template_manager.js
-// @include ./ui/transitions.js
+// @include ./ui/pagetransitions.js
 
 // @include ./ui/views/view.js
-// @include ./ui/views/switch.js
 // @include ./ui/layouts/layout.js
 // @include ./ui/themes.js
 
