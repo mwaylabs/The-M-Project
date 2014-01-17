@@ -92,7 +92,7 @@ M.TextfieldView = M.View.extend({
      * Initialize the TextfieldView
      */
     initialize: function( options ) {
-        if( this.type === 'clear' || options.type === 'clear' || this.useCustomClear  ) {
+        if( this.type === 'clear' || options.type === 'clear' || this.useCustomClear ) {
             //override the type to a html tag attribute - the type gets passed to the template
             this.type = this.type || 'text';
             // to check if the type of the object was from type 'clear' set _useCustomClear to true
@@ -116,7 +116,7 @@ M.TextfieldView = M.View.extend({
         // if it isn't allready a model, create one
         if( !M.isModel(value) ) {
             var val = value;
-            if(!val){
+            if( !val ) {
                 val = '';
             }
             value = M.Model.create({
@@ -158,6 +158,26 @@ M.TextfieldView = M.View.extend({
         this._addTypeToTemplateValues();
         this._addPlaceholderToTemplateValues();
         this._addIconToTemplateValues();
+        this._addAutocorrectToTemplateValues();
+        this._addAutocapitalizeToTemplateValues();
+        return this;
+    },
+
+    /**
+     * adds autocorrect to the template
+     * @private
+     */
+    _addAutocorrectToTemplateValues: function() {
+        this._templateValues.autocorrect = this.autocorrect || 'off';
+        return this;
+    },
+
+    /**
+     * adds autocapitalize to the template
+     * @private
+     */
+    _addAutocapitalizeToTemplateValues: function() {
+        this._templateValues.autocapitalize = this.autocapitalize || 'off';
         return this;
     },
 
@@ -228,7 +248,7 @@ M.TextfieldView = M.View.extend({
         return this;
     },
 
-    _extendTemplate: function(){
+    _extendTemplate: function() {
         if( this.extendTemplate ) {
             console.warn('Extend the Template of a M.TextFieldView is possible but be aware that the value attribute of the input is set with this string. Otherwise overwrite _templateString.');
         }
@@ -239,10 +259,10 @@ M.TextfieldView = M.View.extend({
      * returns the value of the view. if the value was just a string and not a model, then always return the dom value
      * @returns {*}
      */
-    getValue: function(){
+    getValue: function() {
         var ret = M.View.prototype.getValue.apply(this, arguments);
         // if there isn't a value and no model access the dom to get the value
-        if(!ret || !this.model){
+        if( !ret || !this.model ) {
             ret = this.$el.find('input').val();
         }
         return ret;
