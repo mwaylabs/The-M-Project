@@ -56,7 +56,7 @@ describe('M.TemplateManager', function() {
             for( var template in M.Templates[theme] ) {
                 var viewTemplate = M.TemplateManager.get(template, theme);
                 assert.isString(viewTemplate);
-                assert.isTrue(viewTemplate.indexOf('<') === 0);
+                assert.isTrue(viewTemplate.indexOf('<') === 0, template);
             }
         }
 

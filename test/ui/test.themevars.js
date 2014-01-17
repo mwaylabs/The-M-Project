@@ -1,5 +1,14 @@
-describe('M.PageTransitions', function () {
+describe('M.ThemeVars', function () {
 
+    var saveVars;
+
+    beforeEach(function() {
+        saveVars = M.ThemeVars._vars;
+    })
+
+    afterEach(function() {
+         M.ThemeVars._vars = saveVars;
+    })
 
     it('basic', function () {
         assert.isDefined(M.ThemeVars);
@@ -25,26 +34,38 @@ describe('M.PageTransitions', function () {
 
 
     it('get variables', function () {
-        var themeVars = JSON.stringify(M.ThemeVars._vars);
         M.ThemeVars._vars = {
             default: {
-                "colorA": "#AAA",
-                "colorB": "#BBB"
+                'colorA': '#AAA',
+                'colorB': '#BBB'
             },
             ios: {
-                colorB: '#BABABA',
-                colorC: '#CCC'
+                'colorB': '#BABABA',
+                'colorC': '#CCC'
             }
         }
 
-        assert.equal(M.ThemeVars.get('colorA'), '#AAA');
-        assert.equal(M.ThemeVars.get('colorB'), '#BBB');
-        assert.isUndefined(M.ThemeVars.get('colorC'));
+        assert.equal(M.ThemeVars.get('colorA', 'default'), '#AAA');
+        assert.equal(M.ThemeVars.get('colorB', 'default'), '#BBB');
+        assert.isUndefined(M.ThemeVars.get('colorC', 'default'));
 
         assert.equal(M.ThemeVars.get('colorA', 'ios'), '#AAA');
         assert.equal(M.ThemeVars.get('colorB', 'ios'), '#BABABA');
         assert.equal(M.ThemeVars.get('colorC', 'ios'), '#CCC');
-        M.ThemeVars._vars = JSON.parse(themeVars);
+    });
+
+    it('get variables by M.Environment.device.os', function () {
+        M.ThemeVars._vars = {
+            android: {
+                'colorA': '#AAA',
+                'colorB': '#BBB'
+            }
+        }
+
+        M.Environment.device.os = 'android';
+
+        assert.equal(M.ThemeVars.get('colorA'), '#AAA');
+        assert.equal(M.ThemeVars.get('colorB'), '#BBB');
     });
 
     it('theme vars', function(){
