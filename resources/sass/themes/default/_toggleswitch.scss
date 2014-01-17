@@ -2,12 +2,12 @@
 
   position: relative;
   overflow: hidden;
-  height: 47px;
+  height: 36px;
 
   .m-label,
   .movable-container,
   .movable-grid{
-    height: 42px;
+    height: 31px;
   }
 
 
@@ -33,9 +33,9 @@
   .movable-container {
     position: absolute;
     bottom: 0;
-    width: 76px;
-    border-radius: 36px;
-    padding: 3px 3px 0 3px;
+    width: 66px;
+    border-radius: 27px;
+    padding: 2px 3px 0 3px;
   }
 
   &.on-left .movable-container{
@@ -48,9 +48,9 @@
 
   .movable-element {
     position: absolute;
-    height: 36px;
-    width: 36px;
-    border-radius: 36px;
+    height: 27px;
+    width: 27px;
+    border-radius: 27px;
     border: 1px solid $white;
     background: $white;
   }
@@ -59,19 +59,19 @@
   .off-value{
     color: $white;
     max-width: 30px;
+    top: 5px;
+    font-size: 1.4rem;
     @extend .ellipsis;
   }
 
   .on-value {
     position: absolute;
     left: 12px;
-    top: 9px;
   }
 
   .off-value {
     position: absolute;
-    right: 12px;
-    top: 9px;
+    right: 9px;
   }
 
 }
