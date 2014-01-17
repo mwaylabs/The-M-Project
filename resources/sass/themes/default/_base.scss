@@ -56,3 +56,13 @@ body {
     border: 1px solid #D6D6D6;
   }
 }
+
+// not sure if this is a good idea. Fix for the following:
+// <div class="col-xs-5"></div><div></div>
+// instead of:
+// <div class="row"><div class="col-xs-5"></div></div><div class="row"><div></div></div>
+// or
+// <div class="col-xs-5"></div><div style="clear:both"></div>
+//*[class*="col-"] + *:not([class*="col-"]){
+//  clear: both;
+//}
