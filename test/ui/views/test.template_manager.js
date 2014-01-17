@@ -12,7 +12,6 @@ describe('M.TemplateManager', function() {
         'ButtonView',
         'ListView',
         'SliderView',
-        'DialogView',
         'ToggleView',
         'ImageView',
         'ToolbarView',
