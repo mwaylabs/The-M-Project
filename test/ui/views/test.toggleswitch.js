@@ -9,13 +9,6 @@ describe('M.ToggleSwitchView', function() {
 
         var testView = M.ToggleSwitchView.create();
         assert.equal(testView._type, 'M.ToggleSwitchView');
-
-        assert.isDefined(M.ToggleSwitchView.CONST.TOGGLE_SWITCH_ON);
-        assert.isDefined(M.ToggleSwitchView.CONST.TOGGLE_SWITCH_OFF);
-
-        assert.equal(M.ToggleSwitchView.CONST.TOGGLE_SWITCH_ON, 1);
-        assert.equal(M.ToggleSwitchView.CONST.TOGGLE_SWITCH_OFF, 2);
-
     });
 
     it('default instance', function() {
@@ -24,8 +17,8 @@ describe('M.ToggleSwitchView', function() {
 
         assert.equal(testView.onValue, YES);
         assert.equal(testView.offValue, NO);
-        assert.equal(testView.onLabel, M.TOGGLE_SWITCH_ON);
-        assert.equal(testView.offLabel, M.TOGGLE_SWITCH_OFF);
+        assert.equal(testView.onLabel, ' ');
+        assert.equal(testView.offLabel, ' ');
         assert.isFalse(testView.getValue());
 
 
@@ -43,10 +36,10 @@ describe('M.ToggleSwitchView', function() {
 
         assert.equal(testView.onValue, ONVALUE);
         assert.equal(testView.offValue, NO);
-        assert.equal(testView.onLabel, M.TOGGLE_SWITCH_ON);
-        assert.equal(testView.offLabel, M.TOGGLE_SWITCH_OFF);
-        assert.equal(testView._templateValues.onLabel, M.TOGGLE_SWITCH_ON);
-        assert.equal(testView._templateValues.offLabel, M.TOGGLE_SWITCH_OFF);
+        assert.equal(testView.onLabel, ' ');
+        assert.equal(testView.offLabel, ' ');
+        assert.equal(testView._templateValues.onLabel,  ' ');
+        assert.equal(testView._templateValues.offLabel, ' ');
         assert.isFalse(testView.getValue());
 
         var testView = M.ToggleSwitchView.extend({
@@ -54,10 +47,10 @@ describe('M.ToggleSwitchView', function() {
         }).create();
         assert.equal(testView.onValue, YES);
         assert.equal(testView.offValue, OFFVALUE);
-        assert.equal(testView.onLabel, M.TOGGLE_SWITCH_ON);
-        assert.equal(testView.offLabel, M.TOGGLE_SWITCH_OFF);
-        assert.equal(testView._templateValues.onLabel, M.TOGGLE_SWITCH_ON);
-        assert.equal(testView._templateValues.offLabel, M.TOGGLE_SWITCH_OFF);
+        assert.equal(testView.onLabel,  ' ');
+        assert.equal(testView.offLabel, ' ');
+        assert.equal(testView._templateValues.onLabel,  ' ');
+        assert.equal(testView._templateValues.offLabel, ' ');
         assert.equal(testView.getValue(), OFFVALUE);
 
 
@@ -68,10 +61,10 @@ describe('M.ToggleSwitchView', function() {
 
         assert.equal(testView.onValue, ONVALUE);
         assert.equal(testView.offValue, OFFVALUE);
-        assert.equal(testView._templateValues.onLabel, M.TOGGLE_SWITCH_ON);
-        assert.equal(testView._templateValues.offLabel, M.TOGGLE_SWITCH_OFF);
-        assert.equal(testView.onLabel, M.TOGGLE_SWITCH_ON);
-        assert.equal(testView.offLabel, M.TOGGLE_SWITCH_OFF);
+        assert.equal(testView._templateValues.onLabel,  ' ');
+        assert.equal(testView._templateValues.offLabel, ' ');
+        assert.equal(testView.onLabel,  ' ');
+        assert.equal(testView.offLabel, ' ');
         assert.equal(testView.getValue(), OFFVALUE);
 
         testView = null;
@@ -94,8 +87,8 @@ describe('M.ToggleSwitchView', function() {
 
         assert.equal(testView.onLabel, ONLABEL);
         assert.equal(testView._templateValues.onLabel, ONLABEL);
-        assert.equal(testView.offLabel, M.TOGGLE_SWITCH_OFF);
-        assert.equal(testView._templateValues.offLabel, M.TOGGLE_SWITCH_OFF);
+        assert.equal(testView.offLabel, ' ');
+        assert.equal(testView._templateValues.offLabel, ' ');
 
         testView.render();
         //assert.lengthOf(testView.$el.find('[data-onlabel="ONLABEL"]'), 1);
@@ -107,13 +100,13 @@ describe('M.ToggleSwitchView', function() {
         assert.equal(testView.offValue, NO);
         assert.equal(testView.onValue, YES);
 
-        assert.equal(testView.onLabel, M.TOGGLE_SWITCH_ON);
-        assert.equal(testView._templateValues.onLabel, M.TOGGLE_SWITCH_ON);
+        assert.equal(testView.onLabel,  ' ');
+        assert.equal(testView._templateValues.onLabel,  ' ');
         assert.equal(testView.offLabel, OFFLABEL);
         assert.equal(testView._templateValues.offLabel, OFFLABEL);
 
         testView.render();
-        //assert.lengthOf(testView.$el.find('[data-onlabel="' + M.TOGGLE_SWITCH_ON + '"]'), 1);
+        //assert.lengthOf(testView.$el.find('[data-onlabel="' +  ' ' + '"]'), 1);
         //assert.lengthOf(testView.$el.find('[data-offlabel="OFFLABEL"]'), 1);
 
         var testView = M.ToggleSwitchView.extend({
@@ -145,8 +138,8 @@ describe('M.ToggleSwitchView', function() {
             testView._assignTemplateValues();
             assert.equal(testView._templateValues.label, testText);
             assert.equal(testView._templateValues.label, testView.label);
-            assert.equal(testView._templateValues.onLabel, M.TOGGLE_SWITCH_ON);
-            assert.equal(testView._templateValues.offLabel, M.TOGGLE_SWITCH_OFF);
+            assert.equal(testView._templateValues.onLabel,  ' ');
+            assert.equal(testView._templateValues.offLabel, ' ');
         };
         test('');
         test('asdf');
