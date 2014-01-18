@@ -57,14 +57,14 @@ M.ToggleSwitchView = M.MovableView.extend({
      * @default
      * @type {string}
      */
-    onLabel: M.TOGGLE_SWITCH_ON,
+    onLabel: ' ',
 
     /**
      * The label on the view of the off state
      * @default
      * @type {string}
      */
-    offLabel: M.TOGGLE_SWITCH_OFF,
+    offLabel: ' ',
 
     rightEdge: 34,
 
@@ -183,7 +183,7 @@ M.ToggleSwitchView = M.MovableView.extend({
      * @private
      */
     _addOnLabelToTemplateValues: function() {
-        this._templateValues.onLabel = this.onLabel || M.TOGGLE_SWITCH_ON;
+        this._templateValues.onLabel = this.onLabel;
     },
 
     /**
@@ -191,7 +191,7 @@ M.ToggleSwitchView = M.MovableView.extend({
      * @private
      */
     _addOffLabelToTemplateValues: function() {
-        this._templateValues.offLabel = this.offLabel || M.TOGGLE_SWITCH_OFF;
+        this._templateValues.offLabel = this.offLabel;
     },
 
     /**
@@ -205,12 +205,3 @@ M.ToggleSwitchView = M.MovableView.extend({
         }
     }
 });
-
-/**
- * Constant that specifies the behaviour of the ItemView
- * @type {{LINKED: number, BASIC: number, ICON: number}}
- */
-M.ToggleSwitchView.CONST = {
-    TOGGLE_SWITCH_ON: 1,
-    TOGGLE_SWITCH_OFF: 2
-};

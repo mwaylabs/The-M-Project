@@ -106,6 +106,7 @@ M.MovableView = M.View.extend({
 
     _postRender: function() {
         this._$movableContent = this._getMovableContent();
+        this.setDimensions();
         M.View.prototype._postRender.apply(this, arguments);
     },
 
@@ -314,7 +315,7 @@ M.MovableView = M.View.extend({
      * @private
      */
     _setCss: function( position ) {
-        if( position && position.x && typeof position.x !== 'undefined' ) {
+        if( position && typeof position.x !== 'undefined' ) {
             var pos = parseInt(position.x, 10);
             if( !isNaN(pos) ) {
                 this._$movableContent.css('-webkit-transform', 'translate3d(' + pos + 'px, 0, 0)');
