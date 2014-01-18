@@ -4,15 +4,9 @@
 
   & .m-error-message {
 
-    position: absolute;
-    top: 50%;
-    right: 2px;
-    padding: 2px 5px;
-    background: $white;
-    border: 1px solid $error;
-    margin-top: ($m-primary-font-size-small) * -1;
-    border-radius: $m-button-border-radius;
     font-size: $m-primary-font-size-small;
+    text-align: right;
+    padding: 3px 0 10px 0;
 
     & i {
       color: $error;
@@ -23,6 +17,10 @@
 
   &.textfieldview input {
     border-color: $error;
+  }
+
+  &.textfieldview{
+    padding-bottom: 0;
   }
 
   &.textfieldview .m-error-message {
