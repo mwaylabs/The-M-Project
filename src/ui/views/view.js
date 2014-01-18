@@ -337,7 +337,9 @@
         },
 
         _registerView: function() {
-            M.ViewManager.registerView(this);
+            if(typeof M.ViewManager !== 'undefined'){
+                M.ViewManager.registerView(this);
+            }
         },
 
         _assignValue: function( options ) {
