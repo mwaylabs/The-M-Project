@@ -1,6 +1,7 @@
 node_modules
 bower_components
 .sass-cache
+.download
 .tmp
 .idea
 .DS_STORE

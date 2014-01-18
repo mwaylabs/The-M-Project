@@ -58,6 +58,13 @@ module.exports = function (grunt) {
                     'dist/themproject.js': 'src/themproject.js',
                     'dist/themproject.bd.js': 'src/themproject.bd.js'
                 }
+            },
+
+            download: {
+                files: {
+                    '.download/themproject_ui.js': 'src/themproject_download.js',
+                    '.download/themproject_dependenies.js': 'src/themproject_dependenies.js'
+                }
             }
         },
         uglify: {
@@ -141,6 +148,19 @@ module.exports = function (grunt) {
                     '.tmp/themproject_android_light.css':'resources/sass/themproject_android_light.scss',
                     '.tmp/themproject_ios.css':'resources/sass/themproject_ios.scss'
                 }
+            },
+            download: {
+                options: {                       // Target options
+                    style: 'expanded',
+                    loadPath: ['bower_components'],
+                    lineNumbers: true
+                },
+                files: {
+                    '.download/themproject.css':'resources/sass/themproject.scss',
+                    '.download/themproject_android_dark.css':'resources/sass/themproject_android_dark.scss',
+                    '.download/themproject_android_light.css':'resources/sass/themproject_android_light.scss',
+                    '.download/themproject_ios.css':'resources/sass/themproject_ios.scss'
+                }
             }
         },
         mocha: {
@@ -217,4 +237,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['build-js', 'build-css']);
 
     grunt.registerTask('build-doc', ['clean:md','curl-dir', 'rewriteMarkdownFiles', 'jsdoc', 'clean:md']);
+
+
+    grunt.registerTask('download', ['default', 'sass:download','preprocess:download']);
 };
