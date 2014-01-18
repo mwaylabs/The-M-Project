@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Standalone M.View</title>
+    <link rel="stylesheet" href=".download/themproject.css">
+</head>
+<body>
+
+<script src=".download/themproject_dependenies.js"></script>
+<script src=".download/themproject_ui.js"></script>
+
+<section id="app">
+    <header id="header">
+        <h1>Standalone M.View examples</h1>
+        <p>first run: <pre>grunt download</pre></p>
+    </header>
+    <section id="content">
+    </section>
+    <footer id="footer"></footer>
+</section>
+
+
+<script>
+
+    var Button = M.ButtonView.extend({value: 'Hello'});
+
+    var b1 = new Button();
+
+    var toggleswitch = M.ToggleSwitchView.extend({}).create();
+
+    var b1 = new Button();
+
+    $('#content').append(b1.render().el);
+    $('#content').append(toggleswitch.render().el);
+
+
+</script>
+
+
+</body>
+</html>
