@@ -56,7 +56,10 @@ M.isI18NItem = function( entity ) {
 };
 
 M.isController = function( entity ) {
-    return M.Controller.prototype.isPrototypeOf(entity);
+    if(typeof M.Controller !== 'undefined'){
+        return M.Controller.prototype.isPrototypeOf(entity);
+    }
+    return false;
 };
 
 /**
@@ -99,6 +102,9 @@ NO = false;
  * Add validator to the M namespace.
  * Validator: https://github.com/chriso/validator.js
  */
-if(validator){
+if(typeof validator !== 'undefined'){
     M.Validator = validator;
+} else {
+    M.Validator = {};
+    console.warn('validator is not defined - M.Validator is not present');
 }
