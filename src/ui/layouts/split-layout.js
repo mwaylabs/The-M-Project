@@ -158,7 +158,7 @@ M.SplitLayout = M.SwitchLayout.extend({
     _initRequire: function() {
 
         // On mobile devices we only support the portrait orientation
-        if( Modernizr.Detectizr.device.type === 'mobile' ) {
+        if( M.Environment.device.type === 'mobile' ) {
             this._onPortrait();
             return;
         }
@@ -247,7 +247,7 @@ M.SplitLayout = M.SwitchLayout.extend({
 // iOS 7 orientation change bug
 // https://github.com/WickyNilliams/enquire.js/issues/79#issuecomment-27275481
 (function () {
-    if (Modernizr.Detectizr.device.os === 'ios') {
+    if (M.Environment.device.os === 'ios') {
         document.addEventListener('DOMContentLoaded', function () {
             var shim = document.createElement('div');
             shim.id = 'ios7-matchMedia-fix';

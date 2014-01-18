@@ -22,7 +22,8 @@ M.Animation = M.Object.design({
         if( M.Environment.isLowerThaniPhone4S ) {
             //return false;
         }
-        return Modernizr.cssanimations;
+        // use M.Modernizr it is just a wrapper for Modernizr - doesn't throw an error in cases Modernizr is not defined
+        return M.Modernizr.cssanimations;
     })(),
 
     /**
@@ -31,7 +32,7 @@ M.Animation = M.Object.design({
      * @returns {boolean}
      */
     transitionSupport: (function() {
-        return Modernizr.csstransitions;
+        return M.Modernizr.csstransitions;
     })(),
 
     /**
@@ -46,7 +47,7 @@ M.Animation = M.Object.design({
             'msAnimation': 'MSAnimationEnd',
             'animation': 'animationend'
         };
-        return cssEvents[ Modernizr.prefixed('animation') ];
+        return cssEvents[ M.Modernizr.prefixed('animation') ];
     }()),
 
     /**
@@ -61,6 +62,6 @@ M.Animation = M.Object.design({
             'msTransition': 'MSTransitionEnd',
             'transition': 'transitionend'
         };
-        return cssEvents[ Modernizr.prefixed('transition') ];
+        return cssEvents[ M.Modernizr.prefixed('transition') ];
     }())
 });
