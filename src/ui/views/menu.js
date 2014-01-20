@@ -50,7 +50,7 @@ M.MenuView = M.MovableView.extend({
 
     /**
      * The Backdrop dom representation
-     * @type {jQuery DOM Object}
+     * @type {JQuery}
      */
     _$backdrop: null,
 

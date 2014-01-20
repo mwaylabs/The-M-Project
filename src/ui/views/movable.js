@@ -88,7 +88,7 @@ M.MovableView = M.View.extend({
 
     /**
      * DOM that should be moved
-     * @type {jQuery DOM Object}
+     * @type {JQuery}
      */
     _$movableContent: null,
 

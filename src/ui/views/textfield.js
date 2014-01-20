@@ -83,9 +83,6 @@ M.TextfieldView = M.View.extend({
      */
     _useCustomClear: NO,
 
-    /**
-     *
-     */
     useCustomClear: NO,
 
     /**
