@@ -14,11 +14,9 @@
  * @type {*|Object|void}
  *
  * @example
- * var dialog = M.DialogView.extend().create().render();
- * //show dialog
- * dialog.show('Warning!');
- * //hide loader
- * dialog.hide();
+ *
+ *
+ *
  *
  */
 
@@ -65,13 +63,13 @@ M.DialogView = M.ModalView.extend({
      * Defines the label on the confirm button.
      * @type {String}
      */
-    confirmLabel: '',
+    confirmLabel: 'Ok',
 
     /**
      * Defines the label on the decline button.
      * @type {String}
      */
-    declineLabel: '',
+    declineLabel: 'Cancel',
 
     useAsScope: YES,
     /**
@@ -99,14 +97,21 @@ M.DialogView = M.ModalView.extend({
     },
 
     initialize: function(){
+
+        var that = this;
         M.View.prototype.initialize.apply(this, arguments);
 
-        this.headline = this.headline || '';
         this._childViews = this._childViews || {};
-        var headline = this.headline || '';
-        var text = this.text || '';
+        this.headline = this.headline || '';
+        this.text = this.text || '';
 
-        var buttonGrid = 'col-xs-12';
+        this.confirmLabel = (this.confirmLabel || this.confirmLabel === '') ? this.confirmLabel : 'Ok';
+        this.declineLabel = (this.declineLabel || this.declineLabel === '') ? this.declineLabel : 'Cancel';
+        this.confirmButton = this.confirmButton || YES;
+        this.declineButton = this.declineButton || NO;
+
+        var buttonGrid = 'col-xs-8 col-xs-offset-2' +
+            '';
         if(this.confirmButton && this.declineButton){
             buttonGrid = 'col-xs-6';
         }
@@ -117,7 +122,8 @@ M.DialogView = M.ModalView.extend({
 
             buttons.confirm = M.ButtonView.extend({
                 grid: buttonGrid,
-                value: this.confirmLabel || 'Ok',
+                value: this.confirmLabel,
+                cssClass: 'confirmButton',
                 events: {
                     tap: '_onConfirm'
                 }
@@ -128,7 +134,8 @@ M.DialogView = M.ModalView.extend({
 
             buttons.decline = M.ButtonView.extend({
                 grid: buttonGrid,
-                value: this.declineLabel || 'Cancel',
+                value: this.declineLabel,
+                cssClass: 'declineButton',
                 events: {
                     tap: '_onDecline'
                 }
@@ -140,8 +147,8 @@ M.DialogView = M.ModalView.extend({
                 _templateString:  M.TemplateManager.get('dialog.ejs'),
                 assignTemplateValues: function(){
                     return {
-                        headline: headline,
-                        text: text
+                        headline: that.headline,
+                        text: that.text
                     };
                 }
             }, {

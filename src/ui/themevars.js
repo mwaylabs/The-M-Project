@@ -104,6 +104,7 @@ M.ThemeVars = {
         "m-primary-margin-top": "10px",
         "m-primary-margin-bottom": "20px",
         "modal-backdrop-background-color": "#000000",
+        "m-modal-text-color": "#1092d3",
         "content-padding": "15px",
         "m-primary-disabled-color": "#d5d5d5",
         "m-primary-disabled-text-color": "#c3c3c3",

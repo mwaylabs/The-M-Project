@@ -15,369 +15,160 @@ describe('M.AlertView', function() {
         assert.equal(M.AlertView.create()._shownCounter, 0);
     });
 
-    it('show', function() {
-        var alert = M.AlertView.create().render();
-        assert.isDefined(alert);
-        assert.equal(alert._shownCounter, 0);
+    it('initialize', function(){
+        var testView = null;
+
+        var test = function (text ,title) {
+
+            testView = M.AlertView.extend({
+                text: text,
+                title: title
+            }).create().render();
+
+            testView.initialize();
+            if(text === null && title === null){
+                assert.equal(testView.text, '');
+                assert.equal(testView.title, '');
+            }
+            else{
+                assert.equal(testView.text, text);
+                assert.equal(testView.title, title);
+            }
+        };
+
+        test('abc','def');
+        test('','');
+        test(1,2);
+        test({}, {});
+        test([], []);
+        test(null, null);
+
+        testView = null;
+        test = null;
+    });
+
+    it('create and show alert with no parameters', function() {
+        var testView = M.AlertView.extend({
+        }).create().render();
+
+        assert.isDefined(testView);
+        assert.equal(testView._shownCounter, 0);
         assert.lengthOf($('.alertview'), 0);
-        alert.show();
-        assert.equal(alert._shownCounter, 1);
+        testView.show();
+        assert.equal(testView._shownCounter, 1);
         assert.lengthOf($('.alertview'), 1);
+        assert.lengthOf($('.m-alertview-title'), 1);
+        assert.equal($('.m-alertview-title').html(), '');
         assert.lengthOf($('.m-alertview-inner-message'), 1);
         assert.equal($('.m-alertview-inner-message').html(), '');
-        alert.show();
-        assert.equal(alert._shownCounter, 2);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '');
-        alert.hide();
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '');
-        alert.hide();
-        assert.equal(alert._shownCounter, 0);
+        assert.lengthOf(testView.$el.find('.buttonContainer'),1);
+        assert.lengthOf(testView.$el.find('.confirmButton'),1)
+        assert.equal(testView.$el.find('.confirmButton [data-binding="value"]').html(), 'Ok');
+        testView.hide();
+        assert.equal(testView._shownCounter, 0);
         assert.lengthOf($('.alertview'), 0);
 
-        alert = null;
+        testView = null;
     });
 
-    it('show with the static M.Alert', function() {
-        var alert = M.Alert;
+    it('create and show alert with some parameters', function() {
+        var text = 'abc';
 
-        assert.isDefined(alert);
-        assert.equal(alert._shownCounter, 0);
+        var testView = M.AlertView.extend({
+            text: text
+        }).create().render();
+
+        assert.isDefined(testView);
+        assert.equal(testView._shownCounter, 0);
         assert.lengthOf($('.alertview'), 0);
-        alert.show();
-        assert.equal(alert._shownCounter, 1);
+        testView.show();
+        assert.equal(testView._shownCounter, 1);
         assert.lengthOf($('.alertview'), 1);
+        assert.lengthOf($('.m-alertview-title'), 1);
+        assert.equal($('.m-alertview-title').html(), '');
         assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '');
-        alert.show();
-        assert.equal(alert._shownCounter, 2);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '');
-        alert.hide();
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '');
-        alert.hide();
-        assert.equal(alert._shownCounter, 0);
+        assert.equal($('.m-alertview-inner-message').html(), text);
+        assert.lengthOf(testView.$el.find('.buttonContainer'),1);
+        assert.lengthOf(testView.$el.find('.confirmButton'), 1)
+        assert.equal(testView.$el.find('.confirmButton [data-binding="value"]').html(), 'Ok');
+        testView.hide();
+        assert.equal(testView._shownCounter, 0);
         assert.lengthOf($('.alertview'), 0);
 
-        alert = null;
+        testView = null;
+        text = null;
     });
 
-    it('show Alert with text', function() {
-        var alert = M.AlertView.create().render();
-        var TEXT1 = 'abc';
-        var TEXT2 = 'def';
-        var TEXT3 = '!§$%&()=?1234567890ß|²³{[]}}*_:,.-#+"<>';
-        assert.isDefined(alert);
-        assert.equal(alert._shownCounter, 0);
+    it('show and create alert with all parameters', function() {
+        var text = 'abc';
+        var title = 'def';
+
+        var testView = M.AlertView.extend({
+            text: text,
+            title: title
+        }).create().render();
+
+        assert.isDefined(testView);
+        assert.equal(testView._shownCounter, 0);
         assert.lengthOf($('.alertview'), 0);
-        alert.show(TEXT1);
-        assert.equal(alert._shownCounter, 1);
+        testView.show();
+        assert.equal(testView._shownCounter, 1);
         assert.lengthOf($('.alertview'), 1);
+        assert.lengthOf($('.m-alertview-title'), 1);
+        assert.equal($('.m-alertview-title').html(), title);
         assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT1);
-        alert.show(TEXT2);
-        assert.equal(alert._shownCounter, 2);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT2);
-        alert.show(TEXT3);
-        assert.equal(alert._shownCounter, 3);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '!§$%&amp;()=?1234567890ß|²³{[]}}*_:,.-#+"&lt;&gt;');
-        alert.hide();
-        assert.equal(alert._shownCounter, 2);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '!§$%&amp;()=?1234567890ß|²³{[]}}*_:,.-#+"&lt;&gt;');
-        alert.hide();
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '!§$%&amp;()=?1234567890ß|²³{[]}}*_:,.-#+"&lt;&gt;');
-        alert.hide();
-        assert.equal(alert._shownCounter, 0);
+        assert.equal($('.m-alertview-inner-message').html(), text);
+        assert.lengthOf(testView.$el.find('.buttonContainer'),1);
+        assert.lengthOf(testView.$el.find('.confirmButton'), 1);
+        assert.equal(testView.$el.find('.confirmButton [data-binding="value"]').html(), 'Ok');
+        testView.hide();
+        assert.equal(testView._shownCounter, 0);
         assert.lengthOf($('.alertview'), 0);
 
-        alert = null;
-        TEXT1 = null;
-        TEXT2 = null;
-        TEXT3 = null;
+        testView = null;
+        text = null;
+        title = null;
     });
 
-    it('show with the static M.Loader and text', function() {
-        var alert = M.Alert;
+    it('create and show alert view and overwriting functions', function() {
+        var text = 'abc';
+        var title = 'def';
+        var functionConfirm = function(){
+            console.log('ok');
+        };
+        var testView = M.AlertView.extend({
+            text: text,
+            title: title,
+            onConfirm: functionConfirm
+        }).create().render();
 
-        var TEXT1 = 'abc';
-        var TEXT2 = 'def';
-        var TEXT3 = '!§$%&()=?1234567890ß|²³{[]}}*_:,.-#+"<>';
-        assert.isDefined(alert);
-        assert.equal(alert._shownCounter, 0);
+        assert.isDefined(testView.onConfirm);
+        assert.isDefined(testView._onConfirm);
+
+        assert.equal(testView.onConfirm, functionConfirm);
+
+        assert.isDefined(testView);
+        assert.equal(testView._shownCounter, 0);
         assert.lengthOf($('.alertview'), 0);
-        alert.show(TEXT1);
-        assert.equal(alert._shownCounter, 1);
+        testView.show();
+        assert.equal(testView._shownCounter, 1);
         assert.lengthOf($('.alertview'), 1);
+        assert.lengthOf($('.m-alertview-title'), 1);
+        assert.equal($('.m-alertview-title').html(), title);
         assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT1);
-        alert.show(TEXT2);
-        assert.equal(alert._shownCounter, 2);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT2);
-        alert.show(TEXT3);
-        assert.equal(alert._shownCounter, 3);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '!§$%&amp;()=?1234567890ß|²³{[]}}*_:,.-#+"&lt;&gt;');
-        alert.hide();
-        assert.equal(alert._shownCounter, 2);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '!§$%&amp;()=?1234567890ß|²³{[]}}*_:,.-#+"&lt;&gt;');
-        alert.hide();
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '!§$%&amp;()=?1234567890ß|²³{[]}}*_:,.-#+"&lt;&gt;');
-        alert.hide();
-        assert.equal(alert._shownCounter, 0);
+        assert.equal($('.m-alertview-inner-message').html(), text);
+        assert.lengthOf(testView.$el.find('.buttonContainer'),1);
+        assert.lengthOf(testView.$el.find('.confirmButton'), 1);
+        assert.equal(testView.$el.find('.confirmButton [data-binding="value"]').html(), 'Ok');
+        testView.hide();
+        assert.equal(testView._shownCounter, 0);
         assert.lengthOf($('.alertview'), 0);
 
-        alert = null;
-        TEXT1 = null;
-        TEXT2 = null;
+        testView = null;
+        text = null;
+        title = null;
+        functionConfirm = null;
     });
 
-    it('toggle alert instance', function() {
-        var alert = M.AlertView.create().render();
-
-        var TEXT1 = 'abc';
-        assert.isDefined(alert);
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.toggle(TEXT1);
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT1);
-        alert.toggle(TEXT1);
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.toggle(TEXT1);
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT1);
-        alert.toggle();
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-
-        alert = null;
-        TEXT1 = null;
-    });
-
-    it('toggle the static M.Alert', function() {
-        var alert = M.Alert;
-
-        var TEXT1 = 'abc';
-        assert.isDefined(alert);
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.toggle(TEXT1);
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT1);
-        alert.toggle(TEXT1);
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.toggle(TEXT1);
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT1);
-        alert.toggle();
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-
-        alert = null;
-        TEXT1 = null;
-    });
-
-    it('force the hidding', function() {
-        var alert = M.Alert;
-        alert.show();
-        alert.show();
-        alert.show();
-        alert.show();
-        alert.show();
-        alert.hide(true);
-
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-
-        alert.show();
-        alert.show();
-        alert.show();
-        alert.show();
-        alert.show();
-        alert.show();
-        alert.show();
-        alert.show();
-        alert.show();
-        alert.hide('');
-
-        assert.equal(alert._shownCounter, 8);
-        assert.lengthOf($('.alertview'), 1);
-        alert.hide(false);
-        assert.equal(alert._shownCounter, 7);
-        assert.lengthOf($('.alertview'), 1);
-        alert.hide({});
-        assert.equal(alert._shownCounter, 6);
-        assert.lengthOf($('.alertview'), 1);
-        alert.hide([]);
-        assert.equal(alert._shownCounter, 5);
-        assert.lengthOf($('.alertview'), 1);
-        alert.hide('force');
-        assert.equal(alert._shownCounter, 4);
-        assert.lengthOf($('.alertview'), 1);
-        alert.hide('true');
-        assert.equal(alert._shownCounter, 3);
-        assert.lengthOf($('.alertview'), 1);
-        alert.hide(1);
-        assert.equal(alert._shownCounter, 2);
-        assert.lengthOf($('.alertview'), 1);
-        alert.hide(YES);
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert = null;
-    });
-
-    it('mulitple hiding', function() {
-        var alert = M.Alert;
-        alert.show();
-        alert.show();
-        assert.equal(alert._shownCounter, 2);
-        assert.lengthOf($('.alertview'), 1);
-        alert.hide();
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        alert.hide();
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.hide();
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.hide();
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.hide();
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.hide();
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert = null;
-    });
-
-    it('static show with text and without', function() {
-        var alert = M.Alert;
-
-        var TEXT1 = 'abc';
-        //is the text inside of the loader
-        assert.isDefined(alert);
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.show(TEXT1);
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT1);
-        alert.hide();
-        alert.show();
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), '');
-        alert.hide();
-
-        alert = null;
-        TEXT1 = null;
-    });
-
-    it('_cancel and _ok', function() {
-        var alert = M.AlertView.create().render();
-
-        var TEXT1 = 'abc';
-        var TEXT2 = 'DEF';
-        assert.isDefined(alert);
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.show(TEXT1);
-        assert.equal($('.buttons .buttonview').length, 2);
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT1);
-        alert._cancel();
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.show(TEXT2);
-        assert.equal($('.buttons .buttonview').length, 2);
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT2);
-        alert._ok();
-
-        alert = null;
-        TEXT1 = null;
-        TEXT2 = null;
-    });
-
-    it('static _cancel and _ok', function() {
-        var alert = M.Alert;
-
-        var TEXT1 = 'abc';
-        var TEXT2 = 'DEF';
-        assert.isDefined(alert);
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.show(TEXT1);
-        assert.equal($('.buttons .buttonview').length, 2);
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT1);
-        alert._cancel();
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-        alert.show(TEXT2);
-        assert.equal(alert._shownCounter, 1);
-        assert.lengthOf($('.alertview'), 1);
-        assert.lengthOf($('.m-alertview-inner-message'), 1);
-        assert.equal($('.m-alertview-inner-message').html(), TEXT2);
-        alert._ok();
-        assert.equal(alert._shownCounter, 0);
-        assert.lengthOf($('.alertview'), 0);
-
-        alert = null;
-        TEXT1 = null;
-        TEXT2 = null;
-    });
 
 });
