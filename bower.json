@@ -26,25 +26,25 @@
     "*.bat"
   ],
   "dependencies": {
-    "backbone": "~1.1.0",
-    "underscore": "~1.5.2",
-    "jquery": "~2.0.3",
-    "backbone.stickit": "~0.6.3",
-    "tmpl": "~0.1.6",
-    "socket.io-client": "~0.9.16",
-    "modernizr": "~2.6.2",
-    "momentjs": "~2.4.0",
-    "hammerjs": "~1.0.5",
-    "detectizr": "~1.4.5",
-    "font-awesome": "~4.0.3",
-    "shake.js": "~1.1.0",
-    "fastclick": "~0.6.10",
-    "bootstrap-sass": "~3.0.2",
-    "enquire": "~2.1.0",
+    "backbone": "1.1.0",
+    "underscore": "1.5.2",
+    "jquery": "2.0.3",
+    "backbone.stickit": "0.6.3",
+    "tmpl": "0.1.10",
+    "socket.io-client": "0.9.16",
+    "modernizr": "2.6.2",
+    "momentjs": "2.4.0",
+    "hammerjs": "1.0.6",
+    "detectizr": "1.4.5",
+    "font-awesome": "4.0.3",
+    "shake.js": "1.1.0",
+    "fastclick": "0.6.11",
+    "bootstrap-sass": "3.0.2",
+    "enquire": "2.1.0",
     "validator": "https://github.com/chriso/validator.js.git#3.1.0"
   },
   "devDependencies": {
-    "mocha": "~1.13.0",
-    "chai": "~1.8.1"
+    "mocha": "1.13.0",
+    "chai": "1.8.1"
   }
 }
