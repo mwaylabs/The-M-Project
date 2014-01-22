@@ -37,6 +37,10 @@ M.ActionSheetView = M.ModalView.extend({
      */
     title: '',
 
+    cancelButton: YES,
+
+    cancelLabel: 'Cancel',
+
     /**
      * Duration of the css transition animation
      * @type {Float}
@@ -57,6 +61,35 @@ M.ActionSheetView = M.ModalView.extend({
         M.ModalView.prototype.initialize.apply(this, arguments);
 
         this.title = this.title || '';
+        this._childViews = this._childViews || {};
+
+        this.cancelLabel = (this.cancelLabel || this.cancelLabel === '') ? this.cancelLabel : 'Cancel';
+
+        var cancelButton = null;
+        var buttonGrid = 'col-xs-10 col-xs-offset-1';
+
+        if(this.cancelButton){
+
+            cancelButton = M.ButtonView.extend({
+                grid: buttonGrid,
+                value: this.cancelLabel,
+                cssClass: 'cancelButton m-error',
+                events: {
+                    tap: '_onCancel'
+                }
+            });
+
+            if(this._childViews.cancelButton){
+                console.log('there is already a cancelButton as childview!');
+            } else {
+                this._childViews.cancelButton = cancelButton;
+            }
+        }
+
+
+        return this;
+
+
     },
 
     _getChildViewRenderDom: function (name) {

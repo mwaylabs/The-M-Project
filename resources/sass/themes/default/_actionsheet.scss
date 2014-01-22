@@ -15,15 +15,14 @@
     .m-actionsheetview-inner {
       position: relative;
       z-index: 1040;
-      border-top: 1px solid #1092d3;
       border-radius: 4px;
-      background: $white;
     }
 
     .m-view.m-labelview.m-actionsheetview-title {
       word-wrap: break-word;
       padding: 15px;
       text-align: center;
+      color: $white;
     }
   }
 

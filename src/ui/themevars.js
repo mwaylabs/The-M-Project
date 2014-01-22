@@ -109,6 +109,7 @@ M.ThemeVars = {
         "m-primary-disabled-text-color": "#c3c3c3",
         "selection-color": "#c3c3c3",
         "selection-checked-color": "#1092d3",
+        "actionsheet-title": "#1092d3",
         "actionsheet-transition-property": "all",
         "actionsheet-transition-time": "0.2s",
         "actionsheet-transition-method": "ease",
