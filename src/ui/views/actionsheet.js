@@ -3,7 +3,10 @@
 
 /**
  *
- * Explanation
+ * The basic implementation of the actionsheet view. It slides of from the bottom.
+ * Per default you can set a title and an cancelButton with cancelLabel. You also
+ * can add ChildView so they get displayed in the actionsheet view. It's recommended
+ * to use buttongroups and buttons as childviews.
  *
  * @module M.ActionSheetView
  * @extends M.ModalView
@@ -32,13 +35,21 @@ M.ActionSheetView = M.ModalView.extend({
     hideOnOverlayClick: YES,
 
     /**
-     * Defines the title of the ActionSheet view.
+     * Defines the title of the actionSheet view.
      * @type {String}
      */
     title: '',
 
+    /**
+     * Defines if there is a cancel button displayed in the actionsheet view.
+     * @type {Boolean}
+     */
     cancelButton: YES,
 
+    /**
+     * Defines the label of the cancel button
+     * @type {String}
+     */
     cancelLabel: 'Cancel',
 
     /**
@@ -71,7 +82,7 @@ M.ActionSheetView = M.ModalView.extend({
 
             cancelButton = M.ButtonView.extend({
                 value: this.cancelLabel,
-                cssClass: 'cancelButton m-error',
+                cssClass: 'm-error',
                 events: {
                     tap: '_onCancel'
                 }
@@ -83,11 +94,7 @@ M.ActionSheetView = M.ModalView.extend({
                 this._childViews.cancelButton = cancelButton;
             }
         }
-
-
         return this;
-
-
     },
 
     _getChildViewRenderDom: function (name) {
@@ -102,6 +109,10 @@ M.ActionSheetView = M.ModalView.extend({
         return dom;
     },
 
+    /**
+     * onCancel function gets called when
+     * the user pushes the cancel button.
+     */
     onCancel: function() {
     },
 
