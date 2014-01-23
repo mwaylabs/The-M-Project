@@ -66,12 +66,10 @@ M.ActionSheetView = M.ModalView.extend({
         this.cancelLabel = (this.cancelLabel || this.cancelLabel === '') ? this.cancelLabel : 'Cancel';
 
         var cancelButton = null;
-        var buttonGrid = 'col-xs-10 col-xs-offset-1';
 
         if(this.cancelButton){
 
             cancelButton = M.ButtonView.extend({
-                grid: buttonGrid,
                 value: this.cancelLabel,
                 cssClass: 'cancelButton m-error',
                 events: {

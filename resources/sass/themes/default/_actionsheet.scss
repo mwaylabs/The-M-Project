@@ -14,8 +14,10 @@
 
     .m-actionsheetview-inner {
       position: relative;
-      z-index: 1040;
+      z-index: 1020;
       border-radius: 4px;
+      padding: 0 2% 0 2%;
+      box-sizing: border-box;
     }
 
     .m-view.m-labelview.m-actionsheetview-title {

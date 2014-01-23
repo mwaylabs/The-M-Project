@@ -14,8 +14,17 @@ M.ButtonGroupView = M.View.extend({
 
     _internalCssClasses: 'clearfix',
 
-    setActive: function( view ) {
+    /**
+     * Defines whether Buttongroup is aligned vertical or not
+     */
+    verticalAlignment: NO,
 
+    keepActiveState: YES,
+
+    setActive: function( view ) {
+        if(!this.keepActiveState){
+            return;
+        }
         var setActiveView = M.isView(view) ? view : this._getChildView(view);
         _.each(this.childViews, function( child ) {
             child.deactivate();
@@ -36,7 +45,7 @@ M.ButtonGroupView = M.View.extend({
             _.each(this._childViews, function( child, key ) {
 
                 this._childViews[key] = child.extend({
-                    _isInButtonGroup: YES,
+                    _isInButtonGroup: this.keepActiveState ? YES : NO,
                     _internalEvents: {
                         touchstart: [function( events, element ) {
                             that.setActive(element);
@@ -62,5 +71,9 @@ M.ButtonGroupView = M.View.extend({
 
     _addClassNames: function() {
         M.View.prototype._addClassNames.apply(this, arguments);
+        if(this.verticalAlignment){
+            this.$el.addClass('vertical');
+        }
+        return;
     }
 });

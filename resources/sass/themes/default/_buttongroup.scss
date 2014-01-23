@@ -1,6 +1,45 @@
 .tabbarbuttongroupview,
 .buttongroupview {
 
+  &.vertical{
+    .buttonview{
+      .button{
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+        border-left: $m-button-border-width solid $m-button-border-color;
+        border-bottom: $m-button-border-width solid $m-button-border-color;
+        border-right: $m-button-border-width solid $m-button-border-color;
+      }
+
+      &:first-child{
+
+        .button {
+          border-top-right-radius: $m-button-border-radius;
+          border-top-left-radius: $m-button-border-radius;
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+          border: $m-button-border-width solid $m-button-border-color;
+        }
+      }
+
+      &:last-child{
+
+        .button {
+          border-bottom-right-radius: $m-button-border-radius;
+          border-bottom-left-radius: $m-button-border-radius;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+          border-left: $m-button-border-width solid $m-button-border-color;
+          border-bottom: $m-button-border-width solid $m-button-border-color;
+          border-right: $m-button-border-width solid $m-button-border-color;
+        }
+      }
+    }
+
+
+  }
+
   @extend .margin0010;
 
   .button {
