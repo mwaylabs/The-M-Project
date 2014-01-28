@@ -55,7 +55,7 @@ describe('M.TextView', function () {
 
         assert.isDefined(testView.icon);
         assert.equal(testView.icon, ICON);
-        assert.isFalse((testView.$el).find('div').hasClass('input-icon-addon'));
+        assert.isTrue((testView.$el).find('div').hasClass('input-icon-addon'));
         assert.isTrue((testView.$el).find('i').hasClass(ICON));
 
         assert.isDefined(testView._template);
