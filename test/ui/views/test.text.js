@@ -48,7 +48,7 @@ describe('M.TextView', function () {
 
         assert.isDefined(testView.value);
 
-        assert.equal(testView.$el.find('.input-icon-addon').text(), VALUETEXT);
+        assert.equal(testView.$el.find('.inner-text').text(), VALUETEXT);
 
         assert.isDefined(testView.label);
         assert.equal(testView.$el.find('.label').text(), LABELTEXT);
