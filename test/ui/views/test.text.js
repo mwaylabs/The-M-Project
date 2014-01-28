@@ -48,14 +48,14 @@ describe('M.TextView', function () {
 
         assert.isDefined(testView.value);
 
-        assert.equal(testView.$el.find('.input-icon-addon').text(), VALUETEXT);
+        assert.equal(testView.$el.find('.inner-text').text(), VALUETEXT);
 
         assert.isDefined(testView.label);
         assert.equal(testView.$el.find('.label').text(), LABELTEXT);
 
         assert.isDefined(testView.icon);
         assert.equal(testView.icon, ICON);
-        assert.isTrue((testView.$el).find('div').hasClass('input-icon-addon'));
+        assert.isFalse((testView.$el).find('div').hasClass('input-icon-addon'));
         assert.isTrue((testView.$el).find('i').hasClass(ICON));
 
         assert.isDefined(testView._template);
