@@ -11,10 +11,31 @@
  */
 M.BackStack = M.Object.design({
 
+    /**
+     * The stack contains an object with the
+     * name of the route and the corresponding data
+     * @type {Array}
+     */
     stack: [],
+
+    /**
+     * The counter counts your steps
+     * trough the application forwards and backwards
+     * @type {Integer}
+     */
     counter: 0,
+
+    /**
+     * Is set to YES when first time starting
+     * at root route or deleting stack
+     * @type {Integer}
+     */
     initial: YES,
 
+    /**
+     * Recognizes if moving forward in history stack or
+     * backwards and push or pop item to the stack.
+     */
     manage: function(){
 
         var next = Backbone.history.fragment ? Backbone.history.fragment : '/';
@@ -59,6 +80,9 @@ M.BackStack = M.Object.design({
 
     },
 
+    /**
+     * Deletes complete stack and initializes it with acutal route
+     */
     deleteStack: function(){
         this.stack = [];
         this.initial = YES;
@@ -67,12 +91,20 @@ M.BackStack = M.Object.design({
         return;
     },
 
+    /**
+     * Stack is set one step back
+     */
     goBack: function(){
         this.stack.pop();
         this.counter--;
         return;
     },
 
+    /**
+     * Searches for route in stack and jumps to that position.
+     * Removes all following items in stack
+     * @param route
+     */
     goBackTo: function(route){
         if(route && typeof route === 'string'){
             var searchIndex = 0;
@@ -86,10 +118,18 @@ M.BackStack = M.Object.design({
         }
     },
 
+    /**
+     * Getter for data of actual route
+     * @returns {Object}
+     */
     getData: function(){
         return this.stack[this.counter].data;
     },
 
+    /**
+     * Setter for data of actual route
+     * @param data
+     */
     setData: function(data){
         if(data){
             this.stack[this.counter].data = data;
