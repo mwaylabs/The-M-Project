@@ -3,6 +3,7 @@
 // @include ./core/const.js
 // @include ./core/object.js
 // @include ./core/config.js
+// @include ./core/backstack.js
 // @include ./core/logger.js
 // @include ./core/controller.js
 // @include ./core/application.js

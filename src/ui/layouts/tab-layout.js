@@ -112,12 +112,12 @@ M.TabLayout = M.Layout.extend({
                     that.switchToTab(element.index);
                 }
             }
-        }).create();
+        }).create(that.scope, null, true    );
     },
 
     _extendContent: function( options ) {
         var that = this;
-        return options.content.extend({
+        var content = options.content.extend({
             events: {
                 dragleft: function( event, element ) {
                     that.switchToTab(options.index + 1);
@@ -126,7 +126,9 @@ M.TabLayout = M.Layout.extend({
                     that.switchToTab(options.index - 1);
                 }
             }
-        }).create();
+        }).create(that.scope, null, true);
+
+        return content;
     },
 
     //TODO

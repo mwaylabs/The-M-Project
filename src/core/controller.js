@@ -61,6 +61,7 @@ _.extend(M.Controller.prototype, Backbone.Events, {
     },
 
     apply: function( router, args ) {
+        this.manageStack();
         var appInstance = global[M.APPLICATION_NAME];
 
         if( appInstance.isInitialLoad ) {
@@ -70,5 +71,9 @@ _.extend(M.Controller.prototype, Backbone.Events, {
         } else {
             this.show.apply(this, args);
         }
+    },
+
+    manageStack: function(){
+        M.BackStack.manage();
     }
 });
