@@ -8,3 +8,5 @@
 // @include ../bower_components/tmpl/tmpl.js
 /*Hammer*/
 // @include ../bower_components/hammerjs/hammer.js
+/*stickit*/
+// @include ../bower_components/backbone.stickit/backbone.stickit.js

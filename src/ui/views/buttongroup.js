@@ -15,7 +15,9 @@ M.ButtonGroupView = M.View.extend({
     _internalCssClasses: 'clearfix',
 
     setActive: function( view ) {
-
+        if(this.dontSetActive){
+            return;
+        }
         var setActiveView = M.isView(view) ? view : this._getChildView(view);
         _.each(this.childViews, function( child ) {
             child.deactivate();
@@ -36,7 +38,7 @@ M.ButtonGroupView = M.View.extend({
             _.each(this._childViews, function( child, key ) {
 
                 this._childViews[key] = child.extend({
-                    _isInButtonGroup: YES,
+                    _isInButtonGroup: this.dontSetActive ? NO : YES,
                     _internalEvents: {
                         touchstart: [function( events, element ) {
                             that.setActive(element);

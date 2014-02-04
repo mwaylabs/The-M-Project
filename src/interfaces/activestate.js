@@ -74,7 +74,7 @@ M.ActiveState = M.Interface.design(/** @scope M.Interface.prototype */{
         events.touchleave.push(touchend);
 
         // overwrite the interal events with the swap element
-        context._internalEvents = events;
+        context._internalEvents = _.extend(events, context._internalEvents);
 
     },
 

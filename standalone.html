@@ -15,7 +15,17 @@
         <h1>Standalone M.View examples</h1>
         <p>first run: <pre>grunt download</pre></p>
     </header>
-    <section id="content">
+    <section id="buttons">
+        <h2>M.ButtonView</h2>
+    </section>
+    <section id="toggles">
+        <h2>M.ToggleSwitchView</h2>
+    </section>
+    <section id="lists">
+        <h2>M.ListView</h2>
+    </section>
+    <section id="selections">
+        <h2>M.SelectView</h2>
     </section>
     <footer id="footer"></footer>
 </section>
@@ -23,16 +33,54 @@
 
 <script>
 
-    var Button = M.ButtonView.extend({value: 'Hello'});
+    var model = new Backbone.Model({
+        name: 'hello'
+    });
+
+    var Button = M.ButtonView.extend({
+        value: model,
+        extendTemplate: '<%= name %>',
+        events: {
+            tap: function(){
+                console.log('asdf');
+            }
+        }
+    });
 
     var b1 = new Button();
 
     var toggleswitch = M.ToggleSwitchView.extend({}).create();
 
-    var b1 = new Button();
+    var list = M.ListView.extend({
+        value: [
+            {value: 'List Item 1'},
+            {value: 'List Item 2'},
+            {value: 'List Item 3'},
+            {value: 'List Item 4'},
+            {value: 'List Item 5'},
+            {value: 'List Item 6'}
+        ]
+    }).create();
 
-    $('#content').append(b1.render().el);
-    $('#content').append(toggleswitch.render().el);
+//    var selectionList = M.SelectView.extend({
+//        grid: 'col-xs-12',
+//        scopeKey: 'selectionListModel.water',
+//        selectOptions: {
+//            collection: [
+//                {id: 1, name: 'fountain'},
+//                {id: 2, name: 'evian'},
+//                {id: 3, name: 'dasina'}
+//            ],
+//            labelPath: 'name',
+//            valuePath: 'name'
+//        }
+//    }).create();
+
+
+    $('#buttons').append(b1.render().el);
+    $('#toggles').append(toggleswitch.render().el);
+    $('#lists').append(list.render().el);
+//    $('#selection').append(selectionList.render().el);
 
 
 </script>

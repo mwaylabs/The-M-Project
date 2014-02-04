@@ -6,7 +6,6 @@
 // @include ./ui/pagetransitions.js
 
 // @include ./ui/views/view.js
-// @include ./ui/layouts/layout.js
 // @include ./ui/themes.js
 
 // @include ./ui/views/textfield.js
@@ -36,6 +35,7 @@
 // @include ./ui/views/toggleswitch.js
 // @include ./ui/views/menu.js
 
+// @include ./ui/layouts/layout.js
 // @include ./ui/layouts/header-layout.js
 // @include ./ui/layouts/bottom-bar-layout.js
 // @include ./ui/layouts/switch-layout.js

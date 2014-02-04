@@ -152,8 +152,10 @@ M.MovableView = M.View.extend({
         var position = {};
         // the last position of the last touchend added with the current moved distance
         position.x = this._lastPos.x + event.gesture.deltaX;
+        position.y = this._lastPos.y + event.gesture.deltaY;
         // cache the delta
         position.deltaX = event.gesture.deltaX;
+        position.deltaY = event.gesture.deltaY;
         position.direction = this._currentPos.deltaX > event.gesture.deltaX ? Hammer.DIRECTION_LEFT : Hammer.DIRECTION_RIGHT;
         // move the element
         this._move(position);
