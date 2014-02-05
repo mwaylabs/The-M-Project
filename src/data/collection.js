@@ -26,7 +26,7 @@ M.Collection = Backbone.Collection.extend({
 M.Collection.create = M.create;
 M.Collection.design = M.design;
 
-_.extend(M.Collection.prototype, M.Object, {
+_.extend(M.Collection.prototype, M.Object, M.Security, {
 
     _type: 'M.Collection',
 

@@ -92,6 +92,7 @@ M.BikiniStore = M.Store.extend({
                 endpoint.baseUrl = url;
                 endpoint.readUrl = collection.getUrl();
                 endpoint.host = href.protocol + '//' + href.host;
+                endpoint.port = href.port;
                 endpoint.path = href.pathname;
                 endpoint.entity = entity;
                 endpoint.channel = channel;
@@ -149,6 +150,9 @@ M.BikiniStore = M.Store.extend({
         if( this.options.useSocketNotify && endpoint.socketPath && endpoint ) {
             var that = this;
             var url  = endpoint.host;
+            if(endpoint.port === ''){
+                url+=':80';
+            }
             var path = endpoint.path;
             path = endpoint.socketPath || (path + (path.charAt(path.length - 1) === '/' ? '' : '/' ) + 'live');
             // remove leading /
@@ -374,10 +378,12 @@ M.BikiniStore = M.Store.extend({
                 }
             },
             success: function( data ) {
-                if (!that.isConnected) {
-                    that.onConnect(endpoint);
-                }
                 that.removeMessage(endpoint, msg, function( endpoint, msg ) {
+
+                    if (!that.isConnected) {
+                        that.onConnect(endpoint);
+                    }
+
                     if( options.success ) {
                         var resp = data;
                         that.handleCallback(options.success, resp);
