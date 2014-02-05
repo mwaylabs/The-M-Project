@@ -63,7 +63,8 @@ module.exports = function (grunt) {
             download: {
                 files: {
                     '.download/themproject_ui.js': 'src/themproject_download.js',
-                    '.download/themproject_dependenies.js': 'src/themproject_dependenies.js'
+                    '.download/themproject_dependenies.js': 'src/themproject_dependenies.js',
+                    '.download/bikini.js': 'src/bikini.js'
                 }
             }
         },

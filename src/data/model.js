@@ -18,7 +18,7 @@ M.Model = Backbone.Model.extend({
 M.Model.create = M.create;
 M.Model.design = M.design;
 
-_.extend(M.Model.prototype, M.Object, {
+_.extend(M.Model.prototype, M.Object, M.Security, {
 
     _type: 'M.Model',
 
@@ -30,7 +30,7 @@ _.extend(M.Model.prototype, M.Object, {
 
     changedSinceSync: {},
 
-    logon: M.Security.logon,
+    //logon: M.Security.logon,
 
     init: function( attributes, options ) {
         options = options || {};
