@@ -4,5 +4,6 @@ bower_components
 .tmp
 .idea
 .DS_STORE
+.download
 npm-debug.log
 doc
