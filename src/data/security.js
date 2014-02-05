@@ -31,7 +31,7 @@ M.Security = M.Object.design({
 
     setBasicAuth: function( xhr, credentials ) {
         if( credentials && credentials.username && xhr && M.Base64 ) {
-            var basicAuth = M.Base64.encode(encodeURIComponent(credentials.username + ':' + (credentials.password || '')));
+            var basicAuth = M.Base64.encode(credentials.username + ':' + (credentials.password || ''));
             xhr.setRequestHeader('Authorization', 'Basic ' + basicAuth);
         }
     }
