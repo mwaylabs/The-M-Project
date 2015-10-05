@@ -8,6 +8,7 @@ The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great 
 **Codename:** Absinthe
 
 ## Overview
+- [We moved on!](#we-moved-on)
 - [What's new](#whats-new)
 - [Demo](#demo)
 - [Roadmap](#roadmap)
@@ -24,6 +25,12 @@ The-M-Project is a Mobile HTML5 JavaScript Framework that helps you build great 
 - [Development Process](#development-process)
 - [Setup for framework developer (Mac/Linux)](#setup-for-framework-developer-maclinux)
 - [Setup for framework developer (Windows)](#setup-for-framework-developer-windows)
+
+
+## We moved on
+We wrote a blog post earlier this year: http://blog.mwaysolutions.com/2015/09/10/generator-m-ionic-html5-mobile-app-development-evolved/
+
+Any further information you can find here: https://github.com/mwaylabs/generator-m-ionic
 
 ## What's new
 The-M-Project 1.x as we call it was from our point of view pretty good, but has here and there little tweaks. We could have fix some bugs and work with the existing one. In this process we questioned everything and after huge discussions we decided to take what's good and remove everything we don't like. Furthermore we added everything what we think a mobile HTML5/JavaScript framework needs. The following list gives you an overview of changes:
