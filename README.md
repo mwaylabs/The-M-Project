@@ -1,3 +1,14 @@
+We moved on! 
+This project is not longer maintained from our side. It is still here for sake of completness.
+We decided not continue this project,  after Ionic becomes more and more stable and reliable. 
+It was our plan B, but we feel it is not longer necessary. Thank you for the time and contributions.
+
+Checkout our investment in open source technologies here: 
+https://github.com/mwaylabs/generator-m-ionic
+
+If you want know more you will find here some more details:
+http://blog.mwaysolutions.com/2015/03/26/generator-m-the-state-of-html5-mobile-app-development-at-m-way/
+
 ![The-M-Project Absinthe][logo]
 # The-M-Project 2.0 (Absinthe) Beta Release  [![Build Status](https://travis-ci.org/mwaylabs/The-M-Project.png?branch=master)](https://travis-ci.org/mwaylabs/The-M-Project)
 
