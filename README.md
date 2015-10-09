@@ -1,5 +1,5 @@
-We moved on! 
-This project is not longer maintained from our side. It is still here for sake of completness.
+## We moved on! This project is not longer maintained from our side. 
+It is still here for sake of completness.
 We decided not continue this project,  after Ionic becomes more and more stable and reliable. 
 It was our plan B, but we feel it is not longer necessary. Thank you for the time and contributions.
 
