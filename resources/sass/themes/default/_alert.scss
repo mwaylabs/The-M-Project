@@ -1,0 +1,21 @@
+.m-view.m-labelview.m-alertview-inner-message {
+  word-wrap: break-word;
+  padding: 15px;
+  text-align: center;
+}
+
+.m-view.m-labelview.m-alertview-title {
+  word-wrap: break-word;
+  padding: 15px 15px 0 15px;
+  text-align: center;
+}
+
+.m-alertview-inner {
+  position: relative;
+  width: 300px;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 1040;
+  border: 1px solid $m-modal-text-color;
+  color: $m-modal-text-color;
+  border-radius: 4px;
+}
