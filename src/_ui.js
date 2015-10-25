@@ -30,6 +30,7 @@
 // @include ./ui/views/checkboxlist.js
 // @include ./ui/views/modal.js
 // @include ./ui/views/loader.js
+// @include ./ui/views/actionsheet.js
 // @include ./ui/views/text.js
 // @include ./ui/views/debug.js
 // @include ./ui/views/movable.js
