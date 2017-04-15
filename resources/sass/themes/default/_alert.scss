@@ -1,0 +1,15 @@
+.m-view.m-labelview.m-alertview-inner-message {
+  word-wrap: break-word;
+  padding: 15px;
+}
+
+.buttons {
+  padding: 0 15px 0 15px;
+}
+
+.m-alertview-inner {
+  position: relative;
+  width: 300px;
+  background: rgba(255, 255, 255, 0.9);
+  z-index: 1040;
+}
